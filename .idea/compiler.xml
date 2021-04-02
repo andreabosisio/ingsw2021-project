@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ingswAM2021-Bendinelli-Bosisio-Beltrante" />
         <module name="AM-Bendinelli-Bosisio-Beltrante" />
       </profile>
     </annotationProcessing>
