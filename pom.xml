@@ -25,7 +25,25 @@
       <version>RELEASE</version>
       <scope>test</scope>
     </dependency>
+<!--
+   json dependency added(if removed add </dependencies> above)
+    <dependency>
+      <groupId>com.googlecode.json-simple</groupId>
+      <artifactId>json-simple</artifactId>
+      <version>RELEASE</version>
+    </dependency>
+    -->
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>RELEASE</version>
+    </dependency>
+
+
+
   </dependencies>
+
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->

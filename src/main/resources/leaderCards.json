@@ -1,0 +1,217 @@
+{
+  "leaders": [
+    {
+      "id" : "p1",
+      "type": "production",
+      "points": 4,
+      "inResource": "YELLOW",
+      "devRequirements": [
+        {
+          "color": "GREEN",
+          "level": 2,
+          "quantity": 1
+      }]
+    },
+    {
+      "id": "p2",
+      "type": "production",
+      "points": 4,
+      "inResource": "PURPLE",
+      "devRequirements": [{
+        "color": "BLUE",
+        "level": 2,
+        "quantity": 1
+      }]
+    },
+    {
+      "id": "p3",
+      "type": "production",
+      "points": 4,
+      "inResource": "GRAY",
+      "devRequirements": [{
+        "color": "PURPLE",
+        "level": 2,
+        "quantity": 1
+      }]
+    },
+    {
+      "id": "p4",
+      "type": "production",
+      "points": 4,
+      "inResource": "BLUE",
+      "devRequirements": [{
+        "color": "YELLOW",
+        "level": 2,
+        "quantity": 1
+      }]
+    },
+    {
+      "id": "m1",
+      "type": "market",
+      "points": 5,
+      "devRequirements": [{
+        "color": "YELLOW",
+        "level": 1,
+        "quantity": 2
+      },
+        {
+          "color": "BLUE",
+          "level": "1",
+          "quantity": 1
+        }],
+      "transformation": "PURPLE"
+    },
+    {
+      "id": "m2",
+      "type": "market",
+      "points": 5,
+      "devRequirements": [{
+        "color": "GREEN",
+        "level": 1,
+        "quantity": 2
+      },
+        {
+          "color": "PURPLE",
+          "level": "1",
+          "quantity": 1
+        }],
+      "transformation": "BLUE"
+    },
+    {
+      "id": "m3",
+      "type": "market",
+      "points": 5,
+      "devRequirements": [{
+        "color": "BLUE",
+        "level": 1,
+        "quantity": 2
+      },
+        {
+          "color": "YELLOW",
+          "level": "1",
+          "quantity": 1
+        }],
+      "transformation": "GRAY"
+    },
+    {
+      "id": "m4",
+      "type": "market",
+      "points": 5,
+      "devRequirements": [{
+        "color": "PURPLE",
+        "level": 1,
+        "quantity": 2
+      },
+        {
+          "color": "GREEN",
+          "level": "1",
+          "quantity": 1
+        }],
+      "transformation": "YELLOW"
+    },
+    {
+      "id": "w1",
+      "type": "warehouse",
+      "points": 3,
+      "resRequirements": [{
+        "color": "YELLOW",
+        "quantity": 5
+      }],
+      "extraSlotsType": "GRAY"
+    },
+    {
+      "id": "w2",
+      "type": "warehouse",
+      "points": 3,
+      "resRequirements": [{
+        "color": "BLUE",
+        "quantity": 5
+      }],
+      "extraSlotsType": "YELLOW"
+    },
+    {
+      "id": "w3",
+      "type": "warehouse",
+      "points": 3,
+      "resRequirements": [{
+        "color": "GRAY",
+        "quantity": 5
+      }],
+      "extraSlotsType": "PURPLE"
+    },
+    {
+      "id": "w4",
+      "type": "warehouse",
+      "points": 3,
+      "resRequirements": [{
+        "color": "PURPLE",
+        "quantity": 5
+      }],
+      "extraSlotsType": "BLUE"
+    },
+    {
+      "id": "d1",
+      "type": "discount",
+      "points": 2,
+      "devRequirements": [{
+        "color": "GREEN",
+        "level": 1,
+        "quantity": 1
+      },{
+        "color": "BLUE",
+        "level": 1,
+        "quantity": 1
+      }],
+      "discount": "GRAY"
+    },
+    {
+      "id": "d2",
+      "type": "discount",
+      "points": 2,
+      "devRequirements": [{
+        "color": "BLUE",
+        "level": 1,
+        "quantity": 1
+      },
+        {
+          "color": "PURPLE",
+          "level": 1,
+          "quantity": 1
+        }],
+      "discount": "BLUE"
+    },
+    {
+      "id": "d3",
+      "type": "discount",
+      "points": 2,
+      "devRequirements": [{
+        "color": "YELLOW",
+        "level": 1,
+        "quantity": 1
+      },
+        {
+          "color": "PURPLE",
+          "level": 1,
+          "quantity": 1
+        }],
+      "discount": "YELLOW"
+    },
+    {
+      "id": "d4",
+      "type": "discount",
+      "points": 2,
+      "devRequirements": [{
+        "color": "YELLOW",
+        "level": 1,
+        "quantity": 1
+      },
+        {
+          "color": "GREEN",
+          "level": 1,
+          "quantity": 1
+        }],
+      "discount": "PURPLE"
+    }
+  ]
+
+}

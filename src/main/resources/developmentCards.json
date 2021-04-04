@@ -1,0 +1,1385 @@
+{
+  "cards": [
+    {
+      "color": "PURPLE",
+      "level": 2,
+      "points": 7,
+      "price": [
+        {
+          "color": "PURPLE",
+          "quantity": 5
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": "2"
+        },
+        {
+          "color": "RED",
+          "quantity": 2
+        }
+      ]
+    },{
+      "color": "YELLOW",
+      "level": 2,
+      "points": 8,
+      "price": [
+        {
+          "color": "GRAY",
+          "quantity": 3
+        },
+        {
+          "color":"PURPLE",
+          "quantity": 3
+        }
+      ],
+      "inResources": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": "2"
+        },
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "color": "GREEN",
+      "level": 3,
+      "points": 9,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 6
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "GRAY",
+          "quantity": "3"
+        },
+        {
+          "color": "RED",
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "color": "BLUE",
+      "level": 2,
+      "points": 7,
+      "price": [
+        {
+          "color": "YELLOW",
+          "quantity": 5
+        }
+      ],
+      "inResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "BLUE",
+          "quantity": "2"
+        },
+        {
+          "color": "RED",
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "color": "BLUE",
+      "level": 2,
+      "points": 8,
+      "price": [
+        {
+          "color": "YELLOW",
+          "quantity": 3
+        },
+        {
+          "color": "GRAY",
+          "quantity": 3
+        }
+      ],
+      "inResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "GRAY",
+          "quantity": "2"
+        },
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "color": "GREEN",
+      "level": 2,
+      "points": 7,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 5
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "GRAY",
+          "quantity": "2"
+        },
+        {
+          "color": "RED",
+          "quantity": 2
+        }
+      ]
+    },{
+      "color": "BLUE",
+      "level": 2,
+      "points": 5,
+      "price": [
+        {
+          "color": "YELLOW",
+          "quantity": 5
+        }
+      ],
+      "inResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "RED",
+          "quantity": 2
+        }
+      ]
+    },{
+      "color": "PURPLE",
+      "level": 2,
+      "points": 5,
+      "price": [
+        {
+          "color": "PURPLE",
+          "quantity": 4
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "RED",
+          "quantity": 2
+        }
+      ]
+    },{
+      "color": "YELLOW",
+      "level": 2,
+      "points": 6,
+      "price": [
+        {
+          "color": "GRAY",
+          "quantity": 5
+        },
+        {
+          "color": "BLUE",
+          "quantity":2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        },
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 3
+        }
+      ]
+    },{
+      "color": "PURPLE",
+      "level": 2,
+      "points": 8,
+      "price": [
+        {
+          "color": "PURPLE",
+          "quantity": 3
+        },
+        {
+          "color": "BLUE",
+          "quantity": 3
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        },
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "PURPLE",
+      "level": 3,
+      "points": 9,
+      "price": [
+        {
+          "color": "PURPLE",
+          "quantity": 6
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 3
+        },
+        {
+          "color": "RED",
+          "quantity": 2
+        }
+      ]
+    },{
+      "color": "YELLOW",
+      "level": 2,
+      "points": 5,
+      "price": [
+        {
+          "color": "GRAY",
+          "quantity": 4
+        }
+      ],
+      "inResources": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "RED",
+          "quantity": 2
+        }
+      ]
+    },{
+      "color": "GREEN",
+      "level": 2,
+      "points": 6,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 3
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "GRAY",
+          "quantity": 3
+        }
+      ]
+    },{
+      "color": "BLUE",
+      "level": 3,
+      "points": 9,
+      "price": [
+        {
+          "color": "YELLOW",
+          "quantity": 6
+        }
+      ],
+      "inResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "BLUE",
+          "quantity": 3
+        },
+        {
+          "color": "RED",
+          "quantity": 2
+        }
+      ]
+    },{
+      "color": "BLUE",
+      "level": 2,
+      "points": 6,
+      "price": [
+        {
+          "color": "YELLOW",
+          "quantity": 3
+        },
+        {
+          "color": "GRAY",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 3
+        }
+      ]
+    },{
+      "color": "GREEN",
+      "level": 3,
+      "points": 10,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 5
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "BLUE",
+          "quantity": 2
+        },
+        {
+          "color": "GRAY",
+          "quantity": 2
+        },
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "YELLOW",
+      "level": 3,
+      "points": 9,
+      "price": [
+        {
+          "color": "GRAY",
+          "quantity": 6
+        }
+      ],
+      "inResources": [
+        {
+          "color": "BLUE",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 3
+        },
+        {
+          "color": "RED",
+          "quantity": 2
+        }
+      ]
+    },{
+      "color": "PURPLE",
+      "level": 2,
+      "points": 6,
+      "price": [
+        {
+          "color": "PURPLE",
+          "quantity": 3
+        },
+        {
+          "color": "YELLOW",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "BLUE",
+          "quantity": 3
+        }
+      ]
+    },{
+      "color": "GREEN",
+      "level": 3,
+      "points": 12,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 4
+        },
+        {
+          "color": "YELLOW",
+          "quantity": 4
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 3
+        },
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "GREEN",
+      "level": 1,
+      "points": 1,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "YELLOW",
+      "level": 3,
+      "points": 11,
+      "price": [
+        {
+          "color": "GRAY",
+          "quantity": 7
+        }
+      ],
+      "inResources": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        },
+        {
+          "color": "RED",
+          "quantity": 3
+        }
+      ]
+    },{
+      "color": "PURPLE",
+      "level": 3,
+      "points": 12,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 4
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 4
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "GRAY",
+          "quantity": 3
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "PURPLE",
+      "level": 1,
+      "points": 1,
+      "price": [
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "BLUE",
+      "level": 1,
+      "points": 1,
+      "price": [
+        {
+          "color": "YELLOW",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "BLUE",
+      "level": 3,
+      "points": 12,
+      "price": [
+        {
+          "color": "YELLOW",
+          "quantity": 4
+        },
+        {
+          "color": "GRAY",
+          "quantity": 4
+        }
+      ],
+      "inResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "BLUE",
+          "quantity": 3
+        }
+      ]
+    },{
+      "color": "BLUE",
+      "level": 3,
+      "points": 11,
+      "price": [
+        {
+          "color": "YELLOW",
+          "quantity": 7
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        },
+        {
+          "color": "RED",
+          "quantity": 3
+        }
+      ]
+    },{
+      "color": "BLUE",
+      "level": 1,
+      "points": 2,
+      "price": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        },
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ],
+      "inResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "PURPLE",
+      "level": 1,
+      "points": 2,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        },
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "PURPLE",
+      "level": 3,
+      "points": 11,
+      "price": [
+        {
+          "color": "PURPLE",
+          "quantity": 7
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        },
+        {
+          "color": "RED",
+          "quantity": 3
+        }
+      ]
+    },{
+      "color": "YELLOW",
+      "level": 3,
+      "points": 10,
+      "price": [
+        {
+          "color": "GRAY",
+          "quantity": 5
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 2
+        },
+        {
+          "color": "BLUE",
+          "quantity": 2
+        },
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "YELLOW",
+      "level": 1,
+      "points": 1,
+      "price": [
+        {
+          "color": "GRAY",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "GREEN",
+      "level": 1,
+      "points": 2,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        },
+        {
+          "color": "GRAY",
+          "quantity":1
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "GREEN",
+      "level": 3,
+      "points": 11,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 7
+        }
+      ],
+      "inResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "RED",
+          "quantity": 3
+        }
+      ]
+    },{
+      "color": "YELLOW",
+      "level": 1,
+      "points": 2,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        },
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ],
+      "inResources": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "GREEN",
+      "level": 1,
+      "points": 3,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 3
+        }
+      ],
+      "inResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "BLUE",
+          "quantity": 1
+        },
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "YELLOW",
+      "level": 3,
+      "points": 12,
+      "price": [
+        {
+          "color": "GRAY",
+          "quantity": 4
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 4
+        }
+      ],
+      "inResources": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 3
+        }
+      ]
+    },{
+      "color": "GREEN",
+      "level": 1,
+      "points": 4,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 2
+        },
+        {
+          "color": "YELLOW",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 2
+        },
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "YELLOW",
+      "level": 1,
+      "points": 3,
+      "price": [
+        {
+          "color": "GRAY",
+          "quantity": 3
+        }
+      ],
+      "inResources": [
+        {
+          "color": "BLUE",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        },
+        {
+          "color":"GRAY",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "PURPLE",
+      "level": 1,
+      "points": 3,
+      "price": [
+        {
+          "color": "PURPLE",
+          "quantity": 3
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        },
+        {
+          "color": "BLUE",
+          "quantity": 1
+        },
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "PURPLE",
+      "level": 3,
+      "points": 10,
+      "price": [
+        {
+          "color": "PURPLE",
+          "quantity": 5
+        },
+        {
+          "color": "YELLOW",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        },
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 2
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        },
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "BLUE",
+      "level": 3,
+      "points": 10,
+      "price": [
+        {
+          "color": "YELLOW",
+          "quantity": 5
+        },
+        {
+          "color": "GRAY",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        },
+        {
+          "color": "GRAY",
+          "quantity": 2
+        },
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "BLUE",
+      "level": 1,
+      "points": 3,
+      "price": [
+        {
+          "color": "YELLOW",
+          "quantity": 3
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        },
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "GREEN",
+      "level": 2,
+      "points": 8,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 3
+        },
+        {
+          "color": "YELLOW",
+          "quantity": 3
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "BLUE",
+          "quantity": 2
+        },
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "BLUE",
+      "level": 1,
+      "points": 4,
+      "price": [
+        {
+          "color": "YELLOW",
+          "quantity": 2
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "BLUE",
+          "quantity": 1
+        },
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        },
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "PURPLE",
+      "level": 1,
+      "points": 4,
+      "price": [
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        },
+        {
+          "color": "GRAY",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "BLUE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "GRAY",
+          "quantity": 2
+        },
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "YELLOW",
+      "level": 2,
+      "points": 7,
+      "price": [
+        {
+          "color": "GRAY",
+          "quantity": 5
+        }
+      ],
+      "inResources": [
+        {
+          "color": "BLUE",
+          "quantity": 2
+        }
+      ],
+      "outResources": [
+        {
+          "color": "PURPLE",
+          "quantity": 2
+        },
+        {
+          "color": "RED",
+          "quantity": 2
+        }
+      ]
+    },{
+      "color": "YELLOW",
+      "level": 1,
+      "points": 4,
+      "price": [
+        {
+          "color": "GRAY",
+          "quantity": 2
+        },
+        {
+          "color": "BLUE",
+          "quantity": 2
+        }
+      ],
+      "inResources": [
+        {
+          "color": "YELLOW",
+          "quantity": 1
+        },
+        {
+          "color": "PURPLE",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "BLUE",
+          "quantity": 2
+        },
+        {
+          "color": "RED",
+          "quantity": 1
+        }
+      ]
+    },{
+      "color": "GREEN",
+      "level": 2,
+      "points": 5,
+      "price": [
+        {
+          "color": "BLUE",
+          "quantity": 4
+        }
+      ],
+      "inResources": [
+        {
+          "color": "GRAY",
+          "quantity": 1
+        }
+      ],
+      "outResources": [
+        {
+          "color": "RED",
+          "quantity": 2
+        }
+      ]
+    }
+  ]
+}
