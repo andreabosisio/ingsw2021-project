@@ -38,7 +38,7 @@ public class LeaderCardProduction extends LeaderCard implements ProductionCard {
     /**
      * @param resource
      */
-    //TODO how does this work?
+
     @Override
     public boolean doTransformation(Resource resource) {
         return super.doTransformation(resource);

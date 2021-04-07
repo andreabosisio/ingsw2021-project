@@ -12,4 +12,5 @@ public class LeaderCardMarket extends LeaderCard {
         super(ID, points, requirements);
         this.transformation=transformation;
     }
+
 }
