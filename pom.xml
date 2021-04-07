@@ -8,9 +8,8 @@
   <artifactId>AM65</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>AM-Bendinelli-Bosisio-Beltrante</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>AM65</name>
+  <url>https://github.com/Beltrante/ingswAM2021-Bendinelli-Bosisio-Beltrante</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
