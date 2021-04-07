@@ -21,7 +21,7 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
     private final int choosableOutResourcesSlots = 1;
 
     private final Resource inResources;
-    private List<Resource> outResources;
+    private List<Resource> outResources = new ArrayList<>();
 
     /**
      * Resources that can't be used to activate a production
@@ -109,12 +109,14 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
         return setOutResources(desiredProductionResources);
     }
 
+
     /**
      * Activate the LeaderCard adding it to the deck of the active leader cards of the player.
      * @param player who want to activate the card
      * @return true if the card it's been correctly activated
      */
-    private boolean activate(Player player){
+    @Override
+    public boolean activate(Player player){
         //TODO return player.personalBoard.addActiveToLeaders(this);
         return true;
     }

@@ -56,7 +56,7 @@
       },
         {
           "color": "BLUE",
-          "level": "1",
+          "level": 1,
           "quantity": 1
         }],
       "transformation": "PURPLE"
@@ -72,7 +72,7 @@
       },
         {
           "color": "PURPLE",
-          "level": "1",
+          "level": 1,
           "quantity": 1
         }],
       "transformation": "BLUE"
@@ -88,7 +88,7 @@
       },
         {
           "color": "YELLOW",
-          "level": "1",
+          "level": 1,
           "quantity": 1
         }],
       "transformation": "GRAY"
@@ -104,7 +104,7 @@
       },
         {
           "color": "GREEN",
-          "level": "1",
+          "level": 1,
           "quantity": 1
         }],
       "transformation": "YELLOW"

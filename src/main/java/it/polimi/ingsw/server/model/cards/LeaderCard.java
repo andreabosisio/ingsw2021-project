@@ -69,7 +69,7 @@ public abstract class LeaderCard {
      * @param player player owner of the card
      * @return true if activated successfully
      */
-    private boolean activate(Player player){
+    public boolean activate(Player player){
         return false;
     }
 }

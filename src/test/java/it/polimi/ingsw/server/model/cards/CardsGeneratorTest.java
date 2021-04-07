@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GenerateCardsTest {
+class CardsGeneratorTest {
 
     @Test
     void generateDevelopmentCardsTest() {
         List<DevelopmentCard> developmentCards;
-        GenerateCards generator = new GenerateCards();
+        CardsGenerator generator = new CardsGenerator();
         developmentCards=generator.generateDevelopmentCards();
         //create 2 maps, one by color and one by level
         Map<CardColorEnum, Integer> mapLevelToColor = developmentCards.stream().collect(
@@ -39,21 +39,21 @@ class GenerateCardsTest {
     @Test
     void generateLeaderCardsTest() {
         List<LeaderCard> leaderCards;
-        GenerateCards generator = new GenerateCards();
+        CardsGenerator generator = new CardsGenerator();
         leaderCards=generator.generateLeaderCards();
         //check that there are 16 leaderCards of the 4 expected types (4 foreach)
         assertEquals(16,leaderCards.size());
-        assertEquals(4,leaderCards.stream().filter(leader->leader instanceof LeaderCardDiscount).count());
-        assertEquals(4,leaderCards.stream().filter(leader->leader instanceof LeaderCardMarket).count());
-        assertEquals(4,leaderCards.stream().filter(leader->leader instanceof LeaderCardWarehouse).count());
-        assertEquals(4,leaderCards.stream().filter(leader->leader instanceof LeaderCardProduction).count());
+        assertEquals(4,leaderCards.stream().filter(leader->leader instanceof DiscountLeaderCard).count());
+        assertEquals(4,leaderCards.stream().filter(leader->leader instanceof TransformationLeaderCard).count());
+        assertEquals(4,leaderCards.stream().filter(leader->leader instanceof WarehouseLeaderCard).count());
+        assertEquals(4,leaderCards.stream().filter(leader->leader instanceof ProductionLeaderCard).count());
     }
 
     @Test
     void getDevCardsAsGridTest() {
         List<DevelopmentCard> developmentCards;
         List<Map<CardColorEnum,List<DevelopmentCard>>> mapByLevel = new ArrayList<>();
-        GenerateCards generator = new GenerateCards();
+        CardsGenerator generator = new CardsGenerator();
         developmentCards=generator.generateDevelopmentCards();
         for (int i = 1;i<=3;i++){
             mapByLevel.add(generator.getDevCardsAsGrid(developmentCards,i));

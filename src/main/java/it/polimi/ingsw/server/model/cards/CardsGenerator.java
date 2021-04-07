@@ -18,12 +18,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-public class GenerateCards {
+public class CardsGenerator {
     private final String developmentCardsFileName ="src/main/resources/developmentCards.json";
     private final String leaderCardsFileName ="src/main/resources/leaderCards.json";
     private List<DevelopmentCard> developmentCards = new ArrayList<>();
     private List<LeaderCard> leaderCards = new ArrayList<>();
-
 
     /**
      * Generate all the developmentCards from a Json file
@@ -156,19 +155,19 @@ public class GenerateCards {
                 switch (type){
                     case "production":
                         Resource inResource = new OtherResource(ResourceEnum.valueOf(leaderJsonObject.get("inResource").getAsString()));
-                        card = new LeaderCardProduction(id,points,requirements,inResource);
+                        card = new ProductionLeaderCard(id,points,requirements,inResource);
                         break;
                     case "market":
                         Resource transformation = new OtherResource(ResourceEnum.valueOf(leaderJsonObject.get("transformation").getAsString()));
-                        card = new LeaderCardMarket(id,points,requirements,transformation);
+                        card = new TransformationLeaderCard(id,points,requirements,transformation);
                         break;
                     case "warehouse":
                         Resource extraSlotsType = new OtherResource(ResourceEnum.valueOf(leaderJsonObject.get("extraSlotsType").getAsString()));
-                        card = new LeaderCardWarehouse(id,points,requirements,extraSlotsType);
+                        card = new WarehouseLeaderCard(id,points,requirements,extraSlotsType);
                         break;
                     case "discount":
                         Resource discountResource = new OtherResource(ResourceEnum.valueOf(leaderJsonObject.get("discount").getAsString()));
-                        card = new LeaderCardDiscount(id,points,requirements,discountResource);
+                        card = new DiscountLeaderCard(id,points,requirements,discountResource);
                         break;
                     default:
                         throw new IllegalStateException("Unexpected leaderCardType: " + type);

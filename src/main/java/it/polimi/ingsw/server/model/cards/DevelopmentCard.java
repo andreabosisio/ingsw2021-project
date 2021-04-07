@@ -63,7 +63,7 @@ public class DevelopmentCard implements ProductionCard {
      * Check if the buyer can buy this card with a possible discount. If yes make the payment.
      * @param buyer         Player who wants to buy the card
      * @param resourcePosition      Warehouse/Strongbox positions of the chosen resources
-     * @param discount      Discount provided by the active MarketLeaderCard cards
+     * @param discount      Discount provided by the active TransformationLeaderCard cards
      * @return true if the buyer can buy the card
      */
     public boolean buyCard(Player buyer, List<Integer> resourcePosition, List<Resource> discount){

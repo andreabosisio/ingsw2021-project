@@ -8,7 +8,7 @@ import java.util.List;
 
 public class DeckLeader {
     private List<LeaderCard> cards;
-    private final GenerateCards cardGenerator = new GenerateCards();
+    private final CardsGenerator cardGenerator = new CardsGenerator();
 
 
     public DeckLeader() {

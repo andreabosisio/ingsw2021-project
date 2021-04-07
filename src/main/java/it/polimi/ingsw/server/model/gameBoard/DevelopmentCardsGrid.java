@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.gameBoard;
 
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.GenerateCards;
+import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import java.util.*;
 
@@ -10,7 +10,7 @@ public class DevelopmentCardsGrid {
     private static DevelopmentCardsGrid instance = null;
     private List<Map<CardColorEnum,List<DevelopmentCard>>> mapByLevel;
     private final List<DevelopmentCard> developmentCards;
-    private final GenerateCards generator = new GenerateCards();
+    private final CardsGenerator generator = new CardsGenerator();
 
     /**
      * reset for testing being a singleton class

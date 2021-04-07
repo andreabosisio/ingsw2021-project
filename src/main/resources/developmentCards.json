@@ -19,7 +19,7 @@
       "outResources": [
         {
           "color": "YELLOW",
-          "quantity": "2"
+          "quantity": 2
         },
         {
           "color": "RED",
@@ -49,7 +49,7 @@
       "outResources": [
         {
           "color": "YELLOW",
-          "quantity": "2"
+          "quantity": 2
         },
         {
           "color": "RED",
@@ -76,7 +76,7 @@
       "outResources": [
         {
           "color": "GRAY",
-          "quantity": "3"
+          "quantity": 3
         },
         {
           "color": "RED",
@@ -103,7 +103,7 @@
       "outResources": [
         {
           "color": "BLUE",
-          "quantity": "2"
+          "quantity": 2
         },
         {
           "color": "RED",
@@ -134,7 +134,7 @@
       "outResources": [
         {
           "color": "GRAY",
-          "quantity": "2"
+          "quantity": 2
         },
         {
           "color": "RED",
@@ -161,7 +161,7 @@
       "outResources": [
         {
           "color": "GRAY",
-          "quantity": "2"
+          "quantity": 2
         },
         {
           "color": "RED",
