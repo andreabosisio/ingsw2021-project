@@ -24,7 +24,7 @@ public class FaithTrackTest {
         players.add(new Player("Roronoa"));
         GameBoard gameBoard = new GameBoard(players, iCheckWinner);
         assertFalse(gameBoard.faithProgress(players.get(0), 2)); // No tiles are flipped up
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(0)).getVictoryPoints(), 0);
+        assertEquals(0, gameBoard.getFaithTrackPlayer(players.get(0)).getVictoryPoints());
     }
 
     @Test
@@ -33,7 +33,7 @@ public class FaithTrackTest {
         GameBoard gameBoard = new GameBoard(players, iCheckWinner);
         assertTrue(gameBoard.faithProgress(players.get(0), 8)); // A tile is flipped up
         assertTrue(gameBoard.getFaithTrackPlayer(players.get(0)).isPopeTile1()); // The first tile
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(0)).getVictoryPoints(), 2 + 2);
+        assertEquals(2 + 2, gameBoard.getFaithTrackPlayer(players.get(0)).getVictoryPoints());
     }
 
     @Test
@@ -49,8 +49,8 @@ public class FaithTrackTest {
         assertTrue(gameBoard.getFaithTrackPlayer(players.get(0)).isPopeTile2()); // The secondo tile
         assertTrue(gameBoard.getFaithTrackPlayer(players.get(0)).isPopeTile3()); // The third tile
         // Roronoa's progress: 9 + 7 + 9 = 25 --> Without controls, his Faith Marker goes out of the Faith Track
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(0)).getFaithMarker(), endOfTheFaithTrack);
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(0)).getVictoryPoints(), 20 + 2 + 3 + 4);
+        assertEquals(endOfTheFaithTrack, gameBoard.getFaithTrackPlayer(players.get(0)).getFaithMarker());
+        assertEquals(20 + 2 + 3 + 4, gameBoard.getFaithTrackPlayer(players.get(0)).getVictoryPoints());
     }
 
     @Test
@@ -71,10 +71,10 @@ public class FaithTrackTest {
         assertFalse(gameBoard.getFaithTrackPlayer(players.get(2)).isPopeTile1()); // The Nico's tile is not flipped up
         assertFalse(gameBoard.getFaithTrackPlayer(players.get(3)).isPopeTile1()); // The Vinsmoke's tile is not flipped up
 
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(0)).getVictoryPoints(), 2 + 2);
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(1)).getVictoryPoints(), 1 + 2);
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(2)).getVictoryPoints(), 1);
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(3)).getVictoryPoints(), 0);
+        assertEquals(2 + 2, gameBoard.getFaithTrackPlayer(players.get(0)).getVictoryPoints());
+        assertEquals(1 + 2, gameBoard.getFaithTrackPlayer(players.get(1)).getVictoryPoints());
+        assertEquals(1, gameBoard.getFaithTrackPlayer(players.get(2)).getVictoryPoints());
+        assertEquals(0, gameBoard.getFaithTrackPlayer(players.get(3)).getVictoryPoints());
     }
 
     @Test
@@ -92,8 +92,8 @@ public class FaithTrackTest {
         assertFalse(gameBoard.faithProgress(players.get(1), 4)); // The same tile is not flipped up
         assertFalse(gameBoard.getFaithTrackPlayer(players.get(1)).isPopeTile1()); // The Monkey's tile is not flipped up
 
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(0)).getVictoryPoints(), 2 + 2);
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(1)).getVictoryPoints(), 2);
+        assertEquals(2 + 2, gameBoard.getFaithTrackPlayer(players.get(0)).getVictoryPoints());
+        assertEquals(2, gameBoard.getFaithTrackPlayer(players.get(1)).getVictoryPoints());
     }
 
     @Test
@@ -116,9 +116,9 @@ public class FaithTrackTest {
         assertTrue(gameBoard.getFaithTrackPlayer(players.get(2)).isPopeTile1()); // The Nico's tile is flipped up
         assertTrue(gameBoard.getFaithTrackPlayer(players.get(3)).isPopeTile1()); // The Vinsmoke's tile is flipped up
 
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(0)).getVictoryPoints(), 1);
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(1)).getVictoryPoints(), 1);
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(2)).getVictoryPoints(), 1 + 2);
-        assertEquals(gameBoard.getFaithTrackPlayer(players.get(3)).getVictoryPoints(), 2 + 2);
+        assertEquals(1, gameBoard.getFaithTrackPlayer(players.get(0)).getVictoryPoints());
+        assertEquals(1, gameBoard.getFaithTrackPlayer(players.get(1)).getVictoryPoints());
+        assertEquals(1 + 2, gameBoard.getFaithTrackPlayer(players.get(2)).getVictoryPoints());
+        assertEquals(2 + 2, gameBoard.getFaithTrackPlayer(players.get(3)).getVictoryPoints());
     }
 }
