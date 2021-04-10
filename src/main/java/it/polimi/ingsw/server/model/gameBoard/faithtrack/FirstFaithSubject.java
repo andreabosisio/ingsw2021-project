@@ -13,7 +13,7 @@ public interface FirstFaithSubject {
      *
      * @param faithObserver is the object to add.
      */
-    void registerObserver(FaithTrack faithObserver);
+    void registerFaithObserver(FaithTrack faithObserver);
 
     /**
      * This method calls the method update of all the Observers.
@@ -23,5 +23,5 @@ public interface FirstFaithSubject {
      *
      * @return true if a faithObserver flip a Pope Tile
      */
-    boolean notifyObservers();
+    boolean notifyFaithObservers();
 }

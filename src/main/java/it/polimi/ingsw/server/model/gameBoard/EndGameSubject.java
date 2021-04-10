@@ -19,5 +19,5 @@ public interface EndGameSubject {
      * Its task is to notify the class SinglePlayerCheckWinner or MultiPlayerCheckWinner
      * of the reach of the end of the Faith Track.
      */
-    void notifyEndGameObservers();
+    void notifyEndGameObserver();
 }

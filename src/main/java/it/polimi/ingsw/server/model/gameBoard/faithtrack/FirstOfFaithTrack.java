@@ -36,7 +36,7 @@ public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
      * @param faithObserver is the object to add.
      */
     @Override
-    public void registerObserver(FaithTrack faithObserver) {
+    public void registerFaithObserver(FaithTrack faithObserver) {
         faithTrackObservers.add(faithObserver);
     }
 
@@ -60,7 +60,7 @@ public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
      * @return true if a faithObserver flip a Pope Tile
      */
     @Override
-    public boolean notifyObservers() {
+    public boolean notifyFaithObservers() {
         boolean checkFlip = false;
 
         if (checkIndexOfTheVaticanReportSection() != 0) {
@@ -102,7 +102,7 @@ public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
      * of the reach of the end of the Faith Track.
      */
     @Override
-    public void notifyEndGameObservers() {
+    public void notifyEndGameObserver() {
         this.endGameObserver.update(this.currentFirstPlayer);
     }
 
@@ -120,7 +120,7 @@ public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
         this.currentFirstPlayer = observerPlayer;
         this.currentPosition = observerCurrentPosition;
         if (observerCurrentPosition == popeSpace3)
-            this.notifyEndGameObservers();
+            this.notifyEndGameObserver();
     }
 
     /**

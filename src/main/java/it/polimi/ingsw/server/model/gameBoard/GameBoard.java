@@ -40,7 +40,7 @@ public class GameBoard {
      */
     private void setObserversOfFirstOfFaithTrack(List<FaithTrack> faithObservers) {
         for (FaithTrack faithObserver : faithObservers) {
-            firstOfFaithTrack.registerObserver(faithObserver);
+            firstOfFaithTrack.registerFaithObserver(faithObserver);
         }
         firstOfFaithTrack.registerEndGameObserver(iCheckWinner);
     }
@@ -55,7 +55,7 @@ public class GameBoard {
      */
     public boolean faithProgress(PlayerInterface player, int progressValue) {
         faithObservers.stream().filter(x -> x.getOwner() == player).forEach(x -> x.faithTrackProgress(progressValue));
-        return firstOfFaithTrack.notifyObservers();
+        return firstOfFaithTrack.notifyFaithObservers();
     }
 
     /**
@@ -68,7 +68,7 @@ public class GameBoard {
      */
     public boolean faithProgressOfRestOfPlayers(PlayerInterface player, int progressValue) {
         faithObservers.stream().filter(x -> x.getOwner() != player).forEach(x -> x.faithTrackProgress(progressValue));
-        return firstOfFaithTrack.notifyObservers();
+        return firstOfFaithTrack.notifyFaithObservers();
     }
 
     /**
