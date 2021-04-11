@@ -1,0 +1,29 @@
+{
+  "tokens": [
+    {
+      "type": "DiscardDevCardsToken",
+      "color": "GREEN"
+    },
+    {
+      "type": "DiscardDevCardsToken",
+      "color": "YELLOW"
+    },
+    {
+      "type": "DiscardDevCardsToken",
+      "color": "BLUE"
+    },
+    {
+      "type": "DiscardDevCardsToken",
+      "color": "PURPLE"
+    },
+    {
+      "type": "DoubleFaithTrackProgressToken"
+    },
+    {
+      "type": "DoubleFaithTrackProgressToken"
+    },
+    {
+      "type": "SingleFaithTrackProgressToken"
+    }
+  ]
+}
