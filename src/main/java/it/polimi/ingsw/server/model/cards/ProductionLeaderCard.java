@@ -84,7 +84,7 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
      */
     @Override
     public List<Resource> getOutResources() {
-        return new ArrayList<Resource>(this.outResources);
+        return new ArrayList<>(this.outResources);
     }
 
     /**
@@ -109,15 +109,16 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
         return setOutResources(desiredProductionResources);
     }
 
-
     /**
-     * Activate the LeaderCard adding it to the deck of the active leader cards of the player.
-     * @param player who want to activate the card
-     * @return true if the card it's been correctly activated
+     * Activate the LeaderCard for the player and !!ONLY AFTER!! add it to personalBoard list of active leaders
+     *
+     * @param player player owner of the card
+     * @return true if activated successfully
      */
     @Override
-    public boolean activate(Player player){
-        //TODO return player.personalBoard.addActiveToLeaders(this);
-        return true;
+    public boolean activate(Player player) {
+        //TODO (done!) place this card in PersonalBoard's deckProduction;
+        player.getPersonalBoard().setNewDevCard(this);
+        return super.activate(player);
     }
 }

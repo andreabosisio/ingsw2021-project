@@ -29,6 +29,7 @@ public class CardsGenerator {
      * @return generated developmentCards
      */
     public List<DevelopmentCard> generateDevelopmentCards(){
+        developmentCards = new ArrayList<>();
         File input = new File(developmentCardsFileName);
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
@@ -109,6 +110,7 @@ public class CardsGenerator {
      * @return generated leaderCards
      */
     public List<LeaderCard> generateLeaderCards(){
+        leaderCards = new ArrayList<>();
         File input = new File(leaderCardsFileName);
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
