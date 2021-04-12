@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.ArrayList;
@@ -73,9 +74,23 @@ public class Depot implements ResourcesContainer{
      * @return the taken Resource
      */
     @Override
-    public Resource getResource(int position) {
+    public Resource takeResource(int position) {
         Resource chosenResource = this.slots.get(position);
         setResource(position, null);
         return chosenResource;
+    }
+
+    /**
+     * Get the resource stored into the slot defined by the given position without removing it.
+     *
+     * @param position of the chosen slot
+     * @return a copy of the chosen Resource if present, else return null
+     */
+    @Override
+    public Resource getResource(int position) {
+        Resource chosenResource = this.slots.get(position);
+        if(chosenResource != null)
+            return new OtherResource(chosenResource.getColor());
+        return null;
     }
 }

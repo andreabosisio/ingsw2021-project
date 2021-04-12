@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.model.cards;
 
+import it.polimi.ingsw.exceptions.EmptySlotException;
+import it.polimi.ingsw.exceptions.InvalidIndexException;
+import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.gameBoard.DevelopmentCardsGrid;
 import it.polimi.ingsw.server.model.player.Player;
@@ -36,7 +39,7 @@ public class DevelopmentCard implements ProductionCard {
      * @return a new list that contains the resources required to buy the card
      */
     public List<Resource> getPrice() {
-        return new ArrayList<Resource>(this.price);
+        return new ArrayList<>(this.price);
     }
 
     /**
@@ -70,10 +73,10 @@ public class DevelopmentCard implements ProductionCard {
      * @param discount         Discount provided by the active TransformationLeaderCard cards
      * @return true if the buyer can buy the card
      */
-    public boolean buyCard(Player buyer, List<Integer> resourcePosition, List<Resource> discount) {
+    public boolean buyCard(Player buyer, List<Integer> resourcePosition, List<Resource> discount) throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         List<Resource> paymentResources = new ArrayList<>(discount);
         List<Resource> tempNeededResources = getPrice();
-        //TODO Player.warehouse.... add the taken resources to paymentResources
+        buyer.getPersonalBoard().getWarehouse().getResources(resourcePosition);
         if (paymentResources.size() != tempNeededResources.size())
             return false;
         for (Resource r : paymentResources) {
@@ -84,7 +87,9 @@ public class DevelopmentCard implements ProductionCard {
         }
         // TODO: To check!
         DevelopmentCardsGrid.getDevelopmentCardsGrid().removeCard(this);
-        //TODO payment
+
+        //payment
+        buyer.getPersonalBoard().getWarehouse().takeResources(resourcePosition);
         return true;
     }
 
@@ -109,7 +114,7 @@ public class DevelopmentCard implements ProductionCard {
      */
     @Override
     public List<Resource> getInResources() {
-        return new ArrayList<Resource>(this.inResources);
+        return new ArrayList<>(this.inResources);
     }
 
     /**
@@ -119,7 +124,7 @@ public class DevelopmentCard implements ProductionCard {
      */
     @Override
     public List<Resource> getOutResources() {
-        return new ArrayList<Resource>(this.outResources);
+        return new ArrayList<>(this.outResources);
     }
 
     /**

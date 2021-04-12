@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.exceptions.EmptySlotException;
+import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.ArrayList;
@@ -32,13 +33,13 @@ public class StrongBox implements ResourcesContainer{
     }
 
     /**
-     * Remove the resource stored into the slot defined by the given position.
+     * Take and remove the resource stored into the slot defined by the given position.
      *
      * @param position of the chosen slot
      * @return the taken Resource
      */
     @Override
-    public Resource getResource(int position) throws EmptySlotException {
+    public Resource takeResource(int position) throws EmptySlotException {
         Resource chosenResource;
         try {
             chosenResource = this.slots.get(position);
@@ -47,5 +48,24 @@ public class StrongBox implements ResourcesContainer{
         }
         this.slots.set(position, null);
         return chosenResource;
+    }
+
+    /**
+     * Get the resource stored into the slot defined by the given position without removing it from the StrongBox.
+     *
+     * @param position of the chosen slot
+     * @return a copy of the chosen Resource if present, else return null
+     */
+    @Override
+    public Resource getResource(int position) {
+        Resource chosenResource;
+        try {
+            chosenResource = this.slots.get(position);
+        }catch (IndexOutOfBoundsException e){
+            return null;
+        }
+        if(chosenResource != null)
+            return new OtherResource(chosenResource.getColor());
+        return null;
     }
 }

@@ -80,7 +80,7 @@ import java.util.stream.Collectors;
 
         private final StrongBox strongBox = new StrongBox();
 
-        private Map<Integer, TranslatedPositionTuple> positionMap = new HashMap<>();
+        private Map<Integer, TranslatedPosition> positionMap = new HashMap<>();
 
         /**
          * Verify if the given position is in the zone of the slots containing the new resources taken from the MarketTray.
@@ -158,7 +158,7 @@ import java.util.stream.Collectors;
         }
 
         /**
-         * Map the given position into a TranslatedPositionTuple that has the correct zone of the given position and the
+         * Map the given position into a TranslatedPosition that has the correct zone of the given position and the
          * shifted position for that zone.
          *
          * @param position that has to be translated into this Warehouse storage logic
@@ -168,26 +168,26 @@ import java.util.stream.Collectors;
          */
         private boolean translatePosition(int position) throws InvalidIndexException, NonAccessibleSlotException {
             if(isInResourcesFromMarketSlotsZone(position))
-                positionMap.put(position, new TranslatedPositionTuple(position, resourcesFromMarket));
+                positionMap.put(position, new TranslatedPosition(position, resourcesFromMarket));
             else if(isInDepotsZone(position))
                 if(position < startSecondDepot) //first depot
-                    positionMap.put(position, new TranslatedPositionTuple(position - startFirstDepot, depots.get(0)));
+                    positionMap.put(position, new TranslatedPosition(position - startFirstDepot, depots.get(0)));
                 else if(position < startThirdDepot) //second depot
-                    positionMap.put(position, new TranslatedPositionTuple(position - startSecondDepot, depots.get(1)));
+                    positionMap.put(position, new TranslatedPosition(position - startSecondDepot, depots.get(1)));
                 else //third depot
-                    positionMap.put(position, new TranslatedPositionTuple(position - startThirdDepot, depots.get(2)));
+                    positionMap.put(position, new TranslatedPosition(position - startThirdDepot, depots.get(2)));
             else if(isInFirstExtraSlotsZone(position)) //first extra slots
                 if(hasExtraSlots(0)) //first extra slots are activated
-                    positionMap.put(position, new TranslatedPositionTuple(position - startFirstExtraSlotsZone, extraSlots.get(0)));
+                    positionMap.put(position, new TranslatedPosition(position - startFirstExtraSlotsZone, extraSlots.get(0)));
                 else
                     throw new NonAccessibleSlotException(); //extra slots have not been activated yet
             else if(isInSecondExtraSlotsZone(position)) //second extra slots
                 if(hasExtraSlots(1)) //second extra slots are activated
-                    positionMap.put(position, new TranslatedPositionTuple(position - startSecondExtraSlotsZone, extraSlots.get(1)));
+                    positionMap.put(position, new TranslatedPosition(position - startSecondExtraSlotsZone, extraSlots.get(1)));
                 else
                     throw new NonAccessibleSlotException(); //extra slots have not been activated yet
             else if(isInStrongBoxZone(position))
-                positionMap.put(position, new TranslatedPositionTuple(position - startStrongBoxZone, strongBox));
+                positionMap.put(position, new TranslatedPosition(position - startStrongBoxZone, strongBox));
             else if(position < 0)
                 throw new InvalidIndexException("Negative position doesn't exist"); //invalid position
             return true;
@@ -222,15 +222,15 @@ import java.util.stream.Collectors;
         }
 
         /**
-         * Take the resource stored in the given position.
+         * Take and remove the resource stored in the given position.
          *
          * @param position of the resource to be taken
          * @return the chosen resource
-         * @throws EmptySlotException if chosen the slot is empty
-         * @throws InvalidIndexException if the position is negative
-         * @throws NonAccessibleSlotException if the position represent a slot that's not accessible
+         * @throws EmptySlotException if the chosen slot is empty
+         * @throws InvalidIndexException if the given position is negative
+         * @throws NonAccessibleSlotException if the given position represent a slot that's not accessible
          */
-        public Resource getResource(int position) throws EmptySlotException, InvalidIndexException, NonAccessibleSlotException {
+        public Resource takeResource(int position) throws EmptySlotException, InvalidIndexException, NonAccessibleSlotException {
             if(!isInResourcesFromMarketSlotsZone(position)){ //cannot take resources from ResourcesFromMarketSlotsZone
                 if(!positionMap.containsKey(position)){
                     translatePosition(position);
@@ -243,6 +243,46 @@ import java.util.stream.Collectors;
                 }
             }
             throw new NonAccessibleSlotException();
+        }
+
+        /**
+         * Take and remove all the resources stored in the given positions.
+         *
+         * @param positions of the resources to be taken
+         * @return a list containing the chosen resources
+         * @throws InvalidIndexException if one of the chosen slots is empty
+         * @throws EmptySlotException if one the given positions is negative
+         * @throws NonAccessibleSlotException if one of the given position represent a slot that's not accessible
+         */
+        public List<Resource> takeResources(List<Integer> positions) throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+            List<Resource> chosenResources = new ArrayList<>();
+            for(Integer position : positions)
+                chosenResources.add(this.takeResource(position));
+            return chosenResources;
+        }
+
+        /**
+         * Get the resources stored in the slots of the given positions without removing them.
+         *
+         * @param positions of the chosen slots
+         * @return a list containing a copy of the chosen resources
+         */
+        public List<Resource> getResources(List<Integer> positions){
+            return positions.stream().map(p -> positionMap.get(p).getResource()) //forall given positions get the correct resource
+                    .filter(Objects::nonNull).collect(Collectors.toList());
+        }
+
+        /**
+         * Get all the available resources stored in the Warehouse without removing them.
+         *
+         * @return a list containing the copy of all the available resources
+         */
+        public List<Resource> getAllResources(){
+            return positionMap.keySet().stream() //forall saved positions
+                    .filter(k -> !isInResourcesFromMarketSlotsZone(k)) //cannot take from the MarketSlotsZone
+                    .map(k -> positionMap.get(k).getResource()) //take the copy of the chosen resource
+                    .filter(Objects::nonNull) //take only non null resources
+                    .collect(Collectors.toList());
         }
 
         /**
@@ -272,12 +312,12 @@ import java.util.stream.Collectors;
             if(!positionMap.containsKey(finalPosition))
                 translatePosition(finalPosition);
 
-            Resource tempResource = positionMap.get(initPosition).getResource();
+            Resource tempResource = positionMap.get(initPosition).takeResource();
             if(tempResource == null) {
                 throw new EmptySlotException();
             }
             return
-                positionMap.get(initPosition).setResource(positionMap.get(finalPosition).getResource()) &&
+                positionMap.get(initPosition).setResource(positionMap.get(finalPosition).takeResource()) &&
                     positionMap.get(finalPosition).setResource(tempResource);
 
         }

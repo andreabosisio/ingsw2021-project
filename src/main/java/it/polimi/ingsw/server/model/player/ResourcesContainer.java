@@ -16,10 +16,19 @@ public interface ResourcesContainer {
     boolean setResource(int position, Resource toStock);
 
     /**
-     * Remove the resource stored into the slot defined by the given position.
+     * Take and remove the resource stored into the slot defined by the given position.
      *
      * @param position of the chosen slot
      * @return the taken Resource
      */
-    Resource getResource(int position) throws EmptySlotException;
+    Resource takeResource(int position) throws EmptySlotException;
+
+    /**
+     * Get the resource stored into the slot defined by the given position without removing it from the Warehouse.
+     *
+     * @param position of the chosen slot
+     * @return a copy of the chosen Resource
+     */
+    Resource getResource(int position);
+
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.Arrays;
@@ -66,9 +67,20 @@ public class MarketSlots implements ResourcesContainer{
      * @return the taken Resource
      */
     @Override
-    public Resource getResource(int position) {
+    public Resource takeResource(int position) {
         Resource chosenResource = this.slots.get(position);
         this.slots.set(position, null);
         return chosenResource;
+    }
+
+    /**
+     * Cannot take Resources from the MarketSlotsZone.
+     *
+     * @param position of the chosen slot
+     * @return null
+     */
+    @Override
+    public Resource getResource(int position) {
+        return null;
     }
 }
