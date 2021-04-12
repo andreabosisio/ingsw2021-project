@@ -2,8 +2,6 @@ package it.polimi.ingsw.server.model.cards;
 
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.resources.Resource;
-import java.util.List;
 
 public class ResourceRequirement implements Requirement {
     private final ResourceEnum color;
@@ -23,7 +21,7 @@ public class ResourceRequirement implements Requirement {
      */
     @Override
     public boolean isSatisfied(Player player) {
-        List<Resource> resources = player.getPersonalBoard().getWarehouse().getAllResources();
-        return resources.stream().filter(res -> res.getColor() == color).count() >= quantity;
+        return player.getPersonalBoard().getWarehouse().getAllResources()
+                .stream().filter(res -> res.getColor() == color).count() >= quantity;
     }
 }

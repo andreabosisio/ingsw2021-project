@@ -43,6 +43,7 @@ public class PersonalBoard implements EndGameSubject {
 
     /**
      * Get all the currently active LeaderCards
+     *
      * @return List</LeaderCard> of active LeaderCards
      */
     public List<LeaderCard> getActiveLeaderCards() {
@@ -52,6 +53,7 @@ public class PersonalBoard implements EndGameSubject {
 
     /**
      * set player's faithTrack
+     *
      * @param faithTrack faithTrack to set
      * @return true if successful, false if faithTrack was already assigned
      */
@@ -61,6 +63,15 @@ public class PersonalBoard implements EndGameSubject {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Return player's faithTrack
+     *
+     * @return player's faithTrack
+     */
+    public FaithTrack getFaithTrack() {
+        return faithTrack;
     }
 
     public List<ProductionCard>  getAvailableProduction(){
@@ -79,6 +90,7 @@ public class PersonalBoard implements EndGameSubject {
 
     /**
      * Get the possible placement of a Development card
+     *
      * @param card card to place
      * @return List</Integer> of indexes where the card could be placed
      */
@@ -95,6 +107,7 @@ public class PersonalBoard implements EndGameSubject {
     /**
      * place new DevCard at index[0] in specified position (only accept position between 1 and 3 )
      * and calls the method notifyEndGameObserver if the Player purchased his seventh card
+     *
      * @param pos placement position
      * @param card development card to place
      * @return true if placed correctly
@@ -126,6 +139,7 @@ public class PersonalBoard implements EndGameSubject {
 
     /**
      * Add a LeaderCard to the list of active ProductionCards
+     *
      * @param leader LeaderCard to place
      * @return true if successfully placed
      */
@@ -141,6 +155,7 @@ public class PersonalBoard implements EndGameSubject {
 
     /**
      * Add leaderCard to the list of active LeaderCards
+     *
      * @param card card to activate
      * @return true if successfully activated
      */
@@ -154,6 +169,7 @@ public class PersonalBoard implements EndGameSubject {
 
     /**
      * get the total number of endGame points for everything currently on the board
+     *
      * @return total number of points
      */
     public int getPoints(){
@@ -164,6 +180,7 @@ public class PersonalBoard implements EndGameSubject {
 
     /**
      * get the number of Resources left in the supply
+     *
      * @return the total number of Resources left
      */
     // TODO: Return the total number of resources

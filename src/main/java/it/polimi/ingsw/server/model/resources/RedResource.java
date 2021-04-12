@@ -21,6 +21,7 @@ public class RedResource extends Resource {
     /**
      * Method to call after a Resource has been chosen in the MarketTray.
      * Moves the FaithMarker of the current player by faithProgressSteps steps.
+     *
      * @param turn  containing the current player, the current state of the game and others information
      * @return true if the progress has been done successfully
      */
@@ -33,6 +34,7 @@ public class RedResource extends Resource {
     /**
      * Method to call after a Resource has been produced by a ProductionAction of a ProductionCard.
      * Moves the FaithMarker of the current player by faithProgressSteps steps.
+     *
      * @param turn  containing the current player, the current state of the game and others information
      * @return true if the progress has been done successfully
      */

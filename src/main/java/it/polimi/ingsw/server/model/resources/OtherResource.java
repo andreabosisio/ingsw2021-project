@@ -22,6 +22,7 @@ public class OtherResource extends Resource {
     /**
      * Method to call after a Resource has been chosen in the MarketTray.
      * Create a new Resource based on the color of this Resource.
+     *
      * @param turn  containing the current player, the current state of the game and others information
      * @return true if the new Resource has been created and added successfully
      * to the list of the new resources in MarketTray
@@ -35,6 +36,7 @@ public class OtherResource extends Resource {
     /**
      * Method to call after a Resource has been produced by a ProductionAction of a ProductionCard.
      * Create a new Resource based on the color of this Resource.
+     *
      * @param turn  containing the current player, the current state of the game and others information
      * @return true if the new Resource has been successfully stored in the StrongBox of the current player
      */

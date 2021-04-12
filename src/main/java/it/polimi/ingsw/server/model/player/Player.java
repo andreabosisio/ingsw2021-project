@@ -98,7 +98,7 @@ public class Player implements PlayerInterface {
     public boolean discardLeader(LeaderCard leaderCard) {
         if (leaderHand.contains(leaderCard)) {
             leaderHand.remove(leaderCard);
-            //todo increments player faithtrack by one
+            personalBoard.getFaithTrack().faithTrackProgress(1);
             return true;
         }
         return false;
