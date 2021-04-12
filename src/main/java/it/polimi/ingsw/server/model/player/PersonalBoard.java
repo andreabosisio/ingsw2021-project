@@ -11,9 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-//todo fai javadoc della classe
-
+/**
+ * Implementation of the deckProduction slots
+ * Basic power:                        position 0
+ * Column 1 of DevelopmentCards:       position 1
+ * Column 2 of DevelopmentCards:       position 2
+ * Column 3 of DevelopmentCards:       position 3
+ * ProductionLeaderCards(optional):    position 4-5
+ * Columns are lists with latest devCard at index 0
+ */
 public class PersonalBoard implements EndGameSubject {
+    private final int lastColumnIndex=4;
+    private final int firstColumnIndex=1;
+    private final int leaderHandSize = 2;
     private List<LeaderCard> activeLeaderCards;
     private List<List<ProductionCard>> deckProduction;
     private FaithTrack faithTrack;
@@ -23,8 +33,7 @@ public class PersonalBoard implements EndGameSubject {
     public PersonalBoard() {
         warehouse = new Warehouse();
         deckProduction = new ArrayList<>();
-        //4list: 1 for basicPower and 3 for devCard
-        IntStream.range(0,4).forEach(i->deckProduction.add(new ArrayList<>()));
+        IntStream.range(0,lastColumnIndex).forEach(i->deckProduction.add(new ArrayList<>()));
         activeLeaderCards = new ArrayList<>();
     }
 
@@ -75,7 +84,7 @@ public class PersonalBoard implements EndGameSubject {
      */
     public List<Integer> getAvailablePlacement(DevelopmentCard card) {
         List<Integer> toReturn = new ArrayList<>();
-        for(int i = 1;i<4;i++){
+        for(int i = firstColumnIndex;i<lastColumnIndex;i++){
             if(deckProduction.get(i).size()==card.getLevel()-1){
                 toReturn.add(i);
             }
@@ -91,7 +100,7 @@ public class PersonalBoard implements EndGameSubject {
      * @return true if placed correctly
      */
     public boolean setNewDevCard(int pos,DevelopmentCard card){
-        if(pos<1 || pos>3 || deckProduction.stream().anyMatch(el -> el.contains(card)) ) {
+        if(pos<firstColumnIndex || pos>=lastColumnIndex || deckProduction.stream().anyMatch(el -> el.contains(card)) ) {
             return false;
         }
         //check that pos is compliant with rules of placement
@@ -105,7 +114,7 @@ public class PersonalBoard implements EndGameSubject {
             }
             deckProduction.get(pos).add(0, card);
             int numberOfDevCards = 0;
-            for(int i = 1; i < 4; i++)
+            for(int i = 1; i < lastColumnIndex; i++)
                 numberOfDevCards = numberOfDevCards + deckProduction.get(i).size();
 
             if (numberOfDevCards == 7)
@@ -136,7 +145,7 @@ public class PersonalBoard implements EndGameSubject {
      * @return true if successfully activated
      */
     public boolean addToActiveLeaders(LeaderCard card){
-        if(!activeLeaderCards.contains(card) && activeLeaderCards.size()<2) {
+        if(!activeLeaderCards.contains(card) && activeLeaderCards.size()<leaderHandSize) {
             activeLeaderCards.add(card);
             return true;
         }
@@ -190,8 +199,7 @@ public class PersonalBoard implements EndGameSubject {
      */
     public List<DevelopmentCard> getAllDevelopmentCards(){
         List<DevelopmentCard> toReturn = new ArrayList<>();
-        //get dev cards from column 1-2-3
-        for(int i = 1;i<4;i++){
+        for(int i = firstColumnIndex;i<lastColumnIndex;i++){
             deckProduction.get(i).forEach(card->toReturn.add((DevelopmentCard) card));
         }
         return toReturn;
