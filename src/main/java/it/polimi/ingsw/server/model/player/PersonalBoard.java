@@ -14,14 +14,12 @@ public class PersonalBoard {
     private List<List<ProductionCard>> deckProduction;
     private FaithTrack faithTrack;
     private Warehouse warehouse;
-    private StrongBox strongBox;
 
     public PersonalBoard() {
-        warehouse=new BasicWarehouse();
-        strongBox= new StrongBox();
-        deckProduction=new ArrayList<>();
+        warehouse = new Warehouse();
+        deckProduction = new ArrayList<>();
         //4list: 1 for basicPower and 3 for devCard
-        IntStream.range(0, 4).forEach(i->deckProduction.add(new ArrayList<>()));
+        IntStream.range(0,4).forEach(i->deckProduction.add(new ArrayList<>()));
         activeLeaderCards = new ArrayList<>();
     }
 
@@ -37,9 +35,6 @@ public class PersonalBoard {
         return activeLeaderCards;
     }
 
-    public StrongBox getStrongBox() {
-        return strongBox;
-    }
 
     /**
      * set player's faithTrack

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards;
 
+import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
@@ -22,7 +23,7 @@ class BasicPowerCardTest {
 
     @Test
     @Order(1)
-    void simplyCanDoProductionTest() {
+    void simplyCanDoProductionTest() throws NonStorableResourceException {
         desiredProductionResources.add(new OtherResource(ResourceEnum.GRAY));
         desiredProductionResources.add(new OtherResource(ResourceEnum.GRAY));
         desiredProductionResources.add(new OtherResource(ResourceEnum.YELLOW));
@@ -41,7 +42,7 @@ class BasicPowerCardTest {
 
     @Test
     @Order(2)
-    void invalidResourceForProduction(){
+    void invalidResourceForProduction() throws NonStorableResourceException {
         desiredProductionResources.add(new OtherResource(ResourceEnum.GRAY));
         desiredProductionResources.add(new OtherResource(ResourceEnum.YELLOW));
         assertFalse(card.canDoProduction(desiredProductionResources));
@@ -49,7 +50,12 @@ class BasicPowerCardTest {
         desiredProductionResources.add(new RedResource());
         desiredProductionResources.add(new OtherResource(ResourceEnum.YELLOW));
         desiredProductionResources.add(new OtherResource(ResourceEnum.YELLOW));
-        assertFalse(card.canDoProduction(desiredProductionResources));
+        try {
+            card.canDoProduction(desiredProductionResources);
+        }catch (NonStorableResourceException e)
+        {
+            assertTrue(true);
+        }
 
     }
 

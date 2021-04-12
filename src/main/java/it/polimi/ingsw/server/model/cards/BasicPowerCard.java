@@ -1,10 +1,8 @@
 package it.polimi.ingsw.server.model.cards;
 
+import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
-import it.polimi.ingsw.server.model.resources.OtherResource;
-import it.polimi.ingsw.server.model.resources.RedResource;
-import it.polimi.ingsw.server.model.resources.Resource;
-import it.polimi.ingsw.server.model.resources.WhiteResource;
+import it.polimi.ingsw.server.model.resources.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,15 +15,6 @@ public class BasicPowerCard implements ProductionCard {
     private final int outResourceSlots = 1;
     private final int choosableInResourcesSlots = 2;
     private final int choosableOutResourcesSlots = 1;
-
-    /**
-     * Resources that can't be used to activate a production
-     */
-    private final List<Resource> forbiddenProductionResources = new ArrayList<Resource>(){{
-        add(new RedResource());
-        add(new WhiteResource());
-    }};
-
 
     private List<Resource> outResources = new ArrayList<>();
 
@@ -66,21 +55,23 @@ public class BasicPowerCard implements ProductionCard {
      */
     @Override
     public List<Resource> getOutResources() {
-        return new ArrayList<Resource>(this.outResources);
+        return new ArrayList<>(this.outResources);
     }
 
     /**
      * Check if the desiredProductionResources can activate the production of the card.
      * If yes set the outResources to be produced.
+     *
      * @param desiredProductionResources from a player
      * @return true if the desiredProductionResources can activate the production of the card
+     * @throws NonStorableResourceException if desiredProductionResources contains a RedResource or a WhiteResource
      */
     @Override
-    public boolean canDoProduction(List<Resource> desiredProductionResources) {
+    public boolean canDoProduction(List<Resource> desiredProductionResources) throws NonStorableResourceException {
         if(desiredProductionResources.size() != choosableInResourcesSlots + choosableOutResourcesSlots)
             return false;
-        if(!Collections.disjoint(desiredProductionResources, forbiddenProductionResources))
-            return false;
+        if(!Collections.disjoint(desiredProductionResources, NonStorableResources.getNonStorableResources()))
+            throw new NonStorableResourceException();
         return setOutResources(desiredProductionResources);
     }
 }

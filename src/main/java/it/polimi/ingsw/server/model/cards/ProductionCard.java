@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards;
 
+import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.List;
@@ -33,5 +34,5 @@ public interface ProductionCard {
      * @param givenResources  from a player
      * @return true if the givenResources satisfy the production requirements of the card
      */
-    boolean canDoProduction(List<Resource> givenResources);
+    boolean canDoProduction(List<Resource> givenResources) throws NonStorableResourceException;
 }
