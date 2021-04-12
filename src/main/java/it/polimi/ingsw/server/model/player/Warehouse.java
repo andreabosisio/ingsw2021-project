@@ -138,6 +138,7 @@ import java.util.stream.Collectors;
          * @param slotsType the resource's type of the extra slots
          * @return true if the extra slots can be activated
          */
+        //TODO (per la view) si deve attivare per primo l'extra slot nella FirstExtraSlotZone e poi nella second
         public boolean addExtraSlots(Resource slotsType){
             for(ExtraSlots remainingExtraSlots : extraSlots){
                 if (!remainingExtraSlots.getIsActivated()){
@@ -203,7 +204,16 @@ import java.util.stream.Collectors;
         public boolean addResourceToStrongBox(Resource producedResource) throws NonStorableResourceException {
             if(NonStorableResources.getNonStorableResources().contains(producedResource))
                 throw new NonStorableResourceException();
-            return strongBox.addResource(producedResource);
+            strongBox.addResource(producedResource);
+            try {
+                return this.translatePosition(strongBox.slots.size() - 1 + startStrongBoxZone); //save the position to positionMap
+            } catch (InvalidIndexException e) {
+                e.printStackTrace();
+                return false;
+            } catch (NonAccessibleSlotException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
 
         /**
@@ -278,7 +288,7 @@ import java.util.stream.Collectors;
          * @return a list containing the copy of all the available resources
          */
         public List<Resource> getAllResources(){
-            return positionMap.keySet().stream() //forall saved positions
+            return positionMap.keySet().stream() //forall already given positions saved in positionMap
                     .filter(k -> !isInResourcesFromMarketSlotsZone(k)) //cannot take from the MarketSlotsZone
                     .map(k -> positionMap.get(k).getResource()) //take the copy of the chosen resource
                     .filter(Objects::nonNull) //take only non null resources
@@ -333,8 +343,8 @@ import java.util.stream.Collectors;
                 if (!depot.isLegal())
                     return false;
             }
-            if(!depots.stream().map(Depot::getTypeOfResources).filter(Objects::nonNull).distinct().collect(Collectors.toList()).
-                    equals(depots.stream().map(Depot::getTypeOfResources).filter(Objects::nonNull).collect(Collectors.toList()))){
+            if(!depots.stream().map(Depot::getResourceType).filter(Objects::nonNull).distinct().collect(Collectors.toList()).
+                    equals(depots.stream().map(Depot::getResourceType).filter(Objects::nonNull).collect(Collectors.toList()))){
                 return false;
             }
 

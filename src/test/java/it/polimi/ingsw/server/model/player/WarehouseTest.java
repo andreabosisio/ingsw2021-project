@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.model.resources.WhiteResource;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -305,5 +306,35 @@ class WarehouseTest {
         }catch (InvalidIndexException e){
             assertTrue(true);
         }
+    }
+
+    @Test
+    void getAllResources() throws NonStorableResourceException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+        warehouse.addResourceToStrongBox(new OtherResource(ResourceEnum.GRAY));
+        warehouse.addResourceToStrongBox(new OtherResource(ResourceEnum.PURPLE));
+        warehouse.addResourceToStrongBox(new OtherResource(ResourceEnum.GRAY));
+
+        warehouse.addResourceFromMarket(new ArrayList<Resource>(){{
+            add(new OtherResource(ResourceEnum.YELLOW));
+            add(new OtherResource(ResourceEnum.BLUE));
+            add(new OtherResource(ResourceEnum.PURPLE));
+        }});
+
+        warehouse.swap(0,6);
+        warehouse.swap(1,9);
+
+        warehouse.addExtraSlots(new OtherResource(ResourceEnum.PURPLE));
+        warehouse.swap(2, 11);
+
+        List<Resource> correctResources = new ArrayList<Resource>(){{
+            add(new OtherResource(ResourceEnum.GRAY));
+            add(new OtherResource(ResourceEnum.PURPLE));
+            add(new OtherResource(ResourceEnum.GRAY));
+            add(new OtherResource(ResourceEnum.YELLOW));
+            add(new OtherResource(ResourceEnum.BLUE));
+            add(new OtherResource(ResourceEnum.PURPLE));
+        }};
+        List<Resource> result = warehouse.getAllResources();
+        assertTrue(result.size() == correctResources.size() && result.containsAll(correctResources) && correctResources.containsAll(result));
     }
 }

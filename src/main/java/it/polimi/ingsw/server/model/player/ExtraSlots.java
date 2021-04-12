@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.Arrays;
@@ -13,7 +14,11 @@ public class ExtraSlots extends Depot{
     /**
      * Number of extra slots
      */
-    private static final int capability = 2;
+    private final int capability = 2;
+
+    private List<Resource> slots;
+
+    private Resource resourceType;
 
     private boolean isActivated;
 
@@ -32,7 +37,7 @@ public class ExtraSlots extends Depot{
      */
     public void activateExtraSlots(Resource typeOfResource){
         this.isActivated = true;
-        this.typeOfResources = typeOfResource;
+        this.resourceType = typeOfResource;
         this.slots = Arrays.asList(new Resource[capability]);
     }
 
@@ -50,6 +55,38 @@ public class ExtraSlots extends Depot{
     }
 
     /**
+     * Remove the resource stored into the slot defined by the given position.
+     *
+     * @param position of the chosen slot
+     * @return the taken Resource
+     */
+    @Override
+    public Resource takeResource(int position) {
+        Resource chosenResource = this.slots.get(position);
+        setResource(position, null);
+        return chosenResource;
+    }
+
+    @Override
+    public Resource getResourceType() {
+        return this.resourceType;
+    }
+
+    /**
+     * Get the resource stored into the slot defined by the given position without removing it.
+     *
+     * @param position of the chosen slot
+     * @return a copy of the chosen Resource if present, else return null
+     */
+    @Override
+    public Resource getResource(int position) {
+        Resource chosenResource = this.slots.get(position);
+        if(chosenResource != null)
+            return new OtherResource(chosenResource.getColor());
+        return null;
+    }
+
+    /**
      * Verify that each resource's type is the same as the fixed typeOfResources.
      *
      * @return true if each resource's type is the same as the fixed typeOfResources
@@ -57,7 +94,7 @@ public class ExtraSlots extends Depot{
     @Override
     public boolean isLegal() {
         for (Resource extraResource : slots)
-            if(extraResource != null && !extraResource.equals(typeOfResources))
+            if(extraResource != null && !extraResource.equals(resourceType))
                 return false;
         return true;
     }

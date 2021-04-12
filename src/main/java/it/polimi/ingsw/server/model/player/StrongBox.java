@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StrongBox implements ResourcesContainer{
-    List<Resource> slots = new ArrayList<>();
+    protected List<Resource> slots = new ArrayList<>();
 
     /**
      * Store the resourceToStock in the StrongBox.

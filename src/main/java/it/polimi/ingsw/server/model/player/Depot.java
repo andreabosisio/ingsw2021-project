@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.model.player;
 import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -13,11 +12,11 @@ import java.util.Objects;
  */
 public class Depot implements ResourcesContainer{
 
-    int numberOfSlots;
+    private int numberOfSlots;
 
-    Resource typeOfResources;
+    private Resource resourceType;
 
-    List<Resource> slots;
+    private List<Resource> slots;
 
     public Depot(int numberOfSlots) {
         this.numberOfSlots = numberOfSlots;
@@ -27,8 +26,8 @@ public class Depot implements ResourcesContainer{
     public Depot() {
     }
 
-    public Resource getTypeOfResources() {
-        return typeOfResources;
+    public Resource getResourceType() {
+        return resourceType;
     }
 
     /**
@@ -46,10 +45,10 @@ public class Depot implements ResourcesContainer{
     private void updateTypeResource(){
         for(Resource resource : slots)
             if(resource != null) {
-                typeOfResources = resource;
+                this.resourceType = resource;
                 return;
             }
-        typeOfResources = null;
+        resourceType = null;
     }
 
     /**
