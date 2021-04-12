@@ -33,35 +33,35 @@ import java.util.stream.Collectors;
         /**
          * Index of the position where starts the zone of the slots containing the new resources taken from the MarketTray.
          */
-        final int startResourcesFromMarketSlotsZone = 0;
-        final int availableResourcesFromMarketSlots = 4;
+        private final int startResourcesFromMarketSlotsZone = 0;
+        private final int availableResourcesFromMarketSlots = 4;
 
         /**
          * Index of the position where starts the zone of the warehouse depots.
          */
-        final int startWarehouseDepotsZone = 4;
-        final int startFirstDepot = 4;
-        final int startSecondDepot = 5;
-        final int startThirdDepot = 7;
-        final int availableDepotsSlots = 6;
+        private final int startWarehouseDepotsZone = 4;
+        private final int startFirstDepot = 4;
+        private final int startSecondDepot = 5;
+        private final int startThirdDepot = 7;
+        private final int availableDepotsSlots = 6;
 
         /**
          * Index of the position where starts the first zone of the extra slots provided by the ProductionLeaderCard.
          */
-        final int startFirstExtraSlotsZone = 10;
-        final int availableFirstExtraSlots = 2;
+        private final int startFirstExtraSlotsZone = 10;
+        private final int availableFirstExtraSlots = 2;
 
         /**
          * Index of the position where starts the second zone of the extra slots provided by the ProductionLeaderCard.
          */
-        final int startSecondExtraSlotsZone = 12;
-        final int availableSecondExtraSlots = 2;
+        private final int startSecondExtraSlotsZone = 12;
+        private final int availableSecondExtraSlots = 2;
 
 
         /**
          * Index of the position where starts the zone of the StrongBox.
          */
-        final int startStrongBoxZone = availableResourcesFromMarketSlots + availableDepotsSlots + availableFirstExtraSlots + availableSecondExtraSlots;
+        private final int startStrongBoxZone = availableResourcesFromMarketSlots + availableDepotsSlots + availableFirstExtraSlots + availableSecondExtraSlots;
 
 
         private final MarketSlots resourcesFromMarket = new MarketSlots();
@@ -88,7 +88,7 @@ import java.util.stream.Collectors;
          * @param position that represents a slot containing a Resource
          * @return true if the given position represents a slot of the described zone.
          */
-        boolean isInResourcesFromMarketSlotsZone(int position){
+        private boolean isInResourcesFromMarketSlotsZone(int position){
             return position >= startResourcesFromMarketSlotsZone && position < startWarehouseDepotsZone;
         }
 
@@ -98,7 +98,7 @@ import java.util.stream.Collectors;
          * @param position that represents a slot containing a Resource
          * @return true if the given position represents a slot of the described zone.
          */
-        boolean isInDepotsZone(int position){
+        private boolean isInDepotsZone(int position){
             return position >= startWarehouseDepotsZone && position < startFirstExtraSlotsZone;
         }
 
@@ -108,7 +108,7 @@ import java.util.stream.Collectors;
          * @param position that represents a slot containing a Resource
          * @return true if the given position represents a slot of the described zone.
          */
-        boolean isInFirstExtraSlotsZone(int position){
+        private boolean isInFirstExtraSlotsZone(int position){
             return (position >= startFirstExtraSlotsZone && position < startSecondExtraSlotsZone);
         }
 
@@ -118,7 +118,7 @@ import java.util.stream.Collectors;
          * @param position that represents a slot containing a Resource
          * @return true if the given position represents a slot of the described zone.
          */
-        boolean isInSecondExtraSlotsZone(int position){
+        private boolean isInSecondExtraSlotsZone(int position){
             return (position >= startSecondExtraSlotsZone && position < startStrongBoxZone);
         }
 
@@ -128,7 +128,7 @@ import java.util.stream.Collectors;
          * @param position that represents a slot containing a Resource
          * @return true if the given position represents a slot of the described zone.
          */
-        boolean isInStrongBoxZone(int position){
+        private boolean isInStrongBoxZone(int position){
             return position >= startStrongBoxZone;
         }
 
