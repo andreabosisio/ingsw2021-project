@@ -180,4 +180,19 @@ public class PersonalBoard implements EndGameSubject {
     public void notifyEndGameObserver() {
         endGameObserver.update();
     }
+
+
+    /**
+     * Getter of all the DevelopmentCards currently on the board
+     * @return List</DevelopmentCard> of cards on the board
+     */
+    public List<DevelopmentCard> getAllDevelopmentCards(){
+        List<DevelopmentCard> toReturn = new ArrayList<>();
+        //get dev cards from column 1-2-3
+        for(int i = 1;i<4;i++){
+            deckProduction.get(i).forEach(card->toReturn.add((DevelopmentCard) card));
+        }
+        return toReturn;
+    }
+
 }

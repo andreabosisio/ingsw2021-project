@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.model.cards;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.player.Player;
 
+import java.util.List;
+
 public class DevelopmentRequirement implements Requirement {
     private final int level;
     private final CardColorEnum color;
@@ -21,7 +23,12 @@ public class DevelopmentRequirement implements Requirement {
      */
     @Override
     public boolean isSatisfied(Player player) {
-        //TODO add verification code
-        return false;
-    }
+        //lv=0 if level is not specified
+        List<DevelopmentCard> cards = player.getPersonalBoard().getAllDevelopmentCards();
+        if(level>0) {
+            return cards.stream().filter(card -> card.getColor() == color && card.getLevel() == level).count() >= quantity;
+        }
+        else
+            return cards.stream().filter(card -> card.getColor() == color).count() >= quantity;
+        }
 }

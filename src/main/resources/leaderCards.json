@@ -51,12 +51,12 @@
       "points": 5,
       "devRequirements": [{
         "color": "YELLOW",
-        "level": 1,
+        "level": 0,
         "quantity": 2
       },
         {
           "color": "BLUE",
-          "level": 1,
+          "level": 0,
           "quantity": 1
         }],
       "transformation": "PURPLE"
@@ -67,12 +67,12 @@
       "points": 5,
       "devRequirements": [{
         "color": "GREEN",
-        "level": 1,
+        "level": 0,
         "quantity": 2
       },
         {
           "color": "PURPLE",
-          "level": 1,
+          "level": 0,
           "quantity": 1
         }],
       "transformation": "BLUE"
@@ -83,12 +83,12 @@
       "points": 5,
       "devRequirements": [{
         "color": "BLUE",
-        "level": 1,
+        "level": 0,
         "quantity": 2
       },
         {
           "color": "YELLOW",
-          "level": 1,
+          "level": 0,
           "quantity": 1
         }],
       "transformation": "GRAY"
@@ -99,12 +99,12 @@
       "points": 5,
       "devRequirements": [{
         "color": "PURPLE",
-        "level": 1,
+        "level": 0,
         "quantity": 2
       },
         {
           "color": "GREEN",
-          "level": 1,
+          "level": 0,
           "quantity": 1
         }],
       "transformation": "YELLOW"
@@ -155,11 +155,11 @@
       "points": 2,
       "devRequirements": [{
         "color": "GREEN",
-        "level": 1,
+        "level": 0,
         "quantity": 1
       },{
         "color": "BLUE",
-        "level": 1,
+        "level": 0,
         "quantity": 1
       }],
       "discount": "GRAY"
@@ -175,7 +175,7 @@
       },
         {
           "color": "PURPLE",
-          "level": 1,
+          "level": 0,
           "quantity": 1
         }],
       "discount": "BLUE"
@@ -186,12 +186,12 @@
       "points": 2,
       "devRequirements": [{
         "color": "YELLOW",
-        "level": 1,
+        "level": 0,
         "quantity": 1
       },
         {
           "color": "PURPLE",
-          "level": 1,
+          "level": 0,
           "quantity": 1
         }],
       "discount": "YELLOW"
@@ -202,12 +202,12 @@
       "points": 2,
       "devRequirements": [{
         "color": "YELLOW",
-        "level": 1,
+        "level": 0,
         "quantity": 1
       },
         {
           "color": "GREEN",
-          "level": 1,
+          "level": 0,
           "quantity": 1
         }],
       "discount": "PURPLE"
