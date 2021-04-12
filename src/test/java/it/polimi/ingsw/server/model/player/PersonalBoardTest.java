@@ -74,20 +74,15 @@ class PersonalBoardTest {
         LeaderCard leader3 = leaders.get(2);
         assertTrue(player.setLeaderHand(leaders.subList(0,2)));
 
-        //todo cast of leaderCard to ProductionCard is needed
         //check that same leader can't be placed twice
         assertTrue(player.setActivateLeader(leader1));
-        assertFalse(pBoard.setNewDevCard((ProductionCard)leader1));
         assertFalse(player.setActivateLeader(leader1));
 
         //check placement of 2 leaders
         assertTrue(player.setActivateLeader(leader2));
-        assertFalse(pBoard.setNewDevCard((ProductionCard)leader2));
         assertFalse(player.setActivateLeader(leader2));
 
         //check that you can't place 3 leaders
-        assertFalse(pBoard.setNewDevCard((ProductionCard)leader3));
         assertFalse(player.setActivateLeader(leader3));
-
     }
 }

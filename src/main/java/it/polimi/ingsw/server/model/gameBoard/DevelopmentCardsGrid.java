@@ -59,7 +59,6 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      *
      * @return the List of available devCards
      */
-    //todo should this function throw an exception when the grid is empty or return an empty array?
     public List<DevelopmentCard> getAvailableCards() {
         List<DevelopmentCard> toReturn = new ArrayList<>();
         mapByLevel.forEach((element) -> element.forEach((key, value) -> {
@@ -120,9 +119,9 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      *
      * @param developmentCard is the Development Card to remove
      */
-    // TODO: Remember to test!
+    // TODO: Remember to test! and boolean
     public void removeCard(DevelopmentCard developmentCard) {
-        mapByLevel.get(developmentCard.getLevel() - 1).get(developmentCard.getColor()).remove(developmentCard);
+        mapByLevel.get(developmentCard.getLevel()).get(developmentCard.getColor()).remove(developmentCard);
         if (hasEmptyColumn())
             notifyEndGameObserver();
     }

@@ -14,7 +14,6 @@ public class WarehouseLeaderCard extends LeaderCard{
     }
 
     /**
-     * //todo ???
      * Activate the LeaderCard for the player and !!ONLY AFTER!! add it to personalBoard list of active leaders
      * Activate the first extra slots zone that has not yet been activated.
      *

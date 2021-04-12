@@ -10,7 +10,6 @@ public abstract class LeaderCard {
     private final String ID;
     private final int points;
 
-    // TODO: Da togliere?? È una classe astratta
     LeaderCard(String ID,int points,List<Requirement> requirements){
         this.ID=ID;
         this.points=points;

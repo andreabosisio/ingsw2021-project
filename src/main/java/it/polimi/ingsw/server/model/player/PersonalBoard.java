@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+//todo fai javadoc della classe
+
 public class PersonalBoard implements EndGameSubject {
     private List<LeaderCard> activeLeaderCards;
     private List<List<ProductionCard>> deckProduction;

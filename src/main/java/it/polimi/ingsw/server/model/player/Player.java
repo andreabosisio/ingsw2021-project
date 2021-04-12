@@ -82,7 +82,6 @@ public class Player implements PlayerInterface {
     public boolean setActivateLeader(LeaderCard leaderCard) {
         if (leaderHand != null && leaderHand.contains(leaderCard)) {
             if (leaderCard.activate(this)) {
-                //todo leaderCards remove themselves? like this they don't!
                 leaderHand.remove(leaderCard);
                 return true;
             }

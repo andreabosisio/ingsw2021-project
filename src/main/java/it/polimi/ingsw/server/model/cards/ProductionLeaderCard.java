@@ -114,7 +114,6 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
      */
     @Override
     public boolean activate(Player player) {
-        //TODO (done!) place this card in PersonalBoard's deckProduction;
         player.getPersonalBoard().setNewDevCard(this);
         return super.activate(player);
     }
