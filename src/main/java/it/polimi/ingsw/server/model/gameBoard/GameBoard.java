@@ -18,31 +18,43 @@ public class GameBoard {
     private final MarketTray marketTray;
     private final List<FaithTrack> faithObservers;
     private final FirstOfFaithTrack firstOfFaithTrack;
-    private final EndGameObserver iCheckWinner;
 
     public GameBoard(List<Player> players, EndGameObserver iCheckWinner) {
         this.deckLeader = new DeckLeader();
         this.marketTray = new MarketTray();
         this.faithObservers = new ArrayList<>();
         this.firstOfFaithTrack = new FirstOfFaithTrack();
-        this.iCheckWinner = iCheckWinner;
         for (Player player : players) {
-            faithObservers.add(new FaithTrack(player, firstOfFaithTrack));
+            FaithTrack playerFaithTrack = new FaithTrack(player, firstOfFaithTrack);
+            faithObservers.add(playerFaithTrack);
+            player.getPersonalBoard().setFaithTrack(playerFaithTrack);
         }
-        this.setObserversOfFirstOfFaithTrack(faithObservers);
+        this.setObserversOfFirstOfFaithTrack(faithObservers, iCheckWinner);
+        this.setObserverOfDevCardsGrid(iCheckWinner);
     }
 
     /**
-     * This method is used by the constructor to set the list of the observer
-     * of the class FirstOfFaithTrack
+     * This method is used by the constructor to set the list of the FaithObserver and
+     * the unique EndGameObserver of the class FirstOfFaithTrack
      *
-     * @param faithObservers is
+     * @param faithObservers is the List of Faith Track that are Observer of the class FirstOfFaithTrack
+     * @param iCheckWinner   is the observer of the class FirstOfFaithTrack
      */
-    private void setObserversOfFirstOfFaithTrack(List<FaithTrack> faithObservers) {
+    private void setObserversOfFirstOfFaithTrack(List<FaithTrack> faithObservers, EndGameObserver iCheckWinner) {
         for (FaithTrack faithObserver : faithObservers) {
             firstOfFaithTrack.registerFaithObserver(faithObserver);
         }
         firstOfFaithTrack.registerEndGameObserver(iCheckWinner);
+    }
+
+    /**
+     * This method is used by the constructor to set the observer
+     * of the class DevelopmentCardsGrid
+     *
+     * @param iCheckWinner is the observer of the class FirstOfFaithTrack
+     */
+    private void setObserverOfDevCardsGrid(EndGameObserver iCheckWinner) {
+        DevelopmentCardsGrid.getDevelopmentCardsGrid().registerEndGameObserver(iCheckWinner);
     }
 
     /**
@@ -62,7 +74,8 @@ public class GameBoard {
      * This method increases the Faith Track Marker of all the Faith Track
      * except that belongs to player
      * and calls the method notifyObservers() of the FirstOfFaithTrack class.
-     * @param player is the Player who has not an increase of the Faith Track
+     *
+     * @param player        is the Player who has not an increase of the Faith Track
      * @param progressValue is the increment value
      * @return true if a tile is flipped up
      */
@@ -79,10 +92,6 @@ public class GameBoard {
     public List<LeaderCard> drawLeader() {
         return deckLeader.draw();
     }
-
-
-
-
 
 
     /**

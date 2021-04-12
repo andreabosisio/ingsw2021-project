@@ -3,17 +3,20 @@ package it.polimi.ingsw.server.model.player;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
+import it.polimi.ingsw.server.model.gameBoard.EndGameObserver;
+import it.polimi.ingsw.server.model.gameBoard.EndGameSubject;
 import it.polimi.ingsw.server.model.gameBoard.faithtrack.FaithTrack;
 import it.polimi.ingsw.server.model.resources.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class PersonalBoard {
+public class PersonalBoard implements EndGameSubject {
     private List<LeaderCard> activeLeaderCards;
     private List<List<ProductionCard>> deckProduction;
     private FaithTrack faithTrack;
     private Warehouse warehouse;
+    private EndGameObserver endGameObserver;
 
     public PersonalBoard() {
         warehouse = new Warehouse();
@@ -80,6 +83,7 @@ public class PersonalBoard {
 
     /**
      * place new DevCard at index[0] in specified position (only accept position between 1 and 3 )
+     * and calls the method notifyEndGameObserver if the Player purchased his seventh card
      * @param pos placement position
      * @param card development card to place
      * @return true if placed correctly
@@ -98,6 +102,12 @@ public class PersonalBoard {
                 }
             }
             deckProduction.get(pos).add(0, card);
+            int numberOfDevCards = 0;
+            for(int i = 1; i < 4; i++)
+                numberOfDevCards = numberOfDevCards + deckProduction.get(i).size();
+
+            if (numberOfDevCards == 7)
+                this.notifyEndGameObserver();
             return true;
         }
         return false;
@@ -139,5 +149,35 @@ public class PersonalBoard {
         //todo count all player points and return them
         //remember to count leader in deck and in activation only once!
         return 0;
+    }
+
+    /**
+     * get the number of Resources left in the supply
+     * @return the total number of Resources left
+     */
+    // TODO: Return the total number of resources
+    public int getResourcesLeft() {
+        return 0;
+    }
+
+    /**
+     * This method is used to register an observer
+     *
+     * @param endGameObserver is the object to add.
+     */
+    @Override
+    // TODO: The TurnLogic set the Observer of this class!!
+    public void registerEndGameObserver(EndGameObserver endGameObserver) {
+        this.endGameObserver = endGameObserver;
+    }
+
+    /**
+     * This method calls the method update of the Observer.
+     * Its task is to notify the class MultiPlayerCheckWinner
+     * when the Player buys is seventh Development Card.
+     */
+    @Override
+    public void notifyEndGameObserver() {
+        endGameObserver.update();
     }
 }

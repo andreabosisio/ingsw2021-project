@@ -10,8 +10,9 @@ public class DoubleFaithTrackProgressToken implements SoloActionToken {
 
     /**
      * This method increments the position of the Black Cross Token of two positions.
+     *
      * @param gameBoard is used to increment the Lorenzo's Faith Track
-     * @param lorenzo is used to access the Lorenzo's Faith Track
+     * @param lorenzo   is used to access the Lorenzo's Faith Track
      * @return false
      */
     @Override

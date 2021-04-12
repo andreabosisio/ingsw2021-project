@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.gameBoard;
 
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
+import it.polimi.ingsw.server.model.gameMode.MultiPlayerCheckWinner;
 import org.junit.jupiter.api.Test;
 
 import java.util.EnumSet;
@@ -10,6 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DevelopmentCardsGridTest {
+    EndGameObserver iCheckWinner = new MultiPlayerCheckWinner();
 
     @Test
     void getAvailableCardsTest() {
@@ -25,6 +27,7 @@ class DevelopmentCardsGridTest {
     @Test
     void hasEmptyColumnTest() {
         DevelopmentCardsGrid.getDevelopmentCardsGrid().reset();
+        DevelopmentCardsGrid.getDevelopmentCardsGrid().registerEndGameObserver(iCheckWinner);
         assertFalse(DevelopmentCardsGrid.getDevelopmentCardsGrid().hasEmptyColumn());
         //check that removing 11 out of 12 cards of the same color leaves no empty column
         for(int i = 0;i<11;i++) {

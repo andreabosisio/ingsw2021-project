@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.cards;
 
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
+import it.polimi.ingsw.server.model.gameBoard.DevelopmentCardsGrid;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -60,30 +61,36 @@ public class DevelopmentCard implements ProductionCard {
     }
 
     /**
-     * Check if the buyer can buy this card with a possible discount. If yes make the payment.
-     * @param buyer         Player who wants to buy the card
-     * @param resourcePosition      Warehouse/Strongbox positions of the chosen resources
-     * @param discount      Discount provided by the active TransformationLeaderCard cards
+     * Check if the buyer can buy this card with a possible discount. If yes make the payment
+     * and calls the method removeCard of the class DevelopmentCardGrid
+     * to remove itself from the Grid.
+     *
+     * @param buyer            Player who wants to buy the card
+     * @param resourcePosition Warehouse/Strongbox positions of the chosen resources
+     * @param discount         Discount provided by the active TransformationLeaderCard cards
      * @return true if the buyer can buy the card
      */
-    public boolean buyCard(Player buyer, List<Integer> resourcePosition, List<Resource> discount){
+    public boolean buyCard(Player buyer, List<Integer> resourcePosition, List<Resource> discount) {
         List<Resource> paymentResources = new ArrayList<>(discount);
         List<Resource> tempNeededResources = getPrice();
         //TODO Player.warehouse.... add the taken resources to paymentResources
-        if(paymentResources.size() != tempNeededResources.size())
+        if (paymentResources.size() != tempNeededResources.size())
             return false;
-        for(Resource r : paymentResources){
-            if(!tempNeededResources.contains(r)){
+        for (Resource r : paymentResources) {
+            if (!tempNeededResources.contains(r)) {
                 return false;
             }
             tempNeededResources.remove(r);
         }
+        // TODO: To check!
+        DevelopmentCardsGrid.getDevelopmentCardsGrid().removeCard(this);
         //TODO payment
         return true;
     }
 
     /**
      * Produce the resources defined in outResources.
+     *
      * @return a list that contains the resources just produced
      */
     @Override
@@ -91,12 +98,13 @@ public class DevelopmentCard implements ProductionCard {
         List<Resource> producedResources;
         producedResources = this.outResources.stream()
                 .map(r -> new OtherResource(r.getColor()))
-                    .collect(Collectors.toList());
+                .collect(Collectors.toList());
         return producedResources;
     }
 
     /**
      * Getter of the Resources required to activate the production of the card.
+     *
      * @return a new list of the Resources required to activate the production of the card
      */
     @Override
@@ -106,6 +114,7 @@ public class DevelopmentCard implements ProductionCard {
 
     /**
      * Getter of the Resources provided by the production of the card.
+     *
      * @return a new list of the Resources provided by the production of the card
      */
     @Override
@@ -115,16 +124,17 @@ public class DevelopmentCard implements ProductionCard {
 
     /**
      * Check if the givenResources satisfy the production requirements of the card.
+     *
      * @param givenResources from a player
      * @return true if the givenResources satisfy the production requirements of the card
      */
     @Override
     public boolean canDoProduction(List<Resource> givenResources) {
         List<Resource> tempNeededResources = getInResources();
-        if(givenResources.size() != tempNeededResources.size())
+        if (givenResources.size() != tempNeededResources.size())
             return false;
-        for(Resource r : givenResources){
-            if(!tempNeededResources.contains(r)){
+        for (Resource r : givenResources) {
+            if (!tempNeededResources.contains(r)) {
                 return false;
             }
             tempNeededResources.remove(r);
