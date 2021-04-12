@@ -8,7 +8,8 @@ import it.polimi.ingsw.server.model.PlayerInterface;
 public interface Lorenzo extends PlayerInterface {
 
     /**
-     * This method is overrides bla
+     * This method do the Lorenzo's turn if it is called by the class LorenzoAI,
+     * if it is called by the class LorenzoDoingNothing it does nothing.
      */
     void play();
 }
