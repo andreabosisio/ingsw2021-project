@@ -77,7 +77,7 @@ public class Player implements PlayerInterface {
      * Activate the specified leaderCard
      *
      * @param leaderCard card to activate
-     * @return true if activated succesfully and false if not owned by the player
+     * @return true if activated successfully and false if not owned by the player
      */
     public boolean setActivateLeader(LeaderCard leaderCard) {
         if (leaderHand != null && leaderHand.contains(leaderCard)) {

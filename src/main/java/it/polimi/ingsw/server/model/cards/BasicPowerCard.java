@@ -74,4 +74,14 @@ public class BasicPowerCard implements ProductionCard {
             throw new NonStorableResourceException();
         return setOutResources(desiredProductionResources);
     }
+
+    /**
+     * retunr card's victory points
+     *
+     * @return 0 points as default
+     */
+    @Override
+    public int getPoints() {
+        return 0;
+    }
 }

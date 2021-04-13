@@ -35,4 +35,10 @@ public interface ProductionCard {
      * @return true if the givenResources satisfy the production requirements of the card
      */
     boolean canDoProduction(List<Resource> givenResources) throws NonStorableResourceException;
+
+    /**
+     * retunr card's victory points
+     * @return points
+     */
+    int getPoints();
 }

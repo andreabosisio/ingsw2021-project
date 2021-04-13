@@ -21,6 +21,7 @@ import java.util.stream.IntStream;
  * Columns are lists with latest devCard at index 0
  */
 public class PersonalBoard implements EndGameSubject {
+    private final int resPointsDivider=5;
     private final int lastColumnIndex=4;
     private final int firstColumnIndex=1;
     private final int leaderHandSize = 2;
@@ -173,9 +174,14 @@ public class PersonalBoard implements EndGameSubject {
      * @return total number of points
      */
     public int getPoints(){
-        //todo count all player points and return them
-        //remember to count leader in deck and in activation only once!
-        return 0;
+       List<Integer> points = new ArrayList<>();
+       for(int i = firstColumnIndex;i<lastColumnIndex;i++){
+           deckProduction.get(i).forEach(el->points.add(el.getPoints()));
+       }
+       activeLeaderCards.forEach(c->points.add(c.getPoints()));
+       points.add(faithTrack.getVictoryPoints());
+       points.add((warehouse.getAllResources().size()/resPointsDivider));
+       return points.stream().reduce(0, Integer::sum);
     }
 
     /**

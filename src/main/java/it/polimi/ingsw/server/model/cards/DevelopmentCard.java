@@ -52,6 +52,7 @@ public class DevelopmentCard implements ProductionCard {
     /**
      * @return the victory points of the card
      */
+    @Override
     public int getPoints() {
         return points;
     }
