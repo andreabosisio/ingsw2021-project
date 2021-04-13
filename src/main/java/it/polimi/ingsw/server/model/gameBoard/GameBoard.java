@@ -14,23 +14,85 @@ import java.util.*;
  * a list of all the Fait Track owned by the players.
  */
 public class GameBoard {
-    private final DeckLeader deckLeader;
-    private final MarketTray marketTray;
-    private final List<FaithTrack> faithObservers;
-    private final FirstOfFaithTrack firstOfFaithTrack;
+    private DeckLeader deckLeader;
+    private MarketTray marketTray;
+    private DevelopmentCardsGrid developmentCardsGrid;
+    private List<FaithTrack> faithObservers;
+    private FirstOfFaithTrack firstOfFaithTrack;
+    private static GameBoard instance = null;
 
-    public GameBoard(List<Player> players, EndGameObserver iCheckWinner) {
+    /**
+     * reset for testing being a singleton class
+     */
+    public void reset() {
         this.deckLeader = new DeckLeader();
         this.marketTray = new MarketTray();
+        this.developmentCardsGrid = new DevelopmentCardsGrid();
         this.faithObservers = new ArrayList<>();
         this.firstOfFaithTrack = new FirstOfFaithTrack();
-        for (Player player : players) {
-            FaithTrack playerFaithTrack = new FaithTrack(player, firstOfFaithTrack);
-            faithObservers.add(playerFaithTrack);
-            player.getPersonalBoard().setFaithTrack(playerFaithTrack);
+    }
+
+    /**
+     * Create an instance of GameBoard or return the existing one
+     *
+     * @return the only existing instance of GameBoard
+     */
+    public static synchronized GameBoard getGameBoard() {
+        if (instance == null) {
+            instance = new GameBoard();
         }
-        this.setObserversOfFirstOfFaithTrack(faithObservers, iCheckWinner);
-        this.setObserverOfDevCardsGrid(iCheckWinner);
+        return instance;
+    }
+
+    private GameBoard() {
+        this.deckLeader = new DeckLeader();
+        this.marketTray = new MarketTray();
+        this.developmentCardsGrid = new DevelopmentCardsGrid();
+        this.faithObservers = new ArrayList<>();
+        this.firstOfFaithTrack = new FirstOfFaithTrack();
+    }
+
+    /**
+     * Get method that
+     *
+     * @return the deck of Leader Cards
+     */
+    public DeckLeader getDeckLeader() {
+        return deckLeader;
+    }
+
+    /**
+     * Get method that
+     *
+     * @return the Market Tray
+     */
+    public MarketTray getMarketTray() {
+        return marketTray;
+    }
+
+    /**
+     * Get method that
+     *
+     * @return the Development Cards Grid
+     */
+    public DevelopmentCardsGrid getDevelopmentCardsGrid() {
+        return developmentCardsGrid;
+    }
+
+    /**
+     * Set method that creates the list of the Faith Tracks, owned by the Players
+     *
+     * @param players is the list of Players that are in the Game
+     */
+    public boolean createFaithTracks(List<Player> players) {
+        if (players.size() > 0) {
+            for (Player player : players) {
+                FaithTrack playerFaithTrack = new FaithTrack(player, firstOfFaithTrack);
+                faithObservers.add(playerFaithTrack);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -40,7 +102,7 @@ public class GameBoard {
      * @param faithObservers is the List of Faith Track that are Observer of the class FirstOfFaithTrack
      * @param iCheckWinner   is the observer of the class FirstOfFaithTrack
      */
-    private void setObserversOfFirstOfFaithTrack(List<FaithTrack> faithObservers, EndGameObserver iCheckWinner) {
+    public void setObserversOfFirstOfFaithTrack(List<FaithTrack> faithObservers, EndGameObserver iCheckWinner) {
         for (FaithTrack faithObserver : faithObservers) {
             firstOfFaithTrack.registerFaithObserver(faithObserver);
         }
@@ -53,8 +115,16 @@ public class GameBoard {
      *
      * @param iCheckWinner is the observer of the class FirstOfFaithTrack
      */
-    private void setObserverOfDevCardsGrid(EndGameObserver iCheckWinner) {
-        DevelopmentCardsGrid.getDevelopmentCardsGrid().registerEndGameObserver(iCheckWinner);
+    public void setObserverOfDevCardsGrid(EndGameObserver iCheckWinner) {
+        developmentCardsGrid.registerEndGameObserver(iCheckWinner);
+    }
+
+    /**
+     * This method is used by the class GameMode to create the Lorenzo's Faith Track
+     * and to add to the list faithObservers
+     */
+    public void createLorenzoFaithTrack(PlayerInterface lorenzo) {
+        faithObservers.add(new FaithTrack(lorenzo, this.firstOfFaithTrack));
     }
 
     /**
@@ -93,18 +163,17 @@ public class GameBoard {
         return deckLeader.draw();
     }
 
-
     /**
-     * Method used for testing
+     * Get method that
      *
-     * @return the reference of the FirstOfFaithTrack
+     * @return the list of all the Faith Tracks
      */
-    public FirstOfFaithTrack getFirstOfFaithTrack() {
-        return firstOfFaithTrack;
+    public List<FaithTrack> getFaithTracks() {
+        return this.faithObservers;
     }
 
     /**
-     * Method used for testing
+     * Method that return the Faith Track of the Player
      *
      * @param player in input
      * @return the Faith Track owned by player

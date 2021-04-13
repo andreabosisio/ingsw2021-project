@@ -13,14 +13,13 @@ public class SingleFaithTrackProgressToken implements SoloActionToken {
      * This is the only do Action method that return true,
      * in fact Lorenzo must shuffle the deck of Solo Action Tokens.
      *
-     * @param gameBoard is used to increment the Lorenzo's Faith Track
      * @param lorenzo   is used to access the Lorenzo's Faith Track
      * @return true
      */
     @Override
-    public boolean doAction(GameBoard gameBoard, Lorenzo lorenzo) {
+    public boolean doAction(Lorenzo lorenzo) {
         int faithTrackProgress = 1;
-        gameBoard.faithProgress(lorenzo, faithTrackProgress);
+        GameBoard.getGameBoard().faithProgress(lorenzo, faithTrackProgress);
         return true;
     }
 }

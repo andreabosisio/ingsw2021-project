@@ -23,6 +23,8 @@ public interface EndGameObserver {
      * This method is called by the class PersonalBoard
      * and the class DevelopmentCardsGrid.
      * It's task is to set true the attribute gameOver.
+     *
+     * @param lorenzoWin is set true if Lorenzo is the winner, false otherwise
      */
-    void update();
+    void update(boolean lorenzoWin);
 }

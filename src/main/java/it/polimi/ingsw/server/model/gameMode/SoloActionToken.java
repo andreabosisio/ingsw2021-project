@@ -9,9 +9,8 @@ public interface SoloActionToken {
 
     /**
      * Method that implements the action of the token
-     * @param gameBoard is used to increment the Lorenzo's Faith Track
      * @param lorenzo is used to access the Lorenzo's Faith Track
      * @return true if the action is did by the class SingleFaithTrackProgress
      */
-    boolean doAction(GameBoard gameBoard, Lorenzo lorenzo);
+    boolean doAction(Lorenzo lorenzo);
 }

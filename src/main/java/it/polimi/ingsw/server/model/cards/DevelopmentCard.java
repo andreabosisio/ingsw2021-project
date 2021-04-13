@@ -4,7 +4,7 @@ import it.polimi.ingsw.exceptions.EmptySlotException;
 import it.polimi.ingsw.exceptions.InvalidIndexException;
 import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
-import it.polimi.ingsw.server.model.gameBoard.DevelopmentCardsGrid;
+import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -87,7 +87,7 @@ public class DevelopmentCard implements ProductionCard {
             tempNeededResources.remove(r);
         }
         // TODO: To check!
-        DevelopmentCardsGrid.getDevelopmentCardsGrid().removeCard(this);
+        GameBoard.getGameBoard().getDevelopmentCardsGrid().removeCard(this);
 
         //payment
         buyer.getPersonalBoard().getWarehouse().takeResources(resourcePosition);

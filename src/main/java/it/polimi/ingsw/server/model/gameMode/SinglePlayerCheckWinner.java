@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.gameMode;
 
 import it.polimi.ingsw.server.model.PlayerInterface;
+import it.polimi.ingsw.server.model.player.Player;
 
 import java.util.List;
 
@@ -14,9 +15,11 @@ public class SinglePlayerCheckWinner implements ICheckWinner {
     private PlayerInterface winner = null;
     private boolean gameOver = false;
     private final Lorenzo lorenzo;
+    private final PlayerInterface player;
 
-    public SinglePlayerCheckWinner(Lorenzo lorenzo) {
+    public SinglePlayerCheckWinner(Lorenzo lorenzo, PlayerInterface player) {
         this.lorenzo = lorenzo;
+        this.player = player;
     }
 
     /**
@@ -37,12 +40,17 @@ public class SinglePlayerCheckWinner implements ICheckWinner {
     /**
      * This method is called by the class DevelopmentCardsGrid
      * when all the Development Cards of a certain color are no longer available
-     * (the cards has been bought or discarded).
+     * (the cards has been bought or discarded) and it is called by the class PersonalBoard
      * Set the attribute winner with Lorenzo and set the attribute gameOver true.
+     *
+     * @param lorenzoWin is set true if Lorenzo is the winner, false otherwise
      */
     @Override
-    public void update() {
-        winner = lorenzo;
+    public void update(boolean lorenzoWin) {
+        if (lorenzoWin)
+            winner = lorenzo;
+        else
+            winner = player;
         gameOver = true;
     }
 
@@ -64,7 +72,7 @@ public class SinglePlayerCheckWinner implements ICheckWinner {
      * @return the Winner: the Player or Lorenzo
      */
     @Override
-    public PlayerInterface getWinner(List<PlayerInterface> players) {
+    public PlayerInterface getWinner(List<Player> players) {
         return winner;
     }
 }

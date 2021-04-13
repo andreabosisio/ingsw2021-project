@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.gameMode;
 
 import it.polimi.ingsw.server.model.PlayerInterface;
+import it.polimi.ingsw.server.model.player.Player;
 
 import java.util.List;
 
@@ -30,10 +31,13 @@ public class MultiPlayerCheckWinner implements ICheckWinner {
      * This method is called by the class PersonalBoard
      * when a Player buys his seventh Development Card.
      * Set the attribute gameOver true.
+     *
+     * @param lorenzoWin is set true if Lorenzo is the winner, false otherwise.
      */
     @Override
-    public void update() {
-        gameOver = true;
+    public void update(boolean lorenzoWin) {
+        if (!lorenzoWin)
+            gameOver = true;
     }
 
     /**
@@ -55,16 +59,17 @@ public class MultiPlayerCheckWinner implements ICheckWinner {
      */
     @Override
     // TODO: Remember to test!
-    public PlayerInterface getWinner(List<PlayerInterface> players) {
+    public PlayerInterface getWinner(List<Player> players) {
         int maxPoints = 0;
         PlayerInterface winner = null;
 
-        for (PlayerInterface player : players) {
-            if (player.getPersonalBoard().getPoints() > maxPoints) {
-                maxPoints = player.getPersonalBoard().getPoints();
+        for (Player player : players) {
+            if (player.getPersonalBoard().getPoints(player) > maxPoints) {
+                maxPoints = player.getPersonalBoard().getPoints(player);
                 winner = player;
-            } else if (maxPoints != 0 && player.getPersonalBoard().getPoints() == maxPoints &&
-                    player.getPersonalBoard().getResourcesLeft() > winner.getPersonalBoard().getResourcesLeft())
+            } else if (maxPoints != 0 && player.getPersonalBoard().getPoints(player) == maxPoints &&
+                    player.getPersonalBoard().getWarehouse().getAllResources().size() >
+                            winner.getPersonalBoard().getWarehouse().getAllResources().size())
                 winner = player;
         }
         return winner;

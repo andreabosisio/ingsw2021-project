@@ -10,14 +10,13 @@ import java.util.List;
  * This class represents the Lorenzo Player.
  */
 public class LorenzoAI implements Lorenzo{
-    private final GameBoard gameBoard;
     private final List<SoloActionToken> soloActionTokens;
     int tokensDeckIndex = 0;
 
-    public LorenzoAI(GameBoard gameBoard) {
+    public LorenzoAI() {
         TokensGenerator tokensGenerator = new TokensGenerator();
-        this.gameBoard = gameBoard;
         soloActionTokens = tokensGenerator.generateSoloActionTokens();
+        GameBoard.getGameBoard().createLorenzoFaithTrack(this);
     }
 
     /**
@@ -27,7 +26,7 @@ public class LorenzoAI implements Lorenzo{
      */
     @Override
     public void play() {
-        if (soloActionTokens.get(tokensDeckIndex).doAction(gameBoard, this)) {
+        if (soloActionTokens.get(tokensDeckIndex).doAction(this)) {
             tokensDeckIndex = 0;
             this.shuffle();
         } else {

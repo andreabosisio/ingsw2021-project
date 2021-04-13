@@ -18,14 +18,13 @@ public class DiscardDevCardsToken implements SoloActionToken {
     /**
      * This method implements the action of the Token
      *
-     * @param gameBoard is not used
      * @param lorenzo   is not used
      * @return false
      */
     @Override
-    public boolean doAction(GameBoard gameBoard, Lorenzo lorenzo) {
-        if (DevelopmentCardsGrid.getDevelopmentCardsGrid().removeCardByColor(this.color))
-            DevelopmentCardsGrid.getDevelopmentCardsGrid().removeCardByColor(this.color);
+    public boolean doAction(Lorenzo lorenzo) {
+        if (GameBoard.getGameBoard().getDevelopmentCardsGrid().removeCardByColor(this.color))
+            GameBoard.getGameBoard().getDevelopmentCardsGrid().removeCardByColor(this.color);
         return false;
     }
 

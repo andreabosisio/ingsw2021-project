@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
+import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +99,7 @@ public class Player implements PlayerInterface {
     public boolean discardLeader(LeaderCard leaderCard) {
         if (leaderHand.contains(leaderCard)) {
             leaderHand.remove(leaderCard);
-            personalBoard.getFaithTrack().faithTrackProgress(1);
+            GameBoard.getGameBoard().faithProgress(this,1);
             return true;
         }
         return false;

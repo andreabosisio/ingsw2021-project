@@ -13,11 +13,12 @@ public class DevelopmentRequirement implements Requirement {
     public DevelopmentRequirement(int level, CardColorEnum color, int quantity) {
         this.level = level;
         this.color = color;
-        this.quantity=quantity;
+        this.quantity = quantity;
     }
 
     /**
      * Check if the condition is satisfied by the player
+     *
      * @param player player to check
      * @return true if satisfied
      */
@@ -25,10 +26,9 @@ public class DevelopmentRequirement implements Requirement {
     public boolean isSatisfied(Player player) {
         //lv=0 if level is not specified
         List<DevelopmentCard> cards = player.getPersonalBoard().getAllDevelopmentCards();
-        if(level>0) {
+        if (level > 0) {
             return cards.stream().filter(card -> card.getColor() == color && card.getLevel() == level).count() >= quantity;
-        }
-        else
+        } else
             return cards.stream().filter(card -> card.getColor() == color).count() >= quantity;
-        }
+    }
 }

@@ -1,6 +1,10 @@
 package it.polimi.ingsw.server.model.gameMode;
 
+import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
+import it.polimi.ingsw.server.model.player.Player;
+
+import java.util.List;
 
 /**
  * The task of this class is to set the correct Strategy.
@@ -12,10 +16,10 @@ public class GameMode {
     private final Lorenzo lorenzo;
     private final ICheckWinner iCheckWinner;
 
-    public GameMode(boolean singlePlayer, GameBoard gameBoard) {
-        if (singlePlayer) {
-            lorenzo = new LorenzoAI(gameBoard);
-            iCheckWinner = new SinglePlayerCheckWinner(lorenzo);
+    public GameMode(List<Player> players) {
+        if (players.size() == 1) {
+            lorenzo = new LorenzoAI();
+            iCheckWinner = new SinglePlayerCheckWinner(lorenzo, players.get(0));
         } else {
             lorenzo = new LorenzoDoingNothing();
             iCheckWinner = new MultiPlayerCheckWinner();

@@ -6,9 +6,8 @@ import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.gameBoard.faithtrack.FaithTrack;
 import it.polimi.ingsw.server.model.gameBoard.faithtrack.FirstOfFaithTrack;
-import it.polimi.ingsw.server.model.gameMode.ICheckWinner;
-import it.polimi.ingsw.server.model.gameMode.MultiPlayerCheckWinner;
 import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.turn.TurnLogic;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -100,86 +99,89 @@ class PersonalBoardTest {
 
     @Test
     void getEmptyBoardPointsTest() {
+        List<Player> players = new ArrayList<>();
         Player player = new Player("Adriano");
+        players.add(player);
         FirstOfFaithTrack first = new FirstOfFaithTrack();
-        FaithTrack faithTrack = new FaithTrack(player,first);
-        assertTrue(player.getPersonalBoard().setFaithTrack(faithTrack));
+        assertTrue(GameBoard.getGameBoard().createFaithTracks(players));
         //check empty board has 0 points
-        assertEquals(0,player.getPersonalBoard().getPoints());
+        assertEquals(0,player.getPersonalBoard().getPoints(player));
 
     }
+
     @Test
     void getLeaderAndWarehousePointsTest() throws NonStorableResourceException {
+        List<Player> players = new ArrayList<>();
         Player player = new Player("Miguel");
+        players.add(player);
         FirstOfFaithTrack first = new FirstOfFaithTrack();
         FaithTrack faithTrack = new FaithTrack(player,first);
         //check that only activated leaderCards have their points counted
         CardsGenerator cardsGenerator = new CardsGenerator();
         List<LeaderCard> leaders = cardsGenerator.generateLeaderCards().subList(0,2);
         List<LeaderCard> savedLeaders = new ArrayList<>(leaders);
-        assertTrue(player.getPersonalBoard().setFaithTrack(faithTrack));
+        assertTrue(GameBoard.getGameBoard().createFaithTracks(players));
         assertTrue(player.setLeaderHand(leaders));
         assertTrue(player.setActivateLeader(leaders.get(0)));
         //check activeLeader points = player points
-        assertEquals(savedLeaders.get(0).getPoints(),player.getPersonalBoard().getPoints());
+        assertEquals(savedLeaders.get(0).getPoints(),player.getPersonalBoard().getPoints(player));
         assertTrue(player.setActivateLeader(leaders.get(0)));
         //check activeLeaders points = player points
         int expectedPoints = savedLeaders.stream().mapToInt(LeaderCard::getPoints).sum();
-        assertEquals(expectedPoints,player.getPersonalBoard().getPoints());
+        assertEquals(expectedPoints,player.getPersonalBoard().getPoints(player));
         //check that 5 resources equals 1 point
         for(int i= 0;i<4;i++) {
             assertTrue(player.getPersonalBoard().getWarehouse().addResourceToStrongBox(new OtherResource(ResourceEnum.GRAY)));
-            assertEquals(expectedPoints, player.getPersonalBoard().getPoints());
+            assertEquals(expectedPoints, player.getPersonalBoard().getPoints(player));
         }
         assertTrue(player.getPersonalBoard().getWarehouse().addResourceToStrongBox(new OtherResource(ResourceEnum.GRAY)));
         Warehouse w = player.getPersonalBoard().getWarehouse();
-        assertEquals(expectedPoints+1, player.getPersonalBoard().getPoints());
+        assertEquals(expectedPoints+1, player.getPersonalBoard().getPoints(player));
         //check that 10 resources equals 2 points
         for(int i= 0;i<4;i++) {
             assertTrue(player.getPersonalBoard().getWarehouse().addResourceToStrongBox(new OtherResource(ResourceEnum.PURPLE)));
-            assertEquals(expectedPoints+1, player.getPersonalBoard().getPoints());
+            assertEquals(expectedPoints+1, player.getPersonalBoard().getPoints(player));
         }
         assertTrue(player.getPersonalBoard().getWarehouse().addResourceToStrongBox(new OtherResource(ResourceEnum.PURPLE)));
-        assertEquals(expectedPoints+2, player.getPersonalBoard().getPoints());
+        assertEquals(expectedPoints+2, player.getPersonalBoard().getPoints(player));
     }
 
     @Test
     void getPointsFromEverythingTest() throws NonStorableResourceException {
         List<Player> players = new ArrayList<>();
-        ICheckWinner iCheckWinner = new MultiPlayerCheckWinner();
+        GameBoard.getGameBoard().reset();
         Player player = new Player("Mirko");
         players.add(player);
-        GameBoard gameBoard = new GameBoard(players, iCheckWinner);
+        TurnLogic turnLogic = new TurnLogic(players);
 
-        player.getPersonalBoard().getFaithTrack().faithTrackProgress(3);
-        assertEquals(1,player.getPersonalBoard().getPoints());
+        GameBoard.getGameBoard().faithProgress(player, 3);
+        assertEquals(1,player.getPersonalBoard().getPoints(player));
 
         //check with only faithTrack
-        player.getPersonalBoard().getFaithTrack().faithTrackProgress(3);
-        assertEquals(2,player.getPersonalBoard().getPoints());
+        GameBoard.getGameBoard().faithProgress(player, 3);
+        assertEquals(2,player.getPersonalBoard().getPoints(player));
 
         //check with faithTrack and popeTile
-        gameBoard.faithProgress(player,2);
-        assertEquals(4,player.getPersonalBoard().getPoints());
+        GameBoard.getGameBoard().faithProgress(player, 2);
+        assertEquals(4,player.getPersonalBoard().getPoints(player));
 
         //check with devCard added
         CardsGenerator generator = new CardsGenerator();
         DevelopmentCard dev = generator.generateDevelopmentCards().get(43);
         assertTrue(player.getPersonalBoard().setNewDevCard(1,dev));
-        assertEquals(4+dev.getPoints(),player.getPersonalBoard().getPoints());
+        assertEquals(4+dev.getPoints(),player.getPersonalBoard().getPoints(player));
 
         //check with leaderCard added
         List<LeaderCard> leaders = generator.generateLeaderCards().subList(0,2);
         List<LeaderCard> savedLeaders = new ArrayList<>(leaders);
         assertTrue(player.setLeaderHand(leaders));
         assertTrue(player.setActivateLeader(leaders.get(0)));
-        assertEquals(4+dev.getPoints()+savedLeaders.get(0).getPoints(),player.getPersonalBoard().getPoints());
+        assertEquals(4+dev.getPoints()+savedLeaders.get(0).getPoints(),player.getPersonalBoard().getPoints(player));
 
         //check with warehouse added (4 from faith,1 from warehouse,4 from devCard,3 from leaderCard)
         for(int i= 0;i<5;i++) {
             assertTrue(player.getPersonalBoard().getWarehouse().addResourceToStrongBox(new OtherResource(ResourceEnum.GRAY)));
         }
-        assertEquals(4+1+dev.getPoints() + savedLeaders.get(0).getPoints(),player.getPersonalBoard().getPoints());
+        assertEquals(4+1+dev.getPoints() + savedLeaders.get(0).getPoints(),player.getPersonalBoard().getPoints(player));
     }
-
 }

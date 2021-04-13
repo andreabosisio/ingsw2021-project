@@ -72,5 +72,3 @@ public abstract class LeaderCard {
         return player.getPersonalBoard().addToActiveLeaders(this);
     }
 }
-
-
