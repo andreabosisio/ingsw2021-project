@@ -3,15 +3,17 @@ package it.polimi.ingsw.server.model.gameBoard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.gameMode.MultiPlayerCheckWinner;
+import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.turn.TurnLogic;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DevelopmentCardsGridTest {
-    EndGameObserver iCheckWinner = new MultiPlayerCheckWinner();
 
     @Test
     void getAvailableCardsTest() {
@@ -27,7 +29,9 @@ class DevelopmentCardsGridTest {
     @Test
     void hasEmptyColumnTest() {
         GameBoard.getGameBoard().reset();
-        GameBoard.getGameBoard().getDevelopmentCardsGrid().registerEndGameObserver(iCheckWinner);
+        List<Player> players = new ArrayList<>();
+        players.add(new Player("Bob"));
+        TurnLogic turnLogic = new TurnLogic(players);
         assertFalse(GameBoard.getGameBoard().getDevelopmentCardsGrid().hasEmptyColumn());
         //check that removing 11 out of 12 cards of the same color leaves no empty column
         for(int i = 0;i<11;i++) {

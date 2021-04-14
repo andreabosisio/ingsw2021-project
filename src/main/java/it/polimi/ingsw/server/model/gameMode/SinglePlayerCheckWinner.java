@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server.model.gameMode;
 
 import it.polimi.ingsw.server.model.PlayerInterface;
-import it.polimi.ingsw.server.model.player.Player;
-
-import java.util.List;
 
 /**
  * This class contains the methods to check the End of The Game and
@@ -67,12 +64,10 @@ public class SinglePlayerCheckWinner implements ICheckWinner {
     /**
      * Method that decides the Winner of the Game.
      *
-     * @param players is the List that contains the unique Player
-     *                that participates in the Game
      * @return the Winner: the Player or Lorenzo
      */
     @Override
-    public PlayerInterface getWinner(List<Player> players) {
+    public PlayerInterface getWinner() {
         return winner;
     }
 }

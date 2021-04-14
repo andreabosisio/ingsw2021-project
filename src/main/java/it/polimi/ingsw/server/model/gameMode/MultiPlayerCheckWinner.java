@@ -13,6 +13,11 @@ import java.util.List;
  */
 public class MultiPlayerCheckWinner implements ICheckWinner {
     private boolean gameOver = false;
+    private final List<Player> players;
+
+    public MultiPlayerCheckWinner(List<Player> players) {
+        this.players = players;
+    }
 
     /**
      * This method is called by the class FirstOfFaithTrack
@@ -54,12 +59,11 @@ public class MultiPlayerCheckWinner implements ICheckWinner {
      * Method that collects the Victory Points of all the players
      * and declares the Winner.
      *
-     * @param players is the List of the Players who participated in the Game
      * @return the Winner
      */
     @Override
     // TODO: Remember to test!
-    public PlayerInterface getWinner(List<Player> players) {
+    public PlayerInterface getWinner() {
         int maxPoints = 0;
         PlayerInterface winner = null;
 

@@ -2,9 +2,6 @@ package it.polimi.ingsw.server.model.gameMode;
 
 import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.gameBoard.EndGameObserver;
-import it.polimi.ingsw.server.model.player.Player;
-
-import java.util.List;
 
 /**
  * Interface which allows to choose at runTime the correct methods that
@@ -21,8 +18,8 @@ public interface ICheckWinner extends EndGameObserver {
 
     /**
      * Method that decides the Winner of the Game.
-     * @param players is the List of the Players who participated in the Game
+     *
      * @return the Winner
      */
-    PlayerInterface getWinner(List<Player> players);
+    PlayerInterface getWinner();
 }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.model.gameMode;
 
-import it.polimi.ingsw.server.model.PlayerInterface;
-import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 
 import java.util.List;
@@ -22,7 +20,7 @@ public class GameMode {
             iCheckWinner = new SinglePlayerCheckWinner(lorenzo, players.get(0));
         } else {
             lorenzo = new LorenzoDoingNothing();
-            iCheckWinner = new MultiPlayerCheckWinner();
+            iCheckWinner = new MultiPlayerCheckWinner(players);
         }
     }
 

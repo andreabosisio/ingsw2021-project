@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.gameBoard;
 
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,8 +18,13 @@ public class FaithTrackTest {
     private final int endOfTheFaithTrack = 24;
 
     @Test
-    void testOnePlayerTile1False() {
+    @BeforeEach
+    void resetOfTheGameBoard() {
         GameBoard.getGameBoard().reset();
+    }
+
+    @Test
+    void testOnePlayerTile1False() {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
         TurnLogic turnLogic = new TurnLogic(players);
@@ -29,7 +35,6 @@ public class FaithTrackTest {
 
     @Test
     void testOnePlayerTile1True() {
-        GameBoard.getGameBoard().reset();
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
         TurnLogic turnLogic = new TurnLogic(players);
@@ -41,7 +46,6 @@ public class FaithTrackTest {
 
     @Test
     void testOnePlayerWithAllThePopeTileFlippedUp() {
-        GameBoard.getGameBoard().reset();
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
         TurnLogic turnLogic = new TurnLogic(players);
@@ -61,7 +65,6 @@ public class FaithTrackTest {
 
     @Test
     void testTwoTileTrueOfFourPlayers() {
-        GameBoard.getGameBoard().reset();
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
         players.add(new Player("Monkey"));
@@ -89,7 +92,6 @@ public class FaithTrackTest {
 
     @Test
     void testOneTimeFlippedUpTheSameTile() {
-        GameBoard.getGameBoard().reset();
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
         players.add(new Player("Monkey"));
@@ -112,7 +114,6 @@ public class FaithTrackTest {
 
     @Test
     void testAllPlayersExceptOneProgress() {
-        GameBoard.getGameBoard().reset();
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
         players.add(new Player("Monkey"));
