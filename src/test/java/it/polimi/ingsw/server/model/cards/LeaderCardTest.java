@@ -5,7 +5,10 @@ import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.turn.TurnLogic;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,5 +48,45 @@ class LeaderCardTest {
         assertTrue(player.getPersonalBoard().getWarehouse().addResourceToStrongBox(new OtherResource(ResourceEnum.BLUE)));
         assertTrue(leaderWithDevRequirement.canBeActivated(player));
         assertTrue(leaderWithResRequirement.canBeActivated(player));
+    }
+
+    @Test
+    void activateAllTypesOfLeaderCardTest() throws NonStorableResourceException {
+        Player player1 = new Player("Aldo");
+        Player player2 = new Player("Giovanni");
+        List<LeaderCard> leaders = new CardsGenerator().generateLeaderCards();
+        List<LeaderCard> leaderHand1 = new ArrayList<>();
+        leaderHand1.add(leaders.get(0));//req lev 2 Green
+        leaderHand1.add(leaders.get(5));//req 1Green&1Purple
+        List<LeaderCard> leaderHand2 = new ArrayList<>();
+        leaderHand2.add(leaders.get(9));//req 5 blue res
+        leaderHand2.add(leaders.get(13));//req 1Blue&1Purple
+        player1.setLeaderHand(leaderHand1);
+        player2.setLeaderHand(leaderHand2);
+        //check that no card can be activated
+        assertFalse(player1.getLeaderHand().get(0).canBeActivated(player1));
+        assertFalse(player1.getLeaderHand().get(1).canBeActivated(player1));
+        assertFalse(player2.getLeaderHand().get(0).canBeActivated(player1));
+        assertFalse(player2.getLeaderHand().get(1).canBeActivated(player1));
+        //prepare all requirements
+        assertTrue(player1.getPersonalBoard().setNewDevCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
+        assertTrue(player1.getPersonalBoard().setNewDevCard(2,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.PURPLE).collect(Collectors.toList()).get(0)));
+        assertTrue(player1.getPersonalBoard().setNewDevCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==2).filter(c->c.getColor()==CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
+        assertTrue(player2.getPersonalBoard().setNewDevCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.BLUE).collect(Collectors.toList()).get(0)));
+        assertTrue(player2.getPersonalBoard().setNewDevCard(2,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.PURPLE).collect(Collectors.toList()).get(0)));
+        for(int i = 0;i<5;i++){
+            assertTrue(player2.getPersonalBoard().getWarehouse().addResourceToStrongBox(new OtherResource(ResourceEnum.BLUE)));
+        }
+        //check that all cards can now be activated
+        assertTrue(player1.getLeaderHand().get(0).canBeActivated(player1));
+        assertTrue(player1.getLeaderHand().get(1).canBeActivated(player1));
+        assertTrue(player2.getLeaderHand().get(0).canBeActivated(player2));
+        assertTrue(player2.getLeaderHand().get(1).canBeActivated(player2));
+        assertTrue(player1.setActivateLeader(leaderHand1.get(0)));
+        assertTrue(player1.setActivateLeader(leaderHand1.get(1)));
+        assertTrue(player2.setActivateLeader(leaderHand2.get(0)));
+        assertTrue(player2.setActivateLeader(leaderHand2.get(1)));
+        assertEquals(2,player1.getPersonalBoard().getActiveLeaderCards().size());
+        assertEquals(2,player2.getPersonalBoard().getActiveLeaderCards().size());
     }
 }

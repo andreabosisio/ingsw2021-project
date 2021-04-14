@@ -35,7 +35,7 @@ public class Player implements PlayerInterface {
      */
     public boolean setLeaderHand(List<LeaderCard> leaderHand) {
         if (leaderHand.size() == 2) {
-            this.leaderHand = leaderHand;
+            this.leaderHand = new ArrayList<>(leaderHand);
             return true;
         }
         return false;

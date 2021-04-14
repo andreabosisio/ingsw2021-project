@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.server.model.cards.BasicPowerCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
@@ -36,6 +37,7 @@ public class PersonalBoard implements EndGameSubject {
         deckProduction = new ArrayList<>();
         IntStream.range(0, lastColumnIndex).forEach(i -> deckProduction.add(new ArrayList<>()));
         activeLeaderCards = new ArrayList<>();
+        deckProduction.get(0).add(new BasicPowerCard());
     }
 
     public Warehouse getWarehouse() {
@@ -49,19 +51,6 @@ public class PersonalBoard implements EndGameSubject {
      */
     public List<LeaderCard> getActiveLeaderCards() {
         return activeLeaderCards;
-    }
-
-    public List<ProductionCard> getAvailableProduction() {
-        //todo return productioncard that can be activated + JAVADOC
-        //fixme right now it returns highest level of every column for testing(including LeaderCards)(safe to change: all tests with this method have been removed)
-        List<ProductionCard> toReturn = new ArrayList<>();
-        deckProduction.stream().filter(el -> el.size() > 0).forEach(element -> toReturn.add(element.get(0)));
-        return toReturn;
-    }
-
-    public List<List<Resource>> getResForChosenProduction(int chosenProductionID) {
-        //todo return res da warehouse/deposit + JAVADOC
-        return new ArrayList<>();
     }
 
     /**

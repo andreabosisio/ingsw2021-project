@@ -76,7 +76,6 @@ class PersonalBoardTest {
     void setLeaderCardTest() {
         CardsGenerator generator = new CardsGenerator();
         Player player = new Player("pepe");
-        PersonalBoard pBoard = player.getPersonalBoard();
         List<LeaderCard> leaders = generator.generateLeaderCards().stream().filter(l->l instanceof ProductionLeaderCard).collect(Collectors.toList());
         LeaderCard leader1 = leaders.get(0);
         LeaderCard leader2 = leaders.get(1);
@@ -86,6 +85,8 @@ class PersonalBoardTest {
         //check that same leader can't be placed twice
         assertTrue(player.setActivateLeader(leader1));
         assertFalse(player.setActivateLeader(leader1));
+        //check that same leader can't be placed as active twice
+        assertFalse(player.getPersonalBoard().addToActiveLeaders(leader1));
 
         //check placement of 2 leaders
         assertTrue(player.setActivateLeader(leader2));
@@ -93,6 +94,7 @@ class PersonalBoardTest {
 
         //check that you can't place 3 leaders
         assertFalse(player.setActivateLeader(leader3));
+        assertFalse(player.getPersonalBoard().addToActiveLeaders(leader3));
         //set that same leader can't be placed twice
         assertFalse(player.getPersonalBoard().setNewDevCard((ProductionCard) leader1));
     }
@@ -125,7 +127,7 @@ class PersonalBoardTest {
         assertTrue(player.setActivateLeader(leaders.get(0)));
         //check activeLeader points = player points
         assertEquals(savedLeaders.get(0).getPoints(),player.getPersonalBoard().getPoints(player));
-        assertTrue(player.setActivateLeader(leaders.get(0)));
+        assertTrue(player.setActivateLeader(leaders.get(1)));
         //check activeLeaders points = player points
         int expectedPoints = savedLeaders.stream().mapToInt(LeaderCard::getPoints).sum();
         assertEquals(expectedPoints,player.getPersonalBoard().getPoints(player));
@@ -135,7 +137,6 @@ class PersonalBoardTest {
             assertEquals(expectedPoints, player.getPersonalBoard().getPoints(player));
         }
         assertTrue(player.getPersonalBoard().getWarehouse().addResourceToStrongBox(new OtherResource(ResourceEnum.GRAY)));
-        Warehouse w = player.getPersonalBoard().getWarehouse();
         assertEquals(expectedPoints+1, player.getPersonalBoard().getPoints(player));
         //check that 10 resources equals 2 points
         for(int i= 0;i<4;i++) {
