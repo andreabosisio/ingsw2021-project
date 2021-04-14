@@ -24,14 +24,6 @@
       <version>5.8.0-M1</version>
       <scope>test</scope>
     </dependency>
-<!--
-   json dependency added(if removed add </dependencies> above)
-    <dependency>
-      <groupId>com.googlecode.json-simple</groupId>
-      <artifactId>json-simple</artifactId>
-      <version>RELEASE</version>
-    </dependency>
-    -->
 
     <dependency>
       <groupId>com.google.code.gson</groupId>

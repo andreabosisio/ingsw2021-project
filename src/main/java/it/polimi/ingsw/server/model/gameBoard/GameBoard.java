@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.gameBoard.faithtrack.FaithTrack;
 import it.polimi.ingsw.server.model.gameBoard.faithtrack.FirstOfFaithTrack;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.*;
 
@@ -180,5 +181,9 @@ public class GameBoard {
      */
     public FaithTrack getFaithTrackPlayer(PlayerInterface player) {
         return faithObservers.stream().filter(p -> p.getOwner().equals(player)).findFirst().orElse(null);
+    }
+
+    public void setMarketTray(TurnLogic turnLogic) {
+        this.marketTray.setTurn(turnLogic);
     }
 }

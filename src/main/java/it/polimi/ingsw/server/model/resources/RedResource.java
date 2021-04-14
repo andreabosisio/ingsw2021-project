@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.resources;
 
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 /**
@@ -27,8 +28,7 @@ public class RedResource extends Resource {
      */
     @Override
     public boolean marketAbility(TurnLogic turn){
-        //TODO return turn.currentPlayer.faithTrack.faithTrackProgress(faithProgressSteps);
-        return true;
+        return GameBoard.getGameBoard().faithProgress(turn.getCurrentPlayer(), faithProgressSteps);
     }
 
     /**

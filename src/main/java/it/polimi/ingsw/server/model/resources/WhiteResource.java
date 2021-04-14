@@ -36,10 +36,9 @@ public class WhiteResource extends Resource {
     @Override
     public boolean marketAbility(TurnLogic turn){
         int activeTransformationLeaderCard = 0;
-        //TODO
-        //for(LeaderCard leaderCard : turn.currentPlayer.getActiveLeaderCards())
-        //    if(leaderCard.doTransformation(this))
-                //activeTransformationLeaderCard++;
+        for(LeaderCard leaderCard : turn.getCurrentPlayer().getPersonalBoard().getActiveLeaderCards())
+            if(leaderCard.doTransformation(this))
+                activeTransformationLeaderCard++;
         return activeTransformationLeaderCard > 0;
     }
 

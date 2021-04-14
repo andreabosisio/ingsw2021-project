@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.model.resources;
 
+import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 /**
@@ -29,8 +31,7 @@ public class OtherResource extends Resource {
      */
     @Override
     public boolean marketAbility(TurnLogic turn){
-        //TODO return turn.gameBoard.marketTray.addNewResource(new OtherResource(this.getColor()));
-        return true;
+        return GameBoard.getGameBoard().getMarketTray().addNewResource(new OtherResource(this.getColor()));
     }
 
     /**
@@ -41,8 +42,7 @@ public class OtherResource extends Resource {
      * @return true if the new Resource has been successfully stored in the StrongBox of the current player
      */
     @Override
-    public boolean productionAbility(TurnLogic turn){
-        //TODO return turn.currentPlayer.personalBoard.strongBox.add(new OtherResource(this.getColor()));
-        return true;
+    public boolean productionAbility(TurnLogic turn) throws NonStorableResourceException {
+        return turn.getCurrentPlayer().getPersonalBoard().getWarehouse().addResourceToStrongBox(new OtherResource(this.getColor()));
     }
 }

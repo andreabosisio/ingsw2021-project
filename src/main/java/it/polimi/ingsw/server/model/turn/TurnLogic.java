@@ -14,12 +14,15 @@ public class TurnLogic {
     private final List<Player> players;
     private Player currentPlayer;
     private State currentState;
+    private GameBoard gameBoard;
 
     public TurnLogic(List<Player> players) {
         this.players = players;
         this.currentPlayer = players.get(0);
         this.currentState = new StartTurn();
         GameBoard.getGameBoard().createFaithTracks(players);
+        GameBoard.getGameBoard().setMarketTray(this);
+        this.gameBoard = GameBoard.getGameBoard();
         gameMode = new GameMode(players);
         this.setTheObservers();
     }
@@ -43,4 +46,9 @@ public class TurnLogic {
     public GameMode getGameMode() {
         return gameMode;
     }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
 }

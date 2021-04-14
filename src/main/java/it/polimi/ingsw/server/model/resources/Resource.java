@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.resources;
 
+import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
@@ -18,6 +19,7 @@ public abstract class Resource {
 
     /**
      * Getter of the resource's color.
+     *
      * @return the color of this Resource
      */
     public ResourceEnum getColor(){
@@ -26,6 +28,7 @@ public abstract class Resource {
 
     /**
      * Method to call after a Resource has been chosen in the MarketTray.
+     *
      * @param turn  containing the current player, the current state of the game and others information
      * @return true if the ability has been executed successfully
      */
@@ -35,14 +38,17 @@ public abstract class Resource {
 
     /**
      * Method to call after a Resource has been produced by a ProductionAction of a ProductionCard.
+     *
      * @param turn  containing the current player, the current state of the game and others information
      * @return true if the ability has been executed successfully
      */
-    public boolean productionAbility(TurnLogic turn){
+    public boolean productionAbility(TurnLogic turn) throws NonStorableResourceException {
         return false;
     }
 
     /**
+     * Verify if an Object is equals to this Resource based on the color of the resources.
+     *
      * @param o an Object
      * @return true if Object is a Resource with the same color as the color of this Resource.
      */
@@ -59,5 +65,12 @@ public abstract class Resource {
     @Override
     public int hashCode() {
         return Objects.hash(color);
+    }
+
+    @Override
+    public String toString() {
+        return "Resource{" +
+                "color=" + color +
+                '}';
     }
 }
