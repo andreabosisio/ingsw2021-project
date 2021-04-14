@@ -16,6 +16,7 @@ public class LorenzoAI implements Lorenzo{
     public LorenzoAI() {
         TokensGenerator tokensGenerator = new TokensGenerator();
         soloActionTokens = tokensGenerator.generateSoloActionTokens();
+        this.shuffle();
         GameBoard.getGameBoard().createLorenzoFaithTrack(this);
     }
 

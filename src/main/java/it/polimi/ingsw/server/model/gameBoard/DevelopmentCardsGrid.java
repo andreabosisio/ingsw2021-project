@@ -22,31 +22,6 @@ public class DevelopmentCardsGrid implements EndGameSubject {
         }
     }
 
-    // TODO: Togli i commenti
-    //private static DevelopmentCardsGrid instance = null;
-
-    /**
-     * reset for testing being a singleton class
-     *//*
-    protected void reset() {
-        mapByLevel = new ArrayList<>();
-        for (int i = 1; i <= numOfLevels; i++) {
-            mapByLevel.add(generator.getDevCardsAsGrid(developmentCards, i));
-        }
-    }*/
-
-    /**
-     * Create an instance of DevelopmentCardsGrid or return the existing one
-     *
-     * @return the only existing instance of DevelopmentCardsGrid
-     *//*
-    public static synchronized DevelopmentCardsGrid getDevelopmentCardsGrid() {
-        if (instance == null) {
-            instance = new DevelopmentCardsGrid();
-        }
-        return instance;
-    }
-    */
     /**
      * shuffle the List</developmentCard> given
      *
@@ -78,7 +53,6 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      * @param color color of the card to remove
      * @return true if there was at least one card of that color in the grid
      */
-    // TODO: Remember to test!
     public boolean removeCardByColor(CardColorEnum color) {
         boolean emptyColumn = true;
         //for and not foreach because foreach can't be interrupted
@@ -89,7 +63,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
                 break;
             }
 
-        if (emptyColumn)
+        if (hasEmptyColumn())
             this.notifyEndGameObserver();
         return !emptyColumn;
     }

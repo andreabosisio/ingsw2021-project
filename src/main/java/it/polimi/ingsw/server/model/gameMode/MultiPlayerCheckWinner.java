@@ -62,7 +62,6 @@ public class MultiPlayerCheckWinner implements ICheckWinner {
      * @return the Winner
      */
     @Override
-    // TODO: Remember to test!
     public PlayerInterface getWinner() {
         int maxPoints = 0;
         PlayerInterface winner = null;

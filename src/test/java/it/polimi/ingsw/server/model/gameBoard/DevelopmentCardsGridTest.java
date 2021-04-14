@@ -50,6 +50,9 @@ class DevelopmentCardsGridTest {
     @Test
     void hasAllEmptyColumnTest() {
         GameBoard.getGameBoard().reset();
+        List<Player> players = new ArrayList<>();
+        players.add(new Player("Bob"));
+        TurnLogic turnLogic = new TurnLogic(players);
         //check that removing all but 1 card for each color leaves no emptyColumn
         for(int i = 0;i<11;i++) {
             for(CardColorEnum color: EnumSet.allOf(CardColorEnum.class)) {
@@ -70,6 +73,5 @@ class DevelopmentCardsGridTest {
         }
         //check that asking for cards with none available returns an empty list
         assertEquals(0,GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards().size());
-
     }
 }
