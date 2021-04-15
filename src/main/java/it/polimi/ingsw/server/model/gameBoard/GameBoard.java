@@ -183,7 +183,7 @@ public class GameBoard {
         return faithObservers.stream().filter(p -> p.getOwner().equals(player)).findFirst().orElse(null);
     }
 
-    public void setMarketTray(TurnLogic turnLogic) {
+    public void setTurnLogicOfMarketTray(TurnLogic turnLogic) {
         this.marketTray.setTurn(turnLogic);
     }
 }

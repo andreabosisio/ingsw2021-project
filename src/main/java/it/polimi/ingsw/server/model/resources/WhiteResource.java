@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.resources;
 
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.ArrayList;
@@ -35,11 +36,16 @@ public class WhiteResource extends Resource {
      */
     @Override
     public boolean marketAbility(TurnLogic turn){
-        int activeTransformationLeaderCard = 0;
         for(LeaderCard leaderCard : turn.getCurrentPlayer().getPersonalBoard().getActiveLeaderCards())
-            if(leaderCard.doTransformation(this))
-                activeTransformationLeaderCard++;
-        return activeTransformationLeaderCard > 0;
+            leaderCard.doTransformation(this);
+
+        if(possibleTransformations.size()==1){
+            GameBoard.getGameBoard().getMarketTray().addNewResource(new OtherResource(possibleTransformations.get(0).getColor()));
+        }
+        if(possibleTransformations.size()==2){
+            turn.setWhiteResourcesFromMarket(this);
+        }
+        return true;
     }
 
     /**
@@ -50,5 +56,10 @@ public class WhiteResource extends Resource {
      */
     public boolean addPossibleTransformation(Resource transformation){
         return this.possibleTransformations.add(transformation);
+    }
+
+    @Override
+    public boolean addPossibleTransformations(Resource possibleTransformation) {
+        return this.possibleTransformations.add(possibleTransformation);
     }
 }

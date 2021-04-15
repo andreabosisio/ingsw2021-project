@@ -22,7 +22,7 @@ class WarehouseTest {
 
     @Test
     void isLegalReorganizationTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException, NonStorableResourceException {
-        assertFalse(warehouse.addResourceFromMarket(new ArrayList<Resource>(){{
+        assertFalse(warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.BLUE));
             add(new OtherResource(ResourceEnum.YELLOW));
             add(new OtherResource(ResourceEnum.YELLOW));
@@ -30,7 +30,7 @@ class WarehouseTest {
             add(new OtherResource(ResourceEnum.YELLOW));
         }})); //too many resource
 
-        warehouse.addResourceFromMarket(new ArrayList<Resource>(){{
+        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.BLUE));
             add(new OtherResource(ResourceEnum.YELLOW));
         }});
@@ -88,7 +88,7 @@ class WarehouseTest {
         //1° extra slots:   X, X
         //2° extra slots:   X, X
 
-        warehouse.addResourceFromMarket(new ArrayList<Resource>(){{
+        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.YELLOW));
             add(new OtherResource(ResourceEnum.GRAY));
         }});
@@ -150,7 +150,7 @@ class WarehouseTest {
         assertTrue(warehouse.swap(4,11));
         assertTrue(warehouse.isLegalReorganization()); //back to the last legal configuration
 
-        warehouse.addResourceFromMarket(new ArrayList<Resource>(){{
+        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.BLUE));
             add(new OtherResource(ResourceEnum.PURPLE));
             add(new OtherResource(ResourceEnum.BLUE));
@@ -207,7 +207,7 @@ class WarehouseTest {
         assertFalse(warehouse.swap(15, 4)); //cannot swap from StrongBox
 
         try {
-            warehouse.addResourceFromMarket(new ArrayList<Resource>() {{
+            warehouse.addResourcesFromMarket(new ArrayList<Resource>() {{
                 add(new OtherResource(ResourceEnum.BLUE));
                 add(new WhiteResource()); //cannot store a WhiteResource
                 add(new OtherResource(ResourceEnum.YELLOW));
@@ -216,7 +216,7 @@ class WarehouseTest {
             assertTrue(true);
         }
 
-        warehouse.addResourceFromMarket(new ArrayList<Resource>(){{
+        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.BLUE));
             add(new OtherResource(ResourceEnum.YELLOW));
             add(new OtherResource(ResourceEnum.YELLOW));
@@ -314,7 +314,7 @@ class WarehouseTest {
         warehouse.addResourceToStrongBox(new OtherResource(ResourceEnum.PURPLE));
         warehouse.addResourceToStrongBox(new OtherResource(ResourceEnum.GRAY));
 
-        warehouse.addResourceFromMarket(new ArrayList<Resource>(){{
+        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.YELLOW));
             add(new OtherResource(ResourceEnum.BLUE));
             add(new OtherResource(ResourceEnum.PURPLE));

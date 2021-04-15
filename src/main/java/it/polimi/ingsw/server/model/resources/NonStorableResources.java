@@ -1,7 +1,10 @@
 package it.polimi.ingsw.server.model.resources;
 
+import it.polimi.ingsw.server.model.enums.ResourceEnum;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class NonStorableResources {
 
@@ -15,5 +18,8 @@ public final class NonStorableResources {
 
     public static List<Resource> getNonStorableResources() {
         return nonStorableResources;
+    }
+    public static List<ResourceEnum> getNonStorableResourcesEnum() {
+        return nonStorableResources.stream().map(r->r.getColor()).collect(Collectors.toList());
     }
 }

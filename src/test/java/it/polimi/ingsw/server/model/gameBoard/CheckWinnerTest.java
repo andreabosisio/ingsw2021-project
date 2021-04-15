@@ -139,7 +139,7 @@ public class CheckWinnerTest {
         assertEquals(20 + 9, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(0)).getVictoryPoints());
         assertEquals(20 + 9, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(1)).getVictoryPoints());
 
-        players.get(0).getPersonalBoard().getWarehouse().addResourceFromMarket(new ArrayList<Resource>(){{
+        players.get(0).getPersonalBoard().getWarehouse().addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.YELLOW));
             add(new OtherResource(ResourceEnum.BLUE));
             add(new OtherResource(ResourceEnum.PURPLE));
@@ -148,7 +148,7 @@ public class CheckWinnerTest {
         players.get(0).getPersonalBoard().getWarehouse().swap(1,6);
         players.get(0).getPersonalBoard().getWarehouse().swap(2,8);
 
-        players.get(1).getPersonalBoard().getWarehouse().addResourceFromMarket(new ArrayList<Resource>(){{
+        players.get(1).getPersonalBoard().getWarehouse().addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.YELLOW));
             add(new OtherResource(ResourceEnum.BLUE));
         }});

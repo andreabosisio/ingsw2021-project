@@ -24,4 +24,15 @@ public class TransformationLeaderCard extends LeaderCard {
     public boolean activate(Player player) {
         return super.activate(player);
     }
+
+    /**
+     * Check if the white resource transformation can be performed by the card
+     *
+     * @param resource
+     * @return true if it is acceptable
+     */
+    @Override
+    public boolean doTransformation(Resource resource) {
+       return resource.addPossibleTransformations(transformation);
+    }
 }

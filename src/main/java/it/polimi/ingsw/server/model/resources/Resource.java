@@ -73,4 +73,7 @@ public abstract class Resource {
                 "color=" + color +
                 '}';
     }
+    public boolean addPossibleTransformations(Resource possibleTransformation) {
+        return false;
+    }
 }

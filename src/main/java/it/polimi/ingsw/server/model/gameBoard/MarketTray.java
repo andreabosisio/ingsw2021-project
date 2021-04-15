@@ -146,6 +146,8 @@ public class MarketTray {
         return this.tempNewResources.add(toAdd);
     }
 
+    //todo cancellare
+/*
 
     protected void printMarket(){
         System.out.println("                                        " + extraSlot.getColor());
@@ -166,6 +168,8 @@ public class MarketTray {
 
     }
 
+
+ */
 
     protected Resource[][] getMarketBoard() {
         return marketBoard;

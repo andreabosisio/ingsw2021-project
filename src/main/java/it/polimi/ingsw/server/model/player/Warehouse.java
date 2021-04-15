@@ -223,7 +223,7 @@ import java.util.stream.Collectors;
          * @return the resources has been stored successfully
          * @throws NonStorableResourceException if the given resources contains one of the NonStorableResources
          */
-        public boolean addResourceFromMarket(List<Resource> newResources) throws NonStorableResourceException {
+        public boolean addResourcesFromMarket(List<Resource> newResources) throws NonStorableResourceException {
             if(newResources.size() > availableResourcesFromMarketSlots)
                 return false;
             if(!Collections.disjoint(newResources, NonStorableResources.getNonStorableResources()))
