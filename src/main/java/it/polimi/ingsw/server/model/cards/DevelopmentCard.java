@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
+import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,17 +96,17 @@ public class DevelopmentCard implements ProductionCard {
     }
 
     /**
-     * Produce the resources defined in outResources.
+     * Produce the desiredResource saved in outResources.
      *
-     * @return a list that contains the resources just produced
+     * @return true if the production has been applied correctly
+     * @param turnLogic turn
      */
     @Override
-    public List<Resource> usePower() {
-        List<Resource> producedResources;
-        producedResources = this.outResources.stream()
-                .map(r -> new OtherResource(r.getColor()))
-                .collect(Collectors.toList());
-        return producedResources;
+    public boolean usePower(TurnLogic turnLogic) {
+        for(Resource outResource : outResources)
+            if(!outResource.productionAbility(turnLogic))
+                return false;
+        return true;
     }
 
     /**

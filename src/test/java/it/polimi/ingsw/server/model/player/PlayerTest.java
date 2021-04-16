@@ -78,7 +78,7 @@ class PlayerTest {
         //check that both can't be activated
         assertEquals(0,player.getAvailableLeaderActivation().size());
         for(int i =0;i<5;i++) {
-            assertTrue(player.getPersonalBoard().getWarehouse().addResourceToStrongBox(new OtherResource(ResourceEnum.PURPLE)));
+            assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.PURPLE)));
         }
         //check that res requirements have been met
         assertEquals(1,player.getAvailableLeaderActivation().size());
@@ -88,8 +88,8 @@ class PlayerTest {
         assertEquals(2,player.getAvailableLeaderActivation().size());
         //check that both requirements remain met even with more stuff added
         assertTrue(player.getPersonalBoard().setNewDevCard(2, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList()).get(0)));
-        assertTrue(player.getPersonalBoard().getWarehouse().addResourceToStrongBox(new OtherResource(ResourceEnum.GRAY)));
-        assertTrue(player.getPersonalBoard().getWarehouse().addResourceToStrongBox(new OtherResource(ResourceEnum.BLUE)));
+        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.GRAY)));
+        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.BLUE)));
         assertEquals(2,player.getAvailableLeaderActivation().size());
         assertEquals(2,player.getAvailableLeaderActivation().size());
         //check that number of leader that can be activated is reduced when one is activated

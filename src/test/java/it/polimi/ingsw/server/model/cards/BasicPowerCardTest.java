@@ -1,21 +1,23 @@
 package it.polimi.ingsw.server.model.cards;
 
 import it.polimi.ingsw.exceptions.NonStorableResourceException;
+import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
-import org.junit.jupiter.api.AfterAll;
+import it.polimi.ingsw.server.model.turn.TurnLogic;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BasicPowerCardTest {
+    ModelInterface modelInterface = new ModelInterface();
+    TurnLogic turnLogic = modelInterface.getTurnLogic();
     BasicPowerCard card = new BasicPowerCard();
     List<Resource> desiredProductionResources = new ArrayList<>();
 
@@ -33,7 +35,7 @@ class BasicPowerCardTest {
     }
 
     void simplyUsePowerTest(List<Resource> desiredProductionResources){
-        assertEquals(desiredProductionResources.subList(2, 3), card.usePower());
+        assertTrue(card.usePower(turnLogic));
     }
 
     void getterTest(List<Resource> desiredProductionResources){

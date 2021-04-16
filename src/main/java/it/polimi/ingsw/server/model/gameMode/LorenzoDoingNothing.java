@@ -8,9 +8,12 @@ import it.polimi.ingsw.server.model.player.PersonalBoard;
 public class LorenzoDoingNothing implements Lorenzo{
     /**
      * This method do nothing
+     *
+     * @return false
      */
     @Override
-    public void play() {
+    public boolean play() {
+        return false;
     }
 
     /**

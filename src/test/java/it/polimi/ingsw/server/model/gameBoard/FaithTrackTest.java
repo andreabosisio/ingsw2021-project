@@ -126,7 +126,7 @@ public class FaithTrackTest {
         GameBoard.getGameBoard().faithProgress(players.get(2), 4);
         GameBoard.getGameBoard().faithProgress(players.get(3), 7);
         // Roronoa takes Resources from the Market and discard one Resource that he cannot places in his Warehouse
-        assertTrue(GameBoard.getGameBoard().faithProgressOfRestOfPlayers(players.get(0), 1)); // A tile is flipped up
+        assertTrue(GameBoard.getGameBoard().faithProgressForOtherPlayers(players.get(0), 1)); // A tile is flipped up
 
         assertFalse(GameBoard.getGameBoard().getFaithTrackPlayer(players.get(0)).isPopeTile1()); // The Roronoa's tile is not flipped up
         assertFalse(GameBoard.getGameBoard().getFaithTrackPlayer(players.get(1)).isPopeTile1()); // The Monkey's tile is not flipped up

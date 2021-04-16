@@ -10,14 +10,14 @@ import it.polimi.ingsw.server.model.gameBoard.EndGameObserver;
 public interface ICheckWinner extends EndGameObserver {
 
     /**
-     * Method that
+     * Check if there was a condition of End of the Game.
      *
      * @return true if there was a condition of End of the Game
      */
     boolean isTheGameOver();
 
     /**
-     * Method that decides the Winner of the Game.
+     * Method that shows the Winner of the Game.
      *
      * @return the Winner
      */

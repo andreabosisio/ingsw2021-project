@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model.cards;
 
 import it.polimi.ingsw.exceptions.NonStorableResourceException;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.*;
+import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +20,7 @@ public class BasicPowerCard implements ProductionCard {
 
     /**
      * Setter of the desired outResources to be produced by the production of the card.
+     *
      * @param desiredResources      list of the desired Resources
      * @return true if the outResources has been set correctly
      */
@@ -29,19 +30,21 @@ public class BasicPowerCard implements ProductionCard {
 
     /**
      * Produce the desiredResource saved in outResources.
-     * @return a list with new resources chosen with setOutResources
+     *
+     * @return true if the production has been applied correctly
+     * @param turnLogic turn
      */
     @Override
-    public List<Resource> usePower() {
-        List<Resource> producedResources;
-        producedResources = this.outResources.stream()
-                .map(r -> new OtherResource(r.getColor()))
-                .collect(Collectors.toList());
-        return producedResources;
+    public boolean usePower(TurnLogic turnLogic) {
+        for(Resource outResource : outResources)
+            if(!outResource.productionAbility(turnLogic))
+                return false;
+        return true;
     }
 
     /**
      * Getter of the Resources required to activate the production of the card.
+     *
      * @return a new list of the Resources required to activate the production of the card
      */
     @Override
@@ -51,6 +54,7 @@ public class BasicPowerCard implements ProductionCard {
 
     /**
      * Getter of the Resources provided by the production of the Card.
+     *
      * @return a new list of the Resources provided by the production of the card
      */
     @Override
@@ -76,7 +80,7 @@ public class BasicPowerCard implements ProductionCard {
     }
 
     /**
-     * retunr card's victory points
+     * Return card's victory points
      *
      * @return 0 points as default
      */

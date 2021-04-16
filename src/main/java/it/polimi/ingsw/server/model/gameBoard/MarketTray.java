@@ -114,7 +114,7 @@ public class MarketTray {
                 }
                 temp = chosenLine[0];
                 for(int i = 0; i < NUM_C - 1; i++)
-                    marketBoard[arrow][i] = chosenLine[i+1];
+                    marketBoard[arrow][i] = chosenLine[i + 1];
                 marketBoard[arrow][NUM_C - 1] = extraSlot;
             }
             else if(arrow <= 6) { //if player chose a column
@@ -125,7 +125,7 @@ public class MarketTray {
                 }
                 temp = chosenLine[0];
                 for(int i = 0; i < NUM_R - 1; i++)
-                    marketBoard[i][6 - arrow] = chosenLine[i+1];
+                    marketBoard[i][6 - arrow] = chosenLine[i + 1];
                 marketBoard[NUM_R - 1][6 - arrow] = extraSlot;
             }
             else

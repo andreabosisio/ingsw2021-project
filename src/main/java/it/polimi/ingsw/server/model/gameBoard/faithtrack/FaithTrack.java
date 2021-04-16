@@ -50,6 +50,7 @@ public class FaithTrack implements FaithObserver {
      */
     @Override
     public boolean update(int indexOfTheVaticanReportSection) {
+        //todo questi li metterei sopra come static final
         int startSection3 = 19;
         int startSection2 = 12;
         int startSection1 = 5;

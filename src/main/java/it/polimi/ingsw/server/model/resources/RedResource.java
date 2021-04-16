@@ -28,7 +28,8 @@ public class RedResource extends Resource {
      */
     @Override
     public boolean marketAbility(TurnLogic turn){
-        return GameBoard.getGameBoard().faithProgress(turn.getCurrentPlayer(), faithProgressSteps);
+       GameBoard.getGameBoard().faithProgress(turn.getCurrentPlayer(), faithProgressSteps);
+       return true;
     }
 
     /**
@@ -39,7 +40,7 @@ public class RedResource extends Resource {
      * @return true if the progress has been done successfully
      */
     @Override
-    public boolean productionAbility(TurnLogic turn){
+    public boolean productionAbility(TurnLogic turn) {
         return marketAbility(turn);
     }
 }

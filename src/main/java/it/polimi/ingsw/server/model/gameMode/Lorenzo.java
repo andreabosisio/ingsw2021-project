@@ -10,6 +10,8 @@ public interface Lorenzo extends PlayerInterface {
     /**
      * This method do the Lorenzo's turn if it is called by the class LorenzoAI,
      * if it is called by the class LorenzoDoingNothing it does nothing.
+     *
+     * @return true if Lorenzo is playing in this game
      */
-    void play();
+    boolean play();
 }

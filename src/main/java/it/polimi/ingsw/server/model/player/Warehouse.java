@@ -138,7 +138,7 @@ import java.util.stream.Collectors;
          * @param slotsType the resource's type of the extra slots
          * @return true if the extra slots can be activated
          */
-        //TODO (per la view) si deve attivare per primo l'extra slot nella FirstExtraSlotZone e poi nella second
+        //TODO (per la view) si deve attivare per primo l'extra slot nella FirstExtraSlotZone e poi nella seconda
         public boolean addExtraSlots(Resource slotsType){
             for(ExtraSlots remainingExtraSlots : extraSlots){
                 if (!remainingExtraSlots.getIsActivated()){
@@ -195,15 +195,15 @@ import java.util.stream.Collectors;
         }
 
         /**
-         * Store the resourceToStock in the StrongBox.
+         * Store the producedResource in the StrongBox.
          *
          * @param producedResource to store
-         * @return true if the resourceToStock has been correctly stored
+         * @return true if the producedResource has been correctly stored
          * @throws NonStorableResourceException if the given resource is one of the NonStorableResources
          */
-        public boolean addResourceToStrongBox(Resource producedResource) throws NonStorableResourceException {
-            if(NonStorableResources.getNonStorableResources().contains(producedResource))
-                throw new NonStorableResourceException();
+        public boolean addResourcesToStrongBox(Resource producedResource) {
+            //if(NonStorableResources.getNonStorableResources().contains(producedResource))
+            //    throw new NonStorableResourceException();
             strongBox.addResource(producedResource);
             try {
                 return this.translatePosition(strongBox.slots.size() - 1 + startStrongBoxZone); //save the position to positionMap
@@ -217,17 +217,31 @@ import java.util.stream.Collectors;
         }
 
         /**
+         * Store all the producedResources in the StrongBox.
+         *
+         * @param producedResources to store
+         * @return true true if all the producedResources has been correctly stored
+         * @throws NonStorableResourceException if one of the given resources is one of the NonStorableResources
+         */
+        public boolean addResourcesToStrongBox(List<Resource> producedResources) {
+            for(Resource producedResource : producedResources)
+                if(!addResourcesToStrongBox(producedResource))
+                    return false;
+            return true;
+        }
+
+        /**
          * Store the resources taken from the MarketTray in the ResourcesFromMarketSlotsZone.
          *
          * @param newResources taken from the MarketTray
-         * @return the resources has been stored successfully
+         * @return true the resources has been stored successfully
          * @throws NonStorableResourceException if the given resources contains one of the NonStorableResources
          */
-        public boolean addResourcesFromMarket(List<Resource> newResources) throws NonStorableResourceException {
+        public boolean addResourcesFromMarket(List<Resource> newResources) {
             if(newResources.size() > availableResourcesFromMarketSlots)
                 return false;
-            if(!Collections.disjoint(newResources, NonStorableResources.getNonStorableResources()))
-                throw new NonStorableResourceException();
+            //if(!Collections.disjoint(newResources, NonStorableResources.getNonStorableResources()))
+            //    throw new NonStorableResourceException();
             return resourcesFromMarket.addResources(newResources);
         }
 
@@ -357,11 +371,13 @@ import java.util.stream.Collectors;
         }
 
         /**
-         * Report how many new resources taken from the MarketTray has not been stored in the depots by the player.
+         * Report how many new resources taken from the MarketTray has not been stored in the depots by the player and
+         * resets the resources from the MarketTray.
          *
          * @return the number of the resources in this container
          */
-        public int getNumberOfRemainedResources() {
-            return this.resourcesFromMarket.getNumberOfRemainedResources();
+        public int getNumberOfRemainingResources() {
+            return this.resourcesFromMarket.getNumberOfRemainingResources();
         }
+
     }

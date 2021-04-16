@@ -58,6 +58,7 @@ public class WhiteResource extends Resource {
         return this.possibleTransformations.add(transformation);
     }
 
+    //todo
     @Override
     public boolean addPossibleTransformations(Resource possibleTransformation) {
         return this.possibleTransformations.add(possibleTransformation);

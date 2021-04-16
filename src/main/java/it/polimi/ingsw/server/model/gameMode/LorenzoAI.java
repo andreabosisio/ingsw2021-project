@@ -24,9 +24,11 @@ public class LorenzoAI implements Lorenzo{
      * This method do the Lorenzo's turn.
      * It draws a Solo Action Token and calls the method shuffle
      * if the token drawn is a SingleFaithTrackProgressToken.
+     *
+     * @return true
      */
     @Override
-    public void play() {
+    public boolean play() {
         if (soloActionTokens.get(tokensDeckIndex).doAction(this)) {
             tokensDeckIndex = 0;
             this.shuffle();

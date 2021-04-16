@@ -146,12 +146,12 @@ public class GameBoard {
      * except that belongs to player
      * and calls the method notifyObservers() of the FirstOfFaithTrack class.
      *
-     * @param player        is the Player who has not an increase of the Faith Track
+     * @param currentPlayer        is the Player who has not an increase of the Faith Track
      * @param progressValue is the increment value
      * @return true if a tile is flipped up
      */
-    public boolean faithProgressOfRestOfPlayers(PlayerInterface player, int progressValue) {
-        faithObservers.stream().filter(x -> x.getOwner() != player).forEach(x -> x.faithTrackProgress(progressValue));
+    public boolean faithProgressForOtherPlayers(PlayerInterface currentPlayer, int progressValue) {
+        faithObservers.stream().filter(x -> x.getOwner() != currentPlayer).forEach(x -> x.faithTrackProgress(progressValue));
         return firstOfFaithTrack.notifyFaithObservers();
     }
 

@@ -16,7 +16,7 @@ public class TurnLogic {
     private final List<Player> players;
     private Player currentPlayer;
     private State currentState;
-    private final State startTurn,leaderState,waitDevCardPlacement,waitTransformation,waitResourcePlacement,endTurn,lorenzoTurn;
+    private final State startTurn, leaderState, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, lorenzoTurn, endGame;
     private List<Resource> whiteResourcesFromMarket;
 
     public TurnLogic(List<Player> players) {
@@ -35,6 +35,7 @@ public class TurnLogic {
         this.waitResourcePlacement = new WaitResourcePlacement(this);
         this.endTurn = new EndTurn(this);
         this.lorenzoTurn = new LorenzoTurn(this);
+        this.endGame = new EndGame(this);
 
     }
 
@@ -52,6 +53,10 @@ public class TurnLogic {
         GameBoard.getGameBoard().setObserversOfFirstOfFaithTrack(GameBoard.getGameBoard().getFaithTracks(), gameMode.getICheckWinner());
         // Set the Observer of the Development Cards Grid
         GameBoard.getGameBoard().setObserverOfDevCardsGrid(gameMode.getICheckWinner());
+    }
+
+    public boolean isLastPlayerTurn(){
+        return players.indexOf(currentPlayer) == players.size() - 1;
     }
 
     public GameMode getGameMode() {
@@ -92,6 +97,10 @@ public class TurnLogic {
 
     public State getLorenzoTurn() {
         return lorenzoTurn;
+    }
+
+    public State getEndGame() {
+        return endGame;
     }
 
     public void setWhiteResourcesFromMarket(WhiteResource whiteResourceFromMarket) {

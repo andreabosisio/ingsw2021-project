@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.cards;
 
 import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.resources.Resource;
+import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.List;
 
@@ -13,32 +14,38 @@ public interface ProductionCard {
 
     /**
      * Activate the production of the card.
-     * @return a list with the resources just produced
+     *
+     * @return true if the production has been applied correctly
+     * @param turnLogic turn
      */
-     List<Resource> usePower();
+     boolean usePower(TurnLogic turnLogic);
 
     /**
      * Getter of the Resources required to activate the production of the card.
+     *
      * @return a list of resources
      */
     List<Resource> getInResources();
 
     /**
      * Getter of the Resources provided by the production of the Card.
+     *
      * @return a list of resources
      */
     List<Resource> getOutResources();
 
     /**
      * Check if the givenResources satisfy the production requirements of the card.
+     *
      * @param givenResources  from a player
      * @return true if the givenResources satisfy the production requirements of the card
      */
     boolean canDoProduction(List<Resource> givenResources) throws NonStorableResourceException;
 
     /**
-     * retunr card's victory points
-     * @return points
+     * Return card's victory points.
+     *
+     * @return victory points of the card
      */
     int getPoints();
 }

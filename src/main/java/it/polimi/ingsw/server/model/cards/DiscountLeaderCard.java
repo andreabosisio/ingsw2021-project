@@ -21,4 +21,6 @@ public class DiscountLeaderCard extends LeaderCard{
     public boolean activate(Player player) {
         return super.activate(player);
     }
+
+    //todo finito?
 }

@@ -4,4 +4,5 @@ public class LorenzoTurn extends State {
     public LorenzoTurn(TurnLogic turnLogic) {
         super(turnLogic);
     }
+
 }

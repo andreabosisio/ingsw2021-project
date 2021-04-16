@@ -3,10 +3,11 @@ package it.polimi.ingsw.server.model.cards;
 import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.*;
+import it.polimi.ingsw.server.model.turn.TurnLogic;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
 
@@ -46,15 +47,15 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
     /**
      * Produce the desiredResource saved in outResources.
      *
-     * @return a list with new resources chosen with setOutResources
+     * @return true if the production has been applied correctly
+     * @param turnLogic turn
      */
     @Override
-    public List<Resource> usePower() {
-        List<Resource> producedResources;
-        producedResources = this.outResources.stream()
-                .map(r -> new OtherResource(r.getColor()))
-                .collect(Collectors.toList());
-        return producedResources;
+    public boolean usePower(TurnLogic turnLogic) {
+        for(Resource outResource : outResources)
+            if(!outResource.productionAbility(turnLogic))
+                return false;
+        return true;
     }
 
     /**

@@ -9,6 +9,7 @@ import java.util.List;
 public class MarketSlots implements ResourcesContainer{
     final int availableResourcesFromMarketSlots = 4;
     private final List<Resource> slots;
+    private int lastIndex = 0;
 
     public MarketSlots() {
         this.slots = Arrays.asList(new Resource[availableResourcesFromMarketSlots]);
@@ -16,34 +17,36 @@ public class MarketSlots implements ResourcesContainer{
 
     /**
      * Add the resources taken from the MarketTray to this container
+     *
      * @param newResources taken from the MarketTray
      * @return true
      */
-    public boolean addResources(List<Resource> newResources){
-        int i = 0;
+    public boolean addResources(List<Resource> newResources){ ;
         for(Resource newResource : newResources) {
-            this.slots.set(i, newResource);
-            i++;
+            this.slots.set(lastIndex, newResource);
+            lastIndex++;
         }
-        while (i < availableResourcesFromMarketSlots) {
-            this.slots.set(i, null);
-            i++;
+        while (lastIndex < availableResourcesFromMarketSlots) {
+            this.slots.set(lastIndex, null);
+            lastIndex++;
         }
         return true;
     }
 
     /**
-     * Report how many new resources taken from the MarketTray has not been stored in the depots by the player.
+     * Report how many new resources taken from the MarketTray has not been stored in the depots by the player
+     * and resets the resources from the MarketTray.
      *
      * @return the number of the resources in this container
      */
-    public int getNumberOfRemainedResources(){
+    public int getNumberOfRemainingResources(){
         int remained = 0;
         for (int i = 0; i < availableResourcesFromMarketSlots; i++)
             if(slots.get(i) != null) {
                 remained++;
                 slots.set(i, null);
             }
+        this.lastIndex = 0;
         return remained;
     }
 
@@ -83,4 +86,6 @@ public class MarketSlots implements ResourcesContainer{
     public Resource getResource(int position) {
         return null;
     }
+
+
 }

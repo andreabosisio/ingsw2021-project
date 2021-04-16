@@ -42,7 +42,7 @@ public abstract class Resource {
      * @param turn  containing the current player, the current state of the game and others information
      * @return true if the ability has been executed successfully
      */
-    public boolean productionAbility(TurnLogic turn) throws NonStorableResourceException {
+    public boolean productionAbility(TurnLogic turn) {
         return false;
     }
 

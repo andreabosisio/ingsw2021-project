@@ -52,7 +52,7 @@ public class SinglePlayerCheckWinner implements ICheckWinner {
     }
 
     /**
-     * Method that
+     * Check if there was a condition of End of the Game.
      *
      * @return true if there was a condition of End of the Game
      */
