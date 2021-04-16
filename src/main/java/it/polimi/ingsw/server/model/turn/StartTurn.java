@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.model.player.PersonalBoard;
 import it.polimi.ingsw.server.model.player.Warehouse;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.cards.LeaderCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,12 +78,35 @@ public class StartTurn extends State {
         return super.buyAction(cardGridIndex, positions);
     }
 
+    /**
+     * Activate or Discard a LeaderCard. If done successfully change the state of the game to LeaderState where
+     * another LeaderAction is not accepted.
+     *
+     * @param ID of the chosen LeaderCard
+     * @param discard true if the chosen LeaderCard has to be discarded, false if has to be activated
+     * @return true if the leaderAction has been successfully applied
+     * @throws InvalidEventException if the leaderAction can't be applied
+     */
     @Override
     public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {
         Player currentPlayer = turnLogic.getCurrentPlayer();
+
+        //get the chosen leader card
+        LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
+                                .filter(card -> card.getID().equals(ID)).findFirst()
+                                .orElseThrow(() -> new InvalidEventException());
+        //if the card has to be discarded
         if(discard){
-            currentPlayer.getLeaderHand().stream().filter(card -> card.getID().equals(ID)).findFirst();
+            if(!currentPlayer.discardLeader(chosenLeaderCard))
+                throw new InvalidEventException();
+        }else
+        //if the card has to be activated
+        {
+            if(!currentPlayer.activateLeaderCard(chosenLeaderCard))
+                throw new InvalidEventException();
         }
+
+        turnLogic.setCurrentState(turnLogic.getLeaderState());
         return true;
     }
 }

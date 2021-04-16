@@ -15,6 +15,7 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
  */
 public class OtherResource extends Resource {
 
+    //todo lancia eccezione se RED or WHITE
     public OtherResource(ResourceEnum color) {
         super(color);
     }
