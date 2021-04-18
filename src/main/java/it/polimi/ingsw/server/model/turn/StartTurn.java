@@ -53,13 +53,13 @@ public class StartTurn extends State {
     }
 
     /**
-    * Apply the production of the chosen ProductionCard with the chosen resources.
-    *
-    * @param productionMap containing the chosen ProductionCard and the chosen resources for that card
-    * @return true if the production has been correctly applied
-    * @throws InvalidEventException if one of the production can't be applied
-    * @throws InvalidIndexException if one of the index of the chosen ProductionCard doesn't exists
-    * @throws NonStorableResourceException if one of the chosen resources contains a NonStorableResource
+     * Apply the production of the chosen ProductionCard with the chosen resources.
+     *
+     * @param productionMap containing the chosen ProductionCard and the chosen resources for that card
+     * @return true if the production has been correctly applied
+     * @throws InvalidEventException        if one of the production can't be applied
+     * @throws InvalidIndexException        if one of the index of the chosen ProductionCard doesn't exists
+     * @throws NonStorableResourceException if one of the chosen resources contains a NonStorableResource
      */
     @Override
     public boolean productionAction(Map<Integer, List<Integer>> productionMap) throws InvalidEventException, InvalidIndexException, NonStorableResourceException {

@@ -95,7 +95,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      *
      * @param developmentCard is the Development Card to remove
      */
-    // TODO: Remember to test!
+    // TODO: Remember to test! And in case changes index of level
     public boolean removeCard(DevelopmentCard developmentCard) {
         if (!mapByLevel.get(developmentCard.getLevel()).get(developmentCard.getColor()).contains(developmentCard))
             return false;

@@ -53,7 +53,7 @@ public class Player implements PlayerInterface {
     /**
      * Get the leaderCards the player has in his hand
      *
-     * @return List</leaderCard> in the player's hand
+     * @return List</ leaderCard> in the player's hand
      */
     public List<LeaderCard> getLeaderHand() {
         return leaderHand;
@@ -63,7 +63,7 @@ public class Player implements PlayerInterface {
      * Used only for testing
      * Get the list of LeaderCards the player can activate
      *
-     * @return List</LeaderCard> of leaders that can be activated
+     * @return List</ LeaderCard> of leaders that can be activated
      */
     public List<LeaderCard> getAvailableLeaderActivationTest() {
         List<LeaderCard> toReturn = new ArrayList<>();
@@ -119,7 +119,7 @@ public class Player implements PlayerInterface {
     public boolean discardLeader(LeaderCard leaderCard) {
         if (leaderHand.contains(leaderCard)) {
             leaderHand.remove(leaderCard);
-            GameBoard.getGameBoard().faithProgress(this,1);
+            GameBoard.getGameBoard().faithProgress(this, 1);
             return true;
         }
         return false;
