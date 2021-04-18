@@ -66,7 +66,7 @@ class PlayerTest {
     }
 
     @Test
-    void getAvailableLeaderActivationTest() throws NonStorableResourceException {
+    void getAvailableLeaderActivationTest() {
         List<LeaderCard> leaders = new CardsGenerator().generateLeaderCards();
         LeaderCard leaderWithResRequirement = leaders.get(11);//req 5 purple
         LeaderCard leaderWithDevRequirement = leaders.get(0);// req lv2 green

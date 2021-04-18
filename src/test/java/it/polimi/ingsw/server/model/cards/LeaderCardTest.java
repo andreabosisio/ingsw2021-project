@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class LeaderCardTest {
 
     @Test
-    void canBeActivatedTest() throws NonStorableResourceException {
+    void canBeActivatedTest() {
         List<LeaderCard> leaders = new CardsGenerator().generateLeaderCards();
         LeaderCard leaderWithResRequirement = leaders.get(11);//req 5 purple
         LeaderCard leaderWithDevRequirement = leaders.get(0);// req lv2 green
@@ -51,7 +51,7 @@ class LeaderCardTest {
     }
 
     @Test
-    void activateAllTypesOfLeaderCardTest() throws NonStorableResourceException {
+    void activateAllTypesOfLeaderCardTest() {
         Player player1 = new Player("Aldo");
         Player player2 = new Player("Giovanni");
         List<LeaderCard> leaders = new CardsGenerator().generateLeaderCards();

@@ -112,7 +112,7 @@ class PersonalBoardTest {
     }
 
     @Test
-    void getLeaderAndWarehousePointsTest() throws NonStorableResourceException {
+    void getLeaderAndWarehousePointsTest() {
         List<Player> players = new ArrayList<>();
         Player player = new Player("Miguel");
         players.add(player);
@@ -148,7 +148,7 @@ class PersonalBoardTest {
     }
 
     @Test
-    void getPointsFromEverythingTest() throws NonStorableResourceException {
+    void getPointsFromEverythingTest() {
         List<Player> players = new ArrayList<>();
         GameBoard.getGameBoard().reset();
         Player player = new Player("Mirko");
