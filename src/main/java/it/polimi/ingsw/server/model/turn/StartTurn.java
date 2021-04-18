@@ -1,12 +1,15 @@
 package it.polimi.ingsw.server.model.turn;
 
-import it.polimi.ingsw.exceptions.InvalidEventException;
-import it.polimi.ingsw.exceptions.InvalidIndexException;
-import it.polimi.ingsw.exceptions.NonStorableResourceException;
+import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
+import it.polimi.ingsw.server.model.enums.CardColorEnum;
+import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.PersonalBoard;
 import it.polimi.ingsw.server.model.player.Warehouse;
+import it.polimi.ingsw.server.model.resources.NonStorableResources;
+import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
@@ -19,6 +22,8 @@ public class StartTurn extends State {
     public StartTurn(TurnLogic turnLogic) {
         super(turnLogic);
     }
+
+    private boolean hasAlreadyDoneLeaderAction = false;
 
     /**
      * Take the chosen resources from the MarketTray and set the current state of the game to
@@ -73,14 +78,47 @@ public class StartTurn extends State {
         return true;
     }
 
+    /**
+     * Check if the player can place the card and then check if he can buy it with his discounts.
+     * If yes buy the card and set the next State of the game to WaitDevCardPlacement.
+     *
+     * @param cardColor color of the card to buy
+     * @param cardLevel level of the card to buy
+     * @param resourcesPositions index of the chosen resources
+     * @return true if the card has been successfully bought
+     * @throws InvalidEventException if the player can't buy the card
+     * @throws InvalidIndexException if one of the resource positions is negative
+     * @throws EmptySlotException if one of the resource slots is empty
+     * @throws NonAccessibleSlotException if one of the resource position represents a slot that's not accessible
+     */
     @Override
-    public boolean buyAction(int cardGridIndex, List<Integer> positions) throws InvalidEventException {
-        return super.buyAction(cardGridIndex, positions);
+    public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcesPositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+        DevelopmentCard chosenDevCard;
+        try {
+            CardColorEnum chosenColorEnum = CardColorEnum.valueOf(cardColor.toUpperCase());
+            chosenDevCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(chosenColorEnum, cardLevel);
+        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+            throw new InvalidEventException(); //non existing card color type or non existing card level
+        }
+
+        //check if the player has discounts
+        List<Resource> availableDiscount = new ArrayList<>();
+        for (LeaderCard activeCard : turnLogic.getCurrentPlayer().getPersonalBoard().getActiveLeaderCards())
+            activeCard.applyDiscount(availableDiscount);
+
+        //check if the player can place and buy the card
+        if(turnLogic.getCurrentPlayer().getPersonalBoard().getAvailablePlacement(chosenDevCard).size() > 0)
+            if(chosenDevCard.buyCard(turnLogic.getCurrentPlayer(), resourcesPositions, availableDiscount)) {
+                turnLogic.setChosenDevCard(chosenDevCard);
+                turnLogic.setCurrentState(turnLogic.getWaitDevCardPlacement());
+                hasAlreadyDoneLeaderAction = false;
+                return true;
+            }
+        throw new InvalidEventException();
     }
 
     /**
-     * Activate or Discard a LeaderCard. If done successfully change the state of the game to LeaderState where
-     * another LeaderAction is not accepted.
+     * Activate or Discard a LeaderCard if the player has not done it yet.
      *
      * @param ID of the chosen LeaderCard
      * @param discard true if the chosen LeaderCard has to be discarded, false if has to be activated
@@ -89,6 +127,10 @@ public class StartTurn extends State {
      */
     @Override
     public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {
+
+        if(hasAlreadyDoneLeaderAction)
+            throw new InvalidEventException();
+
         Player currentPlayer = turnLogic.getCurrentPlayer();
 
         //get the chosen leader card
@@ -106,7 +148,7 @@ public class StartTurn extends State {
                 throw new InvalidEventException();
         }
 
-        turnLogic.setCurrentState(turnLogic.getLeaderState());
+        hasAlreadyDoneLeaderAction = true;
         return true;
     }
 }

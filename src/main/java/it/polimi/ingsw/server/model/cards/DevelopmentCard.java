@@ -74,6 +74,9 @@ public class DevelopmentCard implements ProductionCard {
      * @param resourcePosition Warehouse/Strongbox positions of the chosen resources
      * @param discount         Discount provided by the active TransformationLeaderCard cards
      * @return true if the buyer can buy the card
+     * @throws InvalidIndexException if one the given positions is negative
+     * @throws EmptySlotException if one of the chosen slots is empty
+     * @throws NonAccessibleSlotException if one of the given position represent a slot that's not accessible
      */
     public boolean buyCard(Player buyer, List<Integer> resourcePosition, List<Resource> discount) throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         List<Resource> paymentResources = new ArrayList<>(discount);

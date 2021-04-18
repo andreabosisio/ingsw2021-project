@@ -22,5 +22,14 @@ public class DiscountLeaderCard extends LeaderCard{
         return super.activate(player);
     }
 
-    //todo finito?
+    /**
+     * Add the discount this card provide to currDiscounts
+     *
+     * @param currDiscounts list where this card discount will be added
+     * @return true if discount was added successfully
+     */
+    @Override
+    public boolean applyDiscount(List<Resource> currDiscounts) {
+        return currDiscounts.add(this.discount);
+    }
 }

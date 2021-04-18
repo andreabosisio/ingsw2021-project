@@ -26,11 +26,11 @@ public class WaitTransformation extends State {
      */
     @Override
     public boolean transformationAction(List<String> chosenColors) throws InvalidEventException, NonStorableResourceException {
-        if(chosenColors.size()!=turnLogic.getWhiteResourcesFromMarket().size()){
+        if(chosenColors.size() != turnLogic.getWhiteResourcesFromMarket().size()){
             throw new InvalidEventException(); //wrong number of chosen resources
         }
         List<Resource> chosenResources = new ArrayList<>();
-        for(String chosenColor:chosenColors) {
+        for(String chosenColor : chosenColors) {
             try {
                 ResourceEnum chosenEnum = ResourceEnum.valueOf(chosenColor.toUpperCase());
                 if(NonStorableResources.getNonStorableResourcesEnum().contains(chosenEnum)){

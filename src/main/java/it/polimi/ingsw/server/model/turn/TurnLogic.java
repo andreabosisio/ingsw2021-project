@@ -6,7 +6,9 @@ import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.WhiteResource;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -16,8 +18,9 @@ public class TurnLogic {
     private final List<Player> players;
     private Player currentPlayer;
     private State currentState;
-    private final State startTurn, leaderState, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, lorenzoTurn, endGame;
-    private List<Resource> whiteResourcesFromMarket;
+    private final State startTurn, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, endGame;
+    private List<Resource> whiteResourcesFromMarket = new ArrayList<>();
+    private DevelopmentCard chosenDevCard;
 
     public TurnLogic(List<Player> players) {
         this.players = players;
@@ -29,12 +32,10 @@ public class TurnLogic {
         this.setTheObservers();
 
         this.startTurn = new StartTurn(this);
-        this.leaderState = new LeaderState(this);
         this.waitDevCardPlacement = new WaitDevCardPlacement(this);
         this.waitTransformation = new WaitTransformation(this);
         this.waitResourcePlacement = new WaitResourcePlacement(this);
         this.endTurn = new EndTurn(this);
-        this.lorenzoTurn = new LorenzoTurn(this);
         this.endGame = new EndGame(this);
 
     }
@@ -59,6 +60,20 @@ public class TurnLogic {
         return players.indexOf(currentPlayer) == players.size() - 1;
     }
 
+    /**
+     * Set the next player and reset the current value.
+     */
+    public void setNextPlayer() {
+        if(isLastPlayerTurn())
+            currentPlayer = players.get(0);
+        else
+            currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+
+        //reset
+        whiteResourcesFromMarket.clear();
+        chosenDevCard = null;
+    }
+
     public GameMode getGameMode() {
         return gameMode;
     }
@@ -73,10 +88,6 @@ public class TurnLogic {
 
     public State getStartTurn() {
         return startTurn;
-    }
-
-    public State getLeaderState() {
-        return leaderState;
     }
 
     public State getWaitDevCardPlacement() {
@@ -109,5 +120,39 @@ public class TurnLogic {
 
     public List<Resource> getWhiteResourcesFromMarket() {
         return whiteResourcesFromMarket;
+    }
+
+    public void setChosenDevCard(DevelopmentCard chosenDevCard) {
+        this.chosenDevCard = chosenDevCard;
+    }
+
+    public DevelopmentCard getChosenDevCard() {
+        return chosenDevCard;
+    }
+
+
+    public boolean marketAction(int arrowID) throws InvalidEventException, InvalidIndexException {
+        return currentState.marketAction(arrowID);
+    }
+    public boolean productionAction(Map<Integer, List<Integer>> productionMap) throws InvalidEventException, InvalidIndexException, NonStorableResourceException {
+        return currentState.productionAction(productionMap);
+    }
+    public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcesPositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+        return currentState.buyAction(cardColor, cardLevel, resourcesPositions);
+    }
+    public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {
+        return currentState.leaderAction(ID, discard);
+    }
+    public boolean placeResourceAction(List<Integer> swapPairs) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+        return currentState.placeResourceAction(swapPairs);
+    }
+    public boolean placeDevCardAction(int slotPosition) throws InvalidEventException {
+        return currentState.placeDevCardAction(slotPosition);
+    }
+    public boolean transformationAction(List<String> chosenColors) throws InvalidEventException, NonStorableResourceException {
+        return currentState.transformationAction(chosenColors);
+    }
+    public boolean endTurn() throws InvalidEventException {
+        return currentState.endTurn();
     }
 }

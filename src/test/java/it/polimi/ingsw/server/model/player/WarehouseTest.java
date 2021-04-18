@@ -6,7 +6,6 @@ import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.OtherResource;
-import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +19,7 @@ class WarehouseTest {
     Warehouse warehouse = new Warehouse();
 
     @Test
-    void isLegalReorganizationTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException, NonStorableResourceException {
+    void isLegalReorganizationTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         assertFalse(warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.BLUE));
             add(new OtherResource(ResourceEnum.YELLOW));
@@ -206,7 +205,7 @@ class WarehouseTest {
 
 
     @Test
-    void getResourcesTest() throws NonStorableResourceException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+    void getResourcesTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         warehouse.addResourcesToStrongBox(new OtherResource(ResourceEnum.BLUE));
         warehouse.addResourcesToStrongBox(new OtherResource(ResourceEnum.GRAY));
         warehouse.addResourcesToStrongBox(new OtherResource(ResourceEnum.GRAY));
@@ -238,31 +237,31 @@ class WarehouseTest {
         */
 
         //check if the resources have been correctly stored in the StrongBox taking them
-        assertEquals(warehouse.takeResource(14), new OtherResource(ResourceEnum.BLUE));
-        assertEquals(warehouse.takeResource(15), new OtherResource(ResourceEnum.GRAY));
-        assertEquals(warehouse.takeResource(16), new OtherResource(ResourceEnum.GRAY));
-        assertEquals(warehouse.takeResource(17), new OtherResource(ResourceEnum.YELLOW));
+        assertEquals(warehouse.takeResources(14), new OtherResource(ResourceEnum.BLUE));
+        assertEquals(warehouse.takeResources(15), new OtherResource(ResourceEnum.GRAY));
+        assertEquals(warehouse.takeResources(16), new OtherResource(ResourceEnum.GRAY));
+        assertEquals(warehouse.takeResources(17), new OtherResource(ResourceEnum.YELLOW));
 
         try{
-            warehouse.takeResource(16); //third slot of the StrongBox is now empty
+            warehouse.takeResources(16); //third slot of the StrongBox is now empty
         }catch (EmptySlotException e){
             assertTrue(true);
         }
 
         try{
-            warehouse.takeResource(5); //first slot of the 2° depot is empty
+            warehouse.takeResources(5); //first slot of the 2° depot is empty
         }catch (EmptySlotException e){
             assertTrue(true);
         }
 
         try{
-            warehouse.takeResource(22);
+            warehouse.takeResources(22);
         }catch (EmptySlotException e){
             assertTrue(true);
         }
 
         try{
-            warehouse.takeResource(140);
+            warehouse.takeResources(140);
         }catch (EmptySlotException e){
             assertTrue(true);
         }
@@ -283,21 +282,21 @@ class WarehouseTest {
         //1° extra slots:   X, X
         //2° extra slots:   X, X
 
-        assertEquals(warehouse.takeResource(4), new OtherResource(ResourceEnum.BLUE));
-        assertEquals(warehouse.takeResource(5), new OtherResource(ResourceEnum.YELLOW));
+        assertEquals(warehouse.takeResources(4), new OtherResource(ResourceEnum.BLUE));
+        assertEquals(warehouse.takeResources(5), new OtherResource(ResourceEnum.YELLOW));
 
         try{
-            warehouse.takeResource(1); //cannot take a resource from the marketResourceZone
+            warehouse.takeResources(1); //cannot take a resource from the marketResourceZone
         }catch (NonAccessibleSlotException e){
             assertTrue(true);
         }
         try{
-            warehouse.takeResource(4);
+            warehouse.takeResources(4);
         }catch (EmptySlotException e){
             assertTrue(true);
         }
         try{
-            warehouse.takeResource(5);
+            warehouse.takeResources(5);
         }catch (EmptySlotException e){
             assertTrue(true);
         }
@@ -305,7 +304,7 @@ class WarehouseTest {
         assertEquals(1, warehouse.getNumberOfRemainingResources()); //one resource (Y) remained in Market resources
 
         try {
-            warehouse.takeResource(-5); //invalid negative position
+            warehouse.takeResources(-5); //invalid negative position
         }catch (InvalidIndexException e){
             assertTrue(true);
         }
@@ -318,7 +317,7 @@ class WarehouseTest {
     }
 
     @Test
-    void getAllResources() throws NonStorableResourceException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+    void getAllResources() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         warehouse.addResourcesToStrongBox(new OtherResource(ResourceEnum.GRAY));
         warehouse.addResourcesToStrongBox(new OtherResource(ResourceEnum.PURPLE));
         warehouse.addResourcesToStrongBox(new OtherResource(ResourceEnum.GRAY));

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.server.model.resources.NonStorableResources;
 import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.*;
@@ -165,7 +164,7 @@ import java.util.stream.Collectors;
          * @param position that has to be translated into this Warehouse storage logic
          * @return true if the given position has been correctly translated
          * @throws InvalidIndexException if position is negative
-         * @throws NonAccessibleSlotException if the position represent a slot that's not accessible
+         * @throws NonAccessibleSlotException if the position represents a slot that's not accessible
          */
         private boolean translatePosition(int position) throws InvalidIndexException, NonAccessibleSlotException {
             if(isInResourcesFromMarketSlotsZone(position))
@@ -199,7 +198,6 @@ import java.util.stream.Collectors;
          *
          * @param producedResource to store
          * @return true if the producedResource has been correctly stored
-         * @throws NonStorableResourceException if the given resource is one of the NonStorableResources
          */
         public boolean addResourcesToStrongBox(Resource producedResource) {
             //if(NonStorableResources.getNonStorableResources().contains(producedResource))
@@ -207,10 +205,7 @@ import java.util.stream.Collectors;
             strongBox.addResource(producedResource);
             try {
                 return this.translatePosition(strongBox.slots.size() - 1 + startStrongBoxZone); //save the position to positionMap
-            } catch (InvalidIndexException e) {
-                e.printStackTrace();
-                return false;
-            } catch (NonAccessibleSlotException e) {
+            } catch (InvalidIndexException | NonAccessibleSlotException e) {
                 e.printStackTrace();
                 return false;
             }
@@ -221,7 +216,6 @@ import java.util.stream.Collectors;
          *
          * @param producedResources to store
          * @return true true if all the producedResources has been correctly stored
-         * @throws NonStorableResourceException if one of the given resources is one of the NonStorableResources
          */
         public boolean addResourcesToStrongBox(List<Resource> producedResources) {
             for(Resource producedResource : producedResources)
@@ -235,7 +229,6 @@ import java.util.stream.Collectors;
          *
          * @param newResources taken from the MarketTray
          * @return true the resources has been stored successfully
-         * @throws NonStorableResourceException if the given resources contains one of the NonStorableResources
          */
         public boolean addResourcesFromMarket(List<Resource> newResources) {
             if(newResources.size() > availableResourcesFromMarketSlots)
@@ -252,9 +245,9 @@ import java.util.stream.Collectors;
          * @return the chosen resource
          * @throws EmptySlotException if the chosen slot is empty
          * @throws InvalidIndexException if the given position is negative
-         * @throws NonAccessibleSlotException if the given position represent a slot that's not accessible
+         * @throws NonAccessibleSlotException if the given position represents a slot that's not accessible
          */
-        public Resource takeResource(int position) throws EmptySlotException, InvalidIndexException, NonAccessibleSlotException {
+        public Resource takeResources(int position) throws EmptySlotException, InvalidIndexException, NonAccessibleSlotException {
             if(!isInResourcesFromMarketSlotsZone(position)){ //cannot take resources from ResourcesFromMarketSlotsZone
                 if(!positionMap.containsKey(position)){
                     translatePosition(position);
@@ -274,14 +267,14 @@ import java.util.stream.Collectors;
          *
          * @param positions of the resources to be taken
          * @return a list containing the chosen resources
-         * @throws InvalidIndexException if one of the chosen slots is empty
-         * @throws EmptySlotException if one the given positions is negative
-         * @throws NonAccessibleSlotException if one of the given position represent a slot that's not accessible
+         * @throws InvalidIndexException if one the given positions is negative
+         * @throws EmptySlotException if one of the chosen slots is empty
+         * @throws NonAccessibleSlotException if one of the given position represents a slot that's not accessible
          */
         public List<Resource> takeResources(List<Integer> positions) throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
             List<Resource> chosenResources = new ArrayList<>();
             for(Integer position : positions)
-                chosenResources.add(this.takeResource(position));
+                chosenResources.add(this.takeResources(position));
             return chosenResources;
         }
 

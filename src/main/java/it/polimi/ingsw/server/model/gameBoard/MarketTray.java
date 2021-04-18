@@ -98,7 +98,7 @@ public class MarketTray {
      * Take the resources present in the chosen line and for each one call their own market ability.
      * Change the MarketBoard after the selection.
      *
-     * @param arrow which represent the index of the chosen line: 0,1 and 2 for the rows and 3,4,5 and 6 for the column
+     * @param arrow which represents the index of the chosen line: 0,1 and 2 for the rows and 3,4,5 and 6 for the column
      * @return the chosen resources
      * @throws InvalidIndexException if arrow < 0 or arrow > 6
      */
