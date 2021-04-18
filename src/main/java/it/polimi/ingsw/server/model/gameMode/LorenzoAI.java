@@ -35,6 +35,7 @@ public class LorenzoAI implements Lorenzo{
         } else {
             tokensDeckIndex++;
         }
+        return true;
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.model.cards.BasicPowerCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
@@ -11,6 +12,7 @@ import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -52,6 +54,7 @@ public class PersonalBoard implements EndGameSubject {
     public List<LeaderCard> getActiveLeaderCards() {
         return activeLeaderCards;
     }
+
 
     /**
      * Get the possible placement of a Development card
@@ -171,7 +174,7 @@ public class PersonalBoard implements EndGameSubject {
     /**
      * Getter of all the DevelopmentCards currently on the board
      *
-     * @return List</ DevelopmentCard> of cards on the board
+     * @return List</DevelopmentCard> of cards on the board
      */
     public List<DevelopmentCard> getAllDevelopmentCards() {
         List<DevelopmentCard> toReturn = new ArrayList<>();
@@ -179,5 +182,19 @@ public class PersonalBoard implements EndGameSubject {
             deckProduction.get(i).forEach(card -> toReturn.add((DevelopmentCard) card));
         }
         return toReturn;
+    }
+
+    //todo test this method!
+    /**
+     *
+     * @return the the top ProductionCard of the selected slot
+     * @param slotPosition of the selected slot
+     */
+    public ProductionCard getProductionCard(int slotPosition) throws InvalidIndexException {
+        try {
+            return deckProduction.get(slotPosition).get(0);
+        }catch (IndexOutOfBoundsException e){
+            throw new InvalidIndexException();
+        }
     }
 }
