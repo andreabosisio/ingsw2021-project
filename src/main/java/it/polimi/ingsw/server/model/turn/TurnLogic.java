@@ -106,10 +106,6 @@ public class TurnLogic {
         return endTurn;
     }
 
-    public State getLorenzoTurn() {
-        return lorenzoTurn;
-    }
-
     public State getEndGame() {
         return endGame;
     }

@@ -83,17 +83,17 @@ class PersonalBoardTest {
         assertTrue(player.setLeaderHand(leaders.subList(0,2)));
 
         //check that same leader can't be placed twice
-        assertTrue(player.setActivateLeader(leader1));
-        assertFalse(player.setActivateLeader(leader1));
+        assertTrue(player.setActivateLeaderTest(leader1));
+        assertFalse(player.setActivateLeaderTest(leader1));
         //check that same leader can't be placed as active twice
         assertFalse(player.getPersonalBoard().addToActiveLeaders(leader1));
 
         //check placement of 2 leaders
-        assertTrue(player.setActivateLeader(leader2));
-        assertFalse(player.setActivateLeader(leader2));
+        assertTrue(player.setActivateLeaderTest(leader2));
+        assertFalse(player.setActivateLeaderTest(leader2));
 
         //check that you can't place 3 leaders
-        assertFalse(player.setActivateLeader(leader3));
+        assertFalse(player.setActivateLeaderTest(leader3));
         assertFalse(player.getPersonalBoard().addToActiveLeaders(leader3));
         //set that same leader can't be placed twice
         assertFalse(player.getPersonalBoard().setNewDevCard((ProductionCard) leader1));
@@ -124,10 +124,10 @@ class PersonalBoardTest {
         List<LeaderCard> savedLeaders = new ArrayList<>(leaders);
         assertTrue(GameBoard.getGameBoard().createFaithTracks(players));
         assertTrue(player.setLeaderHand(leaders));
-        assertTrue(player.setActivateLeader(leaders.get(0)));
+        assertTrue(player.setActivateLeaderTest(leaders.get(0)));
         //check activeLeader points = player points
         assertEquals(savedLeaders.get(0).getPoints(),player.getPersonalBoard().getPoints(player));
-        assertTrue(player.setActivateLeader(leaders.get(1)));
+        assertTrue(player.setActivateLeaderTest(leaders.get(1)));
         //check activeLeaders points = player points
         int expectedPoints = savedLeaders.stream().mapToInt(LeaderCard::getPoints).sum();
         assertEquals(expectedPoints,player.getPersonalBoard().getPoints(player));
@@ -176,7 +176,7 @@ class PersonalBoardTest {
         List<LeaderCard> leaders = generator.generateLeaderCards().subList(0,2);
         List<LeaderCard> savedLeaders = new ArrayList<>(leaders);
         assertTrue(player.setLeaderHand(leaders));
-        assertTrue(player.setActivateLeader(leaders.get(0)));
+        assertTrue(player.setActivateLeaderTest(leaders.get(0)));
         assertEquals(4+dev.getPoints()+savedLeaders.get(0).getPoints(),player.getPersonalBoard().getPoints(player));
 
         //check with warehouse added (4 from faith,1 from warehouse,4 from devCard,3 from leaderCard)

@@ -7,9 +7,7 @@ import java.util.Map;
 
 public abstract class State {
     TurnLogic turnLogic;
-    public State(TurnLogic turnLogic){
-        this.turnLogic=turnLogic;
-    }
+    public State(TurnLogic turnLogic){this.turnLogic=turnLogic;}
 
     public boolean marketAction(int arrowID) throws InvalidEventException, InvalidIndexException {throw new InvalidEventException();}
     public boolean productionAction(Map<Integer,List<Integer>> productionMap) throws InvalidEventException, InvalidIndexException, NonStorableResourceException { throw new InvalidEventException(); }

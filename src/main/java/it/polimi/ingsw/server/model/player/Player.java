@@ -60,11 +60,12 @@ public class Player implements PlayerInterface {
     }
 
     /**
+     * Used only for testing
      * Get the list of LeaderCards the player can activate
      *
      * @return List</LeaderCard> of leaders that can be activated
      */
-    public List<LeaderCard> getAvailableLeaderActivation() {
+    public List<LeaderCard> getAvailableLeaderActivationTest() {
         List<LeaderCard> toReturn = new ArrayList<>();
         for (LeaderCard card : leaderHand) {
             if (card.canBeActivated(this)) {
@@ -75,16 +76,35 @@ public class Player implements PlayerInterface {
     }
 
     /**
+     * Used only for testing
      * Activate the specified leaderCard
      *
      * @param leaderCard card to activate
      * @return true if activated successfully and false if not owned by the player
      */
-    public boolean setActivateLeader(LeaderCard leaderCard) {
+    public boolean setActivateLeaderTest(LeaderCard leaderCard) {
         if (leaderHand != null && leaderHand.contains(leaderCard)) {
             if (leaderCard.activate(this)) {
                 leaderHand.remove(leaderCard);
                 return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Activate specified leaderCard
+     *
+     * @param leaderCard leaderCard to activate
+     * @return true if successfully activated
+     */
+    public boolean activateLeaderCard(LeaderCard leaderCard) {
+        if (leaderHand != null && leaderHand.contains(leaderCard)) {
+            if (leaderCard.canBeActivated(this)) {
+                if (leaderCard.activate(this)) {
+                    leaderHand.remove(leaderCard);
+                    return true;
+                }
             }
         }
         return false;

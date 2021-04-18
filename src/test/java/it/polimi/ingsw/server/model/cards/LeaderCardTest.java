@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.OtherResource;
-import it.polimi.ingsw.server.model.turn.TurnLogic;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -82,10 +81,10 @@ class LeaderCardTest {
         assertTrue(player1.getLeaderHand().get(1).canBeActivated(player1));
         assertTrue(player2.getLeaderHand().get(0).canBeActivated(player2));
         assertTrue(player2.getLeaderHand().get(1).canBeActivated(player2));
-        assertTrue(player1.setActivateLeader(leaderHand1.get(0)));
-        assertTrue(player1.setActivateLeader(leaderHand1.get(1)));
-        assertTrue(player2.setActivateLeader(leaderHand2.get(0)));
-        assertTrue(player2.setActivateLeader(leaderHand2.get(1)));
+        assertTrue(player1.setActivateLeaderTest(leaderHand1.get(0)));
+        assertTrue(player1.setActivateLeaderTest(leaderHand1.get(1)));
+        assertTrue(player2.setActivateLeaderTest(leaderHand2.get(0)));
+        assertTrue(player2.setActivateLeaderTest(leaderHand2.get(1)));
         assertEquals(2,player1.getPersonalBoard().getActiveLeaderCards().size());
         assertEquals(2,player2.getPersonalBoard().getActiveLeaderCards().size());
     }

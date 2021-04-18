@@ -40,10 +40,12 @@ public class StartTurn extends State {
                 .addResourcesFromMarket(GameBoard.getGameBoard().getMarketTray().takeResources(arrowID))){
             if(turnLogic.getWhiteResourcesFromMarket().size()>0){
                 //todo evento in uscita
+                hasAlreadyDoneLeaderAction=false;
                 turnLogic.setCurrentState(turnLogic.getWaitTransformation());
                 return true;
             }
             //todo evento in uscita
+            hasAlreadyDoneLeaderAction=false;
             turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());
         }
         return false;
@@ -74,6 +76,7 @@ public class StartTurn extends State {
             if(!chosenCard.usePower(turnLogic))
                 throw new InvalidEventException();
         }
+        hasAlreadyDoneLeaderAction = false;
         turnLogic.setCurrentState(turnLogic.getEndGame());
         return true;
     }

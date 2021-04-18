@@ -38,7 +38,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      */
     public List<DevelopmentCard> getAvailableCards() {
         List<DevelopmentCard> toReturn = new ArrayList<>();
-        mapByLevel.forEach((element) -> element.forEach((key, value) -> {
+        mapByLevel.forEach((level) -> level.forEach((key, value) -> {
             if (value.size() != 0) {
                 toReturn.add(value.get(0));
             }
@@ -123,5 +123,12 @@ public class DevelopmentCardsGrid implements EndGameSubject {
     @Override
     public void notifyEndGameObserver() {
         iCheckWinner.update(true);
+    }
+
+
+    //todo remember to test for index starting by 0 or 1
+    public DevelopmentCard getCardByColorAndLevel(CardColorEnum color,int level){
+        //index out of bounds exception
+        return mapByLevel.get(level-1).get(color).get(0);
     }
 }
