@@ -1,21 +1,43 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
+import it.polimi.ingsw.server.observer.Observable;
+import it.polimi.ingsw.server.observer.Observer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class ModelInterface {
-    List<Player> players = new ArrayList<Player>(){{
-       add(new Player("Andrea"));
-       add(new Player("Matteo"));
-       add(new Player("Marco"));
-    }};
-    private TurnLogic turnLogic = new TurnLogic(players);
+public class ModelInterface implements Observable {
 
+    private final List<Player> players = new ArrayList<>();
+    private final TurnLogic turnLogic;
+    private final SetupManager setupManager;
+    private final List<Observer> virtualViews;
+
+    public ModelInterface(List<String> nicknames) {
+        for (String username:nicknames){
+            this.players.add(new Player(username));
+        }
+        virtualViews = new ArrayList<>();
+        Collections.shuffle(players);
+        turnLogic = new TurnLogic(players,this);
+        //todo passa modelInterface a setup manager
+        setupManager = new SetupManager(players);
+    }
+
+    /**
+     * Getter of current player's nickname
+     *
+     * @return nickname of current player
+     */
+    public String getCurrentPlayer(){
+        return turnLogic.getCurrentPlayer().getNickName();
+    }
 
     public TurnLogic getTurnLogic() {
         return turnLogic;
@@ -44,5 +66,23 @@ public class ModelInterface {
     }
     public boolean endTurn() throws InvalidEventException {
         return turnLogic.endTurn();
+    }
+
+    @Override
+    public void registerObserver(Observer virtualView) {
+        virtualViews.add(virtualView);
+    }
+
+    @Override
+    public void removeObserver(Observer virtualView) {
+        int i = virtualViews.indexOf(virtualView);
+        if(i>=0) {
+            virtualViews.remove(virtualView);
+        }
+    }
+
+    @Override
+    public void notifyObservers(ReceiveEvent receiveEvent) {
+        virtualViews.forEach(view->view.update(receiveEvent));
     }
 }

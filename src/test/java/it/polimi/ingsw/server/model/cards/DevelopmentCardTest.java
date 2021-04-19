@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,7 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class DevelopmentCardTest {
 
     CardsGenerator devCardGenerator = new CardsGenerator();
-    ModelInterface modelInterface = new ModelInterface();
+    ModelInterface modelInterface = new ModelInterface(new ArrayList<String>(){{
+        add("pepo");
+    }});
     TurnLogic turnLogic = modelInterface.getTurnLogic();
     List<DevelopmentCard> devCards = devCardGenerator.generateDevelopmentCards();
     DevelopmentCard devCard;

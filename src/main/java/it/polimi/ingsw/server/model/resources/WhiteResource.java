@@ -54,13 +54,9 @@ public class WhiteResource extends Resource {
      * @param transformation that this WhiteResource can take
      * @return true if the transformation has been correctly added to the possibleTransformations list
      */
+    @Override
     public boolean addPossibleTransformation(Resource transformation){
         return this.possibleTransformations.add(transformation);
     }
 
-    //todo
-    @Override
-    public boolean addPossibleTransformations(Resource possibleTransformation) {
-        return this.possibleTransformations.add(possibleTransformation);
-    }
 }

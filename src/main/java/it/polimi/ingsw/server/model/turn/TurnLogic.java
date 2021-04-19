@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.gameMode.GameMode;
@@ -23,8 +24,33 @@ public class TurnLogic {
     private final State startTurn, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, endGame;
     private List<Resource> whiteResourcesFromMarket = new ArrayList<>();
     private DevelopmentCard chosenDevCard;
+    private final ModelInterface modelInterface;
 
+    public TurnLogic(List<Player> players, ModelInterface modelInterface) {
+        this.modelInterface = modelInterface;
+        this.players = players;
+        this.currentPlayer = players.get(0);
+        this.currentState = new StartTurn(this);
+        GameBoard.getGameBoard().createFaithTracks(players);
+        GameBoard.getGameBoard().setTurnLogicOfMarketTray(this);
+        this.gameMode = new GameMode(players);
+        this.setTheObservers();
+
+        this.startTurn = new StartTurn(this);
+        this.waitDevCardPlacement = new WaitDevCardPlacement(this);
+        this.waitTransformation = new WaitTransformation(this);
+        this.waitResourcePlacement = new WaitResourcePlacement(this);
+        this.endTurn = new EndTurn(this);
+        this.endGame = new EndGame(this);
+
+    }
+
+    /**
+     * constructor only used in testing
+     * @param players
+     */
     public TurnLogic(List<Player> players) {
+        this.modelInterface = null;
         this.players = players;
         this.currentPlayer = players.get(0);
         this.currentState = new StartTurn(this);

@@ -33,6 +33,6 @@ public class TransformationLeaderCard extends LeaderCard {
      */
     @Override
     public boolean doTransformation(Resource resource) {
-       return resource.addPossibleTransformations(transformation);
+       return resource.addPossibleTransformation(transformation);
     }
 }

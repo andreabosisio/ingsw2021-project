@@ -15,7 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MarketTrayTest {
 
-    ModelInterface modelInterface = new ModelInterface();
+    ModelInterface modelInterface = new ModelInterface(new ArrayList<String>(){{
+        add("pepo");
+    }});
     MarketTray market = GameBoard.getGameBoard().getMarketTray();
 
     @Test
@@ -25,7 +27,9 @@ class MarketTrayTest {
             random = getRandomInt(0, 4);
             if(random == 3){
                 GameBoard.getGameBoard().reset();
-                modelInterface = new ModelInterface();
+                modelInterface = new ModelInterface(new ArrayList<String>(){{
+                    add("pepo");
+                }});
                 market = GameBoard.getGameBoard().getMarketTray();
             }
 
@@ -41,6 +45,8 @@ class MarketTrayTest {
 
         //market = GameBoard.getGameBoard().getMarketTray();
         //modelInterface = new ModelInterface();
+
+
         Resource[][] correctMarket = new Resource[market.getNUM_R()][market.getNUM_C()];
         Resource correctExtraSlot = null;
         List<Resource> correctTakeResources = new ArrayList<>();
