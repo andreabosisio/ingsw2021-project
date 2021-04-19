@@ -1,15 +1,15 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.events.send.PlaceDevCardSendEvent;
+import it.polimi.ingsw.server.events.send.PlaceResourcesSendEvent;
+import it.polimi.ingsw.server.events.send.TransformationSendEvent;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.PersonalBoard;
 import it.polimi.ingsw.server.model.player.Warehouse;
-import it.polimi.ingsw.server.model.resources.NonStorableResources;
-import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
@@ -39,12 +39,16 @@ public class StartTurn extends State {
         if(turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()
                 .addResourcesFromMarket(GameBoard.getGameBoard().getMarketTray().takeResources(arrowID))){
             if(turnLogic.getWhiteResourcesFromMarket().size()>0){
-                //todo evento in uscita
+                //todo evento in uscita (fatto)
+                turnLogic.getModelInterface().
+                        notifyObservers(new TransformationSendEvent(turnLogic.getCurrentPlayer().getNickName(), turnLogic.getWhiteResourcesFromMarket()));
                 hasAlreadyDoneLeaderAction=false;
                 turnLogic.setCurrentState(turnLogic.getWaitTransformation());
                 return true;
             }
-            //todo evento in uscita
+            //todo evento in uscita (fatto)
+            turnLogic.getModelInterface().
+                    notifyObservers(new PlaceResourcesSendEvent(turnLogic.getCurrentPlayer().getNickName(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             hasAlreadyDoneLeaderAction=false;
             turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());
         }
@@ -113,6 +117,8 @@ public class StartTurn extends State {
         if(turnLogic.getCurrentPlayer().getPersonalBoard().getAvailablePlacement(chosenDevCard).size() > 0)
             if(chosenDevCard.buyCard(turnLogic.getCurrentPlayer(), resourcesPositions, availableDiscount)) {
                 turnLogic.setChosenDevCard(chosenDevCard);
+                // todo evento di uscita
+                turnLogic.getModelInterface().notifyObservers(new PlaceDevCardSendEvent(turnLogic.getCurrentPlayer().getNickName()));
                 turnLogic.setCurrentState(turnLogic.getWaitDevCardPlacement());
                 hasAlreadyDoneLeaderAction = false;
                 return true;

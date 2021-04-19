@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.resources.Resource;
 import java.util.Arrays;
 import java.util.List;
 
-public class MarketSlots implements ResourcesContainer{
+public class MarketSlots implements ResourcesContainer {
     final int availableResourcesFromMarketSlots = 4;
     private final List<Resource> slots;
     private int lastIndex = 0;
@@ -21,8 +21,9 @@ public class MarketSlots implements ResourcesContainer{
      * @param newResources taken from the MarketTray
      * @return true
      */
-    public boolean addResources(List<Resource> newResources){ ;
-        for(Resource newResource : newResources) {
+    public boolean addResources(List<Resource> newResources) {
+        ;
+        for (Resource newResource : newResources) {
             this.slots.set(lastIndex, newResource);
             lastIndex++;
         }
@@ -39,10 +40,10 @@ public class MarketSlots implements ResourcesContainer{
      *
      * @return the number of the resources in this container
      */
-    public int getNumberOfRemainingResources(){
+    public int getNumberOfRemainingResources() {
         int remained = 0;
         for (int i = 0; i < availableResourcesFromMarketSlots; i++)
-            if(slots.get(i) != null) {
+            if (slots.get(i) != null) {
                 remained++;
                 slots.set(i, null);
             }
@@ -54,7 +55,7 @@ public class MarketSlots implements ResourcesContainer{
      * Add the resource toStock into the slot defined by the given position.
      *
      * @param position of the chosen slot
-     * @param toStock           Resource to stock
+     * @param toStock  Resource to stock
      * @return true if the Resource has been correctly stocked
      */
     @Override
@@ -87,5 +88,12 @@ public class MarketSlots implements ResourcesContainer{
         return null;
     }
 
-
+    /**
+     * Get method that
+     *
+     * @return all the slots
+     */
+    public List<Resource> getSlots() {
+        return slots;
+    }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.virtualView;
 
 import it.polimi.ingsw.server.events.receive.ReceiveEvent;
+import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.observer.Observable;
 import it.polimi.ingsw.server.observer.Observer;
 
@@ -13,7 +14,6 @@ public class VirtualView implements Observer, Observable {
 
     @Override
     public void removeObserver(Observer observer) {
-
     }
 
     @Override
@@ -22,8 +22,17 @@ public class VirtualView implements Observer, Observable {
     }
 
     @Override
-    public void update(ReceiveEvent receiveEvent) {
+    public void update(SendEvent sendEvent) {
         //check if player is owner of this virtual view
         //if yes send serializable event with data to client
+    }
+
+    @Override
+    public void notifyObservers(SendEvent sendEvent) {
+
+    }
+    @Override
+    public void update(ReceiveEvent receiveEvent) {
+
     }
 }

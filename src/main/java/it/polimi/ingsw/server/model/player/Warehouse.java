@@ -290,6 +290,15 @@ import java.util.stream.Collectors;
         }
 
         /**
+         * Get the resources stored in the Market slots.
+         *
+         * @return a list containing the resources from Market
+         */
+        public List<Resource> getResourcesFromMarket(){
+            return resourcesFromMarket.getSlots();
+        }
+
+        /**
          * Get all the available resources stored in the Warehouse without removing them.
          *
          * @return a list containing the copy of all the available resources

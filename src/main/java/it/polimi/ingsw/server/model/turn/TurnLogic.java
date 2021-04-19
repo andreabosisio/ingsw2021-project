@@ -22,7 +22,7 @@ public class TurnLogic {
     private Player currentPlayer;
     private State currentState;
     private final State startTurn, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, endGame;
-    private List<Resource> whiteResourcesFromMarket = new ArrayList<>();
+    private List<WhiteResource> whiteResourcesFromMarket = new ArrayList<>();
     private DevelopmentCard chosenDevCard;
     private final ModelInterface modelInterface;
 
@@ -142,8 +142,12 @@ public class TurnLogic {
         this.whiteResourcesFromMarket.add(whiteResourceFromMarket);
     }
 
-    public List<Resource> getWhiteResourcesFromMarket() {
+    public List<WhiteResource> getWhiteResourcesFromMarket() {
         return whiteResourcesFromMarket;
+    }
+
+    public ModelInterface getModelInterface() {
+        return modelInterface;
     }
 
     public void setChosenDevCard(DevelopmentCard chosenDevCard) {
