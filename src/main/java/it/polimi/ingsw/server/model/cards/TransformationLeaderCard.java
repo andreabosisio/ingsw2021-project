@@ -15,7 +15,7 @@ public class TransformationLeaderCard extends LeaderCard {
     }
 
     /**
-     * Activate the LeaderCard for the player and !!ONLY AFTER!! add it to personalBoard list of active leaders
+     * Activate the LeaderCard for the player and (only after) add it to personalBoard list of active leaders.
      *
      * @param player player owner of the card
      * @return true if activated successfully
@@ -26,9 +26,9 @@ public class TransformationLeaderCard extends LeaderCard {
     }
 
     /**
-     * Check if the white resource transformation can be performed by the card
+     * Check if the white resource transformation can be performed by the card.
      *
-     * @param resource
+     * @param resource Result of the transformation
      * @return true if it is acceptable
      */
     @Override

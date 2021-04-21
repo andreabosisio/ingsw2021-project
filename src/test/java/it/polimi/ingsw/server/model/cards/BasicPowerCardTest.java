@@ -32,11 +32,22 @@ class BasicPowerCardTest {
         desiredProductionResources.add(new OtherResource(ResourceEnum.GRAY));
         desiredProductionResources.add(new OtherResource(ResourceEnum.YELLOW));
         assertTrue(card.canDoProduction(desiredProductionResources));
-        simplyUsePowerTest(desiredProductionResources);
         getterTest(desiredProductionResources);
+        simplyUsePowerTest();
+
+        desiredProductionResources.clear();
+
+        desiredProductionResources.add(new OtherResource(ResourceEnum.PURPLE));
+        desiredProductionResources.add(new OtherResource(ResourceEnum.GRAY));
+        desiredProductionResources.add(new OtherResource(ResourceEnum.BLUE));
+        assertTrue(card.canDoProduction(desiredProductionResources));
+        getterTest(desiredProductionResources);
+        simplyUsePowerTest();
+
+
     }
 
-    void simplyUsePowerTest(List<Resource> desiredProductionResources){
+    void simplyUsePowerTest(){
         assertTrue(card.usePower(turnLogic));
     }
 
@@ -50,7 +61,9 @@ class BasicPowerCardTest {
         desiredProductionResources.add(new OtherResource(ResourceEnum.GRAY));
         desiredProductionResources.add(new OtherResource(ResourceEnum.YELLOW));
         assertFalse(card.canDoProduction(desiredProductionResources));
+
         desiredProductionResources.clear();
+
         desiredProductionResources.add(new RedResource());
         desiredProductionResources.add(new OtherResource(ResourceEnum.YELLOW));
         desiredProductionResources.add(new OtherResource(ResourceEnum.YELLOW));
@@ -61,6 +74,14 @@ class BasicPowerCardTest {
             assertTrue(true);
         }
 
+        desiredProductionResources.clear();
+
+        assertFalse(card.canDoProduction(desiredProductionResources));
+
     }
 
+    @Test
+    void getVictoryPointsTest() {
+        assertEquals(card.getPoints(), 0);
+    }
 }

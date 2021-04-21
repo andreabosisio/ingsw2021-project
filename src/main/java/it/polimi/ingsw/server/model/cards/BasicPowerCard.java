@@ -7,7 +7,6 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BasicPowerCard implements ProductionCard {
 
@@ -39,11 +38,12 @@ public class BasicPowerCard implements ProductionCard {
         for(Resource outResource : outResources)
             if(!outResource.productionAbility(turnLogic))
                 return false;
+        this.outResources.clear();
         return true;
     }
 
     /**
-     * Getter of the Resources required to activate the production of the card.
+     * Getter of the Resources required to activate the production of the Card.
      *
      * @return a new list of the Resources required to activate the production of the card
      */
@@ -55,7 +55,7 @@ public class BasicPowerCard implements ProductionCard {
     /**
      * Getter of the Resources provided by the production of the Card.
      *
-     * @return a new list of the Resources provided by the production of the card
+     * @return a new list of the Resources provided by the production of the Card
      */
     @Override
     public List<Resource> getOutResources() {
@@ -63,24 +63,24 @@ public class BasicPowerCard implements ProductionCard {
     }
 
     /**
-     * Check if the desiredProductionResources can activate the production of the card.
+     * Check if the desiredProductionResources can activate the production of the Card.
      * If yes set the outResources to be produced.
      *
-     * @param desiredProductionResources from a player
-     * @return true if the desiredProductionResources can activate the production of the card
+     * @param givenResources from a player
+     * @return true if the desiredProductionResources can activate the production of the Card
      * @throws NonStorableResourceException if desiredProductionResources contains a RedResource or a WhiteResource
      */
     @Override
-    public boolean canDoProduction(List<Resource> desiredProductionResources) throws NonStorableResourceException {
-        if(desiredProductionResources.size() != choosableInResourcesSlots + choosableOutResourcesSlots)
+    public boolean canDoProduction(List<Resource> givenResources) throws NonStorableResourceException {
+        if(givenResources.size() != choosableInResourcesSlots + choosableOutResourcesSlots)
             return false;
-        if(!Collections.disjoint(desiredProductionResources, NonStorableResources.getNonStorableResources()))
+        if(!Collections.disjoint(givenResources, NonStorableResources.getNonStorableResources()))
             throw new NonStorableResourceException();
-        return setOutResources(desiredProductionResources);
+        return setOutResources(givenResources);
     }
 
     /**
-     * Return card's victory points
+     * Return card's victory points.
      *
      * @return 0 points as default
      */

@@ -18,6 +18,7 @@ public abstract class LeaderCard {
 
     /**
      * Getter that returns the ID of the card.
+     *
      * @return a String containing an ID
      */
     public String getID() {
@@ -26,6 +27,7 @@ public abstract class LeaderCard {
 
     /**
      * Getter that returns the endgame points of the card.
+     *
      * @return an int for the points
      */
     public int getPoints() {
@@ -33,7 +35,8 @@ public abstract class LeaderCard {
     }
 
     /**
-     *Check if the white resource transformation can be performed by the card
+     *Check if the white resource transformation can be performed by the card.
+     *
      * @return true if it is acceptable
      */
     public boolean doTransformation(Resource resource) {
@@ -41,22 +44,24 @@ public abstract class LeaderCard {
     }
 
     /**
-     * Add the discount this card provide to currDiscounts
-     * @param currDiscounts list where this card discount will be added
+     * Add the discount this card provide to currDiscounts.
+     *
+     * @param currentDiscounts list where this card discount will be added
      * @return true if discount was added successfully
      */
-    public boolean applyDiscount(List<Resource> currDiscounts){
+    public boolean applyDiscount(List<Resource> currentDiscounts){
         return true;
     }
 
     /**
-     * Check if the LeaderCard can be activated by the player
+     * Check if the LeaderCard can be activated by the player.
+     *
      * @param player player activating the card
      * @return true if it can be activated
      */
     public boolean canBeActivated(Player player){
-        for(Requirement r:requirements){
-            if(!r.isSatisfied(player)) {
+        for(Requirement requirement : requirements){
+            if(!requirement.isSatisfied(player)) {
                 return false;
             }
         }
@@ -64,7 +69,8 @@ public abstract class LeaderCard {
     }
 
     /**
-     * Activate the LeaderCard for the player and !!ONLY AFTER!! add it to personalBoard list of active leaders
+     * Activate the LeaderCard for the player and (only after) add it to personalBoard list of active leaders.
+     *
      * @param player player owner of the card
      * @return true if activated successfully
      */

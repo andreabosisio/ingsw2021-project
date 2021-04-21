@@ -40,8 +40,8 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
      * @param desiredResources      list of the desired Resources
      * @return true if the outResources has been set correctly
      */
-    public boolean setOutResources(List<Resource> desiredResources) {
-        return outResources.addAll(desiredResources.subList(inResourceSlots, inResourceSlots + choosableOutResourcesSlots));
+    private boolean setOutResources(List<Resource> desiredResources) {
+        return outResources.addAll(desiredResources);
     }
 
     /**
@@ -55,7 +55,8 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
         for(Resource outResource : outResources)
             if(!outResource.productionAbility(turnLogic))
                 return false;
-        return true;
+        this.outResources.clear();
+        return this.outResources.add(new RedResource());
     }
 
     /**
@@ -90,22 +91,18 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
      */
     @Override
     public boolean canDoProduction(List<Resource> desiredProductionResources) throws NonStorableResourceException {
-        List<Resource> tempNeededResources = getInResources();
-        if(desiredProductionResources.size() != choosableInResourcesSlots + choosableOutResourcesSlots)
+        if(desiredProductionResources.size() != inResourceSlots + choosableOutResourcesSlots)
             return false;
         if(!Collections.disjoint(desiredProductionResources, NonStorableResources.getNonStorableResources()))
             throw new NonStorableResourceException();
-        for(Resource r : desiredProductionResources){
-            if(!tempNeededResources.contains(r)){
-                return false;
-            }
-            tempNeededResources.remove(r);
-        }
-        return setOutResources(desiredProductionResources);
+        if(!desiredProductionResources.get(0).equals(this.inResources))
+            return false;
+
+        return setOutResources(desiredProductionResources.subList(inResourceSlots, choosableOutResourcesSlots + 1));
     }
 
     /**
-     * Activate the LeaderCard for the player and !!ONLY AFTER!! add it to personalBoard list of active leaders
+     * Activate the LeaderCard for the player and (only after) add it to personalBoard list of active leaders
      *
      * @param player player owner of the card
      * @return true if activated successfully

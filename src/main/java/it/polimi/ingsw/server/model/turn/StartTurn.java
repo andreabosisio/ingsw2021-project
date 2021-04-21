@@ -57,7 +57,7 @@ public class StartTurn extends State {
     }
 
     /**
-     * Apply the production of the chosen ProductionCard with the chosen resources.
+     * For all the given ProductionCard apply the production with the chosen resources.
      *
      * @param productionMap containing the chosen ProductionCard and the chosen resources for that card
      * @return true if the production has been correctly applied
@@ -79,6 +79,7 @@ public class StartTurn extends State {
                 throw new InvalidEventException();
             if(!chosenCard.usePower(turnLogic))
                 throw new InvalidEventException();
+
         }
         hasAlreadyDoneLeaderAction = false;
         turnLogic.setCurrentState(turnLogic.getEndGame());
