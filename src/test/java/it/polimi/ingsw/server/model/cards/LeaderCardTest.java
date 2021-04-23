@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.resources.WhiteResource;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,10 +15,9 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LeaderCardTest {
-
+    List<LeaderCard> leaders = new CardsGenerator().generateLeaderCards();
     @Test
     void canBeActivatedTest() {
-        List<LeaderCard> leaders = new CardsGenerator().generateLeaderCards();
         LeaderCard leaderWithResRequirement = leaders.get(11);//req 5 purple
         LeaderCard leaderWithDevRequirement = leaders.get(0);// req lv2 green
         leaders.clear();
@@ -53,7 +53,6 @@ class LeaderCardTest {
     void activateAllTypesOfLeaderCardTest() {
         Player player1 = new Player("Aldo");
         Player player2 = new Player("Giovanni");
-        List<LeaderCard> leaders = new CardsGenerator().generateLeaderCards();
         List<LeaderCard> leaderHand1 = new ArrayList<>();
         leaderHand1.add(leaders.get(0));//req lev 2 Green
         leaderHand1.add(leaders.get(5));//req 1Green&1Purple
@@ -88,4 +87,13 @@ class LeaderCardTest {
         assertEquals(2,player1.getPersonalBoard().getActiveLeaderCards().size());
         assertEquals(2,player2.getPersonalBoard().getActiveLeaderCards().size());
     }
+
+    @Test
+    void basicLeaderCardTest(){
+        LeaderCard leaderCard = leaders.get(8); //warehouse leader card, ID: w1
+        assertEquals(leaderCard.getID(), "w1");
+        assertFalse(leaderCard.applyDiscount(new ArrayList<>())); //no discount
+        assertFalse(leaderCard.doTransformation(new WhiteResource())); //no transformation
+    }
+
 }

@@ -6,6 +6,8 @@ import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class StrongBox implements ResourcesContainer{
     protected List<Resource> slots = new ArrayList<>();
@@ -67,5 +69,12 @@ public class StrongBox implements ResourcesContainer{
         if(chosenResource != null)
             return new OtherResource(chosenResource.getColor());
         return null;
+    }
+
+    /**
+     * Reorder the StrongBox removing empty slots.
+     */
+    protected void reorder(){
+        slots = slots.stream().filter(Objects::nonNull).collect(Collectors.toList());
     }
 }

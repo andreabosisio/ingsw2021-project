@@ -15,10 +15,9 @@ public class EndTurn extends State {
      * the state of the game to StartTurn.
      *
      * @return true if there is a winner
-     * @throws InvalidEventException never
      */
     @Override
-    public boolean endTurn() throws InvalidEventException {
+    public boolean endTurn() {
 
         //check if the current player is the last player
         if(turnLogic.isLastPlayerTurn() && turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
@@ -36,6 +35,7 @@ public class EndTurn extends State {
             return true;
         }
 
+        turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse().reorderStrongBox();
         turnLogic.setNextPlayer();
         turnLogic.setCurrentState(turnLogic.getStartTurn());
         return false;

@@ -113,8 +113,13 @@ public class MarketTray {
                     chosenLine[i].marketAbility(turn);
                 }
                 temp = chosenLine[0];
+
+                /* replaced
                 for(int i = 0; i < NUM_C - 1; i++)
                     marketBoard[arrow][i] = chosenLine[i + 1];
+                */
+
+                System.arraycopy(chosenLine, 1, marketBoard[arrow], 0, NUM_C - 1);
                 marketBoard[arrow][NUM_C - 1] = extraSlot;
             }
             else if(arrow <= 6) { //if player chose a column
@@ -193,5 +198,13 @@ public class MarketTray {
 
     public void setTempNewResources(List<Resource> tempNewResources) {
         this.tempNewResources = tempNewResources;
+    }
+
+    /**
+     * For testing
+     * @return tempNewResources
+     */
+    public List<Resource> getTempNewResources() {
+        return tempNewResources;
     }
 }

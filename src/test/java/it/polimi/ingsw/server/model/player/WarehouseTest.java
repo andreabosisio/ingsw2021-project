@@ -200,7 +200,11 @@ class WarehouseTest {
         warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.BLUE));
         }});
+        assertEquals(warehouse.getResourcesFromMarket(), new ArrayList<Resource>(){{
+            add(new OtherResource(ResourceEnum.BLUE));
+        }});
         assertEquals(warehouse.getNumberOfRemainingResources(), 1);
+
     }
 
 
@@ -301,7 +305,11 @@ class WarehouseTest {
             assertTrue(true);
         }
 
+        assertEquals(warehouse.getResourcesFromMarket(), new ArrayList<Resource>(){{
+            add(new OtherResource(ResourceEnum.YELLOW));
+        }});
         assertEquals(1, warehouse.getNumberOfRemainingResources()); //one resource (Y) remained in Market resources
+
 
         try {
             warehouse.takeResources(-5); //invalid negative position

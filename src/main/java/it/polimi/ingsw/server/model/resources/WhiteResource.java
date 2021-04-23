@@ -40,10 +40,10 @@ public class WhiteResource extends Resource {
         for (LeaderCard leaderCard : turn.getCurrentPlayer().getPersonalBoard().getActiveLeaderCards())
             leaderCard.doTransformation(this);
 
-        if (possibleTransformations.size() == 1) {
+        if (possibleTransformations.size() == 1) { //the only possible transformation is applied automatically
             GameBoard.getGameBoard().getMarketTray().addNewResource(new OtherResource(possibleTransformations.get(0).getColor()));
         }
-        if (possibleTransformations.size() == 2) {
+        if (possibleTransformations.size() == 2) { //player must choose a transformation
             turn.setWhiteResourcesFromMarket(this);
         }
         return true;

@@ -16,13 +16,13 @@ public class MarketSlots implements ResourcesContainer {
     }
 
     /**
-     * Add the resources taken from the MarketTray to this container
+     * Add the resources taken from the MarketTray to this container.
      *
-     * @param newResources taken from the MarketTray
+     * @param newResources taken from the MarketTray (newResources.size() <= availableResourcesFromMarketSlots)
      * @return true
      */
     public boolean addResources(List<Resource> newResources) {
-        ;
+
         for (Resource newResource : newResources) {
             this.slots.set(lastIndex, newResource);
             lastIndex++;
@@ -54,7 +54,7 @@ public class MarketSlots implements ResourcesContainer {
     /**
      * Add the resource toStock into the slot defined by the given position.
      *
-     * @param position of the chosen slot
+     * @param position of the chosen slot (0 <= position <= slots.size())
      * @param toStock  Resource to stock
      * @return true if the Resource has been correctly stocked
      */
@@ -67,7 +67,7 @@ public class MarketSlots implements ResourcesContainer {
     /**
      * Remove the resource stored into the slot defined by the given position.
      *
-     * @param position of the chosen slot
+     * @param position of the chosen slot (0 <= position <= slots.size())
      * @return the taken Resource
      */
     @Override

@@ -23,7 +23,7 @@ class MarketTrayTest {
     @Test
     void multipleTakeResourcesTest() throws InvalidIndexException {
         int random;
-        for(int i = 0; i < 100; i++ ) {
+        for(int i = 0; i < 20; i++ ) {
             random = getRandomInt(0, 4);
             if(random == 3){
                 GameBoard.getGameBoard().reset();
@@ -130,5 +130,20 @@ class MarketTrayTest {
     public int getRandomInt(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min) + min;
+    }
+
+    @Test
+    void invalidArrowTest() {
+        try {
+            market.takeResources(-1);
+        }catch (InvalidIndexException e){
+            assertTrue(true);
+        }
+
+        try {
+            market.takeResources(7); //not existing arrow index
+        }catch (InvalidIndexException e){
+            assertTrue(true);
+        }
     }
 }

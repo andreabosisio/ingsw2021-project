@@ -50,7 +50,7 @@ public abstract class LeaderCard {
      * @return true if discount was added successfully
      */
     public boolean applyDiscount(List<Resource> currentDiscounts){
-        return true;
+        return false;
     }
 
     /**

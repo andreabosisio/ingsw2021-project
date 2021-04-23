@@ -55,7 +55,7 @@ public class Depot implements ResourcesContainer{
      * Add the resource toStock into the slot defined by the given position
      * and update the typeOfResource of this Depot.
      *
-     * @param position of the chosen slot
+     * @param position of the chosen slot (0 <= position <= slots.size())
      * @param toStock  Resource to stock
      * @return true if the Resource has been correctly stocked
      */
@@ -69,7 +69,7 @@ public class Depot implements ResourcesContainer{
     /**
      * Remove the resource stored into the slot defined by the given position.
      *
-     * @param position of the chosen slot
+     * @param position of the chosen slot (0 <= position <= slots.size())
      * @return the taken Resource
      */
     @Override
@@ -82,7 +82,7 @@ public class Depot implements ResourcesContainer{
     /**
      * Get the resource stored into the slot defined by the given position without removing it.
      *
-     * @param position of the chosen slot
+     * @param position of the chosen slot (0 <= position <= slots.size())
      * @return a copy of the chosen Resource if present, else return null
      */
     @Override

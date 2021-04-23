@@ -97,9 +97,9 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      */
     // TODO: Remember to test! And in case changes index of level
     public boolean removeCard(DevelopmentCard developmentCard) {
-        if (!mapByLevel.get(developmentCard.getLevel()).get(developmentCard.getColor()).contains(developmentCard))
+        if (!mapByLevel.get(developmentCard.getLevel() - 1).get(developmentCard.getColor()).contains(developmentCard))
             return false;
-        mapByLevel.get(developmentCard.getLevel()).get(developmentCard.getColor()).remove(developmentCard);
+        mapByLevel.get(developmentCard.getLevel() - 1).get(developmentCard.getColor()).remove(developmentCard);
         if (hasEmptyColumn())
             notifyEndGameObserver();
         return true;

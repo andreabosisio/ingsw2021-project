@@ -7,14 +7,16 @@ import java.util.List;
 import java.util.Map;
 
 public class ProductionReceiveEvent extends ReceiveEvent {
-    private final Map<Integer, List<Integer>> productionMap;
-    public ProductionReceiveEvent(String nickName, Map<Integer, List<Integer>> productionMap) {
+    private final Map<Integer, List<Integer>> productionMapIN;
+    private final Map<Integer, String> productionMapOUT;
+    public ProductionReceiveEvent(String nickName, Map<Integer, List<Integer>> productionMapIN, Map<Integer, String> productionMapOUT) {
         super(nickName);
-        this.productionMap=productionMap;
+        this.productionMapIN = productionMapIN;
+        this.productionMapOUT = productionMapOUT;
     }
 
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
-        return modelInterface.productionAction(productionMap);
+        return modelInterface.productionAction(productionMapIN, productionMapOUT);
     }
 }

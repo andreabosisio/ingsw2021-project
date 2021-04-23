@@ -48,8 +48,8 @@ public class ModelInterface implements Observable {
         return turnLogic.marketAction(arrowID);
     }
 
-    public boolean productionAction(Map<Integer, List<Integer>> productionMap) throws InvalidEventException, InvalidIndexException, NonStorableResourceException {
-        return turnLogic.productionAction(productionMap);
+    public boolean productionAction(Map<Integer, List<Integer>> productionMapIN, Map<Integer, String> productionMapOUT) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
+        return turnLogic.productionAction(productionMapIN, productionMapOUT);
     }
 
     public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcesPositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {

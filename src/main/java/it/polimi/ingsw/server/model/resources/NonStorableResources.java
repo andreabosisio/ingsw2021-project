@@ -20,6 +20,6 @@ public final class NonStorableResources {
         return nonStorableResources;
     }
     public static List<ResourceEnum> getNonStorableResourcesEnum() {
-        return nonStorableResources.stream().map(r->r.getColor()).collect(Collectors.toList());
+        return nonStorableResources.stream().map(Resource::getColor).collect(Collectors.toList());
     }
 }

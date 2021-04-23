@@ -2,7 +2,9 @@ package it.polimi.ingsw.server.model.cards;
 
 import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.exceptions.NonStorableResourceException;
+import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -14,6 +16,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductionLeaderCardTest {
+    List<String> nicknames = new ArrayList<String>(){{
+        add("Andrea");
+        add("Marco");
+        add("Matteo");
+    }};
+    ModelInterface modelInterface = new ModelInterface(nicknames);
     CardsGenerator leaderCardGenerator = new CardsGenerator();
     ProductionLeaderCard leaderCard;
 
@@ -43,6 +51,8 @@ class ProductionLeaderCardTest {
 
         assertTrue(leaderCard.canDoProduction(correctDesiredResources));
 
+        usePowerTest(leaderCard);
+
         assertFalse(leaderCard.canDoProduction(wrongDesiredResources));
 
         try {
@@ -55,5 +65,19 @@ class ProductionLeaderCardTest {
 
         assertTrue(leaderCard.canDoProduction(anotherCorrectDesiredResources));
 
+        usePowerTest(leaderCard);
+
+    }
+
+    void usePowerTest(ProductionLeaderCard leaderCard){
+        List<Resource> correctOutResources = new ArrayList<Resource>(){{
+            add(new RedResource());
+        }};
+        List<Resource> correctInResources = new ArrayList<Resource>(){{
+            add(new OtherResource(ResourceEnum.YELLOW));
+        }};
+        leaderCard.usePower(modelInterface.getTurnLogic());
+        assertEquals(leaderCard.getOutResources(), correctOutResources);
+        assertEquals(leaderCard.getInResources(), correctInResources);
     }
 }

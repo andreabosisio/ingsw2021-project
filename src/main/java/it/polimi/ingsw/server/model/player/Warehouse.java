@@ -207,7 +207,7 @@ import java.util.stream.Collectors;
                 return this.translatePosition(strongBox.slots.size() - 1 + startStrongBoxZone); //save the position to positionMap
             } catch (InvalidIndexException | NonAccessibleSlotException e) {
                 e.printStackTrace();
-                return false;
+                return false; //impossible condition
             }
         }
 
@@ -222,6 +222,13 @@ import java.util.stream.Collectors;
                 if(!addResourcesToStrongBox(producedResource))
                     return false;
             return true;
+        }
+
+        /**
+         * Reorder the StrongBox removing empty slots.
+         */
+        public void reorderStrongBox(){
+            strongBox.reorder();
         }
 
         /**
@@ -252,7 +259,7 @@ import java.util.stream.Collectors;
                 if(!positionMap.containsKey(position)){
                     translatePosition(position);
                 }
-                Resource chosenResource = positionMap.get(position).getResource();
+                Resource chosenResource = positionMap.get(position).takeResource();
                 if(chosenResource == null){
                     throw new EmptySlotException();
                 }else{
@@ -290,12 +297,12 @@ import java.util.stream.Collectors;
         }
 
         /**
-         * Get the resources stored in the Market slots.
+         * Get the non null resources stored in the Market slots.
          *
          * @return a list containing the resources from Market
          */
         public List<Resource> getResourcesFromMarket(){
-            return resourcesFromMarket.getSlots();
+            return resourcesFromMarket.getSlots().stream().filter(Objects::nonNull).collect(Collectors.toList());
         }
 
         /**

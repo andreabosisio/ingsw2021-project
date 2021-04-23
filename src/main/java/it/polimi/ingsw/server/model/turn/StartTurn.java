@@ -7,9 +7,12 @@ import it.polimi.ingsw.server.events.send.TransformationSendEvent;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
+import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.PersonalBoard;
 import it.polimi.ingsw.server.model.player.Warehouse;
+import it.polimi.ingsw.server.model.resources.NonStorableResources;
+import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
@@ -42,14 +45,14 @@ public class StartTurn extends State {
                 //todo evento in uscita (fatto)
                 turnLogic.getModelInterface().
                         notifyObservers(new TransformationSendEvent(turnLogic.getCurrentPlayer().getNickName(), turnLogic.getWhiteResourcesFromMarket()));
-                hasAlreadyDoneLeaderAction=false;
+                hasAlreadyDoneLeaderAction = false;
                 turnLogic.setCurrentState(turnLogic.getWaitTransformation());
                 return true;
             }
             //todo evento in uscita (fatto)
             turnLogic.getModelInterface().
                     notifyObservers(new PlaceResourcesSendEvent(turnLogic.getCurrentPlayer().getNickName(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
-            hasAlreadyDoneLeaderAction=false;
+            hasAlreadyDoneLeaderAction = false;
             turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());
         }
         return false;
@@ -59,27 +62,51 @@ public class StartTurn extends State {
     /**
      * For all the given ProductionCard apply the production with the chosen resources.
      *
-     * @param productionMap containing the chosen ProductionCard and the chosen resources for that card
+     * @param productionMapIN containing the chosen ProductionCard and the chosen resources to apply its production
+     * @param productionMapOUT containing the chosen ProdcutionCard and (if possible) the desired resources
      * @return true if the production has been correctly applied
      * @throws InvalidEventException        if one of the production can't be applied
      * @throws InvalidIndexException        if one of the index of the chosen ProductionCard doesn't exists
      * @throws NonStorableResourceException if one of the chosen resources contains a NonStorableResource
      */
     @Override
-    public boolean productionAction(Map<Integer, List<Integer>> productionMap) throws InvalidEventException, InvalidIndexException, NonStorableResourceException {
+    public boolean productionAction(Map<Integer, List<Integer>> productionMapIN, Map<Integer, String> productionMapOUT) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
         PersonalBoard personalBoard = turnLogic.getCurrentPlayer().getPersonalBoard();
         Warehouse warehouse = personalBoard.getWarehouse();
-        List<Resource> chosenResources;
+        List<Resource> chosenInResources;
+        ResourceEnum chosenOutResourceEnum;
+        Resource chosenOutResource;
         ProductionCard chosenCard;
 
-        for(Map.Entry production : productionMap.entrySet()){
-            chosenResources = new ArrayList<>(warehouse.getResources((List<Integer>) production.getValue()));
-            chosenCard = personalBoard.getProductionCard((Integer) production.getKey());
-            if(!chosenCard.canDoProduction(chosenResources))
+        for(Map.Entry<Integer, List<Integer>> production : productionMapIN.entrySet()){
+            Integer currentKey = production.getKey();
+            //todo controllare in caso getRes sia null
+            chosenInResources = new ArrayList<>(warehouse.getResources(production.getValue()));
+            try {
+                chosenOutResourceEnum = ResourceEnum.valueOf(productionMapOUT.get(currentKey));
+            }catch (IllegalArgumentException e){
+                throw new InvalidEventException(); //not existing ResourceEnum
+            }
+            if(NonStorableResources.getNonStorableResourcesEnum().contains(chosenOutResourceEnum))
+                throw new NonStorableResourceException(); //invalid out resource's type
+
+            chosenOutResource = new OtherResource(chosenOutResourceEnum);
+
+            chosenCard = personalBoard.getProductionCard(currentKey);
+
+            List<Resource> finalChosenInResources = chosenInResources;
+            Resource finalChosenOutResource = chosenOutResource;
+            List<Resource> productionResources = new ArrayList<Resource>(){{
+                addAll(finalChosenInResources);
+                add(finalChosenOutResource);
+            }};
+
+            if(!chosenCard.canDoProduction(productionResources))
                 throw new InvalidEventException();
             if(!chosenCard.usePower(turnLogic))
                 throw new InvalidEventException();
-
+            //payment
+            warehouse.takeResources(production.getValue());
         }
         hasAlreadyDoneLeaderAction = false;
         turnLogic.setCurrentState(turnLogic.getEndGame());
@@ -118,7 +145,7 @@ public class StartTurn extends State {
         if(turnLogic.getCurrentPlayer().getPersonalBoard().getAvailablePlacement(chosenDevCard).size() > 0)
             if(chosenDevCard.buyCard(turnLogic.getCurrentPlayer(), resourcesPositions, availableDiscount)) {
                 turnLogic.setChosenDevCard(chosenDevCard);
-                // todo evento di uscita
+                // todo evento di uscita (fatto)
                 turnLogic.getModelInterface().notifyObservers(new PlaceDevCardSendEvent(turnLogic.getCurrentPlayer().getNickName()));
                 turnLogic.setCurrentState(turnLogic.getWaitDevCardPlacement());
                 hasAlreadyDoneLeaderAction = false;

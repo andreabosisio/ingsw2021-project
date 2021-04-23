@@ -1,9 +1,14 @@
 package it.polimi.ingsw.server.model.cards;
 
 
+import it.polimi.ingsw.exceptions.EmptySlotException;
+import it.polimi.ingsw.exceptions.InvalidIndexException;
+import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.server.model.gameBoard.GameBoard;
+import it.polimi.ingsw.server.model.player.Warehouse;
 import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -20,9 +25,11 @@ class DevelopmentCardTest {
 
     CardsGenerator devCardGenerator = new CardsGenerator();
     ModelInterface modelInterface = new ModelInterface(new ArrayList<String>(){{
-        add("pepo");
+        add("Simone");
+        add("Andrea");
     }});
     TurnLogic turnLogic = modelInterface.getTurnLogic();
+    Warehouse warehouse = turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse();
     List<DevelopmentCard> devCards = devCardGenerator.generateDevelopmentCards();
     DevelopmentCard devCard;
 
@@ -95,8 +102,8 @@ class DevelopmentCardTest {
         }};
         assertEquals(correctPrice, devCard.getPrice());
         assertEquals(CardColorEnum.GREEN, devCard.getColor());
-        assertTrue(devCard.getLevel() == 1);
-        assertTrue(devCard.getPoints() == 1);
+        assertEquals(1, devCard.getLevel());
+        assertEquals(1, devCard.getPoints());
         assertTrue(devCard.getOutResources().equals(correctOutResources) && devCard.getInResources().equals(correctInResources));
     }
 
@@ -112,10 +119,100 @@ class DevelopmentCardTest {
         assertTrue(devCard.usePower(turnLogic));
     }
 
-    //@Test
-    //void buyCardTest(){
+    @Test
+    void buyCardTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+        devCard = devCards.get(14);
+        List<Integer> paymentResourcePositions;
+        List<Resource> discount;
 
-    //}
+        //----------------
+
+        List<Resource> strongBoxResources = new ArrayList<Resource>(){{
+            add(new OtherResource(ResourceEnum.YELLOW));
+            add(new OtherResource(ResourceEnum.YELLOW));
+            add(new OtherResource(ResourceEnum.YELLOW));
+            add(new OtherResource(ResourceEnum.GRAY));
+            add(new OtherResource(ResourceEnum.GRAY));
+        }};
+        warehouse.addResourcesToStrongBox(strongBoxResources);
+
+        discount = new ArrayList<>();
+
+        //correct resources for payment
+        paymentResourcePositions = new ArrayList<Integer>(){{
+           add(14);
+           add(15);
+           add(16);
+           add(17);
+           add(18);
+        }};
+
+        assertTrue(devCard.buyCard(turnLogic.getCurrentPlayer(), paymentResourcePositions, discount));
+        assertEquals(warehouse.getResources(paymentResourcePositions).size(), 0);
+
+        //----------------
+
+        paymentResourcePositions.clear();
+        warehouse.reorderStrongBox();
+
+        strongBoxResources = new ArrayList<Resource>(){{
+            add(new OtherResource(ResourceEnum.YELLOW));
+            add(new OtherResource(ResourceEnum.YELLOW));
+            add(new OtherResource(ResourceEnum.YELLOW));
+            add(new OtherResource(ResourceEnum.GRAY));
+            add(new OtherResource(ResourceEnum.GRAY));
+        }};
+        warehouse.addResourcesToStrongBox(strongBoxResources);
+
+        discount.add(new OtherResource(ResourceEnum.GRAY));
+        discount.add(new OtherResource(ResourceEnum.YELLOW));
+
+        //correct resources for payment with discount
+        paymentResourcePositions = new ArrayList<Integer>(){{
+            add(15);
+            add(16);
+            add(18);
+        }};
+
+        List<Resource> remainingResources = new ArrayList<Resource>(){{
+            add(new OtherResource(ResourceEnum.YELLOW));
+            add(new OtherResource(ResourceEnum.GRAY));
+        }};
+
+        assertTrue(devCard.buyCard(turnLogic.getCurrentPlayer(), paymentResourcePositions, discount));
+        assertEquals(warehouse.getResources(paymentResourcePositions).size(), 0);
+        assertEquals(warehouse.takeResources(new ArrayList<Integer>(){{
+            add(14);
+            add(17);
+        }}), remainingResources);
+
+
+        //----------------
+
+        //insufficient resources
+        assertFalse(devCard.buyCard(turnLogic.getCurrentPlayer(), paymentResourcePositions, discount));
+
+        //----------------
+
+        List<Resource> incorrectResources = new ArrayList<Resource>(){{
+            add(new OtherResource(ResourceEnum.YELLOW));
+            add(new OtherResource(ResourceEnum.PURPLE));
+            add(new OtherResource(ResourceEnum.BLUE));
+        }};
+        warehouse.reorderStrongBox();
+        warehouse.addResourcesToStrongBox(incorrectResources);
+
+        //incorrect resources for payment
+        paymentResourcePositions = new ArrayList<Integer>(){{
+            add(14);
+            add(15);
+            add(16);
+        }};
+
+        //incorrect resources for payment with discount
+        assertFalse(devCard.buyCard(turnLogic.getCurrentPlayer(), paymentResourcePositions, discount));
+
+    }
 
 
     //@Test

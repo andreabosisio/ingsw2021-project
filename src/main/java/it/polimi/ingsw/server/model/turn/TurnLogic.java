@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.gameMode.GameMode;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.WhiteResource;
 
 import java.util.ArrayList;
@@ -162,8 +161,8 @@ public class TurnLogic {
     public boolean marketAction(int arrowID) throws InvalidEventException, InvalidIndexException {
         return currentState.marketAction(arrowID);
     }
-    public boolean productionAction(Map<Integer, List<Integer>> productionMap) throws InvalidEventException, InvalidIndexException, NonStorableResourceException {
-        return currentState.productionAction(productionMap);
+    public boolean productionAction(Map<Integer, List<Integer>> productionMapIN, Map<Integer, String> productionMapOUT) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
+        return currentState.productionAction(productionMapIN, productionMapOUT);
     }
     public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcesPositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         return currentState.buyAction(cardColor, cardLevel, resourcesPositions);

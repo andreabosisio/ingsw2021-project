@@ -28,6 +28,7 @@ public abstract class Resource {
 
     /**
      * Method to call after a Resource has been chosen in the MarketTray.
+     * Never used here
      *
      * @param turn  containing the current player, the current state of the game and others information
      * @return true if the ability has been executed successfully
@@ -67,12 +68,6 @@ public abstract class Resource {
         return Objects.hash(color);
     }
 
-    @Override
-    public String toString() {
-        return "Resource{" +
-                "color=" + color +
-                '}';
-    }
     public boolean addPossibleTransformation(Resource possibleTransformation) {
         return false;
     }

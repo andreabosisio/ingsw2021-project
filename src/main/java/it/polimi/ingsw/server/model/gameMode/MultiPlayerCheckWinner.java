@@ -67,10 +67,13 @@ public class MultiPlayerCheckWinner implements ICheckWinner {
         PlayerInterface winner = null;
 
         for (Player player : players) {
+            //the winner is the one who has more victory points
             if (player.getPersonalBoard().getPoints(player) > maxPoints) {
                 maxPoints = player.getPersonalBoard().getPoints(player);
                 winner = player;
-            } else if (maxPoints != 0 && player.getPersonalBoard().getPoints(player) == maxPoints &&
+            }
+            //players have the same victory points. the winner is the one who has more stocked resources
+            else if (maxPoints != 0 && player.getPersonalBoard().getPoints(player) == maxPoints &&
                     player.getPersonalBoard().getWarehouse().getAllResources().size() >
                             winner.getPersonalBoard().getWarehouse().getAllResources().size())
                 winner = player;
