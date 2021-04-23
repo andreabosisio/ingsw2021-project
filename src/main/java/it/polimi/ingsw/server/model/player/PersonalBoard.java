@@ -89,6 +89,7 @@ public class PersonalBoard implements EndGameSubject {
             //check that if there is a card under, it is acceptable to place the new one over it
             if (deckProduction.get(pos).size() > 0) {
                 DevelopmentCard last = (DevelopmentCard) deckProduction.get(pos).get(0);
+                //todo is this useless? methods that put cards won't allow this situation
                 if (last.getLevel() >= card.getLevel()) {
                     return false;
                 }

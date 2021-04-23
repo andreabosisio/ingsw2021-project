@@ -75,6 +75,9 @@ class PlayerTest {
         player.setLeaderHand(leaders);
         //check that both can't be activated
         assertEquals(0,player.getAvailableLeaderActivationTest().size());
+        assertFalse(player.activateLeaderCard(leaderWithDevRequirement));
+        assertFalse(player.activateLeaderCard(leaderWithResRequirement));
+        //setup requirements
         for(int i =0;i<5;i++) {
             assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.PURPLE)));
         }
@@ -91,9 +94,9 @@ class PlayerTest {
         assertEquals(2,player.getAvailableLeaderActivationTest().size());
         assertEquals(2,player.getAvailableLeaderActivationTest().size());
         //check that number of leader that can be activated is reduced when one is activated
-        assertTrue(player.setActivateLeaderTest(leaderWithDevRequirement));
+        assertTrue(player.activateLeaderCard(leaderWithDevRequirement));
         assertEquals(1,player.getAvailableLeaderActivationTest().size());//only resReq leader remain
-        assertTrue(player.setActivateLeaderTest(leaderWithResRequirement));
+        assertTrue(player.activateLeaderCard(leaderWithResRequirement));
         assertEquals(0,player.getAvailableLeaderActivationTest().size());//no leader remain to activate
 
 

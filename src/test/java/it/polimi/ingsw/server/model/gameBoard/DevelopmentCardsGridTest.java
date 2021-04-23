@@ -74,4 +74,20 @@ class DevelopmentCardsGridTest {
         //check that asking for cards with none available returns an empty list
         assertEquals(0,GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards().size());
     }
+
+    @Test
+    void getCardByColorAndLevelTest() {
+        DevelopmentCardsGrid developmentCardsGrid = new DevelopmentCardsGrid();
+        assertEquals(12,developmentCardsGrid.getAvailableCards().size());
+        DevelopmentCard developmentCard;
+        //remove all card of one color and one level
+        for(int i = 0;i<4;i++) {
+            developmentCard = developmentCardsGrid.getCardByColorAndLevel(CardColorEnum.GREEN, 1);
+            assertEquals(CardColorEnum.GREEN, developmentCard.getColor());
+            assertEquals(1, developmentCard.getLevel());
+            assertTrue(developmentCardsGrid.removeCard(developmentCard));
+        }
+        //check that trying to get one more card of that level and color throws an exception
+        assertThrows(IndexOutOfBoundsException.class,()-> developmentCardsGrid.getCardByColorAndLevel(CardColorEnum.GREEN,1));
+    }
 }

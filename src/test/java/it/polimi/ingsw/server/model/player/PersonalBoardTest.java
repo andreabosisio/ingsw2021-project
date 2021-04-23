@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.exceptions.InvalidIndexException;
 import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
@@ -26,6 +27,7 @@ class PersonalBoardTest {
         //test that a lv1 devCard can be placed in all 3 normal spots(1,2,3) when personalBoard is empty, and only on them
         PersonalBoard pBoard = new PersonalBoard();
         assertEquals(3,pBoard.getAvailablePlacement(lvl1Cards.get(0)).size());
+        //check that the available positions are 1-2-3
         assertEquals(1,pBoard.getAvailablePlacement(lvl1Cards.get(0)).get(0));
         assertEquals(2,pBoard.getAvailablePlacement(lvl1Cards.get(0)).get(1));
         assertEquals(3,pBoard.getAvailablePlacement(lvl1Cards.get(0)).get(2));
@@ -73,7 +75,7 @@ class PersonalBoardTest {
     }
 
     @Test
-    void setLeaderCardTest() {
+    void setLeaderCardTest() throws InvalidIndexException {
         CardsGenerator generator = new CardsGenerator();
         Player player = new Player("pepe");
         List<LeaderCard> leaders = generator.generateLeaderCards().stream().filter(l->l instanceof ProductionLeaderCard).collect(Collectors.toList());
@@ -85,13 +87,15 @@ class PersonalBoardTest {
         //check that same leader can't be placed twice
         assertTrue(player.setActivateLeaderTest(leader1));
         assertFalse(player.setActivateLeaderTest(leader1));
+        //check that the leader placed is the one expected and it is in column 4(first of leaders)
+        assertEquals(leader1,player.getPersonalBoard().getProductionCard(4));
         //check that same leader can't be placed as active twice
         assertFalse(player.getPersonalBoard().addToActiveLeaders(leader1));
-
         //check placement of 2 leaders
         assertTrue(player.setActivateLeaderTest(leader2));
         assertFalse(player.setActivateLeaderTest(leader2));
-
+        //check that the leader placed is the one expected and it is in column 5(second of leaders)
+        assertEquals(leader2,player.getPersonalBoard().getProductionCard(5));
         //check that you can't place 3 leaders
         assertFalse(player.setActivateLeaderTest(leader3));
         assertFalse(player.getPersonalBoard().addToActiveLeaders(leader3));
@@ -184,5 +188,24 @@ class PersonalBoardTest {
             assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.GRAY)));
         }
         assertEquals(4+1+dev.getPoints() + savedLeaders.get(0).getPoints(),player.getPersonalBoard().getPoints(player));
+    }
+
+    @Test
+    void getProductionCardTest() throws InvalidIndexException {
+        Player player = new Player("pepe");
+        CardsGenerator generator = new CardsGenerator();
+        List<DevelopmentCard> lvl1Cards = generator.generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList());
+        List<DevelopmentCard> lvl2Cards = generator.generateDevelopmentCards().stream().filter(c->c.getLevel()==2).collect(Collectors.toList());
+        List<DevelopmentCard> lvl3Cards = generator.generateDevelopmentCards().stream().filter(c->c.getLevel()==3).collect(Collectors.toList());
+        //test that a lv1 devCard can be placed in all 3 normal spots(1,2,3) when personalBoard is empty, and only on them
+        PersonalBoard pBoard = player.getPersonalBoard();
+        assertTrue(pBoard.setNewDevCard(1,lvl1Cards.get(0)));
+        assertEquals(lvl1Cards.get(0),pBoard.getProductionCard(1));
+        assertTrue(pBoard.setNewDevCard(1,lvl2Cards.get(0)));
+        assertTrue(pBoard.setNewDevCard(2,lvl1Cards.get(1)));
+        assertEquals(lvl2Cards.get(0),pBoard.getProductionCard(1));
+        assertEquals(lvl1Cards.get(1),pBoard.getProductionCard(2));
+        //check that trying to get a card from an empty column throws an exception
+        assertThrows(InvalidIndexException.class,()->pBoard.getProductionCard(5));
     }
 }
