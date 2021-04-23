@@ -29,7 +29,6 @@ public class TurnLogic {
         this.modelInterface = modelInterface;
         this.players = players;
         this.currentPlayer = players.get(0);
-        this.currentState = new StartTurn(this);
         GameBoard.getGameBoard().createFaithTracks(players);
         GameBoard.getGameBoard().setTurnLogicOfMarketTray(this);
         this.gameMode = new GameMode(players);
@@ -40,6 +39,7 @@ public class TurnLogic {
         this.waitResourcePlacement = new WaitResourcePlacement(this);
         this.endTurn = new EndTurn(this);
         this.endGame = new EndGame(this);
+        this.currentState = getStartTurn();
 
     }
 
@@ -183,10 +183,18 @@ public class TurnLogic {
     }
 
     /**
-     * getter for all players in the game,used only in testing
+     * getter for all players in the game
      * @return list of players in the game
      */
     public List<Player> getPlayers() {
         return players;
+    }
+
+    /**
+     * getter of current state, used only in testing
+     * @return turnLogic currentState
+     */
+    public State getCurrentState() {
+        return currentState;
     }
 }

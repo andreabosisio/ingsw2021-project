@@ -1,8 +1,13 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.exceptions.EmptySlotException;
+import it.polimi.ingsw.exceptions.InvalidIndexException;
+import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
+import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
@@ -11,6 +16,7 @@ import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.WhiteResource;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +40,10 @@ public class TestGameGenerator {
      */
     public ModelInterface modelInterfaceGenerator(boolean auto) {
         ModelInterface modelInterface = new ModelInterface(new ArrayList<String>() {{
-            add("primo");
-            add("secondo");
-            add("terzo");
-            add("quarto");
+            add("first");
+            add("second");
+            add("third");
+            add("fourth");
         }});
 
         if (auto) {
@@ -148,6 +154,19 @@ public class TestGameGenerator {
      */
     public void setDevelopmentCardsGrid(ModelInterface modelInterface) {
         GameBoard.getGameBoard().getDevelopmentCardsGrid().setNonRandom();
+    }
+
+    /**
+     * prepare player by giving him the resources he needs to buy a devCard
+     * adds them in his strongbox
+     *
+     * @param modelInterface model to modify
+     * @param playerIndex index of player to prepare(first player = 0)
+     * @param developmentCard devCard to prepare for
+     */
+    public void preparePlayerForDevCard(ModelInterface modelInterface, int playerIndex, DevelopmentCard developmentCard){
+        Player player = modelInterface.getTurnLogic().getPlayers().get(playerIndex);
+        player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(developmentCard.getPrice());
     }
 
     @Test
