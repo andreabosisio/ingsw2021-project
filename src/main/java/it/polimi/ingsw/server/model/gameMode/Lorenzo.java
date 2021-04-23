@@ -14,4 +14,11 @@ public interface Lorenzo extends PlayerInterface {
      * @return true if Lorenzo is playing in this game
      */
     boolean play();
+
+    /**
+     * Method used for testing
+     *
+     * @return the Solo Action Token extract
+     */
+    SoloActionToken getExtractToken();
 }

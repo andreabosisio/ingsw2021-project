@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.model.gameMode;
 
-import it.polimi.ingsw.server.model.gameBoard.GameBoard;
-
 /**
  * Interface that represents the general type Token
  */

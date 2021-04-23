@@ -20,4 +20,5 @@ public class DoubleFaithTrackProgressToken implements SoloActionToken {
         GameBoard.getGameBoard().faithProgress(lorenzo, faithTrackProgress);
         return false;
     }
+
 }

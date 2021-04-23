@@ -28,7 +28,7 @@ public class ModelInterface implements Observable {
         //Collections.shuffle(players);
         turnLogic = new TurnLogic(players, this);
         //todo passa modelInterface a setup manager
-        setupManager = new SetupManager(players);
+        setupManager = new SetupManager(players, this);
     }
 
     /**
@@ -42,6 +42,10 @@ public class ModelInterface implements Observable {
 
     public TurnLogic getTurnLogic() {
         return turnLogic;
+    }
+
+    public boolean setupAction(String nickname, List<Integer> leaderCardIndexes,List<String> resources) throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException, InvalidEventException, NonStorableResourceException {
+        return setupManager.choose(nickname, leaderCardIndexes, resources);
     }
 
     public boolean marketAction(int arrowID) throws InvalidEventException, InvalidIndexException {

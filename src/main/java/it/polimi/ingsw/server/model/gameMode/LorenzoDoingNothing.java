@@ -23,11 +23,21 @@ public class LorenzoDoingNothing implements Lorenzo{
      */
     @Override
     public String getNickName() {
-        return "Lorenzo il Magnifico";
+        return "Lorenzo il Magnifico doing nothing";
     }
 
     @Override
     public PersonalBoard getPersonalBoard() {
+        return null;
+    }
+
+    /**
+     * Method used for testing
+     *
+     * @return the Solo Action Token extract
+     */
+    @Override
+    public SoloActionToken getExtractToken() {
         return null;
     }
 }

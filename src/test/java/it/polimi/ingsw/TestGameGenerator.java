@@ -1,4 +1,5 @@
 package it.polimi.ingsw;
+
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
@@ -23,11 +24,12 @@ public class TestGameGenerator {
     /**
      * create a new game with this structure:
      * 4 players named: primo,secondo,terzo,quarto
+     *
      * @param auto true if you want everything auto
      *             false if you want to call settings after with your parameters
      *             settingsToCall: {  setLeaderInHand();
-     *                                setMarketTray();
-     *                                setDevelopmentCardsGrid();}
+     *             setMarketTray();
+     *             setDevelopmentCardsGrid();}
      * @return model prepared to start the game from player one
      */
     public ModelInterface modelInterfaceGenerator(boolean auto) {
@@ -38,7 +40,7 @@ public class TestGameGenerator {
             add("quarto");
         }});
 
-        if(auto) {
+        if (auto) {
             setLeaderInHandAuto(modelInterface);
             setMarketTrayAuto(modelInterface);
             setDevelopmentCardsGrid(modelInterface);
@@ -52,24 +54,25 @@ public class TestGameGenerator {
      * player2: m4,w4
      * player3: w1,d1
      * player4: d4,p4
+     *
      * @param modelInterface model to modify
      */
-    public void setLeaderInHandAuto(ModelInterface modelInterface){
+    public void setLeaderInHandAuto(ModelInterface modelInterface) {
         List<Player> players = modelInterface.getTurnLogic().getPlayers();
         List<LeaderCard> leaderCards = new CardsGenerator().generateLeaderCards();
-        players.get(0).setLeaderHand(new ArrayList<LeaderCard>(){{
+        players.get(0).setLeaderHand(new ArrayList<LeaderCard>() {{
             add(leaderCards.get(0));
             add(leaderCards.get(4));
         }});
-        players.get(1).setLeaderHand(new ArrayList<LeaderCard>(){{
+        players.get(1).setLeaderHand(new ArrayList<LeaderCard>() {{
             add(leaderCards.get(7));
             add(leaderCards.get(11));
         }});
-        players.get(2).setLeaderHand(new ArrayList<LeaderCard>(){{
+        players.get(2).setLeaderHand(new ArrayList<LeaderCard>() {{
             add(leaderCards.get(8));
             add(leaderCards.get(12));
         }});
-        players.get(3).setLeaderHand(new ArrayList<LeaderCard>(){{
+        players.get(3).setLeaderHand(new ArrayList<LeaderCard>() {{
             add(leaderCards.get(15));
             add(leaderCards.get(3));
         }});
@@ -78,32 +81,34 @@ public class TestGameGenerator {
     /**
      * set leaderHand by indexes on json (0=first leader in json,15 = last leader)
      * starts from first player
+     *
      * @param modelInterface model to modify
-     * @param indexes indexes of leaders to setup
+     * @param indexes        indexes of leaders to setup
      */
-    public void setLeaderInHand(ModelInterface modelInterface, List<Integer> indexes){
+    public void setLeaderInHand(ModelInterface modelInterface, List<Integer> indexes) {
         List<Player> players = modelInterface.getTurnLogic().getPlayers();
         List<LeaderCard> leaderCards = new CardsGenerator().generateLeaderCards();
         int i = 0;
-        for(Player p:players){
+        for (Player p : players) {
             List<LeaderCard> hand = new ArrayList<>();
             hand.add(leaderCards.get(i));
-            hand.add(leaderCards.get(i+1));
+            hand.add(leaderCards.get(i + 1));
             p.setLeaderHand(hand);
-            i=i+2;
+            i = i + 2;
         }
     }
 
     /**
      * set MarketTray like this
-     *  BLUE   - BLUE   - GRAY   - GRAY
-     *  YELLOW - YELLOW - PURPLE - PURPLE
-     *  RED    - WHITE  - WHITE  - WHITE
-     *  EXTRA: WHITE
+     * BLUE   - BLUE   - GRAY   - GRAY
+     * YELLOW - YELLOW - PURPLE - PURPLE
+     * RED    - WHITE  - WHITE  - WHITE
+     * EXTRA: WHITE
+     *
      * @param modelInterface model to modify
      */
 
-    public void setMarketTrayAuto(ModelInterface modelInterface){
+    public void setMarketTrayAuto(ModelInterface modelInterface) {
         List<Resource> resources = new ArrayList<>();
         resources.add(new OtherResource(ResourceEnum.BLUE));
         resources.add(new OtherResource(ResourceEnum.BLUE));
@@ -122,34 +127,33 @@ public class TestGameGenerator {
     }
 
     /**
-     * set marketTray res as intended (from left to right and from top to bottom)
+     * set marketTray res as intended (from left to right and from top to bottom),
+     * must contains 4 white, 2 yellow, 3 gray, 2 blue, 2 purple, 1 red
      * 1,2,3,4
      * 5,6,7,8
      * 9,7,11,12
      * extra=13
+     *
      * @param modelInterface model to modify
-     * @param resources resources you want
+     * @param resources      resources you want
      */
-    public void setMarketTray(ModelInterface modelInterface, List<Resource> resources){
+    public void setMarketTray(ModelInterface modelInterface, List<Resource> resources) {
         GameBoard.getGameBoard().getMarketTray().setNonRandom(resources);
     }
 
-
     /**
      * set devCardsGrid following jsonOrder:
+     *
      * @param modelInterface model to modify
      */
-    public void setDevelopmentCardsGrid(ModelInterface modelInterface){
+    public void setDevelopmentCardsGrid(ModelInterface modelInterface) {
         GameBoard.getGameBoard().getDevelopmentCardsGrid().setNonRandom();
     }
-
-
-
 
     @Test
     void modelInterfaceTest() {
         ModelInterface modelInterface = modelInterfaceGenerator(true);
-        GameBoard.getGameBoard().getMarketTray().print();
-        GameBoard.getGameBoard().getDevelopmentCardsGrid().print();
+        //GameBoard.getGameBoard().getMarketTray().print();
+        //GameBoard.getGameBoard().getDevelopmentCardsGrid().print();
     }
 }

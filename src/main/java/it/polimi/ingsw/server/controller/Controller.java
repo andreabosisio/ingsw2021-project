@@ -20,7 +20,7 @@ public class Controller implements Observer {
     }
 
     @Override
-    public void update(ReceiveEvent receiveEvent) {
+    public synchronized void update(ReceiveEvent receiveEvent) {
         //todo try catch di tutti gli errori e allo stesso modo avverte se if è false
         if (modelInterface.getCurrentPlayer().equals(receiveEvent.getNickName())) {
             try {

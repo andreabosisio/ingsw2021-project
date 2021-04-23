@@ -26,6 +26,8 @@ public class LorenzoTest {
         players.add(new Player("Roronoa"));
         TurnLogic turnLogic = new TurnLogic(players);
 
+        assertEquals("Lorenzo il Magnifico", turnLogic.getGameMode().getLorenzo().getNickName());
+        assertTrue(turnLogic.getGameMode().getLorenzo() instanceof LorenzoAI);
         assertEquals(2, GameBoard.getGameBoard().getFaithTracks().size());
         assertEquals(1, GameBoard.getGameBoard().getFaithTracks().stream().
                 filter(faithTrack -> faithTrack.getOwner() instanceof Lorenzo).count());
@@ -103,16 +105,38 @@ public class LorenzoTest {
         TurnLogic turnLogic = new TurnLogic(players);
         SoloActionToken soloActionToken = new DiscardDevCardsToken(CardColorEnum.PURPLE);
 
-        for(int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo()));
             assertFalse(GameBoard.getGameBoard().getDevelopmentCardsGrid().hasEmptyColumn());
         }
         assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo())); // Discard the last two Cards
         assertTrue(GameBoard.getGameBoard().getDevelopmentCardsGrid().hasEmptyColumn()); // The column is empty
-        assertEquals(9,GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards().size());
+        assertEquals(9, GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards().size());
         // The Game is over, a column is empty
         assertTrue(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
         // Lorenzo is the winner
         assertEquals(turnLogic.getGameMode().getLorenzo(), turnLogic.getGameMode().getICheckWinner().getWinner());
+    }
+
+    @Test
+    void testLorenzoPlay() {
+        List<Player> players = new ArrayList<>();
+        players.add(new Player("Ace"));
+        TurnLogic turnLogic = new TurnLogic(players);
+        int FaithProgress = 0;
+
+        for (int i = 0; i < 11; i++) {
+            if (turnLogic.getGameMode().getLorenzo().getExtractToken() instanceof SingleFaithTrackProgressToken) {
+                FaithProgress++;
+                turnLogic.getGameMode().getLorenzo().play();
+            } else if (turnLogic.getGameMode().getLorenzo().getExtractToken() instanceof DoubleFaithTrackProgressToken) {
+                FaithProgress = FaithProgress + 2;
+                turnLogic.getGameMode().getLorenzo().play();
+            } else if (turnLogic.getGameMode().getLorenzo().getExtractToken() instanceof DiscardDevCardsToken) {
+                turnLogic.getGameMode().getLorenzo().play();
+                assertFalse(GameBoard.getGameBoard().getDevelopmentCardsGrid().hasEmptyColumn());
+            }
+        }
+        assertEquals(FaithProgress, GameBoard.getGameBoard().getFaithTrackPlayer(turnLogic.getGameMode().getLorenzo()).getFaithMarker());
     }
 }

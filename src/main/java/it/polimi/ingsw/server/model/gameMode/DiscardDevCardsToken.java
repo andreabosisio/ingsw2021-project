@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model.gameMode;
 
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
-import it.polimi.ingsw.server.model.gameBoard.DevelopmentCardsGrid;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 
 /**
@@ -26,14 +25,5 @@ public class DiscardDevCardsToken implements SoloActionToken {
         if (GameBoard.getGameBoard().getDevelopmentCardsGrid().removeCardByColor(this.color))
             GameBoard.getGameBoard().getDevelopmentCardsGrid().removeCardByColor(this.color);
         return false;
-    }
-
-    /**
-     * Get method used for testing
-     *
-     * @return the color of the Development Card to discard
-     */
-    public CardColorEnum getColor() {
-        return color;
     }
 }

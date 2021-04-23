@@ -25,17 +25,18 @@ public class LorenzoAI implements Lorenzo{
      * It draws a Solo Action Token and calls the method shuffle
      * if the token drawn is a SingleFaithTrackProgressToken.
      *
-     * @return true
+     * @return true if the deck is shuffled
      */
     @Override
     public boolean play() {
         if (soloActionTokens.get(tokensDeckIndex).doAction(this)) {
             tokensDeckIndex = 0;
             this.shuffle();
+            return true;
         } else {
             tokensDeckIndex++;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -43,6 +44,16 @@ public class LorenzoAI implements Lorenzo{
      */
     private void shuffle(){
         Collections.shuffle(soloActionTokens);
+    }
+
+    /**
+     * Method used for testing
+     *
+     * @return the Solo Action Token extract
+     */
+    @Override
+    public SoloActionToken getExtractToken() {
+        return soloActionTokens.get(tokensDeckIndex);
     }
 
     /**
