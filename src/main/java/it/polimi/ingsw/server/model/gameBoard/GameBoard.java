@@ -179,7 +179,7 @@ public class GameBoard {
      * @param player in input
      * @return the Faith Track owned by player
      */
-    public FaithTrack getFaithTrackPlayer(PlayerInterface player) {
+    public FaithTrack getFaithTrackOfPlayer(PlayerInterface player) {
         return faithObservers.stream().filter(p -> p.getOwner().equals(player)).findFirst().orElse(null);
     }
 

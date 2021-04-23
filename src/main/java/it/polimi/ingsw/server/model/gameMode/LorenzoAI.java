@@ -62,7 +62,7 @@ public class LorenzoAI implements Lorenzo{
      * @return Lorenzo's nickname
      */
     @Override
-    public String getNickName() {
+    public String getNickname() {
         return "Lorenzo il Magnifico";
     }
 

@@ -16,5 +16,5 @@ public interface PlayerInterface {
      *
      * @return the nickname of the Player
      */
-    String getNickName();
+    String getNickname();
 }

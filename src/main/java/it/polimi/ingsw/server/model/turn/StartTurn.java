@@ -44,14 +44,14 @@ public class StartTurn extends State {
             if(turnLogic.getWhiteResourcesFromMarket().size()>0){
                 //todo evento in uscita (fatto)
                 turnLogic.getModelInterface().
-                        notifyObservers(new TransformationSendEvent(turnLogic.getCurrentPlayer().getNickName(), turnLogic.getWhiteResourcesFromMarket()));
+                        notifyObservers(new TransformationSendEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getWhiteResourcesFromMarket()));
                 hasAlreadyDoneLeaderAction = false;
                 turnLogic.setCurrentState(turnLogic.getWaitTransformation());
                 return true;
             }
             //todo evento in uscita (fatto)
             turnLogic.getModelInterface().
-                    notifyObservers(new PlaceResourcesSendEvent(turnLogic.getCurrentPlayer().getNickName(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+                    notifyObservers(new PlaceResourcesSendEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             hasAlreadyDoneLeaderAction = false;
             turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());
         }
@@ -119,7 +119,7 @@ public class StartTurn extends State {
      *
      * @param cardColor color of the card to buy
      * @param cardLevel level of the card to buy
-     * @param resourcesPositions index of the chosen resources
+     * @param resourcePositions index of the chosen resources
      * @return true if the card has been successfully bought
      * @throws InvalidEventException if the player can't buy the card
      * @throws InvalidIndexException if one of the resource positions is negative
@@ -127,7 +127,7 @@ public class StartTurn extends State {
      * @throws NonAccessibleSlotException if one of the resource position represents a slot that's not accessible
      */
     @Override
-    public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcesPositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+    public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcePositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         DevelopmentCard chosenDevCard;
         try {
             CardColorEnum chosenColorEnum = CardColorEnum.valueOf(cardColor.toUpperCase());
@@ -143,10 +143,10 @@ public class StartTurn extends State {
 
         //check if the player can place and buy the card
         if(turnLogic.getCurrentPlayer().getPersonalBoard().getAvailablePlacement(chosenDevCard).size() > 0)
-            if(chosenDevCard.buyCard(turnLogic.getCurrentPlayer(), resourcesPositions, availableDiscount)) {
+            if(chosenDevCard.buyCard(turnLogic.getCurrentPlayer(), resourcePositions, availableDiscount)) {
                 turnLogic.setChosenDevCard(chosenDevCard);
                 // todo evento di uscita (fatto)
-                turnLogic.getModelInterface().notifyObservers(new PlaceDevCardSendEvent(turnLogic.getCurrentPlayer().getNickName()));
+                turnLogic.getModelInterface().notifyObservers(new PlaceDevCardSendEvent(turnLogic.getCurrentPlayer().getNickname()));
                 turnLogic.setCurrentState(turnLogic.getWaitDevCardPlacement());
                 hasAlreadyDoneLeaderAction = false;
                 return true;
@@ -173,7 +173,7 @@ public class StartTurn extends State {
         //get the chosen leader card
         LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
                                 .filter(card -> card.getID().equals(ID)).findFirst()
-                                .orElseThrow(() -> new InvalidEventException());
+                                .orElseThrow(InvalidEventException::new);
         //if the card has to be discarded
         if(discard){
             if(!currentPlayer.discardLeader(chosenLeaderCard))

@@ -8,11 +8,9 @@ import it.polimi.ingsw.server.model.cards.ProductionCard;
 import it.polimi.ingsw.server.model.gameBoard.EndGameObserver;
 import it.polimi.ingsw.server.model.gameBoard.EndGameSubject;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
-import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -80,7 +78,7 @@ public class PersonalBoard implements EndGameSubject {
      * @param card development card to place
      * @return true if placed correctly
      */
-    public boolean setNewDevCard(int pos, DevelopmentCard card) {
+    public boolean setNewDevelopmentCard(int pos, DevelopmentCard card) {
         if (pos < firstColumnIndex || pos >= lastColumnIndex || deckProduction.stream().anyMatch(el -> el.contains(card))) {
             return false;
         }
@@ -112,7 +110,7 @@ public class PersonalBoard implements EndGameSubject {
      * @param leader LeaderCard to place
      * @return true if successfully placed
      */
-    public boolean setNewDevCard(ProductionCard leader) {
+    public boolean setNewDevelopmentCard(ProductionCard leader) {
         if (activeLeaderCards.contains(leader) || (deckProduction.size() >= 6)) {
             return false;
         }
@@ -147,7 +145,7 @@ public class PersonalBoard implements EndGameSubject {
            deckProduction.get(i).forEach(el->points.add(el.getPoints()));
        }
        activeLeaderCards.forEach(c->points.add(c.getPoints()));
-       points.add(GameBoard.getGameBoard().getFaithTrackPlayer(player).getVictoryPoints());
+       points.add(GameBoard.getGameBoard().getFaithTrackOfPlayer(player).getVictoryPoints());
        points.add((warehouse.getAllResources().size()/resPointsDivider));
        return points.stream().reduce(0, Integer::sum);
     }

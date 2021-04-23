@@ -163,8 +163,8 @@ public class TurnLogic {
     public boolean productionAction(Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
         return currentState.productionAction(inResourcesForEachProductions, outResourcesForEachProductions);
     }
-    public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcesPositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
-        return currentState.buyAction(cardColor, cardLevel, resourcesPositions);
+    public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcePositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+        return currentState.buyAction(cardColor, cardLevel, resourcePositions);
     }
     public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {
         return currentState.leaderAction(ID, discard);

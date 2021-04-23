@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.player.Player;
@@ -36,13 +35,13 @@ class LeaderCardTest {
         assertTrue(leaderWithResRequirement.canBeActivated(player));
         assertFalse(leaderWithDevRequirement.canBeActivated(player));
         //prepare req for second leader
-        assertTrue(player.getPersonalBoard().setNewDevCard(1, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList()).get(0)));
-        assertTrue(player.getPersonalBoard().setNewDevCard(1, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==2).filter(c->c.getColor()== CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
+        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList()).get(0)));
+        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==2).filter(c->c.getColor()== CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
         //check that dev requirements have been met and res requirements remain met
         assertTrue(leaderWithDevRequirement.canBeActivated(player));
         assertTrue(leaderWithResRequirement.canBeActivated(player));
         //check that both requirements remain met even with more stuff added
-        assertTrue(player.getPersonalBoard().setNewDevCard(2, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList()).get(0)));
+        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(2, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList()).get(0)));
         assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.GRAY)));
         assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.BLUE)));
         assertTrue(leaderWithDevRequirement.canBeActivated(player));
@@ -67,11 +66,11 @@ class LeaderCardTest {
         assertFalse(player2.getLeaderHand().get(0).canBeActivated(player1));
         assertFalse(player2.getLeaderHand().get(1).canBeActivated(player1));
         //prepare all requirements
-        assertTrue(player1.getPersonalBoard().setNewDevCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
-        assertTrue(player1.getPersonalBoard().setNewDevCard(2,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.PURPLE).collect(Collectors.toList()).get(0)));
-        assertTrue(player1.getPersonalBoard().setNewDevCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==2).filter(c->c.getColor()==CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
-        assertTrue(player2.getPersonalBoard().setNewDevCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.BLUE).collect(Collectors.toList()).get(0)));
-        assertTrue(player2.getPersonalBoard().setNewDevCard(2,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.PURPLE).collect(Collectors.toList()).get(0)));
+        assertTrue(player1.getPersonalBoard().setNewDevelopmentCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
+        assertTrue(player1.getPersonalBoard().setNewDevelopmentCard(2,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.PURPLE).collect(Collectors.toList()).get(0)));
+        assertTrue(player1.getPersonalBoard().setNewDevelopmentCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==2).filter(c->c.getColor()==CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
+        assertTrue(player2.getPersonalBoard().setNewDevelopmentCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.BLUE).collect(Collectors.toList()).get(0)));
+        assertTrue(player2.getPersonalBoard().setNewDevelopmentCard(2,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.PURPLE).collect(Collectors.toList()).get(0)));
         for(int i = 0;i<5;i++){
             assertTrue(player2.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.BLUE)));
         }

@@ -40,7 +40,7 @@ public class SetupManager {
         int i = 0;
         for(Player player : players) {
             List<LeaderCard> drawnLeaderCards = GameBoard.getGameBoard().draw4LeaderCards();
-            SetupSendEvent setupSendEvent = new SetupSendEvent(player.getNickName(), drawnLeaderCards, numberOfResourcesToChoose.get(i));
+            SetupSendEvent setupSendEvent = new SetupSendEvent(player.getNickname(), drawnLeaderCards, numberOfResourcesToChoose.get(i));
             setupSendEvents.add(setupSendEvent);
             modelInterface.notifyObservers(setupSendEvent);
             i++;
@@ -79,7 +79,7 @@ public class SetupManager {
             }
 
             Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream()
-                    .filter(player -> player.getNickName().equals(nickname)).findFirst()
+                    .filter(player -> player.getNickname().equals(nickname)).findFirst()
                     .orElseThrow(InvalidEventException::new);
 
             //add the chosen resources to the warehouse

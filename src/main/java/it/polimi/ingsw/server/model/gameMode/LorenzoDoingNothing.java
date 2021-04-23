@@ -22,7 +22,7 @@ public class LorenzoDoingNothing implements Lorenzo{
      * @return the nickname of the Player
      */
     @Override
-    public String getNickName() {
+    public String getNickname() {
         return "Lorenzo il Magnifico doing nothing";
     }
 

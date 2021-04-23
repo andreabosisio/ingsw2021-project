@@ -48,15 +48,15 @@ public class CheckWinnerTest {
         }
 
         for (int i = 0; i < 3; i++) {
-            assertTrue(players.get(0).getPersonalBoard().setNewDevCard(i + 1, cardslvl1.get(i)));
+            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardslvl1.get(i)));
         }
         for (int i = 0; i < 3; i++) {
-            assertTrue(players.get(0).getPersonalBoard().setNewDevCard(i + 1, cardslvl2.get(i)));
+            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardslvl2.get(i)));
         }
         // The Game is not over
         assertFalse(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
         // The player buys his seventh card
-        assertTrue(players.get(0).getPersonalBoard().setNewDevCard(1, cardslvl3.get(0)));
+        assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(1, cardslvl3.get(0)));
         // The Game is over
         assertTrue(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
     }
@@ -83,15 +83,15 @@ public class CheckWinnerTest {
         }
 
         for (int i = 0; i < 3; i++) {
-            assertTrue(players.get(0).getPersonalBoard().setNewDevCard(i + 1, cardslvl1.get(i)));
+            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardslvl1.get(i)));
         }
         for (int i = 0; i < 3; i++) {
-            assertTrue(players.get(0).getPersonalBoard().setNewDevCard(i + 1, cardslvl2.get(i)));
+            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardslvl2.get(i)));
         }
         // The Game is not over
         assertFalse(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
         // The player buys his seventh card
-        assertTrue(players.get(0).getPersonalBoard().setNewDevCard(1, cardslvl3.get(0)));
+        assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(1, cardslvl3.get(0)));
         // The Game is over
         assertTrue(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
     }
@@ -105,7 +105,7 @@ public class CheckWinnerTest {
         players.add(new Player("Vinsmoke"));
         TurnLogic turnLogic = new TurnLogic(players);
 
-        assertEquals("Lorenzo il Magnifico doing nothing", turnLogic.getGameMode().getLorenzo().getNickName());
+        assertEquals("Lorenzo il Magnifico doing nothing", turnLogic.getGameMode().getLorenzo().getNickname());
         assertTrue(turnLogic.getGameMode().getLorenzo() instanceof LorenzoDoingNothing);
         assertFalse(turnLogic.getGameMode().getLorenzo().play());
 
@@ -131,15 +131,15 @@ public class CheckWinnerTest {
         assertFalse(GameBoard.getGameBoard().faithProgress(players.get(2), 5)); // Nico = 18
         assertFalse(GameBoard.getGameBoard().faithProgress(players.get(3), 7)); // Vinsmoke = 19
 
-        assertEquals(21, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(0)).getFaithMarker());
-        assertEquals(24, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(1)).getFaithMarker());
-        assertEquals(18, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(2)).getFaithMarker());
-        assertEquals(19, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(3)).getFaithMarker());
+        assertEquals(21, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getFaithMarker());
+        assertEquals(24, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(1)).getFaithMarker());
+        assertEquals(18, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(2)).getFaithMarker());
+        assertEquals(19, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(3)).getFaithMarker());
 
-        assertEquals(16 + 9, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(0)).getVictoryPoints());
-        assertEquals(20 + 7, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(1)).getVictoryPoints());
-        assertEquals(12, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(2)).getVictoryPoints());
-        assertEquals(12, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(3)).getVictoryPoints());
+        assertEquals(16 + 9, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getVictoryPoints());
+        assertEquals(20 + 7, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(1)).getVictoryPoints());
+        assertEquals(12, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(2)).getVictoryPoints());
+        assertEquals(12, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(3)).getVictoryPoints());
 
         // The Winner is Monkey
         assertEquals(players.get(1), turnLogic.getGameMode().getICheckWinner().getWinner());
@@ -150,7 +150,7 @@ public class CheckWinnerTest {
     }
 
     @Test
-    void testEndOfTheFaithTrackWinnerResources() throws NonStorableResourceException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+    void testEndOfTheFaithTrackWinnerResources() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
         players.add(new Player("Monkey"));
@@ -173,11 +173,11 @@ public class CheckWinnerTest {
         assertTrue(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
         assertFalse(GameBoard.getGameBoard().faithProgress(players.get(0), 1)); // Roronoa = 24
 
-        assertEquals(24, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(0)).getFaithMarker());
-        assertEquals(24, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(1)).getFaithMarker());
+        assertEquals(24, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getFaithMarker());
+        assertEquals(24, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(1)).getFaithMarker());
 
-        assertEquals(20 + 9, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(0)).getVictoryPoints());
-        assertEquals(20 + 9, GameBoard.getGameBoard().getFaithTrackPlayer(players.get(1)).getVictoryPoints());
+        assertEquals(20 + 9, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getVictoryPoints());
+        assertEquals(20 + 9, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(1)).getVictoryPoints());
 
         players.get(0).getPersonalBoard().getWarehouse().addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.YELLOW));

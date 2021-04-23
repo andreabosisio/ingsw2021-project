@@ -109,7 +109,7 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
      */
     @Override
     public boolean activate(Player player) {
-        player.getPersonalBoard().setNewDevCard(this);
+        player.getPersonalBoard().setNewDevelopmentCard(this);
         return super.activate(player);
     }
 }

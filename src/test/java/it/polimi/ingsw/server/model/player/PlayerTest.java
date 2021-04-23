@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.player;
 
-import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
@@ -22,7 +21,7 @@ class PlayerTest {
     void getNickNameTest() {
         String name = "Atalanta";
         Player player = new Player(name);
-        assertEquals(name,player.getNickName());
+        assertEquals(name,player.getNickname());
     }
 
     @Test
@@ -83,12 +82,12 @@ class PlayerTest {
         }
         //check that res requirements have been met
         assertEquals(1,player.getAvailableLeaderActivationTest().size());
-        assertTrue(player.getPersonalBoard().setNewDevCard(1, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList()).get(0)));
-        assertTrue(player.getPersonalBoard().setNewDevCard(1, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==2).filter(c->c.getColor()== CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
+        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList()).get(0)));
+        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==2).filter(c->c.getColor()== CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
         //check that dev requirements have been met
         assertEquals(2,player.getAvailableLeaderActivationTest().size());
         //check that both requirements remain met even with more stuff added
-        assertTrue(player.getPersonalBoard().setNewDevCard(2, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList()).get(0)));
+        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(2, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList()).get(0)));
         assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.GRAY)));
         assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.BLUE)));
         assertEquals(2,player.getAvailableLeaderActivationTest().size());

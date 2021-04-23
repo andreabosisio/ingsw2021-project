@@ -16,7 +16,7 @@ public class WaitDevCardPlacement extends State {
      */
     @Override
     public boolean placeDevCardAction(int slotPosition) throws InvalidEventException {
-        if(turnLogic.getCurrentPlayer().getPersonalBoard().setNewDevCard(slotPosition, turnLogic.getChosenDevCard())) {
+        if(turnLogic.getCurrentPlayer().getPersonalBoard().setNewDevelopmentCard(slotPosition, turnLogic.getChosenDevCard())) {
             turnLogic.setCurrentState(turnLogic.getEndTurn());
             return true;
         }

@@ -36,7 +36,7 @@ public class ModelInterface implements Observable {
      * @return nickname of current player
      */
     public String getCurrentPlayer() {
-        return turnLogic.getCurrentPlayer().getNickName();
+        return turnLogic.getCurrentPlayer().getNickname();
     }
 
     public TurnLogic getTurnLogic() {
@@ -55,8 +55,8 @@ public class ModelInterface implements Observable {
         return turnLogic.productionAction(inResourcesForEachProductions, outResourcesForEachProductions);
     }
 
-    public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcesPositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
-        return turnLogic.buyAction(cardColor, cardLevel, resourcesPositions);
+    public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcePositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+        return turnLogic.buyAction(cardColor, cardLevel, resourcePositions);
     }
 
     public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {

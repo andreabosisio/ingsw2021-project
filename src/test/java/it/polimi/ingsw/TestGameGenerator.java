@@ -29,7 +29,7 @@ import java.util.List;
 public class TestGameGenerator {
     /**
      * create a new game with this structure:
-     * 4 players named: primo,secondo,terzo,quarto
+     * 4 players named: first, second, third, fourth
      *
      * @param auto true if you want everything auto
      *             false if you want to call settings after with your parameters

@@ -23,7 +23,7 @@ public class Player implements PlayerInterface {
      * @return the player nickname
      */
     @Override
-    public String getNickName() {
+    public String getNickname() {
         return nickname;
     }
 
