@@ -207,4 +207,38 @@ public class MarketTray {
     public List<Resource> getTempNewResources() {
         return tempNewResources;
     }
+
+    /**
+     * set state of market tray in a predetermined position
+     */
+    public void setNonRandom(List<Resource> resources){
+        initResources.clear();
+        initResources.addAll(resources);
+        int k = 0;
+        for(int i = 0; i < NUM_R; i++) {
+            for (int j = 0; j < NUM_C; j++) {
+                try {
+                    marketBoard[i][j] = initResources.get(k);
+                    k++;
+                } catch (IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        try {
+            extraSlot = initResources.get(k);
+        }catch (IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+    }
+    //todo da cancellare
+    public void print(){
+        for (Resource[] resources : marketBoard) {
+            for (Resource resource : resources) {
+                System.out.print(resource.getColor().name() + " ");
+            }
+            System.out.print("\n");
+        }
+        System.out.println(extraSlot.getColor());
+    }
 }

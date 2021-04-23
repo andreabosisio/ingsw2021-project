@@ -34,7 +34,6 @@ public class TurnLogic {
         GameBoard.getGameBoard().setTurnLogicOfMarketTray(this);
         this.gameMode = new GameMode(players);
         this.setTheObservers();
-
         this.startTurn = new StartTurn(this);
         this.waitDevCardPlacement = new WaitDevCardPlacement(this);
         this.waitTransformation = new WaitTransformation(this);
@@ -46,7 +45,7 @@ public class TurnLogic {
 
     /**
      * constructor only used in testing
-     * @param players
+     * @param players players in the game
      */
     public TurnLogic(List<Player> players) {
         this.modelInterface = null;
@@ -181,5 +180,13 @@ public class TurnLogic {
     }
     public boolean endTurn() throws InvalidEventException {
         return currentState.endTurn();
+    }
+
+    /**
+     * getter for all players in the game,used only in testing
+     * @return list of players in the game
+     */
+    public List<Player> getPlayers() {
+        return players;
     }
 }

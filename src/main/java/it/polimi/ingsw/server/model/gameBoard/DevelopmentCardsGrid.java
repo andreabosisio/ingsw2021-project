@@ -131,4 +131,26 @@ public class DevelopmentCardsGrid implements EndGameSubject {
         //index out of bounds exception
         return mapByLevel.get(level-1).get(color).get(0);
     }
+
+    public void setNonRandom(){
+        developmentCards.clear();
+        developmentCards.addAll(generator.generateDevelopmentCards());
+        mapByLevel = new ArrayList<>();
+        for (int i = 1; i <= numOfLevels; i++) {
+            mapByLevel.add(generator.getDevCardsAsGrid(developmentCards, i));
+        }
+    }
+
+    //todo da cancellare
+    public void print(){
+        for (int i = numOfLevels-1; i >= 0; i--) {
+            for(CardColorEnum j:CardColorEnum.values()){
+                System.out.print("lv:"+mapByLevel.get(i).get(j).get(0).getLevel()+" "+
+                        mapByLevel.get(i).get(j).get(0).getColor().toString()+
+                        "-------"
+                        );
+            }
+            System.out.print("\n");
+        }
+    }
 }

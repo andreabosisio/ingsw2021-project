@@ -25,7 +25,7 @@ public class ModelInterface implements Observable {
             this.players.add(new Player(username));
         }
         virtualViews = new ArrayList<>();
-        Collections.shuffle(players);
+        //Collections.shuffle(players);
         turnLogic = new TurnLogic(players, this);
         //todo passa modelInterface a setup manager
         setupManager = new SetupManager(players);
@@ -92,7 +92,7 @@ public class ModelInterface implements Observable {
     /**
      * Not used here
      *
-     * @param receiveEvent
+     * @param receiveEvent event received
      */
     @Override
     public void notifyObservers(ReceiveEvent receiveEvent) {
