@@ -7,8 +7,8 @@ import java.util.List;
 
 public class PlaceResourcesReceiveEvent extends ReceiveEvent {
     private final List<Integer> placementChoices;
-    public PlaceResourcesReceiveEvent(String nickName, List<Integer> placementChoices) {
-        super(nickName);
+    public PlaceResourcesReceiveEvent(String nickname, List<Integer> placementChoices) {
+        super(nickname);
         this.placementChoices = placementChoices;
     }
 

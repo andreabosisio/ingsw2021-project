@@ -160,8 +160,8 @@ public class GameBoard {
      *
      * @return the first four Leader Card
      */
-    public List<LeaderCard> drawLeader() {
-        return deckLeader.draw();
+    public List<LeaderCard> draw4LeaderCards() {
+        return deckLeader.draw4();
     }
 
     /**

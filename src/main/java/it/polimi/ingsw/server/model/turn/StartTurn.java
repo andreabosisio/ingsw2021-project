@@ -62,15 +62,15 @@ public class StartTurn extends State {
     /**
      * For all the given ProductionCard apply the production with the chosen resources.
      *
-     * @param productionMapIN containing the chosen ProductionCard and the chosen resources to apply its production
-     * @param productionMapOUT containing the chosen ProdcutionCard and (if possible) the desired resources
+     * @param inResourcesForEachProductions containing the chosen ProductionCard and the chosen resources to apply its production
+     * @param outResourcesForEachProductions containing the chosen ProdcutionCard and (if possible) the desired resources
      * @return true if the production has been correctly applied
      * @throws InvalidEventException        if one of the production can't be applied
      * @throws InvalidIndexException        if one of the index of the chosen ProductionCard doesn't exists
      * @throws NonStorableResourceException if one of the chosen resources contains a NonStorableResource
      */
     @Override
-    public boolean productionAction(Map<Integer, List<Integer>> productionMapIN, Map<Integer, String> productionMapOUT) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
+    public boolean productionAction(Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
         PersonalBoard personalBoard = turnLogic.getCurrentPlayer().getPersonalBoard();
         Warehouse warehouse = personalBoard.getWarehouse();
         List<Resource> chosenInResources;
@@ -78,12 +78,12 @@ public class StartTurn extends State {
         Resource chosenOutResource;
         ProductionCard chosenCard;
 
-        for(Map.Entry<Integer, List<Integer>> production : productionMapIN.entrySet()){
+        for(Map.Entry<Integer, List<Integer>> production : inResourcesForEachProductions.entrySet()){
             Integer currentKey = production.getKey();
             //todo controllare in caso getRes sia null
             chosenInResources = new ArrayList<>(warehouse.getResources(production.getValue()));
             try {
-                chosenOutResourceEnum = ResourceEnum.valueOf(productionMapOUT.get(currentKey));
+                chosenOutResourceEnum = ResourceEnum.valueOf(outResourcesForEachProductions.get(currentKey));
             }catch (IllegalArgumentException e){
                 throw new InvalidEventException(); //not existing ResourceEnum
             }

@@ -1,13 +1,13 @@
 package it.polimi.ingsw.server.events.send;
 
 public abstract class SendEvent {
-    private final String nickName;
+    private final String nickname;
 
-    public SendEvent(String nickName) {
-        this.nickName = nickName;
+    public SendEvent(String nickname) {
+        this.nickname = nickname;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 }

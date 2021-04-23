@@ -5,9 +5,9 @@ import it.polimi.ingsw.server.model.ModelInterface;
 
 public class PlaceDevCardReceiveEvent extends ReceiveEvent {
     private final int slotPosition;
-    public PlaceDevCardReceiveEvent(String nickName, int slotPosition) {
-        super(nickName);
-        this.slotPosition=slotPosition;
+    public PlaceDevCardReceiveEvent(String nickname, int slotPosition) {
+        super(nickname);
+        this.slotPosition = slotPosition;
     }
 
     @Override

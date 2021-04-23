@@ -16,7 +16,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SetupManager {
-    private int res = 2110;
+    private final List<Integer> numberOfResourcesToChoose = new ArrayList<Integer>(){{
+        add(0);
+        add(1);
+        add(1);
+        add(2);
+    }};
     private final List<Player> players;
     private final ModelInterface modelInterface;
     private final List<SetupSendEvent> setupSendEvents = new ArrayList<>();
@@ -27,22 +32,34 @@ public class SetupManager {
         this.modelInterface = modelInterface;
     }
 
-    public void startSetup(){
+    /**
+     * Reset the GameBoard and send to all the Players the LeaderCards and the number of resources to choose
+     */
+    private void startSetup(){
         GameBoard.getGameBoard().reset();
-        for(Player player:players) {
-            int numberOfRes = res%10;
-            res = res/10;
-            List<LeaderCard> leaderDrawn;
-            leaderDrawn = GameBoard.getGameBoard().drawLeader();
-            SetupSendEvent setupSendEvent = new SetupSendEvent(player.getNickName(),leaderDrawn,numberOfRes);
+        int i = 0;
+        for(Player player : players) {
+            List<LeaderCard> drawnLeaderCards = GameBoard.getGameBoard().draw4LeaderCards();
+            SetupSendEvent setupSendEvent = new SetupSendEvent(player.getNickName(), drawnLeaderCards, numberOfResourcesToChoose.get(i));
             setupSendEvents.add(setupSendEvent);
             modelInterface.notifyObservers(setupSendEvent);
+            i++;
         }
     }
 
-    public boolean choose(String nickname,List<Integer> leaderCardIndexes,List<String> resources) throws InvalidEventException, NonStorableResourceException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
-        SetupSendEvent setupSendEvent = setupSendEvents.stream().filter(setupEvent -> setupEvent.getNickName().equals(nickname)).
-                findFirst().orElseThrow(InvalidEventException::new);
+    /**
+     * Add the chosen LeaderCards and Resources to the Player's board in the setup phase.
+     *
+     * @param nickname of the Player
+     * @param leaderCardIndexes of the chosen LeaderCards by the Player
+     * @param resources chosen by the Player
+     * @return true if the choices are correct
+     * @throws InvalidEventException if the choices aren't correct
+     * @throws NonStorableResourceException if Player choose a NonStorableResource
+     */
+    public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, NonStorableResourceException {
+        SetupSendEvent setupSendEvent = setupSendEvents.stream().filter(setupEvent -> setupEvent.getNickname().equals(nickname)).findFirst()
+                .orElseThrow(InvalidEventException::new);
 
         //chosen leader cards must be two different cards
         Set<Integer> chosenIndexes = leaderCardIndexes.stream().filter(index -> index <= 3 && index >= 0).collect(Collectors.toSet());
@@ -61,21 +78,30 @@ public class SetupManager {
                 }
             }
 
-            Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream().
-                    filter(player -> player.getNickName().equals(nickname)).findFirst().orElseThrow(InvalidEventException::new);
+            Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream()
+                    .filter(player -> player.getNickName().equals(nickname)).findFirst()
+                    .orElseThrow(InvalidEventException::new);
 
             //add the chosen resources to the warehouse
-            currentSetupPlayer.getPersonalBoard().getWarehouse().setupWarehouse(chosenSetupResources);
+            try {
+                currentSetupPlayer.getPersonalBoard().getWarehouse().setupWarehouse(chosenSetupResources);
+            } catch (InvalidIndexException | EmptySlotException | NonAccessibleSlotException e) {
+                e.printStackTrace();
+                throw new InvalidEventException();
+            }
 
             //second and third player receive an extra Faith Point
             if (modelInterface.getTurnLogic().getPlayers().indexOf(currentSetupPlayer) >= 2)
                 GameBoard.getGameBoard().faithProgress(currentSetupPlayer, 1);
 
             setupSendEvents.remove(setupSendEvent);
-            if (setupSendEvents.size() == 0)
+            if (setupSendEvents.size() == 0) {
+                return true; //remove
                 // todo: all the players receive an update event with the gameboard
+            }
             return true;
         }
+        //todo: throw InvalidEventException invece che false?
         return false;
     }
 }

@@ -17,12 +17,12 @@ class DeckLeaderTest {
         List<LeaderCard> totLeader = new ArrayList<>();
         //check that drawing gives you 4 cards
         for(int i = 0;i<4;i++) {
-            leadersDrawn = deckLeaderTest.draw();
+            leadersDrawn = deckLeaderTest.draw4();
             totLeader.addAll(leadersDrawn);
             assertEquals(4,leadersDrawn.size());
         }
         assertEquals(16,totLeader.size());
         //check that after the last card is drawn an exception is thrown
-        assertThrows(IndexOutOfBoundsException.class, deckLeaderTest::draw);
+        assertThrows(IndexOutOfBoundsException.class, deckLeaderTest::draw4);
     }
 }

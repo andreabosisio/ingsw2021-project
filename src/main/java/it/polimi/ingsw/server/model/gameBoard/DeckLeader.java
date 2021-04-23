@@ -26,7 +26,7 @@ public class DeckLeader {
      *
      * @return a{@link ArrayList<LeaderCard> of the cards drawn}
      */
-    public List<LeaderCard> draw() {
+    public List<LeaderCard> draw4() {
         if (cards.size() < 4) {
             throw new IndexOutOfBoundsException();
         }

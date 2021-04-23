@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.model.player;
 import it.polimi.ingsw.exceptions.EmptySlotException;
 import it.polimi.ingsw.exceptions.InvalidIndexException;
 import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
-import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -42,7 +41,7 @@ class WarehouseTest {
         warehouse.swap(0, 4);
         warehouse.swap(1, 5);
         assertEquals(warehouse.getNumberOfRemainingResources(), 0);
-        assertTrue(warehouse.isLegalReorganization());
+        assertTrue(warehouse.isProperlyOrdered());
         //Market resources: X, X, X, X
         //First depot:              B
         //Second depot:         Y       X
@@ -53,7 +52,7 @@ class WarehouseTest {
         assertThrows(EmptySlotException.class, () -> warehouse.swap(8, 4)); //(X <--> B) : cannot swap an empty slot
 
         warehouse.swap(4,5);
-        assertTrue(warehouse.isLegalReorganization());
+        assertTrue(warehouse.isProperlyOrdered());
         //Market resources: X, X, X, X
         //First depot:              Y
         //Second depot:         B       X
@@ -62,7 +61,7 @@ class WarehouseTest {
         //2° extra slots:   X, X
 
         warehouse.swap(4,6);
-        assertFalse(warehouse.isLegalReorganization());
+        assertFalse(warehouse.isProperlyOrdered());
         //Market resources: X, X, X, X
         //First depot:              X
         //Second depot:         B       Y
@@ -75,7 +74,7 @@ class WarehouseTest {
         assertFalse(warehouse.swap(7,120)); //cannot swap from a depot to the StrongBox
 
         warehouse.swap(5,7);
-        assertTrue(warehouse.isLegalReorganization());
+        assertTrue(warehouse.isProperlyOrdered());
         //Market resources: X, X, X, X
         //First depot:              X
         //Second depot:         X       Y
@@ -98,7 +97,7 @@ class WarehouseTest {
         warehouse.swap(0,5);
         warehouse.swap(1,4);
         assertEquals(warehouse.getNumberOfRemainingResources(), 0);
-        assertTrue(warehouse.isLegalReorganization());
+        assertTrue(warehouse.isProperlyOrdered());
         //Market resources: X, X, X, X
         //First depot:              G
         //Second depot:         Y       Y
@@ -114,7 +113,7 @@ class WarehouseTest {
 
         warehouse.swap(5,10);
         warehouse.swap(6,11);
-        assertTrue(warehouse.isLegalReorganization());
+        assertTrue(warehouse.isProperlyOrdered());
         //Market resources: X, X, X, X
         //First depot:              G
         //Second depot:         X       X
@@ -127,7 +126,7 @@ class WarehouseTest {
         assertFalse(warehouse.addExtraSlots(new OtherResource(ResourceEnum.GRAY))); //extra slots out of stock
 
         warehouse.swap(7,13);
-        assertTrue(warehouse.isLegalReorganization());
+        assertTrue(warehouse.isProperlyOrdered());
         //Market resources: X, X, X, X
         //First depot:              G
         //Second depot:         X       X
@@ -136,9 +135,9 @@ class WarehouseTest {
         //2° extra slots:   X, B
 
         assertTrue(warehouse.swap(4,11)); //swap G to 2° slot of 1° extra slots
-        assertFalse(warehouse.isLegalReorganization()); //now 1° extra slots configuration isn't legal anymore
+        assertFalse(warehouse.isProperlyOrdered()); //now 1° extra slots configuration isn't legal anymore
         assertTrue(warehouse.swap(4,11));
-        assertTrue(warehouse.isLegalReorganization()); //back to the last legal configuration
+        assertTrue(warehouse.isProperlyOrdered()); //back to the last legal configuration
 
         warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.BLUE));
@@ -156,7 +155,7 @@ class WarehouseTest {
         assertTrue(warehouse.swap(0,8));
         assertTrue(warehouse.swap(2,12));
         assertTrue(warehouse.swap(3,6));
-        assertFalse(warehouse.isLegalReorganization());//two depots of G
+        assertFalse(warehouse.isProperlyOrdered());//two depots of G
         //Market resources: X, P, X, X
         //First depot:              G
         //Second depot:         X       G
@@ -168,7 +167,7 @@ class WarehouseTest {
         assertTrue(warehouse.swap(4,5));
         assertTrue(warehouse.swap(1,4));
         assertEquals(warehouse.getNumberOfRemainingResources(), 0);
-        assertTrue(warehouse.isLegalReorganization());
+        assertTrue(warehouse.isProperlyOrdered());
         //Market resources: X, X, X, X
         //First depot:              P
         //Second depot:         G       G
@@ -178,7 +177,7 @@ class WarehouseTest {
 
         assertTrue(warehouse.swap(4,13));
         assertTrue(warehouse.swap(4,9)); //2° extra slots not legal
-        assertFalse(warehouse.isLegalReorganization());
+        assertFalse(warehouse.isProperlyOrdered());
         //Market resources: X, X, X, X
         //First depot:              X
         //Second depot:         G       G
@@ -307,5 +306,27 @@ class WarehouseTest {
         }};
         List<Resource> result = warehouse.getAllResources();
         assertTrue(result.size() == correctResources.size() && result.containsAll(correctResources) && correctResources.containsAll(result));
+    }
+
+    @Test
+    void setupWarehouseTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+        warehouse = new Warehouse();
+
+        List<Resource> chosenResources = new ArrayList<Resource>(){{
+            add(new OtherResource(ResourceEnum.GRAY));
+            add(new OtherResource(ResourceEnum.PURPLE));
+        }};
+
+        //two different resources (GRAY and PURPLE)
+        warehouse.setupWarehouse(chosenResources);
+        assertEquals(warehouse.getAllResources(), chosenResources);
+        assertTrue(warehouse.isProperlyOrdered());
+
+        //two same resources (PURPLE)
+        warehouse = new Warehouse();
+        chosenResources.set(0, new OtherResource(ResourceEnum.PURPLE));
+        warehouse.setupWarehouse(chosenResources);
+        assertEquals(warehouse.getAllResources(), chosenResources);
+        assertTrue(warehouse.isProperlyOrdered());
     }
 }

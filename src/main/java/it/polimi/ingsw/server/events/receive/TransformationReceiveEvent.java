@@ -10,8 +10,8 @@ import java.util.List;
 public class TransformationReceiveEvent extends ReceiveEvent {
     private final List<String> chosenResources;
 
-    public TransformationReceiveEvent(String nickName, List<String> chosenResources) {
-        super(nickName);
+    public TransformationReceiveEvent(String nickname, List<String> chosenResources) {
+        super(nickname);
         this.chosenResources=chosenResources;
     }
 

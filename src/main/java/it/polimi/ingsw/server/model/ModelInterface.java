@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.observer.Observable;
 import it.polimi.ingsw.server.observer.Observer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -44,16 +43,16 @@ public class ModelInterface implements Observable {
         return turnLogic;
     }
 
-    public boolean setupAction(String nickname, List<Integer> leaderCardIndexes,List<String> resources) throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException, InvalidEventException, NonStorableResourceException {
-        return setupManager.choose(nickname, leaderCardIndexes, resources);
+    public boolean setupAction(String nickname, List<Integer> leaderCardIndexes,List<String> resources) throws InvalidEventException, NonStorableResourceException {
+        return setupManager.setupAction(nickname, leaderCardIndexes, resources);
     }
 
     public boolean marketAction(int arrowID) throws InvalidEventException, InvalidIndexException {
         return turnLogic.marketAction(arrowID);
     }
 
-    public boolean productionAction(Map<Integer, List<Integer>> productionMapIN, Map<Integer, String> productionMapOUT) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
-        return turnLogic.productionAction(productionMapIN, productionMapOUT);
+    public boolean productionAction(Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
+        return turnLogic.productionAction(inResourcesForEachProductions, outResourcesForEachProductions);
     }
 
     public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcesPositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {

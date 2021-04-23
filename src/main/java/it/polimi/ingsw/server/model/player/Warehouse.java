@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
  * 2° extra slots:      12 13
  * StrongBox:           14,15,...
  */
-
 public class Warehouse {
 
     /**
@@ -382,16 +381,20 @@ public class Warehouse {
      *
      * @return true if the resources stored in the Warehouse depots and in the extra slots are correctly organized
      */
-    public boolean isLegalReorganization() {
+    public boolean isProperlyOrdered() {
+        //checks if each depots contains only one resource's type
         for (Depot depot : depots) {
             if (!depot.isLegal())
                 return false;
         }
+
+        //checks if each depot has a different resource's type
         if(!depots.stream().map(Depot::getResourceType).filter(Objects::nonNull).distinct().collect(Collectors.toList()).
                 equals(depots.stream().map(Depot::getResourceType).filter(Objects::nonNull).collect(Collectors.toList()))){
             return false;
         }
 
+        //checks if each extraSlots contains its only one resource's type
         for(ExtraSlots toCheck : extraSlots)
             if(toCheck.getIsActivated())
                 if(!toCheck.isLegal())

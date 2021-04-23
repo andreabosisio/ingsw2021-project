@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements PlayerInterface {
-    private final String nickName;
+    private final String nickname;
     private List<LeaderCard> leaderHand;
     private final PersonalBoard personalBoard;
 
-    public Player(String nickName) {
-        this.nickName = nickName;
+    public Player(String nickname) {
+        this.nickname = nickname;
         personalBoard = new PersonalBoard();
     }
 
@@ -24,7 +24,7 @@ public class Player implements PlayerInterface {
      */
     @Override
     public String getNickName() {
-        return nickName;
+        return nickname;
     }
 
     /**

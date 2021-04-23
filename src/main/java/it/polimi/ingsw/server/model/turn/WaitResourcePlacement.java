@@ -37,7 +37,7 @@ public class WaitResourcePlacement extends State {
             if(!warehouse.swap(swapPairs.get(i),swapPairs.get(i + 1)))
                 throw new InvalidEventException(); //the swap cannot be applied
 
-        if(warehouse.isLegalReorganization()) {
+        if(warehouse.isProperlyOrdered()) {
             //faith progress for other players based on the number of remaining resources
             GameBoard.getGameBoard().faithProgressForOtherPlayers(turnLogic.getCurrentPlayer(), warehouse.getNumberOfRemainingResources());
             turnLogic.setCurrentState(turnLogic.getEndTurn());
