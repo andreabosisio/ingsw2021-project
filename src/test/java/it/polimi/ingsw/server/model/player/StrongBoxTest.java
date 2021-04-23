@@ -21,22 +21,16 @@ class StrongBoxTest {
         assertFalse(strongBox.setResource(2, toStock)); //cannot set a resource in a slot, only add
 
         assertNull(strongBox.getResource(1)); //empty slot
-        try {
-            strongBox.takeResource(1); //empty slot
-        }catch (EmptySlotException e){
-            assertTrue(true);
-        }
+
+        assertThrows(EmptySlotException.class, () -> strongBox.takeResource(1)); //empty slot
 
         assertEquals(strongBox.getResource(0), toStock);
         assertEquals(strongBox.takeResource(0), toStock);
 
         //after taking a resource the slot is empty
         assertNull(strongBox.getResource(0));
-        try {
-            strongBox.takeResource(0); //empty slot
-        }catch (EmptySlotException e){
-            assertTrue(true);
-        }
+
+        assertThrows(EmptySlotException.class, () -> strongBox.takeResource(0)); //empty slot
 
     }
 

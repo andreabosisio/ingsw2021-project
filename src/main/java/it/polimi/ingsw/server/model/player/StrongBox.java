@@ -39,6 +39,7 @@ public class StrongBox implements ResourcesContainer{
      *
      * @param position of the chosen slot
      * @return the taken Resource
+     * @throws EmptySlotException if the chosen slot is empty
      */
     @Override
     public Resource takeResource(int position) throws EmptySlotException {
@@ -48,6 +49,8 @@ public class StrongBox implements ResourcesContainer{
         }catch (IndexOutOfBoundsException e){
             throw new EmptySlotException();
         }
+        if(chosenResource == null)
+            throw new EmptySlotException();
         this.slots.set(position, null);
         return chosenResource;
     }

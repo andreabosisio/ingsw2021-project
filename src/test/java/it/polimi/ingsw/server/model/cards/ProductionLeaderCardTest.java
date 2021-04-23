@@ -55,11 +55,7 @@ class ProductionLeaderCardTest {
 
         assertFalse(leaderCard.canDoProduction(wrongDesiredResources));
 
-        try {
-            leaderCard.canDoProduction(nonStorableDesiredResources);
-        }catch (NonStorableResourceException e){
-            assertTrue(true);
-        }
+        assertThrows(NonStorableResourceException.class, () -> leaderCard.canDoProduction(nonStorableDesiredResources));
 
         assertFalse(leaderCard.canDoProduction(insufficientDesiredResources));
 

@@ -67,12 +67,8 @@ class BasicPowerCardTest {
         desiredProductionResources.add(new RedResource());
         desiredProductionResources.add(new OtherResource(ResourceEnum.YELLOW));
         desiredProductionResources.add(new OtherResource(ResourceEnum.YELLOW));
-        try {
-            card.canDoProduction(desiredProductionResources);
-        }catch (NonStorableResourceException e)
-        {
-            assertTrue(true);
-        }
+
+        assertThrows(NonStorableResourceException.class, () -> card.canDoProduction(desiredProductionResources));
 
         desiredProductionResources.clear();
 

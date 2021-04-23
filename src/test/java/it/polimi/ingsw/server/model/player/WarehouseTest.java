@@ -50,11 +50,7 @@ class WarehouseTest {
         //1° extra slots:   X, X
         //2° extra slots:   X, X
 
-        try {
-            warehouse.swap(8, 4);//(X <--> B) : cannot swap an empty slot
-        }catch (EmptySlotException e){
-            assertTrue(true);
-        }
+        assertThrows(EmptySlotException.class, () -> warehouse.swap(8, 4)); //(X <--> B) : cannot swap an empty slot
 
         warehouse.swap(4,5);
         assertTrue(warehouse.isLegalReorganization());
@@ -110,16 +106,9 @@ class WarehouseTest {
         //1° extra slots:   X, X
         //2° extra slots:   X, X
 
-        try {
-            warehouse.swap(5, 10); //(Y <--> X) : cannot store to 1° extra slots
-        }catch (NonAccessibleSlotException e){
-            assertTrue(true);
-        }
-        try {
-            warehouse.swap(6,13); //(Y <--> X) : cannot store to 2° extra slots
-        }catch (NonAccessibleSlotException e){
-            assertTrue(true);
-        }
+        assertThrows(NonAccessibleSlotException.class, () -> warehouse.swap(5,10)); //(Y <--> X) : cannot store to 1° extra slots
+
+        assertThrows(NonAccessibleSlotException.class, () -> warehouse.swap(6,13)); //(Y <--> X) : cannot store to 2° extra slots
 
         assertTrue(warehouse.addExtraSlots(new OtherResource(ResourceEnum.YELLOW))); //1° extra slots can contain 2 YELLOW resources
 
@@ -246,29 +235,13 @@ class WarehouseTest {
         assertEquals(warehouse.takeResources(16), new OtherResource(ResourceEnum.GRAY));
         assertEquals(warehouse.takeResources(17), new OtherResource(ResourceEnum.YELLOW));
 
-        try{
-            warehouse.takeResources(16); //third slot of the StrongBox is now empty
-        }catch (EmptySlotException e){
-            assertTrue(true);
-        }
+        assertThrows(EmptySlotException.class, () -> warehouse.takeResources(16)); //third slot of the StrongBox is now empty
 
-        try{
-            warehouse.takeResources(5); //first slot of the 2° depot is empty
-        }catch (EmptySlotException e){
-            assertTrue(true);
-        }
+        assertThrows(EmptySlotException.class, () -> warehouse.takeResources(5)); //first slot of the 2° depot is empty
 
-        try{
-            warehouse.takeResources(22);
-        }catch (EmptySlotException e){
-            assertTrue(true);
-        }
+        assertThrows(EmptySlotException.class, () -> warehouse.takeResources(22));
 
-        try{
-            warehouse.takeResources(140);
-        }catch (EmptySlotException e){
-            assertTrue(true);
-        }
+        assertThrows(EmptySlotException.class, () -> warehouse.takeResources(140));
 
         //Market resources: B, Y, Y, X
         //First depot:              X
@@ -289,39 +262,21 @@ class WarehouseTest {
         assertEquals(warehouse.takeResources(4), new OtherResource(ResourceEnum.BLUE));
         assertEquals(warehouse.takeResources(5), new OtherResource(ResourceEnum.YELLOW));
 
-        try{
-            warehouse.takeResources(1); //cannot take a resource from the marketResourceZone
-        }catch (NonAccessibleSlotException e){
-            assertTrue(true);
-        }
-        try{
-            warehouse.takeResources(4);
-        }catch (EmptySlotException e){
-            assertTrue(true);
-        }
-        try{
-            warehouse.takeResources(5);
-        }catch (EmptySlotException e){
-            assertTrue(true);
-        }
+        assertThrows(NonAccessibleSlotException.class, () -> warehouse.takeResources(1)); //cannot take a resource from the marketResourceZone
+
+        assertThrows(EmptySlotException.class, () -> warehouse.takeResources(4)); //slot 4 is now empty
+        assertThrows(EmptySlotException.class, () -> warehouse.takeResources(5)); //slot 5 is now empty
 
         assertEquals(warehouse.getResourcesFromMarket(), new ArrayList<Resource>(){{
             add(new OtherResource(ResourceEnum.YELLOW));
         }});
         assertEquals(1, warehouse.getNumberOfRemainingResources()); //one resource (Y) remained in Market resources
 
+        //invalid negative positions
+        assertThrows(InvalidIndexException.class, () -> warehouse.takeResources(-5));
+        assertThrows(InvalidIndexException.class, () -> warehouse.swap(-5, 5));
+        assertThrows(InvalidIndexException.class, () -> warehouse.swap(4, -1));
 
-        try {
-            warehouse.takeResources(-5); //invalid negative position
-        }catch (InvalidIndexException e){
-            assertTrue(true);
-        }
-
-        try {
-            warehouse.swap(5,-5); //invalid negative position
-        }catch (InvalidIndexException e){
-            assertTrue(true);
-        }
     }
 
     @Test

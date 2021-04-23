@@ -134,16 +134,10 @@ class MarketTrayTest {
 
     @Test
     void invalidArrowTest() {
-        try {
-            market.takeResources(-1);
-        }catch (InvalidIndexException e){
-            assertTrue(true);
-        }
 
-        try {
-            market.takeResources(7); //not existing arrow index
-        }catch (InvalidIndexException e){
-            assertTrue(true);
-        }
+        assertThrows(InvalidIndexException.class, () -> market.takeResources(-1));
+
+        assertThrows(InvalidIndexException.class, () -> market.takeResources(7)); //not existing arrow index
+
     }
 }
