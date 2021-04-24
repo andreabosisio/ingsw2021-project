@@ -27,9 +27,9 @@ public class PersonalBoard implements EndGameSubject {
     private final int lastColumnIndex = 4;
     private final int firstColumnIndex = 1;
     private final int leaderHandSize = 2;
-    private List<LeaderCard> activeLeaderCards;
-    private List<List<ProductionCard>> deckProduction;
-    private Warehouse warehouse;
+    private final List<LeaderCard> activeLeaderCards;
+    private final List<List<ProductionCard>> deckProduction;
+    private final Warehouse warehouse;
     private EndGameObserver endGameObserver;
 
     public PersonalBoard() {

@@ -16,7 +16,7 @@ public class TransformationReceiveEvent extends ReceiveEvent {
     }
 
     @Override
-    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException {
+    public boolean doAction(ModelInterface modelInterface) throws InvalidEventException, NonStorableResourceException {
         return modelInterface.transformationAction(chosenResources);
     }
 }

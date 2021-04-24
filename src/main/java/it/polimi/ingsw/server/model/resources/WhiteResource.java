@@ -7,7 +7,6 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Resource that can be transformed in one of the possibleTransformations resource and
@@ -24,7 +23,7 @@ public class WhiteResource extends Resource {
      * Possible transformations of this WhiteResource provided by the active TransformationLeaderCard cards
      * owned by the current player.
      */
-    private List<Resource> possibleTransformations = new ArrayList<>();
+    private final List<Resource> possibleTransformations = new ArrayList<>();
 
     /**
      * Method to call after a Resource has been chosen in the MarketTray.

@@ -1,12 +1,10 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.*;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
@@ -17,7 +15,7 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
     private final int choosableOutResourcesSlots = 1;
 
     private final Resource inResources;
-    private List<Resource> outResources = new ArrayList<>();
+    private final List<Resource> outResources = new ArrayList<>();
 
     /**
      * Redefined constructor.

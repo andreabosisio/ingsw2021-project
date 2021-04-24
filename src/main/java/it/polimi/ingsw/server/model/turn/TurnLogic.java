@@ -21,7 +21,7 @@ public class TurnLogic {
     private Player currentPlayer;
     private State currentState;
     private final State startTurn, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, endGame;
-    private List<WhiteResource> whiteResourcesFromMarket = new ArrayList<>();
+    private final List<WhiteResource> whiteResourcesFromMarket = new ArrayList<>();
     private DevelopmentCard chosenDevCard;
     private final ModelInterface modelInterface;
 

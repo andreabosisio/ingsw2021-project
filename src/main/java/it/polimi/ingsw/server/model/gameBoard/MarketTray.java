@@ -38,7 +38,7 @@ public class MarketTray {
     /**
      * Implementation of the MarketBoard
      */
-    private Resource[][] marketBoard = new Resource[NUM_R][NUM_C];
+    private final Resource[][] marketBoard = new Resource[NUM_R][NUM_C];
 
     /**
      * Extra resource of the line selection

@@ -15,7 +15,7 @@ import java.util.List;
 public class TokensGenerator {
 
     private final String tokenFileName ="src/main/resources/soloActionTokens.json";
-    private List<SoloActionToken> soloActionTokens = new ArrayList<>();
+    private final List<SoloActionToken> soloActionTokens = new ArrayList<>();
 
     public List<SoloActionToken> generateSoloActionTokens(){
         File input = new File(tokenFileName);

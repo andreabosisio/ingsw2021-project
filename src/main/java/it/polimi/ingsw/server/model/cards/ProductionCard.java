@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 

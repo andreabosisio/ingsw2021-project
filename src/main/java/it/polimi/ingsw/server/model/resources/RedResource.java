@@ -4,8 +4,6 @@ import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
-import java.util.Objects;
-
 /**
  * Resource that make a progress on the FaithTrack.
  * MarketAbility and ProductionAbility are the same for the RedResource.

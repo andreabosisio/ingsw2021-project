@@ -13,7 +13,7 @@ public class PlaceResourcesReceiveEvent extends ReceiveEvent {
     }
 
     @Override
-    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
+    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException {
         return modelInterface.placeResourceAction(placementChoices);
     }
 }

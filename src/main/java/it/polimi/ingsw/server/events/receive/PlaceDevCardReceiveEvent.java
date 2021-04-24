@@ -11,7 +11,7 @@ public class PlaceDevCardReceiveEvent extends ReceiveEvent {
     }
 
     @Override
-    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
+    public boolean doAction(ModelInterface modelInterface) throws InvalidEventException {
         return modelInterface.placeDevCardAction(slotPosition);
     }
 }

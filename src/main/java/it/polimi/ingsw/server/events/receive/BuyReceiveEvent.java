@@ -17,7 +17,7 @@ public class BuyReceiveEvent extends ReceiveEvent {
     }
 
     @Override
-    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
+    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException {
         return modelInterface.buyAction(cardColor,cardLevel,resourcePositions);
     }
 }

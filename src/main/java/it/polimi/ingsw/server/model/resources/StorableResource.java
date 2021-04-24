@@ -4,8 +4,6 @@ import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
-import java.util.Objects;
-
 /**
  * Resources that can be used to make a production by the ProductionCard cards
  * and that can be used to buy/activate cards.

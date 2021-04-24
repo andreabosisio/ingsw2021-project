@@ -6,9 +6,7 @@ import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.resources.NonStorableResources;
 import it.polimi.ingsw.server.model.resources.ResourceFactory;
-import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.ArrayList;

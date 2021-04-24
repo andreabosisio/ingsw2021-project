@@ -16,7 +16,7 @@ public class SetupReceiveEvent extends ReceiveEvent{
     }
 
     @Override
-    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
+    public boolean doAction(ModelInterface modelInterface) throws InvalidEventException, NonStorableResourceException {
         return modelInterface.setupAction(getNickname(), chosenLeaderCardIndexes, chosenResources);
     }
 }

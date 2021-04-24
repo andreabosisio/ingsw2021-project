@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DeckLeader {
-    private List<LeaderCard> cards;
+    private final List<LeaderCard> cards;
     private final CardsGenerator cardGenerator = new CardsGenerator();
 
     public DeckLeader() {

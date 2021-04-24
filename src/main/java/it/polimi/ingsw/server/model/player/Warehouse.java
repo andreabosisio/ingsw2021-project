@@ -78,7 +78,7 @@ public class Warehouse {
 
     private final StrongBox strongBox = new StrongBox();
 
-    private Map<Integer, TranslatedPosition> positionMap = new HashMap<>();
+    private final Map<Integer, TranslatedPosition> positionMap = new HashMap<>();
 
     /**
      * Verify if the given position is in the zone of the slots containing the new resources taken from the MarketTray.

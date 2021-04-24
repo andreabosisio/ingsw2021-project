@@ -1,11 +1,9 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.resources.*;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class BasicPowerCard implements ProductionCard {
@@ -15,7 +13,7 @@ public class BasicPowerCard implements ProductionCard {
     private final int choosableInResourcesSlots = 2;
     private final int choosableOutResourcesSlots = 1;
 
-    private List<Resource> outResources = new ArrayList<>();
+    private final List<Resource> outResources = new ArrayList<>();
 
     /**
      * Setter of the desired outResources to be produced by the production of the card.
