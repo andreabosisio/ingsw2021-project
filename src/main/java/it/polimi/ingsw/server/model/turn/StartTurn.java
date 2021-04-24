@@ -123,7 +123,7 @@ public class StartTurn extends State {
 
     /**
      * Check if the player can place the card and then check if he can buy it with his discounts.
-     * If yes buy the card and set the next State of the game to WaitDevCardPlacement.
+     * If yes buy the card and set the next State of the game to WaitDevelopmentCardPlacement.
      *
      * @param cardColor color of the card to buy
      * @param cardLevel level of the card to buy

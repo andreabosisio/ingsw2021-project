@@ -25,9 +25,9 @@ public class WaitResourcePlacement extends State {
      * @throws EmptySlotException if a swap involves an empty slot
      * @throws NonAccessibleSlotException if one of swap involves a slot that's not accessible
      */
-    //todo ricordarsi che le risorse dal market possono essere anche tolte (in caso di not legal)
     @Override
     public boolean placeResourceAction(List<Integer> swapPairs) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+        //todo ricordarsi che le risorse dal market possono essere anche tolte (in caso di not legal)
         if(swapPairs.size() % 2 != 0)
             throw new InvalidEventException(); //a swap should always have an initPosition and a finalPosition
 

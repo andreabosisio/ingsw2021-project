@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * Contains all the information of the current turn
  */
 public class TurnLogic {
     private final GameMode gameMode;
@@ -34,7 +34,7 @@ public class TurnLogic {
         this.gameMode = new GameMode(players);
         this.setTheObservers();
         this.startTurn = new StartTurn(this);
-        this.waitDevCardPlacement = new WaitDevCardPlacement(this);
+        this.waitDevCardPlacement = new WaitDevelopmentCardPlacement(this);
         this.waitTransformation = new WaitTransformation(this);
         this.waitResourcePlacement = new WaitResourcePlacement(this);
         this.endTurn = new EndTurn(this);
@@ -58,7 +58,7 @@ public class TurnLogic {
         this.setTheObservers();
 
         this.startTurn = new StartTurn(this);
-        this.waitDevCardPlacement = new WaitDevCardPlacement(this);
+        this.waitDevCardPlacement = new WaitDevelopmentCardPlacement(this);
         this.waitTransformation = new WaitTransformation(this);
         this.waitResourcePlacement = new WaitResourcePlacement(this);
         this.endTurn = new EndTurn(this);
@@ -87,7 +87,7 @@ public class TurnLogic {
     }
 
     /**
-     * Set the next player and reset the current value.
+     * Set the next player and reset the current values.
      */
     public void setNextPlayer() {
         if(isLastPlayerTurn())
@@ -158,27 +158,108 @@ public class TurnLogic {
     }
 
 
+    /**
+     * Take the chosen resources from the MarketTray and set the current state of the game to
+     * WaitResourceTransformation if there are some White Resources to transform or else to
+     * WaitResourcePlacement.
+     *
+     * @param arrowID is the index of the chosen line of the MarketTray
+     * @return true if the state has been changed
+     * @throws InvalidIndexException if the arrowID is not correct
+     */
     public boolean marketAction(int arrowID) throws InvalidEventException, InvalidIndexException {
         return currentState.marketAction(arrowID);
     }
+
+    /**
+     * For all the given ProductionCard apply the production with the chosen resources.
+     *
+     * @param inResourcesForEachProductions containing the chosen ProductionCard and the chosen resources to apply its production
+     * @param outResourcesForEachProductions containing the chosen ProdcutionCard and (if possible) the desired resources
+     * @return true if the production has been correctly applied
+     * @throws InvalidEventException        if one of the production can't be applied
+     * @throws InvalidIndexException        if one of the index of the chosen ProductionCard doesn't exists
+     * @throws NonStorableResourceException if one of the chosen resources contains a NonStorableResource
+     */
     public boolean productionAction(Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
         return currentState.productionAction(inResourcesForEachProductions, outResourcesForEachProductions);
     }
+
+    /**
+     * Check if the player can place the card and then check if he can buy it with his discounts.
+     * If yes buy the card and set the next State of the game to WaitDevelopmentCardPlacement.
+     *
+     * @param cardColor color of the card to buy
+     * @param cardLevel level of the card to buy
+     * @param resourcePositions index of the chosen resources
+     * @return true if the card has been successfully bought
+     * @throws InvalidEventException if the player can't buy the card
+     * @throws InvalidIndexException if one of the resource positions is negative
+     * @throws EmptySlotException if one of the resource slots is empty
+     * @throws NonAccessibleSlotException if one of the resource position represents a slot that's not accessible
+     */
     public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcePositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         return currentState.buyAction(cardColor, cardLevel, resourcePositions);
     }
+
+    /**
+     * Activate or Discard a LeaderCard if the player has not done it yet.
+     *
+     * @param ID of the chosen LeaderCard
+     * @param discard true if the chosen LeaderCard has to be discarded, false if has to be activated
+     * @return true if the leaderAction has been successfully applied
+     * @throws InvalidEventException if the leaderAction can't be applied
+     */
     public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {
         return currentState.leaderAction(ID, discard);
     }
+
+    /**
+     * Reorder the warehouse and change the state of the game to EndTurn. If the Player has some remaining resource
+     * to store increases the FaithProgress of the other players.
+     *
+     * @param swapPairs List of all the swaps to be applied
+     * @return true if the warehouse reordering is legal
+     * @throws InvalidEventException if the swaps cannot be applied
+     * @throws InvalidIndexException if a swap contains a negative position
+     * @throws EmptySlotException if a swap involves an empty slot
+     * @throws NonAccessibleSlotException if one of swap involves a slot that's not accessible
+     */
     public boolean placeResourceAction(List<Integer> swapPairs) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         return currentState.placeResourceAction(swapPairs);
     }
-    public boolean placeDevCardAction(int slotPosition) throws InvalidEventException {
-        return currentState.placeDevCardAction(slotPosition);
+
+    /**
+     * Place the chosenDevelopmentCard just bought into the given slot and change the State of the game to EndTurn.
+     *
+     * @param slotPosition of the chosen production slot
+     * @return if the card has been correctly placed
+     * @throws InvalidEventException if the card can't be placed in the chosen slot
+     */
+    public boolean placeDevelopmentCardAction(int slotPosition) throws InvalidEventException {
+        return currentState.placeDevelopmentCardAction(slotPosition);
     }
+
+    /**
+     * Add the chosen resources for the white resource transformation to the warehouse's market zone
+     * and set the current state of the game to WaitResourcePlacement.
+     *
+     * @param chosenColors of the chosen resources
+     * @return true if the chosen resources has been correctly created
+     * @throws InvalidEventException if one of the chosen resource type doesn't exists
+     * @throws NonStorableResourceException if one of the chosen resource is a NonStorableResource
+     */
     public boolean transformationAction(List<String> chosenColors) throws InvalidEventException, NonStorableResourceException {
         return currentState.transformationAction(chosenColors);
     }
+
+    /**
+     * Check if there is a winner: if yes set the state of the game to EndGame, else Lorenzo plays and re-check if
+     * there is a winner. If yes re-set the state of the game to EndGame, else set the next player and change
+     * the state of the game to StartTurn.
+     *
+     * @return true if there is a winner
+     */
     public boolean endTurn() throws InvalidEventException {
         return currentState.endTurn();
     }

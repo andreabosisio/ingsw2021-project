@@ -48,12 +48,14 @@ class ModelInterfaceTest {
         assertThrows(InvalidEventException.class, () -> modelInterface.buyAction("green",1, resourcePositions));
         //check that player is now in waitDevCardPlacement state
         assertEquals(modelInterface.getTurnLogic().getWaitDevCardPlacement(), modelInterface.getTurnLogic().getCurrentState());
+        //check that you can't perform a leader action in this State
+        assertThrows(InvalidEventException.class, () -> modelInterface.leaderAction("m1", true));
         //check that a placement in an invalid position generate an exception
-        assertThrows(InvalidEventException.class, () -> modelInterface.placeDevCardAction(0));
+        assertThrows(InvalidEventException.class, () -> modelInterface.placeDevelopmentCardAction(0));
         //perform the placement action
-        assertTrue(modelInterface.placeDevCardAction(1));
+        assertTrue(modelInterface.placeDevelopmentCardAction(1));
         //check that you can't place 2 times in a row
-        assertThrows(InvalidEventException.class,() -> modelInterface.placeDevCardAction(1));
+        assertThrows(InvalidEventException.class,() -> modelInterface.placeDevelopmentCardAction(1));
         //check that player is now in endTurn state
         assertEquals(modelInterface.getTurnLogic().getEndTurn(), modelInterface.getTurnLogic().getCurrentState());
         //check that first player has devCard in his PersonalBoard
@@ -61,7 +63,7 @@ class ModelInterfaceTest {
         //end first player turn
         modelInterface.endTurn();
         //check that current player is now second in both modelInterface and turnLogic
-        assertEquals("second", modelInterface.getCurrentPlayer());
+        assertEquals("second", modelInterface.getCurrentPlayerNickname());
         assertEquals("second", modelInterface.getTurnLogic().getCurrentPlayer().getNickname());
         //check that player is in start turn
         assertEquals(modelInterface.getTurnLogic().getStartTurn(), modelInterface.getTurnLogic().getCurrentState());
@@ -94,7 +96,7 @@ class ModelInterfaceTest {
         //check that player is now in waitDevCardPlacement state
         assertEquals(modelInterface.getTurnLogic().getWaitDevCardPlacement(), modelInterface.getTurnLogic().getCurrentState());
         //perform the placement action
-        assertTrue(modelInterface.placeDevCardAction(2));
+        assertTrue(modelInterface.placeDevelopmentCardAction(2));
 
         //check that player is now in endTurn state
         assertEquals(modelInterface.getTurnLogic().getEndTurn(), modelInterface.getTurnLogic().getCurrentState());
@@ -107,16 +109,19 @@ class ModelInterfaceTest {
 
         //check that current state is startTurn and current player is "second"
         assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getStartTurn());
-        assertEquals(modelInterface.getCurrentPlayer(), "second");
+        assertEquals(modelInterface.getCurrentPlayerNickname(), "second");
         assertEquals(modelInterface.getTurnLogic().getCurrentPlayer().getNickname(), "second");
 
     }
 
     @Test
-    void leaderActionDiscardTest() throws InvalidEventException {
+    void leaderActionDiscardTest() throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
         Player currentPlayer = modelInterface.getTurnLogic().getCurrentPlayer();
+
+        //cannot discard a LeaderCard which is not in the hand of the player
+        assertThrows(InvalidEventException.class, () -> modelInterface.leaderAction("d1", true));
 
         //discard first leader card by currentPlayer's hand
         modelInterface.leaderAction("p1", true);
@@ -127,6 +132,26 @@ class ModelInterfaceTest {
         //check that current state is startTurn because Player has to do an action
         assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getStartTurn());
 
+        //market action
+        modelInterface.marketAction(0);
+        assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getWaitResourcePlacement());
+        modelInterface.placeResourceAction(new ArrayList<>());
+
+        //currentState: EndTurn. Player can do another leaderAction
+        assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getEndTurn());
+        //cannot discard a LeaderCard which is not in the hand of the player
+        assertThrows(InvalidEventException.class, () -> modelInterface.leaderAction("w1", true));
+        //cannot satisfy requirements to activate "m1"
+        assertThrows(InvalidEventException.class, () -> modelInterface.leaderAction("m1", false));
+
+        //cannot do other action but leaderAction
+        assertThrows(InvalidEventException.class, () -> modelInterface.marketAction(2));
+
+        //discard "m1"
+        modelInterface.leaderAction("m1", true);
+
+        //currentState: StartTurn.
+        assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getStartTurn());
     }
 
     @Test
@@ -210,7 +235,7 @@ class ModelInterfaceTest {
         }
         //place yellow lv1 in pos 1
         modelInterface.buyAction("yellow",1,resourcePositions);
-        modelInterface.placeDevCardAction(1);
+        modelInterface.placeDevelopmentCardAction(1);
         modelInterface.endTurn();
         game.roundOfNothing(modelInterface);
         //prepare for second devCard
@@ -222,7 +247,7 @@ class ModelInterfaceTest {
         }
         //place yellow lv2 in pos 1
         modelInterface.buyAction("yellow",2,resourcePositions2);
-        modelInterface.placeDevCardAction(1);
+        modelInterface.placeDevelopmentCardAction(1);
         modelInterface.endTurn();
         game.roundOfNothing(modelInterface);
 
@@ -235,7 +260,7 @@ class ModelInterfaceTest {
         }
         //place blue lv1 in pos 2
         modelInterface.buyAction("blue",1,resourcePositions3);
-        modelInterface.placeDevCardAction(2);
+        modelInterface.placeDevelopmentCardAction(2);
         modelInterface.endTurn();
         game.roundOfNothing(modelInterface);
         //activate first Leader
@@ -266,7 +291,7 @@ class ModelInterfaceTest {
         }
         //place green lv2 in pos 2
         modelInterface.buyAction("green",2,resourcePositions4);
-        modelInterface.placeDevCardAction(2);
+        modelInterface.placeDevelopmentCardAction(2);
         modelInterface.endTurn();
         game.roundOfNothing(modelInterface);
 
@@ -279,7 +304,7 @@ class ModelInterfaceTest {
         }
         //place green lv1 in pos 3
         modelInterface.buyAction("green",1,resourcePositions5);
-        modelInterface.placeDevCardAction(3);
+        modelInterface.placeDevelopmentCardAction(3);
         modelInterface.endTurn();
         game.roundOfNothing(modelInterface);
 
@@ -292,7 +317,7 @@ class ModelInterfaceTest {
         }
         //place purple lv2 in pos 3
         modelInterface.buyAction("purple",2,resourcePositions6);
-        modelInterface.placeDevCardAction(3);
+        modelInterface.placeDevelopmentCardAction(3);
         modelInterface.endTurn();
         game.roundOfNothing(modelInterface);
         //activate second leader
@@ -433,7 +458,7 @@ class ModelInterfaceTest {
         // End first player turn
         modelInterface.endTurn();
         // Check that current player is now second in both modelInterface and turnLogic
-        assertEquals("second", modelInterface.getCurrentPlayer());
+        assertEquals("second", modelInterface.getCurrentPlayerNickname());
         assertEquals("second", modelInterface.getTurnLogic().getCurrentPlayer().getNickname());
         // Check that player is in start turn
         assertEquals(modelInterface.getTurnLogic().getStartTurn(), modelInterface.getTurnLogic().getCurrentState());
@@ -446,7 +471,7 @@ class ModelInterfaceTest {
             positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
         }
         assertTrue(modelInterface.buyAction("purple", 1, positionOfResForProdSlot1));
-        assertTrue(modelInterface.placeDevCardAction(1));
+        assertTrue(modelInterface.placeDevelopmentCardAction(1));
         modelInterface.endTurn();
         // The third player do his turn
         game.preparePlayerForDevCard(modelInterface, 2, GameBoard.getGameBoard().
@@ -457,7 +482,7 @@ class ModelInterfaceTest {
             positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
         }
         assertTrue(modelInterface.buyAction("purple", 1, positionOfResForProdSlot1));
-        assertTrue(modelInterface.placeDevCardAction(1));
+        assertTrue(modelInterface.placeDevelopmentCardAction(1));
         modelInterface.endTurn();
         // The fourth player do his turn
         game.preparePlayerForDevCard(modelInterface, 3, GameBoard.getGameBoard().
@@ -468,14 +493,14 @@ class ModelInterfaceTest {
             positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
         }
         assertTrue(modelInterface.buyAction("purple", 1, positionOfResForProdSlot1));
-        assertTrue(modelInterface.placeDevCardAction(1));
+        assertTrue(modelInterface.placeDevelopmentCardAction(1));
         modelInterface.endTurn();
         // The first Player has seven Development Card and the last Player do his turn, so the game is over
         assertEquals(modelInterface.getTurnLogic().getEndGame(), modelInterface.getTurnLogic().getCurrentState());
     }
 
     @Test
-    public void invalidProductionActionTest() throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException, NonStorableResourceException {
+    public void invalidProductionActionTest() {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
         List<Integer> numberOfDevCards = new ArrayList<>();
@@ -542,5 +567,18 @@ class ModelInterfaceTest {
         inResourcesForEachProductions.put(2, positionOfResForProdSlot1);
         assertThrows(InvalidIndexException.class,
                 ()->modelInterface.productionAction(inResourcesForEachProductions, outResourcesForEachProductions));
+    }
+
+    @Test
+    void invalidEventException (){
+        TestGameGenerator game = new TestGameGenerator();
+        ModelInterface modelInterface = game.modelInterfaceGenerator(true);
+
+        //player is in the StartTurn state so he cannot do the following actions:
+        assertThrows(InvalidEventException.class, () -> modelInterface.placeDevelopmentCardAction(1));
+        assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(new ArrayList<>()));
+        assertThrows(InvalidEventException.class, () -> modelInterface.transformationAction(new ArrayList<>()));
+        assertThrows(InvalidEventException.class, () -> modelInterface.placeDevelopmentCardAction(1));
+        assertThrows(InvalidEventException.class, () -> modelInterface.endTurn());
     }
 }

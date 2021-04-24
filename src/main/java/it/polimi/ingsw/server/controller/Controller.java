@@ -22,7 +22,7 @@ public class Controller implements Observer {
     @Override
     public synchronized void update(ReceiveEvent receiveEvent) {
         //todo try catch di tutti gli errori e allo stesso modo avverte se if è false
-        if (modelInterface.getCurrentPlayer().equals(receiveEvent.getNickname())) {
+        if (modelInterface.getCurrentPlayerNickname().equals(receiveEvent.getNickname())) {
             try {
                 receiveEvent.doAction(modelInterface);
             } catch (InvalidIndexException | NonStorableResourceException | EmptySlotException | NonAccessibleSlotException | InvalidEventException e) {

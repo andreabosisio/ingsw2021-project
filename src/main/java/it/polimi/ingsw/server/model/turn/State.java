@@ -15,6 +15,6 @@ public abstract class State {
     public boolean leaderAction(String ID,boolean discard) throws InvalidEventException {throw new InvalidEventException();}
     public boolean placeResourceAction(List<Integer> swapPairs) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {throw new InvalidEventException();}
     public boolean transformationAction(List<String> chosenColors) throws InvalidEventException, NonStorableResourceException {throw new InvalidEventException();}
-    public boolean placeDevCardAction(int slotPosition) throws InvalidEventException {throw new InvalidEventException();}
+    public boolean placeDevelopmentCardAction(int slotPosition) throws InvalidEventException {throw new InvalidEventException();}
     public boolean endTurn() throws InvalidEventException {throw new InvalidEventException();}
 }
