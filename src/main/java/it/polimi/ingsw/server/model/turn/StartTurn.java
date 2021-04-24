@@ -53,6 +53,7 @@ public class StartTurn extends State {
                     notifyObservers(new PlaceResourcesSendEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             hasAlreadyDoneLeaderAction = false;
             turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());
+            return true;
         }
         return false;
 

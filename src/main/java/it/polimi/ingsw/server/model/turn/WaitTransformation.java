@@ -37,6 +37,13 @@ public class WaitTransformation extends State {
                 throw new InvalidEventException(); //non existing resource type
             }
         }
+        //check that chosen color is one of the 2 expected
+        List<Resource> tranformation = turnLogic.getWhiteResourcesFromMarket().get(0).getPossibleTransformations();
+        for(Resource resource:chosenResources) {
+            if(tranformation.stream().noneMatch(r -> r.getColor() == resource.getColor()))
+                throw new InvalidEventException();
+        }
+
         //add the chosen resources to the warehouse market zone
         turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse().addResourcesFromMarket(chosenResources);
         turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());

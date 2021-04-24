@@ -30,6 +30,8 @@ public class MarketSlots implements ResourcesContainer {
             this.slots.set(lastIndex, null);
             lastIndex++;
         }
+        //todo riga sotto aggiunta per reset
+        this.lastIndex=0;
         return true;
     }
 

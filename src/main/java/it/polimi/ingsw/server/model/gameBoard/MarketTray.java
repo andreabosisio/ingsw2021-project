@@ -102,6 +102,7 @@ public class MarketTray {
      * @throws InvalidIndexException if arrow < 0 or arrow > 6
      */
     public List<Resource> takeResources(int arrow) throws InvalidIndexException {
+        tempNewResources.clear();
         Resource[] chosenLine;
         Resource temp;
         if(arrow >= 0) {
