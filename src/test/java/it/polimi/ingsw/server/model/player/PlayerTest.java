@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
-import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 import org.junit.jupiter.api.Test;
 
@@ -78,7 +78,7 @@ class PlayerTest {
         assertFalse(player.activateLeaderCard(leaderWithResRequirement));
         //setup requirements
         for(int i =0;i<5;i++) {
-            assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.PURPLE)));
+            assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.PURPLE)));
         }
         //check that res requirements have been met
         assertEquals(1,player.getAvailableLeaderActivationTest().size());
@@ -88,8 +88,8 @@ class PlayerTest {
         assertEquals(2,player.getAvailableLeaderActivationTest().size());
         //check that both requirements remain met even with more stuff added
         assertTrue(player.getPersonalBoard().setNewDevelopmentCard(2, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList()).get(0)));
-        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.GRAY)));
-        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(ResourceEnum.BLUE)));
+        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.GRAY)));
+        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.BLUE)));
         assertEquals(2,player.getAvailableLeaderActivationTest().size());
         assertEquals(2,player.getAvailableLeaderActivationTest().size());
         //check that number of leader that can be activated is reduced when one is activated

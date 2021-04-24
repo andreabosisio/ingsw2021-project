@@ -4,16 +4,15 @@ import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
+import java.util.HashMap;
 import java.util.Objects;
 
-/**
- * Abstract class for resources
- */
+
 public abstract class Resource {
 
-    private ResourceEnum color;
+    private final ResourceEnum color;
 
-    public Resource(ResourceEnum color){
+    public Resource(ResourceEnum color) {
         this.color = color;
     }
 
@@ -22,7 +21,7 @@ public abstract class Resource {
      *
      * @return the color of this Resource
      */
-    public ResourceEnum getColor(){
+    public ResourceEnum getColor() {
         return this.color;
     }
 
@@ -30,20 +29,25 @@ public abstract class Resource {
      * Method to call after a Resource has been chosen in the MarketTray.
      * Never used here
      *
-     * @param turn  containing the current player, the current state of the game and others information
+     * @param turn containing the current player, the current state of the game and others information
      * @return true if the ability has been executed successfully
      */
-    public boolean marketAbility(TurnLogic turn){
+    public boolean marketAbility(TurnLogic turn) {
         return false;
     }
 
     /**
      * Method to call after a Resource has been produced by a ProductionAction of a ProductionCard.
      *
-     * @param turn  containing the current player, the current state of the game and others information
+     * @param turn containing the current player, the current state of the game and others information
      * @return true if the ability has been executed successfully
      */
     public boolean productionAbility(TurnLogic turn) {
+        return false;
+    }
+
+
+    public boolean addPossibleTransformation(Resource possibleTransformation) {
         return false;
     }
 
@@ -66,9 +70,5 @@ public abstract class Resource {
     @Override
     public int hashCode() {
         return Objects.hash(color);
-    }
-
-    public boolean addPossibleTransformation(Resource possibleTransformation) {
-        return false;
     }
 }

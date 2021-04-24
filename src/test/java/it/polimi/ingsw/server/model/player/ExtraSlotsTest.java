@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
-import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import org.junit.jupiter.api.Test;
 
@@ -12,14 +12,14 @@ class ExtraSlotsTest {
     ExtraSlots extraSlots = new ExtraSlots();
     @Test
     void simplyExtraSlotTest() {
-        Resource correctResource = new OtherResource(ResourceEnum.YELLOW);
+        Resource correctResource = new StorableResource(ResourceEnum.YELLOW);
 
         assertFalse(extraSlots.getIsActivated());
 
         extraSlots.activateExtraSlots(correctResource);
         assertEquals(extraSlots.getResourceType(), correctResource);
 
-        extraSlots.setResource(0, new OtherResource(ResourceEnum.BLUE));
+        extraSlots.setResource(0, new StorableResource(ResourceEnum.BLUE));
         assertFalse(extraSlots.isLegal());
 
         extraSlots.setResource(0, correctResource);

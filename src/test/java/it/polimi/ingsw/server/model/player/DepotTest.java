@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
-import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ class DepotTest {
     Depot depot = new Depot(3);
     @Test
     void simplyDepotTest() {
-        Resource correctResource = new OtherResource(ResourceEnum.BLUE);
+        Resource correctResource = new StorableResource(ResourceEnum.BLUE);
         depot.setResource(2, correctResource);
         assertEquals(depot.getResourceType(), correctResource);
         assertNull(depot.getResource(1)); //empty slot

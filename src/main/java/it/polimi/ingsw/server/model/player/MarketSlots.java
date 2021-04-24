@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.player;
 
-import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.Arrays;

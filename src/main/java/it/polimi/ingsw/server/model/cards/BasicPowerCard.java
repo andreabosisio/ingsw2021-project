@@ -68,14 +68,11 @@ public class BasicPowerCard implements ProductionCard {
      *
      * @param givenResources from a player
      * @return true if the desiredProductionResources can activate the production of the Card
-     * @throws NonStorableResourceException if desiredProductionResources contains a RedResource or a WhiteResource
      */
     @Override
-    public boolean canDoProduction(List<Resource> givenResources) throws NonStorableResourceException {
+    public boolean canDoProduction(List<Resource> givenResources) {
         if(givenResources.size() != choosableInResourcesSlots + choosableOutResourcesSlots)
             return false;
-        if(!Collections.disjoint(givenResources, NonStorableResources.getNonStorableResources()))
-            throw new NonStorableResourceException();
         return setOutResources(givenResources);
     }
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
-import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import org.junit.jupiter.api.Test;
 
@@ -19,8 +19,8 @@ class MarketSlotsTest {
     @Test
     void simplyMarketSlotsTest(){
         List<Resource> correctResources = new ArrayList<Resource>(){{
-           add(new OtherResource(ResourceEnum.YELLOW));
-           add(new OtherResource(ResourceEnum.BLUE));
+           add(new StorableResource(ResourceEnum.YELLOW));
+           add(new StorableResource(ResourceEnum.BLUE));
         }};
 
         marketSlots.addResources(correctResources);

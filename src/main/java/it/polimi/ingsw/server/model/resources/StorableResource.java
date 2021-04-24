@@ -4,6 +4,8 @@ import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
+import java.util.Objects;
+
 /**
  * Resources that can be used to make a production by the ProductionCard cards
  * and that can be used to buy/activate cards.
@@ -13,13 +15,11 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
  *     PURPLE,
  *     BLUE
  */
-public class OtherResource extends Resource {
+public class StorableResource extends Resource {
 
-    //todo lancia eccezione se RED or WHITE
-    public OtherResource(ResourceEnum color) {
+    public StorableResource(ResourceEnum color) {
         super(color);
     }
-
 
     /**
      * Method to call after a Resource has been chosen in the MarketTray.
@@ -31,7 +31,7 @@ public class OtherResource extends Resource {
      */
     @Override
     public boolean marketAbility(TurnLogic turn){
-        return GameBoard.getGameBoard().getMarketTray().addNewResource(new OtherResource(this.getColor()));
+        return GameBoard.getGameBoard().getMarketTray().addNewResource(new StorableResource(this.getColor()));
     }
 
     /**
@@ -43,6 +43,7 @@ public class OtherResource extends Resource {
      */
     @Override
     public boolean productionAbility(TurnLogic turn) {
-        return turn.getCurrentPlayer().getPersonalBoard().getWarehouse().addResourcesToStrongBox(new OtherResource(this.getColor()));
+        return turn.getCurrentPlayer().getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(this.getColor()));
     }
+
 }

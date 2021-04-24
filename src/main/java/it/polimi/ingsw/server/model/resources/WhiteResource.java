@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Resource that can be transformed in one of the possibleTransformations resource and
@@ -25,7 +26,6 @@ public class WhiteResource extends Resource {
      */
     private List<Resource> possibleTransformations = new ArrayList<>();
 
-
     /**
      * Method to call after a Resource has been chosen in the MarketTray.
      * Check if there are some possible transformations of this WhiteResource provided by
@@ -41,7 +41,7 @@ public class WhiteResource extends Resource {
             leaderCard.doTransformation(this);
 
         if (possibleTransformations.size() == 1) { //the only possible transformation is applied automatically
-            GameBoard.getGameBoard().getMarketTray().addNewResource(new OtherResource(possibleTransformations.get(0).getColor()));
+            GameBoard.getGameBoard().getMarketTray().addNewResource(new StorableResource(possibleTransformations.get(0).getColor()));
         }
         if (possibleTransformations.size() == 2) { //player must choose a transformation
             turn.setWhiteResourcesFromMarket(this);
@@ -69,4 +69,5 @@ public class WhiteResource extends Resource {
     public List<Resource> getPossibleTransformations() {
         return possibleTransformations;
     }
+
 }

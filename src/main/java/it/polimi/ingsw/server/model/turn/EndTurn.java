@@ -35,8 +35,9 @@ public class EndTurn extends State {
             return true;
         }
 
-        turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse().reorderStrongBox();
+        //reset and change player
         turnLogic.setNextPlayer();
+
         turnLogic.setCurrentState(turnLogic.getStartTurn());
         return false;
     }
@@ -56,7 +57,7 @@ public class EndTurn extends State {
         //get the chosen leader card
         LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
                 .filter(card -> card.getID().equals(ID)).findFirst()
-                .orElseThrow(() -> new InvalidEventException());
+                .orElseThrow(InvalidEventException::new);
         //if the card has to be discarded
         if(discard){
             if(!currentPlayer.discardLeader(chosenLeaderCard))

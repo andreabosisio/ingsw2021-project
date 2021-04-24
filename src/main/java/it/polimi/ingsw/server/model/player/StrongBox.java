@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.exceptions.EmptySlotException;
-import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class StrongBox implements ResourcesContainer{
             return null;
         }
         if(chosenResource != null)
-            return new OtherResource(chosenResource.getColor());
+            return new StorableResource(chosenResource.getColor());
         return null;
     }
 

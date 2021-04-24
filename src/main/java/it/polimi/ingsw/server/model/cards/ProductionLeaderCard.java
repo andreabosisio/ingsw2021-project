@@ -87,14 +87,12 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
      *
      * @param desiredProductionResources from a player
      * @return true if the desiredProductionResources can activate the production of the card
-     * @throws NonStorableResourceException if desiredProductionResources contains a RedResource or a WhiteResource
      */
     @Override
-    public boolean canDoProduction(List<Resource> desiredProductionResources) throws NonStorableResourceException {
+    public boolean canDoProduction(List<Resource> desiredProductionResources) {
         if(desiredProductionResources.size() != inResourceSlots + choosableOutResourcesSlots)
             return false;
-        if(!Collections.disjoint(desiredProductionResources, NonStorableResources.getNonStorableResources()))
-            throw new NonStorableResourceException();
+
         if(!desiredProductionResources.get(0).equals(this.inResources))
             return false;
 

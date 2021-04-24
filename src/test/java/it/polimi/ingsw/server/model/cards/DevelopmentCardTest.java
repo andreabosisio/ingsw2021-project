@@ -7,13 +7,11 @@ import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
-import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Warehouse;
-import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -50,13 +48,13 @@ class DevelopmentCardTest {
         List<Resource> insufficientResources = new ArrayList<>();
         List<Resource> incorrectResources = new ArrayList<>();
 
-        correctResources.add(new OtherResource(ResourceEnum.GRAY));
-        correctResources.add(new OtherResource(ResourceEnum.GRAY));
+        correctResources.add(new StorableResource(ResourceEnum.GRAY));
+        correctResources.add(new StorableResource(ResourceEnum.GRAY));
 
-        insufficientResources.add(new OtherResource(ResourceEnum.GRAY));
+        insufficientResources.add(new StorableResource(ResourceEnum.GRAY));
 
-        incorrectResources.add(new OtherResource(ResourceEnum.PURPLE));
-        incorrectResources.add(new OtherResource(ResourceEnum.GRAY));
+        incorrectResources.add(new StorableResource(ResourceEnum.PURPLE));
+        incorrectResources.add(new StorableResource(ResourceEnum.GRAY));
 
 
         assertTrue(devCard.canDoProduction(correctResources) && !devCard.getInResources().isEmpty());
@@ -71,13 +69,13 @@ class DevelopmentCardTest {
         List<Resource> insufficientResources = new ArrayList<>();
         List<Resource> incorrectResources = new ArrayList<>();
 
-        correctResources.add(new OtherResource(ResourceEnum.GRAY));
-        correctResources.add(new OtherResource(ResourceEnum.BLUE));
+        correctResources.add(new StorableResource(ResourceEnum.GRAY));
+        correctResources.add(new StorableResource(ResourceEnum.BLUE));
 
-        insufficientResources.add(new OtherResource(ResourceEnum.BLUE));
+        insufficientResources.add(new StorableResource(ResourceEnum.BLUE));
 
-        incorrectResources.add(new OtherResource(ResourceEnum.PURPLE));
-        incorrectResources.add(new OtherResource(ResourceEnum.BLUE));
+        incorrectResources.add(new StorableResource(ResourceEnum.PURPLE));
+        incorrectResources.add(new StorableResource(ResourceEnum.BLUE));
 
 
         assertTrue(devCard.canDoProduction(correctResources) && !devCard.getInResources().isEmpty());
@@ -91,11 +89,11 @@ class DevelopmentCardTest {
     void getterTest(){
             devCard = devCards.get(19);
         List<Resource> correctPrice = new ArrayList<Resource>(){{
-            add(new OtherResource(ResourceEnum.BLUE));
-            add(new OtherResource(ResourceEnum.BLUE));
+            add(new StorableResource(ResourceEnum.BLUE));
+            add(new StorableResource(ResourceEnum.BLUE));
         }};
         List<Resource> correctInResources = new ArrayList<Resource>(){{
-            add(new OtherResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.YELLOW));
         }};
         List<Resource> correctOutResources = new ArrayList<Resource>(){{
             add(new RedResource());
@@ -111,8 +109,8 @@ class DevelopmentCardTest {
     void usePowerTest(){
         devCard = devCards.get(9);
         List<Resource> correctOutResources = new ArrayList<Resource>(){{
-            add(new OtherResource(ResourceEnum.PURPLE));
-            add(new OtherResource((ResourceEnum.PURPLE)));
+            add(new StorableResource(ResourceEnum.PURPLE));
+            add(new StorableResource((ResourceEnum.PURPLE)));
             add(new RedResource());
         }};
         assertEquals(correctOutResources, devCard.getOutResources());
@@ -128,11 +126,11 @@ class DevelopmentCardTest {
         //----------------
 
         List<Resource> strongBoxResources = new ArrayList<Resource>(){{
-            add(new OtherResource(ResourceEnum.YELLOW));
-            add(new OtherResource(ResourceEnum.YELLOW));
-            add(new OtherResource(ResourceEnum.YELLOW));
-            add(new OtherResource(ResourceEnum.GRAY));
-            add(new OtherResource(ResourceEnum.GRAY));
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.GRAY));
+            add(new StorableResource(ResourceEnum.GRAY));
         }};
         warehouse.addResourcesToStrongBox(strongBoxResources);
 
@@ -156,16 +154,16 @@ class DevelopmentCardTest {
         warehouse.reorderStrongBox();
 
         strongBoxResources = new ArrayList<Resource>(){{
-            add(new OtherResource(ResourceEnum.YELLOW));
-            add(new OtherResource(ResourceEnum.YELLOW));
-            add(new OtherResource(ResourceEnum.YELLOW));
-            add(new OtherResource(ResourceEnum.GRAY));
-            add(new OtherResource(ResourceEnum.GRAY));
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.GRAY));
+            add(new StorableResource(ResourceEnum.GRAY));
         }};
         warehouse.addResourcesToStrongBox(strongBoxResources);
 
-        discount.add(new OtherResource(ResourceEnum.GRAY));
-        discount.add(new OtherResource(ResourceEnum.YELLOW));
+        discount.add(new StorableResource(ResourceEnum.GRAY));
+        discount.add(new StorableResource(ResourceEnum.YELLOW));
 
         //correct resources for payment with discount
         paymentResourcePositions = new ArrayList<Integer>(){{
@@ -175,8 +173,8 @@ class DevelopmentCardTest {
         }};
 
         List<Resource> remainingResources = new ArrayList<Resource>(){{
-            add(new OtherResource(ResourceEnum.YELLOW));
-            add(new OtherResource(ResourceEnum.GRAY));
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.GRAY));
         }};
 
         assertTrue(devCard.buyCard(turnLogic.getCurrentPlayer(), paymentResourcePositions, discount));
@@ -195,9 +193,9 @@ class DevelopmentCardTest {
         //----------------
 
         List<Resource> incorrectResources = new ArrayList<Resource>(){{
-            add(new OtherResource(ResourceEnum.YELLOW));
-            add(new OtherResource(ResourceEnum.PURPLE));
-            add(new OtherResource(ResourceEnum.BLUE));
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.PURPLE));
+            add(new StorableResource(ResourceEnum.BLUE));
         }};
         warehouse.reorderStrongBox();
         warehouse.addResourcesToStrongBox(incorrectResources);
@@ -221,9 +219,9 @@ class DevelopmentCardTest {
         List<Resource> plusResources = new ArrayList<>();
         List<Resource> emptyResources = new ArrayList<>();
 
-        plusResources.add(new OtherResource(ResourceEnum.BLUE));
-        plusResources.add(new OtherResource(ResourceEnum.PURPLE));
-        plusResources.add(new OtherResource(ResourceEnum.GRAY));
+        plusResources.add(new StorableResource(ResourceEnum.BLUE));
+        plusResources.add(new StorableResource(ResourceEnum.PURPLE));
+        plusResources.add(new StorableResource(ResourceEnum.GRAY));
 
 
         assertTrue(devCard.canDoProduction(plusResources) && !devCard.getInResources().isEmpty());

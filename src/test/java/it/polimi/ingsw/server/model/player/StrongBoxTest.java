@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.exceptions.EmptySlotException;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
-import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ class StrongBoxTest {
     @Test
     void simplyStrongBoxTest() throws EmptySlotException {
 
-        Resource toStock = new OtherResource(ResourceEnum.PURPLE);
+        Resource toStock = new StorableResource(ResourceEnum.PURPLE);
         strongBox.addResource(toStock);
 
         assertFalse(strongBox.setResource(2, toStock)); //cannot set a resource in a slot, only add

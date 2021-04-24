@@ -6,13 +6,11 @@ import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.resources.OtherResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DevelopmentCard implements ProductionCard {
 

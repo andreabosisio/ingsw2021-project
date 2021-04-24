@@ -39,9 +39,8 @@ public interface ProductionCard {
      *
      * @param givenResources from a player
      * @return true if the givenResources satisfy the production requirements of the card
-     * @throws NonStorableResourceException if givenResources contains a RedResource or a WhiteResource
      */
-    boolean canDoProduction(List<Resource> givenResources) throws NonStorableResourceException;
+    boolean canDoProduction(List<Resource> givenResources);
 
     /**
      * Return card's victory points.

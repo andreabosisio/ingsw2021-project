@@ -4,6 +4,8 @@ import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
+import java.util.Objects;
+
 /**
  * Resource that make a progress on the FaithTrack.
  * MarketAbility and ProductionAbility are the same for the RedResource.
@@ -12,12 +14,11 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
  */
 public class RedResource extends Resource {
 
-    public final int faithProgressSteps = 1;
+    private final int faithProgressSteps = 1;
 
     public RedResource() {
         super(ResourceEnum.RED);
     }
-
 
     /**
      * Method to call after a Resource has been chosen in the MarketTray.
@@ -43,4 +44,16 @@ public class RedResource extends Resource {
     public boolean productionAbility(TurnLogic turn) {
         return marketAbility(turn);
     }
+
+    /**
+     * RedResource can't be transformed.
+     *
+     * @param possibleTransformation null
+     * @return false
+     */
+    @Override
+    public boolean addPossibleTransformation(Resource possibleTransformation) {
+        return false;
+    }
+
 }

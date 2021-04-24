@@ -3,12 +3,11 @@ package it.polimi.ingsw.server.model.gameBoard;
 import it.polimi.ingsw.exceptions.EmptySlotException;
 import it.polimi.ingsw.exceptions.InvalidIndexException;
 import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
-import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameMode.LorenzoDoingNothing;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 import org.junit.jupiter.api.BeforeEach;
@@ -180,17 +179,17 @@ public class CheckWinnerTest {
         assertEquals(20 + 9, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(1)).getVictoryPoints());
 
         players.get(0).getPersonalBoard().getWarehouse().addResourcesFromMarket(new ArrayList<Resource>(){{
-            add(new OtherResource(ResourceEnum.YELLOW));
-            add(new OtherResource(ResourceEnum.BLUE));
-            add(new OtherResource(ResourceEnum.PURPLE));
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.BLUE));
+            add(new StorableResource(ResourceEnum.PURPLE));
         }});
         players.get(0).getPersonalBoard().getWarehouse().swap(0,4);
         players.get(0).getPersonalBoard().getWarehouse().swap(1,6);
         players.get(0).getPersonalBoard().getWarehouse().swap(2,8);
 
         players.get(1).getPersonalBoard().getWarehouse().addResourcesFromMarket(new ArrayList<Resource>(){{
-            add(new OtherResource(ResourceEnum.YELLOW));
-            add(new OtherResource(ResourceEnum.BLUE));
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.BLUE));
         }});
         players.get(1).getPersonalBoard().getWarehouse().swap(0,4);
         players.get(1).getPersonalBoard().getWarehouse().swap(1,6);

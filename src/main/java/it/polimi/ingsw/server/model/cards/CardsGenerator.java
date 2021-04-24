@@ -6,9 +6,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
-import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -50,7 +51,7 @@ public class CardsGenerator {
                     int quantity = priceJsonObject.get("quantity").getAsInt();
                     ResourceEnum color = ResourceEnum.valueOf(priceJsonObject.get("color").getAsString());
                     for(int i=0;i<quantity;i++){
-                        price.add(new OtherResource(color));
+                        price.add(new StorableResource(color));
                     }
 
                 }
@@ -100,7 +101,7 @@ public class CardsGenerator {
             }
         } else {
             for (int i = 0; i < quantity; i++) {
-                resources.add(new OtherResource(color));
+                resources.add(new StorableResource(color));
             }
         }
     }
@@ -156,19 +157,19 @@ public class CardsGenerator {
                 //Create specific type of leaderCard asking the file for the specific parameters
                 switch (type){
                     case "production":
-                        Resource inResource = new OtherResource(ResourceEnum.valueOf(leaderJsonObject.get("inResource").getAsString()));
+                        Resource inResource = new StorableResource(ResourceEnum.valueOf(leaderJsonObject.get("inResource").getAsString()));
                         card = new ProductionLeaderCard(id,points,requirements,inResource);
                         break;
                     case "market":
-                        Resource transformation = new OtherResource(ResourceEnum.valueOf(leaderJsonObject.get("transformation").getAsString()));
+                        Resource transformation = new StorableResource(ResourceEnum.valueOf(leaderJsonObject.get("transformation").getAsString()));
                         card = new TransformationLeaderCard(id,points,requirements,transformation);
                         break;
                     case "warehouse":
-                        Resource extraSlotsType = new OtherResource(ResourceEnum.valueOf(leaderJsonObject.get("extraSlotsType").getAsString()));
+                        Resource extraSlotsType = new StorableResource(ResourceEnum.valueOf(leaderJsonObject.get("extraSlotsType").getAsString()));
                         card = new WarehouseLeaderCard(id,points,requirements,extraSlotsType);
                         break;
                     case "discount":
-                        Resource discountResource = new OtherResource(ResourceEnum.valueOf(leaderJsonObject.get("discount").getAsString()));
+                        Resource discountResource = new StorableResource(ResourceEnum.valueOf(leaderJsonObject.get("discount").getAsString()));
                         card = new DiscountLeaderCard(id,points,requirements,discountResource);
                         break;
                     default:

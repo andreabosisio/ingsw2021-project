@@ -1,22 +1,17 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.exceptions.EmptySlotException;
-import it.polimi.ingsw.exceptions.InvalidIndexException;
-import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.WhiteResource;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,14 +111,14 @@ public class TestGameGenerator {
 
     public void setMarketTrayAuto(ModelInterface modelInterface) {
         List<Resource> resources = new ArrayList<>();
-        resources.add(new OtherResource(ResourceEnum.BLUE));
-        resources.add(new OtherResource(ResourceEnum.BLUE));
-        resources.add(new OtherResource(ResourceEnum.GRAY));
-        resources.add(new OtherResource(ResourceEnum.GRAY));
-        resources.add(new OtherResource(ResourceEnum.YELLOW));
-        resources.add(new OtherResource(ResourceEnum.YELLOW));
-        resources.add(new OtherResource(ResourceEnum.PURPLE));
-        resources.add(new OtherResource(ResourceEnum.PURPLE));
+        resources.add(new StorableResource(ResourceEnum.BLUE));
+        resources.add(new StorableResource(ResourceEnum.BLUE));
+        resources.add(new StorableResource(ResourceEnum.GRAY));
+        resources.add(new StorableResource(ResourceEnum.GRAY));
+        resources.add(new StorableResource(ResourceEnum.YELLOW));
+        resources.add(new StorableResource(ResourceEnum.YELLOW));
+        resources.add(new StorableResource(ResourceEnum.PURPLE));
+        resources.add(new StorableResource(ResourceEnum.PURPLE));
         resources.add(new RedResource());
         resources.add(new WhiteResource());
         resources.add(new WhiteResource());

@@ -98,6 +98,7 @@ public class TurnLogic {
         //reset
         whiteResourcesFromMarket.clear();
         chosenDevCard = null;
+        currentPlayer.getPersonalBoard().getWarehouse().reorderStrongBox();
     }
 
     public GameMode getGameMode() {

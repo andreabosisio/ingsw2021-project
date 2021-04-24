@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.cards;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.resources.OtherResource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import org.junit.jupiter.api.Test;
 
@@ -21,9 +21,9 @@ class DevelopmentRequirementTest {
         List<Requirement> requirementsLeader1 = new ArrayList<>();
         List<Requirement> requirementsLeader2 = new ArrayList<>();
         requirementsLeader1.add(new DevelopmentRequirement(0, CardColorEnum.BLUE,2));
-        LeaderCard leader1 = new ProductionLeaderCard("1",0,requirementsLeader1,new OtherResource(ResourceEnum.BLUE));
+        LeaderCard leader1 = new ProductionLeaderCard("1",0,requirementsLeader1,new StorableResource(ResourceEnum.BLUE));
         requirementsLeader2.add(new DevelopmentRequirement(3, CardColorEnum.BLUE,1));
-        LeaderCard leader2 = new ProductionLeaderCard("2",0,requirementsLeader2,new OtherResource(ResourceEnum.BLUE));
+        LeaderCard leader2 = new ProductionLeaderCard("2",0,requirementsLeader2,new StorableResource(ResourceEnum.BLUE));
         leaderCardList.add(leader1);
         leaderCardList.add(leader2);
         player.setLeaderHand(leaderCardList);
@@ -60,9 +60,9 @@ class DevelopmentRequirementTest {
         List<Requirement> requirementsLeader2 = new ArrayList<>();
         requirementsLeader1.add(new DevelopmentRequirement(0, CardColorEnum.BLUE,1));
         requirementsLeader1.add(new DevelopmentRequirement(0, CardColorEnum.GREEN,1));
-        LeaderCard leader1 = new ProductionLeaderCard("1",0,requirementsLeader1,new OtherResource(ResourceEnum.BLUE));
+        LeaderCard leader1 = new ProductionLeaderCard("1",0,requirementsLeader1,new StorableResource(ResourceEnum.BLUE));
         requirementsLeader2.add(new DevelopmentRequirement(2, CardColorEnum.YELLOW,2));
-        LeaderCard leader2 = new ProductionLeaderCard("2",0,requirementsLeader2,new OtherResource(ResourceEnum.BLUE));
+        LeaderCard leader2 = new ProductionLeaderCard("2",0,requirementsLeader2,new StorableResource(ResourceEnum.BLUE));
         leaderCardList.add(leader1);
         leaderCardList.add(leader2);
         player.setLeaderHand(leaderCardList);
@@ -101,8 +101,8 @@ class DevelopmentRequirementTest {
         requirementsLeader.add(new DevelopmentRequirement(0, CardColorEnum.BLUE,1));
         requirementsLeader.add(new DevelopmentRequirement(0, CardColorEnum.GREEN,1));
         requirementsLeader.add(new DevelopmentRequirement(2, CardColorEnum.YELLOW,2));
-        LeaderCard leader1 = new ProductionLeaderCard("1",0,requirementsLeader,new OtherResource(ResourceEnum.BLUE));
-        LeaderCard leader2 = new ProductionLeaderCard("2",0,requirementsLeader,new OtherResource(ResourceEnum.BLUE));
+        LeaderCard leader1 = new ProductionLeaderCard("1",0,requirementsLeader,new StorableResource(ResourceEnum.BLUE));
+        LeaderCard leader2 = new ProductionLeaderCard("2",0,requirementsLeader,new StorableResource(ResourceEnum.BLUE));
         leaderCardList.add(leader1);
         leaderCardList.add(leader2);
         player.setLeaderHand(leaderCardList);
