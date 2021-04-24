@@ -3,14 +3,20 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.TestGameGenerator;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
+import it.polimi.ingsw.server.model.cards.ProductionCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.resources.RedResource;
+import it.polimi.ingsw.server.model.resources.Resource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -123,8 +129,6 @@ class ModelInterfaceTest {
 
     }
 
-
-
     @Test
     void marketActionWithNoPlacementTurnSimulation() throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException {
         TestGameGenerator game = new TestGameGenerator();
@@ -146,6 +150,7 @@ class ModelInterfaceTest {
         modelInterface.endTurn();
         GameBoard.getGameBoard().reset();
     }
+
     @Test
     void marketActionTurnSimulation() throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException {
         TestGameGenerator game = new TestGameGenerator();
@@ -324,5 +329,218 @@ class ModelInterfaceTest {
         assertEquals(ResourceEnum.BLUE,modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(1).getColor());
         assertEquals(ResourceEnum.PURPLE,modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(2).getColor());
         GameBoard.getGameBoard().reset();
+    }
+
+    @Test
+    void productionActionTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException, InvalidEventException, NonStorableResourceException {
+        GameBoard.getGameBoard().reset();
+        TestGameGenerator game = new TestGameGenerator();
+        ModelInterface modelInterface = game.modelInterfaceGenerator(true);
+        List<Integer> numberOfDevCards = new ArrayList<>();
+        List<Integer> positionOfResForProdSlot1 = new ArrayList<>();
+        List<Integer> positionOfResForProdSlot2 = new ArrayList<>();
+        List<Integer> positionOfResForProdSlot3 = new ArrayList<>();
+        List<Integer> positionOfResForBasicSlot = new ArrayList<>();
+        List<Integer> positionOfResForLeaderSlot = new ArrayList<>();
+        List<Player> players = modelInterface.getTurnLogic().getPlayers();
+        List<DevelopmentCard> developmentCards = new ArrayList<>();
+        Player firstPlayer = modelInterface.getTurnLogic().getPlayers().get(0);
+
+        firstPlayer.getPersonalBoard().setNewDevelopmentCard((ProductionCard) firstPlayer.getLeaderHand().get(0));
+
+        numberOfDevCards.add(7);
+        numberOfDevCards.add(0);
+        numberOfDevCards.add(0);
+        numberOfDevCards.add(0);
+        // Set the Development card in the Player's Board
+        game.setDevCardInHand(modelInterface, numberOfDevCards);
+        // The player has the correct number of Development Card
+        assertEquals(7, firstPlayer.getPersonalBoard().getAllDevelopmentCards().size());
+        assertEquals(0, firstPlayer.getPersonalBoard().getWarehouse().getAllResources().size());
+
+        developmentCards.add(firstPlayer.getPersonalBoard().getAllDevelopmentCards().get(0));
+        developmentCards.add(firstPlayer.getPersonalBoard().getAllDevelopmentCards().get(3));
+        developmentCards.add(firstPlayer.getPersonalBoard().getAllDevelopmentCards().get(5));
+
+        int offset = strongBoxPositionsOffset;
+        int constantOffset;
+        // Set the necessary resources to do the first production
+        game.preparePlayerForProductionDevCard(modelInterface, firstPlayer, developmentCards.get(0));
+        for (int i = 0; i < developmentCards.get(0).getInResources().size(); i++) {
+            positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
+            offset++;
+        }
+        constantOffset = offset;
+        // Set the necessary resources to do the second production
+        game.preparePlayerForProductionDevCard(modelInterface, firstPlayer, developmentCards.get(1));
+        for (int j = 0; j < developmentCards.get(1).getInResources().size(); j++) {
+            positionOfResForProdSlot2.add(j + constantOffset);
+            offset++;
+        }
+        constantOffset = offset;
+        // Set the necessary resources to do the third production
+        game.preparePlayerForProductionDevCard(modelInterface, firstPlayer, developmentCards.get(2));
+        for (int t = 0; t < developmentCards.get(2).getInResources().size(); t++) {
+            positionOfResForProdSlot3.add(t + constantOffset);
+            offset++;
+        }
+        constantOffset = offset;
+        // Set the necessary resources to do the basic production and the leader action
+        positionOfResForBasicSlot.add(constantOffset);
+        positionOfResForBasicSlot.add(constantOffset + 1);
+        positionOfResForLeaderSlot.add(constantOffset + 2);
+        List<Resource> resources = new ArrayList<>();
+        resources.add(new StorableResource(ResourceEnum.YELLOW));
+        resources.add(new StorableResource(ResourceEnum.GRAY));
+        firstPlayer.getPersonalBoard().
+                getWarehouse().addResourcesToStrongBox(resources);
+        firstPlayer.getPersonalBoard().
+                getWarehouse().addResourcesToStrongBox(resources.get(0));
+
+        // Check that player is in start turn state
+        assertEquals(modelInterface.getTurnLogic().getStartTurn(), modelInterface.getTurnLogic().getCurrentState());
+
+        Map<Integer, List<Integer>> inResourcesForEachProductions = new HashMap<>();
+        Map<Integer, String> outResourcesForEachProductions = new HashMap<>();
+        inResourcesForEachProductions.put(0, positionOfResForBasicSlot);
+        inResourcesForEachProductions.put(1, positionOfResForProdSlot1);
+        inResourcesForEachProductions.put(2, positionOfResForProdSlot2);
+        inResourcesForEachProductions.put(3, positionOfResForProdSlot3);
+        inResourcesForEachProductions.put(4, positionOfResForLeaderSlot);
+
+        outResourcesForEachProductions.put(0, "BLUE");
+        outResourcesForEachProductions.put(4, "PURPLE");
+
+        // Perform production action
+        assertTrue(modelInterface.productionAction(inResourcesForEachProductions, outResourcesForEachProductions));
+        // Check that you can't perform another production action
+        assertThrows(InvalidEventException.class, () -> modelInterface.
+                productionAction(inResourcesForEachProductions, outResourcesForEachProductions));
+
+        // Check that the Player has the correct number of resources and the correct progress of the Faith Track
+        List<Resource> newRes = new ArrayList<>();
+        newRes.addAll(developmentCards.get(0).getOutResources());
+        newRes.addAll(developmentCards.get(1).getOutResources());
+        newRes.addAll(developmentCards.get(2).getOutResources());
+        long newResources = newRes.stream().filter(resource -> resource instanceof StorableResource).count();
+        long redResources = newRes.stream().filter(resource -> resource instanceof RedResource).count();
+        assertEquals(newResources + 2, firstPlayer.getPersonalBoard().getWarehouse().getAllResources().size());
+        assertEquals(redResources + 1, GameBoard.getGameBoard().getFaithTracks().get(0).getFaithMarker());
+
+        // Check that player is now in EndTurn state
+        assertEquals(modelInterface.getTurnLogic().getEndTurn(), modelInterface.getTurnLogic().getCurrentState());
+
+        // End first player turn
+        modelInterface.endTurn();
+        // Check that current player is now second in both modelInterface and turnLogic
+        assertEquals("second", modelInterface.getCurrentPlayer());
+        assertEquals("second", modelInterface.getTurnLogic().getCurrentPlayer().getNickname());
+        // Check that player is in start turn
+        assertEquals(modelInterface.getTurnLogic().getStartTurn(), modelInterface.getTurnLogic().getCurrentState());
+        // The second player do his turn
+        game.preparePlayerForDevCard(modelInterface, 1, GameBoard.getGameBoard().
+                getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.PURPLE, 1));
+        positionOfResForProdSlot1.clear();
+        for (int i = 0; i < GameBoard.getGameBoard().getDevelopmentCardsGrid().
+                getCardByColorAndLevel(CardColorEnum.PURPLE, 1).getPrice().size(); i++) {
+            positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
+        }
+        assertTrue(modelInterface.buyAction("purple", 1, positionOfResForProdSlot1));
+        assertTrue(modelInterface.placeDevCardAction(1));
+        modelInterface.endTurn();
+        // The third player do his turn
+        game.preparePlayerForDevCard(modelInterface, 2, GameBoard.getGameBoard().
+                getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.PURPLE, 1));
+        positionOfResForProdSlot1.clear();
+        for (int i = 0; i < GameBoard.getGameBoard().getDevelopmentCardsGrid().
+                getCardByColorAndLevel(CardColorEnum.PURPLE, 1).getPrice().size(); i++) {
+            positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
+        }
+        assertTrue(modelInterface.buyAction("purple", 1, positionOfResForProdSlot1));
+        assertTrue(modelInterface.placeDevCardAction(1));
+        modelInterface.endTurn();
+        // The fourth player do his turn
+        game.preparePlayerForDevCard(modelInterface, 3, GameBoard.getGameBoard().
+                getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.PURPLE, 1));
+        positionOfResForProdSlot1.clear();
+        for (int i = 0; i < GameBoard.getGameBoard().getDevelopmentCardsGrid().
+                getCardByColorAndLevel(CardColorEnum.PURPLE, 1).getPrice().size(); i++) {
+            positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
+        }
+        assertTrue(modelInterface.buyAction("purple", 1, positionOfResForProdSlot1));
+        assertTrue(modelInterface.placeDevCardAction(1));
+        modelInterface.endTurn();
+        // The first Player has seven Development Card and the last Player do his turn, so the game is over
+        assertEquals(modelInterface.getTurnLogic().getEndGame(), modelInterface.getTurnLogic().getCurrentState());
+    }
+
+    @Test
+    public void invalidProductionActionTest() throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException, NonStorableResourceException {
+        TestGameGenerator game = new TestGameGenerator();
+        ModelInterface modelInterface = game.modelInterfaceGenerator(true);
+        List<Integer> numberOfDevCards = new ArrayList<>();
+        List<Integer> positionOfResForProdSlot1 = new ArrayList<>();
+        List<Integer> positionOfResForBasicSlot = new ArrayList<>();
+        List<Player> players = modelInterface.getTurnLogic().getPlayers();
+        List<DevelopmentCard> developmentCards = new ArrayList<>();
+        Player firstPlayer = modelInterface.getTurnLogic().getPlayers().get(0);
+
+        firstPlayer.getPersonalBoard().setNewDevelopmentCard((ProductionCard) firstPlayer.getLeaderHand().get(0));
+
+        numberOfDevCards.add(1);
+        numberOfDevCards.add(0);
+        numberOfDevCards.add(0);
+        numberOfDevCards.add(0);
+        // Set the Development card in the Player's Board
+        game.setDevCardInHand(modelInterface, numberOfDevCards);
+        developmentCards.add(firstPlayer.getPersonalBoard().getAllDevelopmentCards().get(0));
+
+        // Set the necessary resources to do the first production
+        game.preparePlayerForProductionDevCard(modelInterface, firstPlayer, developmentCards.get(0));
+        int offset = strongBoxPositionsOffset;
+        for (int i = 0; i < developmentCards.get(0).getInResources().size(); i++) {
+            positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
+            offset++;
+        }
+        positionOfResForBasicSlot.add(offset);
+        positionOfResForBasicSlot.add(offset + 1);
+
+        firstPlayer.getPersonalBoard().
+                getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.PURPLE));
+
+        // The Player can not do the Basic Production with only one resource
+        Map<Integer, List<Integer>> inResourcesForEachProductions = new HashMap<>();
+        Map<Integer, String> outResourcesForEachProductions = new HashMap<>();
+        inResourcesForEachProductions.put(0, positionOfResForBasicSlot);
+        inResourcesForEachProductions.put(1, positionOfResForProdSlot1);
+        outResourcesForEachProductions.put(0, "purple");
+
+        assertThrows(NullPointerException.class,
+                ()->modelInterface.productionAction(inResourcesForEachProductions, outResourcesForEachProductions));
+
+        // The Player can not do the Basic Production with two resources of the same color
+        firstPlayer.getPersonalBoard().
+                getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.PURPLE));
+
+        assertThrows(InvalidEventException.class,
+                ()->modelInterface.productionAction(inResourcesForEachProductions, outResourcesForEachProductions));
+
+        inResourcesForEachProductions.remove(0);
+        outResourcesForEachProductions.remove(0);
+
+        // The Player can not choose a white resource for a Basic Production
+        inResourcesForEachProductions.put(0, positionOfResForProdSlot1);
+        outResourcesForEachProductions.put(0, "white");
+
+        assertThrows(InvalidEventException.class,
+                ()->modelInterface.productionAction(inResourcesForEachProductions, outResourcesForEachProductions));
+
+        inResourcesForEachProductions.remove(0);
+        outResourcesForEachProductions.remove(0);
+
+        // The Player can not do a Production Action of a Development Card that is not placed
+        inResourcesForEachProductions.put(2, positionOfResForProdSlot1);
+        assertThrows(InvalidIndexException.class,
+                ()->modelInterface.productionAction(inResourcesForEachProductions, outResourcesForEachProductions));
     }
 }

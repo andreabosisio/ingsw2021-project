@@ -8,6 +8,8 @@ import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
+import it.polimi.ingsw.server.model.cards.ProductionCard;
+import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.gameBoard.MarketTray;
@@ -19,6 +21,7 @@ import it.polimi.ingsw.server.model.resources.WhiteResource;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -105,6 +108,60 @@ public class TestGameGenerator {
     }
 
     /**
+     * set a predefined number of Development Cards in the Player's hand.
+     * Please note: the dimension of the List numberOfDevCardsForPlayer must be 4.
+     *
+     * @param modelInterface            model to modify
+     * @param numberOfDevCardsForPlayer is a list that contains the number of Development Cards for each players.
+     *                                  The index of the List represents the index of the Player to set.
+     *                                  (for example List: 0, 8, 0, 0; the Player in position 1 receives 8 cards)
+     */
+    public void setDevCardInHand(ModelInterface modelInterface, List<Integer> numberOfDevCardsForPlayer) {
+        List<DevelopmentCard> cards = GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards();
+
+        List<DevelopmentCard> cardslvl1 = new ArrayList<>();
+        List<DevelopmentCard> cardslvl2 = new ArrayList<>();
+        List<DevelopmentCard> cardslvl3 = new ArrayList<>();
+
+        cards.stream().filter(card -> card.getLevel() == 1).forEach(cardslvl1::add);
+        cards.stream().filter(card -> card.getLevel() == 2).forEach(cardslvl2::add);
+        cards.stream().filter(card -> card.getLevel() == 3).forEach(cardslvl3::add);
+
+        Collections.shuffle(cardslvl1);
+        Collections.shuffle(cardslvl2);
+        Collections.shuffle(cardslvl3);
+
+        for (int indexPlayer = 0; indexPlayer < numberOfDevCardsForPlayer.size(); indexPlayer++) {
+            int indexSlot = 1;
+            int indexDevCardLvl = 0;
+            for (int i = 0; i < numberOfDevCardsForPlayer.get(indexPlayer); i++) {
+                if (i < 3) {
+                    modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
+                            setNewDevelopmentCard(indexSlot, cardslvl1.get(indexDevCardLvl));
+                } else if (i == 3) {
+                    indexSlot = 1;
+                    indexDevCardLvl = 0;
+                    modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
+                            setNewDevelopmentCard(indexSlot, cardslvl2.get(indexDevCardLvl));
+                } else if (i < 6) {
+                    modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
+                            setNewDevelopmentCard(indexSlot, cardslvl2.get(indexDevCardLvl));
+                } else if (i == 6) {
+                    indexSlot = 1;
+                    indexDevCardLvl = 0;
+                    modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
+                            setNewDevelopmentCard(indexSlot, cardslvl3.get(indexDevCardLvl));
+                } else if (i < 9) {
+                    modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
+                            setNewDevelopmentCard(indexSlot, cardslvl3.get(indexDevCardLvl));
+                }
+                indexDevCardLvl++;
+                indexSlot++;
+            }
+        }
+    }
+
+    /**
      * set MarketTray like this
      * BLUE   - BLUE   - GRAY   - GRAY
      * YELLOW - YELLOW - PURPLE - PURPLE
@@ -182,6 +239,18 @@ public class TestGameGenerator {
             modelInterface.placeResourceAction(new ArrayList<>());
             modelInterface.endTurn();
         }
+    }
+
+    /**
+     * prepare player by giving him the resources he needs to active
+     * the production of a devCard and adds them in his strongbox
+     *
+     * @param modelInterface  model to modify
+     * @param player          reference of the player to prepare
+     * @param developmentCard devCard to prepare for
+     */
+    public void preparePlayerForProductionDevCard(ModelInterface modelInterface, Player player, ProductionCard developmentCard) {
+        player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(developmentCard.getInResources());
     }
 
     @Test
