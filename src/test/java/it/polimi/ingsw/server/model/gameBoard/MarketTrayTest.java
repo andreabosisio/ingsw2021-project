@@ -25,7 +25,6 @@ class MarketTrayTest {
         for(int i = 0; i < 20; i++ ) {
             random = getRandomInt(0, 4);
             if(random == 3){
-                GameBoard.getGameBoard().reset();
                 modelInterface = new ModelInterface(new ArrayList<String>(){{
                     add("pepo");
                 }});

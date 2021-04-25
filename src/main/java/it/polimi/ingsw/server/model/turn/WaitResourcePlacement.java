@@ -43,6 +43,6 @@ public class WaitResourcePlacement extends State {
             turnLogic.setCurrentState(turnLogic.getEndTurn());
             return true;
         }
-        return false;
+        throw new InvalidEventException("Illegal Warehouse Reordering");
     }
 }

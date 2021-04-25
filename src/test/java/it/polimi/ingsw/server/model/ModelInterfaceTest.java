@@ -201,7 +201,7 @@ class ModelInterfaceTest {
         assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs2));
         //check that ending swap in an illegal configuration remains in waitResourcePlacement state
         swapPairs2.remove(6);
-        assertFalse(modelInterface.placeResourceAction(swapPairs2));
+        assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs2));
         assertEquals(modelInterface.getTurnLogic().getWaitResourcePlacement(), modelInterface.getTurnLogic().getCurrentState());
         //check that a series of swap that ends in a legal position moves state to endTurn
         swapPairs2.clear();
@@ -363,17 +363,16 @@ class ModelInterfaceTest {
 
         //check that player has 5 resources and they are 3 purple and 2 blue
         assertEquals(5, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().size());
-        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(3).getColor());
-        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(4).getColor());
         assertEquals(ResourceEnum.BLUE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(0).getColor());
         assertEquals(ResourceEnum.BLUE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(1).getColor());
         assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(2).getColor());
-        GameBoard.getGameBoard().reset();
+        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(3).getColor());
+        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(4).getColor());
     }
 
     @Test
     void productionActionTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException, InvalidEventException, NonStorableResourceException {
-        GameBoard.getGameBoard().reset();
+        //GameBoard.getGameBoard().reset();
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
         List<Integer> numberOfDevCards = new ArrayList<>();

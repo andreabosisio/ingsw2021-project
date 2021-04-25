@@ -90,6 +90,7 @@ public class TurnLogic {
      * Set the next player and reset the current values.
      */
     public void setNextPlayer() {
+
         if(isLastPlayerTurn())
             currentPlayer = players.get(0);
         else

@@ -5,6 +5,8 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class BasicPowerCard implements ProductionCard {
 
@@ -69,6 +71,7 @@ public class BasicPowerCard implements ProductionCard {
      */
     @Override
     public boolean canDoProduction(List<Resource> givenResources) {
+        givenResources = givenResources.stream().filter(Objects::nonNull).collect(Collectors.toList());
         if(givenResources.size() != choosableInResourcesSlots + choosableOutResourcesSlots)
             return false;
         return setOutResources(givenResources);

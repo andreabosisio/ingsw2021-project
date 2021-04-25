@@ -97,7 +97,6 @@ public class SetupManager {
             }
             return true;
         }
-        //todo: throw InvalidEventException invece che false?
-        return false;
+        throw new InvalidEventException();
     }
 }

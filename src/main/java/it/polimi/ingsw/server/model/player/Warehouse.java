@@ -356,7 +356,8 @@ public class Warehouse {
         if(isInStrongBoxZone(initPosition))
             return false;
         //can only swap a Resource to a depot or to an extra slot
-        if(isInResourcesFromMarketSlotsZone(finalPosition) || isInStrongBoxZone(finalPosition))
+        //if(isInResourcesFromMarketSlotsZone(finalPosition) || isInStrongBoxZone(finalPosition))
+        if(isInStrongBoxZone(finalPosition))
             return false;
 
         if(!positionMap.containsKey(initPosition))

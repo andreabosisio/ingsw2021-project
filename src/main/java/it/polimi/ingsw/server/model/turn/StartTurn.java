@@ -82,35 +82,29 @@ public class StartTurn extends State {
             Integer currentKey = production.getKey();
             //todo controllare in caso getRes sia null
             chosenInResources = new ArrayList<>(warehouse.getResources(production.getValue()));
-            if (currentKey == 0 || currentKey > 3) {
+
+            if(outResourcesForEachProductions.get(currentKey) == null)
+                chosenOutResource = null;
+            else {
                 try {
                     chosenOutResourceEnum = ResourceEnum.valueOf(outResourcesForEachProductions.get(currentKey));
                 } catch (IllegalArgumentException e) {
                     throw new InvalidEventException(); //not existing ResourceEnum
                 }
                 chosenOutResource = new ResourceFactory().produceResource(chosenOutResourceEnum); //throws NonStorableResourceException if RED or WHITE
-
-                chosenCard = personalBoard.getProductionCard(currentKey);
-
-                List<Resource> finalChosenInResources = chosenInResources;
-                Resource finalChosenOutResource = chosenOutResource;
-                List<Resource> productionResources = new ArrayList<Resource>() {{
-                    addAll(finalChosenInResources);
-                    add(finalChosenOutResource);
-                }};
-                if(!chosenCard.canDoProduction(productionResources))
-                    throw new InvalidEventException();
-            } else {
-                chosenCard = personalBoard.getProductionCard(currentKey);
-
-                List<Resource> finalChosenInResources = chosenInResources;
-
-                List<Resource> productionResources = new ArrayList<Resource>() {{
-                    addAll(finalChosenInResources);
-                }};
-                if(!chosenCard.canDoProduction(productionResources))
-                    throw new InvalidEventException();
             }
+
+            chosenCard = personalBoard.getProductionCard(currentKey);
+
+            List<Resource> finalChosenInResources = chosenInResources;
+            Resource finalChosenOutResource = chosenOutResource;
+            List<Resource> productionResources = new ArrayList<Resource>(){{
+                addAll(finalChosenInResources);
+                add(finalChosenOutResource);
+            }};
+
+            if(!chosenCard.canDoProduction(productionResources))
+                throw new InvalidEventException();
             if(!chosenCard.usePower(turnLogic))
                 throw new InvalidEventException();
             //payment

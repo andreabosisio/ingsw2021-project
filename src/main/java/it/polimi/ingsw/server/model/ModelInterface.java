@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 import it.polimi.ingsw.server.events.send.SendEvent;
+import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 import it.polimi.ingsw.server.observer.Observable;
@@ -20,13 +21,16 @@ public class ModelInterface implements Observable {
     private final List<Observer> virtualViews;
 
     public ModelInterface(List<String> nicknames) {
+
+        GameBoard.getGameBoard().reset();
+
         for (String username : nicknames) {
             this.players.add(new Player(username));
         }
         virtualViews = new ArrayList<>();
         //Collections.shuffle(players);
         turnLogic = new TurnLogic(players, this);
-        //todo passa modelInterface a setup manager
+
         setupManager = new SetupManager(players, this);
     }
 

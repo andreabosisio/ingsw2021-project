@@ -25,6 +25,9 @@ public class WaitTransformation extends State {
      */
     @Override
     public boolean transformationAction(List<String> chosenColors) throws InvalidEventException, NonStorableResourceException {
+
+        List<Resource> possibleTransformations = turnLogic.getWhiteResourcesFromMarket().get(0).getPossibleTransformations();
+
         if(chosenColors.size() != turnLogic.getWhiteResourcesFromMarket().size()){
             throw new InvalidEventException(); //wrong number of chosen resources
         }
@@ -32,16 +35,14 @@ public class WaitTransformation extends State {
         for(String chosenColor : chosenColors) {
             try {
                 ResourceEnum chosenEnum = ResourceEnum.valueOf(chosenColor.toUpperCase());
-                chosenResources.add(new ResourceFactory().produceResource(chosenEnum)); //throws NonStorableResourceException if RED or WHITE
+                //check that chosen color is one of the 2 expected
+                if(possibleTransformations.stream().noneMatch(r -> r.getColor() == chosenEnum))
+                    throw new InvalidEventException();
+
+                chosenResources.add(new ResourceFactory().produceResource(chosenEnum));
             } catch (IllegalArgumentException e) {
                 throw new InvalidEventException(); //non existing resource type
             }
-        }
-        //check that chosen color is one of the 2 expected
-        List<Resource> possibleTransformations = turnLogic.getWhiteResourcesFromMarket().get(0).getPossibleTransformations();
-        for(Resource resource:chosenResources) {
-            if(possibleTransformations.stream().noneMatch(r -> r.getColor() == resource.getColor()))
-                throw new InvalidEventException();
         }
 
         //add the chosen resources to the warehouse market zone
