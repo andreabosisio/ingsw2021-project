@@ -12,13 +12,12 @@ import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class ModelInterfaceTest {
 
@@ -34,7 +33,7 @@ class ModelInterfaceTest {
             resourcePositions.add(i + strongBoxPositionsOffset);
         }
         //check that trying to buy a non existing card generate an exception
-        assertThrows(InvalidEventException.class,()->modelInterface.buyAction("blallo",1,resourcePositions));
+        assertThrows(InvalidEventException.class,()->modelInterface.buyAction("ball",1,resourcePositions));
         game.preparePlayerForDevCard(modelInterface,0, card);
         //check that player is in start turn state
         assertEquals(modelInterface.getTurnLogic().getStartTurn(),modelInterface.getTurnLogic().getCurrentState());
@@ -158,7 +157,7 @@ class ModelInterfaceTest {
     void marketActionWithNoPlacementTurnSimulation() throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
-        //check that market action with an invalid arrowId generate an axception
+        //check that market action with an invalid arrowId generate an exception
         assertThrows(InvalidIndexException.class,()->modelInterface.marketAction(12));
         //perform a market action
         modelInterface.marketAction(2);
@@ -173,7 +172,6 @@ class ModelInterfaceTest {
         //check that the red resource has increased the player's faith by one
         assertEquals(1,GameBoard.getGameBoard().getFaithTrackOfPlayer(modelInterface.getTurnLogic().getPlayers().get(0)).getFaithMarker());
         modelInterface.endTurn();
-        GameBoard.getGameBoard().reset();
     }
 
     @Test
@@ -187,7 +185,6 @@ class ModelInterfaceTest {
             add(0);add(32);
         }};
         assertThrows(InvalidEventException.class,()->modelInterface.placeResourceAction(swapPairs));
-
         //check that giving odd number of swap generate an exception
         List<Integer> swapPairs2 = new ArrayList<Integer>(){{
             add(0);add(4);
@@ -196,7 +193,7 @@ class ModelInterfaceTest {
             add(8);
         }};
         assertThrows(InvalidEventException.class,()->modelInterface.placeResourceAction(swapPairs2));
-        //check that ending swap in an illegal configuration remains in the same state
+        //check that ending swap in an illegal configuration remains in waitResourcePlacement state
         swapPairs2.remove(6);
         assertFalse(modelInterface.placeResourceAction(swapPairs2));
         assertEquals(modelInterface.getTurnLogic().getWaitResourcePlacement(),modelInterface.getTurnLogic().getCurrentState());
@@ -211,7 +208,6 @@ class ModelInterfaceTest {
         assertEquals(1,GameBoard.getGameBoard().getFaithTrackOfPlayer(modelInterface.getTurnLogic().getPlayers().get(1)).getFaithMarker());
         assertEquals(1,GameBoard.getGameBoard().getFaithTrackOfPlayer(modelInterface.getTurnLogic().getPlayers().get(2)).getFaithMarker());
         assertEquals(1,GameBoard.getGameBoard().getFaithTrackOfPlayer(modelInterface.getTurnLogic().getPlayers().get(3)).getFaithMarker());
-        GameBoard.getGameBoard().reset();
     }
 
     @Test
@@ -226,6 +222,7 @@ class ModelInterfaceTest {
             add(0);add(1);add(2);add(3);add(7);add(8);//random leaders for other players
         }};
         game.setLeaderInHand(modelInterface,marketLeaderIndexes);
+
         //prepare player for activation of first leader
         DevelopmentCard card = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.YELLOW,1);
         game.preparePlayerForDevCard(modelInterface,0,card);
@@ -238,6 +235,7 @@ class ModelInterfaceTest {
         modelInterface.placeDevelopmentCardAction(1);
         modelInterface.endTurn();
         game.roundOfNothing(modelInterface);
+
         //prepare for second devCard
         DevelopmentCard card2 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.YELLOW,2);
         game.preparePlayerForDevCard(modelInterface,0,card2);
@@ -346,6 +344,7 @@ class ModelInterfaceTest {
             add(2);add(6);
         }};
         modelInterface.placeResourceAction(swap);
+
         //check that player has 5 resources and they are 3 purple and 2 blue
         assertEquals(5,modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().size());
         assertEquals(ResourceEnum.PURPLE,modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(3).getColor());
@@ -367,7 +366,6 @@ class ModelInterfaceTest {
         List<Integer> positionOfResForProdSlot3 = new ArrayList<>();
         List<Integer> positionOfResForBasicSlot = new ArrayList<>();
         List<Integer> positionOfResForLeaderSlot = new ArrayList<>();
-        List<Player> players = modelInterface.getTurnLogic().getPlayers();
         List<DevelopmentCard> developmentCards = new ArrayList<>();
         Player firstPlayer = modelInterface.getTurnLogic().getPlayers().get(0);
 
@@ -506,7 +504,6 @@ class ModelInterfaceTest {
         List<Integer> numberOfDevCards = new ArrayList<>();
         List<Integer> positionOfResForProdSlot1 = new ArrayList<>();
         List<Integer> positionOfResForBasicSlot = new ArrayList<>();
-        List<Player> players = modelInterface.getTurnLogic().getPlayers();
         List<DevelopmentCard> developmentCards = new ArrayList<>();
         Player firstPlayer = modelInterface.getTurnLogic().getPlayers().get(0);
 
@@ -579,6 +576,6 @@ class ModelInterfaceTest {
         assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(new ArrayList<>()));
         assertThrows(InvalidEventException.class, () -> modelInterface.transformationAction(new ArrayList<>()));
         assertThrows(InvalidEventException.class, () -> modelInterface.placeDevelopmentCardAction(1));
-        assertThrows(InvalidEventException.class, () -> modelInterface.endTurn());
+        assertThrows(InvalidEventException.class, modelInterface::endTurn);
     }
 }

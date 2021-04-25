@@ -33,29 +33,29 @@ public class CheckWinnerTest {
         TurnLogic turnLogic = new TurnLogic(players);
         List<DevelopmentCard> cards = GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards();
 
-        List<DevelopmentCard> cardslvl1 = new ArrayList<>();
-        List<DevelopmentCard> cardslvl2 = new ArrayList<>();
-        List<DevelopmentCard> cardslvl3 = new ArrayList<>();
+        List<DevelopmentCard> cardsLvl1 = new ArrayList<>();
+        List<DevelopmentCard> cardsLvl2 = new ArrayList<>();
+        List<DevelopmentCard> cardsLvl3 = new ArrayList<>();
 
         for (DevelopmentCard card : cards) {
             if (card.getLevel() == 1)
-                cardslvl1.add(card);
+                cardsLvl1.add(card);
             if (card.getLevel() == 2)
-                cardslvl2.add(card);
+                cardsLvl2.add(card);
             if (card.getLevel() == 3)
-                cardslvl3.add(card);
+                cardsLvl3.add(card);
         }
 
         for (int i = 0; i < 3; i++) {
-            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardslvl1.get(i)));
+            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardsLvl1.get(i)));
         }
         for (int i = 0; i < 3; i++) {
-            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardslvl2.get(i)));
+            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardsLvl2.get(i)));
         }
         // The Game is not over
         assertFalse(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
         // The player buys his seventh card
-        assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(1, cardslvl3.get(0)));
+        assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(1, cardsLvl3.get(0)));
         // The Game is over
         assertTrue(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
     }
@@ -68,29 +68,29 @@ public class CheckWinnerTest {
         TurnLogic turnLogic = new TurnLogic(players);
         List<DevelopmentCard> cards = GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards();
 
-        List<DevelopmentCard> cardslvl1 = new ArrayList<>();
-        List<DevelopmentCard> cardslvl2 = new ArrayList<>();
-        List<DevelopmentCard> cardslvl3 = new ArrayList<>();
+        List<DevelopmentCard> cardsLvl1 = new ArrayList<>();
+        List<DevelopmentCard> cardsLvl2 = new ArrayList<>();
+        List<DevelopmentCard> cardsLvl3 = new ArrayList<>();
 
         for (DevelopmentCard card : cards) {
             if (card.getLevel() == 1)
-                cardslvl1.add(card);
+                cardsLvl1.add(card);
             if (card.getLevel() == 2)
-                cardslvl2.add(card);
+                cardsLvl2.add(card);
             if (card.getLevel() == 3)
-                cardslvl3.add(card);
+                cardsLvl3.add(card);
         }
 
         for (int i = 0; i < 3; i++) {
-            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardslvl1.get(i)));
+            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardsLvl1.get(i)));
         }
         for (int i = 0; i < 3; i++) {
-            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardslvl2.get(i)));
+            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardsLvl2.get(i)));
         }
         // The Game is not over
         assertFalse(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
         // The player buys his seventh card
-        assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(1, cardslvl3.get(0)));
+        assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(1, cardsLvl3.get(0)));
         // The Game is over
         assertTrue(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
     }

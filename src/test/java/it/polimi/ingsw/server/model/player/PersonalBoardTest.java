@@ -4,12 +4,9 @@ import it.polimi.ingsw.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
-import it.polimi.ingsw.server.model.gameBoard.faithtrack.FaithTrack;
-import it.polimi.ingsw.server.model.gameBoard.faithtrack.FirstOfFaithTrack;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,7 +104,6 @@ class PersonalBoardTest {
         List<Player> players = new ArrayList<>();
         Player player = new Player("Adriano");
         players.add(player);
-        FirstOfFaithTrack first = new FirstOfFaithTrack();
         assertTrue(GameBoard.getGameBoard().createFaithTracks(players));
         //check empty board has 0 points
         assertEquals(0,player.getPersonalBoard().getPoints(player));
@@ -119,8 +115,6 @@ class PersonalBoardTest {
         List<Player> players = new ArrayList<>();
         Player player = new Player("Miguel");
         players.add(player);
-        FirstOfFaithTrack first = new FirstOfFaithTrack();
-        FaithTrack faithTrack = new FaithTrack(player,first);
         //check that only activated leaderCards have their points counted
         CardsGenerator cardsGenerator = new CardsGenerator();
         List<LeaderCard> leaders = cardsGenerator.generateLeaderCards().subList(0,2);
@@ -195,7 +189,6 @@ class PersonalBoardTest {
         CardsGenerator generator = new CardsGenerator();
         List<DevelopmentCard> lvl1Cards = generator.generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList());
         List<DevelopmentCard> lvl2Cards = generator.generateDevelopmentCards().stream().filter(c->c.getLevel()==2).collect(Collectors.toList());
-        List<DevelopmentCard> lvl3Cards = generator.generateDevelopmentCards().stream().filter(c->c.getLevel()==3).collect(Collectors.toList());
         //test that a lv1 devCard can be placed in all 3 normal spots(1,2,3) when personalBoard is empty, and only on them
         PersonalBoard pBoard = player.getPersonalBoard();
         assertTrue(pBoard.setNewDevelopmentCard(1,lvl1Cards.get(0)));

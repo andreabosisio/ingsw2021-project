@@ -85,7 +85,7 @@ class DevelopmentRequirementTest {
         assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1,devLv2Blue));
         assertTrue(player.getPersonalBoard().setNewDevelopmentCard(2,devLv2Yellow));
         assertFalse(player.getLeaderHand().get(1).canBeActivated(player));
-        //check that leder2 can be activated with 2 lv2 yellow cards
+        //check that leader2 can be activated with 2 lv2 yellow cards
         assertTrue(player.getPersonalBoard().setNewDevelopmentCard(3,devLv1Purple));
         assertTrue(player.getPersonalBoard().setNewDevelopmentCard(3,devLv2Yellow2));
         assertTrue(player.getLeaderHand().get(1).canBeActivated(player));

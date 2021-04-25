@@ -9,17 +9,14 @@ import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
-import it.polimi.ingsw.server.model.gameBoard.MarketTray;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.WhiteResource;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -119,17 +116,17 @@ public class TestGameGenerator {
     public void setDevCardInHand(ModelInterface modelInterface, List<Integer> numberOfDevCardsForPlayer) {
         List<DevelopmentCard> cards = GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards();
 
-        List<DevelopmentCard> cardslvl1 = new ArrayList<>();
-        List<DevelopmentCard> cardslvl2 = new ArrayList<>();
-        List<DevelopmentCard> cardslvl3 = new ArrayList<>();
+        List<DevelopmentCard> cardsLvl1 = new ArrayList<>();
+        List<DevelopmentCard> cardsLvl2 = new ArrayList<>();
+        List<DevelopmentCard> cardsLvl3 = new ArrayList<>();
 
-        cards.stream().filter(card -> card.getLevel() == 1).forEach(cardslvl1::add);
-        cards.stream().filter(card -> card.getLevel() == 2).forEach(cardslvl2::add);
-        cards.stream().filter(card -> card.getLevel() == 3).forEach(cardslvl3::add);
+        cards.stream().filter(card -> card.getLevel() == 1).forEach(cardsLvl1::add);
+        cards.stream().filter(card -> card.getLevel() == 2).forEach(cardsLvl2::add);
+        cards.stream().filter(card -> card.getLevel() == 3).forEach(cardsLvl3::add);
 
-        Collections.shuffle(cardslvl1);
-        Collections.shuffle(cardslvl2);
-        Collections.shuffle(cardslvl3);
+        Collections.shuffle(cardsLvl1);
+        Collections.shuffle(cardsLvl2);
+        Collections.shuffle(cardsLvl3);
 
         for (int indexPlayer = 0; indexPlayer < numberOfDevCardsForPlayer.size(); indexPlayer++) {
             int indexSlot = 1;
@@ -137,23 +134,23 @@ public class TestGameGenerator {
             for (int i = 0; i < numberOfDevCardsForPlayer.get(indexPlayer); i++) {
                 if (i < 3) {
                     modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
-                            setNewDevelopmentCard(indexSlot, cardslvl1.get(indexDevCardLvl));
+                            setNewDevelopmentCard(indexSlot, cardsLvl1.get(indexDevCardLvl));
                 } else if (i == 3) {
                     indexSlot = 1;
                     indexDevCardLvl = 0;
                     modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
-                            setNewDevelopmentCard(indexSlot, cardslvl2.get(indexDevCardLvl));
+                            setNewDevelopmentCard(indexSlot, cardsLvl2.get(indexDevCardLvl));
                 } else if (i < 6) {
                     modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
-                            setNewDevelopmentCard(indexSlot, cardslvl2.get(indexDevCardLvl));
+                            setNewDevelopmentCard(indexSlot, cardsLvl2.get(indexDevCardLvl));
                 } else if (i == 6) {
                     indexSlot = 1;
                     indexDevCardLvl = 0;
                     modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
-                            setNewDevelopmentCard(indexSlot, cardslvl3.get(indexDevCardLvl));
+                            setNewDevelopmentCard(indexSlot, cardsLvl3.get(indexDevCardLvl));
                 } else if (i < 9) {
                     modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
-                            setNewDevelopmentCard(indexSlot, cardslvl3.get(indexDevCardLvl));
+                            setNewDevelopmentCard(indexSlot, cardsLvl3.get(indexDevCardLvl));
                 }
                 indexDevCardLvl++;
                 indexSlot++;

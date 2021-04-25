@@ -22,7 +22,7 @@ class BasicPowerCardTest {
     BasicPowerCard card = new BasicPowerCard();
     List<Resource> desiredProductionResources = new ArrayList<>();
 
-    //TODO: Come gestiamo risorse vuote o nulle?
+    //TODO: how do we handle empty or null resources?
 
     @Test
     @Order(1)

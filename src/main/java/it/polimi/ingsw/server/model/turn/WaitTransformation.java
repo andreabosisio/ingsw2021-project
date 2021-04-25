@@ -38,9 +38,9 @@ public class WaitTransformation extends State {
             }
         }
         //check that chosen color is one of the 2 expected
-        List<Resource> tranformation = turnLogic.getWhiteResourcesFromMarket().get(0).getPossibleTransformations();
+        List<Resource> possibleTransformations = turnLogic.getWhiteResourcesFromMarket().get(0).getPossibleTransformations();
         for(Resource resource:chosenResources) {
-            if(tranformation.stream().noneMatch(r -> r.getColor() == resource.getColor()))
+            if(possibleTransformations.stream().noneMatch(r -> r.getColor() == resource.getColor()))
                 throw new InvalidEventException();
         }
 
