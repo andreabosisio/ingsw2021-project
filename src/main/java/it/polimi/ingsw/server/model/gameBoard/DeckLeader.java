@@ -27,6 +27,9 @@ public class DeckLeader {
      * @return a{@link ArrayList<LeaderCard> of the cards drawn}
      */
     public List<LeaderCard> draw4() {
+
+        shuffle();
+
         if (cards.size() < 4) {
             throw new IndexOutOfBoundsException();
         }

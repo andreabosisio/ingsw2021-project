@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SetupSendEvent extends SendEvent{
-    private final List<String> leaderCardIDs = new ArrayList<>();
+    private final List<LeaderCard> leaderCards = new ArrayList<>();
     private final int numberOfResources;
 
     public SetupSendEvent(String nickname, List<LeaderCard> leaderCards, int numberOfResources) {
         super(nickname);
         this.numberOfResources = numberOfResources;
-        leaderCards.forEach(leaderCard -> leaderCardIDs.add(leaderCard.getID()));
+        this.leaderCards.addAll(leaderCards);
     }
 
-    public List<String> getLeaderCardIDs() {
-        return leaderCardIDs;
+    public List<LeaderCard> getLeaderCards() {
+        return leaderCards;
     }
 
     public int getNumberOfResources() {

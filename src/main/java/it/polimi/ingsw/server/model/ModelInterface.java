@@ -197,4 +197,9 @@ public class ModelInterface implements Observable {
     public void notifyObservers(SendEvent sendEvent) {
         virtualViews.forEach(view -> view.update(sendEvent));
     }
+
+    public Player getPlayerByNickname(String nickname){
+        return players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst()
+                .orElse(null);
+    }
 }

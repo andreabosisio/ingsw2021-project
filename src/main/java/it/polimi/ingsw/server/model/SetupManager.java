@@ -21,13 +21,14 @@ public class SetupManager {
         add(1);
         add(2);
     }};
+    private final int numberOfLeaderCardsToChoose = 2;
     private final List<Player> players;
     private final ModelInterface modelInterface;
     private final List<SetupSendEvent> setupSendEvents = new ArrayList<>();
 
     public SetupManager(List<Player> players, ModelInterface modelInterface) {
         this.players = players;
-        //startSetup();
+        startSetup();
         this.modelInterface = modelInterface;
     }
 
@@ -35,13 +36,13 @@ public class SetupManager {
      * Reset the GameBoard and send to all the Players the LeaderCards and the number of resources to choose
      */
     private void startSetup(){
-        GameBoard.getGameBoard().reset();
+        //GameBoard.getGameBoard().reset(); (to remove !!!!!!)
         int i = 0;
         for(Player player : players) {
             List<LeaderCard> drawnLeaderCards = GameBoard.getGameBoard().draw4LeaderCards();
             SetupSendEvent setupSendEvent = new SetupSendEvent(player.getNickname(), drawnLeaderCards, numberOfResourcesToChoose.get(i));
             setupSendEvents.add(setupSendEvent);
-            modelInterface.notifyObservers(setupSendEvent);
+            //modelInterface.notifyObservers(setupSendEvent); //todo
             i++;
         }
     }
@@ -63,15 +64,20 @@ public class SetupManager {
         //chosen leader cards must be two different cards
         Set<Integer> chosenIndexes = leaderCardIndexes.stream().filter(index -> index <= 3 && index >= 0).collect(Collectors.toSet());
 
-        if(setupSendEvent.getNumberOfResources() == resources.size() && chosenIndexes.size() == 2) {
-            List<Resource> chosenSetupResources = new ArrayList<>();
+        if(setupSendEvent.getNumberOfResources() == resources.size() && chosenIndexes.size() == numberOfLeaderCardsToChoose) {
+            List<Resource> chosenResources = new ArrayList<>();
+            List<LeaderCard> chosenLeaderCards = new ArrayList<>();
+
             for(String chosenColor : resources) {
                 try {
                     ResourceEnum chosenEnum = ResourceEnum.valueOf(chosenColor.toUpperCase());
-                    chosenSetupResources.add(new ResourceFactory().produceResource(chosenEnum)); //throws NonStorableResourceException if RED or WHITE
+                    chosenResources.add(new ResourceFactory().produceResource(chosenEnum)); //throws NonStorableResourceException if RED or WHITE
                 } catch (IllegalArgumentException e) {
                     throw new InvalidEventException(); //non existing resource type
                 }
+            }
+            for(Integer chosenIndex : leaderCardIndexes){
+                chosenLeaderCards.add(setupSendEvent.getLeaderCards().get(chosenIndex));
             }
 
             Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream()
@@ -80,11 +86,13 @@ public class SetupManager {
 
             //add the chosen resources to the warehouse
             try {
-                currentSetupPlayer.getPersonalBoard().getWarehouse().setupWarehouse(chosenSetupResources);
+                currentSetupPlayer.getPersonalBoard().getWarehouse().setupWarehouse(chosenResources);
             } catch (InvalidIndexException | EmptySlotException | NonAccessibleSlotException e) {
-                e.printStackTrace();
-                throw new InvalidEventException();
+                throw new InvalidEventException(); //impossible condition
             }
+
+            //add the chosen leader cards to player's hand
+            currentSetupPlayer.setLeaderHand(chosenLeaderCards);
 
             //second and third player receive an extra Faith Point
             if (modelInterface.getTurnLogic().getPlayers().indexOf(currentSetupPlayer) >= 2)
