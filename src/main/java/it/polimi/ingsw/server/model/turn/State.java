@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class State {
-    TurnLogic turnLogic;
+    final TurnLogic turnLogic;
     public State(TurnLogic turnLogic){this.turnLogic=turnLogic;}
 
     public boolean marketAction(int arrowID) throws InvalidEventException, InvalidIndexException {throw new InvalidEventException();}

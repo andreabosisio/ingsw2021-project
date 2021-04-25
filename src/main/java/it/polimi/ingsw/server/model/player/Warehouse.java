@@ -219,8 +219,6 @@ public class Warehouse {
      * @return true if the producedResource has been correctly stored
      */
     public boolean addResourcesToStrongBox(Resource producedResource) {
-        //if(NonStorableResources.getNonStorableResources().contains(producedResource))
-        //    throw new NonStorableResourceException();
         strongBox.addResource(producedResource);
         try {
             return this.translatePosition(strongBox.slots.size() - 1 + startStrongBoxZone); //save the position to positionMap
@@ -259,8 +257,6 @@ public class Warehouse {
     public boolean addResourcesFromMarket(List<Resource> newResources) {
         if(newResources.size() > availableResourcesFromMarketSlots)
             return false;
-        //if(!Collections.disjoint(newResources, NonStorableResources.getNonStorableResources()))
-        //    throw new NonStorableResourceException();
         return resourcesFromMarket.addResources(newResources);
     }
 

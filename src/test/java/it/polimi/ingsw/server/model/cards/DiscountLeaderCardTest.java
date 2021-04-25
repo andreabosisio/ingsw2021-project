@@ -11,8 +11,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DiscountLeaderCardTest {
-    CardsGenerator cardsGenerator = new CardsGenerator();
-    DiscountLeaderCard discountLeaderCard = (DiscountLeaderCard) cardsGenerator.generateLeaderCards().get(12);
+    final CardsGenerator cardsGenerator = new CardsGenerator();
+    final DiscountLeaderCard discountLeaderCard = (DiscountLeaderCard) cardsGenerator.generateLeaderCards().get(12);
 
     @Test
     void applyDiscountTest() {

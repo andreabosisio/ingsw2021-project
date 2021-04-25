@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LeaderCardTest {
-    List<LeaderCard> leaders = new CardsGenerator().generateLeaderCards();
+    final List<LeaderCard> leaders = new CardsGenerator().generateLeaderCards();
     @Test
     void canBeActivatedTest() {
         LeaderCard leaderWithResRequirement = leaders.get(11);//req 5 purple

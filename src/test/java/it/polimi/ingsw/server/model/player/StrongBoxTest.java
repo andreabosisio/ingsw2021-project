@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StrongBoxTest {
 
-    StrongBox strongBox = new StrongBox();
+    final StrongBox strongBox = new StrongBox();
 
     @Test
     void simplyStrongBoxTest() throws EmptySlotException {

@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DepotTest {
 
-    Depot depot = new Depot(3);
+    final Depot depot = new Depot(3);
     @Test
     void simplyDepotTest() {
         Resource correctResource = new StorableResource(ResourceEnum.BLUE);

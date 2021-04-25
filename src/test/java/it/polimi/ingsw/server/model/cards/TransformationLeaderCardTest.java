@@ -14,11 +14,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TransformationLeaderCardTest {
-    List<LeaderCard> leaderCards = new CardsGenerator().generateLeaderCards();
-    List<String> nickname = new ArrayList<String>(){{
+    final List<LeaderCard> leaderCards = new CardsGenerator().generateLeaderCards();
+    final List<String> nickname = new ArrayList<String>(){{
         add("Ubaldo");
     }};
-    ModelInterface modelInterface = new ModelInterface(nickname);
+    final ModelInterface modelInterface = new ModelInterface(nickname);
     WhiteResource whiteResource;
 
 

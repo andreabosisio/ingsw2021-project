@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceTest {
-    TurnLogic turnLogic = new TurnLogic(new ArrayList<Player>(){{
+    final TurnLogic turnLogic = new TurnLogic(new ArrayList<Player>(){{
         add(new Player("Pluto"));
     }});
     @Test
@@ -25,6 +25,7 @@ class ResourceTest {
         assertFalse(new StorableResource(ResourceEnum.BLUE).addPossibleTransformation(new StorableResource(ResourceEnum.YELLOW)));
     }
 
+    @SuppressWarnings("AssertBetweenInconvertibleTypes")
     @Test
     void equals() {
         assertNotEquals(new StorableResource(ResourceEnum.PURPLE), turnLogic);

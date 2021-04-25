@@ -21,14 +21,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DevelopmentCardTest {
 
-    CardsGenerator devCardGenerator = new CardsGenerator();
-    ModelInterface modelInterface = new ModelInterface(new ArrayList<String>(){{
+    final CardsGenerator devCardGenerator = new CardsGenerator();
+    final ModelInterface modelInterface = new ModelInterface(new ArrayList<String>(){{
         add("Simone");
         add("Andrea");
     }});
-    TurnLogic turnLogic = modelInterface.getTurnLogic();
-    Warehouse warehouse = turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse();
-    List<DevelopmentCard> devCards = devCardGenerator.generateDevelopmentCards();
+    final TurnLogic turnLogic = modelInterface.getTurnLogic();
+    final Warehouse warehouse = turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse();
+    final List<DevelopmentCard> devCards = devCardGenerator.generateDevelopmentCards();
     DevelopmentCard devCard;
 
     /**

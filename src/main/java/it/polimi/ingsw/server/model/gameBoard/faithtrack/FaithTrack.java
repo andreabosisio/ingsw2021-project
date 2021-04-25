@@ -8,9 +8,9 @@ import it.polimi.ingsw.server.model.PlayerInterface;
  * It is observer of the class FirstOfFaithTrack.
  */
 public class FaithTrack implements FaithObserver {
-    PlayerInterface owner;
+    final PlayerInterface owner;
     int faithMarker;
-    FirstOfFaithTrack firstOfFaithTrack;
+    final FirstOfFaithTrack firstOfFaithTrack;
     private final int endOfTheFaithTrack = 24;
     boolean popeTile1;
     boolean popeTile2;

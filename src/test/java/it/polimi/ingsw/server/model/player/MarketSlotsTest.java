@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MarketSlotsTest {
 
-    MarketSlots marketSlots = new MarketSlots();
+    final MarketSlots marketSlots = new MarketSlots();
 
     @Test
     void simplyMarketSlotsTest(){

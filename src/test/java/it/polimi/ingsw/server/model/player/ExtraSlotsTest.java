@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ExtraSlotsTest {
 
-    ExtraSlots extraSlots = new ExtraSlots();
+    final ExtraSlots extraSlots = new ExtraSlots();
     @Test
     void simplyExtraSlotTest() {
         Resource correctResource = new StorableResource(ResourceEnum.YELLOW);

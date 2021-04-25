@@ -15,12 +15,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BasicPowerCardTest {
-    ModelInterface modelInterface = new ModelInterface(new ArrayList<String>(){{
+    final ModelInterface modelInterface = new ModelInterface(new ArrayList<String>(){{
         add("pepo");
     }});
-    TurnLogic turnLogic = modelInterface.getTurnLogic();
-    BasicPowerCard card = new BasicPowerCard();
-    List<Resource> desiredProductionResources = new ArrayList<>();
+    final TurnLogic turnLogic = modelInterface.getTurnLogic();
+    final BasicPowerCard card = new BasicPowerCard();
+    final List<Resource> desiredProductionResources = new ArrayList<>();
 
     //TODO: how do we handle empty or null resources?
 

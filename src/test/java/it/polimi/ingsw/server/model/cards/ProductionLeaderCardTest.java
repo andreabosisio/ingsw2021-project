@@ -13,13 +13,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductionLeaderCardTest {
-    List<String> nicknames = new ArrayList<String>(){{
+    final List<String> nicknames = new ArrayList<String>(){{
         add("Andrea");
         add("Marco");
         add("Matteo");
     }};
-    ModelInterface modelInterface = new ModelInterface(nicknames);
-    CardsGenerator leaderCardGenerator = new CardsGenerator();
+    final ModelInterface modelInterface = new ModelInterface(nicknames);
+    final CardsGenerator leaderCardGenerator = new CardsGenerator();
     ProductionLeaderCard leaderCard;
 
     @Test
