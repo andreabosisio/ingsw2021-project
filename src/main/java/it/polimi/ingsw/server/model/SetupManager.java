@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
+
+//todo STATE???
 public class SetupManager {
     private final List<Integer> numberOfResourcesToChoose = new ArrayList<Integer>(){{
         add(0);

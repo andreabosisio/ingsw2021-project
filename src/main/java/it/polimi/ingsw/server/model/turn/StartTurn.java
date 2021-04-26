@@ -40,15 +40,20 @@ public class StartTurn extends State {
     public boolean marketAction(int arrowID) throws InvalidIndexException {
         if(turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()
                 .addResourcesFromMarket(GameBoard.getGameBoard().getMarketTray().takeResources(arrowID))){
+
+            //if player has to transform some white resources
             if(turnLogic.getWhiteResourcesFromMarket().size()>0){
                 //todo evento in uscita (fatto)
+                //send event
                 turnLogic.getModelInterface().
                         notifyObservers(new TransformationSendEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getWhiteResourcesFromMarket()));
                 hasAlreadyDoneLeaderAction = false;
                 turnLogic.setCurrentState(turnLogic.getWaitTransformation());
                 return true;
             }
+
             //todo evento in uscita (fatto)
+            //send event
             turnLogic.getModelInterface().
                     notifyObservers(new PlaceResourcesSendEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             hasAlreadyDoneLeaderAction = false;

@@ -19,7 +19,7 @@ public class EndTurn extends State {
     @Override
     public boolean endTurn() {
 
-        //check if the current player is the last player
+        //check if the current player is the last player and check if it's the winner
         if(turnLogic.isLastPlayerTurn() && turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
             turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
             turnLogic.setCurrentState(turnLogic.getEndGame());

@@ -84,6 +84,9 @@ class SetupManagerTest {
         assertEquals(0, GameBoard.getGameBoard().getFaithTrackOfPlayer(modelInterface.getPlayerByNickname("first")).getFaithMarker());
         assertEquals(1, GameBoard.getGameBoard().getFaithTrackOfPlayer(modelInterface.getPlayerByNickname("third")).getFaithMarker());
 
+        //first player cannot do another setup action
+        assertThrows(InvalidEventException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
+
         //correct setup for fourth player: 2 LeaderCards and 1 resources and 1 FaithPoint
         chosenResources.add("purple");
         modelInterface.setupAction("fourth", chosenLeaderCardIndexes, chosenResources);
@@ -91,6 +94,11 @@ class SetupManagerTest {
         assertEquals(2, modelInterface.getPlayerByNickname("fourth").getLeaderHand().size());
         assertEquals(correctResources, modelInterface.getPlayerByNickname("fourth").getPersonalBoard().getWarehouse().getAllResources());
         assertEquals(1, GameBoard.getGameBoard().getFaithTrackOfPlayer(modelInterface.getPlayerByNickname("fourth")).getFaithMarker());
+
+        //now no player have to do the setup action
+        assertThrows(InvalidEventException.class, () -> modelInterface.setupAction("second", chosenLeaderCardIndexes, chosenResources));
+        assertThrows(InvalidEventException.class, () -> modelInterface.setupAction("third", chosenLeaderCardIndexes, chosenResources));
+        assertThrows(InvalidEventException.class, () -> modelInterface.setupAction("fourth", chosenLeaderCardIndexes, chosenResources));
 
     }
 }

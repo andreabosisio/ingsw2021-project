@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.exceptions.NonStorableResourceException;
+import it.polimi.ingsw.server.events.send.PlaceResourcesSendEvent;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.ResourceFactory;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -47,6 +48,9 @@ public class WaitTransformation extends State {
 
         //add the chosen resources to the warehouse market zone
         turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse().addResourcesFromMarket(chosenResources);
+        //send event
+        turnLogic.getModelInterface().
+                notifyObservers(new PlaceResourcesSendEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
         turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());
         return true;
     }
