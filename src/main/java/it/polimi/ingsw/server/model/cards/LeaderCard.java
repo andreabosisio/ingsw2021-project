@@ -7,13 +7,13 @@ import java.util.List;
 
 public abstract class LeaderCard {
     private final List<Requirement> requirements;
-    private final String ID;
+    private final String iD;
     private final int points;
 
-    LeaderCard(String ID,int points,List<Requirement> requirements){
-        this.ID=ID;
-        this.points=points;
-        this.requirements=requirements;
+    LeaderCard(String iD, int points, List<Requirement> requirements){
+        this.iD = iD;
+        this.points = points;
+        this.requirements = requirements;
     }
 
     /**
@@ -22,7 +22,7 @@ public abstract class LeaderCard {
      * @return a String containing an ID
      */
     public String getID() {
-        return ID;
+        return iD;
     }
 
     /**

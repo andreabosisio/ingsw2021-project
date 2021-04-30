@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 
 public class DevelopmentCard implements ProductionCard {
 
+    private final String iD;
+
     private final List<Resource> price;
 
     private final int level;
@@ -27,7 +29,21 @@ public class DevelopmentCard implements ProductionCard {
     private final List<Resource> inResources;
     private final List<Resource> outResources;
 
-    public DevelopmentCard(List<Resource> inResources, List<Resource> outResources, List<Resource> price, CardColorEnum color, int points, int level) {
+    public DevelopmentCard(String iD, List<Resource> inResources, List<Resource> outResources, List<Resource> price, CardColorEnum color, int points, int level) {
+        this.iD = iD;
+        this.inResources = inResources;
+        this.outResources = outResources;
+        this.price = price;
+        this.color = color;
+        this.points = points;
+        this.level = level;
+    }
+
+    /**
+     * for test
+     */
+    public DevelopmentCard( List<Resource> inResources, List<Resource> outResources, List<Resource> price, CardColorEnum color, int points, int level) {
+        this.iD = "matteo"; //todo
         this.inResources = inResources;
         this.outResources = outResources;
         this.price = price;

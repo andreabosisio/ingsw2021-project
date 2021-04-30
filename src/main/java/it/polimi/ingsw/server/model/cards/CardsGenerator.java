@@ -38,8 +38,8 @@ public class CardsGenerator {
             JsonArray jsonArrayOfCards = fileObject.get("cards").getAsJsonArray();
 
             //Cycle through all leaders element in the file
+            int cardID = 1;
             for(JsonElement cardElement:jsonArrayOfCards){
-
                 //Get Json object
                 JsonObject cardJsonObject = cardElement.getAsJsonObject();
 
@@ -76,7 +76,9 @@ public class CardsGenerator {
                 CardColorEnum color = CardColorEnum.valueOf(cardJsonObject.get("color").getAsString());
                 int level = cardJsonObject.get("level").getAsInt();
                 int points = cardJsonObject.get("points").getAsInt();
-                developmentCards.add(new DevelopmentCard(inResources,outResources,price,color,points,level));
+                String iD = "d" + cardID;
+                developmentCards.add(new DevelopmentCard(iD,inResources,outResources,price,color,points,level));
+
             }
         }
         catch (FileNotFoundException e){

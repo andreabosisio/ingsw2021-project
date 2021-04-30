@@ -113,13 +113,13 @@ public class ModelInterface implements Observable {
     /**
      * Activate or Discard a LeaderCard if the player has not done it yet.
      *
-     * @param ID of the chosen LeaderCard
+     * @param cardID of the chosen LeaderCard
      * @param discard true if the chosen LeaderCard has to be discarded, false if has to be activated
      * @return true if the leaderAction has been successfully applied
      * @throws InvalidEventException if the leaderAction can't be applied
      */
-    public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {
-        return turnLogic.leaderAction(ID, discard);
+    public boolean leaderAction(String cardID, boolean discard) throws InvalidEventException {
+        return turnLogic.leaderAction(cardID, discard);
     }
 
     /**

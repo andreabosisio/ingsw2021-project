@@ -11,13 +11,14 @@ public class BuyReceiveEvent extends ReceiveEvent {
     private final List<Integer> resourcePositions;
     public BuyReceiveEvent(String nickname, String cardColor, int cardLevel, List<Integer> resourcePositions) {
         super(nickname);
-        this.cardColor=cardColor;
-        this.cardLevel=cardLevel;
+        this.cardColor = cardColor;
+        this.cardLevel = cardLevel;
         this.resourcePositions = resourcePositions;
     }
 
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException {
-        return modelInterface.buyAction(cardColor,cardLevel,resourcePositions);
+        //todo sostituire con ID (invece di cardColor e cardLevel) O FORSE NO?
+        return modelInterface.buyAction(cardColor, cardLevel, resourcePositions);
     }
 }

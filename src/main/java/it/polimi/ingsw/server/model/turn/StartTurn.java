@@ -135,10 +135,10 @@ public class StartTurn extends State {
      */
     @Override
     public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcePositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
-        DevelopmentCard chosenDevCard;
+        DevelopmentCard chosenDevelopmentCard;
         try {
             CardColorEnum chosenColorEnum = CardColorEnum.valueOf(cardColor.toUpperCase());
-            chosenDevCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(chosenColorEnum, cardLevel);
+            chosenDevelopmentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(chosenColorEnum, cardLevel);
         } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
             throw new InvalidEventException(); //non existing card color type or non existing card level
         }
@@ -149,11 +149,11 @@ public class StartTurn extends State {
             activeCard.applyDiscount(availableDiscount);
 
         //check if the player can place and buy the card
-        if(turnLogic.getCurrentPlayer().getPersonalBoard().getAvailablePlacement(chosenDevCard).size() > 0)
-            if(chosenDevCard.buyCard(turnLogic.getCurrentPlayer(), resourcePositions, availableDiscount)) {
-                turnLogic.setChosenDevCard(chosenDevCard);
+        if(turnLogic.getCurrentPlayer().getPersonalBoard().getAvailablePlacement(chosenDevelopmentCard).size() > 0)
+            if(chosenDevelopmentCard.buyCard(turnLogic.getCurrentPlayer(), resourcePositions, availableDiscount)) {
+                turnLogic.setChosenDevCard(chosenDevelopmentCard);
                 // todo evento di uscita (fatto)
-                turnLogic.getModelInterface().notifyObservers(new PlaceDevCardSendEvent(turnLogic.getCurrentPlayer().getNickname()));
+                turnLogic.getModelInterface().notifyObservers(new PlaceDevCardSendEvent(turnLogic.getCurrentPlayer().getNickname(), chosenDevelopmentCard));
                 turnLogic.setCurrentState(turnLogic.getWaitDevCardPlacement());
                 hasAlreadyDoneLeaderAction = false;
                 return true;
