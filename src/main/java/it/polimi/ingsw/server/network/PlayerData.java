@@ -24,4 +24,16 @@ public class PlayerData {
     public boolean isOnline() {
         return online;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public ClientHandler getClientHandler() {
+        return clientHandler;
+    }
 }

@@ -30,16 +30,18 @@ public class Connection {
         } catch (IOException e) {
             message = null;
         }
+
         return message;
     }
     public void close() {
         try {
+            System.out.println("quitting...");
+            out.println("quitting...");
             in.close();
             out.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
-
         }
     }
 }

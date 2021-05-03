@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.network;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Lobby {
 
@@ -10,10 +10,10 @@ public class Lobby {
     private final int MIN_PLAYERS = 1;
     private static Lobby instance = null;
     private int numberOfPlayers = NOT_DECIDED;
-    private final List<PlayerData> playerDataList;
+    private final Set<PlayerData> playersData;
 
     private Lobby() {
-        playerDataList = new ArrayList<>();
+        playersData = new HashSet<>();
     }
 
     public static synchronized Lobby getLobby() {
@@ -38,10 +38,38 @@ public class Lobby {
         if(this.numberOfPlayers==NOT_DECIDED){
             return true;
         }
-        return playerDataList.stream().filter(PlayerData::isOnline).count() < this.numberOfPlayers;
+        return getOnlinePlayersNumber() < this.numberOfPlayers;
     }
 
     public double getOnlinePlayersNumber(){
-        return playerDataList.stream().filter(PlayerData::isOnline).count();
+        return playersData.stream().filter(PlayerData::isOnline).count();
     }
+
+    public PlayerData getPlayerDataByNickname(String nickname){
+        return playersData.stream().filter(p -> p.getUsername().equals(nickname)).findFirst().orElse(null);
+    }
+
+    public void addPlayerData(PlayerData playerData) {
+        broadcastInfoMessage(playerData.getUsername() + " joined!");
+        playersData.add(playerData);
+    }
+
+    public void removePlayerData(String nickname) {
+        playersData.remove(getPlayerDataByNickname(nickname));
+    }
+
+    public boolean isFirstInLobby() {
+        return numberOfPlayers == NOT_DECIDED;
+    }
+
+    public void broadcastInfoMessage(String message) {
+        for(PlayerData playerData : playersData){
+            if(playerData.isOnline()) {
+                playerData.getClientHandler().sendInfoMessage(message);
+            }
+        }
+    }
+
+
+
 }
