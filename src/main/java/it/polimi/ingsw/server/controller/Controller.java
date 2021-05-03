@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.observer.Observer;
 import java.util.List;
 
 public class Controller implements Observer {
+
     private final ModelInterface modelInterface;
 
     public Controller(List<String> nicknames) {
