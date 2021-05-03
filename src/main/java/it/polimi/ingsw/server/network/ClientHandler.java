@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.network;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
@@ -101,6 +100,7 @@ public class ClientHandler implements Runnable{
         //todo pensare a un altro modo
         synchronized (Lobby.getLobby()) {
             if (!Lobby.getLobby().isFirstInLobby()) {
+                //todo what if while choosing more people than allowed joined?
                 return;
             }
             connection.sendMessage("choose number of players");

@@ -35,7 +35,7 @@ public class Connection {
     }
     public void close() {
         try {
-            System.out.println("quitting...");
+            System.out.println("one player left");
             out.println("quitting...");
             in.close();
             out.close();

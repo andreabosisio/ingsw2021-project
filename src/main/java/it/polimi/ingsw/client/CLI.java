@@ -14,20 +14,23 @@ import java.util.Scanner;
 
 public class CLI {
     public void startCLI(){
-        Socket clientSocket = null;
+        Socket clientSocket;
         try {
             clientSocket = new Socket("127.0.0.1",1337);
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             Scanner inFromTerminal = new Scanner(System.in);
             while (true){
+                System.out.println("quitc for client/login/quit to leave");
                 String command = inFromTerminal.nextLine();
                 if(command.equals("quitc")){
                     break;
                 }
                 else if(command.equals("login")){
+                    System.out.println("insert nickname");
                     List<String> login = new ArrayList<>();
                     String nickname = inFromTerminal.nextLine();
+                    System.out.println("insert password");
                     String password = inFromTerminal.nextLine();
                     login.add(nickname);
                     login.add(password);
@@ -37,7 +40,6 @@ public class CLI {
                 out.println(command);
                 String answer = in.readLine();
                 System.out.println(answer);
-
             }
         } catch (IOException e) {
             e.printStackTrace();
