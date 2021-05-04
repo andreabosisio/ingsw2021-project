@@ -11,6 +11,7 @@ import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class ClientHandler implements Runnable {
     private Socket socket;
@@ -144,7 +145,8 @@ public class ClientHandler implements Runnable {
                 }
 
                 if (Lobby.getLobby().setNumberOfPlayers(numberOfPlayers)) {
-                    if (status != StatusEnum.SETUP){
+                    //todo forse dava problemi dopo la nostra sessione
+                    if (status == StatusEnum.CHOOSENUMPLAYERS){
                         status = StatusEnum.LOBBY;
                     }
                     return;
@@ -162,32 +164,45 @@ public class ClientHandler implements Runnable {
             //Try to set the number of players
             chooseNumberOfPlayers();
 
-            if (status == StatusEnum.LOBBY)
+            if (status == StatusEnum.LOBBY) {
                 sendInfoMessage("Matchmaking: Waiting for other players...");
 
-            message = connection.getMessage();
+                message = connection.getMessage();
 
-            if (message.equals("quit")) {
-                //todo quit con Evento dipendente da stato
-                Lobby.getLobby().removePlayerData(nickname);
-                kill();
-                return;
+                if (message.equals("quit")) {
+                    //todo quit con Evento dipendente da stato
+                    Lobby.getLobby().removePlayerData(nickname);
+                    kill();
+                    return;
+                }
             }
         }
     }
 
     private void game(){
         String message;
+        //add all types of event to hasmap with key=type of event an value = event.class
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("SetupReceiveEvent", SetupReceiveEvent.class);
         while (status == StatusEnum.GAME) {
             message = connection.getMessage();
             try{
 
-                //JsonObject fileObject = fileElement.getAsJsonObject();
-                String type = gson.fromJson(message,String.class);
-                ReceiveEvent event = gson.fromJson(message, (Type) jsonMap.get(type));
-                virtualView.notifyObservers(event);
+                Properties data = gson.fromJson(message,Properties.class);
+                String typeP = data.getProperty("type");
+
+
+
+
+
+                JsonElement jsonElement = JsonParser.parseString(message);
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                if(jsonObject.has("type")) {
+                    String type = jsonObject.get("type").getAsString();
+                    ReceiveEvent event = gson.fromJson(message, (Type) jsonMap.get(type));
+                    virtualView.notifyObservers(event);
+                }
+                else System.out.println("malformed json");
             }catch(JsonSyntaxException e) {
                 sendErrorMessage("Invalid setup");
             }
