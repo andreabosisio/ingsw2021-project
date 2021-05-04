@@ -25,7 +25,7 @@ public class ClientHandler implements Runnable{
         status = true;
 
         if(!Lobby.getLobby().isNotFull()){
-            sendErrorMessage("cannot join");
+            sendErrorMessage("cannot join: Server is full");
             kill();
 
             //todo to check
@@ -68,6 +68,20 @@ public class ClientHandler implements Runnable{
 
                 //todo check valid username and password and senMessage(immetti nickname and password)
                 synchronized (Lobby.getLobby()) {
+
+                    //dovrei fare qui un altro check per vedere se lobby is full
+                    //perchè se viene settato il numero mentre aspetto che si liberi il syncronized
+                    //qui permetto di fare un accesso non consentito
+                    //oppure posso modificare addPlayer di lobby affinchè faccia un controllo
+
+                    if(!Lobby.getLobby().isNotFull()){
+                        sendErrorMessage("cannot join Lobby is full");
+                        kill();
+                        return;
+                    }
+
+
+
                     PlayerData playerData = Lobby.getLobby().getPlayerDataByNickname(nickname);
 
                     if (playerData == null) {
