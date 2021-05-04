@@ -1,7 +1,13 @@
 package it.polimi.ingsw.server.network;
 
+import it.polimi.ingsw.server.controller.Controller;
+import it.polimi.ingsw.server.virtualView.VirtualView;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Lobby {
 
@@ -11,6 +17,7 @@ public class Lobby {
     private static Lobby instance = null;
     private int numberOfPlayers = NOT_DECIDED;
     private final Set<PlayerData> playersData;
+    private Controller controller;
 
     private Lobby() {
         playersData = new HashSet<>();
@@ -52,6 +59,11 @@ public class Lobby {
     public void addPlayerData(PlayerData playerData) {
         broadcastInfoMessage(playerData.getUsername() + " joined!");
         playersData.add(playerData);
+        if(!isNotFull()){
+            broadcastInfoMessage("game can now starts");
+            playersData.forEach(player -> player.getClientHandler().setWaitingForFullLobby());
+            startGame();
+        }
     }
 
     public void removePlayerData(String nickname) {
@@ -70,6 +82,10 @@ public class Lobby {
         }
     }
 
-
-
+    private void startGame(){
+        controller = new Controller(playersData.stream().map(PlayerData::getUsername).collect(Collectors.toList()));
+        List<VirtualView> virtualViews = new ArrayList<>();
+        playersData.forEach(playerData -> virtualViews.add(new VirtualView(playerData)));
+        controller.setupObservers(virtualViews);
+    }
 }

@@ -5,7 +5,9 @@ import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.observer.Observer;
+import it.polimi.ingsw.server.virtualView.VirtualView;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Controller implements Observer {
@@ -13,6 +15,7 @@ public class Controller implements Observer {
     private final ModelInterface modelInterface;
 
     public Controller(List<String> nicknames) {
+        Collections.shuffle(nicknames);
         modelInterface = new ModelInterface(nicknames);
     }
 
@@ -30,6 +33,11 @@ public class Controller implements Observer {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setupObservers(List<VirtualView> virtualViews) {
+        virtualViews.forEach(modelInterface::registerObserver);
+        virtualViews.forEach(virtualView -> virtualView.registerObserver(this));
     }
 
     /**

@@ -28,7 +28,7 @@ public class ModelInterface implements Observable {
             this.players.add(new Player(username));
         }
         virtualViews = new ArrayList<>();
-        //Collections.shuffle(players);
+
         turnLogic = new TurnLogic(players, this);
 
         setupManager = new SetupManager(players, this);

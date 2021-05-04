@@ -15,8 +15,8 @@ public class Server {
     private static ServerSocketManager serverSocket;//manual redefinition of ServerSocket (multiThread server)
 
     private Server() {
-        this.serverUp = true;
-        this.serverSocket = new ServerSocketManager(socketPort);//create the multiTreadServer
+        serverUp = true;
+        serverSocket = new ServerSocketManager(socketPort);//create the multiTreadServer
     }
 
     public static synchronized Server getServer() {

@@ -20,13 +20,19 @@ public class CLI {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             Scanner inFromTerminal = new Scanner(System.in);
-            while (true){
+            while (true) {
+                String answer;
+
+                while(in.ready()){
+                    answer = in.readLine();
+                    System.out.println(answer);
+                    //answer = in.readLine();
+                }
                 System.out.println("quitc for client/login/quit to leave");
                 String command = inFromTerminal.nextLine();
-                if(command.equals("quitc")){
+                if (command.equals("quitc")) {
                     break;
-                }
-                else if(command.equals("login")){
+                } else if (command.equals("login")) {
                     System.out.println("insert nickname");
                     List<String> login = new ArrayList<>();
                     String nickname = inFromTerminal.nextLine();
@@ -38,11 +44,12 @@ public class CLI {
                     command = gson.toJson(login);
                 }
                 out.println(command);
-                String answer = in.readLine();
+                answer = in.readLine();
                 System.out.println(answer);
+
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }
