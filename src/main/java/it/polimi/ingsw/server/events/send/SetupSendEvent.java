@@ -10,13 +10,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SetupSendEvent extends SendEvent{
-    private final List<LeaderCard> leaderCards = new ArrayList<>();
+    private final transient List<LeaderCard> leaderCards = new ArrayList<>();
+    private final List<String> leaderCardsIDs = new ArrayList<>();
     private final int numberOfResources;
+
 
     public SetupSendEvent(String nickname, List<LeaderCard> leaderCards, int numberOfResources) {
         super(nickname);
         this.numberOfResources = numberOfResources;
         this.leaderCards.addAll(leaderCards);
+        this.leaderCardsIDs.addAll(leaderCards.stream().map(LeaderCard::getID).collect(Collectors.toList()));
     }
 
     public List<LeaderCard> getLeaderCards() {
@@ -27,6 +30,8 @@ public class SetupSendEvent extends SendEvent{
         return numberOfResources;
     }
 
+    /*
+
     @Override
     public String toJson() {
         Map<String, Object> mapJson = new HashMap<>();
@@ -34,4 +39,6 @@ public class SetupSendEvent extends SendEvent{
         mapJson.put("resources", numberOfResources);
         return getGson().toJson(mapJson);
     }
+
+     */
 }

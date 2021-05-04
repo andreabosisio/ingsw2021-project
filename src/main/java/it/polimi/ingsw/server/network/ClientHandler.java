@@ -22,6 +22,10 @@ public class ClientHandler implements Runnable {
     private final Gson gson;
     private VirtualView virtualView;
 
+    private final Map<String, Object> receiveEventByJsonType = new HashMap<String, Object>() {{
+        put("SetupReceiveEvent", SetupReceiveEvent.class);
+    }};
+
     public ClientHandler(Socket socket) {
         this.socket = socket;
         this.connection = new Connection(socket);
@@ -182,24 +186,14 @@ public class ClientHandler implements Runnable {
     private void game(){
         String message;
         //add all types of event to hasmap with key=type of event an value = event.class
-        Map<String, Object> jsonMap = new HashMap<>();
-        jsonMap.put("SetupReceiveEvent", SetupReceiveEvent.class);
         while (status == StatusEnum.GAME) {
             message = connection.getMessage();
             try{
-
-                Properties data = gson.fromJson(message,Properties.class);
-                String typeP = data.getProperty("type");
-
-
-
-
-
                 JsonElement jsonElement = JsonParser.parseString(message);
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
                 if(jsonObject.has("type")) {
                     String type = jsonObject.get("type").getAsString();
-                    ReceiveEvent event = gson.fromJson(message, (Type) jsonMap.get(type));
+                    ReceiveEvent event = gson.fromJson(message, (Type) receiveEventByJsonType.get(type));
                     virtualView.notifyObservers(event);
                 }
                 else System.out.println("malformed json");

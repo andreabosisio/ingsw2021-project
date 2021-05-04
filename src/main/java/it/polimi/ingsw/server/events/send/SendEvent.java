@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.events.send;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public abstract class SendEvent {
     private final String nickname;
-    private final Gson gson = new Gson();
 
     public SendEvent(String nickname) {
         this.nickname = nickname;
@@ -14,9 +14,10 @@ public abstract class SendEvent {
         return nickname;
     }
 
-    public String toJson(){return null;}
-
-    public Gson getGson() {
-        return gson;
+    public String toJson(){
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(SendEvent.class, new SendEventAdapter())
+                .create();
+        return gson.toJson(this);
     }
 }
