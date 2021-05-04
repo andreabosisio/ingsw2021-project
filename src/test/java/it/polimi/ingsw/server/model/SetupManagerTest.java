@@ -20,6 +20,7 @@ class SetupManagerTest {
     void setupAction() throws InvalidEventException, NonStorableResourceException {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(false);
+        modelInterface.startSetup();
 
         List<Integer> chosenLeaderCardIndexes = new ArrayList<>();
         List<String> chosenResources = new ArrayList<>();

@@ -34,18 +34,23 @@ public class Lobby {
         if(numberOfPlayers>MAX_PLAYERS || numberOfPlayers<MIN_PLAYERS){
             return false;
         }
-        if(this.numberOfPlayers==NOT_DECIDED){
+        if(this.numberOfPlayers == NOT_DECIDED){
             this.numberOfPlayers = numberOfPlayers;
+            //if singleplayer
+            if(isFull()){
+                playersData.forEach(player -> player.getClientHandler().setWaitingForFullLobby());
+                startGame();
+            }
             return true;
         }
         return false;
     }
 
-    public boolean isNotFull(){
-        if(this.numberOfPlayers==NOT_DECIDED){
-            return true;
+    public boolean isFull(){
+        if(this.numberOfPlayers == NOT_DECIDED){
+            return false;
         }
-        return getOnlinePlayersNumber() < this.numberOfPlayers;
+        return !(getOnlinePlayersNumber() < this.numberOfPlayers);
     }
 
     public double getOnlinePlayersNumber(){
@@ -59,7 +64,7 @@ public class Lobby {
     public void addPlayerData(PlayerData playerData) {
         broadcastInfoMessage(playerData.getUsername() + " joined!");
         playersData.add(playerData);
-        if(!isNotFull()){
+        if(isFull()){
             playersData.forEach(player -> player.getClientHandler().setWaitingForFullLobby());
             startGame();
         }

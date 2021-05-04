@@ -1,8 +1,13 @@
 package it.polimi.ingsw.server.network;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
+import it.polimi.ingsw.server.events.receive.BuyReceiveEvent;
+import it.polimi.ingsw.server.events.receive.ReceiveEvent;
+import it.polimi.ingsw.server.events.receive.SetupReceiveEvent;
+import it.polimi.ingsw.server.virtualView.VirtualView;
 
+import java.io.FileReader;
+import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +19,7 @@ public class ClientHandler implements Runnable {
     private boolean waitingForFullLobby;
     private Connection connection;
     private final Gson gson;
+    private VirtualView virtualView;
 
     public ClientHandler(Socket socket) {
         this.socket = socket;
@@ -27,7 +33,7 @@ public class ClientHandler implements Runnable {
     public void run() {
         status = StatusEnum.LOGIN;
 
-        if (!Lobby.getLobby().isNotFull()) {
+        if (Lobby.getLobby().isFull()) {
             sendErrorMessage("cannot join: Server is full");
             kill();
             return;
@@ -73,7 +79,7 @@ public class ClientHandler implements Runnable {
                 //qui permetto di fare un accesso non consentito
                 //oppure posso modificare addPlayer di lobby affinchè faccia un controllo
 
-                if (!Lobby.getLobby().isNotFull()) {
+                if (Lobby.getLobby().isFull()) {
                     sendErrorMessage("cannot join Lobby is full");
                     kill();
                     return;
@@ -85,8 +91,8 @@ public class ClientHandler implements Runnable {
                     //new player
                     playerData = new PlayerData(nickname, password, this);
                     this.nickname = nickname;
-                    Lobby.getLobby().addPlayerData(playerData);
                     status = StatusEnum.LOBBY;
+                    Lobby.getLobby().addPlayerData(playerData);
                     break;
                 } else if (playerData.isOnline()) {
                     //nickname already in use
@@ -133,29 +139,31 @@ public class ClientHandler implements Runnable {
                 try {
                     numberOfPlayers = gson.fromJson(message, Integer.class);
                 } catch (JsonSyntaxException e) {
-                    sendErrorMessage("It's not a number");
+                    sendErrorMessage(message + " it's not a number. Please re-insert a valid number.");
                     continue;
                 }
 
                 if (Lobby.getLobby().setNumberOfPlayers(numberOfPlayers)) {
-                    status = StatusEnum.LOBBY;
+                    if (status != StatusEnum.SETUP){
+                        status = StatusEnum.LOBBY;
+                    }
                     return;
                 }
 
-                sendErrorMessage("invalid number");
+                sendErrorMessage("Invalid number of players. MIN: " + Lobby.MIN_PLAYERS + "players and MAX: " + Lobby.MAX_PLAYERS + " players.");
             }
         }
     }
 
     private void lobby() {
-
         String message;
         while (status == StatusEnum.LOBBY) {
 
             //Try to set the number of players
             chooseNumberOfPlayers();
 
-            sendInfoMessage("Matchmaking: Waiting for other players...");
+            if (status == StatusEnum.LOBBY)
+                sendInfoMessage("Matchmaking: Waiting for other players...");
 
             message = connection.getMessage();
 
@@ -169,12 +177,24 @@ public class ClientHandler implements Runnable {
     }
 
     private void game(){
+        String message;
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("SetupReceiveEvent", SetupReceiveEvent.class);
+        while (status == StatusEnum.GAME) {
+            message = connection.getMessage();
+            try{
 
-        while (status == StatusEnum.SETUP) {
+                //JsonObject fileObject = fileElement.getAsJsonObject();
+                String type = gson.fromJson(message,String.class);
+                ReceiveEvent event = gson.fromJson(message, (Type) jsonMap.get(type));
+                virtualView.notifyObservers(event);
+            }catch(JsonSyntaxException e) {
+                sendErrorMessage("Invalid setup");
+            }
         }
     }
 
-    public void sendJSONMessage(String message) {
+    public void sendJsonMessage(String message) {
         connection.sendMessage(message);
     }
 
@@ -182,7 +202,7 @@ public class ClientHandler implements Runnable {
         Map<String, String> info = new HashMap<>();
         info.put("Type", "Info");
         info.put("Payload", message);
-        sendJSONMessage(gson.toJson(info));
+        sendJsonMessage(gson.toJson(info));
 
     }
 
@@ -190,9 +210,8 @@ public class ClientHandler implements Runnable {
         Map<String, String> error = new HashMap<>();
         error.put("Type", "Error");
         error.put("Payload", message);
-        sendJSONMessage(gson.toJson(error));
+        sendJsonMessage(gson.toJson(error));
     }
-
 
     public void kill() {
         status = StatusEnum.EXIT;
@@ -203,6 +222,10 @@ public class ClientHandler implements Runnable {
     }
 
     public void setWaitingForFullLobby() {
-        status = StatusEnum.SETUP;
+        status = StatusEnum.GAME;
+    }
+
+    public void setVirtualView(VirtualView virtualView) {
+        this.virtualView = virtualView;
     }
 }

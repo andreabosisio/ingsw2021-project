@@ -38,6 +38,7 @@ public class Controller implements Observer {
     public void setupObservers(List<VirtualView> virtualViews) {
         virtualViews.forEach(modelInterface::registerObserver);
         virtualViews.forEach(virtualView -> virtualView.registerObserver(this));
+        modelInterface.startSetup();
     }
 
     /**

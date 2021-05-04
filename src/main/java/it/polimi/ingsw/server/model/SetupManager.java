@@ -31,21 +31,20 @@ public class SetupManager {
 
     public SetupManager(List<Player> players, ModelInterface modelInterface) {
         this.players = players;
-        startSetup();
+        //startSetup();
         this.modelInterface = modelInterface;
     }
 
     /**
      * Reset the GameBoard and send to all the Players the LeaderCards and the number of resources to choose
      */
-    private void startSetup(){
-        //GameBoard.getGameBoard().reset(); (to remove !!!!!!)
+    public void startSetup(){
         int i = 0;
         for(Player player : players) {
             List<LeaderCard> drawnLeaderCards = GameBoard.getGameBoard().draw4LeaderCards();
             SetupSendEvent setupSendEvent = new SetupSendEvent(player.getNickname(), drawnLeaderCards, numberOfResourcesToChoose.get(i));
             setupSendEvents.add(setupSendEvent);
-            //modelInterface.notifyObservers(setupSendEvent); //todo
+            modelInterface.notifyObservers(setupSendEvent);
             i++;
         }
     }
@@ -103,6 +102,7 @@ public class SetupManager {
 
             setupSendEvents.remove(setupSendEvent);
             if (setupSendEvents.size() == 0) {
+
                 return true; //remove
                 // todo: all the players receive an update event with the gameboard
             }
