@@ -36,13 +36,10 @@ public class ClientHandler implements Runnable {
         // 1- Wait for valid nickname and password
         login();
 
-        // 2- Try to set the number of players
-        chooseNumberOfPlayers();
-
-        // 3- Wait for others players
+        // 2- Wait for others players
         lobby();
 
-        // 4- In game
+        // 3- In game
         game();
 
     }
@@ -89,7 +86,7 @@ public class ClientHandler implements Runnable {
                     playerData = new PlayerData(nickname, password, this);
                     this.nickname = nickname;
                     Lobby.getLobby().addPlayerData(playerData);
-                    status = StatusEnum.CHOOSENUMPLAYERS;
+                    status = StatusEnum.LOBBY;
                     break;
                 } else if (playerData.isOnline()) {
                     //nickname already in use
@@ -112,14 +109,16 @@ public class ClientHandler implements Runnable {
     }
 
     private void chooseNumberOfPlayers() {
-        sendInfoMessage("In Lobby: waiting for other players...");
 
         synchronized (Lobby.getLobby()) {
             if (!Lobby.getLobby().isFirstInLobby()) {
                 status = StatusEnum.LOBBY;
                 return;
             }
-            sendInfoMessage("choose number of players");
+
+            status = StatusEnum.CHOOSENUMPLAYERS;
+
+            sendInfoMessage("Choose the number of players (MAX " + Lobby.MAX_PLAYERS + "): ");
             String message;
             Integer numberOfPlayers = 0;
             while (status == StatusEnum.CHOOSENUMPLAYERS) {
@@ -137,17 +136,27 @@ public class ClientHandler implements Runnable {
                     sendErrorMessage("It's not a number");
                     continue;
                 }
+
                 if (Lobby.getLobby().setNumberOfPlayers(numberOfPlayers)) {
+                    status = StatusEnum.LOBBY;
                     return;
                 }
+
                 sendErrorMessage("invalid number");
             }
         }
     }
 
     private void lobby() {
+
         String message;
         while (status == StatusEnum.LOBBY) {
+
+            //Try to set the number of players
+            chooseNumberOfPlayers();
+
+            sendInfoMessage("Matchmaking: Waiting for other players...");
+
             message = connection.getMessage();
 
             if (message.equals("quit")) {

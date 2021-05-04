@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 
 public class Lobby {
 
-    private final int NOT_DECIDED = -1;
-    private final int MAX_PLAYERS = 4;
-    private final int MIN_PLAYERS = 1;
+    protected static final int NOT_DECIDED = -1;
+    protected static final int MAX_PLAYERS = 4;
+    protected static final int MIN_PLAYERS = 1;
     private static Lobby instance = null;
     private int numberOfPlayers = NOT_DECIDED;
     private final Set<PlayerData> playersData;
@@ -60,7 +60,6 @@ public class Lobby {
         broadcastInfoMessage(playerData.getUsername() + " joined!");
         playersData.add(playerData);
         if(!isNotFull()){
-            broadcastInfoMessage("game can now starts");
             playersData.forEach(player -> player.getClientHandler().setWaitingForFullLobby());
             startGame();
         }
@@ -83,6 +82,7 @@ public class Lobby {
     }
 
     private void startGame(){
+        broadcastInfoMessage("game can now starts");
         controller = new Controller(playersData.stream().map(PlayerData::getUsername).collect(Collectors.toList()));
         List<VirtualView> virtualViews = new ArrayList<>();
         playersData.forEach(playerData -> virtualViews.add(new VirtualView(playerData)));
