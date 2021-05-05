@@ -43,7 +43,7 @@ public class StartTurn extends State {
 
             //if player has to transform some white resources
             if(turnLogic.getWhiteResourcesFromMarket().size()>0){
-                //todo evento in uscita (fatto)
+
                 //send event
                 turnLogic.getModelInterface().
                         notifyObservers(new TransformationSendEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getWhiteResourcesFromMarket()));
@@ -52,7 +52,6 @@ public class StartTurn extends State {
                 return true;
             }
 
-            //todo evento in uscita (fatto)
             //send event
             turnLogic.getModelInterface().
                     notifyObservers(new PlaceResourcesSendEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
@@ -152,7 +151,8 @@ public class StartTurn extends State {
         if(turnLogic.getCurrentPlayer().getPersonalBoard().getAvailablePlacement(chosenDevelopmentCard).size() > 0)
             if(chosenDevelopmentCard.buyCard(turnLogic.getCurrentPlayer(), resourcePositions, availableDiscount)) {
                 turnLogic.setChosenDevCard(chosenDevelopmentCard);
-                // todo evento di uscita (fatto)
+
+                //send event
                 turnLogic.getModelInterface().notifyObservers(new PlaceDevCardSendEvent(turnLogic.getCurrentPlayer().getNickname(), chosenDevelopmentCard));
                 turnLogic.setCurrentState(turnLogic.getWaitDevCardPlacement());
                 hasAlreadyDoneLeaderAction = false;

@@ -23,7 +23,7 @@ import java.util.stream.IntStream;
  * Columns are lists with latest devCard at index 0
  */
 public class PersonalBoard implements EndGameSubject {
-    private final int resPointsDivider=5;
+    private final int resPointsDivider = 5;
     private final int lastColumnIndex = 4;
     private final int firstColumnIndex = 1;
     private final int leaderHandSize = 2;

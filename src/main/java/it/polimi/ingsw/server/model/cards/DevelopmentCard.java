@@ -53,6 +53,13 @@ public class DevelopmentCard implements ProductionCard {
     }
 
     /**
+     * @return the ID of the card
+     */
+    public String getID() {
+        return iD;
+    }
+
+    /**
      * @return a new list that contains the resources required to buy the card
      */
     public List<Resource> getPrice() {

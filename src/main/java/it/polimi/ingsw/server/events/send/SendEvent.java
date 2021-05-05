@@ -16,7 +16,7 @@ public abstract class SendEvent {
 
     public String toJson(){
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(SendEvent.class, new SendEventAdapter())
+                .registerTypeHierarchyAdapter(SendEvent.class, new SendEventAdapter())
                 .create();
         return gson.toJson(this);
     }

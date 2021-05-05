@@ -38,7 +38,7 @@ public class Lobby {
             this.numberOfPlayers = numberOfPlayers;
             //if singleplayer
             if(isFull()){
-                playersData.forEach(player -> player.getClientHandler().setWaitingForFullLobby());
+                playersData.forEach(player -> player.getClientHandler().moveToGame());
                 startGame();
             }
             return true;
@@ -65,7 +65,7 @@ public class Lobby {
         broadcastInfoMessage(playerData.getUsername() + " joined!");
         playersData.add(playerData);
         if(isFull()){
-            playersData.forEach(player -> player.getClientHandler().setWaitingForFullLobby());
+            playersData.forEach(player -> player.getClientHandler().moveToGame());
             startGame();
         }
     }
@@ -87,7 +87,7 @@ public class Lobby {
     }
 
     private void startGame(){
-        broadcastInfoMessage("game can now starts");
+        broadcastInfoMessage("Game is starting...");
         controller = new Controller(playersData.stream().map(PlayerData::getUsername).collect(Collectors.toList()));
         List<VirtualView> virtualViews = new ArrayList<>();
         playersData.forEach(playerData -> virtualViews.add(new VirtualView(playerData)));

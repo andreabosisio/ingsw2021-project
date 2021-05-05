@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.receive.ReceiveEvent;
+import it.polimi.ingsw.server.events.receive.SetupReceiveEvent;
 import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.observer.Observer;
@@ -26,10 +27,17 @@ public class Controller implements Observer {
     @Override
     public synchronized void update(ReceiveEvent receiveEvent) {
         //todo try catch di tutti gli errori e allo stesso modo avverte se if è false
-        if (modelInterface.getCurrentPlayerNickname().equals(receiveEvent.getNickname())) {
+        //todo instanceof per la setupAction
+        VirtualView currentVirtualView = modelInterface.getVirtualViewByNickname(receiveEvent.getNickname());
+        if(receiveEvent.getNickname() == null)
+            return;
+
+        if (modelInterface.getCurrentPlayerNickname().equals(receiveEvent.getNickname()) || receiveEvent instanceof SetupReceiveEvent) {
             try {
-                receiveEvent.doAction(modelInterface);
+                if(receiveEvent.doAction(modelInterface))
+                    currentVirtualView.getPlayerData().getClientHandler().sendInfoMessage("Performed a valid action!");
             } catch (InvalidIndexException | NonStorableResourceException | EmptySlotException | NonAccessibleSlotException | InvalidEventException e) {
+                currentVirtualView.getPlayerData().getClientHandler().sendErrorMessage(e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -44,7 +52,7 @@ public class Controller implements Observer {
     /**
      * Not used here
      *
-     * @param sendEvent
+     * @param sendEvent null
      */
     @Override
     public void update(SendEvent sendEvent) {

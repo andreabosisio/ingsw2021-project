@@ -1,12 +1,13 @@
 package it.polimi.ingsw.client;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
+import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +23,14 @@ public class CLI {
             Scanner inFromTerminal = new Scanner(System.in);
             while (true) {
                 String answer;
-
+                /*
                 while(in.ready()){
                     answer = in.readLine();
                     System.out.println(answer);
                     //answer = in.readLine();
                 }
+
+                 */
                 System.out.println("quitc for client/login/quit to leave");
                 String command = inFromTerminal.nextLine();
                 if (command.equals("quitc")) {
@@ -46,6 +49,20 @@ public class CLI {
                 out.println(command);
                 answer = in.readLine();
                 System.out.println(answer);
+
+                ChooseSetupEvent chooseSetupEvent = null;
+
+                try {
+                    JsonElement jsonElement = JsonParser.parseString(answer);
+                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+                    if(jsonObject.has("payload")) {
+                        String payload = jsonObject.get("payload").getAsString();
+                        chooseSetupEvent = new Gson().fromJson(payload, ChooseSetupEvent.class);
+                    }
+                }catch (NullPointerException | JsonSyntaxException e){
+                    //e.printStackTrace();
+                    continue;
+                }
 
             }
         } catch (IOException ex) {

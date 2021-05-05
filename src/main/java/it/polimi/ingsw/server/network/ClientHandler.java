@@ -1,17 +1,14 @@
 package it.polimi.ingsw.server.network;
 
 import com.google.gson.*;
-import it.polimi.ingsw.server.events.receive.BuyReceiveEvent;
 import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 import it.polimi.ingsw.server.events.receive.SetupReceiveEvent;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
-import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 public class ClientHandler implements Runnable {
     private Socket socket;
@@ -183,9 +180,11 @@ public class ClientHandler implements Runnable {
         }
     }
 
+
     private void game(){
         String message;
         //add all types of event to hasmap with key=type of event an value = event.class
+        //todo risolvere: IL PRIMO SETUP MESSAGE VIENE IGNORATO perchè preso dalla getMessage di lobby
         while (status == StatusEnum.GAME) {
             message = connection.getMessage();
             try{
@@ -208,18 +207,17 @@ public class ClientHandler implements Runnable {
     }
 
     public void sendInfoMessage(String message) {
-        Map<String, String> info = new HashMap<>();
-        info.put("Type", "Info");
-        info.put("Payload", message);
-        sendJsonMessage(gson.toJson(info));
-
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", "info");
+        jsonObject.addProperty("payload", message);
+        sendJsonMessage(jsonObject.toString());
     }
 
     public void sendErrorMessage(String message) {
-        Map<String, String> error = new HashMap<>();
-        error.put("Type", "Error");
-        error.put("Payload", message);
-        sendJsonMessage(gson.toJson(error));
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", "error");
+        jsonObject.addProperty("payload", message);
+        sendJsonMessage(jsonObject.toString());
     }
 
     public void kill() {
@@ -230,7 +228,7 @@ public class ClientHandler implements Runnable {
         Thread.currentThread().interrupt();
     }
 
-    public void setWaitingForFullLobby() {
+    public void moveToGame() {
         status = StatusEnum.GAME;
     }
 

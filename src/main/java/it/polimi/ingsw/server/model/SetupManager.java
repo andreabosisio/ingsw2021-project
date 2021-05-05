@@ -61,7 +61,7 @@ public class SetupManager {
      */
     public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, NonStorableResourceException {
         SetupSendEvent setupSendEvent = setupSendEvents.stream().filter(setupEvent -> setupEvent.getNickname().equals(nickname)).findFirst()
-                .orElseThrow(InvalidEventException::new);
+                .orElseThrow(() -> new InvalidEventException("Setup choose already done!"));
 
         //chosen leader cards must be two different cards
         Set<Integer> chosenIndexes = leaderCardIndexes.stream().filter(index -> index <= 3 && index >= 0).collect(Collectors.toSet());
@@ -75,7 +75,7 @@ public class SetupManager {
                     ResourceEnum chosenEnum = ResourceEnum.valueOf(chosenColor.toUpperCase());
                     chosenResources.add(new ResourceFactory().produceResource(chosenEnum)); //throws NonStorableResourceException if RED or WHITE
                 } catch (IllegalArgumentException e) {
-                    throw new InvalidEventException(); //non existing resource type
+                    throw new InvalidEventException("Non existing resource type"); //non existing resource type
                 }
             }
             for(Integer chosenIndex : leaderCardIndexes){
@@ -84,7 +84,7 @@ public class SetupManager {
 
             Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream()
                     .filter(player -> player.getNickname().equals(nickname)).findFirst()
-                    .orElseThrow(InvalidEventException::new);
+                    .orElseThrow(() -> new InvalidEventException("Invalid nickname"));
 
             //add the chosen resources to the warehouse
             try {
@@ -103,11 +103,23 @@ public class SetupManager {
             setupSendEvents.remove(setupSendEvent);
             if (setupSendEvents.size() == 0) {
 
-                return true; //remove
                 // todo: all the players receive an update event with the gameboard
             }
+
+            //todo this is for testing!!
+            /*
+            JsonObject info = new JsonObject();
+            info.addProperty("playerNick", currentSetupPlayer.getNickname());
+            info.addProperty("leaderHand", new Gson().toJson(currentSetupPlayer.getLeaderHand().stream().map(LeaderCard::getID).collect(Collectors.toList())));
+            info.addProperty("leaderActive", new Gson().toJson(currentSetupPlayer.getPersonalBoard().getActiveLeaderCards().stream().map(LeaderCard::getID).collect(Collectors.toList())));
+            info.addProperty("warehouse", new Gson().toJson(currentSetupPlayer.getPersonalBoard().getWarehouse().getAllResources()));
+            info.addProperty("faithTrack", GameBoard.getGameBoard().getFaithTrackOfPlayer(currentSetupPlayer).getFaithMarker());
+            modelInterface.getVirtualViewByNickname(nickname).getPlayerData().getClientHandler()
+                    .sendJsonMessage(info.toString());
+            */
+
             return true;
         }
-        throw new InvalidEventException();
+        throw new InvalidEventException("Invalid number of chosen Resources and/or LeaderCards");
     }
 }
