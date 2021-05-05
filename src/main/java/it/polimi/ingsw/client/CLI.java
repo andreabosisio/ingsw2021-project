@@ -16,6 +16,7 @@ import java.util.Scanner;
 public class CLI {
     public void startCLI(){
         Socket clientSocket;
+        /*
         try {
             clientSocket = new Socket("127.0.0.1",1337);
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
@@ -23,14 +24,11 @@ public class CLI {
             Scanner inFromTerminal = new Scanner(System.in);
             while (true) {
                 String answer;
-                /*
                 while(in.ready()){
                     answer = in.readLine();
                     System.out.println(answer);
                     //answer = in.readLine();
                 }
-
-                 */
                 System.out.println("quitc for client/login/quit to leave");
                 String command = inFromTerminal.nextLine();
                 if (command.equals("quitc")) {
@@ -68,5 +66,7 @@ public class CLI {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
+         */
     }
 }

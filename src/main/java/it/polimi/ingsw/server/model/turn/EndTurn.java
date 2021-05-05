@@ -39,7 +39,7 @@ public class EndTurn extends State {
         turnLogic.setNextPlayer();
 
         turnLogic.setCurrentState(turnLogic.getStartTurn());
-        return false;
+        return true;
     }
 
     /**
@@ -57,16 +57,16 @@ public class EndTurn extends State {
         //get the chosen leader card
         LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
                 .filter(card -> card.getID().equals(ID)).findFirst()
-                .orElseThrow(InvalidEventException::new);
+                .orElseThrow(() -> new InvalidEventException("leaderCard is not owned"));
         //if the card has to be discarded
         if(discard){
             if(!currentPlayer.discardLeader(chosenLeaderCard))
-                throw new InvalidEventException();
+                throw new InvalidEventException("can't discard this card");
         }else
         //if the card has to be activated
         {
             if(!currentPlayer.activateLeaderCard(chosenLeaderCard))
-                throw new InvalidEventException();
+                throw new InvalidEventException("leaderCard activation failed");
         }
 
         return endTurn();

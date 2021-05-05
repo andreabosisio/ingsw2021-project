@@ -46,6 +46,8 @@ public class TestGameGenerator {
             add("third");
             add("fourth");
         }});
+        //exit from idleState because there is no setUpPhase in testing
+        modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());
 
         if (auto) {
             setLeaderInHandAuto(modelInterface);

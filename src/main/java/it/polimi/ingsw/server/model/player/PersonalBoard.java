@@ -193,7 +193,7 @@ public class PersonalBoard implements EndGameSubject {
         try {
             return deckProduction.get(slotPosition).get(0);
         }catch (IndexOutOfBoundsException e){
-            throw new InvalidIndexException();
+            throw new InvalidIndexException("invalid production slot");
         }
     }
 }

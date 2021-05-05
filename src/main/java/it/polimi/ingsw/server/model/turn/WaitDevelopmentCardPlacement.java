@@ -20,6 +20,6 @@ public class WaitDevelopmentCardPlacement extends State {
             turnLogic.setCurrentState(turnLogic.getEndTurn());
             return true;
         }
-        throw new InvalidEventException();
+        throw new InvalidEventException("card placement failed");
     }
 }

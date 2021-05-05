@@ -102,7 +102,8 @@ public class SetupManager {
 
             setupSendEvents.remove(setupSendEvent);
             if (setupSendEvents.size() == 0) {
-
+                //set turnLogic state from (idleState where very action is invalidEvent) to startTurn
+                modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());
                 // todo: all the players receive an update event with the gameboard
             }
 

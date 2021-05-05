@@ -20,7 +20,7 @@ public class TurnLogic {
     private final List<Player> players;
     private Player currentPlayer;
     private State currentState;
-    private final State startTurn, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, endGame;
+    private final State startTurn, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, endGame,idle;
     private final List<WhiteResource> whiteResourcesFromMarket = new ArrayList<>();
     private DevelopmentCard chosenDevCard;
     private final ModelInterface modelInterface;
@@ -39,7 +39,8 @@ public class TurnLogic {
         this.waitResourcePlacement = new WaitResourcePlacement(this);
         this.endTurn = new EndTurn(this);
         this.endGame = new EndGame(this);
-        this.currentState = getStartTurn();
+        this.idle = new IdleState(this);
+        this.currentState = getIdle();
 
     }
 
@@ -63,6 +64,7 @@ public class TurnLogic {
         this.waitResourcePlacement = new WaitResourcePlacement(this);
         this.endTurn = new EndTurn(this);
         this.endGame = new EndGame(this);
+        this.idle = new IdleState(this);
 
     }
 
@@ -136,6 +138,10 @@ public class TurnLogic {
 
     public State getEndGame() {
         return endGame;
+    }
+
+    public State getIdle() {
+        return idle;
     }
 
     public void setWhiteResourcesFromMarket(WhiteResource whiteResourceFromMarket) {

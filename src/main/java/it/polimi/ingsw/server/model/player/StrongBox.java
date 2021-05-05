@@ -47,10 +47,10 @@ public class StrongBox implements ResourcesContainer{
         try {
             chosenResource = this.slots.get(position);
         }catch (IndexOutOfBoundsException e){
-            throw new EmptySlotException();
+            throw new EmptySlotException("a non valid slot was selected");
         }
         if(chosenResource == null)
-            throw new EmptySlotException();
+            throw new EmptySlotException("no resource in a selected slot");
         this.slots.set(position, null);
         return chosenResource;
     }

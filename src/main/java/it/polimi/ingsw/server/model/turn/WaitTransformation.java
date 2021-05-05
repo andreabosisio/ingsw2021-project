@@ -30,7 +30,7 @@ public class WaitTransformation extends State {
         List<Resource> possibleTransformations = turnLogic.getWhiteResourcesFromMarket().get(0).getPossibleTransformations();
 
         if(chosenColors.size() != turnLogic.getWhiteResourcesFromMarket().size()){
-            throw new InvalidEventException(); //wrong number of chosen resources
+            throw new InvalidEventException("wrong number of chosen resources"); //wrong number of chosen resources
         }
         List<Resource> chosenResources = new ArrayList<>();
         for(String chosenColor : chosenColors) {
@@ -38,11 +38,11 @@ public class WaitTransformation extends State {
                 ResourceEnum chosenEnum = ResourceEnum.valueOf(chosenColor.toUpperCase());
                 //check that chosen color is one of the 2 expected
                 if(possibleTransformations.stream().noneMatch(r -> r.getColor() == chosenEnum))
-                    throw new InvalidEventException();
+                    throw new InvalidEventException("invalid resource type");
 
                 chosenResources.add(new ResourceFactory().produceResource(chosenEnum));
             } catch (IllegalArgumentException e) {
-                throw new InvalidEventException(); //non existing resource type
+                throw new InvalidEventException("non existing resource type"); //non existing resource type
             }
         }
 

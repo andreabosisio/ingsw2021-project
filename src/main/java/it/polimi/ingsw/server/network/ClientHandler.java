@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.network;
 
 import com.google.gson.*;
-import it.polimi.ingsw.server.events.receive.ReceiveEvent;
-import it.polimi.ingsw.server.events.receive.SetupReceiveEvent;
+import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.lang.reflect.Type;
@@ -21,6 +21,14 @@ public class ClientHandler implements Runnable {
 
     private final Map<String, Object> receiveEventByJsonType = new HashMap<String, Object>() {{
         put("SetupReceiveEvent", SetupReceiveEvent.class);
+        put("BuyReceiveEvent", BuyReceiveEvent.class);
+        put("LeaderReceiveEvent", LeaderReceiveEvent.class);
+        put("MarketReceiveEvent", MarketReceiveEvent.class);
+        put("PlaceDevCardReceiveEvent", PlaceDevCardReceiveEvent.class);
+        put("PlaceResourcesReceiveEvent", PlaceResourcesReceiveEvent.class);
+        put("ProductionReceiveEvent", ProductionReceiveEvent.class);
+        put("TransformationReceiveEvent", TransformationReceiveEvent.class);
+        put("EndTurnReceiveEvent", EndTurnReceiveEvent.class);
     }};
 
     public ClientHandler(Socket socket) {
@@ -183,19 +191,26 @@ public class ClientHandler implements Runnable {
 
     private void game(){
         String message;
-        //add all types of event to hasmap with key=type of event an value = event.class
+        //add all types of event to hashmap with key=type of event an value = event.class
         //todo risolvere: IL PRIMO SETUP MESSAGE VIENE IGNORATO perchè preso dalla getMessage di lobby
+        //todo write better malformed json detector code
         while (status == StatusEnum.GAME) {
             message = connection.getMessage();
+
             try{
+
+
                 JsonElement jsonElement = JsonParser.parseString(message);
-                JsonObject jsonObject = jsonElement.getAsJsonObject();
-                if(jsonObject.has("type")) {
-                    String type = jsonObject.get("type").getAsString();
-                    ReceiveEvent event = gson.fromJson(message, (Type) receiveEventByJsonType.get(type));
-                    virtualView.notifyObservers(event);
+                //todo should we check if message is not json directly in the connection class??
+                if(jsonElement.isJsonObject()) {
+                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+                    if (jsonObject.has("type")) {
+                        String type = jsonObject.get("type").getAsString();
+                        ReceiveEvent event = gson.fromJson(message, (Type) receiveEventByJsonType.get(type));
+                        virtualView.notifyObservers(event);
+                    } else sendErrorMessage("malformed json");
                 }
-                else System.out.println("malformed json");
+                else sendErrorMessage("not a json message");
             }catch(JsonSyntaxException e) {
                 sendErrorMessage("Invalid setup");
             }

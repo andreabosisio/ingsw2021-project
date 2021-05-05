@@ -7,7 +7,7 @@ public class ResourceFactory {
     public Resource produceResource(ResourceEnum color) throws NonStorableResourceException {
 
         if(NonStorableResources.getNonStorableResourcesEnum().contains(color))
-            throw new NonStorableResourceException();
+            throw new NonStorableResourceException("invalid resource type");
 
         return new StorableResource(color);
     }

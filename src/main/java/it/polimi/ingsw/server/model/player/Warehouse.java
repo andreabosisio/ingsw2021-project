@@ -179,12 +179,12 @@ public class Warehouse {
             if(hasExtraSlots(0)) //first extra slots are activated
                 positionMap.put(position, new TranslatedPosition(position - startFirstExtraSlotsZone, extraSlots.get(0)));
             else
-                throw new NonAccessibleSlotException(); //extra slots have not been activated yet
+                throw new NonAccessibleSlotException("slot is not active yet"); //extra slots have not been activated yet
         else if(isInSecondExtraSlotsZone(position)) //second extra slots
             if(hasExtraSlots(1)) //second extra slots are activated
                 positionMap.put(position, new TranslatedPosition(position - startSecondExtraSlotsZone, extraSlots.get(1)));
             else
-                throw new NonAccessibleSlotException(); //extra slots have not been activated yet
+                throw new NonAccessibleSlotException("slot is not active yet"); //extra slots have not been activated yet
         else if(isInStrongBoxZone(position))
             positionMap.put(position, new TranslatedPosition(position - startStrongBoxZone, strongBox));
         else if(position < 0)
@@ -276,12 +276,12 @@ public class Warehouse {
             }
             Resource chosenResource = positionMap.get(position).takeResource();
             if(chosenResource == null){
-                throw new EmptySlotException();
+                throw new EmptySlotException("no resource in selected slot");
             }else{
                 return chosenResource;
             }
         }
-        throw new NonAccessibleSlotException();
+        throw new NonAccessibleSlotException("slot is not accessible");
     }
 
     /**
@@ -363,7 +363,7 @@ public class Warehouse {
 
         Resource tempResource = positionMap.get(initPosition).takeResource();
         if(tempResource == null) {
-            throw new EmptySlotException();
+            throw new EmptySlotException("can't put in warehouse a non existing resource");
         }
         return
                 positionMap.get(initPosition).setResource(positionMap.get(finalPosition).takeResource()) &&

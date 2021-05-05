@@ -35,10 +35,10 @@ public class Controller implements Observer {
         if (modelInterface.getCurrentPlayerNickname().equals(receiveEvent.getNickname()) || receiveEvent instanceof SetupReceiveEvent) {
             try {
                 if(receiveEvent.doAction(modelInterface))
-                    currentVirtualView.getPlayerData().getClientHandler().sendInfoMessage("Performed a valid action!");
+                    currentVirtualView.getPlayerData().getClientHandler().sendInfoMessage(receiveEvent.getNickname()+" performed a valid "+receiveEvent.getClass().getSimpleName()+"!");
             } catch (InvalidIndexException | NonStorableResourceException | EmptySlotException | NonAccessibleSlotException | InvalidEventException e) {
                 currentVirtualView.getPlayerData().getClientHandler().sendErrorMessage(e.getMessage());
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
     }

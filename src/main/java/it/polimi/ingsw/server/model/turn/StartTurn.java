@@ -93,7 +93,7 @@ public class StartTurn extends State {
                 try {
                     chosenOutResourceEnum = ResourceEnum.valueOf(outResourcesForEachProductions.get(currentKey));
                 } catch (IllegalArgumentException e) {
-                    throw new InvalidEventException(); //not existing ResourceEnum
+                    throw new InvalidEventException("Resource does not exist"); //not existing ResourceEnum
                 }
                 chosenOutResource = new ResourceFactory().produceResource(chosenOutResourceEnum); //throws NonStorableResourceException if RED or WHITE
             }
@@ -108,9 +108,9 @@ public class StartTurn extends State {
             }};
 
             if(!chosenCard.canDoProduction(productionResources))
-                throw new InvalidEventException();
+                throw new InvalidEventException("Selected card can't do production with selected resources");
             if(!chosenCard.usePower(turnLogic))
-                throw new InvalidEventException();
+                throw new InvalidEventException("production failed");
             //payment
             warehouse.takeResources(production.getValue());
         }
@@ -139,7 +139,7 @@ public class StartTurn extends State {
             CardColorEnum chosenColorEnum = CardColorEnum.valueOf(cardColor.toUpperCase());
             chosenDevelopmentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(chosenColorEnum, cardLevel);
         } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
-            throw new InvalidEventException(); //non existing card color type or non existing card level
+            throw new InvalidEventException("non existing card color/card level"); //non existing card color type or non existing card level
         }
 
         //check if the player has discounts
@@ -158,7 +158,7 @@ public class StartTurn extends State {
                 hasAlreadyDoneLeaderAction = false;
                 return true;
             }
-        throw new InvalidEventException();
+        throw new InvalidEventException("could not buy/place the card");
     }
 
     /**
@@ -173,23 +173,23 @@ public class StartTurn extends State {
     public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {
 
         if(hasAlreadyDoneLeaderAction)
-            throw new InvalidEventException();
+            throw new InvalidEventException("this action was already performed");
 
         Player currentPlayer = turnLogic.getCurrentPlayer();
 
         //get the chosen leader card
         LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
                                 .filter(card -> card.getID().equals(ID)).findFirst()
-                                .orElseThrow(InvalidEventException::new);
+                                .orElseThrow(() -> new InvalidEventException("leaderCard is not owned"));
         //if the card has to be discarded
         if(discard){
             if(!currentPlayer.discardLeader(chosenLeaderCard))
-                throw new InvalidEventException();
+                throw new InvalidEventException("can't discard this card");
         }else
         //if the card has to be activated
         {
             if(!currentPlayer.activateLeaderCard(chosenLeaderCard))
-                throw new InvalidEventException();
+                throw new InvalidEventException("leaderCard activation failed");
         }
 
         hasAlreadyDoneLeaderAction = true;

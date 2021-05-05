@@ -29,13 +29,13 @@ public class WaitResourcePlacement extends State {
     public boolean placeResourceAction(List<Integer> swapPairs) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         //todo ricordarsi che le risorse dal market possono essere anche tolte (in caso di not legal)
         if(swapPairs.size() % 2 != 0)
-            throw new InvalidEventException(); //a swap should always have an initPosition and a finalPosition
+            throw new InvalidEventException("every swap should always have an initPosition and a finalPosition"); //a swap should always have an initPosition and a finalPosition
 
         Warehouse warehouse = turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse();
 
         for(int i = 0; i < swapPairs.size(); i = i + 2)
             if(!warehouse.swap(swapPairs.get(i),swapPairs.get(i + 1)))
-                throw new InvalidEventException(); //the swap cannot be applied
+                throw new InvalidEventException("the swap cannot be applied"); //the swap cannot be applied
 
         if(warehouse.isProperlyOrdered()) {
             //faith progress for other players based on the number of remaining resources
