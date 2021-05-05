@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.network;
 
 import it.polimi.ingsw.server.controller.Controller;
+import it.polimi.ingsw.server.network.personal.PlayerData;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.util.ArrayList;
@@ -11,9 +12,9 @@ import java.util.stream.Collectors;
 
 public class Lobby {
 
-    protected static final int NOT_DECIDED = -1;
-    protected static final int MAX_PLAYERS = 4;
-    protected static final int MIN_PLAYERS = 1;
+    public static final int NOT_DECIDED = -1;
+    public static final int MAX_PLAYERS = 4;
+    public static final int MIN_PLAYERS = 1;
     private static Lobby instance = null;
     private int numberOfPlayers = NOT_DECIDED;
     private final Set<PlayerData> playersData;

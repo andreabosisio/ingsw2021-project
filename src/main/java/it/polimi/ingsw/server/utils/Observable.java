@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.observer;
+package it.polimi.ingsw.server.utils;
 
 import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 import it.polimi.ingsw.server.events.send.SendEvent;

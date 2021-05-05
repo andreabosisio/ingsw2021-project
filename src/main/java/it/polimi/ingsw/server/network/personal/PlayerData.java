@@ -1,4 +1,6 @@
-package it.polimi.ingsw.server.network;
+package it.polimi.ingsw.server.network.personal;
+
+import it.polimi.ingsw.server.network.personal.ClientHandler;
 
 public class PlayerData {
     private boolean online;

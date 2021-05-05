@@ -2,11 +2,6 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.events.receive.MarketReceiveEvent;
-import it.polimi.ingsw.server.events.receive.SetupReceiveEvent;
-import it.polimi.ingsw.server.events.send.SetupSendEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Hello world!

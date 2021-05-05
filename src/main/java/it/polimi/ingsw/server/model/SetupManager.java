@@ -107,18 +107,6 @@ public class SetupManager {
                 // todo: all the players receive an update event with the gameboard
             }
 
-            //todo this is for testing!!
-            /*
-            JsonObject info = new JsonObject();
-            info.addProperty("playerNick", currentSetupPlayer.getNickname());
-            info.addProperty("leaderHand", new Gson().toJson(currentSetupPlayer.getLeaderHand().stream().map(LeaderCard::getID).collect(Collectors.toList())));
-            info.addProperty("leaderActive", new Gson().toJson(currentSetupPlayer.getPersonalBoard().getActiveLeaderCards().stream().map(LeaderCard::getID).collect(Collectors.toList())));
-            info.addProperty("warehouse", new Gson().toJson(currentSetupPlayer.getPersonalBoard().getWarehouse().getAllResources()));
-            info.addProperty("faithTrack", GameBoard.getGameBoard().getFaithTrackOfPlayer(currentSetupPlayer).getFaithMarker());
-            modelInterface.getVirtualViewByNickname(nickname).getPlayerData().getClientHandler()
-                    .sendJsonMessage(info.toString());
-            */
-
             return true;
         }
         throw new InvalidEventException("Invalid number of chosen Resources and/or LeaderCards");

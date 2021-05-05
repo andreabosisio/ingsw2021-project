@@ -1,8 +1,8 @@
-package it.polimi.ingsw.server.network;
+package it.polimi.ingsw.server.network.personal;
 
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.server.events.receive.*;
+import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.lang.reflect.Type;
@@ -11,33 +11,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ClientHandler implements Runnable {
-    private Socket socket;
     private String nickname;
     private StatusEnum status;
-    private boolean waitingForFullLobby;
-    private Connection connection;
+    private final Connection connection;
     private final Gson gson;
     private VirtualView virtualView;
 
     private final Map<String, Object> receiveEventByJsonType = new HashMap<String, Object>() {{
-        put("SetupReceiveEvent", SetupReceiveEvent.class);
-        put("BuyReceiveEvent", BuyReceiveEvent.class);
-        put("LeaderReceiveEvent", LeaderReceiveEvent.class);
-        put("MarketReceiveEvent", MarketReceiveEvent.class);
-        put("PlaceDevCardReceiveEvent", PlaceDevCardReceiveEvent.class);
-        put("PlaceResourcesReceiveEvent", PlaceResourcesReceiveEvent.class);
-        put("ProductionReceiveEvent", ProductionReceiveEvent.class);
-        put("TransformationReceiveEvent", TransformationReceiveEvent.class);
-        put("EndTurnReceiveEvent", EndTurnReceiveEvent.class);
+        put("setupAction", SetupReceiveEvent.class);
+        put("leaderAction", LeaderReceiveEvent.class);
+        put("buyAction", BuyReceiveEvent.class);
+        put("marketAction", MarketReceiveEvent.class);
+        put("productionAction", ProductionReceiveEvent.class);
+        put("cardPlacementAction", PlaceDevCardReceiveEvent.class);
+        put("resourcesPlacementAction", PlaceResourcesReceiveEvent.class);
+        put("transformationAction", TransformationReceiveEvent.class);
+        put("endTurnAction", EndTurnReceiveEvent.class);
     }};
 
     public ClientHandler(Socket socket) {
-        this.socket = socket;
         this.connection = new Connection(socket);
-        waitingForFullLobby = true;
-        gson = new Gson();
+        this.gson = new Gson();
     }
-
 
     @Override
     public void run() {
@@ -132,12 +127,12 @@ public class ClientHandler implements Runnable {
                 return;
             }
 
-            status = StatusEnum.CHOOSENUMPLAYERS;
+            status = StatusEnum.CHOOSE_NUM_PLAYERS;
 
             sendInfoMessage("Choose the number of players (MAX " + Lobby.MAX_PLAYERS + "): ");
             String message;
             Integer numberOfPlayers = 0;
-            while (status == StatusEnum.CHOOSENUMPLAYERS) {
+            while (status == StatusEnum.CHOOSE_NUM_PLAYERS) {
                 message = connection.getMessage();
 
                 if (message.equals("quit")) {
@@ -155,7 +150,7 @@ public class ClientHandler implements Runnable {
 
                 if (Lobby.getLobby().setNumberOfPlayers(numberOfPlayers)) {
                     //todo forse dava problemi dopo la nostra sessione
-                    if (status == StatusEnum.CHOOSENUMPLAYERS){
+                    if (status == StatusEnum.CHOOSE_NUM_PLAYERS){
                         status = StatusEnum.LOBBY;
                     }
                     return;
@@ -188,7 +183,6 @@ public class ClientHandler implements Runnable {
         }
     }
 
-
     private void game(){
         String message;
         //add all types of event to hashmap with key=type of event an value = event.class
@@ -198,21 +192,28 @@ public class ClientHandler implements Runnable {
             message = connection.getMessage();
 
             try{
-
-
                 JsonElement jsonElement = JsonParser.parseString(message);
                 //todo should we check if message is not json directly in the connection class??
                 if(jsonElement.isJsonObject()) {
                     JsonObject jsonObject = jsonElement.getAsJsonObject();
                     if (jsonObject.has("type")) {
                         String type = jsonObject.get("type").getAsString();
-                        ReceiveEvent event = gson.fromJson(message, (Type) receiveEventByJsonType.get(type));
-                        virtualView.notifyObservers(event);
-                    } else sendErrorMessage("malformed json");
+                        Type eventType = (Type) receiveEventByJsonType.get(type);
+                        if(eventType != null) {
+                            ReceiveEvent event = gson.fromJson(message, eventType);
+                            virtualView.notifyObservers(event);
+                        } else {
+                            sendErrorMessage("Non existing action");
+                        }
+                    } else {
+                        sendErrorMessage("malformed json");
+                    }
                 }
-                else sendErrorMessage("not a json message");
-            }catch(JsonSyntaxException e) {
-                sendErrorMessage("Invalid setup");
+                else {
+                    sendErrorMessage("not a json message");
+                }
+            } catch(JsonSyntaxException e) {
+                sendErrorMessage("Invalid message");
             }
         }
     }

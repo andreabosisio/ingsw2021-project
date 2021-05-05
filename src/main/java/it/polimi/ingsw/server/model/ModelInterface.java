@@ -6,9 +6,8 @@ import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
-import it.polimi.ingsw.server.observer.Observable;
-import it.polimi.ingsw.server.observer.Observer;
-import it.polimi.ingsw.server.virtualView.VirtualView;
+import it.polimi.ingsw.server.utils.Observable;
+import it.polimi.ingsw.server.utils.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -202,15 +201,6 @@ public class ModelInterface implements Observable {
     public Player getPlayerByNickname(String nickname){
         return players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst()
                 .orElse(null);
-    }
-    //todo: DA TOGLIERE
-    public VirtualView getVirtualViewByNickname(String nickname) {
-        for (Observer virtualViewObserver : virtualViews) {
-            VirtualView virtualView = (VirtualView) virtualViewObserver;
-            if (virtualView.getPlayerData().getUsername().equals(nickname))
-                return virtualView;
-        }
-        return null;
     }
 
     public void startSetup() {

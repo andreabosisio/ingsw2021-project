@@ -8,7 +8,7 @@ public class MarketReceiveEvent extends ReceiveEvent {
     private final int arrowID;
     public MarketReceiveEvent(String nickname, int arrowID) {
         super(nickname);
-        this.arrowID=arrowID;
+        this.arrowID = arrowID;
     }
 
     @Override

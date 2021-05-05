@@ -2,13 +2,13 @@ package it.polimi.ingsw.server.virtualView;
 
 import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 import it.polimi.ingsw.server.events.send.SendEvent;
-import it.polimi.ingsw.server.network.PlayerData;
-import it.polimi.ingsw.server.observer.Observable;
-import it.polimi.ingsw.server.observer.Observer;
+import it.polimi.ingsw.server.network.personal.PlayerData;
+import it.polimi.ingsw.server.utils.Observable;
+import it.polimi.ingsw.server.utils.Observer;
 
 public class VirtualView implements Observer, Observable {
     private Observer controllerObserver;
-    private PlayerData playerData;
+    private final PlayerData playerData;
 
     public VirtualView(PlayerData playerData) {
         this.playerData = playerData;
@@ -32,7 +32,6 @@ public class VirtualView implements Observer, Observable {
     @Override
     public void update(SendEvent sendEvent) {
         if(sendEvent.getNickname().equals(playerData.getUsername())){
-            //rendi evento json e invialo :)
             playerData.getClientHandler().sendJsonMessage(sendEvent.toJson());
         }
 
@@ -55,9 +54,11 @@ public class VirtualView implements Observer, Observable {
     }
 
     /**
-     * metodo inutilizzato
+     * Not used
+     *
      * view non verrà mai notificata con receive event perché possono partire solo da lei
-     * @param receiveEvent
+     *
+     * @param receiveEvent null
      */
     @Override
     public void update(ReceiveEvent receiveEvent) {
