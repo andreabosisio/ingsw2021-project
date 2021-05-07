@@ -18,9 +18,10 @@ import java.util.Map;
 public class TurnLogic {
     private final GameMode gameMode;
     private final List<Player> players;
+    private final List<Player> disconnectedPlayers = new ArrayList<>(); //fixme
     private Player currentPlayer;
     private State currentState;
-    private final State startTurn, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, endGame,idle;
+    private final State startTurn, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, endGame, idle;
     private final List<WhiteResource> whiteResourcesFromMarket = new ArrayList<>();
     private DevelopmentCard chosenDevCard;
     private final ModelInterface modelInterface;
@@ -46,6 +47,7 @@ public class TurnLogic {
 
     /**
      * constructor only used in testing
+     *
      * @param players players in the game
      */
     public TurnLogic(List<Player> players) {
@@ -84,7 +86,7 @@ public class TurnLogic {
         GameBoard.getGameBoard().setObserverOfDevCardsGrid(gameMode.getICheckWinner());
     }
 
-    public boolean isLastPlayerTurn(){
+    public boolean isLastPlayerTurn() {
         return players.indexOf(currentPlayer) == players.size() - 1;
     }
 
@@ -93,15 +95,34 @@ public class TurnLogic {
      */
     public void setNextPlayer() {
 
-        if(isLastPlayerTurn())
+        if (isLastPlayerTurn())
             currentPlayer = players.get(0);
         else
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+
+        if (disconnectedPlayers.contains(currentPlayer)) {
+            if (isLastPlayerTurn())
+                currentPlayer = players.get(0);
+            else
+                currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+        }
 
         //reset
         whiteResourcesFromMarket.clear();
         chosenDevCard = null;
         currentPlayer.getPersonalBoard().getWarehouse().reorderStrongBox();
+    }
+
+    public void setDisconnectedPlayer(String nickname) {
+        disconnectedPlayers.add(
+                players.stream().filter(
+                        player -> player.getNickname().equals(nickname)).findFirst().orElse(null));
+    }
+
+    public void removeDisconnectedPlayer(String nickname) {
+        disconnectedPlayers.remove(
+                players.stream().filter(
+                        player -> player.getNickname().equals(nickname)).findFirst().orElse(null));
     }
 
     public GameMode getGameMode() {
@@ -181,7 +202,7 @@ public class TurnLogic {
     /**
      * For all the given ProductionCard apply the production with the chosen resources.
      *
-     * @param inResourcesForEachProductions containing the chosen ProductionCard and the chosen resources to apply its production
+     * @param inResourcesForEachProductions  containing the chosen ProductionCard and the chosen resources to apply its production
      * @param outResourcesForEachProductions containing the chosen ProdcutionCard and (if possible) the desired resources
      * @return true if the production has been correctly applied
      * @throws InvalidEventException        if one of the production can't be applied
@@ -196,13 +217,13 @@ public class TurnLogic {
      * Check if the player can place the card and then check if he can buy it with his discounts.
      * If yes buy the card and set the next State of the game to WaitDevelopmentCardPlacement.
      *
-     * @param cardColor color of the card to buy
-     * @param cardLevel level of the card to buy
+     * @param cardColor         color of the card to buy
+     * @param cardLevel         level of the card to buy
      * @param resourcePositions index of the chosen resources
      * @return true if the card has been successfully bought
-     * @throws InvalidEventException if the player can't buy the card
-     * @throws InvalidIndexException if one of the resource positions is negative
-     * @throws EmptySlotException if one of the resource slots is empty
+     * @throws InvalidEventException      if the player can't buy the card
+     * @throws InvalidIndexException      if one of the resource positions is negative
+     * @throws EmptySlotException         if one of the resource slots is empty
      * @throws NonAccessibleSlotException if one of the resource position represents a slot that's not accessible
      */
     public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcePositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
@@ -212,7 +233,7 @@ public class TurnLogic {
     /**
      * Activate or Discard a LeaderCard if the player has not done it yet.
      *
-     * @param ID of the chosen LeaderCard
+     * @param ID      of the chosen LeaderCard
      * @param discard true if the chosen LeaderCard has to be discarded, false if has to be activated
      * @return true if the leaderAction has been successfully applied
      * @throws InvalidEventException if the leaderAction can't be applied
@@ -227,9 +248,9 @@ public class TurnLogic {
      *
      * @param swapPairs List of all the swaps to be applied
      * @return true if the warehouse reordering is legal
-     * @throws InvalidEventException if the swaps cannot be applied
-     * @throws InvalidIndexException if a swap contains a negative position
-     * @throws EmptySlotException if a swap involves an empty slot
+     * @throws InvalidEventException      if the swaps cannot be applied
+     * @throws InvalidIndexException      if a swap contains a negative position
+     * @throws EmptySlotException         if a swap involves an empty slot
      * @throws NonAccessibleSlotException if one of swap involves a slot that's not accessible
      */
     public boolean placeResourceAction(List<Integer> swapPairs) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
@@ -253,7 +274,7 @@ public class TurnLogic {
      *
      * @param chosenColors of the chosen resources
      * @return true if the chosen resources has been correctly created
-     * @throws InvalidEventException if one of the chosen resource type doesn't exists
+     * @throws InvalidEventException        if one of the chosen resource type doesn't exists
      * @throws NonStorableResourceException if one of the chosen resource is a NonStorableResource
      */
     public boolean transformationAction(List<String> chosenColors) throws InvalidEventException, NonStorableResourceException {
@@ -273,6 +294,7 @@ public class TurnLogic {
 
     /**
      * getter for all players in the game
+     *
      * @return list of players in the game
      */
     public List<Player> getPlayers() {
@@ -281,6 +303,7 @@ public class TurnLogic {
 
     /**
      * getter of current state, used only in testing
+     *
      * @return turnLogic currentState
      */
     public State getCurrentState() {

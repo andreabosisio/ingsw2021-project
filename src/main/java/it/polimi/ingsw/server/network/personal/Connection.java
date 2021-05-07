@@ -16,30 +16,29 @@ public class Connection {
         startConnection();
     }
 
-    private void startConnection(){
-        try{
+    private void startConnection() {
+        try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(),true);
+            out = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void sendMessage(String message){
+    public void sendMessage(String message) {
         out.println(message);
     }
-
 
     /*
       al momento fa notify e ritorna string uguale a pong che il clienthandler in game ignora
       tanto client handler in game è un loop continuo di lettura
     */
-    public String getMessage(){
+    public String getMessage() {
         String message;
         try {
             message = in.readLine();
             //start of PingPong code
-            if(message.equals("pong")){
+            if (message.equals("pong")) {
                 pongObserver.PongUpdate();
             }
         } catch (IOException e) {
@@ -64,10 +63,10 @@ public class Connection {
         String str;
         while (true) {
             try {
-                if(!in.ready())break;
-                str=in.readLine();
+                if (!in.ready()) break;
+                str = in.readLine();
                 //if ((str = in.readLine()) == null) break;
-                System.out.println(str+" was ignored during synchronization");
+                System.out.println(str + " was ignored during synchronization");
             } catch (IOException e) {
                 e.printStackTrace();
             }

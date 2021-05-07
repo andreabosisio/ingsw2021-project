@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.network.personal;
 
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.PongObserver;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,13 +19,11 @@ public class PlayerData implements PongObserver {
         this.username = username;
         this.password = password;
         this.clientHandler = clientHandler;
-        this.online=true;
+        this.online = true;
 
         clientHandler.getConnection().setPongObserver(this);
         timer = new Timer();
     }
-
-
 
     //this method should be used when reconnecting
     public void setClientConnectionHandler(ClientHandler clientHandler) {
@@ -32,7 +31,7 @@ public class PlayerData implements PongObserver {
     }
 
     public void setOnline(boolean online) {
-        if(!online) {
+        if (!online) {
             Lobby.getLobby().broadcastToOthersInfoMessage(username + " has left the lobby", username);
         }
         this.online = online;
@@ -55,43 +54,40 @@ public class PlayerData implements PongObserver {
     }
 
 
-    public void startPingPong(){
+    public void startPingPong() {
         //fixme activate below for ping system
         //sendPing();
     }
 
     //todo remember to test if when reconnecting a new timer needs to be created since this one has been killed
-    private void sendPing(){
+    private void sendPing() {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(missingPong){
+                if (missingPong) {
                     disconnect();
-                    System.out.println("no pong was received from "+username);
-                    missingPong=false;
+                    System.out.println("no pong was received from " + username);
+                    missingPong = false;
                     timer.cancel();
-                }
-                else {
+                } else {
                     missingPong = true;
                     clientHandler.sendPing();
-                    System.out.println("sending ping to "+username);
+                    System.out.println("sending ping to " + username);
                 }
             }
         }, 0, 10000);//in milliseconds
     }
 
     //called when pong is missing
-    private void disconnect(){
+    private void disconnect() {
         //function below also set online as false
         clientHandler.kill(false);
         //todo add disconnection during game code(state save/model notification ecc);
     }
 
-
     @Override
-    public void PongUpdate(){
-        System.out.println("pong received from: "+username);
-        missingPong=false;
+    public void PongUpdate() {
+        System.out.println("pong received from: " + username);
+        missingPong = false;
     }
-
 }

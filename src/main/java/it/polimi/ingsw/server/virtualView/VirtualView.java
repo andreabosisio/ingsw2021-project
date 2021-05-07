@@ -24,47 +24,46 @@ public class VirtualView implements Observer, Observable {
     public void removeObserver(Observer observer) {
     }
 
+    /**
+     * This method notify the Controller of the reach of an Event from the Client
+     *
+     * @param receiveEventFromClient the Event from the Client
+     */
     @Override
     public void notifyObservers(ReceiveEvent receiveEventFromClient) {
         controllerObserver.update(receiveEventFromClient);
     }
 
+    /**
+     * This method is called by the ModelInterface to notify this class
+     * of an amendment of the Model
+     *
+     * @param sendEvent the Event from the Model
+     */
     @Override
     public void update(SendEvent sendEvent) {
-        if(sendEvent.getNickname().equals(playerData.getUsername())){
+        if (sendEvent.getNickname().equals(playerData.getUsername())) {
             playerData.getClientHandler().sendJsonMessage(sendEvent.toJson());
         }
-
         //check if player is owner of this virtual view
         //if yes send serializable event with data to client
     }
 
     /**
-     * Not used.
+     * Method not used here
      *
-     *
-     * metodo inutilizzato
-     * view non riceverà mai send event da mandare al controller : possono partire solo dal model,
-     * metodo chiamato dal modelInterface
-     *
-     * @param sendEvent null
+     * @param sendEvent //
      */
     @Override
     public void notifyObservers(SendEvent sendEvent) {
     }
 
     /**
-     * Not used
+     * Method not used here
      *
-     * view non verrà mai notificata con receive event perché possono partire solo da lei
-     *
-     * @param receiveEvent null
+     * @param receiveEvent //
      */
     @Override
     public void update(ReceiveEvent receiveEvent) {
-    }
-
-    public PlayerData getPlayerData() {
-        return playerData;
     }
 }

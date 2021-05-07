@@ -188,7 +188,7 @@ public class Warehouse {
         else if(isInStrongBoxZone(position))
             positionMap.put(position, new TranslatedPosition(position - startStrongBoxZone, strongBox));
         else if(position < 0)
-            throw new InvalidIndexException("Negative position doesn't exist"); //invalid position
+            throw new InvalidIndexException("negative position doesn't exist"); //invalid position
         return true;
     }
 
@@ -363,7 +363,7 @@ public class Warehouse {
 
         Resource tempResource = positionMap.get(initPosition).takeResource();
         if(tempResource == null) {
-            throw new EmptySlotException("can't put in warehouse a non existing resource");
+            throw new EmptySlotException("can't put in warehouse a not existing resource");
         }
         return
                 positionMap.get(initPosition).setResource(positionMap.get(finalPosition).takeResource()) &&

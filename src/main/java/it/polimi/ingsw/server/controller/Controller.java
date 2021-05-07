@@ -32,6 +32,12 @@ public class Controller implements Observer {
         return modelInterface;
     }
 
+    /**
+     * This method is called by the VirtualView to notify this class
+     * of an Event coming from the Client
+     *
+     * @param receiveEvent the Event from the Client
+     */
     @Override
     public synchronized void update(ReceiveEvent receiveEvent) {
         //todo try catch di tutti gli errori e allo stesso modo avverte se if è false
@@ -76,12 +82,11 @@ public class Controller implements Observer {
     }
 
     /**
-     * Not used here
+     * Method not used here
      *
-     * @param sendEvent null
+     * @param sendEvent //
      */
     @Override
     public void update(SendEvent sendEvent) {
-
     }
 }

@@ -93,7 +93,7 @@ public class StartTurn extends State {
                 try {
                     chosenOutResourceEnum = ResourceEnum.valueOf(outResourcesForEachProductions.get(currentKey));
                 } catch (IllegalArgumentException e) {
-                    throw new InvalidEventException("Resource does not exist"); //not existing ResourceEnum
+                    throw new InvalidEventException("resource does not exist"); //not existing ResourceEnum
                 }
                 chosenOutResource = new ResourceFactory().produceResource(chosenOutResourceEnum); //throws NonStorableResourceException if RED or WHITE
             }
@@ -108,7 +108,7 @@ public class StartTurn extends State {
             }};
 
             if(!chosenCard.canDoProduction(productionResources))
-                throw new InvalidEventException("Selected card can't do production with selected resources");
+                throw new InvalidEventException("selected card can't do production with selected resources");
             if(!chosenCard.usePower(turnLogic))
                 throw new InvalidEventException("production failed");
             //payment
@@ -139,7 +139,7 @@ public class StartTurn extends State {
             CardColorEnum chosenColorEnum = CardColorEnum.valueOf(cardColor.toUpperCase());
             chosenDevelopmentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(chosenColorEnum, cardLevel);
         } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
-            throw new InvalidEventException("non existing card color/card level"); //non existing card color type or non existing card level
+            throw new InvalidEventException("not existing card color/card level"); //non existing card color type or non existing card level
         }
 
         //check if the player has discounts

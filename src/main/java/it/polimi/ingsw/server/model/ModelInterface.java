@@ -193,6 +193,11 @@ public class ModelInterface implements Observable {
     @Override
     public void notifyObservers(ReceiveEvent receiveEvent) {}
 
+    /**
+     * This method notify the Virtual Views of an amendment of the Model
+     *
+     * @param sendEvent the Event from the Model
+     */
     @Override
     public void notifyObservers(SendEvent sendEvent) {
         virtualViews.forEach(view -> view.update(sendEvent));

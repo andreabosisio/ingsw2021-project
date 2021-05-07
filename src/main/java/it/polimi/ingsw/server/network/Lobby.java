@@ -73,7 +73,7 @@ public class Lobby {
     public PlayerData getPlayerDataByNickname(String nickname){
         return playersData.stream().filter(p -> p.getUsername().equals(nickname)).findFirst().orElse(null);
     }
-
+    //todo: unnecessary synchronized? getLobby() is yet synchronized
     public synchronized boolean addPlayerData(PlayerData playerData) {
         if(isFull()){
             return false;
@@ -132,5 +132,9 @@ public class Lobby {
         List<VirtualView> virtualViews = new ArrayList<>();
         playersData.forEach(playerData -> virtualViews.add(new VirtualView(playerData)));
         controller.setupObservers(virtualViews);
+    }
+
+    public Controller getController() {
+        return controller;
     }
 }
