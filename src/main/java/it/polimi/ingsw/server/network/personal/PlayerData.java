@@ -1,29 +1,19 @@
 package it.polimi.ingsw.server.network.personal;
 
 import it.polimi.ingsw.server.network.Lobby;
-import it.polimi.ingsw.server.network.PongObsever;
-import it.polimi.ingsw.server.network.personal.ClientHandler;
-import it.polimi.ingsw.server.virtualView.VirtualView;
-
+import it.polimi.ingsw.server.network.PongObserver;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PlayerData implements PongObsever {
+public class PlayerData implements PongObserver {
     private boolean online;
     private final String username;
     private final String password;
     private ClientHandler clientHandler;
-    private VirtualView virtualView;
-
     private boolean missingPong = false;
-    private Timer timer;
+    private final Timer timer;
 
     public PlayerData(String username, String password, ClientHandler clientHandler) {
-        /*
-         //todo farei partire il pingpong quando viene creato player data
-         può avere una funzione con start legato a un timer che manda un ping e starta un timer di attesa
-         si può fare observer che viene notificato quando connection riceve un pong e azzera il timer di attesa
-        */
 
         this.username = username;
         this.password = password;
@@ -42,7 +32,9 @@ public class PlayerData implements PongObsever {
     }
 
     public void setOnline(boolean online) {
-        Lobby.getLobby().broadcastToOthersInfoMessage(username+" has left the lobby",username);
+        if(!online) {
+            Lobby.getLobby().broadcastToOthersInfoMessage(username + " has left the lobby", username);
+        }
         this.online = online;
     }
 
@@ -68,6 +60,7 @@ public class PlayerData implements PongObsever {
         //sendPing();
     }
 
+    //todo remember to test if when reconnecting a new timer needs to be created since this one has been killed
     private void sendPing(){
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -91,7 +84,7 @@ public class PlayerData implements PongObsever {
     private void disconnect(){
         //function below also set online as false
         clientHandler.kill(false);
-        //todo add disconnection for missing pong code;
+        //todo add disconnection during game code(state save/model notification ecc);
     }
 
 

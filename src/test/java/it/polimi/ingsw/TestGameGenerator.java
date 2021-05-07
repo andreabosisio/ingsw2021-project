@@ -252,11 +252,4 @@ public class TestGameGenerator {
     public void preparePlayerForProductionDevCard(ModelInterface modelInterface, Player player, ProductionCard developmentCard) {
         player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(developmentCard.getInResources());
     }
-
-    @Test
-    void modelInterfaceTest() {
-        ModelInterface modelInterface = modelInterfaceGenerator(true);
-        //GameBoard.getGameBoard().getMarketTray().print();
-        //GameBoard.getGameBoard().getDevelopmentCardsGrid().print();
-    }
 }

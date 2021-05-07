@@ -1,5 +1,5 @@
 package it.polimi.ingsw.server.network;
 
-public interface PongObsever {
+public interface PongObserver {
     void PongUpdate();
 }

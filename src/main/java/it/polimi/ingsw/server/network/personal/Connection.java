@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.network.personal;
 
-import it.polimi.ingsw.server.network.PongObsever;
+import it.polimi.ingsw.server.network.PongObserver;
 
 import java.io.*;
 import java.net.Socket;
@@ -9,7 +9,7 @@ public class Connection {
     private BufferedReader in;
     private PrintWriter out;
     private final Socket socket;
-    private PongObsever pongObserver;
+    private PongObserver pongObserver;
 
     public Connection(Socket socket) {
         this.socket = socket;
@@ -74,7 +74,7 @@ public class Connection {
         }
     }
 
-    public void setPongObserver(PongObsever pongObserver) {
+    public void setPongObserver(PongObserver pongObserver) {
         this.pongObserver = pongObserver;
     }
 }

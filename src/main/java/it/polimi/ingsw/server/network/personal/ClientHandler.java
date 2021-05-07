@@ -175,7 +175,7 @@ public class ClientHandler implements Runnable {
                         if(type.equals(TYPE_QUIT)){
                             kill(false);
                         }
-                        if(virtualView==null){
+                        else if(virtualView==null){
                             sendErrorMessage("waitForGameToStart");
                         }
                         else if(eventType != null) {
@@ -245,17 +245,22 @@ public class ClientHandler implements Runnable {
     }
 
     public JsonObject getAsJsonObject(String message){
-        JsonElement jsonElement = JsonParser.parseString(message);
-        if(!jsonElement.isJsonObject()) {
-            sendErrorMessage("not a json message");
-            return null;//go back to reading a new message
+        try {
+            JsonElement jsonElement = JsonParser.parseString(message);
+            if (!jsonElement.isJsonObject()) {
+                sendErrorMessage("not a json message");
+                return null;//go back to reading a new message
+            }
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            if (!jsonObject.has("type")) {
+                sendErrorMessage("not a valid json");
+                return null;//go back to reading a new message
+            }
+            return jsonObject;
+        }catch (JsonSyntaxException e){
+            sendErrorMessage("invalid message structure");
+            return null;
         }
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        if (!jsonObject.has("type")) {
-            sendErrorMessage("not a valid json");
-            return null;//go back to reading a new message
-        }
-        return jsonObject;
     }
 
     //todo add more specific credential checks

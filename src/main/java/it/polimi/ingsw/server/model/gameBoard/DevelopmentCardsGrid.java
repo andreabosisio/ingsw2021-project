@@ -71,22 +71,15 @@ public class DevelopmentCardsGrid implements EndGameSubject {
     /**
      * Check if all the cards of at least one color have been removed
      *
+     * It does so by counting the number of columns with at least one card in them
+     * and checking if they are less than 4
+     *
      * @return true if one color has no more cards
      */
     public boolean hasEmptyColumn() {
-        for (CardColorEnum color : EnumSet.allOf(CardColorEnum.class)) {
-            boolean empty = true;
-            for (Map<CardColorEnum, List<DevelopmentCard>> m : mapByLevel) {
-                if (m.get(color).size() != 0) {
-                    empty = false;
-                    break;
-                }
-            }
-            if (empty) {
-                return true;
-            }
-        }
-        return false;
+        return mapByLevel.stream().flatMap(map -> map.entrySet().stream()
+                .filter(colorSet -> colorSet.getValue().size() > 0)
+                .map(Map.Entry::getKey)).distinct().count() < 4;
     }
 
     /**
@@ -95,7 +88,6 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      *
      * @param developmentCard is the Development Card to remove
      */
-    // TODO: Remember to test! And in case changes index of level
     public boolean removeCard(DevelopmentCard developmentCard) {
         if (!mapByLevel.get(developmentCard.getLevel() - 1).get(developmentCard.getColor()).contains(developmentCard))
             return false;
@@ -126,12 +118,24 @@ public class DevelopmentCardsGrid implements EndGameSubject {
     }
 
 
-    //todo remember to test for index starting by 0 or 1
+    /**
+     * This method find the requested DevelopmentCard and return it
+     *
+     * @param color the color of the requested card
+     * @param level the level of the requested card
+     * @return the requested DevelopmentCard
+     * @throws IndexOutOfBoundsException if the requested DevelopmentCard is not present
+     */
     public DevelopmentCard getCardByColorAndLevel(CardColorEnum color,int level) throws IndexOutOfBoundsException{
-        //index out of bounds exception
+        //index out of bounds exception if card is not present
         return mapByLevel.get(level-1).get(color).get(0);
     }
 
+
+    /**
+     * Method used in testing: fill the grid following the developmentsCards.json order
+     * in order to have no random elements
+     */
     public void setNonRandom(){
         developmentCards.clear();
         developmentCards.addAll(generator.generateDevelopmentCards());
