@@ -135,21 +135,18 @@ public class ClientHandler implements Runnable {
                 //try to start game
             } else if (playerData.isOnline()) {
                 //nickname already in use
-                sendErrorMessage("nickname already in use");
+                sendErrorMessage("Nickname already in use");
             } else {
                 //is trying to reconnect
                 //todo not multi reconnection to same data safe
                 if (password.equals(playerData.getPassword())) {
                     //todo code below is severely incomplete (virtualView and PlayerData together?)
                     this.nickname = nickname;
-                    Lobby.getLobby().broadcastInfoMessage(nickname + " has reconnected");
-                    playerData.setOnline(true);
-                    playerData.setClientConnectionHandler(this);
-                    Lobby.getLobby().getController().getModelInterface().getTurnLogic().removeDisconnectedPlayer(nickname);
-                    sendInfoMessage("reconnected");
+                    playerData.reconnect(this);
+                    sendInfoMessage("You are now reconnected");
                     status = StatusEnum.GAME;
                 } else {
-                    sendErrorMessage("incorrect password");
+                    sendErrorMessage("Incorrect password");
                 }
             }
         }
@@ -235,6 +232,10 @@ public class ClientHandler implements Runnable {
             p.setOnline(false);
             Lobby.getLobby().getController().getModelInterface().getTurnLogic().setDisconnectedPlayer(nickname);
         }
+
+        //stop PingPong
+        //todo stop ping pong when disconnect
+
         //game has not started so playerData can be safely deleted
         status = StatusEnum.EXIT;
         connection.close();

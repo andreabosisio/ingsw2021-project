@@ -40,8 +40,6 @@ public class Controller implements Observer {
      */
     @Override
     public synchronized void update(ReceiveEvent receiveEvent) {
-        //todo try catch di tutti gli errori e allo stesso modo avverte se if è false
-        //todo instanceof per la setupAction
 
         if(receiveEvent.getNickname() == null)
             return; //todo if for some reason the nickname doesn't exists (security problem)
@@ -53,7 +51,7 @@ public class Controller implements Observer {
                 if(receiveEvent.doAction(modelInterface))
                     currentClientHandler.sendInfoMessage(receiveEvent.getNickname()+" performed a valid "+receiveEvent.getClass().getSimpleName()+"!");
 
-                //todo this is for testing!!
+                //fixme this is for testing!!
                 String nickname = receiveEvent.getNickname();
                 Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream()
                         .filter(player -> player.getNickname().equals(nickname)).findFirst()

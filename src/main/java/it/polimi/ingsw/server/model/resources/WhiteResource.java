@@ -36,7 +36,6 @@ public class WhiteResource extends Resource {
      */
     @Override
     public boolean marketAbility(TurnLogic turn) {
-        //todo riga sotto aggiunta per resettare transformation tra un player e l'altro
         possibleTransformations.clear();
         for (LeaderCard leaderCard : turn.getCurrentPlayer().getPersonalBoard().getActiveLeaderCards())
             leaderCard.doTransformation(this);

@@ -8,15 +8,15 @@ import java.util.TimerTask;
 
 public class PlayerData implements PongObserver {
     private boolean online;
-    private final String username;
+    private final String nickname;
     private final String password;
     private ClientHandler clientHandler;
     private boolean missingPong = false;
     private final Timer timer;
 
-    public PlayerData(String username, String password, ClientHandler clientHandler) {
+    public PlayerData(String nickname, String password, ClientHandler clientHandler) {
 
-        this.username = username;
+        this.nickname = nickname;
         this.password = password;
         this.clientHandler = clientHandler;
         this.online = true;
@@ -32,7 +32,7 @@ public class PlayerData implements PongObserver {
 
     public void setOnline(boolean online) {
         if (!online) {
-            Lobby.getLobby().broadcastToOthersInfoMessage(username + " has left the lobby", username);
+            Lobby.getLobby().broadcastToOthersInfoMessage(nickname + " has left the lobby", nickname);
         }
         this.online = online;
     }
@@ -41,8 +41,8 @@ public class PlayerData implements PongObserver {
         return online;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNickname() {
+        return nickname;
     }
 
     public String getPassword() {
@@ -56,7 +56,7 @@ public class PlayerData implements PongObserver {
 
     public void startPingPong() {
         //fixme activate below for ping system
-        //sendPing();
+        sendPing();
     }
 
     //todo remember to test if when reconnecting a new timer needs to be created since this one has been killed
@@ -66,13 +66,13 @@ public class PlayerData implements PongObserver {
             public void run() {
                 if (missingPong) {
                     disconnect();
-                    System.out.println("no pong was received from " + username);
+                    System.out.println("no pong was received from " + nickname);
                     missingPong = false;
                     timer.cancel();
                 } else {
                     missingPong = true;
                     clientHandler.sendPing();
-                    System.out.println("sending ping to " + username);
+                    System.out.println("sending ping to " + nickname);
                 }
             }
         }, 0, 10000);//in milliseconds
@@ -87,7 +87,15 @@ public class PlayerData implements PongObserver {
 
     @Override
     public void PongUpdate() {
-        System.out.println("pong received from: " + username);
+        System.out.println("pong received from: " + nickname);
         missingPong = false;
+    }
+
+    public void reconnect(ClientHandler clientHandler) {
+        Lobby.getLobby().broadcastInfoMessage(nickname + " has reconnected");
+        this.setOnline(true);
+        this.setClientConnectionHandler(clientHandler);
+        Lobby.getLobby().getController().getModelInterface().getTurnLogic().removeDisconnectedPlayer(nickname);
+        this.sendPing();
     }
 }

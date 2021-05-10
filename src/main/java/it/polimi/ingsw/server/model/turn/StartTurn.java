@@ -93,7 +93,7 @@ public class StartTurn extends State {
                 try {
                     chosenOutResourceEnum = ResourceEnum.valueOf(outResourcesForEachProductions.get(currentKey));
                 } catch (IllegalArgumentException e) {
-                    throw new InvalidEventException("resource does not exist"); //not existing ResourceEnum
+                    throw new InvalidEventException("'" + outResourcesForEachProductions.get(currentKey) + "' isn't a valid resource"); //not existing ResourceEnum
                 }
                 chosenOutResource = new ResourceFactory().produceResource(chosenOutResourceEnum); //throws NonStorableResourceException if RED or WHITE
             }

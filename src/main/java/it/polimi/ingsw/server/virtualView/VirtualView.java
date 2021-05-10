@@ -42,7 +42,7 @@ public class VirtualView implements Observer, Observable {
      */
     @Override
     public void update(SendEvent sendEvent) {
-        if (sendEvent.getNickname().equals(playerData.getUsername())) {
+        if (sendEvent.getNickname().equals(playerData.getNickname())) {
             playerData.getClientHandler().sendJsonMessage(sendEvent.toJson());
         }
         //check if player is owner of this virtual view

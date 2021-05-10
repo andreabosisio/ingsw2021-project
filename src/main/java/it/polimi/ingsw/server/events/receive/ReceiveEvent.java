@@ -13,6 +13,7 @@ public abstract class ReceiveEvent {
     public String getNickname() {
         return nickname;
     }
+
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
         return false;
     }

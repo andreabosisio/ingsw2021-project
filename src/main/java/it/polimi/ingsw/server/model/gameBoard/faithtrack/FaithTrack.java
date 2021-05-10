@@ -8,6 +8,9 @@ import it.polimi.ingsw.server.model.PlayerInterface;
  * It is observer of the class FirstOfFaithTrack.
  */
 public class FaithTrack implements FaithObserver {
+    private static int startSection3 = 19;
+    private static int startSection2 = 12;
+    private static int startSection1 = 5;
     final PlayerInterface owner;
     int faithMarker;
     final FirstOfFaithTrack firstOfFaithTrack;
@@ -50,10 +53,6 @@ public class FaithTrack implements FaithObserver {
      */
     @Override
     public boolean update(int indexOfTheVaticanReportSection) {
-        //todo questi li metterei sopra come static final
-        int startSection3 = 19;
-        int startSection2 = 12;
-        int startSection1 = 5;
         switch (indexOfTheVaticanReportSection) {
             case 1:
                 if (faithMarker >= startSection1)

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.network;
 
 import it.polimi.ingsw.server.controller.Controller;
-import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.personal.PlayerData;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
@@ -41,7 +40,7 @@ public class Lobby {
             //put excess player offline
             int playerOnline = 1;//start as 1 because deciding player must remain connected
             for (PlayerData player : playersData) {
-                if (player.isOnline() && !player.getUsername().equals(decidingPlayerName)) {
+                if (player.isOnline() && !player.getNickname().equals(decidingPlayerName)) {
                     if (playerOnline >= numberOfPlayers) {
                         player.getClientHandler().sendInfoMessage("excluded from starting game");
                         player.setOnline(false);
@@ -71,17 +70,17 @@ public class Lobby {
     }
 
     public PlayerData getPlayerDataByNickname(String nickname){
-        return playersData.stream().filter(p -> p.getUsername().equals(nickname)).findFirst().orElse(null);
+        return playersData.stream().filter(p -> p.getNickname().equals(nickname)).findFirst().orElse(null);
     }
     //todo: unnecessary synchronized? getLobby() is yet synchronized
     public synchronized boolean addPlayerData(PlayerData playerData) {
         if(isFull()){
             return false;
         }
-        if(playersData.stream().anyMatch(p -> p.getUsername().equals(playerData.getUsername()))){
+        if(playersData.stream().anyMatch(p -> p.getNickname().equals(playerData.getNickname()))){
             return false;
         }
-        broadcastInfoMessage(playerData.getUsername() + " joined!");
+        broadcastInfoMessage(playerData.getNickname() + " joined!");
         playersData.add(playerData);
         return true;
     }
@@ -104,7 +103,7 @@ public class Lobby {
 
     public void broadcastToOthersInfoMessage(String message,String name) {
         for(PlayerData playerData : playersData){
-            if(playerData.isOnline()&& !playerData.getUsername().equals(name)) {
+            if(playerData.isOnline()&& !playerData.getNickname().equals(name)) {
                 playerData.getClientHandler().sendInfoMessage(message);
             }
         }
@@ -128,7 +127,7 @@ public class Lobby {
     private void startGame(){
         broadcastInfoMessage("Game is starting...");
         //playersData.stream().map(PlayerData::getClientHandler).forEach(ClientHandler::clearMessageStack);
-        controller = new Controller(playersData.stream().map(PlayerData::getUsername).collect(Collectors.toList()));
+        controller = new Controller(playersData.stream().map(PlayerData::getNickname).collect(Collectors.toList()));
         List<VirtualView> virtualViews = new ArrayList<>();
         playersData.forEach(playerData -> virtualViews.add(new VirtualView(playerData)));
         controller.setupObservers(virtualViews);

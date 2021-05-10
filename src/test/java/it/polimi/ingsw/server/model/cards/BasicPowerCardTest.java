@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards;
 
+import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.StorableResource;
@@ -22,8 +23,6 @@ class BasicPowerCardTest {
     final BasicPowerCard card = new BasicPowerCard();
     final List<Resource> desiredProductionResources = new ArrayList<>();
 
-    //TODO: how do we handle empty or null resources?
-
     @Test
     @Order(1)
     void simplyCanDoProductionTest() {
@@ -43,6 +42,13 @@ class BasicPowerCardTest {
         getterTest(desiredProductionResources);
         simplyUsePowerTest();
 
+
+        desiredProductionResources.clear();
+
+        desiredProductionResources.add(null);
+        desiredProductionResources.add(null);
+        desiredProductionResources.add(null);
+        assertFalse(card.canDoProduction(desiredProductionResources));
 
     }
 
