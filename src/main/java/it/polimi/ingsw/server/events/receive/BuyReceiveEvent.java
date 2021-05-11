@@ -18,7 +18,6 @@ public class BuyReceiveEvent extends ReceiveEvent {
 
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException {
-        //todo sostituire con ID (invece di cardColor e cardLevel) O FORSE NO?
         return modelInterface.buyAction(cardColor, cardLevel, resourcePositions);
     }
 }

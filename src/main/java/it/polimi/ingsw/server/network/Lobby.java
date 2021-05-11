@@ -21,8 +21,10 @@ public class Lobby {
 
     private Lobby() {
         playersData = new ArrayList<>();
-        gameStarted=false;
+        gameStarted = false;
     }
+
+    //todo synchronizzare su this per ogni metodo
 
     public static synchronized Lobby getLobby() {
         if (instance == null) {
@@ -72,7 +74,7 @@ public class Lobby {
     public PlayerData getPlayerDataByNickname(String nickname){
         return playersData.stream().filter(p -> p.getNickname().equals(nickname)).findFirst().orElse(null);
     }
-    //todo: unnecessary synchronized? getLobby() is yet synchronized
+
     public synchronized boolean addPlayerData(PlayerData playerData) {
         if(isFull()){
             return false;
@@ -85,7 +87,7 @@ public class Lobby {
         return true;
     }
 
-    public void removePlayerData(String nickname) {
+    public synchronized void removePlayerData(String nickname) {
         playersData.remove(getPlayerDataByNickname(nickname));
     }
 
@@ -109,7 +111,7 @@ public class Lobby {
         }
     }
 
-    public synchronized void UpdateLobbyState() {
+    public synchronized void updateLobbyState() {
         if(gameStarted){
             return;
         }

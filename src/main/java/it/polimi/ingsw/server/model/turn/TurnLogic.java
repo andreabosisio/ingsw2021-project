@@ -42,7 +42,6 @@ public class TurnLogic {
         this.endGame = new EndGame(this);
         this.idle = new IdleState(this);
         this.currentState = getIdle();
-
     }
 
     /**
@@ -119,7 +118,7 @@ public class TurnLogic {
                         player -> player.getNickname().equals(nickname)).findFirst().orElse(null));
     }
 
-    public void removeDisconnectedPlayer(String nickname) {
+    public void removeFromDisconnectedPlayer(String nickname) {
         disconnectedPlayers.remove(
                 players.stream().filter(
                         player -> player.getNickname().equals(nickname)).findFirst().orElse(null));

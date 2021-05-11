@@ -113,7 +113,7 @@ public class DevelopmentCard implements ProductionCard {
             }
             tempNeededResources.remove(r);
         }
-        // TODO: To check!
+        //remove the card from the grid
         GameBoard.getGameBoard().getDevelopmentCardsGrid().removeCard(this);
 
         //payment

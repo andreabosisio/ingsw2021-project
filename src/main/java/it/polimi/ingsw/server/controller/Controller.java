@@ -41,9 +41,6 @@ public class Controller implements Observer {
     @Override
     public synchronized void update(ReceiveEvent receiveEvent) {
 
-        if(receiveEvent.getNickname() == null)
-            return; //todo if for some reason the nickname doesn't exists (security problem)
-
         ClientHandler currentClientHandler = Lobby.getLobby().getPlayerDataByNickname(receiveEvent.getNickname()).getClientHandler();
 
         if (modelInterface.getCurrentPlayerNickname().equals(receiveEvent.getNickname()) || receiveEvent instanceof SetupReceiveEvent) {

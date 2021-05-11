@@ -87,11 +87,8 @@ public class PersonalBoard implements EndGameSubject {
             //check that if there is a card under, it is acceptable to place the new one over it
             if (deckProduction.get(pos).size() > 0) {
                 DevelopmentCard last = (DevelopmentCard) deckProduction.get(pos).get(0);
-                //todo is this useless? methods that put cards won't allow this situation
-                if (last.getLevel() >= card.getLevel()) {
-                    return false;
-                }
             }
+
             deckProduction.get(pos).add(0, card);
             int numberOfDevCards = 0;
             for (int i = 1; i < lastColumnIndex; i++)
@@ -183,7 +180,6 @@ public class PersonalBoard implements EndGameSubject {
         return toReturn;
     }
 
-    //todo test this method!
     /**
      *
      * @return the the top ProductionCard of the selected slot

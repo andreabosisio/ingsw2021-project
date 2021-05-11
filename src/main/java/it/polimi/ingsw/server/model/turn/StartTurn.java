@@ -84,7 +84,7 @@ public class StartTurn extends State {
 
         for(Map.Entry<Integer, List<Integer>> production : inResourcesForEachProductions.entrySet()){
             Integer currentKey = production.getKey();
-            //todo controllare in caso getRes sia null
+
             chosenInResources = new ArrayList<>(warehouse.getResources(production.getValue()));
 
             if(outResourcesForEachProductions.get(currentKey) == null)

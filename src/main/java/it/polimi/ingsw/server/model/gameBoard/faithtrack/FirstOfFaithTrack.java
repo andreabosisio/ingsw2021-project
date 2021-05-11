@@ -61,7 +61,7 @@ public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
      */
     @Override
     public boolean notifyFaithObservers() {
-        //todo guardare se serve il boolean di ritorno
+
         boolean checkFlip = false;
 
         if (checkIndexOfTheVaticanReportSection() != 0) {

@@ -127,10 +127,12 @@ public class ClientHandler implements Runnable {
                                 status = StatusEnum.GAME;
                             }
                         }
-                    } else if (playerData.isOnline())
+                    } else if (playerData.isOnline()) {
                         clearMessageStack();
+                    }
+
                     status = StatusEnum.GAME;
-                    Lobby.getLobby().UpdateLobbyState();
+                    Lobby.getLobby().updateLobbyState();
                 }
                 //try to start game
             } else if (playerData.isOnline()) {
@@ -138,7 +140,6 @@ public class ClientHandler implements Runnable {
                 sendErrorMessage("Nickname already in use");
             } else {
                 //is trying to reconnect
-                //todo not multi reconnection to same data safe
                 if (password.equals(playerData.getPassword())) {
                     //todo code below is severely incomplete (virtualView and PlayerData together?)
                     this.nickname = nickname;
@@ -157,12 +158,10 @@ public class ClientHandler implements Runnable {
         status = StatusEnum.GAME;
         String message;
         Lobby.getLobby().getPlayerDataByNickname(nickname).startPingPong();
-        //add all types of event to hashmap with key=type of event an value = event.class
-        //todo write better malformed json detector code
+
         while (status == StatusEnum.GAME) {
             message = connection.getMessage();
-            //fixme added with ping pong
-            //if below
+
             if (message.equals("pong")) {
                 continue;
             }
@@ -220,21 +219,25 @@ public class ClientHandler implements Runnable {
     //deleteData = false if player should be able to reconnect
     //deleteData = true if disconnection equals data deletion
     public void kill(boolean deleteData) {
-        sendInfoMessage("quitting");
-        //deleteData=remove playerData from Lobby
-        if (deleteData) {
-            Lobby.getLobby().removePlayerData(nickname);
-        }
-        //playerData must remain saved and player set as offline
-        else {
-            //todo add code to save state in game quit
-            PlayerData p = Lobby.getLobby().getPlayerDataByNickname(nickname);
-            p.setOnline(false);
-            Lobby.getLobby().getController().getModelInterface().getTurnLogic().setDisconnectedPlayer(nickname);
-        }
 
-        //stop PingPong
-        //todo stop ping pong when disconnect
+        PlayerData playerData = Lobby.getLobby().getPlayerDataByNickname(nickname);
+
+        if(playerData != null) {
+            //stop PingPong
+            playerData.stopPingPong();
+
+            sendInfoMessage("quitting");
+            //deleteData = remove playerData from Lobby
+            if (deleteData) {
+                Lobby.getLobby().removePlayerData(nickname);
+            }
+            //playerData must remain saved and player set as offline
+            else {
+                //todo add code to save state in game quit
+                playerData.setOnline(false);
+                Lobby.getLobby().getController().getModelInterface().getTurnLogic().setDisconnectedPlayer(nickname);
+            }
+        }
 
         //game has not started so playerData can be safely deleted
         status = StatusEnum.EXIT;
@@ -265,15 +268,11 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    //todo add more specific credential checks (maybe DONE)
     //the nickname must be a minimum of 3 and a maximum of 15 alpha-numeric characters (plus -,_ symbols)
     public boolean checkCredentials(String name, String password) {
         return name != null && password != null && NICKNAME_PATTERN.matcher(name).matches();
     }
 
-    //todo i want to clear all messages received while stuck on synchronized (maybe DONE)
-    //this function is called in a comment in lobby startGame(): line 141 more or less
-    //the problem is that connection.clearStack() blocks server in listening mode
     public void clearMessageStack() {
         connection.clearStack();
     }

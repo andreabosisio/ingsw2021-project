@@ -12,7 +12,7 @@ public class PlayerData implements PongObserver {
     private final String password;
     private ClientHandler clientHandler;
     private boolean missingPong = false;
-    private final Timer timer;
+    private Timer timer;
 
     public PlayerData(String nickname, String password, ClientHandler clientHandler) {
 
@@ -59,7 +59,10 @@ public class PlayerData implements PongObserver {
         sendPing();
     }
 
-    //todo remember to test if when reconnecting a new timer needs to be created since this one has been killed
+    public void stopPingPong() {
+        timer.cancel();
+    }
+
     private void sendPing() {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -68,7 +71,7 @@ public class PlayerData implements PongObserver {
                     disconnect();
                     System.out.println("no pong was received from " + nickname);
                     missingPong = false;
-                    timer.cancel();
+                    stopPingPong();
                 } else {
                     missingPong = true;
                     clientHandler.sendPing();
@@ -95,7 +98,9 @@ public class PlayerData implements PongObserver {
         Lobby.getLobby().broadcastInfoMessage(nickname + " has reconnected");
         this.setOnline(true);
         this.setClientConnectionHandler(clientHandler);
-        Lobby.getLobby().getController().getModelInterface().getTurnLogic().removeDisconnectedPlayer(nickname);
-        this.sendPing();
+        Lobby.getLobby().getController().getModelInterface().getTurnLogic().removeFromDisconnectedPlayer(nickname);
+        clientHandler.getConnection().setPongObserver(this);
+        this.timer = new Timer();
+        //this.sendPing();
     }
 }
