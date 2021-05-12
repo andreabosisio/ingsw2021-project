@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.PlayerInterface;
 
 /**
  * Interface that contains all the methods useful for the correct
- * operating of the Pattern Observer.
+ * operating of the Pattern SendObserver.
  * This interface is extended by the class ICheckWinner.
  */
 public interface EndGameObserver {

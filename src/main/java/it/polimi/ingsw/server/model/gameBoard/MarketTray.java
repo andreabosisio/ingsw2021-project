@@ -13,15 +13,12 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *
  * Arrow index implementation:
- *          X X X X < 0
- *          X X X X < 1
- *          X X X X < 2
- *          ^ ^ ^ ^
- *          6 5 4 3
- *
- *
+ * X X X X < 0
+ * X X X X < 1
+ * X X X X < 2
+ * ^ ^ ^ ^
+ * 6 5 4 3
  */
 public class MarketTray {
 
@@ -51,7 +48,7 @@ public class MarketTray {
     /**
      * List of the resources available in the MarketBoard
      */
-    private final List<Resource> initResources = new ArrayList<Resource>(){{
+    private final List<Resource> initResources = new ArrayList<Resource>() {{
         add(new StorableResource(ResourceEnum.BLUE));
         add(new StorableResource(ResourceEnum.BLUE));
         add(new StorableResource(ResourceEnum.GRAY));
@@ -73,10 +70,10 @@ public class MarketTray {
      * Public constructor of the MarketTray.
      * Random initialization of the MarketBoard.
      */
-    public MarketTray(){
+    public MarketTray() {
         Collections.shuffle(initResources);
         int k = 0;
-        for(int i = 0; i < NUM_R; i++) {
+        for (int i = 0; i < NUM_R; i++) {
             for (int j = 0; j < NUM_C; j++) {
                 try {
                     marketBoard[i][j] = initResources.get(k);
@@ -88,7 +85,7 @@ public class MarketTray {
         }
         try {
             extraSlot = initResources.get(k);
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
@@ -105,10 +102,10 @@ public class MarketTray {
         tempNewResources.clear();
         Resource[] chosenLine;
         Resource temp;
-        if(arrow >= 0) {
+        if (arrow >= 0) {
             if (arrow <= 2) { //if player chose a row
                 chosenLine = new Resource[NUM_C];
-                for(int i = 0; i < NUM_C; i++) {
+                for (int i = 0; i < NUM_C; i++) {
                     chosenLine[i] = marketBoard[arrow][i];
                     chosenLine[i].marketAbility(turn);
                 }
@@ -121,22 +118,19 @@ public class MarketTray {
 
                 System.arraycopy(chosenLine, 1, marketBoard[arrow], 0, NUM_C - 1);
                 marketBoard[arrow][NUM_C - 1] = extraSlot;
-            }
-            else if(arrow <= 6) { //if player chose a column
+            } else if (arrow <= 6) { //if player chose a column
                 chosenLine = new Resource[NUM_R];
-                for(int i = 0; i < NUM_R; i++) {
+                for (int i = 0; i < NUM_R; i++) {
                     chosenLine[i] = marketBoard[i][6 - arrow];
                     chosenLine[i].marketAbility(turn);
                 }
                 temp = chosenLine[0];
-                for(int i = 0; i < NUM_R - 1; i++)
+                for (int i = 0; i < NUM_R - 1; i++)
                     marketBoard[i][6 - arrow] = chosenLine[i + 1];
                 marketBoard[NUM_R - 1][6 - arrow] = extraSlot;
-            }
-            else
+            } else
                 throw new InvalidIndexException("the arrow's id can't be > 6");
-        }
-        else
+        } else
             throw new InvalidIndexException("the arrow's id can't be < 0");
         extraSlot = temp;
 
@@ -147,13 +141,12 @@ public class MarketTray {
         return tempNewResources;
     }
 
-    public boolean addNewResource(Resource toAdd){
+    public boolean addNewResource(Resource toAdd) {
         return this.tempNewResources.add(toAdd);
     }
 
     //todo cancellare
 /*
-
     protected void printMarket(){
         System.out.println("                                        " + extraSlot.getColor());
         for(int i = 0; i < NUM_R; i++) {
@@ -172,9 +165,17 @@ public class MarketTray {
         }
 
     }
-
-
  */
+
+    public List<String> toStringList() {
+        List<String> toReturn = new ArrayList<>();
+        toReturn.add(extraSlot.getColor().toString());
+        for (int i = 0; i < NUM_R; i++)
+            for (int j = 0; j < NUM_C; j++)
+                toReturn.add(marketBoard[i][j].getColor().toString());
+
+        return toReturn;
+    }
 
     protected Resource[][] getMarketBoard() {
         return marketBoard;
@@ -202,6 +203,7 @@ public class MarketTray {
 
     /**
      * For testing
+     *
      * @return tempNewResources
      */
     public List<Resource> getTempNewResources() {
@@ -211,11 +213,11 @@ public class MarketTray {
     /**
      * set state of market tray in a predetermined position
      */
-    public void setNonRandom(List<Resource> resources){
+    public void setNonRandom(List<Resource> resources) {
         initResources.clear();
         initResources.addAll(resources);
         int k = 0;
-        for(int i = 0; i < NUM_R; i++) {
+        for (int i = 0; i < NUM_R; i++) {
             for (int j = 0; j < NUM_C; j++) {
                 try {
                     marketBoard[i][j] = initResources.get(k);
@@ -227,12 +229,13 @@ public class MarketTray {
         }
         try {
             extraSlot = initResources.get(k);
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
+
     //todo da cancellare
-    public void print(){
+    public void print() {
         for (Resource[] resources : marketBoard) {
             for (Resource resource : resources) {
                 System.out.print(resource.getColor().name() + " ");

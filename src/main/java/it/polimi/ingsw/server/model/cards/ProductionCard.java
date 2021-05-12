@@ -14,10 +14,10 @@ public interface ProductionCard {
     /**
      * Activate the production of the card.
      *
-     * @return true if the production has been applied correctly
      * @param turnLogic turn
+     * @return true if the production has been applied correctly
      */
-     boolean usePower(TurnLogic turnLogic);
+    boolean usePower(TurnLogic turnLogic);
 
     /**
      * Getter of the Resources required to activate the production of the card.
@@ -47,4 +47,11 @@ public interface ProductionCard {
      * @return victory points of the card
      */
     int getPoints();
+
+    /**
+     * Return card's ID
+     *
+     * @return ID of the card
+     */
+    String getID();
 }

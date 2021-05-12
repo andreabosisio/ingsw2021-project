@@ -1,15 +1,16 @@
-package it.polimi.ingsw.server.events.send;
+package it.polimi.ingsw.server.events.send.choice;
 
+import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
 import it.polimi.ingsw.server.model.player.Warehouse;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaceResourcesSendEvent extends SendEvent{
+public class PlaceResourcesChoiceEvent extends ChoiceEvent {
     private final List<String> resourcesToPlace = new ArrayList<>();
 
-    public PlaceResourcesSendEvent(String nickname, Warehouse warehouse) {
-        super(nickname);
+    public PlaceResourcesChoiceEvent(String nickname, Warehouse warehouse) {
+        super(nickname, "placeResources");
         warehouse.getResourcesFromMarket().forEach(resource -> resourcesToPlace.add(resource.getColor().toString()));
     }
 }

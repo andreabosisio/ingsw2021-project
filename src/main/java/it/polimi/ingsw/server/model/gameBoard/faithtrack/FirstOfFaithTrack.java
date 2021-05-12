@@ -83,7 +83,7 @@ public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
      * It controls if the class has notified for two times for the same tile,
      * in this case the method return 0.
      *
-     * @return the index of the Vatican report section that the Observer must check.
+     * @return the index of the Vatican report section that the SendObserver must check.
      */
     private int checkIndexOfTheVaticanReportSection() {
         if (currentPosition >= nextPopeSpace) {
@@ -98,7 +98,7 @@ public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
     }
 
     /**
-     * This method calls the method update of the Observer.
+     * This method calls the method update of the SendObserver.
      * Its task is to notify the class SinglePlayerCheckWinner or MultiPlayerCheckWinner
      * of the reach of the end of the Faith Track.
      */

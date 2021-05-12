@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model.gameBoard.faithtrack;
 
 /**
  * Interface that contains all the methods useful for the correct
- * operating of the Pattern Observer.
+ * operating of the Pattern SendObserver.
  * This interface is implemented by the class FaithTrack.
  */
 public interface FaithObserver {

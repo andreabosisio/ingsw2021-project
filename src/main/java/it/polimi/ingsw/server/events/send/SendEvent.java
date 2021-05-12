@@ -1,23 +1,6 @@
 package it.polimi.ingsw.server.events.send;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-public abstract class SendEvent {
-    private final String nickname;
-
-    public SendEvent(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String toJson(){
-        Gson gson = new GsonBuilder()
-                .registerTypeHierarchyAdapter(SendEvent.class, new SendEventAdapter())
-                .create();
-        return gson.toJson(this);
-    }
+public interface SendEvent {
+    boolean isForYou(String nickname);
+    String toJson();
 }

@@ -312,6 +312,17 @@ public class Warehouse {
     }
 
     /**
+     * Get a map containing all the already used positions and their resources' color
+     *
+     * @return a map containing all the already used positions and their resources' color
+     */
+    //todo: to test men!
+    public Map<Integer, String> getAllPositionsAndResources() {
+        return positionMap.entrySet().stream().
+                collect(Collectors.toMap(Map.Entry::getKey, p -> p.getValue().getResource().getColor().toString()));
+    }
+
+    /**
      * Get the non null resources stored in the Market slots.
      *
      * @return a list containing the resources from Market

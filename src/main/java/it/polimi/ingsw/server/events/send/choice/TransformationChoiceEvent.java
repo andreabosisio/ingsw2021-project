@@ -1,16 +1,17 @@
-package it.polimi.ingsw.server.events.send;
+package it.polimi.ingsw.server.events.send.choice;
 
+import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
 import it.polimi.ingsw.server.model.resources.WhiteResource;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransformationSendEvent extends SendEvent{
+public class TransformationChoiceEvent extends ChoiceEvent {
     private final int numberOfTransformation;
     private final List<String> possibleTransformations = new ArrayList<>();
 
-    public TransformationSendEvent(String nickname, List<WhiteResource> whiteResources) {
-        super(nickname);
+    public TransformationChoiceEvent(String nickname, List<WhiteResource> whiteResources) {
+        super(nickname, "transformation");
         numberOfTransformation = whiteResources.size();
 
         //every white resource has the same possible transformations

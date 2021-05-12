@@ -4,14 +4,15 @@ import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.PongObserver;
-import it.polimi.ingsw.server.utils.Observable;
-import it.polimi.ingsw.server.utils.Observer;
+import it.polimi.ingsw.server.utils.ReceiveObservable;
+import it.polimi.ingsw.server.utils.ReceiveObserver;
+import it.polimi.ingsw.server.utils.SendObserver;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class VirtualView implements PongObserver, Observer, Observable {
-    private Observer controllerObserver;
+public class VirtualView implements PongObserver, SendObserver, ReceiveObservable {
+    private ReceiveObserver controllerObserver;
 
     private boolean online;
     private final String nickname;
@@ -62,7 +63,7 @@ public class VirtualView implements PongObserver, Observer, Observable {
 
     public void startPingPong() {
         //fixme activate below for ping system
-        sendPing();
+        //sendPing();
     }
 
     public void stopPingPong() {
@@ -104,19 +105,14 @@ public class VirtualView implements PongObserver, Observer, Observable {
         Lobby.getLobby().broadcastInfoMessage(nickname + " has reconnected");
         this.setOnline(true);
         this.setClientConnectionHandler(clientHandler);
-        Lobby.getLobby().getController().getModelInterface().getTurnLogic().removeFromDisconnectedPlayer(nickname);
         clientHandler.getConnection().setPongObserver(this);
         this.timer = new Timer();
         //this.sendPing();
     }
 
     @Override
-    public void registerObserver(Observer observer) {
+    public void registerObserver(ReceiveObserver observer) {
         this.controllerObserver = observer;
-    }
-
-    @Override
-    public void removeObserver(Observer observer) {
     }
 
     /**
@@ -137,28 +133,10 @@ public class VirtualView implements PongObserver, Observer, Observable {
      */
     @Override
     public void update(SendEvent sendEvent) {
-        if (sendEvent.getNickname().equals(nickname)) {
+        if (sendEvent.isForYou(nickname)) {
             clientHandler.sendJsonMessage(sendEvent.toJson());
         }
         //check if player is owner of this virtual view
         //if yes send serializable event with data to client
-    }
-
-    /**
-     * Method not used here
-     *
-     * @param sendEvent //
-     */
-    @Override
-    public void notifyObservers(SendEvent sendEvent) {
-    }
-
-    /**
-     * Method not used here
-     *
-     * @param receiveEvent //
-     */
-    @Override
-    public void update(ReceiveEvent receiveEvent) {
     }
 }

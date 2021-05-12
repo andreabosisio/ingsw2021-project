@@ -74,6 +74,10 @@ public class Lobby {
         return virtualViews.stream().filter(p -> p.getNickname().equals(nickname)).findFirst().orElse(null);
     }
 
+    public boolean isPlayerOnline(String nickname) {
+        return getVirtualViewByNickname(nickname).isOnline();
+    }
+
     public synchronized boolean addVirtualView(VirtualView virtualView) {
         if(isFull()){
             return false;
@@ -130,9 +134,5 @@ public class Lobby {
         //playersData.stream().map(VirtualView::getClientHandler).forEach(ClientHandler::clearMessageStack);
         controller = new Controller(virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList()));
         controller.setupObservers(virtualViews);
-    }
-
-    public Controller getController() {
-        return controller;
     }
 }

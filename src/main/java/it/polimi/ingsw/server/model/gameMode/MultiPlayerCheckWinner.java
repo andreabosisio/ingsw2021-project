@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * This class contains the methods to check the End of The Game and
  * to find the Winner, in fact it implements the interface ICheckWinner that extends the interface EndGameObserver.
- * It is Observer of the following classes:
+ * It is SendObserver of the following classes:
  * DevelopmentCardsGrid, FirstOfFaithTrack and PersonalBoard.
  */
 public class MultiPlayerCheckWinner implements ICheckWinner {

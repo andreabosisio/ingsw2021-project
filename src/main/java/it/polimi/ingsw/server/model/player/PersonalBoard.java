@@ -137,14 +137,14 @@ public class PersonalBoard implements EndGameSubject {
      * @return total number of points
      */
     public int getPoints(Player player) {
-       List<Integer> points = new ArrayList<>();
-       for(int i = firstColumnIndex;i<lastColumnIndex;i++){
-           deckProduction.get(i).forEach(el->points.add(el.getPoints()));
-       }
-       activeLeaderCards.forEach(c->points.add(c.getPoints()));
-       points.add(GameBoard.getGameBoard().getFaithTrackOfPlayer(player).getVictoryPoints());
-       points.add((warehouse.getAllResources().size()/resPointsDivider));
-       return points.stream().reduce(0, Integer::sum);
+        List<Integer> points = new ArrayList<>();
+        for (int i = firstColumnIndex; i < lastColumnIndex; i++) {
+            deckProduction.get(i).forEach(el -> points.add(el.getPoints()));
+        }
+        activeLeaderCards.forEach(c -> points.add(c.getPoints()));
+        points.add(GameBoard.getGameBoard().getFaithTrackOfPlayer(player).getVictoryPoints());
+        points.add((warehouse.getAllResources().size() / resPointsDivider));
+        return points.stream().reduce(0, Integer::sum);
     }
 
     /**
@@ -158,7 +158,7 @@ public class PersonalBoard implements EndGameSubject {
     }
 
     /**
-     * This method calls the method update of the Observer.
+     * This method calls the method update of the SendObserver.
      * Its task is to notify the class MultiPlayerCheckWinner
      * when the Player buys is seventh Development Card.
      */
@@ -170,7 +170,7 @@ public class PersonalBoard implements EndGameSubject {
     /**
      * Getter of all the DevelopmentCards currently on the board
      *
-     * @return List</DevelopmentCard> of cards on the board
+     * @return List</ DevelopmentCard> of cards on the board
      */
     public List<DevelopmentCard> getAllDevelopmentCards() {
         List<DevelopmentCard> toReturn = new ArrayList<>();
@@ -181,14 +181,32 @@ public class PersonalBoard implements EndGameSubject {
     }
 
     /**
+     * Getter of all the DevelopmentCards visible on the board
      *
-     * @return the the top ProductionCard of the selected slot
+     * @return List</ DevelopmentCard> of visible cards
+     */
+    public List<String> getVisibleDevelopmentCards() {
+        List<String> toReturn = new ArrayList<>();
+        for (int i = firstColumnIndex; i < lastColumnIndex; i++) {
+            try {
+                toReturn.add(getProductionCard(i).getID());
+            } catch (InvalidIndexException e) {
+                toReturn.add("empty");
+            }
+        }
+        return toReturn;
+    }
+
+    /**
+     * Getter of the Production Card of the specific Slot Position
+     *
      * @param slotPosition of the selected slot
+     * @return the top ProductionCard of the selected slot
      */
     public ProductionCard getProductionCard(int slotPosition) throws InvalidIndexException {
         try {
             return deckProduction.get(slotPosition).get(0);
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             throw new InvalidIndexException("invalid production slot");
         }
     }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.server.events.send.SetupSendEvent;
+import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
@@ -27,7 +27,7 @@ public class SetupManager {
     private final int numberOfLeaderCardsToChoose = 2;
     private final List<Player> players;
     private final ModelInterface modelInterface;
-    private final List<SetupSendEvent> setupSendEvents = new ArrayList<>();
+    private final List<SetupChoiceEvent> setupSendEvents = new ArrayList<>();
 
     public SetupManager(List<Player> players, ModelInterface modelInterface) {
         this.players = players;
@@ -42,7 +42,7 @@ public class SetupManager {
         int i = 0;
         for(Player player : players) {
             List<LeaderCard> drawnLeaderCards = GameBoard.getGameBoard().draw4LeaderCards();
-            SetupSendEvent setupSendEvent = new SetupSendEvent(player.getNickname(), drawnLeaderCards, numberOfResourcesToChoose.get(i));
+            SetupChoiceEvent setupSendEvent = new SetupChoiceEvent(player.getNickname(), drawnLeaderCards, numberOfResourcesToChoose.get(i));
             setupSendEvents.add(setupSendEvent);
             modelInterface.notifyObservers(setupSendEvent);
             i++;
@@ -60,7 +60,7 @@ public class SetupManager {
      * @throws NonStorableResourceException if Player choose a NonStorableResource
      */
     public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, NonStorableResourceException {
-        SetupSendEvent setupSendEvent = setupSendEvents.stream().filter(setupEvent -> setupEvent.getNickname().equals(nickname)).findFirst()
+        SetupChoiceEvent setupSendEvent = setupSendEvents.stream().filter(setupEvent -> setupEvent.getNickname().equals(nickname)).findFirst()
                 .orElseThrow(() -> new InvalidEventException("Setup choose already done!"));
 
         //chosen leader cards must be two different cards

@@ -108,7 +108,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
     }
 
     /**
-     * This method calls the method update of the Observer.
+     * This method calls the method update of the SendObserver.
      * Its task is to notify the class SinglePlayerCheckWinner or MultiPlayerCheckWinner
      * of the end of a color of Development Cards.
      */

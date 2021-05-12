@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.gameMode.GameMode;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.WhiteResource;
+import it.polimi.ingsw.server.network.Lobby;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,6 @@ import java.util.Map;
 public class TurnLogic {
     private final GameMode gameMode;
     private final List<Player> players;
-    private final List<Player> disconnectedPlayers = new ArrayList<>(); //fixme
     private Player currentPlayer;
     private State currentState;
     private final State startTurn, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, endGame, idle;
@@ -49,16 +49,15 @@ public class TurnLogic {
      *
      * @param players players in the game
      */
+    // todo: to move into the TurnLogicForTest
     public TurnLogic(List<Player> players) {
         this.modelInterface = null;
         this.players = players;
         this.currentPlayer = players.get(0);
-        this.currentState = new StartTurn(this);
         GameBoard.getGameBoard().createFaithTracks(players);
         GameBoard.getGameBoard().setTurnLogicOfMarketTray(this);
         this.gameMode = new GameMode(players);
         this.setTheObservers();
-
         this.startTurn = new StartTurn(this);
         this.waitDevCardPlacement = new WaitDevelopmentCardPlacement(this);
         this.waitTransformation = new WaitTransformation(this);
@@ -66,22 +65,22 @@ public class TurnLogic {
         this.endTurn = new EndTurn(this);
         this.endGame = new EndGame(this);
         this.idle = new IdleState(this);
-
+        this.currentState = getIdle();
     }
 
     /**
-     * This method set all the observers for the correct functional of the two Observer Pattern.
+     * This method set all the observers for the correct functional of the two SendObserver Pattern.
      * One is used for the Faith Tracks to check the reach of a PopeSpace.
      * The other one is used by the classes that implement the interface ICheckWinner
      * to check all the condition of End of Game and to decree the Winner.
      */
     private void setTheObservers() {
-        // Set the Observer of the Personal Boards
+        // Set the SendObserver of the Personal Boards
         for (Player player : players)
             player.getPersonalBoard().registerEndGameObserver(gameMode.getICheckWinner());
-        // Set the Observer of the First Of Faith Track
+        // Set the SendObserver of the First Of Faith Track
         GameBoard.getGameBoard().setObserversOfFirstOfFaithTrack(GameBoard.getGameBoard().getFaithTracks(), gameMode.getICheckWinner());
-        // Set the Observer of the Development Cards Grid
+        // Set the SendObserver of the Development Cards Grid
         GameBoard.getGameBoard().setObserverOfDevCardsGrid(gameMode.getICheckWinner());
     }
 
@@ -99,29 +98,18 @@ public class TurnLogic {
         else
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
 
-        if (disconnectedPlayers.contains(currentPlayer)) {
-            if (isLastPlayerTurn())
-                currentPlayer = players.get(0);
-            else
-                currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+        if (!Lobby.getLobby().isPlayerOnline(currentPlayer.getNickname())) {
+            setNextPlayer();
+            return;
         }
 
-        //reset
+        reset();
+    }
+
+    public void reset() {
         whiteResourcesFromMarket.clear();
         chosenDevCard = null;
         currentPlayer.getPersonalBoard().getWarehouse().reorderStrongBox();
-    }
-
-    public void setDisconnectedPlayer(String nickname) {
-        disconnectedPlayers.add(
-                players.stream().filter(
-                        player -> player.getNickname().equals(nickname)).findFirst().orElse(null));
-    }
-
-    public void removeFromDisconnectedPlayer(String nickname) {
-        disconnectedPlayers.remove(
-                players.stream().filter(
-                        player -> player.getNickname().equals(nickname)).findFirst().orElse(null));
     }
 
     public GameMode getGameMode() {
@@ -130,6 +118,15 @@ public class TurnLogic {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    /**
+     * Used for testing
+     *
+     * @param currentPlayer is the current player
+     */
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     public void setCurrentState(State currentState) {

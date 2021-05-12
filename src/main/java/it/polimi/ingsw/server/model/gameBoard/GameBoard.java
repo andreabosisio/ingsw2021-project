@@ -100,7 +100,7 @@ public class GameBoard {
      * This method is used by the constructor to set the list of the FaithObserver and
      * the unique EndGameObserver of the class FirstOfFaithTrack
      *
-     * @param faithObservers is the List of Faith Track that are Observer of the class FirstOfFaithTrack
+     * @param faithObservers is the List of Faith Track that are SendObserver of the class FirstOfFaithTrack
      * @param iCheckWinner   is the observer of the class FirstOfFaithTrack
      */
     public void setObserversOfFirstOfFaithTrack(List<FaithTrack> faithObservers, EndGameObserver iCheckWinner) {

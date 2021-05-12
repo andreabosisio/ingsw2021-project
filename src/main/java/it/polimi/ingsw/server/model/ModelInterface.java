@@ -1,24 +1,24 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
-import it.polimi.ingsw.server.utils.Observable;
-import it.polimi.ingsw.server.utils.Observer;
+import it.polimi.ingsw.server.model.turn.TurnLogicForTest;
+import it.polimi.ingsw.server.utils.SendObservable;
+import it.polimi.ingsw.server.utils.SendObserver;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ModelInterface implements Observable {
+public class ModelInterface implements SendObservable {
 
     private final List<Player> players = new ArrayList<>();
-    private final TurnLogic turnLogic;
+    private TurnLogic turnLogic;
     private final SetupManager setupManager;
-    private final List<Observer> virtualViews;
+    private final List<SendObserver> virtualViews;
 
     public ModelInterface(List<String> nicknames) {
 
@@ -33,6 +33,27 @@ public class ModelInterface implements Observable {
 
         setupManager = new SetupManager(players, this);
     }
+
+    /**
+     * constructor only used in testing
+     *
+     * @param nicknames is the list of the nicknames
+     * @param isForTesting is true
+     */
+    public ModelInterface(List<String> nicknames, boolean isForTesting) {
+
+        GameBoard.getGameBoard().reset();
+
+        for (String username : nicknames) {
+            this.players.add(new Player(username));
+        }
+        virtualViews = new ArrayList<>();
+
+        turnLogic = new TurnLogicForTest(players, this);
+
+        setupManager = new SetupManager(players, this);
+    }
+
 
     /**
      * Getter of current player's nickname
@@ -55,14 +76,14 @@ public class ModelInterface implements Observable {
     /**
      * Add the chosen LeaderCards and Resources to the Player's board in the setup phase.
      *
-     * @param nickname of the Player
+     * @param nickname          of the Player
      * @param leaderCardIndexes of the chosen LeaderCards by the Player
-     * @param resources chosen by the Player
+     * @param resources         chosen by the Player
      * @return true if the choices are correct
-     * @throws InvalidEventException if the choices aren't correct
+     * @throws InvalidEventException        if the choices aren't correct
      * @throws NonStorableResourceException if Player choose a NonStorableResource
      */
-    public boolean setupAction(String nickname, List<Integer> leaderCardIndexes,List<String> resources) throws InvalidEventException, NonStorableResourceException {
+    public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, NonStorableResourceException {
         return setupManager.setupAction(nickname, leaderCardIndexes, resources);
     }
 
@@ -82,7 +103,7 @@ public class ModelInterface implements Observable {
     /**
      * For all the given ProductionCard apply the production with the chosen resources.
      *
-     * @param inResourcesForEachProductions containing the chosen ProductionCard and the chosen resources to apply its production
+     * @param inResourcesForEachProductions  containing the chosen ProductionCard and the chosen resources to apply its production
      * @param outResourcesForEachProductions containing the chosen ProdcutionCard and (if possible) the desired resources
      * @return true if the production has been correctly applied
      * @throws InvalidEventException        if one of the production can't be applied
@@ -97,13 +118,13 @@ public class ModelInterface implements Observable {
      * Check if the player can place the card and then check if he can buy it with his discounts.
      * If yes buy the card and set the next State of the game to WaitDevelopmentCardPlacement.
      *
-     * @param cardColor color of the card to buy
-     * @param cardLevel level of the card to buy
+     * @param cardColor         color of the card to buy
+     * @param cardLevel         level of the card to buy
      * @param resourcePositions index of the chosen resources
      * @return true if the card has been successfully bought
-     * @throws InvalidEventException if the player can't buy the card
-     * @throws InvalidIndexException if one of the resource positions is negative
-     * @throws EmptySlotException if one of the resource slots is empty
+     * @throws InvalidEventException      if the player can't buy the card
+     * @throws InvalidIndexException      if one of the resource positions is negative
+     * @throws EmptySlotException         if one of the resource slots is empty
      * @throws NonAccessibleSlotException if one of the resource position represents a slot that's not accessible
      */
     public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcePositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
@@ -113,7 +134,7 @@ public class ModelInterface implements Observable {
     /**
      * Activate or Discard a LeaderCard if the player has not done it yet.
      *
-     * @param cardID of the chosen LeaderCard
+     * @param cardID  of the chosen LeaderCard
      * @param discard true if the chosen LeaderCard has to be discarded, false if has to be activated
      * @return true if the leaderAction has been successfully applied
      * @throws InvalidEventException if the leaderAction can't be applied
@@ -128,9 +149,9 @@ public class ModelInterface implements Observable {
      *
      * @param swapPairs List of all the swaps to be applied
      * @return true if the warehouse reordering is legal
-     * @throws InvalidEventException if the swaps cannot be applied
-     * @throws InvalidIndexException if a swap contains a negative position
-     * @throws EmptySlotException if a swap involves an empty slot
+     * @throws InvalidEventException      if the swaps cannot be applied
+     * @throws InvalidIndexException      if a swap contains a negative position
+     * @throws EmptySlotException         if a swap involves an empty slot
      * @throws NonAccessibleSlotException if one of swap involves a slot that's not accessible
      */
     public boolean placeResourceAction(List<Integer> swapPairs) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
@@ -154,7 +175,7 @@ public class ModelInterface implements Observable {
      *
      * @param chosenColors of the chosen resources
      * @return true if the chosen resources has been correctly created
-     * @throws InvalidEventException if one of the chosen resource type doesn't exists
+     * @throws InvalidEventException        if one of the chosen resource type doesn't exists
      * @throws NonStorableResourceException if one of the chosen resource is a NonStorableResource
      */
     public boolean transformationAction(List<String> chosenColors) throws InvalidEventException, NonStorableResourceException {
@@ -173,25 +194,17 @@ public class ModelInterface implements Observable {
     }
 
     @Override
-    public void registerObserver(Observer virtualView) {
+    public void registerObserver(SendObserver virtualView) {
         virtualViews.add(virtualView);
     }
 
     @Override
-    public void removeObserver(Observer virtualView) {
+    public void removeObserver(SendObserver virtualView) {
         int i = virtualViews.indexOf(virtualView);
         if (i >= 0) {
             virtualViews.remove(virtualView);
         }
     }
-
-    /**
-     * Not used here
-     *
-     * @param receiveEvent event received
-     */
-    @Override
-    public void notifyObservers(ReceiveEvent receiveEvent) {}
 
     /**
      * This method notify the Virtual Views of an amendment of the Model
@@ -203,7 +216,7 @@ public class ModelInterface implements Observable {
         virtualViews.forEach(view -> view.update(sendEvent));
     }
 
-    public Player getPlayerByNickname(String nickname){
+    public Player getPlayerByNickname(String nickname) {
         return players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst()
                 .orElse(null);
     }

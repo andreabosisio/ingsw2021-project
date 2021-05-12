@@ -86,4 +86,14 @@ public class BasicPowerCard implements ProductionCard {
     public int getPoints() {
         return 0;
     }
+
+    /**
+     * Return card's ID
+     *
+     * @return ID of the card
+     */
+    @Override
+    public String getID() {
+        return "basicPowerCard";
+    }
 }

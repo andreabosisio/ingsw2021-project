@@ -140,7 +140,7 @@ public class ClientHandler implements Runnable {
             } else {
                 //is trying to reconnect
                 if (password.equals(virtualView.getPassword())) {
-                    //todo code below is severely incomplete (virtualView and VirtualView together?)
+                    //todo code below is severely incomplete
                     this.nickname = nickname;
                     virtualView.reconnect(this);
                     sendInfoMessage("You are now reconnected");
@@ -234,7 +234,6 @@ public class ClientHandler implements Runnable {
             else {
                 //todo add code to save state in game quit
                 virtualView.setOnline(false);
-                Lobby.getLobby().getController().getModelInterface().getTurnLogic().setDisconnectedPlayer(nickname);
             }
         }
 

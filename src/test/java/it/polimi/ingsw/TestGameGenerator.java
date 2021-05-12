@@ -16,7 +16,6 @@ import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.WhiteResource;
-import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +44,8 @@ public class TestGameGenerator {
             add("second");
             add("third");
             add("fourth");
-        }});
+        }}, true);
+
         //exit from idleState because there is no setUpPhase in testing
         modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());
 

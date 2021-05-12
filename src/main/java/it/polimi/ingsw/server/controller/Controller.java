@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 import it.polimi.ingsw.server.events.receive.SetupReceiveEvent;
-import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
@@ -13,13 +12,13 @@ import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.personal.VirtualView;
-import it.polimi.ingsw.server.utils.Observer;
+import it.polimi.ingsw.server.utils.ReceiveObserver;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Controller implements Observer {
+public class Controller implements ReceiveObserver {
 
     private final ModelInterface modelInterface;
 
@@ -74,14 +73,5 @@ public class Controller implements Observer {
         virtualViews.forEach(modelInterface::registerObserver);
         virtualViews.forEach(virtualView -> virtualView.registerObserver(this));
         modelInterface.startSetup();
-    }
-
-    /**
-     * Method not used here
-     *
-     * @param sendEvent //
-     */
-    @Override
-    public void update(SendEvent sendEvent) {
     }
 }

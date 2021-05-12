@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.server.events.send.PlaceDevCardSendEvent;
-import it.polimi.ingsw.server.events.send.PlaceResourcesSendEvent;
-import it.polimi.ingsw.server.events.send.TransformationSendEvent;
+import it.polimi.ingsw.server.events.send.choice.PlaceDevCardChoiceEvent;
+import it.polimi.ingsw.server.events.send.choice.PlaceResourcesChoiceEvent;
+import it.polimi.ingsw.server.events.send.choice.TransformationChoiceEvent;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
@@ -46,7 +46,7 @@ public class StartTurn extends State {
 
                 //send event
                 turnLogic.getModelInterface().
-                        notifyObservers(new TransformationSendEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getWhiteResourcesFromMarket()));
+                        notifyObservers(new TransformationChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getWhiteResourcesFromMarket()));
                 hasAlreadyDoneLeaderAction = false;
                 turnLogic.setCurrentState(turnLogic.getWaitTransformation());
                 return true;
@@ -54,13 +54,12 @@ public class StartTurn extends State {
 
             //send event
             turnLogic.getModelInterface().
-                    notifyObservers(new PlaceResourcesSendEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+                    notifyObservers(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             hasAlreadyDoneLeaderAction = false;
             turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());
             return true;
         }
         return false;
-
     }
 
     /**
@@ -153,7 +152,7 @@ public class StartTurn extends State {
                 turnLogic.setChosenDevCard(chosenDevelopmentCard);
 
                 //send event
-                turnLogic.getModelInterface().notifyObservers(new PlaceDevCardSendEvent(turnLogic.getCurrentPlayer().getNickname(), chosenDevelopmentCard));
+                turnLogic.getModelInterface().notifyObservers(new PlaceDevCardChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), chosenDevelopmentCard));
                 turnLogic.setCurrentState(turnLogic.getWaitDevCardPlacement());
                 hasAlreadyDoneLeaderAction = false;
                 return true;
