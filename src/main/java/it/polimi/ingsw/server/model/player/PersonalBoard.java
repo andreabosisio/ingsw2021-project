@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.cards.ProductionCard;
 import it.polimi.ingsw.server.model.gameBoard.EndGameObserver;
 import it.polimi.ingsw.server.model.gameBoard.EndGameSubject;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
+import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 
 import java.util.ArrayList;
 import java.util.List;

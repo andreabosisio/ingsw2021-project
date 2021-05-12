@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.server.model.player.warehouse.ExtraSlots;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ class ExtraSlotsTest {
     void simplyExtraSlotTest() {
         Resource correctResource = new StorableResource(ResourceEnum.YELLOW);
 
-        assertFalse(extraSlots.getIsActivated());
+        assertFalse(extraSlots.isActivated());
 
         extraSlots.activateExtraSlots(correctResource);
         assertEquals(extraSlots.getResourceType(), correctResource);

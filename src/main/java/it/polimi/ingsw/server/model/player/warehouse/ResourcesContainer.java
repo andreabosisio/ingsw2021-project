@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.warehouse;
 
 import it.polimi.ingsw.exceptions.EmptySlotException;
 import it.polimi.ingsw.server.model.resources.Resource;

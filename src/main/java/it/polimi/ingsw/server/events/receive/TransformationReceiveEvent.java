@@ -11,7 +11,7 @@ public class TransformationReceiveEvent extends ReceiveEvent {
 
     public TransformationReceiveEvent(String nickname, List<String> chosenResources) {
         super(nickname);
-        this.chosenResources=chosenResources;
+        this.chosenResources = chosenResources;
     }
 
     @Override

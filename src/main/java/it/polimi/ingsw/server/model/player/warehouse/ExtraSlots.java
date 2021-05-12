@@ -1,5 +1,6 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.warehouse;
 
+import it.polimi.ingsw.server.model.player.warehouse.Depot;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Collection of slots of the same fixed type of resource and provided by a WarehouseLeaderCard.
  */
-public class ExtraSlots extends Depot{
+public class ExtraSlots extends Depot {
 
     /**
      * Number of extra slots
@@ -26,8 +27,8 @@ public class ExtraSlots extends Depot{
         this.isActivated = false;
     }
 
-    public boolean getIsActivated(){
-        return isActivated;
+    public boolean isActivated(){
+        return this.isActivated;
     }
 
     /**

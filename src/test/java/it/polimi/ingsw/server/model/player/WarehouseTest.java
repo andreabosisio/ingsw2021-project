@@ -4,12 +4,15 @@ import it.polimi.ingsw.exceptions.EmptySlotException;
 import it.polimi.ingsw.exceptions.InvalidIndexException;
 import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,6 +22,9 @@ class WarehouseTest {
 
     @Test
     void isLegalReorganizationTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+
+        warehouse.setupWarehouse(new ArrayList<>());
+
         assertFalse(warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new StorableResource(ResourceEnum.BLUE));
             add(new StorableResource(ResourceEnum.YELLOW));
@@ -81,6 +87,20 @@ class WarehouseTest {
         //Third depot:      B       X       X
         //1° extra slots:   X, X
         //2° extra slots:   X, X
+
+        Map<Integer, String> correctPositionsAndResources = new HashMap<Integer, String>(){{
+            put(0, ResourceEnum.EMPTY_RES.toString());
+            put(1, ResourceEnum.EMPTY_RES.toString());
+            put(2, ResourceEnum.EMPTY_RES.toString());
+            put(3, ResourceEnum.EMPTY_RES.toString());
+            put(4, ResourceEnum.EMPTY_RES.toString());
+            put(5, ResourceEnum.EMPTY_RES.toString());
+            put(6, ResourceEnum.YELLOW.toString());
+            put(7, ResourceEnum.BLUE.toString());
+            put(8, ResourceEnum.EMPTY_RES.toString());
+        }};
+
+        assertEquals(correctPositionsAndResources, warehouse.getAllPositionsAndResources());
 
         warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new StorableResource(ResourceEnum.YELLOW));
@@ -198,6 +218,15 @@ class WarehouseTest {
 
     @Test
     void getResourcesTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+
+        warehouse.setupWarehouse(new ArrayList<>());
+
+        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
+            add(new StorableResource(ResourceEnum.BLUE));
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.YELLOW));
+        }});
+
         warehouse.addResourcesToStrongBox(new StorableResource(ResourceEnum.BLUE));
         warehouse.addResourcesToStrongBox(new StorableResource(ResourceEnum.GRAY));
         warehouse.addResourcesToStrongBox(new StorableResource(ResourceEnum.GRAY));
@@ -214,12 +243,6 @@ class WarehouseTest {
 
          */
 
-        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
-            add(new StorableResource(ResourceEnum.BLUE));
-            add(new StorableResource(ResourceEnum.YELLOW));
-            add(new StorableResource(ResourceEnum.YELLOW));
-        }});
-
         /*
         try {
             warehouse.addResourcesToStrongBox(new RedResource()); //cannot store a RedResource
@@ -228,11 +251,32 @@ class WarehouseTest {
         }
         */
 
-        //check if the resources have been correctly stored in the StrongBox taking them
+        Map<Integer, String> correctPositionsAndResources = new HashMap<Integer, String>(){{
+            put(0, ResourceEnum.BLUE.toString());
+            put(1, ResourceEnum.YELLOW.toString());
+            put(2, ResourceEnum.YELLOW.toString());
+            put(3, ResourceEnum.EMPTY_RES.toString());
+            put(14, ResourceEnum.BLUE.toString());
+            put(15, ResourceEnum.GRAY.toString());
+            put(16, ResourceEnum.GRAY.toString());
+            put(17, ResourceEnum.YELLOW.toString());
+        }};
+
+        assertEquals(correctPositionsAndResources, warehouse.getAllPositionsAndResources());
+
+        //check if the resources have been correctly stored in the StrongBox by taking them
         assertEquals(warehouse.takeResources(14), new StorableResource(ResourceEnum.BLUE));
         assertEquals(warehouse.takeResources(15), new StorableResource(ResourceEnum.GRAY));
         assertEquals(warehouse.takeResources(16), new StorableResource(ResourceEnum.GRAY));
         assertEquals(warehouse.takeResources(17), new StorableResource(ResourceEnum.YELLOW));
+
+        correctPositionsAndResources.put(14, ResourceEnum.EMPTY_RES.toString());
+        correctPositionsAndResources.put(15, ResourceEnum.EMPTY_RES.toString());
+        correctPositionsAndResources.put(16, ResourceEnum.EMPTY_RES.toString());
+        correctPositionsAndResources.put(17, ResourceEnum.EMPTY_RES.toString());
+
+        assertEquals(correctPositionsAndResources, warehouse.getAllPositionsAndResources());
+
 
         assertThrows(EmptySlotException.class, () -> warehouse.takeResources(16)); //third slot of the StrongBox is now empty
 

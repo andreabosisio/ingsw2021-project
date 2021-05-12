@@ -1,7 +1,8 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.warehouse;
 
 import it.polimi.ingsw.server.model.resources.Resource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +14,6 @@ public class MarketSlots implements ResourcesContainer {
     public MarketSlots() {
         this.slots = Arrays.asList(new Resource[availableResourcesFromMarketSlots]);
     }
-
     /**
      * Add the resources taken from the MarketTray to this container.
      *
@@ -78,14 +78,14 @@ public class MarketSlots implements ResourcesContainer {
     }
 
     /**
-     * Cannot take Resources from the MarketSlotsZone.
+     * Get the resource stored into the slot defined by the given position without removing it from the Warehouse.
      *
      * @param position of the chosen slot
-     * @return null
+     * @return a copy of the chosen Resource
      */
     @Override
     public Resource getResource(int position) {
-        return null;
+        return this.slots.get(position);
     }
 
     /**

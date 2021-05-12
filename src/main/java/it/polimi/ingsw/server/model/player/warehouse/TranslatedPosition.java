@@ -1,14 +1,14 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.warehouse;
 
 import it.polimi.ingsw.exceptions.EmptySlotException;
 import it.polimi.ingsw.server.model.resources.Resource;
 
 public class TranslatedPosition{
-    private final int position;
+    private final int shiftedPosition;
     private final ResourcesContainer container;
 
-    public TranslatedPosition(Integer position, ResourcesContainer container) {
-        this.position = position;
+    public TranslatedPosition(Integer shiftedPosition, ResourcesContainer container) {
+        this.shiftedPosition = shiftedPosition;
         this.container = container;
     }
 
@@ -18,7 +18,7 @@ public class TranslatedPosition{
      * @return the taken Resource
      */
     public Resource takeResource() throws EmptySlotException {
-        return container.takeResource(position);
+        return container.takeResource(shiftedPosition);
     }
 
     /**
@@ -28,7 +28,7 @@ public class TranslatedPosition{
      * @return true if the Resource has been correctly stocked
      */
     public boolean setResource(Resource toStock){
-        return container.setResource(position, toStock);
+        return container.setResource(shiftedPosition, toStock);
     }
 
     /**
@@ -37,7 +37,8 @@ public class TranslatedPosition{
      * @return a copy of the chosen Resource
      */
     public Resource getResource(){
-        return container.getResource(position);
+        return container.getResource(shiftedPosition);
     }
+
 }
 

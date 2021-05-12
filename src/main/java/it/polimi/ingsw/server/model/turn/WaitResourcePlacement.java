@@ -5,7 +5,7 @@ import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.exceptions.InvalidIndexException;
 import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
-import it.polimi.ingsw.server.model.player.Warehouse;
+import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 
 import java.util.List;
 

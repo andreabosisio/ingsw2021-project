@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.server.model.player.warehouse.MarketSlots;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,6 @@ class MarketSlotsTest {
         marketSlots.addResources(correctResources);
 
         assertEquals(marketSlots.getSlots().stream().filter(Objects::nonNull).collect(Collectors.toList()), correctResources);
-        assertNull(marketSlots.getResource(0)); //cannot get resources from MarketSlots (only take)
 
         assertEquals(marketSlots.takeResource(1), correctResources.get(1));
 

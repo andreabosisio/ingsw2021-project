@@ -6,7 +6,8 @@ public enum ResourceEnum {
     YELLOW,
     PURPLE,
     BLUE,
-    WHITE
+    WHITE,
+    EMPTY_RES
 }
 
 

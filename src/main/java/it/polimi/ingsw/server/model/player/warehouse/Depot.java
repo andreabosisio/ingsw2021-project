@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.warehouse;
 
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Collection of slots of the same type of resource
  */
-public class Depot implements ResourcesContainer{
+public class Depot implements ResourcesContainer {
 
     private int numberOfSlots;
 

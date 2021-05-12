@@ -152,7 +152,6 @@ public class ClientHandler implements Runnable {
         }
     }
 
-
     private void game() {
         status = StatusEnum.GAME;
         String message;

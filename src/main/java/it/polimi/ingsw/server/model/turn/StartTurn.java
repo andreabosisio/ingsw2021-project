@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.PersonalBoard;
-import it.polimi.ingsw.server.model.player.Warehouse;
+import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 import it.polimi.ingsw.server.model.resources.ResourceFactory;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.player.Player;

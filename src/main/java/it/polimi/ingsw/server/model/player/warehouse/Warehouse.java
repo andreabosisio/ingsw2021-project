@@ -1,6 +1,7 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.warehouse;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.*;
@@ -71,7 +72,7 @@ public class Warehouse {
         add(new Depot(startFirstExtraSlotsZone - startThirdDepot));
     }};
 
-    private final List<ExtraSlots> extraSlots = new ArrayList<ExtraSlots>(0){{
+    private final List<ExtraSlots> extraSlots = new ArrayList<ExtraSlots>(){{
         add(new ExtraSlots());
         add(new ExtraSlots());
     }};
@@ -139,7 +140,7 @@ public class Warehouse {
     //TODO (per la view) si deve attivare per primo l'extra slot nella FirstExtraSlotZone e poi nella seconda
     public boolean addExtraSlots(Resource slotsType){
         for(ExtraSlots remainingExtraSlots : extraSlots){
-            if (!remainingExtraSlots.getIsActivated()){
+            if (!remainingExtraSlots.isActivated()){
                 remainingExtraSlots.activateExtraSlots(slotsType);
                 return true;
             }
@@ -153,7 +154,7 @@ public class Warehouse {
      * @return true if the extra slots zone to verify is activated
      */
     public boolean hasExtraSlots(int extraSlotsZoneIndex){
-        return extraSlots.get(extraSlotsZoneIndex).getIsActivated();
+        return extraSlots.get(extraSlotsZoneIndex).isActivated();
     }
 
     /**
@@ -179,17 +180,31 @@ public class Warehouse {
             if(hasExtraSlots(0)) //first extra slots are activated
                 positionMap.put(position, new TranslatedPosition(position - startFirstExtraSlotsZone, extraSlots.get(0)));
             else
-                throw new NonAccessibleSlotException("slot is not active yet"); //extra slots have not been activated yet
+                throw new NonAccessibleSlotException("First extra slots are not active yet"); //extra slots have not been activated yet
         else if(isInSecondExtraSlotsZone(position)) //second extra slots
             if(hasExtraSlots(1)) //second extra slots are activated
                 positionMap.put(position, new TranslatedPosition(position - startSecondExtraSlotsZone, extraSlots.get(1)));
             else
-                throw new NonAccessibleSlotException("slot is not active yet"); //extra slots have not been activated yet
+                throw new NonAccessibleSlotException("Second extra slots are not active yet"); //extra slots have not been activated yet
         else if(isInStrongBoxZone(position))
             positionMap.put(position, new TranslatedPosition(position - startStrongBoxZone, strongBox));
         else if(position < 0)
-            throw new InvalidIndexException("negative position doesn't exist"); //invalid position
+            throw new InvalidIndexException("Negative position are not allowed"); //invalid position
         return true;
+    }
+
+    /**
+     * Translate a missing position and return it.
+     *
+     * @param position which is never been translated
+     * @return the new TranslatedPosition
+     * @throws InvalidIndexException if position is negative
+     * @throws NonAccessibleSlotException if the position represents a slot that's not accessible
+     */
+    private TranslatedPosition getTranslatedPosition(int position) throws InvalidIndexException, NonAccessibleSlotException {
+        //translate the missing position
+        translatePosition(position);
+        return positionMap.get(position);
     }
 
     /**
@@ -198,6 +213,10 @@ public class Warehouse {
      * @param initialResources chosen in the initial part of the game (max 2)
      */
     public void setupWarehouse(List<Resource> initialResources) throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+
+        for (int i = 0; i < availableResourcesFromMarketSlots; i++)
+            translatePosition(i);
+
         addResourcesFromMarket(initialResources);
         //two different resource's type
         if (initialResources.stream().distinct().count() > 1){
@@ -270,18 +289,15 @@ public class Warehouse {
      * @throws NonAccessibleSlotException if the given position represents a slot that's not accessible
      */
     public Resource takeResources(int position) throws EmptySlotException, InvalidIndexException, NonAccessibleSlotException {
-        if(!isInResourcesFromMarketSlotsZone(position)){ //cannot take resources from ResourcesFromMarketSlotsZone
-            if(!positionMap.containsKey(position)){
-                translatePosition(position);
-            }
-            Resource chosenResource = positionMap.get(position).takeResource();
+        if(!isInResourcesFromMarketSlotsZone(position)) { //cannot take resources from ResourcesFromMarketSlotsZone
+            Resource chosenResource = positionMap.getOrDefault(position, getTranslatedPosition(position)).takeResource();
             if(chosenResource == null){
-                throw new EmptySlotException("no resource in selected slot");
+                throw new EmptySlotException("Slot number " + position + " is empty");
             }else{
                 return chosenResource;
             }
         }
-        throw new NonAccessibleSlotException("slot is not accessible");
+        throw new NonAccessibleSlotException("Slot number " + position + " is not accessible");
     }
 
     /**
@@ -316,10 +332,14 @@ public class Warehouse {
      *
      * @return a map containing all the already used positions and their resources' color
      */
-    //todo: to test men!
     public Map<Integer, String> getAllPositionsAndResources() {
-        return positionMap.entrySet().stream().
-                collect(Collectors.toMap(Map.Entry::getKey, p -> p.getValue().getResource().getColor().toString()));
+        return positionMap.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, p -> {
+                    Resource currResource = p.getValue().getResource();
+                    if(currResource != null)
+                        return currResource.getColor().toString();
+                    return ResourceEnum.EMPTY_RES.toString();
+                }));
     }
 
     /**
@@ -367,18 +387,19 @@ public class Warehouse {
         if(isInStrongBoxZone(finalPosition))
             return false;
 
-        if(!positionMap.containsKey(initPosition))
-            translatePosition(initPosition);
-        if(!positionMap.containsKey(finalPosition))
-            translatePosition(finalPosition);
+        Resource initPositionResource = positionMap
+                .getOrDefault(initPosition, getTranslatedPosition(initPosition))
+                    .getResource();
+        Resource finalPositionResource = positionMap
+                .getOrDefault(finalPosition, getTranslatedPosition(finalPosition))
+                    .getResource();
 
-        Resource tempResource = positionMap.get(initPosition).takeResource();
-        if(tempResource == null) {
-            throw new EmptySlotException("can't put in warehouse a not existing resource");
+        if(initPositionResource == null) {
+            throw new EmptySlotException("Cannot swap from an empty slot");
         }
-        return
-                positionMap.get(initPosition).setResource(positionMap.get(finalPosition).takeResource()) &&
-                        positionMap.get(finalPosition).setResource(tempResource);
+
+        return positionMap.get(initPosition).setResource(finalPositionResource) &&
+                        positionMap.get(finalPosition).setResource(initPositionResource);
 
     }
 
@@ -403,7 +424,7 @@ public class Warehouse {
 
         //checks if each extraSlots contains its only one resource's type
         for(ExtraSlots toCheck : extraSlots)
-            if(toCheck.getIsActivated())
+            if(toCheck.isActivated())
                 if(!toCheck.isLegal())
                     return false;
 

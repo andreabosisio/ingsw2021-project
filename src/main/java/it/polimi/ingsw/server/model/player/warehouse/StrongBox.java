@@ -1,6 +1,7 @@
-package it.polimi.ingsw.server.model.player;
+package it.polimi.ingsw.server.model.player.warehouse;
 
 import it.polimi.ingsw.exceptions.EmptySlotException;
+import it.polimi.ingsw.server.model.player.warehouse.ResourcesContainer;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class StrongBox implements ResourcesContainer{
+public class StrongBox implements ResourcesContainer {
     protected List<Resource> slots = new ArrayList<>();
 
     /**

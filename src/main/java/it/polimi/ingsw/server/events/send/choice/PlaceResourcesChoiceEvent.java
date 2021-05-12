@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.events.send.choice;
 
-import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
-import it.polimi.ingsw.server.model.player.Warehouse;
+import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 
 import java.util.ArrayList;
 import java.util.List;
