@@ -12,8 +12,8 @@ import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.Lobby;
+import it.polimi.ingsw.server.network.personal.VirtualView;
 import it.polimi.ingsw.server.utils.Observer;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +41,7 @@ public class Controller implements Observer {
     @Override
     public synchronized void update(ReceiveEvent receiveEvent) {
 
-        ClientHandler currentClientHandler = Lobby.getLobby().getPlayerDataByNickname(receiveEvent.getNickname()).getClientHandler();
+        ClientHandler currentClientHandler = Lobby.getLobby().getVirtualViewByNickname(receiveEvent.getNickname()).getClientHandler();
 
         if (modelInterface.getCurrentPlayerNickname().equals(receiveEvent.getNickname()) || receiveEvent instanceof SetupReceiveEvent) {
             try {

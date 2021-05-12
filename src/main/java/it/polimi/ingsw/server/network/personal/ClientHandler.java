@@ -4,7 +4,6 @@ import com.google.gson.*;
 import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.Server;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.lang.reflect.Type;
 import java.net.Socket;
@@ -83,18 +82,18 @@ public class ClientHandler implements Runnable {
                 sendErrorMessage("name/password not permitted");
                 continue;
             }
-            PlayerData playerData = Lobby.getLobby().getPlayerDataByNickname(nickname);
+            virtualView = Lobby.getLobby().getVirtualViewByNickname(nickname);
             //new player
-            if (playerData == null) {
+            if (virtualView == null) {
                 //check if a game is ongoing
                 if (Lobby.getLobby().isGameStarted()) {
                     sendErrorMessage("a game is currently ongoing");
                     kill(true);
                     return;
                 }
-                playerData = new PlayerData(nickname, password, this);
-                //addPlayer is synchronized and recheck for new player to be multiThread safe
-                if (!Lobby.getLobby().addPlayerData(playerData)) {
+                virtualView = new VirtualView(nickname, password, this);
+                //addVirtualView is synchronized and recheck for new player to be multiThread safe
+                if (!Lobby.getLobby().addVirtualView(virtualView)) {
                     sendErrorMessage("how unlucky! this nickname was taken a moment ago");
                     continue;//go back to reading message
                 }
@@ -127,7 +126,7 @@ public class ClientHandler implements Runnable {
                                 status = StatusEnum.GAME;
                             }
                         }
-                    } else if (playerData.isOnline()) {
+                    } else if (virtualView.isOnline()) {
                         clearMessageStack();
                     }
 
@@ -135,15 +134,15 @@ public class ClientHandler implements Runnable {
                     Lobby.getLobby().updateLobbyState();
                 }
                 //try to start game
-            } else if (playerData.isOnline()) {
+            } else if (virtualView.isOnline()) {
                 //nickname already in use
                 sendErrorMessage("Nickname already in use");
             } else {
                 //is trying to reconnect
-                if (password.equals(playerData.getPassword())) {
-                    //todo code below is severely incomplete (virtualView and PlayerData together?)
+                if (password.equals(virtualView.getPassword())) {
+                    //todo code below is severely incomplete (virtualView and VirtualView together?)
                     this.nickname = nickname;
-                    playerData.reconnect(this);
+                    virtualView.reconnect(this);
                     sendInfoMessage("You are now reconnected");
                     status = StatusEnum.GAME;
                 } else {
@@ -157,7 +156,7 @@ public class ClientHandler implements Runnable {
     private void game() {
         status = StatusEnum.GAME;
         String message;
-        Lobby.getLobby().getPlayerDataByNickname(nickname).startPingPong();
+        Lobby.getLobby().getVirtualViewByNickname(nickname).startPingPong();
 
         while (status == StatusEnum.GAME) {
             message = connection.getMessage();
@@ -220,26 +219,26 @@ public class ClientHandler implements Runnable {
     //deleteData = true if disconnection equals data deletion
     public void kill(boolean deleteData) {
 
-        PlayerData playerData = Lobby.getLobby().getPlayerDataByNickname(nickname);
+        VirtualView virtualView = Lobby.getLobby().getVirtualViewByNickname(nickname);
 
-        if(playerData != null) {
+        if(virtualView != null) {
             //stop PingPong
-            playerData.stopPingPong();
+            virtualView.stopPingPong();
 
             sendInfoMessage("quitting");
-            //deleteData = remove playerData from Lobby
+            //deleteData = remove virtualView from Lobby
             if (deleteData) {
-                Lobby.getLobby().removePlayerData(nickname);
+                Lobby.getLobby().removeVirtualView(nickname);
             }
-            //playerData must remain saved and player set as offline
+            //virtualView must remain saved and player set as offline
             else {
                 //todo add code to save state in game quit
-                playerData.setOnline(false);
+                virtualView.setOnline(false);
                 Lobby.getLobby().getController().getModelInterface().getTurnLogic().setDisconnectedPlayer(nickname);
             }
         }
 
-        //game has not started so playerData can be safely deleted
+        //game has not started so virtualView can be safely deleted
         status = StatusEnum.EXIT;
         connection.close();
         Thread.currentThread().interrupt();

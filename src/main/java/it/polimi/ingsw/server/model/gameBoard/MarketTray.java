@@ -134,10 +134,10 @@ public class MarketTray {
                 marketBoard[NUM_R - 1][6 - arrow] = extraSlot;
             }
             else
-                throw new InvalidIndexException("ArrowId can't be >6");
+                throw new InvalidIndexException("the arrow's id can't be > 6");
         }
         else
-            throw new InvalidIndexException("ArrowId can't be <0");
+            throw new InvalidIndexException("the arrow's id can't be < 0");
         extraSlot = temp;
 
         //System.out.println("--- INIT MARKET TRAY---");
