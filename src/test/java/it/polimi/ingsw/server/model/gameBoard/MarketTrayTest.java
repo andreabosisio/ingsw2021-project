@@ -71,10 +71,16 @@ class MarketTrayTest {
         //market.printMarket(correctMarket, correctExtraSlot);
         //market.printMarket();
 
-        assertEquals(market.getExtraSlot(), correctExtraSlot);
+        List<String> resultToStringList = market.toStringList();
+
+        assertEquals(correctExtraSlot , market.getExtraSlot());
+        assertNotNull(correctExtraSlot);
+        assertEquals(resultToStringList.get(0), correctExtraSlot.getColor().toString());
         for (int i = 0; i < market.getNUM_R(); i++)
-            for (int j = 0; j < market.getNUM_C(); j++)
-                assertEquals(market.getMarketBoard()[i][j], correctMarket[i][j]);
+            for (int j = 0; j < market.getNUM_C(); j++){
+                assertEquals(correctMarket[i][j] , market.getMarketBoard()[i][j]);
+                assertEquals(correctMarket[i][j].getColor().toString() , market.getMarketBoard()[i][j].getColor().toString());
+            }
 
         correctTakeResources.clear();
         market.setTempNewResources(new ArrayList<>());

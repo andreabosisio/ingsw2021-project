@@ -15,7 +15,7 @@ public class PersonalBoardUpdate extends GraphicsUpdateEvent{
     private final List<String> productionBoard;
     private final Map<Integer,String> warehouse;
 
-    // leaders card update
+    // leader card slots update
     public PersonalBoardUpdate(Player player) {
         super("personalBoard");
         this.handLeaders = new ArrayList<>();
@@ -44,11 +44,7 @@ public class PersonalBoardUpdate extends GraphicsUpdateEvent{
         this.activeLeaders = null;
         this.productionBoard = null;
         this.nickname = nickname;
-        //todo: to check!
-        this.warehouse = warehouse.getAllPositionsAndResources()
-                .entrySet().stream().peek(p -> {
-                    if (p.getValue() == null)
-                        p.setValue("empty");
-                }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        this.warehouse = warehouse.getAllPositionsAndResources();
     }
+
 }

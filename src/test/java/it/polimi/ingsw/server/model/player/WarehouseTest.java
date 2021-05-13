@@ -213,6 +213,7 @@ class WarehouseTest {
         }});
         assertEquals(warehouse.getNumberOfRemainingResources(), 1);
 
+        //System.out.println(warehouse.getAllPositionsAndResources());
     }
 
 
@@ -320,6 +321,7 @@ class WarehouseTest {
         assertThrows(InvalidIndexException.class, () -> warehouse.swap(-5, 5));
         assertThrows(InvalidIndexException.class, () -> warehouse.swap(4, -1));
 
+        //System.out.println(warehouse.getAllPositionsAndResources());
     }
 
     @Test

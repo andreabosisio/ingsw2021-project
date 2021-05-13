@@ -88,9 +88,8 @@ public class StartTurn extends State {
         ResourceEnum chosenOutResourceEnum;
         Resource chosenOutResource;
         ProductionCard chosenCard;
-
-        //todo bug se di due carte date la prima è valid ma la seconda no
-        for(Map.Entry<Integer, List<Integer>> production : inResourcesForEachProductions.entrySet()){
+        
+        for (Map.Entry<Integer, List<Integer>> production : inResourcesForEachProductions.entrySet()){
             Integer currentKey = production.getKey();
 
             chosenInResources = new ArrayList<>(warehouse.getResources(production.getValue()));
@@ -116,9 +115,17 @@ public class StartTurn extends State {
             }};
 
             if(!chosenCard.canDoProduction(productionResources))
-                throw new InvalidEventException("selected card can't do production with selected resources");
-            if(!chosenCard.usePower(turnLogic))
-                throw new InvalidEventException("production failed");
+                throw new InvalidEventException("Slot number " + currentKey + " can't do production with selected resources");
+        }
+
+        //if all the selected productions are valid
+        for (Map.Entry<Integer, List<Integer>> production : inResourcesForEachProductions.entrySet()) {
+            Integer currentKey = production.getKey();
+
+            //finally activate the production
+            if (!personalBoard.getProductionCard(currentKey).usePower(turnLogic))
+                throw new InvalidEventException("production failed"); //impossible condition
+
             //payment
             warehouse.takeResources(production.getValue());
         }

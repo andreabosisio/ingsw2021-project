@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.model.gameMode;
 
-import it.polimi.ingsw.server.model.player.PersonalBoard;
-
 /**
  * This class is set by the class GameMode when there is a MultiPlayers Game.
  */
@@ -26,18 +24,13 @@ public class LorenzoDoingNothing implements Lorenzo{
         return "Lorenzo il Magnifico doing nothing";
     }
 
-    @Override
-    public PersonalBoard getPersonalBoard() {
-        return null;
-    }
-
     /**
      * Method used for testing
      *
      * @return the Solo Action Token extract
      */
     @Override
-    public SoloActionToken getExtractToken() {
+    public SoloActionToken extractToken() {
         return null;
     }
 }

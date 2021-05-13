@@ -37,6 +37,7 @@ public class EndTurn extends State {
             return true;
         }
         //todo graaphic update after Lorenzo turn(if above should be split in 2!)
+
         //reset and change player
         turnLogic.setNextPlayer();
 

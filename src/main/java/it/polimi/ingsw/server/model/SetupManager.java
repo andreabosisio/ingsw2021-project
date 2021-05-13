@@ -2,6 +2,10 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
+import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
+import it.polimi.ingsw.server.events.send.graphics.GridUpdate;
+import it.polimi.ingsw.server.events.send.graphics.MarketUpdate;
+import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
@@ -39,6 +43,11 @@ public class SetupManager {
      * Reset the GameBoard and send to all the Players the LeaderCards and the number of resources to choose
      */
     public void startSetup(){
+
+        //initial update
+        modelInterface.notifyObservers(new MarketUpdate());
+        modelInterface.notifyObservers(new GridUpdate());
+
         int i = 0;
         for(Player player : players) {
             List<LeaderCard> drawnLeaderCards = GameBoard.getGameBoard().draw4LeaderCards();
@@ -104,7 +113,13 @@ public class SetupManager {
             if (setupSendEvents.size() == 0) {
                 //set turnLogic state from (idleState where very action is invalidEvent) to startTurn
                 modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());
-                // todo: all the players receive an update event with the gameboard
+
+                //all the players receive an update event with the gameboard
+                modelInterface.notifyObservers(new FaithTracksUpdate());
+                for (Player player : modelInterface.getTurnLogic().getPlayers()) {
+                    modelInterface.notifyObservers(new PersonalBoardUpdate(player));
+                    modelInterface.notifyObservers(new PersonalBoardUpdate(player.getNickname(), player.getPersonalBoard().getWarehouse()));
+                }
             }
 
             return true;

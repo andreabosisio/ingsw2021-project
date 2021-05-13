@@ -167,6 +167,12 @@ public class MarketTray {
     }
  */
 
+    /**
+     * Get the color of the resources contained in the Market sorted row-by-row in a List.
+     * The first element is the extraSlot (the only Marble out of the matrix).
+     *
+     * @return the List described above
+     */
     public List<String> toStringList() {
         List<String> toReturn = new ArrayList<>();
         toReturn.add(extraSlot.getColor().toString());
@@ -245,6 +251,5 @@ public class MarketTray {
         }
         System.out.println(extraSlot.getColor());
     }
-
      */
 }

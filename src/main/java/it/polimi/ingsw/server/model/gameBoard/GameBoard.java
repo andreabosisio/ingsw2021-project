@@ -54,17 +54,7 @@ public class GameBoard {
     }
 
     /**
-     * Get method that
-     *
-     * @return the deck of Leader Cards
-     */
-    //todo is this necessary?
-    public DeckLeader getDeckLeader() {
-        return deckLeader;
-    }
-
-    /**
-     * Get method that
+     * Getter method that return the Market Tray.
      *
      * @return the Market Tray
      */
@@ -73,7 +63,7 @@ public class GameBoard {
     }
 
     /**
-     * Get method that
+     * Get method that return the Development Cards Grid.
      *
      * @return the Development Cards Grid
      */

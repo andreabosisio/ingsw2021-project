@@ -21,7 +21,7 @@ public class LorenzoAI implements Lorenzo{
     }
 
     /**
-     * This method do the Lorenzo's turn.
+     * This method performs the Lorenzo's turn.
      * It draws a Solo Action Token and calls the method shuffle
      * if the token drawn is a SingleFaithTrackProgressToken.
      *
@@ -40,34 +40,29 @@ public class LorenzoAI implements Lorenzo{
     }
 
     /**
-     * shuffle all the Solo Action Tokens
+     * Shuffle all the Solo Action Tokens.
      */
     private void shuffle(){
         Collections.shuffle(soloActionTokens);
     }
 
     /**
-     * Method used for testing
+     * Method used for testing.
      *
-     * @return the Solo Action Token extract
+     * @return the extracted Solo Action Token
      */
     @Override
-    public SoloActionToken getExtractToken() {
+    public SoloActionToken extractToken() {
         return soloActionTokens.get(tokensDeckIndex);
     }
 
     /**
-     * Get method that
+     * Get method that return Lorenzo's nickname.
      *
      * @return Lorenzo's nickname
      */
     @Override
     public String getNickname() {
         return "Lorenzo il Magnifico";
-    }
-
-    @Override
-    public PersonalBoard getPersonalBoard() {
-        return null;
     }
 }

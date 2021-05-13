@@ -42,7 +42,7 @@ public class Player implements PlayerInterface {
     }
 
     /**
-     * Getter for player personalBoard
+     * Getter of the player's personalBoard
      *
      * @return player's personalBoard
      */

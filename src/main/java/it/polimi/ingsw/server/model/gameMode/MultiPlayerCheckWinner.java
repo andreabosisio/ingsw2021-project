@@ -64,7 +64,7 @@ public class MultiPlayerCheckWinner implements ICheckWinner {
     @Override
     public PlayerInterface getWinner() {
         int maxPoints = 0;
-        PlayerInterface winner = null;
+        Player winner = null;
 
         for (Player player : players) {
             //the winner is the one who has more victory points

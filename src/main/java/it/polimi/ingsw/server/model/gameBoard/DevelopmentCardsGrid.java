@@ -158,6 +158,5 @@ public class DevelopmentCardsGrid implements EndGameSubject {
             System.out.print("\n");
         }
     }
-
      */
 }

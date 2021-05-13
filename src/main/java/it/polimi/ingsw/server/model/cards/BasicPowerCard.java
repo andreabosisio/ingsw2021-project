@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 public class BasicPowerCard implements ProductionCard {
 
-    //todo duplicated lines below?
     private final int inResourceSlots = 2;
     private final int outResourceSlots = 1;
     private final int choosableInResourcesSlots = 2;

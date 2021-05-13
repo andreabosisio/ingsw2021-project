@@ -123,20 +123,33 @@ public class LorenzoTest {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Ace"));
         TurnLogic turnLogic = new TurnLogic(players);
+        Lorenzo lorenzo = turnLogic.getGameMode().getLorenzo();
         int FaithProgress = 0;
 
         for (int i = 0; i < 11; i++) {
-            if (turnLogic.getGameMode().getLorenzo().getExtractToken() instanceof SingleFaithTrackProgressToken) {
+            if (lorenzo.extractToken() instanceof SingleFaithTrackProgressToken) {
                 FaithProgress++;
-                turnLogic.getGameMode().getLorenzo().play();
-            } else if (turnLogic.getGameMode().getLorenzo().getExtractToken() instanceof DoubleFaithTrackProgressToken) {
+                lorenzo.play();
+            } else if (turnLogic.getGameMode().getLorenzo().extractToken() instanceof DoubleFaithTrackProgressToken) {
                 FaithProgress = FaithProgress + 2;
-                turnLogic.getGameMode().getLorenzo().play();
-            } else if (turnLogic.getGameMode().getLorenzo().getExtractToken() instanceof DiscardDevCardsToken) {
-                turnLogic.getGameMode().getLorenzo().play();
+                lorenzo.play();
+            } else if (lorenzo.extractToken() instanceof DiscardDevCardsToken) {
+                lorenzo.play();
                 assertFalse(GameBoard.getGameBoard().getDevelopmentCardsGrid().hasEmptyColumn());
             }
         }
-        assertEquals(FaithProgress, GameBoard.getGameBoard().getFaithTrackOfPlayer(turnLogic.getGameMode().getLorenzo()).getFaithMarker());
+        assertEquals(FaithProgress, GameBoard.getGameBoard().getFaithTrackOfPlayer(lorenzo).getFaithMarker());
+    }
+
+    @Test
+    void lorenzoDoingNothingTest() {
+        TurnLogic turnLogic = new TurnLogic(new ArrayList<Player>(){{
+            add(new Player("player1"));
+            add(new Player("player2"));
+        }});
+        Lorenzo lorenzo = turnLogic.getGameMode().getLorenzo();
+
+        //lorenzo isn't playing
+        assertNull(lorenzo.extractToken());
     }
 }

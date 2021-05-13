@@ -1,12 +1,17 @@
 package it.polimi.ingsw.server.events.send.graphics;
 
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class GridUpdate extends GraphicsUpdateEvent{
-    private final int level;
+    private final Integer level;
     private final String color;
     private String iD;
+    private final List<String> fullGrid;
 
     public GridUpdate(CardColorEnum color, int level) {
         super("grid");
@@ -18,5 +23,16 @@ public class GridUpdate extends GraphicsUpdateEvent{
         } catch (IndexOutOfBoundsException e) {
             this.iD = "empty";
         }
+        this.fullGrid = null;
+    }
+
+    public GridUpdate() {
+        super("fullGrid");
+        this.level = null;
+        this.color = null;
+        this.iD = null;
+        this.fullGrid = GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards()
+                .stream().map(DevelopmentCard::getID)
+                    .collect(Collectors.toList());
     }
 }
