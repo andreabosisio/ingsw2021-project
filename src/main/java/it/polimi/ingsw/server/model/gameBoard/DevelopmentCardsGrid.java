@@ -146,6 +146,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
     }
 
     //todo da cancellare
+    /*
     public void print(){
         for (int i = numOfLevels-1; i >= 0; i--) {
             for(CardColorEnum j:CardColorEnum.values()){
@@ -157,4 +158,6 @@ public class DevelopmentCardsGrid implements EndGameSubject {
             System.out.print("\n");
         }
     }
+
+     */
 }

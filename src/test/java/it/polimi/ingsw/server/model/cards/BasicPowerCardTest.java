@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.StorableResource;
@@ -9,7 +8,6 @@ import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +80,9 @@ class BasicPowerCardTest {
     }
 
     @Test
-    void getVictoryPointsTest() {
+    void getVictoryPointsAndIDTest() {
+        assertEquals(card.getID(),"basicPowerCard");
         assertEquals(card.getPoints(), 0);
     }
+
 }

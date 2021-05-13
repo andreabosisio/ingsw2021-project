@@ -4,6 +4,8 @@ import it.polimi.ingsw.exceptions.EmptySlotException;
 import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.exceptions.InvalidIndexException;
 import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
+import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
+import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 
@@ -40,9 +42,19 @@ public class WaitResourcePlacement extends State {
         if(warehouse.isProperlyOrdered()) {
             //faith progress for other players based on the number of remaining resources
             GameBoard.getGameBoard().faithProgressForOtherPlayers(turnLogic.getCurrentPlayer(), warehouse.getNumberOfRemainingResources());
+
+            //graphic update of player's warehouse and players faithTracks
+
+            turnLogic.getModelInterface().notifyObservers(new FaithTracksUpdate());
+            turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+
             turnLogic.setCurrentState(turnLogic.getEndTurn());
             return true;
         }
+
+        //todo graphic update of player's illegal warehouse
+        turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+
         throw new InvalidEventException("illegal Warehouse reordering");
     }
 }

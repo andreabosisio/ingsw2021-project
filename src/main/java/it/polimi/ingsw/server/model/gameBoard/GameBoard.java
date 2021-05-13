@@ -58,6 +58,7 @@ public class GameBoard {
      *
      * @return the deck of Leader Cards
      */
+    //todo is this necessary?
     public DeckLeader getDeckLeader() {
         return deckLeader;
     }

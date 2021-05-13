@@ -235,6 +235,7 @@ public class MarketTray {
     }
 
     //todo da cancellare
+    /*
     public void print() {
         for (Resource[] resources : marketBoard) {
             for (Resource resource : resources) {
@@ -244,4 +245,6 @@ public class MarketTray {
         }
         System.out.println(extraSlot.getColor());
     }
+
+     */
 }

@@ -56,8 +56,8 @@ public class CardsGenerator {
 
                 }
                 List<Resource> inResources = new ArrayList<>();
-                JsonArray jsonArrayOfinResources = cardJsonObject.get("inResources").getAsJsonArray();
-                for (JsonElement inResourcesElement : jsonArrayOfinResources) {
+                JsonArray jsonArrayOfInResources = cardJsonObject.get("inResources").getAsJsonArray();
+                for (JsonElement inResourcesElement : jsonArrayOfInResources) {
                     JsonObject inResourcesJsonObject = inResourcesElement.getAsJsonObject();
                     int quantity = inResourcesJsonObject.get("quantity").getAsInt();
                     ResourceEnum color = ResourceEnum.valueOf(inResourcesJsonObject.get("color").getAsString());
@@ -65,8 +65,8 @@ public class CardsGenerator {
 
                 }
                 List<Resource> outResources = new ArrayList<>();
-                JsonArray jsonArrayOfoutResources = cardJsonObject.get("outResources").getAsJsonArray();
-                for (JsonElement outResourcesElement : jsonArrayOfoutResources) {
+                JsonArray jsonArrayOfOutResources = cardJsonObject.get("outResources").getAsJsonArray();
+                for (JsonElement outResourcesElement : jsonArrayOfOutResources) {
                     JsonObject outResourcesJsonObject = outResourcesElement.getAsJsonObject();
                     int quantity = outResourcesJsonObject.get("quantity").getAsInt();
                     ResourceEnum color = ResourceEnum.valueOf(outResourcesJsonObject.get("color").getAsString());

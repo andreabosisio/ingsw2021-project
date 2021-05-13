@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
+import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.player.Player;
 
@@ -11,7 +13,7 @@ public class EndTurn extends State {
 
     /**
      * Check if there is a winner: if yes set the state of the game to EndGame, else Lorenzo plays and re-check if
-     * there is a winner. If yes re-set the state of the game to EndGame, else set the next player and change
+     * there is a winner. If yes set the state of the game to EndGame, else set the next player and change
      * the state of the game to StartTurn.
      *
      * @return true if there is a winner
@@ -23,7 +25,7 @@ public class EndTurn extends State {
         if(turnLogic.isLastPlayerTurn() && turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
             turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
             turnLogic.setCurrentState(turnLogic.getEndGame());
-            //todo evento in uscita
+            //todo evento in uscita di endgame
             return true;
         }
 
@@ -31,10 +33,10 @@ public class EndTurn extends State {
         if(turnLogic.getGameMode().getLorenzo().play() && turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
             turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
             turnLogic.setCurrentState(turnLogic.getEndGame());
-            //todo evento in uscita
+            //todo evento in uscita di endgame
             return true;
         }
-
+        //todo graaphic update after Lorenzo turn(if above should be split in 2!)
         //reset and change player
         turnLogic.setNextPlayer();
 
@@ -62,11 +64,24 @@ public class EndTurn extends State {
         if(discard){
             if(!currentPlayer.discardLeader(chosenLeaderCard))
                 throw new InvalidEventException("can't discard this card");
+            else {
+
+                //graphic update of faithTracks and player's owned leaderCards
+
+                turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+                turnLogic.getModelInterface().notifyObservers(new FaithTracksUpdate());
+            }
         }else
         //if the card has to be activated
         {
             if(!currentPlayer.activateLeaderCard(chosenLeaderCard))
                 throw new InvalidEventException("leaderCard activation failed");
+            else {
+
+                //graphic update of leaderCards owned by the player
+
+                turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+            }
         }
 
         return endTurn();

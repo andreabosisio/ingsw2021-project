@@ -4,6 +4,10 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.send.choice.PlaceDevCardChoiceEvent;
 import it.polimi.ingsw.server.events.send.choice.PlaceResourcesChoiceEvent;
 import it.polimi.ingsw.server.events.send.choice.TransformationChoiceEvent;
+import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
+import it.polimi.ingsw.server.events.send.graphics.GridUpdate;
+import it.polimi.ingsw.server.events.send.graphics.MarketUpdate;
+import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
@@ -40,6 +44,10 @@ public class StartTurn extends State {
     public boolean marketAction(int arrowID) throws InvalidIndexException {
         if(turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()
                 .addResourcesFromMarket(GameBoard.getGameBoard().getMarketTray().takeResources(arrowID))){
+
+            //graphic Update of marketTray for all players
+
+            turnLogic.getModelInterface().notifyObservers(new MarketUpdate());
 
             //if player has to transform some white resources
             if(turnLogic.getWhiteResourcesFromMarket().size()>0){
@@ -81,6 +89,7 @@ public class StartTurn extends State {
         Resource chosenOutResource;
         ProductionCard chosenCard;
 
+        //todo bug se di due carte date la prima è valid ma la seconda no
         for(Map.Entry<Integer, List<Integer>> production : inResourcesForEachProductions.entrySet()){
             Integer currentKey = production.getKey();
 
@@ -113,6 +122,12 @@ public class StartTurn extends State {
             //payment
             warehouse.takeResources(production.getValue());
         }
+
+        //graphic Update of player's warehouse and faithTrack
+
+        turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+        turnLogic.getModelInterface().notifyObservers(new FaithTracksUpdate());
+
         hasAlreadyDoneLeaderAction = false;
         turnLogic.setCurrentState(turnLogic.getEndTurn());
         return true;
@@ -134,8 +149,9 @@ public class StartTurn extends State {
     @Override
     public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcePositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         DevelopmentCard chosenDevelopmentCard;
+        CardColorEnum chosenColorEnum;
         try {
-            CardColorEnum chosenColorEnum = CardColorEnum.valueOf(cardColor.toUpperCase());
+            chosenColorEnum = CardColorEnum.valueOf(cardColor.toUpperCase());
             chosenDevelopmentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(chosenColorEnum, cardLevel);
         } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
             throw new InvalidEventException("not existing card color/card level"); //non existing card color type or non existing card level
@@ -150,6 +166,11 @@ public class StartTurn extends State {
         if(turnLogic.getCurrentPlayer().getPersonalBoard().getAvailablePlacement(chosenDevelopmentCard).size() > 0)
             if(chosenDevelopmentCard.buyCard(turnLogic.getCurrentPlayer(), resourcePositions, availableDiscount)) {
                 turnLogic.setChosenDevCard(chosenDevelopmentCard);
+
+                //graphic update of DevelopmentCardsGrid for all players
+                turnLogic.getModelInterface().notifyObservers(new GridUpdate(chosenColorEnum,cardLevel));
+                //graphic update of currentPlayer Warehouse for all players
+                turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
 
                 //send event
                 turnLogic.getModelInterface().notifyObservers(new PlaceDevCardChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), chosenDevelopmentCard));
@@ -184,13 +205,25 @@ public class StartTurn extends State {
         if(discard){
             if(!currentPlayer.discardLeader(chosenLeaderCard))
                 throw new InvalidEventException("can't discard this card");
+            else {
+
+                //graphic update of faithTracks and player's owned leaderCards
+
+                turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+                turnLogic.getModelInterface().notifyObservers(new FaithTracksUpdate());
+            }
         }else
         //if the card has to be activated
         {
             if(!currentPlayer.activateLeaderCard(chosenLeaderCard))
                 throw new InvalidEventException("leaderCard activation failed");
-        }
+            else {
 
+                //graphic update of leaderCards owned by the player
+
+                turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+            }
+        }
         hasAlreadyDoneLeaderAction = true;
         return true;
     }

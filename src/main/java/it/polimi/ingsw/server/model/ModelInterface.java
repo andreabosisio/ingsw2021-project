@@ -16,7 +16,7 @@ import java.util.Map;
 public class ModelInterface implements SendObservable {
 
     private final List<Player> players = new ArrayList<>();
-    private TurnLogic turnLogic;
+    private final TurnLogic turnLogic;
     private final SetupManager setupManager;
     private final List<SendObserver> virtualViews;
 
@@ -104,7 +104,7 @@ public class ModelInterface implements SendObservable {
      * For all the given ProductionCard apply the production with the chosen resources.
      *
      * @param inResourcesForEachProductions  containing the chosen ProductionCard and the chosen resources to apply its production
-     * @param outResourcesForEachProductions containing the chosen ProdcutionCard and (if possible) the desired resources
+     * @param outResourcesForEachProductions containing the chosen ProductionCard and (if possible) the desired resources
      * @return true if the production has been correctly applied
      * @throws InvalidEventException        if one of the production can't be applied
      * @throws InvalidIndexException        if one of the index of the chosen ProductionCard doesn't exists
