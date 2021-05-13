@@ -14,14 +14,16 @@ import java.util.regex.Pattern;
 public class ClientHandler implements Runnable {
     private String nickname;
     private StatusEnum status;
-    private final Connection connection;
+    private final ConnectionToClient connectionToClient;
     private final Gson gson;
     private VirtualView virtualView;
     private static final String TYPE_QUIT = "quit";
-    private static final String TYPE_LOBBY_NUMBER_CHOICE = "lobby_choice";
+    private static final String TYPE_LOBBY_NUMBER_CHOICE = "lobbyChoice";
+    private static final String TYPE_MATCHMAKING= "matchmaking";
     private static final String TYPE_LOGIN = "login";
     private static final String NICKNAME_REGEXP = "^[a-zA-Z0-9_-]{3,15}$";
     private static final Pattern NICKNAME_PATTERN = Pattern.compile(NICKNAME_REGEXP);
+
     private final Map<String, Object> receiveEventByJsonType = new HashMap<String, Object>() {{
         put("setupAction", SetupReceiveEvent.class);
         put("leaderAction", LeaderReceiveEvent.class);
@@ -35,7 +37,7 @@ public class ClientHandler implements Runnable {
     }};
 
     public ClientHandler(Socket socket) {
-        this.connection = new Connection(socket);
+        this.connectionToClient = new ConnectionToClient(socket);
         this.gson = new Gson();
     }
 
@@ -55,12 +57,15 @@ public class ClientHandler implements Runnable {
 
     private void login() {
         while (status == StatusEnum.LOGIN) {
+
+            sendSpecificTypeMessage(TYPE_LOGIN);
+
             if (Lobby.getLobby().isFull()) {
                 sendErrorMessage("cannot join: Server is full");
                 kill(true);
                 return;
             }
-            String message = connection.getMessage();
+            String message = connectionToClient.getMessage();
             JsonObject jsonObject = getAsJsonObject(message);
             if (jsonObject == null) {
                 continue;
@@ -71,15 +76,15 @@ public class ClientHandler implements Runnable {
                 return;
             }
             //check if message is not a login valid json
-            if (!type.equals(TYPE_LOGIN) || !jsonObject.has("name") || !jsonObject.has("password")) {
+            if (!type.equals(TYPE_LOGIN) || !jsonObject.has("nickname") || !jsonObject.has("password")) {
                 sendErrorMessage("invalid login json");
                 continue;//go back to reading a new message
             }
-            String nickname = jsonObject.get("name").getAsString();
+            String nickname = jsonObject.get("nickname").getAsString();
             String password = jsonObject.get("password").getAsString();
             //check if username and password are acceptable
             if (!checkCredentials(nickname, password)) {
-                sendErrorMessage("name/password not permitted");
+                sendErrorMessage("nickname/password not permitted");
                 continue;
             }
             virtualView = Lobby.getLobby().getVirtualViewByNickname(nickname);
@@ -98,7 +103,7 @@ public class ClientHandler implements Runnable {
                     continue;//go back to reading message
                 }
                 this.nickname = nickname;
-                sendInfoMessage("lobby joined...");
+                sendInfoMessage("Joining lobby... ");
                 //try to start game
                 //synchronized segment for first in lobby(further testing on what to synchronize on is required)
                 synchronized (Server.getServer()) {
@@ -106,8 +111,8 @@ public class ClientHandler implements Runnable {
                         String answer;
                         boolean stillDeciding = true;
                         while (stillDeciding) {
-                            sendInfoMessage("choose number of players(between 1 and 4)");
-                            answer = connection.getMessage();
+                            sendSpecificTypeMessage(TYPE_LOBBY_NUMBER_CHOICE, "between " + Lobby.MIN_PLAYERS + " and " + Lobby.MAX_PLAYERS);
+                            answer = connectionToClient.getMessage();
                             JsonObject jsonAnswerObject = getAsJsonObject(answer);
                             if (jsonAnswerObject == null) {
                                 continue;
@@ -132,6 +137,7 @@ public class ClientHandler implements Runnable {
 
                     status = StatusEnum.GAME;
                     Lobby.getLobby().updateLobbyState();
+                    sendSpecificTypeMessage(TYPE_MATCHMAKING);
                 }
                 //try to start game
             } else if (virtualView.isOnline()) {
@@ -158,7 +164,7 @@ public class ClientHandler implements Runnable {
         Lobby.getLobby().getVirtualViewByNickname(nickname).startPingPong();
 
         while (status == StatusEnum.GAME) {
-            message = connection.getMessage();
+            message = connectionToClient.getMessage();
 
             if (message.equals("pong")) {
                 continue;
@@ -197,7 +203,7 @@ public class ClientHandler implements Runnable {
     }
 
     public void sendJsonMessage(String message) {
-        connection.sendMessage(message);
+        connectionToClient.sendMessage(message);
     }
 
     public void sendInfoMessage(String message) {
@@ -214,13 +220,26 @@ public class ClientHandler implements Runnable {
         sendJsonMessage(jsonObject.toString());
     }
 
+    public void sendSpecificTypeMessage(String type) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", type);
+        sendJsonMessage(jsonObject.toString());
+    }
+
+    public void sendSpecificTypeMessage(String type, String message) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", type);
+        jsonObject.addProperty("payload", message);
+        sendJsonMessage(jsonObject.toString());
+    }
+
     //deleteData = false if player should be able to reconnect
     //deleteData = true if disconnection equals data deletion
     public void kill(boolean deleteData) {
 
         VirtualView virtualView = Lobby.getLobby().getVirtualViewByNickname(nickname);
 
-        if(virtualView != null) {
+        if (virtualView != null) {
             //stop PingPong
             virtualView.stopPingPong();
 
@@ -238,7 +257,7 @@ public class ClientHandler implements Runnable {
 
         //game has not started so virtualView can be safely deleted
         status = StatusEnum.EXIT;
-        connection.close();
+        connectionToClient.close();
         Thread.currentThread().interrupt();
     }
 
@@ -266,19 +285,19 @@ public class ClientHandler implements Runnable {
     }
 
     //the nickname must be a minimum of 3 and a maximum of 15 alpha-numeric characters (plus -,_ symbols)
-    public boolean checkCredentials(String name, String password) {
-        return name != null && password != null && NICKNAME_PATTERN.matcher(name).matches();
+    public boolean checkCredentials(String nickname, String password) {
+        return nickname != null && password != null && NICKNAME_PATTERN.matcher(nickname).matches();
     }
 
     public void clearMessageStack() {
-        connection.clearStack();
+        connectionToClient.clearStack();
     }
 
     public void sendPing() {
-        connection.sendMessage("ping");
+        connectionToClient.sendMessage("ping");
     }
 
-    public Connection getConnection() {
-        return connection;
+    public ConnectionToClient getConnection() {
+        return connectionToClient;
     }
 }

@@ -2,7 +2,7 @@ package it.polimi.ingsw.client;
 
 import java.net.Socket;
 
-public class CLI {
+public class oldCLI {
     public void startCLI(){
         Socket clientSocket;
         /*

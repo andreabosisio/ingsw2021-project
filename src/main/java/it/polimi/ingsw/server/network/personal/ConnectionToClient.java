@@ -5,13 +5,13 @@ import it.polimi.ingsw.server.network.PongObserver;
 import java.io.*;
 import java.net.Socket;
 
-public class Connection {
+public class ConnectionToClient {
     private BufferedReader in;
     private PrintWriter out;
     private final Socket socket;
     private PongObserver pongObserver;
 
-    public Connection(Socket socket) {
+    public ConnectionToClient(Socket socket) {
         this.socket = socket;
         startConnection();
     }

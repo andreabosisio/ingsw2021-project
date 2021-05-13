@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.events.send.graphics;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.server.events.send.SendEvent;
 
 public abstract class GraphicsUpdateEvent implements SendEvent {
@@ -16,6 +17,6 @@ public abstract class GraphicsUpdateEvent implements SendEvent {
 
     @Override
     public String toJson() {
-        return null;
+        return new Gson().toJson(this);
     }
 }

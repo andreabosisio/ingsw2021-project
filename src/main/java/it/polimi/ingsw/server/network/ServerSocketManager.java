@@ -14,7 +14,9 @@ public class ServerSocketManager extends Thread {
     public ServerSocketManager(int socketPort) {
         try{
             this.serverSocket = new ServerSocket(socketPort);
-        }catch (IOException e){e.printStackTrace();}
+        }catch (IOException e){
+            e.printStackTrace();
+        }
         System.out.println("SocketServer waiting for client on port "+ serverSocket.getLocalPort());
         start();//thread inherited method
     }

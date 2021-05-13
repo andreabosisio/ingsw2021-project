@@ -11,8 +11,8 @@ public class Lobby {
 
     private boolean gameStarted;
     public static final int NOT_DECIDED = -1;
-    public static final int MAX_PLAYERS = 4;
     public static final int MIN_PLAYERS = 1;
+    public static final int MAX_PLAYERS = 4;
     private static Lobby instance = null;
     private int numberOfPlayers = NOT_DECIDED;
     private final List<VirtualView> virtualViews;
