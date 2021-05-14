@@ -39,7 +39,7 @@ public class TurnLogic {
         this.waitTransformation = new WaitTransformation(this);
         this.waitResourcePlacement = new WaitResourcePlacement(this);
         this.endTurn = new EndTurn(this);
-        this.endGame = new EndGame(this);
+        this.endGame = new EndGameState(this);
         this.idle = new IdleState(this);
         this.currentState = getIdle();
     }
@@ -63,7 +63,7 @@ public class TurnLogic {
         this.waitTransformation = new WaitTransformation(this);
         this.waitResourcePlacement = new WaitResourcePlacement(this);
         this.endTurn = new EndTurn(this);
-        this.endGame = new EndGame(this);
+        this.endGame = new EndGameState(this);
         this.idle = new IdleState(this);
         this.currentState = getIdle();
     }
@@ -278,8 +278,8 @@ public class TurnLogic {
     }
 
     /**
-     * Check if there is a winner: if yes set the state of the game to EndGame, else Lorenzo plays and re-check if
-     * there is a winner. If yes re-set the state of the game to EndGame, else set the next player and change
+     * Check if there is a winner: if yes set the state of the game to EndGameState, else Lorenzo plays and re-check if
+     * there is a winner. If yes re-set the state of the game to EndGameState, else set the next player and change
      * the state of the game to StartTurn.
      *
      * @return true if there is a winner

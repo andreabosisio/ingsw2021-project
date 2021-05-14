@@ -2,10 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
-import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
-import it.polimi.ingsw.server.events.send.graphics.GridUpdate;
-import it.polimi.ingsw.server.events.send.graphics.MarketUpdate;
-import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
+import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
@@ -45,8 +42,10 @@ public class SetupManager {
     public void startSetup(){
 
         //initial update
-        modelInterface.notifyObservers(new MarketUpdate());
-        modelInterface.notifyObservers(new GridUpdate());
+        GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+        graphicUpdateEvent.addUpdate(new MarketUpdate());
+        graphicUpdateEvent.addUpdate(new GridUpdate());
+        modelInterface.notifyObservers(graphicUpdateEvent);
 
         int i = 0;
         for(Player player : players) {
@@ -115,11 +114,14 @@ public class SetupManager {
                 modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());
 
                 //all the players receive an update event with the gameboard
-                modelInterface.notifyObservers(new FaithTracksUpdate());
+                GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+                graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
+                modelInterface.notifyObservers(graphicUpdateEvent);
                 for (Player player : modelInterface.getTurnLogic().getPlayers()) {
-                    modelInterface.notifyObservers(new PersonalBoardUpdate(player));
-                    modelInterface.notifyObservers(new PersonalBoardUpdate(player.getNickname(), player.getPersonalBoard().getWarehouse()));
+                    graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player));
+                    graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player.getNickname(), player.getPersonalBoard().getWarehouse()));
                 }
+                modelInterface.notifyObservers(graphicUpdateEvent);
             }
 
             return true;

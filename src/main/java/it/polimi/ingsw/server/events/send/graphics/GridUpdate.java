@@ -7,14 +7,13 @@ import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GridUpdate extends GraphicsUpdateEvent{
+public class GridUpdate {
     private final Integer level;
     private final String color;
     private String iD;
     private final List<String> fullGrid;
 
     public GridUpdate(CardColorEnum color, int level) {
-        super("grid");
         this.level = level;
         this.color = color.toString();
         //todo: togli il try catch e metti return null (getCardByColorAndLevel) e iD final
@@ -27,12 +26,11 @@ public class GridUpdate extends GraphicsUpdateEvent{
     }
 
     public GridUpdate() {
-        super("fullGrid");
         this.level = null;
         this.color = null;
         this.iD = null;
         this.fullGrid = GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards()
                 .stream().map(DevelopmentCard::getID)
-                    .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 }

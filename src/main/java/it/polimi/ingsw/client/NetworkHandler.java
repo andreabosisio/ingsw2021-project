@@ -28,6 +28,7 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
         put("matchmaking", MatchMakingEvent.class);
         put("chooseSetup", ChooseSetupEvent.class);
         put("lobbyChoice", ChooseNumberPlayersEvent.class);
+        //put("graphicUpdate", GraphicUpdateEvent.class);
     }};
 
     //todo regex check
@@ -73,6 +74,7 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
                         event = gson.fromJson(message, (Type) messageTypeMap.get(jsonObject.get("type").getAsString()));
                     }catch (NullPointerException e){
                         System.out.println("server sent an event not defined in client: "+jsonObject.get("type"));
+                        System.out.println(message);
                         continue;
                     }
                     event.updateView(view);

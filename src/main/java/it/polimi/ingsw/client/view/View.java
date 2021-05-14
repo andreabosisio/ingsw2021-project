@@ -8,6 +8,8 @@ public interface View {
 
     void clearView();
 
+    void graphicUpdate();
+
     void printInfoMessage(String info);
 
     void printErrorMessage(String error);

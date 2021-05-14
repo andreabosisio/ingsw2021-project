@@ -6,18 +6,16 @@ import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 
 import java.util.ArrayList;
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class PersonalBoardUpdate extends GraphicsUpdateEvent{
+public class PersonalBoardUpdate {
     private final String nickname;
     private final List<String> handLeaders;
     private final List<String> activeLeaders;
     private final List<String> productionBoard;
-    private final Map<Integer,String> warehouse;
+    private final Map<Integer, String> warehouse;
 
     // leader card slots update
     public PersonalBoardUpdate(Player player) {
-        super("personalBoard");
         this.handLeaders = new ArrayList<>();
         this.activeLeaders = new ArrayList<>();
         this.productionBoard = null;
@@ -29,7 +27,6 @@ public class PersonalBoardUpdate extends GraphicsUpdateEvent{
 
     // production slots update
     public PersonalBoardUpdate(String nickname, PersonalBoard personalBoard) {
-        super("personalBoard");
         this.handLeaders = null;
         this.activeLeaders = null;
         this.warehouse = null;
@@ -39,7 +36,6 @@ public class PersonalBoardUpdate extends GraphicsUpdateEvent{
 
     // warehouse update
     public PersonalBoardUpdate(String nickname, Warehouse warehouse) {
-        super("personalBoard");
         this.handLeaders = null;
         this.activeLeaders = null;
         this.productionBoard = null;

@@ -4,11 +4,10 @@ import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 
 import java.util.List;
 
-public class MarketUpdate extends GraphicsUpdateEvent{
+public class MarketUpdate {
     private final List<String> market;
 
     public MarketUpdate() {
-        super("market");
         market = GameBoard.getGameBoard().getMarketTray().toStringList();
     }
 }

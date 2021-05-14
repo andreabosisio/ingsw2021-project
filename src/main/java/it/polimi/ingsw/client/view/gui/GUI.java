@@ -31,6 +31,11 @@ public class GUI implements View {
     }
 
     @Override
+    public void graphicUpdate() {
+
+    }
+
+    @Override
     public void printInfoMessage(String info) {
 
     }

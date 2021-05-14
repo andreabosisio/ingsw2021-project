@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
+import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.player.Player;
@@ -12,8 +13,8 @@ public class EndTurn extends State {
     }
 
     /**
-     * Check if there is a winner: if yes set the state of the game to EndGame, else Lorenzo plays and re-check if
-     * there is a winner. If yes set the state of the game to EndGame, else set the next player and change
+     * Check if there is a winner: if yes set the state of the game to EndGameState, else Lorenzo plays and re-check if
+     * there is a winner. If yes set the state of the game to EndGameState, else set the next player and change
      * the state of the game to StartTurn.
      *
      * @return true if there is a winner
@@ -60,28 +61,30 @@ public class EndTurn extends State {
         //get the chosen leader card
         LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
                 .filter(card -> card.getID().equals(ID)).findFirst()
-                .orElseThrow(() -> new InvalidEventException("leaderCard is not owned"));
+                .orElseThrow(() -> new InvalidEventException("LeaderCard is not owned"));
         //if the card has to be discarded
         if(discard){
             if(!currentPlayer.discardLeader(chosenLeaderCard))
-                throw new InvalidEventException("can't discard this card");
+                throw new InvalidEventException("Can't discard this card");
             else {
 
                 //graphic update of faithTracks and player's owned leaderCards
-
-                turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
-                turnLogic.getModelInterface().notifyObservers(new FaithTracksUpdate());
+                GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+                graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
+                turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             }
         }else
         //if the card has to be activated
         {
             if(!currentPlayer.activateLeaderCard(chosenLeaderCard))
-                throw new InvalidEventException("leaderCard activation failed");
+                throw new InvalidEventException("LeaderCard activation failed");
             else {
 
                 //graphic update of leaderCards owned by the player
-
-                turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+                GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+                turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             }
         }
 

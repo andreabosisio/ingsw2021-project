@@ -4,10 +4,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.send.choice.PlaceDevCardChoiceEvent;
 import it.polimi.ingsw.server.events.send.choice.PlaceResourcesChoiceEvent;
 import it.polimi.ingsw.server.events.send.choice.TransformationChoiceEvent;
-import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
-import it.polimi.ingsw.server.events.send.graphics.GridUpdate;
-import it.polimi.ingsw.server.events.send.graphics.MarketUpdate;
-import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
+import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
@@ -42,15 +39,16 @@ public class StartTurn extends State {
      */
     @Override
     public boolean marketAction(int arrowID) throws InvalidIndexException {
-        if(turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()
-                .addResourcesFromMarket(GameBoard.getGameBoard().getMarketTray().takeResources(arrowID))){
+        if (turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()
+                .addResourcesFromMarket(GameBoard.getGameBoard().getMarketTray().takeResources(arrowID))) {
 
             //graphic Update of marketTray for all players
-
-            turnLogic.getModelInterface().notifyObservers(new MarketUpdate());
+            GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+            graphicUpdateEvent.addUpdate(new MarketUpdate());
+            turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
             //if player has to transform some white resources
-            if(turnLogic.getWhiteResourcesFromMarket().size()>0){
+            if (turnLogic.getWhiteResourcesFromMarket().size() > 0) {
 
                 //send event
                 turnLogic.getModelInterface().
@@ -73,7 +71,7 @@ public class StartTurn extends State {
     /**
      * For all the given ProductionCard apply the production with the chosen resources.
      *
-     * @param inResourcesForEachProductions containing the chosen ProductionCard and the chosen resources to apply its production
+     * @param inResourcesForEachProductions  containing the chosen ProductionCard and the chosen resources to apply its production
      * @param outResourcesForEachProductions containing the chosen ProdcutionCard and (if possible) the desired resources
      * @return true if the production has been correctly applied
      * @throws InvalidEventException        if one of the production can't be applied
@@ -88,13 +86,13 @@ public class StartTurn extends State {
         ResourceEnum chosenOutResourceEnum;
         Resource chosenOutResource;
         ProductionCard chosenCard;
-        
-        for (Map.Entry<Integer, List<Integer>> production : inResourcesForEachProductions.entrySet()){
+
+        for (Map.Entry<Integer, List<Integer>> production : inResourcesForEachProductions.entrySet()) {
             Integer currentKey = production.getKey();
 
             chosenInResources = new ArrayList<>(warehouse.getResources(production.getValue()));
 
-            if(outResourcesForEachProductions.get(currentKey) == null)
+            if (outResourcesForEachProductions.get(currentKey) == null)
                 chosenOutResource = null;
             else {
                 try {
@@ -109,12 +107,12 @@ public class StartTurn extends State {
 
             List<Resource> finalChosenInResources = chosenInResources;
             Resource finalChosenOutResource = chosenOutResource;
-            List<Resource> productionResources = new ArrayList<Resource>(){{
+            List<Resource> productionResources = new ArrayList<Resource>() {{
                 addAll(finalChosenInResources);
                 add(finalChosenOutResource);
             }};
 
-            if(!chosenCard.canDoProduction(productionResources))
+            if (!chosenCard.canDoProduction(productionResources))
                 throw new InvalidEventException("Slot number " + currentKey + " can't do production with selected resources");
         }
 
@@ -131,9 +129,10 @@ public class StartTurn extends State {
         }
 
         //graphic Update of player's warehouse and faithTrack
-
-        turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
-        turnLogic.getModelInterface().notifyObservers(new FaithTracksUpdate());
+        GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+        graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+        graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
+        turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
         hasAlreadyDoneLeaderAction = false;
         turnLogic.setCurrentState(turnLogic.getEndTurn());
@@ -144,13 +143,13 @@ public class StartTurn extends State {
      * Check if the player can place the card and then check if he can buy it with his discounts.
      * If yes buy the card and set the next State of the game to WaitDevelopmentCardPlacement.
      *
-     * @param cardColor color of the card to buy
-     * @param cardLevel level of the card to buy
+     * @param cardColor         color of the card to buy
+     * @param cardLevel         level of the card to buy
      * @param resourcePositions index of the chosen resources
      * @return true if the card has been successfully bought
-     * @throws InvalidEventException if the player can't buy the card
-     * @throws InvalidIndexException if one of the resource positions is negative
-     * @throws EmptySlotException if one of the resource slots is empty
+     * @throws InvalidEventException      if the player can't buy the card
+     * @throws InvalidIndexException      if one of the resource positions is negative
+     * @throws EmptySlotException         if one of the resource slots is empty
      * @throws NonAccessibleSlotException if one of the resource position represents a slot that's not accessible
      */
     @Override
@@ -170,14 +169,15 @@ public class StartTurn extends State {
             activeCard.applyDiscount(availableDiscount);
 
         //check if the player can place and buy the card
-        if(turnLogic.getCurrentPlayer().getPersonalBoard().getAvailablePlacement(chosenDevelopmentCard).size() > 0)
-            if(chosenDevelopmentCard.buyCard(turnLogic.getCurrentPlayer(), resourcePositions, availableDiscount)) {
+        if (turnLogic.getCurrentPlayer().getPersonalBoard().getAvailablePlacement(chosenDevelopmentCard).size() > 0)
+            if (chosenDevelopmentCard.buyCard(turnLogic.getCurrentPlayer(), resourcePositions, availableDiscount)) {
                 turnLogic.setChosenDevCard(chosenDevelopmentCard);
 
                 //graphic update of DevelopmentCardsGrid for all players
-                turnLogic.getModelInterface().notifyObservers(new GridUpdate(chosenColorEnum,cardLevel));
-                //graphic update of currentPlayer Warehouse for all players
-                turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+                GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+                graphicUpdateEvent.addUpdate(new GridUpdate(chosenColorEnum, cardLevel));
+                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+                turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
                 //send event
                 turnLogic.getModelInterface().notifyObservers(new PlaceDevCardChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), chosenDevelopmentCard));
@@ -191,7 +191,7 @@ public class StartTurn extends State {
     /**
      * Activate or Discard a LeaderCard if the player has not done it yet.
      *
-     * @param ID of the chosen LeaderCard
+     * @param ID      of the chosen LeaderCard
      * @param discard true if the chosen LeaderCard has to be discarded, false if has to be activated
      * @return true if the leaderAction has been successfully applied
      * @throws InvalidEventException if the leaderAction can't be applied
@@ -199,36 +199,37 @@ public class StartTurn extends State {
     @Override
     public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {
 
-        if(hasAlreadyDoneLeaderAction)
+        if (hasAlreadyDoneLeaderAction)
             throw new InvalidEventException("this action was already performed");
 
         Player currentPlayer = turnLogic.getCurrentPlayer();
 
         //get the chosen leader card
         LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
-                                .filter(card -> card.getID().equals(ID)).findFirst()
-                                .orElseThrow(() -> new InvalidEventException("leaderCard is not owned"));
+                .filter(card -> card.getID().equals(ID)).findFirst()
+                .orElseThrow(() -> new InvalidEventException("leaderCard is not owned"));
         //if the card has to be discarded
-        if(discard){
-            if(!currentPlayer.discardLeader(chosenLeaderCard))
+        if (discard) {
+            if (!currentPlayer.discardLeader(chosenLeaderCard))
                 throw new InvalidEventException("can't discard this card");
             else {
 
                 //graphic update of faithTracks and player's owned leaderCards
-
-                turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
-                turnLogic.getModelInterface().notifyObservers(new FaithTracksUpdate());
+                GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+                graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
+                turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             }
-        }else
+        } else
         //if the card has to be activated
         {
-            if(!currentPlayer.activateLeaderCard(chosenLeaderCard))
+            if (!currentPlayer.activateLeaderCard(chosenLeaderCard))
                 throw new InvalidEventException("leaderCard activation failed");
             else {
-
                 //graphic update of leaderCards owned by the player
-
-                turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+                GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+                turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             }
         }
         hasAlreadyDoneLeaderAction = true;

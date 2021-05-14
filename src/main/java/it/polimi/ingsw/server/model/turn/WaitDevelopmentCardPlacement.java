@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 
 public class WaitDevelopmentCardPlacement extends State {
@@ -20,8 +21,9 @@ public class WaitDevelopmentCardPlacement extends State {
         if(turnLogic.getCurrentPlayer().getPersonalBoard().setNewDevelopmentCard(slotPosition, turnLogic.getChosenDevCard())) {
 
             //graphic update of player's DevCards owned
-
-            turnLogic.getModelInterface().notifyObservers(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard()));
+            GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+            graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard()));
+            turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             turnLogic.setCurrentState(turnLogic.getEndTurn());
             return true;
         }

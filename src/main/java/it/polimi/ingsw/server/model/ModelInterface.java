@@ -183,8 +183,8 @@ public class ModelInterface implements SendObservable {
     }
 
     /**
-     * Check if there is a winner: if yes set the state of the game to EndGame, else Lorenzo plays and re-check if
-     * there is a winner. If yes re-set the state of the game to EndGame, else set the next player and change
+     * Check if there is a winner: if yes set the state of the game to EndGameState, else Lorenzo plays and re-check if
+     * there is a winner. If yes re-set the state of the game to EndGameState, else set the next player and change
      * the state of the game to StartTurn.
      *
      * @return true if there is a winner
