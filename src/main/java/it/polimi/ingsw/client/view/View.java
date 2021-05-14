@@ -6,6 +6,8 @@ public interface View {
 
     void start();
 
+    void clearView();
+
     void printInfoMessage(String info);
 
     void printErrorMessage(String error);

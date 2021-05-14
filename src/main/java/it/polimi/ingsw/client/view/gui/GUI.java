@@ -26,6 +26,11 @@ public class GUI implements View {
     }
 
     @Override
+    public void clearView() {
+
+    }
+
+    @Override
     public void printInfoMessage(String info) {
 
     }

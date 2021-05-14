@@ -29,6 +29,11 @@ public class CLI implements View {
         networkHandler.run();
     }
 
+    public void clearView() {
+        for (int i = 0; i < 50; i++)
+            System.out.println(" ");
+    }
+
     @Override
     public void printInfoMessage(String info) {
         System.out.println(info);
@@ -41,8 +46,14 @@ public class CLI implements View {
 
     @Override
     public void setOnLogin() {
+
+        clearView();
+        System.out.println(AsciiArts.LOGO.getAsciiArt());
+
         showLoginScene();
         cliCommandListener.askCredentials();
+
+        clearView();
     }
 
     @Override
@@ -51,19 +62,34 @@ public class CLI implements View {
     }
 
     private void showLoginScene() {
-        System.out.println("\n" +
-                "██╗░░░░░░█████╗░░██████╗░██╗███╗░░██╗\n" +
-                "██║░░░░░██╔══██╗██╔════╝░██║████╗░██║\n" +
-                "██║░░░░░██║░░██║██║░░██╗░██║██╔██╗██║\n" +
-                "██║░░░░░██║░░██║██║░░╚██╗██║██║╚████║\n" +
-                "███████╗╚█████╔╝╚██████╔╝██║██║░╚███║\n" +
-                "╚══════╝░╚════╝░░╚═════╝░╚═╝╚═╝░░╚══╝");
+        System.out.println(AsciiArts.LOGIN_SMALL.getAsciiArt());
     }
 
     @Override
     public void setOnMatchMaking() {
+        while (true) {
 
-        System.out.println("Matchmaking...");
+            System.out.println(AsciiArts.LOGO.getAsciiArt());
+
+            System.out.print("Matchmaking");
+            for (int i = 0; i < 3; i++) {
+                try {
+                    Thread.sleep(2000);
+                    System.out.print(".");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            clearView();
+        }
+
+
         /*
         String a = "|/-\\";
         System.out.print("\033[2J");   // hide the cursor
@@ -86,8 +112,8 @@ public class CLI implements View {
             if (now - start >= 20000) break;
         }
         System.out.print("\033[?25h"); // restore the cursor
+        */
 
-         */
 
     }
 
