@@ -25,7 +25,6 @@ public class CLI implements View {
     @Override
     public void start() {
         cliCommandListener.registerObservers(networkHandler);
-
         networkHandler.run();
     }
 
@@ -68,25 +67,8 @@ public class CLI implements View {
     @Override
     public void setOnMatchMaking() {
         while (true) {
-
-            System.out.println(AsciiArts.LOGO.getAsciiArt());
-
-            System.out.print("Matchmaking");
-            for (int i = 0; i < 3; i++) {
-                try {
-                    Thread.sleep(2000);
-                    System.out.print(".");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
             clearView();
+            break;
         }
 
 

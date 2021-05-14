@@ -63,7 +63,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
 
     public void startPingPong() {
         //fixme activate below for ping system
-        //sendPing();
+        sendPing();
     }
 
     public void stopPingPong() {
@@ -85,7 +85,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
                     System.out.println("sending ping to " + nickname);
                 }
             }
-        }, 0, 10000);//in milliseconds
+        }, 0, 5000);//in milliseconds
     }
 
     //called when pong is missing

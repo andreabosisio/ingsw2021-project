@@ -10,9 +10,7 @@ import it.polimi.ingsw.client.view.View;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * This class is Observer of the CLI/GUI CommandListener class.
@@ -21,6 +19,7 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
     private final ConnectionToServer connectionToServer;
     private final Socket socket;
     private final View view;
+    private boolean missingPing;
 
     private final Map<String, Object> messageTypeMap = new HashMap<String, Object>() {{
         put("info", InfoMessageEvent.class);
@@ -36,6 +35,7 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
         this.socket = new Socket(ip, port);
         this.view = view;
         this.connectionToServer = new ConnectionToServer(socket);
+        missingPing=false;
     }
 
     /**
@@ -58,13 +58,23 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
         while (true) {
             message = connectionToServer.getMessage();
             //handle message
-
             //todo check for ping :)
+            if(message.equals("ping")){
+                handlePing();
+                continue;
+            }
             try {
                 JsonElement jsonElement = JsonParser.parseString(message);
                 if (jsonElement.isJsonObject()) {
                     JsonObject jsonObject = jsonElement.getAsJsonObject();
-                    ReceiveEvent event = gson.fromJson(message, (Type) messageTypeMap.get(jsonObject.get("type").getAsString()));
+                    ReceiveEvent event;
+                    //todo remove this try(event is null only if we forgot a possible event from server)
+                    try {
+                        event = gson.fromJson(message, (Type) messageTypeMap.get(jsonObject.get("type").getAsString()));
+                    }catch (NullPointerException e){
+                        System.out.println("server sent an event not defined in client: "+jsonObject.get("type"));
+                        continue;
+                    }
                     event.updateView(view);
                 } else {
                     System.out.println("Malformed json");
@@ -78,6 +88,12 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
 
         }
     }
+
+    private void handlePing(){
+        //todo add timer for missing new Ping
+        connectionToServer.sendPong();
+    }
+
 
 
     @Override

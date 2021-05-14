@@ -134,10 +134,9 @@ public class ClientHandler implements Runnable {
                     } else if (virtualView.isOnline()) {
                         clearMessageStack();
                     }
-
+                    sendSpecificTypeMessage(TYPE_MATCHMAKING);
                     status = StatusEnum.GAME;
                     Lobby.getLobby().updateLobbyState();
-                    sendSpecificTypeMessage(TYPE_MATCHMAKING);
                 }
                 //try to start game
             } else if (virtualView.isOnline()) {

@@ -34,10 +34,6 @@ public class ConnectionToServer {
         String message;
         try {
             message = in.readLine();
-            //start of PingPong code
-            if (message.equals("ping")) {
-                //todo ping stuff
-            }
         } catch (IOException e) {
             message = null;
         }
@@ -53,6 +49,10 @@ public class ConnectionToServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendPong(){
+        out.println("pong");
     }
 
 }
