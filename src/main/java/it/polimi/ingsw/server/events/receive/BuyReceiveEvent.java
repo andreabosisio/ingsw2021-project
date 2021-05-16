@@ -9,8 +9,8 @@ public class BuyReceiveEvent extends ReceiveEvent {
     private final String cardColor;
     private final int cardLevel;
     private final List<Integer> resourcePositions;
-    public BuyReceiveEvent(String nickname, String cardColor, int cardLevel, List<Integer> resourcePositions) {
-        super(nickname);
+    public BuyReceiveEvent(String sender, String cardColor, int cardLevel, List<Integer> resourcePositions) {
+        super(sender);
         this.cardColor = cardColor;
         this.cardLevel = cardLevel;
         this.resourcePositions = resourcePositions;

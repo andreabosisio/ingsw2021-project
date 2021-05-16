@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class is Observer of the CLI/GUI CommandListener class.
@@ -19,6 +23,7 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
     private final ConnectionToServer connectionToServer;
     private final Socket socket;
     private final View view;
+    public String nickname;
     private boolean missingPing;
 
     private final Map<String, Object> messageTypeMap = new HashMap<String, Object>() {{
@@ -26,17 +31,21 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
         put("error", ErrorMessageEvent.class);
         put("login", ConnectionEvent.class);
         put("matchmaking", MatchMakingEvent.class);
-        put("chooseSetup", ChooseSetupEvent.class);
+        put("setup", ChooseSetupEvent.class);
         put("lobbyChoice", ChooseNumberPlayersEvent.class);
         //put("graphicUpdate", GraphicUpdateEvent.class);
     }};
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     //todo regex check
     public NetworkHandler(String ip, Integer port, View view) throws IOException {
         this.socket = new Socket(ip, port);
         this.view = view;
         this.connectionToServer = new ConnectionToServer(socket);
-        missingPing=false;
+        missingPing = false;
     }
 
     /**
@@ -72,19 +81,20 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
                     //todo remove this try(event is null only if we forgot a possible event from server)
                     try {
                         event = gson.fromJson(message, (Type) messageTypeMap.get(jsonObject.get("type").getAsString()));
+                        System.out.println("Active threads before event: " + Thread.activeCount());
+                        event.updateView(view);
+                        System.out.println("Active threads: " + Thread.activeCount());
                     }catch (NullPointerException e){
-                        System.out.println("server sent an event not defined in client: "+jsonObject.get("type"));
+                        System.out.println("server sent an event not defined in client: " + jsonObject.get("type"));
                         System.out.println(message);
-                        continue;
                     }
-                    event.updateView(view);
+                    //event.updateView(view);
                 } else {
                     System.out.println("Malformed json");
                 }
             } catch (JsonSyntaxException e) {
                 e.printStackTrace();
             }
-
 
             //System.out.println(message);
 
@@ -97,9 +107,8 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
     }
 
 
-
     @Override
     public void update(SendEvent sendEvent) {
-        connectionToServer.sendMessage(sendEvent.toJson());
+        connectionToServer.sendMessage(sendEvent.toJson(nickname));
     }
 }

@@ -4,14 +4,14 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 
 public abstract class ReceiveEvent {
-    private final String nickname;
+    private final String sender;
 
-    public ReceiveEvent(String nickname) {
-        this.nickname = nickname;
+    public ReceiveEvent(String sender) {
+        this.sender = sender;
     }
 
     public String getNickname() {
-        return nickname;
+        return sender;
     }
 
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {

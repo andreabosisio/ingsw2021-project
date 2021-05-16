@@ -9,8 +9,8 @@ public class SetupReceiveEvent extends ReceiveEvent{
     private final List<Integer> chosenLeaderCardIndexes;
     private final List<String> chosenResources;
 
-    public SetupReceiveEvent(String nickname, List<Integer> chosenLeaderCardIndexes, List<String> chosenResources) {
-        super(nickname);
+    public SetupReceiveEvent(String sender, List<Integer> chosenLeaderCardIndexes, List<String> chosenResources) {
+        super(sender);
         this.chosenLeaderCardIndexes = chosenLeaderCardIndexes;
         this.chosenResources = chosenResources;
     }

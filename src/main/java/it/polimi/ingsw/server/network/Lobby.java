@@ -118,7 +118,7 @@ public class Lobby {
         if(gameStarted){
             return;
         }
-        broadcastInfoMessage("Player Online: "+getOnlinePlayersNumber()+" out of "+numberOfPlayers);
+        broadcastInfoMessage("Players Online: "+ getOnlinePlayersNumber() +" out of "+ numberOfPlayers);
         if(isFull()){
             gameStarted=true;
             startGame();

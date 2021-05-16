@@ -37,8 +37,9 @@ public class WaitTransformation extends State {
             try {
                 ResourceEnum chosenEnum = ResourceEnum.valueOf(chosenColor.toUpperCase());
                 //check that chosen color is one of the 2 expected
-                if(possibleTransformations.stream().noneMatch(r -> r.getColor() == chosenEnum))
+                if(possibleTransformations.stream().noneMatch(r -> r.getColor() == chosenEnum)) {
                     throw new InvalidEventException("invalid resource type");
+                }
 
                 chosenResources.add(new ResourceFactory().produceResource(chosenEnum));
             } catch (IllegalArgumentException e) {
