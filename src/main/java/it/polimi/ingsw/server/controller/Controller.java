@@ -48,6 +48,7 @@ public class Controller implements ReceiveObserver {
                     currentClientHandler.sendInfoMessage(receiveEvent.getNickname()+" performed a valid "+receiveEvent.getClass().getSimpleName()+"!");
 
                 //fixme this is for testing!!
+                /*
                 String nickname = receiveEvent.getNickname();
                 Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream()
                         .filter(player -> player.getNickname().equals(nickname)).findFirst()
@@ -61,9 +62,16 @@ public class Controller implements ReceiveObserver {
                 info.addProperty("faithTrack", GameBoard.getGameBoard().getFaithTrackOfPlayer(currentSetupPlayer).getFaithMarker());
                 currentClientHandler.sendJsonMessage(info.toString());
 
+                 */
+
             } catch (InvalidIndexException | NonStorableResourceException | EmptySlotException | NonAccessibleSlotException | InvalidEventException e) {
                 currentClientHandler.sendErrorMessage(e.getMessage());
-                //e.printStackTrace();
+                //if exception was created by a choice re send choice event
+                modelInterface.reSendChoice();
+            }catch (InvalidSetupException ex){
+                //if exception was created by a failed setup event resend setup choice event
+                currentClientHandler.sendErrorMessage(ex.getMessage());
+                modelInterface.reSendSetup(receiveEvent.getNickname());
             }
         }else
             currentClientHandler.sendErrorMessage("It's not your turn!");

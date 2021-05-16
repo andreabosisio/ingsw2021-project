@@ -41,6 +41,7 @@ public class Server {
                     break;
                 case "lobby":
                     System.out.println(Lobby.getLobby().getOnlinePlayersNumber());
+                    continue;
                 default:
                     System.out.println("Invalid input");
             }

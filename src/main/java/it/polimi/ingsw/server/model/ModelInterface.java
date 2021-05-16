@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.send.SendEvent;
+import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
@@ -83,7 +84,7 @@ public class ModelInterface implements SendObservable {
      * @throws InvalidEventException        if the choices aren't correct
      * @throws NonStorableResourceException if Player choose a NonStorableResource
      */
-    public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, NonStorableResourceException {
+    public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, NonStorableResourceException, InvalidSetupException {
         return setupManager.setupAction(nickname, leaderCardIndexes, resources);
     }
 
@@ -223,5 +224,14 @@ public class ModelInterface implements SendObservable {
 
     public void startSetup() {
         setupManager.startSetup();
+    }
+    public void reSendChoice(){turnLogic.reSendChoice();}
+    public void reSendSetup(String nickname){
+       for(SetupChoiceEvent event :setupManager.getSetupSendEvents()){
+           if(event.getNickname().equals(nickname)){
+               notifyObservers(event);
+           }
+       }
+
     }
 }

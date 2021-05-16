@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.TestGameGenerator;
 import it.polimi.ingsw.exceptions.InvalidEventException;
+import it.polimi.ingsw.exceptions.InvalidSetupException;
 import it.polimi.ingsw.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SetupManagerTest {
 
     @Test
-    void setupAction() throws InvalidEventException, NonStorableResourceException {
+    void setupAction() throws InvalidEventException, NonStorableResourceException, InvalidSetupException {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(false);
         modelInterface.startSetup();
@@ -38,31 +39,31 @@ class SetupManagerTest {
         chosenLeaderCardIndexes.clear();
         chosenLeaderCardIndexes.add(1);
         chosenLeaderCardIndexes.add(invalidIndex);
-        assertThrows(InvalidEventException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
+        assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
         chosenLeaderCardIndexes.add(negativeIndex);
-        assertThrows(InvalidEventException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
+        assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
 
         //too many chosen indexes (max 2)
         chosenLeaderCardIndexes.add(3);
         chosenLeaderCardIndexes.add(0);
-        assertThrows(InvalidEventException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
+        assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
 
         //invalid chosenResources number: first player cannot choose any resources
         chosenLeaderCardIndexes.clear();
         chosenLeaderCardIndexes.add(3);
         chosenLeaderCardIndexes.add(0);
         chosenResources.add("blue");
-        assertThrows(InvalidEventException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
+        assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
 
         //cannot choose NonStorableResources (WHITE or RED)
         chosenResources.clear();
         chosenResources.add("red");
-        assertThrows(NonStorableResourceException.class, () -> modelInterface.setupAction("second", chosenLeaderCardIndexes, chosenResources));
+        assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("second", chosenLeaderCardIndexes, chosenResources));
 
         //cannot choose a not existing resource's type
         chosenResources.clear();
         chosenResources.add("gold"); //not existing resource's type
-        assertThrows(InvalidEventException.class, () -> modelInterface.setupAction("second", chosenLeaderCardIndexes, chosenResources));
+        assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("second", chosenLeaderCardIndexes, chosenResources));
 
         //correct setup for the first player: 2 LeaderCards and 0 resources
         chosenResources.clear();

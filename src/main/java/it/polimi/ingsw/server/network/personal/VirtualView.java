@@ -12,8 +12,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class VirtualView implements PongObserver, SendObserver, ReceiveObservable {
-    private ReceiveObserver controllerObserver;
+    //ping period variables in milliseconds
+    private final static int PING_DELAY = 0;
+    private final static int PING_PERIOD = 5000;
 
+    private ReceiveObserver controllerObserver;
     private boolean online;
     private final String nickname;
     private final String password;
@@ -85,7 +88,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
                     System.out.println("sending ping to " + nickname);
                 }
             }
-        }, 0, 5000);//in milliseconds
+        },PING_DELAY,PING_PERIOD);
     }
 
     //called when pong is missing

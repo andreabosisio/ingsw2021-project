@@ -4,12 +4,12 @@ import it.polimi.ingsw.exceptions.EmptySlotException;
 import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.exceptions.InvalidIndexException;
 import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
+import it.polimi.ingsw.server.events.send.choice.PlaceResourcesChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
-
 import java.util.List;
 
 public class WaitResourcePlacement extends State {
@@ -31,15 +31,20 @@ public class WaitResourcePlacement extends State {
     @Override
     public boolean placeResourceAction(List<Integer> swapPairs) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         //todo ricordarsi che le risorse dal market possono essere anche tolte (in caso di not legal)
-        if (swapPairs.size() % 2 != 0)
+        //todo rivedere cosa va mandato in caso di invalid!!!!!
+        if (swapPairs.size() % 2 != 0) {
+            //resend place choice
+            turnLogic.setCurrentChoiceData(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             throw new InvalidEventException("every swap should always have an initPosition and a finalPosition"); //a swap should always have an initPosition and a finalPosition
-
+        }
         Warehouse warehouse = turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse();
 
         for (int i = 0; i < swapPairs.size(); i = i + 2)
-            if (!warehouse.swap(swapPairs.get(i), swapPairs.get(i + 1)))
+            if (!warehouse.swap(swapPairs.get(i), swapPairs.get(i + 1))) {
+                //resend choice
+                turnLogic.setCurrentChoiceData(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
                 throw new InvalidEventException("the swap cannot be applied"); //the swap cannot be applied
-
+            }
         if (warehouse.isProperlyOrdered()) {
             //faith progress for other players based on the number of remaining resources
             GameBoard.getGameBoard().faithProgressForOtherPlayers(turnLogic.getCurrentPlayer(), warehouse.getNumberOfRemainingResources());
@@ -49,7 +54,7 @@ public class WaitResourcePlacement extends State {
             graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
             graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
-
+            turnLogic.setCurrentChoiceData(null);
             turnLogic.setCurrentState(turnLogic.getEndTurn());
             return true;
         }
@@ -59,6 +64,7 @@ public class WaitResourcePlacement extends State {
         graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
         turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
+        turnLogic.setCurrentChoiceData(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
         throw new InvalidEventException("Illegal Warehouse reordering");
     }
 }

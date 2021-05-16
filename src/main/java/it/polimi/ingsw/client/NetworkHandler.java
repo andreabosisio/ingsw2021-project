@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client;
 
-
 import com.google.gson.*;
 import it.polimi.ingsw.client.events.send.SendEvent;
 import it.polimi.ingsw.client.events.receive.*;
@@ -20,11 +19,17 @@ import java.util.logging.Logger;
  * This class is Observer of the CLI/GUI CommandListener class.
  */
 public class NetworkHandler implements Runnable, CommandListenerObserver {
+    //must be higher than the ping period
+    private final static int TIMER_DELAY = 6000;//in milliseconds
+    private final static String PING_MESSAGE = "ping";
+
     private final ConnectionToServer connectionToServer;
     private final Socket socket;
     private final View view;
     public String nickname;
     private boolean missingPing;
+    private boolean receivedPing;
+    Timer timer;
 
     private final Map<String, Object> messageTypeMap = new HashMap<String, Object>() {{
         put("info", InfoMessageEvent.class);
@@ -45,7 +50,8 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
         this.socket = new Socket(ip, port);
         this.view = view;
         this.connectionToServer = new ConnectionToServer(socket);
-        missingPing = false;
+        this.receivedPing =false;
+        this.timer = new Timer();
     }
 
     /**
@@ -63,13 +69,15 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
     public void run() {
 
         String message;
-        Scanner in = new Scanner(System.in);
+        //Scanner in = new Scanner(System.in);
         Gson gson = new Gson();
         while (true) {
             message = connectionToServer.getMessage();
-            //handle message
-            //todo check for ping :)
-            if(message.equals("ping")){
+            //message is null = IOException in getMessage
+            if(message==null){
+                break;
+            }
+            if(message.equals(PING_MESSAGE)){
                 handlePing();
                 continue;
             }
@@ -95,15 +103,32 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
             } catch (JsonSyntaxException e) {
                 e.printStackTrace();
             }
-
-            //System.out.println(message);
-
         }
+        //todo close clientApp
+        System.out.println("Socket generated an IOException");
     }
 
+    /**
+     * Immediately respond to the server with a pong message and start a timer to recognize if server is down
+     * It does so by setting up a timer with a delay bigger than the expected ping pong system period
+     * When finished the timer checks that a new ping message was received and if it is missing the client is closed
+     */
     private void handlePing(){
-        //todo add timer for missing new Ping
+        //todo ponder better solutions
+        receivedPing = true;
         connectionToServer.sendPong();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(receivedPing){
+                    receivedPing=false;
+                }
+                else{
+                    //todo add client closing code
+                    System.out.println("missing ping from server");
+                }
+            }
+        },TIMER_DELAY);
     }
 
 

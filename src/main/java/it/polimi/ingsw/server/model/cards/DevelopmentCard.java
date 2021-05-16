@@ -43,7 +43,7 @@ public class DevelopmentCard implements ProductionCard {
      * for test
      */
     public DevelopmentCard( List<Resource> inResources, List<Resource> outResources, List<Resource> price, CardColorEnum color, int points, int level) {
-        this.iD = "matteo"; //todo
+        this.iD = "useless";
         this.inResources = inResources;
         this.outResources = outResources;
         this.price = price;

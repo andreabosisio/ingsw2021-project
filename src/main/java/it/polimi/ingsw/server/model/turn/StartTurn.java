@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
 import it.polimi.ingsw.server.events.send.choice.PlaceDevCardChoiceEvent;
 import it.polimi.ingsw.server.events.send.choice.PlaceResourcesChoiceEvent;
 import it.polimi.ingsw.server.events.send.choice.TransformationChoiceEvent;
@@ -48,17 +49,22 @@ public class StartTurn extends State {
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
             //if player has to transform some white resources
+            ChoiceEvent choiceEvent;
             if (turnLogic.getWhiteResourcesFromMarket().size() > 0) {
 
-                //send event
+                //send event and save choice data
+                choiceEvent = new TransformationChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getWhiteResourcesFromMarket());
+                turnLogic.setCurrentChoiceData(choiceEvent);
                 turnLogic.getModelInterface().
-                        notifyObservers(new TransformationChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getWhiteResourcesFromMarket()));
+                        notifyObservers(choiceEvent);
                 hasAlreadyDoneLeaderAction = false;
                 turnLogic.setCurrentState(turnLogic.getWaitTransformation());
                 return true;
             }
 
-            //send event
+            //send event and save choice data
+            choiceEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse());
+            turnLogic.setCurrentChoiceData(choiceEvent);
             turnLogic.getModelInterface().
                     notifyObservers(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             hasAlreadyDoneLeaderAction = false;
@@ -179,8 +185,10 @@ public class StartTurn extends State {
                 graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
                 turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
-                //send event
-                turnLogic.getModelInterface().notifyObservers(new PlaceDevCardChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), chosenDevelopmentCard));
+                //send event and save choice
+                ChoiceEvent choiceEvent = new PlaceDevCardChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), chosenDevelopmentCard);
+                turnLogic.setCurrentChoiceData(choiceEvent);
+                turnLogic.getModelInterface().notifyObservers(choiceEvent);
                 turnLogic.setCurrentState(turnLogic.getWaitDevCardPlacement());
                 hasAlreadyDoneLeaderAction = false;
                 return true;

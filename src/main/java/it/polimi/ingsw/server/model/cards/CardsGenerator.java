@@ -38,6 +38,7 @@ public class CardsGenerator {
             JsonArray jsonArrayOfCards = fileObject.get("cards").getAsJsonArray();
 
             //Cycle through all leaders element in the file
+            //todo assign ID in json
             int cardID = 1;
             for(JsonElement cardElement:jsonArrayOfCards){
                 //Get Json object
@@ -76,7 +77,8 @@ public class CardsGenerator {
                 CardColorEnum color = CardColorEnum.valueOf(cardJsonObject.get("color").getAsString());
                 int level = cardJsonObject.get("level").getAsInt();
                 int points = cardJsonObject.get("points").getAsInt();
-                String iD = "d" + cardID;
+                String iD = "dev:" + cardID;
+                cardID++;
                 developmentCards.add(new DevelopmentCard(iD,inResources,outResources,price,color,points,level));
 
             }

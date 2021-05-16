@@ -24,6 +24,7 @@ public class WaitDevelopmentCardPlacement extends State {
             GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
             graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard()));
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
+            turnLogic.setCurrentChoiceData(null);
             turnLogic.setCurrentState(turnLogic.getEndTurn());
             return true;
         }

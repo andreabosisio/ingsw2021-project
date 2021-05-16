@@ -16,6 +16,7 @@ public class CLI implements View {
         try {
             this.networkHandler = new NetworkHandler(ip, port, this);
         } catch (IOException e) {
+            System.out.println("Could not connect to the server");
             System.exit(0);
         }
         cliCommandListener = new CLICommandListener();

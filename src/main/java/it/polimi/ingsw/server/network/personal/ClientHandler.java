@@ -134,8 +134,10 @@ public class ClientHandler implements Runnable {
                     } else if (virtualView.isOnline()) {
                         clearMessageStack();
                     }
-                    sendSpecificTypeMessage(TYPE_MATCHMAKING);
                     status = StatusEnum.GAME;
+                    if(!Lobby.getLobby().isGameStarted()) {
+                        sendSpecificTypeMessage(TYPE_MATCHMAKING);
+                    }
                     Lobby.getLobby().updateLobbyState();
                 }
                 //try to start game
@@ -169,31 +171,30 @@ public class ClientHandler implements Runnable {
                 continue;
             }
             try {
-                JsonElement jsonElement = JsonParser.parseString(message);
-                if (jsonElement.isJsonObject()) {
-                    JsonObject jsonObject = jsonElement.getAsJsonObject();
-                    if (jsonObject.has("type")) {
-                        String type = jsonObject.get("type").getAsString();
-                        Type eventType = (Type) receiveEventByJsonType.get(type);
-                        if (type.equals(TYPE_QUIT)) {
-                            kill(false);
-                        } else if (virtualView == null) {
-                            sendErrorMessage("waitForGameToStart");
-                        } else if (eventType != null) {
-                            ReceiveEvent event = gson.fromJson(message, eventType);
-                            if (event.getNickname().equals(nickname)) {
-                                virtualView.notifyObservers(event);
-                            } else {
-                                sendErrorMessage("you can't play for another player");
-                            }
-                        } else {
-                            sendErrorMessage("not existing action");
-                        }
+                //todo use function getAsJsonObject
+                JsonObject jsonObject = getAsJsonObject(message);
+                if(jsonObject == null){
+                    continue;
+                }
+                String type = jsonObject.get("type").getAsString();
+                Type eventType = (Type) receiveEventByJsonType.get(type);
+                if (type.equals(TYPE_QUIT)) {
+                    kill(false);
+                } else if (virtualView == null) {
+                    sendErrorMessage("waitForGameToStart");
+                } else if (eventType != null) {
+                    ReceiveEvent event = gson.fromJson(message, eventType);
+                    if(event.getNickname()==null){
+                        sendErrorMessage("you can't play with a null nickname");
+                        continue;
+                    }
+                    if (event.getNickname().equals(nickname)) {
+                        virtualView.notifyObservers(event);
                     } else {
-                        sendErrorMessage("malformed json");
+                        sendErrorMessage("you can't play for another player");
                     }
                 } else {
-                    sendErrorMessage("not a json message");
+                    sendErrorMessage("not existing action");
                 }
             } catch (JsonSyntaxException e) {
                 sendErrorMessage("invalid message");
@@ -253,13 +254,12 @@ public class ClientHandler implements Runnable {
                 virtualView.setOnline(false);
             }
         }
-
-        //game has not started so virtualView can be safely deleted
         status = StatusEnum.EXIT;
         connectionToClient.close();
         Thread.currentThread().interrupt();
     }
 
+    //todo might be removed
     public void setVirtualView(VirtualView virtualView) {
         this.virtualView = virtualView;
     }
@@ -299,4 +299,8 @@ public class ClientHandler implements Runnable {
     public ConnectionToClient getConnection() {
         return connectionToClient;
     }
+
+
+
+
 }

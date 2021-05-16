@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.exceptions.NonStorableResourceException;
+import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
 import it.polimi.ingsw.server.events.send.choice.PlaceResourcesChoiceEvent;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.ResourceFactory;
@@ -39,8 +40,8 @@ public class WaitTransformation extends State {
                 //check that chosen color is one of the 2 expected
                 if(possibleTransformations.stream().noneMatch(r -> r.getColor() == chosenEnum)) {
                     throw new InvalidEventException("invalid resource type");
-                }
 
+                }
                 chosenResources.add(new ResourceFactory().produceResource(chosenEnum));
             } catch (IllegalArgumentException e) {
                 throw new InvalidEventException("non existing resource type"); //non existing resource type
@@ -50,8 +51,10 @@ public class WaitTransformation extends State {
         //add the chosen resources to the warehouse market zone
         turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse().addResourcesFromMarket(chosenResources);
         //send event
+        ChoiceEvent choiceEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse());
+        turnLogic.setCurrentChoiceData(choiceEvent);
         turnLogic.getModelInterface().
-                notifyObservers(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+                notifyObservers(choiceEvent);
         turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());
         return true;
     }

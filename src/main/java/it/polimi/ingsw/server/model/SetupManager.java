@@ -67,7 +67,7 @@ public class SetupManager {
      * @throws InvalidEventException if the choices aren't correct
      * @throws NonStorableResourceException if Player choose a NonStorableResource
      */
-    public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, NonStorableResourceException {
+    public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, InvalidSetupException {
         SetupChoiceEvent setupSendEvent = setupSendEvents.stream().filter(setupEvent -> setupEvent.getNickname().equals(nickname)).findFirst()
                 .orElseThrow(() -> new InvalidEventException("Setup choose already done!"));
 
@@ -82,14 +82,15 @@ public class SetupManager {
                 try {
                     ResourceEnum chosenEnum = ResourceEnum.valueOf(chosenColor.toUpperCase());
                     chosenResources.add(new ResourceFactory().produceResource(chosenEnum)); //throws NonStorableResourceException if RED or WHITE
-                } catch (IllegalArgumentException e) {
-                    throw new InvalidEventException("Non existing resource type"); //non existing resource type
+                } catch (IllegalArgumentException | NonStorableResourceException e) {
+                    throw new InvalidSetupException("Non permitted resource type"); //non existing resource type
                 }
             }
             for(Integer chosenIndex : leaderCardIndexes){
                 chosenLeaderCards.add(setupSendEvent.getLeaderCards().get(chosenIndex));
             }
 
+            //todo isn't this condition checked in the first if?
             Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream()
                     .filter(player -> player.getNickname().equals(nickname)).findFirst()
                     .orElseThrow(() -> new InvalidEventException("Invalid nickname"));
@@ -98,7 +99,7 @@ public class SetupManager {
             try {
                 currentSetupPlayer.getPersonalBoard().getWarehouse().setupWarehouse(chosenResources);
             } catch (InvalidIndexException | EmptySlotException | NonAccessibleSlotException e) {
-                throw new InvalidEventException(); //impossible condition
+                throw new InvalidSetupException("Failed to add chosen resources"); //impossible condition
             }
 
             //add the chosen leader cards to player's hand
@@ -113,7 +114,7 @@ public class SetupManager {
                 //set turnLogic state from (idleState where very action is invalidEvent) to startTurn
                 modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());
 
-                //all the players receive an update event with the gameboard
+                //all the players receive an update event with the gameBoard
                 GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
                 graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
                 modelInterface.notifyObservers(graphicUpdateEvent);
@@ -126,6 +127,10 @@ public class SetupManager {
 
             return true;
         }
-        throw new InvalidEventException("Invalid number of chosen Resources and/or LeaderCards");
+        throw new InvalidSetupException("Invalid number of chosen Resources and/or LeaderCards");
+    }
+
+    public List<SetupChoiceEvent> getSetupSendEvents() {
+        return setupSendEvents;
     }
 }

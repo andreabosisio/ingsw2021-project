@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
@@ -17,6 +18,7 @@ import java.util.Map;
  * Contains all the information of the current turn
  */
 public class TurnLogic {
+    private ChoiceEvent currentChoiceData;
     private final GameMode gameMode;
     private final List<Player> players;
     private Player currentPlayer;
@@ -27,6 +29,7 @@ public class TurnLogic {
     private final ModelInterface modelInterface;
 
     public TurnLogic(List<Player> players, ModelInterface modelInterface) {
+        this.currentChoiceData = null;
         this.modelInterface = modelInterface;
         this.players = players;
         this.currentPlayer = players.get(0);
@@ -304,5 +307,16 @@ public class TurnLogic {
      */
     public State getCurrentState() {
         return currentState;
+    }
+
+
+    public void setCurrentChoiceData(ChoiceEvent currentChoiceData) {
+        this.currentChoiceData = currentChoiceData;
+    }
+
+    public void reSendChoice() {
+        if(currentChoiceData!=null) {
+            modelInterface.notifyObservers(currentChoiceData);
+        }
     }
 }
