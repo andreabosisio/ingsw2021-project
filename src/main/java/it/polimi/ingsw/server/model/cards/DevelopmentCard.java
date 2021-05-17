@@ -91,7 +91,7 @@ public class DevelopmentCard implements ProductionCard {
 
     /**
      * Check if the buyer can buy this card with a possible discount. If yes make the payment
-     * and calls the method removeCard of the class DevelopmentCardGrid
+     * and calls the method removeCard of the class String
      * to remove itself from the Grid.
      *
      * @param buyer            Player who wants to buy the card

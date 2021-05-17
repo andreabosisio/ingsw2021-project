@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.View;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 public class CLI implements View {
 
@@ -35,16 +36,19 @@ public class CLI implements View {
 
     @Override
     public void graphicUpdate() {
-
     }
 
     @Override
     public void printInfoMessage(String info) {
+        if(info == null)
+            return;
         System.out.println(info);
     }
 
     @Override
     public void printErrorMessage(String error) {
+        if(error == null)
+            return;
         System.out.println(AsciiArts.RED + error + AsciiArts.RESET);
     }
 

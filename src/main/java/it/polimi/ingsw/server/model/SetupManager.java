@@ -65,14 +65,13 @@ public class SetupManager {
      * @param resources chosen by the Player
      * @return true if the choices are correct
      * @throws InvalidEventException if the choices aren't correct
-     * @throws NonStorableResourceException if Player choose a NonStorableResource
      */
     public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, InvalidSetupException {
         SetupChoiceEvent setupSendEvent = setupSendEvents.stream().filter(setupEvent -> setupEvent.getNickname().equals(nickname)).findFirst()
                 .orElseThrow(() -> new InvalidEventException("Setup choose already done!"));
 
         if(leaderCardIndexes == null || resources == null)
-            throw new InvalidSetupException("Invalid setup event");
+            throw new InvalidSetupException();
 
         //chosen leader cards must be two different cards
         Set<Integer> chosenIndexes = leaderCardIndexes.stream().filter(index -> index <= 3 && index >= 0).collect(Collectors.toSet());

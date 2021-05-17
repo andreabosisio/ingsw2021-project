@@ -29,7 +29,7 @@ public class NetworkHandler implements CommandListenerObserver {
         put("matchmaking", MatchMakingEvent.class);
         put("setup", ChooseSetupEvent.class);
         put("lobbyChoice", ChooseNumberPlayersEvent.class);
-        //put("graphicUpdate", GraphicUpdateEvent.class);
+        put("graphicUpdate", GraphicUpdateEvent.class);
     }};
 
     public void setNickname(String nickname) {
@@ -44,21 +44,20 @@ public class NetworkHandler implements CommandListenerObserver {
     }
 
     /**
-     * Read event from the Queue and handle its
+     * Read event from the Queue and handle it
      */
     public void startNetwork() {
 
         String message;
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(connectionToServer);
-        //Scanner in = new Scanner(System.in);
-        Gson gson = new Gson();
+
         while (true) {
 
             //todo: metti synch all the updateView
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -67,32 +66,38 @@ public class NetworkHandler implements CommandListenerObserver {
             //message is null = IOException in getMessage
             if (message == null) {
                 break;
-            }
-            try {
-                JsonElement jsonElement = JsonParser.parseString(message);
-                if (jsonElement.isJsonObject()) {
-                    JsonObject jsonObject = jsonElement.getAsJsonObject();
-                    ReceiveEvent event;
-                    //todo remove this try(event is null only if we forgot a possible event from server)
-                    try {
-                        event = gson.fromJson(message, (Type) messageTypeMap.get(jsonObject.get("type").getAsString()));
-                        //System.out.println("Active threads before event: " + Thread.activeCount());
-                        event.updateView(view);
-                        //System.out.println("Active threads: " + Thread.activeCount());
-                    } catch (NullPointerException e) {
-                        System.out.println("server sent an event not defined in client: " + jsonObject.get("type"));
-                        System.out.println(message);
-                    }
-                    //event.updateView(view);
-                } else {
-                    System.out.println("Malformed json");
-                }
-            } catch (JsonSyntaxException e) {
-                e.printStackTrace();
+            } else {
+                handleAction(message);
             }
         }
         //todo close clientApp
         System.out.println("Socket generated an IOException");
+    }
+
+    private void handleAction(String message) {
+        Gson gson = new Gson();
+        try {
+            JsonElement jsonElement = JsonParser.parseString(message);
+            if (jsonElement.isJsonObject()) {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                ReceiveEvent event;
+                //todo remove this try(event is null only if we forgot a possible event from server)
+                try {
+                    event = gson.fromJson(message, (Type) messageTypeMap.get(jsonObject.get("type").getAsString()));
+                    //System.out.println("Active threads before event: " + Thread.activeCount());
+                    event.updateView(view);
+                    //System.out.println("Active threads: " + Thread.activeCount());
+                } catch (NullPointerException e) {
+                    System.out.println("server sent an event not defined in client: " + jsonObject.get("type"));
+                    System.out.println(message);
+                }
+                //event.updateView(view);
+            } else {
+                System.out.println("Malformed json");
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

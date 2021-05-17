@@ -1,11 +1,33 @@
 package it.polimi.ingsw.client.events.receive;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import it.polimi.ingsw.client.model.DevelopmentCardsGrid;
+import it.polimi.ingsw.client.model.MarketTray;
 import it.polimi.ingsw.client.view.View;
+
+import java.util.List;
 
 public class GraphicUpdateEvent implements ReceiveEvent{
 
+    private final JsonObject gridUpdate;
+    private final JsonObject marketUpdate;
+
+    public GraphicUpdateEvent(JsonObject gridUpdate, JsonObject marketUpdate) {
+        this.gridUpdate = gridUpdate;
+        this.marketUpdate = marketUpdate;
+    }
+
     @Override
     public void updateView(View view) {
+        Gson gson = new Gson();
+        MarketTray marketTray = new MarketTray(gson.fromJson(gridUpdate, List.class));
+        //MarketTray market = gson.fromJson(marketUpdate, MarketTray.class);
+        DevelopmentCardsGrid grid = gson.fromJson(gridUpdate, DevelopmentCardsGrid.class);
         view.graphicUpdate();
+        System.out.println(marketTray.getPrintable());
+
     }
 }

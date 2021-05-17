@@ -41,7 +41,11 @@ public enum AsciiArts {
             "╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ \n" +
             "                                                                                               \n"),
 
-    MARBLE("");
+    MARBLE("⬤"),
+
+    LEFT_ARROW("←"),
+    UP_ARROW("↑")
+    ;
 
 
     private final String asciiArt;
@@ -133,24 +137,13 @@ public enum AsciiArts {
     public static final String	REVERSE_VIDEO		= "\u001B[7m";
     public static final String	INVISIBLE_TEXT		= "\u001B[8m";
 
-    public static final String PURPLE_MARBLE = PURPLE + MARBLE + RESET;
-    public static final String YELLOW_MARBLE = YELLOW + MARBLE + RESET;
-    public static final String BLUE_MARBLE = BLUE + MARBLE + RESET;
-    public static final String GRAY_MARBLE = BLACK_BRIGHT + MARBLE + RESET;
-
-    public static final List<String> MARBLES = new ArrayList<String>() {{
-        add(PURPLE_MARBLE);
-        add(YELLOW_MARBLE);
-        add(BLUE_MARBLE);
-        add(GRAY_MARBLE);
-    }};
-
-    public static final List<String> MARBLES_COLOR = new ArrayList<String>() {{
-        add(ResourceEnum.PURPLE.toString());
-        add(ResourceEnum.YELLOW.toString());
-        add(ResourceEnum.BLUE.toString());
-        add(ResourceEnum.GRAY.toString());
-    }};
+    public static final String EMPTY_RES = "〇";
+    public static final String WHITE_MARBLE = WHITE_BRIGHT + MARBLE.getAsciiArt() + RESET;
+    public static final String RED_MARBLE = RED + MARBLE.getAsciiArt() + RESET;
+    public static final String PURPLE_MARBLE = PURPLE + MARBLE.getAsciiArt() + RESET;
+    public static final String YELLOW_MARBLE = YELLOW + MARBLE.getAsciiArt() + RESET;
+    public static final String BLUE_MARBLE = BLUE + MARBLE.getAsciiArt() + RESET;
+    public static final String GRAY_MARBLE = BLACK_BRIGHT + MARBLE.getAsciiArt() + RESET;
 
     AsciiArts(final String asciiArt) {
         this.asciiArt = asciiArt;

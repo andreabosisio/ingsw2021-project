@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.events.send.ChosenSetupEvent;
 import it.polimi.ingsw.client.events.send.LoginEvent;
 import it.polimi.ingsw.client.events.send.SelectNumberPlayersEvent;
 import it.polimi.ingsw.client.events.send.SendEvent;
+import it.polimi.ingsw.client.model.Marble;
 import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
 
@@ -66,7 +67,7 @@ public class CLICommandListener implements CommandListener {
                 if(chosenIndexes.contains(j))
                     System.out.println(AsciiArts.GREEN_BACKGROUND + ">> " + "[" + j + "] : " + leaderCardsIDs.get(j) + " <<" + AsciiArts.RESET);
                 else
-                    System.out.println("[" + j + "] : " + leaderCardsIDs.get(j));
+                    System.out.println(AsciiArts.WHITE_BRIGHT + "[" + j + "]: " + AsciiArts.RESET + leaderCardsIDs.get(j));
             }
             String choice = scanner.nextLine();
             try {
@@ -78,26 +79,35 @@ public class CLICommandListener implements CommandListener {
                 return null;
             }
         }
-
+        CLI.clearView();
         System.out.println(AsciiArts.GREEN + "Valid LeaderCards choices!" + AsciiArts.RESET);
+        System.out.println(AsciiArts.WHITE_BOLD_BRIGHT + "Your LeaderCards: " + AsciiArts.RESET);
+        for (Integer chosenIndex : chosenIndexes)
+            System.out.println(leaderCardsIDs.get(chosenIndex));
         return chosenIndexes;
     }
 
     private List<String> askResourcesChoice(int numberOfResources) {
-        List<String> chosenResources = new ArrayList<>();
+        List<Marble> storableMarbles = new ArrayList<Marble>(){{
+            add(new Marble("YELLOW"));
+            add(new Marble("GRAY"));
+            add(new Marble("PURPLE"));
+            add(new Marble("BLUE"));
+        }};
+        List<String> chosenResourcesColor = new ArrayList<>();
 
         if(numberOfResources == 0)
-            return chosenResources;
+            return chosenResourcesColor;
 
-        while (chosenResources.size() < numberOfResources){
+        while (chosenResourcesColor.size() < numberOfResources){
             System.out.println("Choose a " + AsciiArts.CYAN + "resource" + AsciiArts.RESET + ": ");
-            for (int j = 0; j < AsciiArts.MARBLES.size(); j ++) {
-                System.out.println("[" + j + "] : ");
+            for (int j = 0; j < storableMarbles.size(); j ++) {
+                System.out.print(AsciiArts.WHITE_BRIGHT + "[" + j + "]: " + AsciiArts.RESET + Marble.getAsciiMarbleByColor(storableMarbles.get(j).getColor()) + "\t\t");
             }
-
+            System.out.println();
             String choice = scanner.nextLine();
             try {
-                chosenResources.add(AsciiArts.MARBLES_COLOR.get(Integer.parseInt(choice)));
+                chosenResourcesColor.add(storableMarbles.get(Integer.parseInt(choice)).getColor());
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 CLI.clearView();
                 System.out.println(AsciiArts.RED + "Please re-insert a valid number" + AsciiArts.RESET);
@@ -106,7 +116,7 @@ public class CLICommandListener implements CommandListener {
         }
 
         System.out.println(AsciiArts.GREEN + "Valid resources choices!" + AsciiArts.RESET);
-        return chosenResources;
+        return chosenResourcesColor;
     }
 
     @Override
