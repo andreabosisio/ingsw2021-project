@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,10 +41,14 @@ public enum AsciiArts {
             "╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ \n" +
             "                                                                                               \n"),
 
+    MARBLE("")
+
     ;
 
 
     private final String asciiArt;
+
+    public static final String CLEAR = "\u001b[{n}J";
 
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset
@@ -130,10 +135,10 @@ public enum AsciiArts {
     public static final String	REVERSE_VIDEO		= "\u001B[7m";
     public static final String	INVISIBLE_TEXT		= "\u001B[8m";
 
-    public static final String PURPLE_MARBLE = "\uD83D\uDFE3";
-    public static final String YELLOW_MARBLE = "\uD83D\uDFE1";
-    public static final String BLUE_MARBLE = "\uD83D\uDD35";
-    public static final String GRAY_MARBLE =  BLACK + LOW_INTENSITY + "\uD83D" ;
+    public static final String PURPLE_MARBLE = PURPLE + MARBLE + RESET;
+    public static final String YELLOW_MARBLE = YELLOW + MARBLE + RESET;
+    public static final String BLUE_MARBLE = BLUE + MARBLE + RESET;
+    public static final String GRAY_MARBLE = BLACK_BRIGHT + MARBLE + RESET;
 
     public static final List<String> MARBLES = new ArrayList<String>() {{
         add(PURPLE_MARBLE);

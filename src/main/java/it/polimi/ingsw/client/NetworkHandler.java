@@ -27,7 +27,6 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
     private final Socket socket;
     private final View view;
     public String nickname;
-    private boolean missingPing;
     private boolean receivedPing;
     Timer timer;
 
@@ -89,9 +88,9 @@ public class NetworkHandler implements Runnable, CommandListenerObserver {
                     //todo remove this try(event is null only if we forgot a possible event from server)
                     try {
                         event = gson.fromJson(message, (Type) messageTypeMap.get(jsonObject.get("type").getAsString()));
-                        System.out.println("Active threads before event: " + Thread.activeCount());
+                        //System.out.println("Active threads before event: " + Thread.activeCount());
                         event.updateView(view);
-                        System.out.println("Active threads: " + Thread.activeCount());
+                        //System.out.println("Active threads: " + Thread.activeCount());
                     }catch (NullPointerException e){
                         System.out.println("server sent an event not defined in client: " + jsonObject.get("type"));
                         System.out.println(message);

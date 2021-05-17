@@ -6,8 +6,6 @@ public interface View {
 
     void start();
 
-    void clearView();
-
     void graphicUpdate();
 
     void printInfoMessage(String info);

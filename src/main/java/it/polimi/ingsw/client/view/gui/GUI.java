@@ -25,10 +25,6 @@ public class GUI implements View {
         networkHandler.run();
     }
 
-    @Override
-    public void clearView() {
-
-    }
 
     @Override
     public void graphicUpdate() {

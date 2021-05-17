@@ -68,7 +68,7 @@ public class Controller implements ReceiveObserver {
                 currentClientHandler.sendErrorMessage(e.getMessage());
                 //if exception was created by a choice re send choice event
                 modelInterface.reSendChoice();
-            }catch (InvalidSetupException ex){
+            } catch (InvalidSetupException ex){
                 //if exception was created by a failed setup event resend setup choice event
                 currentClientHandler.sendErrorMessage(ex.getMessage());
                 modelInterface.reSendSetup(receiveEvent.getNickname());

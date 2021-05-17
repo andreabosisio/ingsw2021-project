@@ -39,14 +39,20 @@ public class CLICommandListener implements CommandListener {
         try {
             notifyObservers(new SelectNumberPlayersEvent(Integer.parseInt(numberOfPlayers)));
         } catch (NumberFormatException e) {
+            CLI.clearView();
             System.err.println("Please re-insert a valid number");
-            askNumberOfPlayers(payload);
+            //askNumberOfPlayers(payload);
         }
     }
 
     protected void askSetupChoice(List<String> leaderCardsIDs, int numberOfResources) {
 
-        notifyObservers(new ChosenSetupEvent(askLeaderCardsChoice(leaderCardsIDs), askResourcesChoice(numberOfResources)));
+        List<Integer> chosenIndexes = askLeaderCardsChoice(leaderCardsIDs);
+        if(chosenIndexes == null) {
+            notifyObservers(new ChosenSetupEvent(null, null));
+        } else {
+            notifyObservers(new ChosenSetupEvent(chosenIndexes, askResourcesChoice(numberOfResources)));
+        }
 
     }
 
@@ -57,16 +63,19 @@ public class CLICommandListener implements CommandListener {
         for(int i = 0; i < LEADER_CARDS_TO_CHOOSE; i++) {
             System.out.println("Choose a " + AsciiArts.CYAN + "LeaderCard" + AsciiArts.RESET + ": ");
             for (int j = 0; j < leaderCardsIDs.size(); j++) {
-                System.out.println("[" + j + "] : " + leaderCardsIDs.get(j));
+                if(chosenIndexes.contains(j))
+                    System.out.println(AsciiArts.GREEN_BACKGROUND + ">> " + "[" + j + "] : " + leaderCardsIDs.get(j) + " <<" + AsciiArts.RESET);
+                else
+                    System.out.println("[" + j + "] : " + leaderCardsIDs.get(j));
             }
             String choice = scanner.nextLine();
             try {
                 chosenIndexes.add(Integer.parseInt(choice));
-                leaderCardsIDs.get(Integer.parseInt(choice));
+                leaderCardsIDs.get(Integer.parseInt(choice)); //used to trigger IndexOutOfBoundsException
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                CLI.clearView();
                 System.err.println("Please re-insert a valid number");
-                askLeaderCardsChoice(leaderCardsIDs);
-                i--;
+                return null;
             }
         }
 
@@ -80,17 +89,19 @@ public class CLICommandListener implements CommandListener {
         if(numberOfResources == 0)
             return chosenResources;
 
-        //fixme indexes (now can choose 2 same indexes)
         while (chosenResources.size() < numberOfResources){
             System.out.println("Choose a " + AsciiArts.CYAN + "resource" + AsciiArts.RESET + ": ");
-            for (int j = 0; j < AsciiArts.MARBLES.size(); j ++)
-                System.out.println("[" + j + "] : " + AsciiArts.MARBLES.get(j));
+            for (int j = 0; j < AsciiArts.MARBLES.size(); j ++) {
+                System.out.println("[" + j + "] : ");
+            }
+
             String choice = scanner.nextLine();
             try {
                 chosenResources.add(AsciiArts.MARBLES_COLOR.get(Integer.parseInt(choice)));
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                CLI.clearView();
                 System.err.println("Please re-insert a valid number");
-                askResourcesChoice(numberOfResources);
+                return null;
             }
         }
 

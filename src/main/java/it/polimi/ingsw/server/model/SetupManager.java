@@ -71,6 +71,9 @@ public class SetupManager {
         SetupChoiceEvent setupSendEvent = setupSendEvents.stream().filter(setupEvent -> setupEvent.getNickname().equals(nickname)).findFirst()
                 .orElseThrow(() -> new InvalidEventException("Setup choose already done!"));
 
+        if(leaderCardIndexes == null || resources == null)
+            throw new InvalidSetupException("Invalid setup event");
+
         //chosen leader cards must be two different cards
         Set<Integer> chosenIndexes = leaderCardIndexes.stream().filter(index -> index <= 3 && index >= 0).collect(Collectors.toSet());
 

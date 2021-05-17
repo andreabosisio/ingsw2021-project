@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class CLI implements View {
 
     private NetworkHandler networkHandler;
-    private CLICommandListener cliCommandListener;
+    private final CLICommandListener cliCommandListener;
 
     public CLI(String ip, int port) {
         try {
@@ -29,8 +29,8 @@ public class CLI implements View {
         networkHandler.run();
     }
 
-    public void clearView() {
-        for (int i = 0; i < 50; i++)
+    public static void clearView() {
+        for (int i = 0; i < 20; i++)
             System.out.println(" ");
     }
 
