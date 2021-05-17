@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.DevelopmentCardsGrid;
 import it.polimi.ingsw.client.model.MarketTray;
 import it.polimi.ingsw.client.view.View;
@@ -23,11 +24,11 @@ public class GraphicUpdateEvent implements ReceiveEvent{
     @Override
     public void updateView(View view) {
         Gson gson = new Gson();
-        MarketTray marketTray = new MarketTray(gson.fromJson(gridUpdate, List.class));
-        //MarketTray market = gson.fromJson(marketUpdate, MarketTray.class);
-        DevelopmentCardsGrid grid = gson.fromJson(gridUpdate, DevelopmentCardsGrid.class);
+        //MarketTray marketTray = new MarketTray(gson.fromJson(gridUpdate, List.class));
+        Board.getBoard().setMarketTray(gson.fromJson(marketUpdate, MarketTray.class));
+        Board.getBoard().setDevelopmentCardsGrid(gson.fromJson(gridUpdate, DevelopmentCardsGrid.class));
         view.graphicUpdate();
-        System.out.println(marketTray.getPrintable());
+        //System.out.println(market.getPrintable(20));
 
     }
 }

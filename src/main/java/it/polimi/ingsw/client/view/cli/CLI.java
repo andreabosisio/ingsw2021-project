@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.NetworkHandler;
+import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.view.View;
 
 import java.io.IOException;
@@ -12,9 +13,12 @@ public class CLI implements View {
     private NetworkHandler networkHandler;
     private final CLICommandListener cliCommandListener;
 
+    protected static final int MARKET_X_SHIFT = 70;
+
     public CLI(String ip, int port) {
         try {
             this.networkHandler = new NetworkHandler(ip, port, this);
+            Board.getBoard();
         } catch (IOException e) {
             System.out.println("Could not connect to the server");
             System.exit(0);
@@ -32,6 +36,13 @@ public class CLI implements View {
     public static void clearView() {
         for (int i = 0; i < 20; i++)
             System.out.println(" ");
+    }
+
+    public static String getHorizontalShift(int shift) {
+        StringBuilder toReturn = new StringBuilder();
+        for (int i = 0; i < shift; i++)
+            toReturn.append(" ");
+        return toReturn.toString();
     }
 
     @Override

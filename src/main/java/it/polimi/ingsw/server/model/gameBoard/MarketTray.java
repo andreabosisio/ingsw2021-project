@@ -25,12 +25,12 @@ public class MarketTray {
     /**
      * Number of columns of the MarketBoard
      */
-    private final int NUM_C = 4;
+    private static final int NUM_C = 4;
 
     /**
      * Number of rows of the MarketBoard
      */
-    private final int NUM_R = 3;
+    private static final int NUM_R = 3;
 
     /**
      * Implementation of the MarketBoard

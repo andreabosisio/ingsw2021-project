@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.events.send.ChosenSetupEvent;
 import it.polimi.ingsw.client.events.send.LoginEvent;
 import it.polimi.ingsw.client.events.send.SelectNumberPlayersEvent;
 import it.polimi.ingsw.client.events.send.SendEvent;
+import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.Marble;
 import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
@@ -60,15 +61,18 @@ public class CLICommandListener implements CommandListener {
     private List<Integer> askLeaderCardsChoice(List<String> leaderCardsIDs) {
         List<Integer> chosenIndexes = new ArrayList<>();
 
+        System.out.println(Board.getBoard().getMarketTray().getPrintable(CLI.MARKET_X_SHIFT));
+
         //fixme indexes (now can choose 2 same indexes)
         for(int i = 0; i < LEADER_CARDS_TO_CHOOSE; i++) {
             System.out.println("Choose a " + AsciiArts.CYAN + "LeaderCard" + AsciiArts.RESET + ": ");
             for (int j = 0; j < leaderCardsIDs.size(); j++) {
                 if(chosenIndexes.contains(j))
-                    System.out.println(AsciiArts.GREEN_BACKGROUND + ">> " + "[" + j + "] : " + leaderCardsIDs.get(j) + " <<" + AsciiArts.RESET);
+                    System.out.print(AsciiArts.GREEN_BACKGROUND + ">> " + "[" + j + "] : " + leaderCardsIDs.get(j) + " <<" + AsciiArts.RESET + "\t");
                 else
-                    System.out.println(AsciiArts.WHITE_BRIGHT + "[" + j + "]: " + AsciiArts.RESET + leaderCardsIDs.get(j));
+                    System.out.print(AsciiArts.WHITE_BRIGHT + "[" + j + "]: " + AsciiArts.RESET + leaderCardsIDs.get(j) + "\t");
             }
+            System.out.println();
             String choice = scanner.nextLine();
             try {
                 chosenIndexes.add(Integer.parseInt(choice));
@@ -88,6 +92,9 @@ public class CLICommandListener implements CommandListener {
     }
 
     private List<String> askResourcesChoice(int numberOfResources) {
+
+        System.out.println(Board.getBoard().getMarketTray().getPrintable(CLI.MARKET_X_SHIFT));
+
         List<Marble> storableMarbles = new ArrayList<Marble>(){{
             add(new Marble("YELLOW"));
             add(new Marble("GRAY"));
