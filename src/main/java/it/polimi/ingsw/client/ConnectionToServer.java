@@ -7,18 +7,28 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public class ConnectionToServer {
+public class ConnectionToServer implements Runnable {
     private final static String PONG_MESSAGE = "pong";
     private final static String QUIT_TYPE = "quit";
     private final Socket socket;
     private BufferedReader in;
     private PrintWriter out;
-
+    private final BlockingQueue<String> messagesFromServer = new LinkedBlockingQueue<>();
+    private boolean receivedPing;
+    Timer timer;
+    //must be higher than the ping period
+    private final static int TIMER_DELAY = 6000;//in milliseconds
+    private final static String PING_MESSAGE = "ping";
 
     public ConnectionToServer(Socket socket) {
         this.socket = socket;
         startConnection();
+        this.receivedPing = false;
+        this.timer = new Timer();
     }
 
     private void startConnection() {
@@ -36,11 +46,11 @@ public class ConnectionToServer {
     }
 
     public String getMessage() {
-        String message;
+        String message = null;
         try {
-            message = in.readLine();
-        } catch (IOException e) {
-            message = null;
+            message = messagesFromServer.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         return message;
     }
@@ -48,7 +58,7 @@ public class ConnectionToServer {
     public void close() {
         try {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("type",QUIT_TYPE);
+            jsonObject.addProperty("type", QUIT_TYPE);
             sendMessage(jsonObject.toString());
             socket.close();
             in.close();
@@ -58,7 +68,46 @@ public class ConnectionToServer {
         }
     }
 
-    public void sendPong(){
+    public void sendPong() {
         out.println(PONG_MESSAGE);
+    }
+
+    @Override
+    public void run() {
+        String message;
+        while (true) {
+            try {
+                message = in.readLine();
+                if (message.equals(PING_MESSAGE)) {
+                    handlePing();
+                } else {
+                    messagesFromServer.add(message);
+                }
+            } catch (IOException e) {
+                message = null; //todo: socket fails, so sad
+            }
+        }
+    }
+
+    /**
+     * Immediately respond to the server with a pong message and start a timer to recognize if server is down
+     * It does so by setting up a timer with a delay bigger than the expected ping pong system period
+     * When finished the timer checks that a new ping message was received and if it is missing the client is closed
+     */
+    private void handlePing() {
+        //todo ponder better solutions
+        receivedPing = true;
+        this.sendPong();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (receivedPing) {
+                    receivedPing = false;
+                } else {
+                    //todo add client closing code
+                    System.out.println("missing ping from server");
+                }
+            }
+        }, TIMER_DELAY);
     }
 }

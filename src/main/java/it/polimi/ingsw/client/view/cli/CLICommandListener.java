@@ -40,7 +40,7 @@ public class CLICommandListener implements CommandListener {
             notifyObservers(new SelectNumberPlayersEvent(Integer.parseInt(numberOfPlayers)));
         } catch (NumberFormatException e) {
             CLI.clearView();
-            System.err.println("Please re-insert a valid number");
+            System.out.println(AsciiArts.RED + "Please re-insert a valid number" + AsciiArts.RESET);
             //askNumberOfPlayers(payload);
         }
     }
@@ -74,7 +74,7 @@ public class CLICommandListener implements CommandListener {
                 leaderCardsIDs.get(Integer.parseInt(choice)); //used to trigger IndexOutOfBoundsException
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 CLI.clearView();
-                System.err.println("Please re-insert a valid number");
+                System.out.println(AsciiArts.RED + "Please re-insert a valid number" + AsciiArts.RESET);
                 return null;
             }
         }
@@ -100,7 +100,7 @@ public class CLICommandListener implements CommandListener {
                 chosenResources.add(AsciiArts.MARBLES_COLOR.get(Integer.parseInt(choice)));
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 CLI.clearView();
-                System.err.println("Please re-insert a valid number");
+                System.out.println(AsciiArts.RED + "Please re-insert a valid number" + AsciiArts.RESET);
                 return null;
             }
         }

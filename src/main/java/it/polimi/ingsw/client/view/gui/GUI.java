@@ -22,7 +22,7 @@ public class GUI implements View {
 
     @Override
     public void start() {
-        networkHandler.run();
+        networkHandler.startNetwork();
     }
 
 

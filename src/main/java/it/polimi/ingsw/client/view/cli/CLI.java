@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.view.View;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 
 public class CLI implements View {
 
@@ -26,7 +25,7 @@ public class CLI implements View {
     @Override
     public void start() {
         cliCommandListener.registerObservers(networkHandler);
-        networkHandler.run();
+        networkHandler.startNetwork();
     }
 
     public static void clearView() {
@@ -46,7 +45,7 @@ public class CLI implements View {
 
     @Override
     public void printErrorMessage(String error) {
-        System.err.println(error);
+        System.out.println(AsciiArts.RED + error + AsciiArts.RESET);
     }
 
     @Override

@@ -41,9 +41,7 @@ public enum AsciiArts {
             "╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ \n" +
             "                                                                                               \n"),
 
-    MARBLE("")
-
-    ;
+    MARBLE("");
 
 
     private final String asciiArt;
