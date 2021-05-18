@@ -61,7 +61,8 @@ public class CLICommandListener implements CommandListener {
     private List<Integer> askLeaderCardsChoice(List<String> leaderCardsIDs) {
         List<Integer> chosenIndexes = new ArrayList<>();
 
-        System.out.println(Board.getBoard().getMarketTray().getPrintable(CLI.MARKET_X_SHIFT));
+        for(String row : Board.getBoard().getMarketTray().getPrintable())
+            System.out.println(row);
 
         //fixme indexes (now can choose 2 same indexes)
         for(int i = 0; i < LEADER_CARDS_TO_CHOOSE; i++) {
@@ -93,7 +94,8 @@ public class CLICommandListener implements CommandListener {
 
     private List<String> askResourcesChoice(int numberOfResources) {
 
-        System.out.println(Board.getBoard().getMarketTray().getPrintable(CLI.MARKET_X_SHIFT));
+        for(String row : Board.getBoard().getMarketTray().getPrintable())
+            System.out.println(row);
 
         List<Marble> storableMarbles = new ArrayList<Marble>(){{
             add(new Marble("YELLOW"));

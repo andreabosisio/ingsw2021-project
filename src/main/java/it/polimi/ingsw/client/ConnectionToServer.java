@@ -19,7 +19,7 @@ public class ConnectionToServer implements Runnable {
     private PrintWriter out;
     private final BlockingQueue<String> messagesFromServer = new LinkedBlockingQueue<>();
     private boolean receivedPing;
-    Timer timer;
+    private Timer timer;
     //must be higher than the ping period
     private final static int TIMER_DELAY = 6000;//in milliseconds
     private final static String PING_MESSAGE = "ping";
@@ -50,6 +50,7 @@ public class ConnectionToServer implements Runnable {
         try {
             message = messagesFromServer.take();
         } catch (InterruptedException e) {
+            close();
             e.printStackTrace();
         }
         return message;
@@ -68,7 +69,7 @@ public class ConnectionToServer implements Runnable {
         }
     }
 
-    public void sendPong() {
+    private void sendPong() {
         out.println(PONG_MESSAGE);
     }
 
@@ -84,7 +85,7 @@ public class ConnectionToServer implements Runnable {
                     messagesFromServer.add(message);
                 }
             } catch (IOException e) {
-                message = null; //todo: socket fails, so sad
+                message = null; //todo: socket failed
             }
         }
     }

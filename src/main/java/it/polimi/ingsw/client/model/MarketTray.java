@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.model;
 import it.polimi.ingsw.client.view.cli.AsciiArts;
 import it.polimi.ingsw.client.view.cli.CLI;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MarketTray {
@@ -42,14 +43,32 @@ public class MarketTray {
                 k++;
             }
     }
+/*
+    public String[] getAsArray(StringBuilder printable) {
+        int lastIndex = 0;
+        int currentIndex;
 
-    public StringBuilder getPrintable(int xShift) {
+        do {
+            currentIndex = printable.indexOf("\n", lastIndex);
+
+        } while (currentIndex != -1);
+    }
+ */
+
+    /**
+     * Return a printable representation of the MarketTray.
+     * Dimensions: 21*12 chars
+     *
+     * @return a List<String> containing the representation of the MarketTray row by row.
+     */
+    public List<String> getPrintable() {
 
         //todo why i have to do this here ?
         setMarketBoard();
+
+        List<String> toReturn = new ArrayList<>();
         StringBuilder printable = new StringBuilder();
 
-        printable.append(CLI.getHorizontalShift(xShift));
         printable.append("┌─────");
 
         for (int i = 1; i < NUM_C; i++) {
@@ -59,12 +78,14 @@ public class MarketTray {
                 printable.append("────");
         }
 
-        printable.append("\n");
-        printable.append(getNUMCTopSlots(xShift));
-        printable.append("\n");
+        toReturn.add(printable.toString());
+
+        toReturn.add(getNUMCTopSlots().toString());
+
 
         for (int i = 0; i < NUM_R; i++) {
-            printable.append(CLI.getHorizontalShift(xShift));
+            printable = new StringBuilder();
+
             printable.append("│ ");
             for (int j = 0; j < NUM_C; j++) {
                 printable.append("│").append(Marble.getAsciiMarbleByColor(marketBoard[i][j])).append("│");
@@ -72,24 +93,23 @@ public class MarketTray {
                     printable.append("  ").append(AsciiArts.WHITE_BRIGHT).append(AsciiArts.LEFT_ARROW.getAsciiArt()).append(" [").append(i).append("]").append(AsciiArts.RESET);
                 }
             }
-            printable.append("\n");
-            printable.append(getNUMCBottomSlots(xShift));
-            printable.append("\n");
+            toReturn.add(printable.toString());
+            toReturn.add(getNUMCBottomSlots().toString());
 
             if(i != NUM_R - 1) {
-                printable.append(getNUMCTopSlots(xShift));
-                printable.append("\n");
+                toReturn.add(getNUMCTopSlots().toString());
             }
         }
-        printable.append(getNUMCUpArrows(xShift)).append("\n");
+        toReturn.add(getNUMCUpArrows().toString());
+        toReturn.add(getNUMCBottomIndexes().toString());
 
         //System.out.println( "\u001b[100C" + printable);
-        return printable;
+        return toReturn;
     }
 
-    private StringBuilder getNUMCTopSlots(int xShift) {
+    private StringBuilder getNUMCTopSlots() {
         StringBuilder topCorners = new StringBuilder();
-        topCorners.append(CLI.getHorizontalShift(xShift));
+
         topCorners.append("│ ┌──┐");
         for (int i = 1; i < NUM_C; i++)
             topCorners.append("┌──┐");
@@ -97,9 +117,9 @@ public class MarketTray {
         return topCorners;
     }
 
-    private StringBuilder getNUMCBottomSlots(int xShift) {
+    private StringBuilder getNUMCBottomSlots() {
         StringBuilder bottomCorners = new StringBuilder();
-        bottomCorners.append(CLI.getHorizontalShift(xShift));
+
         bottomCorners.append("│ └──┘");
         for (int i = 1; i < NUM_C; i++)
             bottomCorners.append("└──┘");
@@ -107,18 +127,21 @@ public class MarketTray {
         return bottomCorners;
     }
 
-    private StringBuilder getNUMCUpArrows(int xShift) {
+    private StringBuilder getNUMCUpArrows() {
         StringBuilder arrows = new StringBuilder();
 
-        arrows.append(CLI.getHorizontalShift(xShift));
+
         arrows.append("  ");
         for (int i = NUM_C; i > 0; i--)
             arrows.append(" ").append(AsciiArts.WHITE_BRIGHT).append(AsciiArts.UP_ARROW.getAsciiArt()).append("  ").append(AsciiArts.RESET);
 
-        arrows.append("\n");
-        arrows.append(CLI.getHorizontalShift(xShift));
-        arrows.append("  ");
+        return arrows;
+    }
 
+    private StringBuilder getNUMCBottomIndexes() {
+        StringBuilder arrows = new StringBuilder();
+
+        arrows.append("  ");
         for (int i = NUM_C; i > 0; i--)
             arrows.append(AsciiArts.WHITE_BRIGHT).append("[").append(i + 2).append("] ").append(AsciiArts.RESET);
 
