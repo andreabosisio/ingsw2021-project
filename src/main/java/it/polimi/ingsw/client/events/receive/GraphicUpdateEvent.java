@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.events.receive;
 import com.google.gson.*;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.DevelopmentCardsGrid;
+import it.polimi.ingsw.client.model.FaithTrack;
 import it.polimi.ingsw.client.model.MarketTray;
 import it.polimi.ingsw.client.view.View;
 
@@ -14,7 +15,7 @@ public class GraphicUpdateEvent implements ReceiveEvent{
     private JsonObject gridUpdate;
     private JsonObject marketUpdate;
     private JsonObject faithTracksUpdate;
-    private JsonObject personalBoardUpdateList;
+    private JsonArray personalBoardUpdateList;
 
 
 
@@ -32,6 +33,7 @@ public class GraphicUpdateEvent implements ReceiveEvent{
         //MarketTray marketTray = new MarketTray(gson.fromJson(gridUpdate, List.class));
         Board.getBoard().setMarketTray(gson.fromJson(marketUpdate, MarketTray.class));
         Board.getBoard().setDevelopmentCardsGrid(gson.fromJson(gridUpdate, DevelopmentCardsGrid.class));
+        Board.getBoard().setFaithTrack(gson.fromJson(faithTracksUpdate, FaithTrack.class));
         view.graphicUpdate();
         //System.out.println(market.getPrintable(20));
     }

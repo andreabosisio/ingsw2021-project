@@ -2,30 +2,29 @@ package it.polimi.ingsw.server.model.gameBoard.faithtrack;
 
 import it.polimi.ingsw.server.model.PlayerInterface;
 
+import java.util.Arrays;
+
 /**
  * This class contains all the information about
  * the faith track owned by a player.
  * It is observer of the class FirstOfFaithTrack.
  */
 public class FaithTrack implements FaithObserver {
-    private static int startSection3 = 19;
-    private static int startSection2 = 12;
-    private static int startSection1 = 5;
-    final PlayerInterface owner;
-    int faithMarker;
-    final FirstOfFaithTrack firstOfFaithTrack;
+    public static final int DIM_POPE_REPORTS = 3;
+    private static final int startSection3 = 19;
+    private static final int startSection2 = 12;
+    private static final int startSection1 = 5;
+    private final PlayerInterface owner;
+    private int faithMarker;
+    private final FirstOfFaithTrack firstOfFaithTrack;
     private final int endOfTheFaithTrack = 24;
-    boolean popeTile1;
-    boolean popeTile2;
-    boolean popeTile3;
+    private final Boolean[] popeReports = new Boolean[DIM_POPE_REPORTS];
 
     public FaithTrack(PlayerInterface owner, FirstOfFaithTrack firstOfFaithTrack) {
         this.owner = owner;
         this.faithMarker = 0;
         this.firstOfFaithTrack = firstOfFaithTrack;
-        this.popeTile1 = false;
-        this.popeTile2 = false;
-        this.popeTile3 = false;
+        Arrays.fill(popeReports, Boolean.FALSE);
     }
 
     /**
@@ -56,19 +55,19 @@ public class FaithTrack implements FaithObserver {
         switch (indexOfTheVaticanReportSection) {
             case 1:
                 if (faithMarker >= startSection1)
-                    popeTile1 = true;
+                    popeReports[0] = true;
                 else
                     return false;
                 break;
             case 2:
                 if (faithMarker >= startSection2)
-                    popeTile2 = true;
+                    popeReports[1] = true;
                 else
                     return false;
                 break;
             case 3:
                 if (faithMarker >= startSection3)
-                    popeTile3 = true;
+                    popeReports[2] = true;
                 else
                     return false;
                 break;
@@ -110,31 +109,45 @@ public class FaithTrack implements FaithObserver {
         else if (faithMarker >= 3)
             victoryPoints = 1;
 
-        if (popeTile1)
+        if (hasAchievedFirstReport())
             victoryPoints = victoryPoints + 2;
-        if (popeTile2)
+        if (hasAchievedSecondReport())
             victoryPoints = victoryPoints + 3;
-        if (popeTile3)
+        if (hasAchievedThirdReport())
             victoryPoints = victoryPoints + 4;
 
         return victoryPoints;
     }
 
+    public Boolean[] getPopeReports() {
+        return popeReports;
+    }
+
     /**
-     * Get methods, used for testing
+     * Return if the Player's achieved the first Pope Report.
      *
-     * @return true if the Pope Tile is flipped up
+     * @return true if the Player's achieved the first Pope Report
      */
-    public boolean isPopeTile1() {
-        return popeTile1;
+    public boolean hasAchievedFirstReport() {
+        return popeReports[0];
     }
 
-    public boolean isPopeTile2() {
-        return popeTile2;
+    /**
+     * Return if the Player's achieved the second Pope Report.
+     *
+     * @return true if the Player's achieved the second Pope Report
+     */
+    public boolean hasAchievedSecondReport() {
+        return popeReports[1];
     }
 
-    public boolean isPopeTile3() {
-        return popeTile3;
+    /**
+     * Return if the Player's achieved the second Pope Report.
+     *
+     * @return true if the Player's achieved the second Pope Report
+     */
+    public boolean hasAchievedThirdReport() {
+        return popeReports[2];
     }
 
     /**
