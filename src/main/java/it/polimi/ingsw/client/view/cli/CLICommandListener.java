@@ -21,7 +21,7 @@ public class CLICommandListener implements CommandListener {
 
     private static final int LEADER_CARDS_TO_CHOOSE = 2;
     private static final int MAX_MARKET_ARROW_ID = 6;
-    private static final int MIN_MARKET_ARROW_ID = 1;
+    private static final int MIN_MARKET_ARROW_ID = 0;
 
 
     protected void askCredentials() {
@@ -66,13 +66,6 @@ public class CLICommandListener implements CommandListener {
         for(String row : Board.getBoard().getMarketTray().getPrintable())
             System.out.println(row);
 
-        /*
-        for(String row : Board.getBoard().getDevelopmentCardsGrid().getPrintableDevelopmentCardsGrid())
-            System.out.println(row);
-
-         */
-
-        //fixme indexes (now can choose 2 same indexes)
         for(int i = 0; i < LEADER_CARDS_TO_CHOOSE; i++) {
             System.out.println("Choose a " + AsciiArts.CYAN + "LeaderCard" + AsciiArts.RESET + ": ");
             for (int j = 0; j < leaderCardsIDs.size(); j++) {
@@ -85,25 +78,29 @@ public class CLICommandListener implements CommandListener {
             String choice = scanner.nextLine();
             try {
                 chosenIndexes.add(Integer.parseInt(choice));
+
+                if(chosenIndexes.stream().distinct().count() < chosenIndexes.size())
+                    throw new NumberFormatException();
+
                 leaderCardsIDs.get(Integer.parseInt(choice)); //used to trigger IndexOutOfBoundsException
+
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 CLI.clearView();
-                System.out.println(AsciiArts.RED + "Please re-insert a valid number" + AsciiArts.RESET);
+                System.out.println(AsciiArts.RED + "Invalid index: please re-choice from scratch" + AsciiArts.RESET);
                 return null;
             }
         }
         CLI.clearView();
         System.out.println(AsciiArts.GREEN + "Valid LeaderCards choices!" + AsciiArts.RESET);
         System.out.println(AsciiArts.WHITE_BOLD_BRIGHT + "Your LeaderCards: " + AsciiArts.RESET);
+        //todo print leader cards
         for (Integer chosenIndex : chosenIndexes)
-            System.out.println(leaderCardsIDs.get(chosenIndex));
+            System.out.print(leaderCardsIDs.get(chosenIndex) + "\t\t");
+        System.out.println();
         return chosenIndexes;
     }
 
     private List<String> askResourcesChoice(int numberOfResources) {
-
-        for(String row : Board.getBoard().getMarketTray().getPrintable())
-            System.out.println(row);
 
         List<Marble> storableMarbles = new ArrayList<Marble>(){{
             add(new Marble("YELLOW"));
@@ -113,32 +110,45 @@ public class CLICommandListener implements CommandListener {
         }};
         List<String> chosenResourcesColor = new ArrayList<>();
 
-        if(numberOfResources == 0)
-            return chosenResourcesColor;
-
-        while (chosenResourcesColor.size() < numberOfResources){
-            System.out.println("Choose a " + AsciiArts.CYAN + "resource" + AsciiArts.RESET + ": ");
-            for (int j = 0; j < storableMarbles.size(); j ++) {
-                System.out.print(AsciiArts.WHITE_BRIGHT + "[" + j + "]: " + AsciiArts.RESET + Marble.getAsciiMarbleByColor(storableMarbles.get(j).getColor()) + "\t\t");
+        if(numberOfResources != 0) {
+            while (chosenResourcesColor.size() < numberOfResources) {
+                System.out.println("Choose a " + AsciiArts.CYAN + "resource" + AsciiArts.RESET + ": ");
+                for (int j = 0; j < storableMarbles.size(); j++) {
+                    System.out.print(AsciiArts.WHITE_BRIGHT + "[" + j + "]: " + AsciiArts.RESET + Marble.getPrintable(storableMarbles.get(j).getColor()) + "\t\t");
+                }
+                System.out.println();
+                String choice = scanner.nextLine();
+                try {
+                    chosenResourcesColor.add(storableMarbles.get(Integer.parseInt(choice)).getColor());
+                } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                    CLI.clearView();
+                    System.out.println(AsciiArts.RED + "Invalid index: please re-choice from scratch" + AsciiArts.RESET);
+                    return null;
+                }
             }
-            System.out.println();
-            String choice = scanner.nextLine();
-            try {
-                chosenResourcesColor.add(storableMarbles.get(Integer.parseInt(choice)).getColor());
-            } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                CLI.clearView();
-                System.out.println(AsciiArts.RED + "Please re-insert a valid number" + AsciiArts.RESET);
-                return null;
-            }
+            System.out.println(AsciiArts.GREEN + "Valid resources choices!" + AsciiArts.RESET);
         }
 
-        System.out.println(AsciiArts.GREEN + "Valid resources choices!" + AsciiArts.RESET);
+        System.out.print("Please wait for other players' choices ");
+        for(int i = 0; i < 3; i++){
+            try {
+                Thread.sleep(500);
+                System.out.print(".");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return chosenResourcesColor;
     }
 
     public void askCardPlacement(){
         int choice = -1;
-        while(choice<1||choice>3){
+        while(choice < 1|| choice > 3){
             System.out.println("Select where you wish to place your new card(1-2-3)");
             try {
                 choice = Integer.parseInt(scanner.nextLine());
@@ -156,7 +166,7 @@ public class CLICommandListener implements CommandListener {
             System.out.print("Resource n" + (i + 1) + " can be: ");
             for(int j = 0;j<possibleTransformations.size();j++){
                 String color = possibleTransformations.get(j);
-                System.out.print((j+1)+Marble.getAsciiMarbleByColor(color.toUpperCase(Locale.ROOT))+" ");
+                System.out.print((j+1)+Marble.getPrintable(color.toUpperCase(Locale.ROOT))+" ");
             }
             System.out.print("\n");
             int choice = -1;
@@ -185,7 +195,7 @@ public class CLICommandListener implements CommandListener {
     public void askMarketAction(){
         int choice = -1;
         System.out.println("Select which row or column you want to take");
-        while(choice<MIN_MARKET_ARROW_ID||choice>MAX_MARKET_ARROW_ID){
+        while(choice < MIN_MARKET_ARROW_ID || choice > MAX_MARKET_ARROW_ID){
             try {
                 choice = Integer.parseInt(scanner.nextLine());
             }catch (NumberFormatException e){

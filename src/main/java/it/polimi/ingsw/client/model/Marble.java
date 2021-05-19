@@ -13,7 +13,7 @@ public class Marble {
         return color;
     }
 
-    public static String getAsciiMarbleByColor(String color) {
+    public static String getPrintable(String color) {
         switch (color) {
             case "WHITE":
                return AsciiArts.WHITE_MARBLE;

@@ -47,6 +47,8 @@ public class CLI implements View {
 
     @Override
     public void graphicUpdate() {
+        Board.getBoard().getMarketTray().getPrintable().forEach(System.out::println);
+        Board.getBoard().getFaithTrack().getPrintable().forEach(System.out::println);
     }
 
     @Override
@@ -91,7 +93,24 @@ public class CLI implements View {
 
         System.out.println(AsciiArts.LOGO.getAsciiArt());
 
-        System.out.print("Matchmaking...");
+        //System.out.println("Matchmaking...");
+
+        System.out.println();
+        System.out.print("Matchmaking");
+        for(int i = 0; i < 3; i++){
+            try {
+                Thread.sleep(500);
+                System.out.print(".");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println();
 
         /*
         System.out.print("Matchmaking");

@@ -11,6 +11,7 @@ public class Board {
     private static Board instance;
     private MarketTray marketTray;
     private DevelopmentCardsGrid developmentCardsGrid;
+    private FaithTrack faithTrack;
     private Set<Player> players;
 
     private Board() {
@@ -22,13 +23,24 @@ public class Board {
         return instance;
     }
 
+    //todo how to not hardcode
     public void setMarketTray(MarketTray marketTray) {
-        this.marketTray = marketTray;
-        this.marketTray.setMarketBoard();
+        if(marketTray != null){
+            this.marketTray = marketTray;
+            this.marketTray.setMarketBoard();
+        }
     }
 
     public void setDevelopmentCardsGrid(DevelopmentCardsGrid developmentCardsGrid) {
-        this.developmentCardsGrid = developmentCardsGrid;
+        if(developmentCardsGrid != null) {
+            this.developmentCardsGrid = developmentCardsGrid;
+        }
+    }
+
+    public void setFaithTrack(FaithTrack faithTrack) {
+        if(faithTrack != null) {
+            this.faithTrack = faithTrack;
+        }
     }
 
     public void setPlayers(Set<Player> players) {
@@ -37,6 +49,10 @@ public class Board {
 
     public MarketTray getMarketTray() {
         return marketTray;
+    }
+
+    public FaithTrack getFaithTrack() {
+        return faithTrack;
     }
 
     public DevelopmentCardsGrid getDevelopmentCardsGrid() {

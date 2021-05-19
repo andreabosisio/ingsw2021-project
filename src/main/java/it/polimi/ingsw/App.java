@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.client.model.FaithTrack;
+import it.polimi.ingsw.client.model.MarketTray;
 import com.google.gson.Gson;
 
 import it.polimi.ingsw.client.model.DevelopmentCardsGrid;
@@ -8,15 +10,61 @@ import it.polimi.ingsw.server.events.receive.MarketReceiveEvent;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Hello world!
- *
  */
 public class App {
+
     public static void main(String[] args) {
+
+        MarketTray marketTray = new MarketTray(new it.polimi.ingsw.server.model.gameBoard.MarketTray().toStringList());
+        List<String> marketRows = marketTray.getPrintable();
+        for(String marketRow : marketRows)
+            System.out.println(marketRow);
+
+        Boolean[] booleans = {false, false, false};
+
+        FaithTrack faithTrack = new FaithTrack(new HashMap<String, Integer>(){{
+            put("p1", 0);
+            put("p2", 1);
+            put("p3", 1);
+            put("p4", 2);
+        }}, new HashMap<String, Boolean[]>() {{
+            put("p1", booleans);
+            put("p2", booleans);
+            put("p3", booleans);
+            put("p4", booleans);
+        }});
+        faithTrack.getPrintable().forEach(System.out::println);
+
+        FaithTrack faithTrack2 = new FaithTrack(new HashMap<String, Integer>(){{
+            put("p1", 3);
+            put("p2", 16);
+            put("p3", 8);
+            put("p4", 8);
+        }}, new HashMap<String, Boolean[]>(){{
+
+            put("p1", booleans);
+
+            Boolean[] bool2 = {true, true, false};
+            put("p2", bool2);
+
+            Boolean[] bool34 = {true, false, false};
+            put("p3", bool34);
+            put("p4", bool34);
+        }});
+        faithTrack2.getPrintable().forEach(System.out::println);
+
+
+
+
+        //System.out.println(AsciiArts.EMPTY_RES);
+
         Scanner scanner = new Scanner(System.in);
         int numberOfTransformation = 3;
         List<String> possibleTransformations = new ArrayList<String>() {{
@@ -31,17 +79,14 @@ public class App {
         for(String riga : cardsGridList)
             System.out.println(riga);
         /*
-        //askCardPlacement code
-        int choice = -1;
-        while(choice<1||choice>3){
-            System.out.println("Select where you wish to place your new card(1-2-3)");
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-            }catch (NumberFormatException e){
-                System.out.println("invalid input");
-            }
-        }
-        System.out.println("sendEvent called here");
+        ArrayList<String> arrayList = new ArrayList<String>();
+        arrayList.add("1");
+        arrayList.add("2");
+        arrayList.add("3");
+        arrayList.add("4");
+        arrayList.add("5");
+        arrayList.subList(2, arrayList.size()).clear();
+        System.out.println(arrayList.size());
 
 
          */
@@ -74,6 +119,25 @@ public class App {
 
 
          */
+        MarketReceiveEvent event = new MarketReceiveEvent("matteo",1);
+        Gson gson = new Gson();
+        String json = gson.toJson(event);
+        System.out.println(json);
+
+/*
+        for (int i = 0; i < 3; i++) {
+            System.out.println(
+                            "╔══════════╗ "  +  "╔══════════╗ " +  "╔══════════╗ " +  "╔══════════╗\n" +
+                            "║l        l║ "  +  "║l        l║ " +  "║l        l║ " +  "║l        l║\n" +
+                            "║  p p p   ║ "  +  "║  p p p   ║ " +  "║  p p p   ║ " +  "║  p p p   ║\n" +
+                            "║──────────║ "  +  "║──────────║ " +  "║──────────║ " +  "║──────────║\n" +
+                            "║  i │ o   ║ "  +  "║  i │ o   ║ " +  "║  i │ o   ║ " +  "║  i │ o   ║\n" +
+                            "║  i } o   ║ "  +  "║  i } o   ║ " +  "║  i } o   ║ " +  "║  i } o   ║\n" +
+                            "║  i │ o   ║ "  +  "║  i │ o   ║ " +  "║  i │ o   ║ " +  "║  i │ o   ║\n" +
+                            "║       vv ║ "  +  "║       vv ║ " +  "║       vv ║ " +  "║       vv ║\n" +
+                            "╚══════════╝ "  +  "╚══════════╝ " +  "╚══════════╝ " +  "╚══════════╝ ");
+        }
+        */
     }
 }
 

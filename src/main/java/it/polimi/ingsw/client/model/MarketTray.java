@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.cli.AsciiArts;
-import it.polimi.ingsw.client.view.cli.CLI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +72,7 @@ public class MarketTray {
 
         for (int i = 1; i < NUM_C; i++) {
             if (i == NUM_C - 1 )
-                printable.append("─").append(Marble.getAsciiMarbleByColor(extraSlot)).append("─");
+                printable.append("─").append(Marble.getPrintable(extraSlot)).append("─");
             else
                 printable.append("────");
         }
@@ -88,7 +87,7 @@ public class MarketTray {
 
             printable.append("│ ");
             for (int j = 0; j < NUM_C; j++) {
-                printable.append("│").append(Marble.getAsciiMarbleByColor(marketBoard[i][j])).append("│");
+                printable.append("│").append(Marble.getPrintable(marketBoard[i][j])).append("│");
                 if (j == NUM_C - 1) {
                     printable.append("  ").append(AsciiArts.WHITE_BRIGHT).append(AsciiArts.LEFT_ARROW.getAsciiArt()).append(" [").append(i).append("]").append(AsciiArts.RESET);
                 }
