@@ -8,7 +8,7 @@ public class ColorsForDevelopmentCard {
             case "GREEN":
                 return AsciiArts.GREEN_BRIGHT;
             case "PURPLE":
-                return AsciiArts.PURPLE_BRIGHT;
+                return AsciiArts.PURPLE;
             case "YELLOW":
                 return AsciiArts.YELLOW_BRIGHT;
             case "BLUE":

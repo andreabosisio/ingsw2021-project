@@ -6,19 +6,14 @@ import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import java.util.*;
 
 /**
- * Class that contains all the information to print the Development Cards Grid
+ * Class that has the capacity to print the Development Cards Grid
  */
 public class DevelopmentCardsGrid {
     private final List<Map<String, String>> mapByLevel = new ArrayList<>();
-    private DevelopmentCard developmentCard;
 
     private final int CARD_LEVEL = 3;
     private final int CARD_LINES = 9;
     private final String EMPTY_CARD = "empty";
-
-    public DevelopmentCardsGrid(List<String> cardIndexes) {
-        firstCardsGrid(cardIndexes);
-    }
 
     /**
      * This method set the variable mapByLevel:
@@ -27,7 +22,7 @@ public class DevelopmentCardsGrid {
      *
      * @param cardIndexes is the List of the indexes of the Cards
      */
-    private void firstCardsGrid(List<String> cardIndexes) {
+    public void firstCardsGrid(List<String> cardIndexes) {
         for (int i = 0; i < CARD_LEVEL; i++) {
             mapByLevel.add(new HashMap<>());
         }
@@ -36,9 +31,6 @@ public class DevelopmentCardsGrid {
             List<String> splitIndex = Arrays.asList(indexCard.split("_"));
             mapByLevel.get(Integer.parseInt(splitIndex.get(1)) - 1).put(splitIndex.get(0), indexCard);
         }
-
-        // First initialize of the information about all the Development Cards
-        developmentCard = new DevelopmentCard();
     }
 
     /**
@@ -59,6 +51,7 @@ public class DevelopmentCardsGrid {
      */
     public List<String> getPrintableDevelopmentCardsGrid() {
         List<String> cardsGrid = new ArrayList<>();
+        DevelopmentCard developmentCard = new DevelopmentCard();
 
         for (int level_card = 0; level_card < CARD_LEVEL; level_card++) {
             for (int cardLine = 0; cardLine < CARD_LINES; cardLine++) {
