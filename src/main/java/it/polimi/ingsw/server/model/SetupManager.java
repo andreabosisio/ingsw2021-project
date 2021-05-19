@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
@@ -125,8 +126,9 @@ public class SetupManager {
                     graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player.getNickname(), player.getPersonalBoard().getWarehouse()));
                 }
                 modelInterface.notifyObservers(graphicUpdateEvent);
+                modelInterface.notifyObservers(new StartTurnEvent(modelInterface.getCurrentPlayerNickname(),false));
+                modelInterface.getTurnLogic().setLastEventSent(new StartTurnEvent(modelInterface.getCurrentPlayerNickname(),true));
             }
-
             return true;
         }
         throw new InvalidSetupException("Invalid number of chosen Resources and/or LeaderCards");

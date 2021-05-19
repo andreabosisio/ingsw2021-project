@@ -54,7 +54,7 @@ public class StartTurn extends State {
 
                 //send event and save choice data
                 choiceEvent = new TransformationChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getWhiteResourcesFromMarket());
-                turnLogic.setCurrentChoiceData(choiceEvent);
+                turnLogic.setLastEventSent(choiceEvent);
                 turnLogic.getModelInterface().
                         notifyObservers(choiceEvent);
                 hasAlreadyDoneLeaderAction = false;
@@ -64,7 +64,7 @@ public class StartTurn extends State {
 
             //send event and save choice data
             choiceEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse());
-            turnLogic.setCurrentChoiceData(choiceEvent);
+            turnLogic.setLastEventSent(choiceEvent);
             turnLogic.getModelInterface().
                     notifyObservers(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             hasAlreadyDoneLeaderAction = false;
@@ -187,7 +187,7 @@ public class StartTurn extends State {
 
                 //send event and save choice
                 ChoiceEvent choiceEvent = new PlaceDevCardChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), chosenDevelopmentCard);
-                turnLogic.setCurrentChoiceData(choiceEvent);
+                turnLogic.setLastEventSent(choiceEvent);
                 turnLogic.getModelInterface().notifyObservers(choiceEvent);
                 turnLogic.setCurrentState(turnLogic.getWaitDevCardPlacement());
                 hasAlreadyDoneLeaderAction = false;

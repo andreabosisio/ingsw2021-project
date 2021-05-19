@@ -10,7 +10,7 @@ public class GraphicUpdateEvent implements SendEvent {
     private final String type = "graphicUpdate";
     private MarketUpdate marketUpdate = null;
     private GridUpdate gridUpdate = null;
-    private List<PersonalBoardUpdate> personalBoardUpdateList = new ArrayList<>();
+    private List<PersonalBoardUpdate> personalBoardUpdateList = null;
     private FaithTracksUpdate faithTracksUpdate = null;
 
     public void addUpdate(MarketUpdate marketUpdate) {
@@ -22,6 +22,9 @@ public class GraphicUpdateEvent implements SendEvent {
     }
 
     public void addUpdate(PersonalBoardUpdate personalBoardUpdate) {
+        if(personalBoardUpdateList == null){
+            personalBoardUpdateList = new ArrayList<>();
+        }
         this.personalBoardUpdateList.add(personalBoardUpdate);
     }
 

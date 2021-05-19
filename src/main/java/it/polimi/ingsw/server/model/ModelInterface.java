@@ -225,7 +225,7 @@ public class ModelInterface implements SendObservable {
     public void startSetup() {
         setupManager.startSetup();
     }
-    public void reSendChoice(){turnLogic.reSendChoice();}
+    public void reSendLastEvent(){turnLogic.reSendLastEvent();}
     public void reSendSetup(String nickname){
        for(SetupChoiceEvent event :setupManager.getSetupSendEvents()){
            if(event.getNickname().equals(nickname)){

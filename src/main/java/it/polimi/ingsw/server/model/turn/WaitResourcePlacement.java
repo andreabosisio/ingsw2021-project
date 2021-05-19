@@ -34,7 +34,7 @@ public class WaitResourcePlacement extends State {
         //todo rivedere cosa va mandato in caso di invalid!!!!!
         if (swapPairs.size() % 2 != 0) {
             //resend place choice
-            turnLogic.setCurrentChoiceData(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+            turnLogic.setLastEventSent(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             throw new InvalidEventException("every swap should always have an initPosition and a finalPosition"); //a swap should always have an initPosition and a finalPosition
         }
         Warehouse warehouse = turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse();
@@ -42,7 +42,7 @@ public class WaitResourcePlacement extends State {
         for (int i = 0; i < swapPairs.size(); i = i + 2)
             if (!warehouse.swap(swapPairs.get(i), swapPairs.get(i + 1))) {
                 //resend choice
-                turnLogic.setCurrentChoiceData(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+                turnLogic.setLastEventSent(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
                 throw new InvalidEventException("the swap cannot be applied"); //the swap cannot be applied
             }
         if (warehouse.isProperlyOrdered()) {
@@ -54,7 +54,7 @@ public class WaitResourcePlacement extends State {
             graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
             graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
-            turnLogic.setCurrentChoiceData(null);
+            turnLogic.setLastEventSent(null);
             turnLogic.setCurrentState(turnLogic.getEndTurn());
             return true;
         }
@@ -64,7 +64,7 @@ public class WaitResourcePlacement extends State {
         graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
         turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
-        turnLogic.setCurrentChoiceData(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+        turnLogic.setLastEventSent(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
         throw new InvalidEventException("Illegal Warehouse reordering");
     }
 }

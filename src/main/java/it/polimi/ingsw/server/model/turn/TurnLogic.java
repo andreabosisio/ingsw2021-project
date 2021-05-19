@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.events.send.SendEvent;
+import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
@@ -18,7 +20,7 @@ import java.util.Map;
  * Contains all the information of the current turn
  */
 public class TurnLogic {
-    private ChoiceEvent currentChoiceData;
+    private SendEvent lastEventSent;
     private final GameMode gameMode;
     private final List<Player> players;
     private Player currentPlayer;
@@ -29,7 +31,7 @@ public class TurnLogic {
     private final ModelInterface modelInterface;
 
     public TurnLogic(List<Player> players, ModelInterface modelInterface) {
-        this.currentChoiceData = null;
+        this.lastEventSent = null;
         this.modelInterface = modelInterface;
         this.players = players;
         this.currentPlayer = players.get(0);
@@ -105,8 +107,8 @@ public class TurnLogic {
             setNextPlayer();
             return;
         }
-
         reset();
+        modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname(),false));
     }
 
     public void reset() {
@@ -310,13 +312,13 @@ public class TurnLogic {
     }
 
 
-    public void setCurrentChoiceData(ChoiceEvent currentChoiceData) {
-        this.currentChoiceData = currentChoiceData;
+    public void setLastEventSent(SendEvent lastEventSent) {
+        this.lastEventSent = lastEventSent;
     }
 
-    public void reSendChoice() {
-        if(currentChoiceData!=null) {
-            modelInterface.notifyObservers(currentChoiceData);
+    public void reSendLastEvent() {
+        if(lastEventSent !=null) {
+            modelInterface.notifyObservers(lastEventSent);
         }
     }
 }

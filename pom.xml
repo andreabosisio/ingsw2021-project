@@ -31,6 +31,26 @@
       <version>2.8.6</version>
     </dependency>
 
+    <!-- JavaFX dependencies below:safe to delete for now -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>14</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>14</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>14</version>
+    </dependency>
+    <!-- JavaFX dependencies above:safe to delete for now -->
+
   </dependencies>
 
 

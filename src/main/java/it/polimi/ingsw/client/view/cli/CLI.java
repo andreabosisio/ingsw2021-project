@@ -3,17 +3,14 @@ package it.polimi.ingsw.client.view.cli;
 import it.polimi.ingsw.client.NetworkHandler;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.view.View;
-
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 
 public class CLI implements View {
 
+    private String nickname;
     private NetworkHandler networkHandler;
     private final CLICommandListener cliCommandListener;
-
-    protected static final int MARKET_X_SHIFT = 70;
 
     public CLI(String ip, int port) {
         try {
@@ -28,6 +25,16 @@ public class CLI implements View {
     }
 
     @Override
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    @Override
+    public String getNickname() {
+        return nickname;
+    }
+
+    @Override
     public void start() {
         cliCommandListener.registerObservers(networkHandler);
         networkHandler.startNetwork();
@@ -36,13 +43,6 @@ public class CLI implements View {
     public static void clearView() {
         for (int i = 0; i < 20; i++)
             System.out.println(" ");
-    }
-
-    public static String getHorizontalShift(int shift) {
-        StringBuilder toReturn = new StringBuilder();
-        for (int i = 0; i < shift; i++)
-            toReturn.append(" ");
-        return toReturn.toString();
     }
 
     @Override
@@ -113,7 +113,6 @@ public class CLI implements View {
 
     @Override
     public void setOnSetup(List<String> leaderCardsID, int numberOfResource) {
-
         clearView();
 
         cliCommandListener.askSetupChoice(leaderCardsID, numberOfResource);
@@ -122,7 +121,53 @@ public class CLI implements View {
 
 
     @Override
-    public void setOnGame() {
-
+    public void setOnYourTurn() {
+        //fixme clearView and print personalBoard
+        System.out.println("what do you wish to do?(market,buy,production,leader,see)");
+        String answer = cliCommandListener.askFirstAction();
+        switch (answer){
+            //fixme clear view and print necessary items for everySwitch
+            case "market":{
+                cliCommandListener.askMarketAction();
+                break;
+            }
+            //todo complete code for actions below
+            case "buy":
+                System.out.println("you choose buy");
+                break;
+            case "production":
+                System.out.println("you choose production");
+                break;
+            case "leader":
+                System.out.println("you choose leader");
+                break;
+            case "see":
+                setOnSeeChoice();
+        }
     }
+    private void setOnSeeChoice(){
+        System.out.println("What do you wish to see?");
+        //String answer = cliCommandListener.askSeeChoice();
+        //switch
+        setOnYourTurn();
+    }
+
+    @Override
+    public void setOnNotYourTurn(String currentPlayer) {
+        System.out.println("It's " +currentPlayer+" turn, wait for him to finish");
+    }
+
+    @Override
+    public void setOnPlaceDevCard(String newCardID) {
+        //todo clearView and print card to place and personal production board
+        //Board.getBoard().printPlaceCardScene(newCardId)
+        cliCommandListener.askCardPlacement();
+    }
+
+    @Override
+    public void setOnTransformation(int numberOfTransformation,List<String> possibleTransformations) {
+        clearView();
+        cliCommandListener.askResourceTransformation(numberOfTransformation,possibleTransformations);
+    }
+
 }

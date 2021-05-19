@@ -20,7 +20,7 @@ public class NetworkHandler implements CommandListenerObserver {
     private final ConnectionToServer connectionToServer;
     private final Socket socket;
     private final View view;
-    public String nickname;
+    private String nickname;
 
     private final Map<String, Object> messageTypeMap = new HashMap<String, Object>() {{
         put("info", InfoMessageEvent.class);
@@ -30,10 +30,14 @@ public class NetworkHandler implements CommandListenerObserver {
         put("setup", ChooseSetupEvent.class);
         put("lobbyChoice", ChooseNumberPlayersEvent.class);
         put("graphicUpdate", GraphicUpdateEvent.class);
+        put("placeDevCard", PlaceDevCardReceiveEvent.class);
+        put("transformation", TransformationReceiveEvent.class);
+        put("startTurn",StartTurnUpdateEvent.class);
     }};
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+        view.setNickname(nickname);
     }
 
     //todo regex check
@@ -56,11 +60,14 @@ public class NetworkHandler implements CommandListenerObserver {
 
             //todo: metti synch all the updateView
 
+            /*
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+             */
 
             message = connectionToServer.getMessage();
             //message is null = IOException in getMessage

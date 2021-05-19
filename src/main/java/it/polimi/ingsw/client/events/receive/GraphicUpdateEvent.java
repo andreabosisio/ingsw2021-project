@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client.events.receive;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.DevelopmentCardsGrid;
 import it.polimi.ingsw.client.model.MarketTray;
@@ -13,13 +10,21 @@ import java.util.List;
 
 public class GraphicUpdateEvent implements ReceiveEvent{
 
-    private final JsonObject gridUpdate;
-    private final JsonObject marketUpdate;
+    //they are null if not present in json
+    private JsonObject gridUpdate;
+    private JsonObject marketUpdate;
+    private JsonObject faithTracksUpdate;
+    private JsonObject personalBoardUpdateList;
 
+
+
+/*
     public GraphicUpdateEvent(JsonObject gridUpdate, JsonObject marketUpdate) {
         this.gridUpdate = gridUpdate;
         this.marketUpdate = marketUpdate;
     }
+
+ */
 
     @Override
     public void updateView(View view) {
@@ -29,6 +34,5 @@ public class GraphicUpdateEvent implements ReceiveEvent{
         Board.getBoard().setDevelopmentCardsGrid(gson.fromJson(gridUpdate, DevelopmentCardsGrid.class));
         view.graphicUpdate();
         //System.out.println(market.getPrintable(20));
-
     }
 }

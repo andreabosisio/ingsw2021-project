@@ -21,6 +21,16 @@ public class GUI implements View {
     }
 
     @Override
+    public void setNickname(String nickname) {
+
+    }
+
+    @Override
+    public String getNickname() {
+        return null;
+    }
+
+    @Override
     public void start() {
         networkHandler.startNetwork();
     }
@@ -62,11 +72,24 @@ public class GUI implements View {
     }
 
     @Override
-    public void setOnGame() {
+    public void setOnYourTurn() {
 
     }
 
+    @Override
+    public void setOnNotYourTurn(String currentPlayer) {
 
+    }
+
+    @Override
+    public void setOnPlaceDevCard(String newCardID) {
+
+    }
+
+    @Override
+    public void setOnTransformation(int numberOfTransformation,List<String> possibleTransformations) {
+
+    }
 
 
 }

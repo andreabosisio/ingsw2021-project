@@ -12,5 +12,4 @@ public class ChooseSetupEvent implements ReceiveEvent {
     public void updateView(View view) {
         view.setOnSetup(leaderCardsIDs, numberOfResources);
     }
-
 }

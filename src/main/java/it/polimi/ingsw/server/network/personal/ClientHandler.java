@@ -25,15 +25,15 @@ public class ClientHandler implements Runnable {
     private static final Pattern NICKNAME_PATTERN = Pattern.compile(NICKNAME_REGEXP);
 
     private final Map<String, Object> receiveEventByJsonType = new HashMap<String, Object>() {{
-        put("setupAction", SetupReceiveEvent.class);
-        put("leaderAction", LeaderReceiveEvent.class);
         put("buyAction", BuyReceiveEvent.class);
+        put("cardPlacementAction", PlaceDevCardReceiveEvent.class);
+        put("setupAction", SetupReceiveEvent.class);
+        put("endTurnAction", EndTurnReceiveEvent.class);
+        put("leaderAction", LeaderReceiveEvent.class);
         put("marketAction", MarketReceiveEvent.class);
         put("productionAction", ProductionReceiveEvent.class);
-        put("cardPlacementAction", PlaceDevCardReceiveEvent.class);
         put("resourcesPlacementAction", PlaceResourcesReceiveEvent.class);
         put("transformationAction", TransformationReceiveEvent.class);
-        put("endTurnAction", EndTurnReceiveEvent.class);
     }};
 
     public ClientHandler(Socket socket) {

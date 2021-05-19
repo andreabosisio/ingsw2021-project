@@ -1,14 +1,9 @@
 package it.polimi.ingsw.server.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 import it.polimi.ingsw.server.events.receive.SetupReceiveEvent;
 import it.polimi.ingsw.server.model.ModelInterface;
-import it.polimi.ingsw.server.model.cards.LeaderCard;
-import it.polimi.ingsw.server.model.gameBoard.GameBoard;
-import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.personal.VirtualView;
@@ -16,7 +11,6 @@ import it.polimi.ingsw.server.utils.ReceiveObserver;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Controller implements ReceiveObserver {
 
@@ -44,8 +38,14 @@ public class Controller implements ReceiveObserver {
 
         if (modelInterface.getCurrentPlayerNickname().equals(receiveEvent.getNickname()) || receiveEvent instanceof SetupReceiveEvent) {
             try {
+
+                receiveEvent.doAction(modelInterface);
+                /*
+                //If you remove this comment line above MUST be deleted or double action will occur
                 if(receiveEvent.doAction(modelInterface))
                     currentClientHandler.sendInfoMessage(receiveEvent.getNickname()+" performed a valid "+receiveEvent.getClass().getSimpleName()+"!");
+                 */
+
 
                 //fixme this is for testing!!
                 /*
@@ -67,7 +67,7 @@ public class Controller implements ReceiveObserver {
             } catch (InvalidIndexException | NonStorableResourceException | EmptySlotException | NonAccessibleSlotException | InvalidEventException e) {
                 currentClientHandler.sendErrorMessage(e.getMessage());
                 //if exception was created by a choice re send choice event
-                modelInterface.reSendChoice();
+                modelInterface.reSendLastEvent();
             } catch (InvalidSetupException ex){
                 //if exception was created by a failed setup event resend setup choice event
                 currentClientHandler.sendErrorMessage(ex.getMessage());

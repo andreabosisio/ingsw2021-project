@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
@@ -41,8 +42,8 @@ public class EndTurn extends State {
 
         //reset and change player
         turnLogic.setNextPlayer();
-
         turnLogic.setCurrentState(turnLogic.getStartTurn());
+        turnLogic.setLastEventSent(new StartTurnEvent(turnLogic.getCurrentPlayer().getNickname(),true));
         return true;
     }
 
