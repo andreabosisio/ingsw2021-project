@@ -38,7 +38,7 @@ public class CardsGenerator {
             JsonObject fileObject = fileElement.getAsJsonObject();
             JsonArray jsonArrayOfCards = fileObject.get("cards").getAsJsonArray();
 
-            //Cycle through all leaders element in the file
+            //Cycle through all cards element in the file
             //todo assign ID in json
             int cardID = 1;
             for (JsonElement cardElement : jsonArrayOfCards) {
