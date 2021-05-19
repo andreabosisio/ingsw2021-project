@@ -16,6 +16,10 @@ public class ConnectionToClient {
         startConnection();
     }
 
+    /**
+     * This method saves the BufferedReader and the PrintWriter
+     * They will be used to send messages through the socket
+     */
     private void startConnection() {
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -25,14 +29,21 @@ public class ConnectionToClient {
         }
     }
 
+    /**
+     * This method is used to send a plain text message through the socket
+     *
+     * @param message message to send
+     */
     public void sendMessage(String message) {
         out.println(message);
     }
 
-    /*
-      al momento fa notify e ritorna string uguale a pong che il clienthandler in game ignora
-      tanto client handler in game è un loop continuo di lettura
-    */
+    /**
+     * This method is used to return the plain text messages received from the client through the socket
+     * If the message is a pong message it also notifies a pongObserver of the received message
+     *
+     * @return the received message
+     */
     public String getMessage() {
         String message;
         try {
@@ -47,6 +58,10 @@ public class ConnectionToClient {
         return message;
     }
 
+    /**
+     * This method is used to safely close the connection with the client
+     * Before closing the socket a plain text message is sent to inform the client of the decision
+     */
     public void close() {
         try {
             System.out.println("one player left");
@@ -59,6 +74,10 @@ public class ConnectionToClient {
         }
     }
 
+    /**
+     * This method is used to delete all messages received while the server was unresponsive
+     * The server is unresponsive only while another player is choosing the lobby size
+     */
     public void clearStack() {
         String str;
         while (true) {
@@ -73,6 +92,11 @@ public class ConnectionToClient {
         }
     }
 
+    /**
+     * This method is used to set the pong observer
+     *
+     * @param pongObserver observer to notify when a pong is received
+     */
     public void setPongObserver(PongObserver pongObserver) {
         this.pongObserver = pongObserver;
     }

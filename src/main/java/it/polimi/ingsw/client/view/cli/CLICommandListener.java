@@ -61,8 +61,16 @@ public class CLICommandListener implements CommandListener {
 
     private List<Integer> askLeaderCardsChoice(List<String> leaderCardsIDs) {
         List<Integer> chosenIndexes = new ArrayList<>();
+
+        //todo change where they are printed
         for(String row : Board.getBoard().getMarketTray().getPrintable())
             System.out.println(row);
+
+        /*
+        for(String row : Board.getBoard().getDevelopmentCardsGrid().getPrintableDevelopmentCardsGrid())
+            System.out.println(row);
+
+         */
 
         //fixme indexes (now can choose 2 same indexes)
         for(int i = 0; i < LEADER_CARDS_TO_CHOOSE; i++) {

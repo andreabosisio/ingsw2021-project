@@ -14,7 +14,7 @@ public class GUI implements View {
     public GUI(String ip, int port) {
         try {
             this.networkHandler = new NetworkHandler(ip, port, this);
-            start();
+            startView();
         } catch (IOException e) {
             System.exit(0);
         }
@@ -31,7 +31,7 @@ public class GUI implements View {
     }
 
     @Override
-    public void start() {
+    public void startView() {
         networkHandler.startNetwork();
     }
 

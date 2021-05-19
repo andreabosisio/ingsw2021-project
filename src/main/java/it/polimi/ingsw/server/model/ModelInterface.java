@@ -222,10 +222,23 @@ public class ModelInterface implements SendObservable {
                 .orElse(null);
     }
 
+    /**
+     * This method is to start the setup phase of the game
+     */
     public void startSetup() {
         setupManager.startSetup();
     }
+
+    /**
+     * This method is used to resend the last event the model produced in case of an illegalAction
+     */
     public void reSendLastEvent(){turnLogic.reSendLastEvent();}
+
+    /**
+     * This method is used to resent a setupEvent in case of an illegal SetupAction
+     *
+     * @param nickname player that will receive the setupEvent again
+     */
     public void reSendSetup(String nickname){
        for(SetupChoiceEvent event :setupManager.getSetupSendEvents()){
            if(event.getNickname().equals(nickname)){

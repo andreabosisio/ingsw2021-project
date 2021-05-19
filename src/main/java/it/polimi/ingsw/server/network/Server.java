@@ -19,6 +19,11 @@ public class Server {
         serverSocket = new ServerSocketManager(socketPort);//create the multiTreadServer
     }
 
+    /**
+     * This method is used to get the only instance of the Server or create a new one if it does not exist
+     *
+     * @return instance of the Server
+     */
     public static synchronized Server getServer() {
         if (instance == null) {
             instance = new Server();
@@ -26,6 +31,9 @@ public class Server {
         return instance;
     }
 
+    /**
+     * This method is used to start the Server input listener
+     */
     public void start(){
         Scanner scanner = new Scanner(System.in);
         String input;

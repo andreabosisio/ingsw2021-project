@@ -95,7 +95,7 @@ public class NetworkHandler implements CommandListenerObserver {
                     event.updateView(view);
                     //System.out.println("Active threads: " + Thread.activeCount());
                 } catch (NullPointerException e) {
-                    System.out.println("server sent an event not defined in client: " + jsonObject.get("type"));
+                    System.out.println("failed in executing this event: " + jsonObject.get("type"));
                     System.out.println(message);
                 }
                 //event.updateView(view);

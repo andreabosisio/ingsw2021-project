@@ -25,6 +25,11 @@ public class Lobby {
 
     //todo synchronizzare su this per ogni metodo
 
+    /**
+     * This method is used to get the only instance of the Lobby or create a new one if it does not exist
+     *
+     * @return instance of the Lobby
+     */
     public static synchronized Lobby getLobby() {
         if (instance == null) {
             instance = new Lobby();
@@ -32,6 +37,14 @@ public class Lobby {
         return instance;
     }
 
+    /**
+     * This method is used to set the Lobby size
+     * It automatically disconnect every player that does not fit in the new size
+     *
+     * @param numberOfPlayers size to set
+     * @param decidingPlayerName Player deciding the size(he can't be disconnected)
+     * @return true if the Lobby sizing was completed successfully
+     */
     public boolean setNumberOfPlayers(int numberOfPlayers,String decidingPlayerName) {
         if(numberOfPlayers>MAX_PLAYERS || numberOfPlayers<MIN_PLAYERS){
             return false;
@@ -59,6 +72,11 @@ public class Lobby {
         return false;
     }
 
+    /**
+     * This method is used to check if the Lobby is full
+     *
+     * @return true if the Lobby is full
+     */
     public boolean isFull(){
         if(this.numberOfPlayers == NOT_DECIDED){
             return false;
@@ -66,18 +84,44 @@ public class Lobby {
         return !(getOnlinePlayersNumber() < this.numberOfPlayers);
     }
 
+    /**
+     * This method is used to get the number of players currently online
+     *
+     * @return the number of players online
+     */
     public int getOnlinePlayersNumber(){
         return (int) virtualViews.stream().filter(VirtualView::isOnline).count();
     }
 
+    /**
+     * This method is used to get the virtualView associated with the specified nickname
+     *
+     * @param nickname nickname to search for
+     * @return the VirtualView associated with the nickname or null if nothing was found
+     */
     public VirtualView getVirtualViewByNickname(String nickname){
         return virtualViews.stream().filter(p -> p.getNickname().equals(nickname)).findFirst().orElse(null);
     }
 
+    /**
+     * This method is used to see if the player associated with the specified nickname is still online
+     *
+     * @param nickname nickname of the player to check
+     *
+     * @return true if the player is online
+     */
     public boolean isPlayerOnline(String nickname) {
         return getVirtualViewByNickname(nickname).isOnline();
     }
 
+    /**
+     * This method is used to add a new virtualView to the List saved in the Lobby(If the lobby is nt full)
+     * Every VirtualView represent a player
+     * This method also automatically broadcast a message to all the other players informing them that a new one joined
+     *
+     * @param virtualView virtualView to add
+     * @return true if added successfully and false if the Lobby was full
+     */
     public synchronized boolean addVirtualView(VirtualView virtualView) {
         if(isFull()){
             return false;
@@ -90,14 +134,29 @@ public class Lobby {
         return true;
     }
 
+    /**
+     * This method is used to remove a VirtualView from the Lobby
+     *
+     * @param nickname nickname associated with the virtualView to remove
+     */
     public synchronized void removeVirtualView(String nickname) {
         virtualViews.remove(getVirtualViewByNickname(nickname));
     }
 
+    /**
+     * This method is used to check if a player is the first to join the lobby
+     *
+     * @return true if first one to join
+     */
     public boolean isFirstInLobby() {
         return numberOfPlayers == NOT_DECIDED;
     }
 
+    /**
+     * This method is used to broadcast a message to all the player currently in the Lobby
+     *
+     * @param message message to broadcast
+     */
     public void broadcastInfoMessage(String message) {
         for(VirtualView virtualView : virtualViews){
             if(virtualView.isOnline()) {
@@ -106,6 +165,12 @@ public class Lobby {
         }
     }
 
+    /**
+     * This method is used to broadcast a message to all the players connected to the Lobby except one
+     *
+     * @param message message to broadcast
+     * @param name nickname of the player to ignore
+     */
     public void broadcastToOthersInfoMessage(String message,String name) {
         for(VirtualView virtualView : virtualViews){
             if(virtualView.isOnline()&& !virtualView.getNickname().equals(name)) {
@@ -114,6 +179,11 @@ public class Lobby {
         }
     }
 
+    /**
+     * This method is used to check if a game can be started with the current state of the Lobby
+     * If the Lobby is still not full a message with the number of online players is broadcast to every player
+     * If the game can be started every player is notified and startGame is called
+     */
     public synchronized void updateLobbyState() {
         if(gameStarted){
             return;
@@ -125,10 +195,20 @@ public class Lobby {
         }
     }
 
+    /**
+     * This method is used to check if a game is currently ongoing
+     *
+     * @return true if a game is ongoing
+     */
     public boolean isGameStarted() {
         return gameStarted;
     }
 
+    /**
+     * This method is used to start a game
+     * It does so by creating a new Controller class and passing to it all the virtualViews
+     * The Controller will do the rest
+     */
     private void startGame(){
         broadcastInfoMessage("Game is starting...");
         //playersData.stream().map(VirtualView::getClientHandler).forEach(ClientHandler::clearMessageStack);

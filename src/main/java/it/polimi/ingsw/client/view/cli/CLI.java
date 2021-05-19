@@ -21,7 +21,7 @@ public class CLI implements View {
             System.exit(0);
         }
         cliCommandListener = new CLICommandListener();
-        start();
+        startView();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class CLI implements View {
     }
 
     @Override
-    public void start() {
+    public void startView() {
         cliCommandListener.registerObservers(networkHandler);
         networkHandler.startNetwork();
     }

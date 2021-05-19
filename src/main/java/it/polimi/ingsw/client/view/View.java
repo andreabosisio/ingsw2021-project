@@ -6,7 +6,7 @@ public interface View {
 
     void setNickname(String nickname);
     String getNickname();
-    void start();
+    void startView();
     void graphicUpdate();
     void printInfoMessage(String info);
     void printErrorMessage(String error);

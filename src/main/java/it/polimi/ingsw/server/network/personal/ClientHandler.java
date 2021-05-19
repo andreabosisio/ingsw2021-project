@@ -202,10 +202,20 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    /**
+     * This function is used to send a Json message to the client via network
+     *
+     * @param message message to send
+     */
     public void sendJsonMessage(String message) {
         connectionToClient.sendMessage(message);
     }
 
+    /**
+     * This function is used to translate a plain text message into a Json message with type info
+     *
+     * @param message message to send as info
+     */
     public void sendInfoMessage(String message) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", "info");
@@ -213,6 +223,11 @@ public class ClientHandler implements Runnable {
         sendJsonMessage(jsonObject.toString());
     }
 
+    /**
+     * This function is used to translate a plain text message into a Json message with type error
+     *
+     * @param message message to send as error
+     */
     public void sendErrorMessage(String message) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", "error");
@@ -220,12 +235,23 @@ public class ClientHandler implements Runnable {
         sendJsonMessage(jsonObject.toString());
     }
 
+    /**
+     * This function is used to send a Json message with only a specified type as data
+     *
+     * @param type type of the Json to send
+     */
     public void sendSpecificTypeMessage(String type) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", type);
         sendJsonMessage(jsonObject.toString());
     }
 
+    /**
+     * This function is used to send a Json message with both a specified type and a specified data
+     *
+     * @param type type of the Json message to send
+     * @param message message to save as Json payload
+     */
     public void sendSpecificTypeMessage(String type, String message) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", type);
@@ -233,8 +259,12 @@ public class ClientHandler implements Runnable {
         sendJsonMessage(jsonObject.toString());
     }
 
-    //deleteData = false if player should be able to reconnect
-    //deleteData = true if disconnection equals data deletion
+    /**
+     * This function is used to close the connection to the client
+     * After closing the connection the data of the player can be wiped off the Server depending on the game state
+     *
+     * @param deleteData parameter used to decide if the data should be deleted(true equals deletion of the data)
+     */
     public void kill(boolean deleteData) {
 
         VirtualView virtualView = Lobby.getLobby().getVirtualViewByNickname(nickname);
@@ -264,6 +294,13 @@ public class ClientHandler implements Runnable {
         this.virtualView = virtualView;
     }
 
+    /**
+     * This function is used to translate e plain text message into a JsonObject
+     * If the message can't be translated it automatically send an Error message as a response
+     *
+     * @param message message to translate into a JsonObject
+     * @return the new JsonObject
+     */
     public JsonObject getAsJsonObject(String message) {
         try {
             JsonElement jsonElement = JsonParser.parseString(message);
@@ -284,18 +321,39 @@ public class ClientHandler implements Runnable {
     }
 
     //the nickname must be a minimum of 3 and a maximum of 15 alpha-numeric characters (plus -,_ symbols)
+
+    /**
+     * Function used to check if the inserted credentials are syntactically valid
+     * A correct Nickname must be between 3 and 15 alpha-numeric characters (plus -,_ symbols)
+     * A correct password must be not null;
+     *
+     * @param nickname the nickname the player wish to use
+     * @param password the password the player wish to use
+     * @return true if they are acceptable
+     */
     public boolean checkCredentials(String nickname, String password) {
         return nickname != null && password != null && NICKNAME_PATTERN.matcher(nickname).matches();
     }
 
+    /**
+     * This method is used to ignore every message received while the first player was deciding the lobby' dimension
+     */
     public void clearMessageStack() {
         connectionToClient.clearStack();
     }
 
+    /**
+     * This method is used to send a plain text ping to the client
+     */
     public void sendPing() {
         connectionToClient.sendMessage("ping");
     }
 
+    /**
+     * This method returns the state of the connection with the client
+     *
+     * @return true if the connection is up and running
+     */
     public ConnectionToClient getConnection() {
         return connectionToClient;
     }

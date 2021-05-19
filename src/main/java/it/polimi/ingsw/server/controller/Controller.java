@@ -77,6 +77,11 @@ public class Controller implements ReceiveObserver {
             currentClientHandler.sendErrorMessage("It's not your turn!");
     }
 
+    /**
+     * this function is used to register all the virtualViews as observers of the model
+     *
+     * @param virtualViews virtualViews to set as observers
+     */
     public void setupObservers(List<VirtualView> virtualViews) {
         virtualViews.forEach(modelInterface::registerObserver);
         virtualViews.forEach(virtualView -> virtualView.registerObserver(this));

@@ -22,6 +22,12 @@ public class ServerSocketManager extends Thread {
     }
 
 
+    /**
+     * This method is used to start the Server manager
+     *
+     * The manager will be listening on one port for new client connections
+     * For every new client a dedicated Thread will be created and a clientHandler will be instantiated for him
+     */
     @Override
     public void run() {
         ExecutorService executor = Executors.newCachedThreadPool();
