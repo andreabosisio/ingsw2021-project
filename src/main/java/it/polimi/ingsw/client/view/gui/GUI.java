@@ -87,7 +87,17 @@ public class GUI implements View {
     }
 
     @Override
+    public void setOnPlaceResources() {
+
+    }
+
+    @Override
     public void setOnTransformation(int numberOfTransformation,List<String> possibleTransformations) {
+
+    }
+
+    @Override
+    public void setOnEndTurn() {
 
     }
 

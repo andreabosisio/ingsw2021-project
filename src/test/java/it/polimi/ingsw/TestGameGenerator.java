@@ -236,7 +236,7 @@ public class TestGameGenerator {
         for (int i = 0; i < 3; i++) {
             //GameBoard g = GameBoard.getGameBoard();
             modelInterface.marketAction(2);
-            modelInterface.placeResourceAction(new ArrayList<>());
+            modelInterface.placeResourceAction(new ArrayList<>(),true);
             modelInterface.endTurn();
         }
     }

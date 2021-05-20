@@ -17,6 +17,8 @@ public interface View {
     void setOnYourTurn();
     void setOnNotYourTurn(String currentPlayer);
     void setOnPlaceDevCard(String newCardID);
+    void setOnPlaceResources();
     void setOnTransformation(int numberOfTransformation,List<String> possibleTransformations);
+    void setOnEndTurn();
 
 }

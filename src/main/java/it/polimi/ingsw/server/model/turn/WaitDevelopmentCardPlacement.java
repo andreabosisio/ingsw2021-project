@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.events.send.choice.EndTurnChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 
@@ -26,6 +27,7 @@ public class WaitDevelopmentCardPlacement extends State {
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             turnLogic.setLastEventSent(null);
             turnLogic.setCurrentState(turnLogic.getEndTurn());
+            turnLogic.getModelInterface().notifyObservers(new EndTurnChoiceEvent(turnLogic.getCurrentPlayer().getNickname()));
             return true;
         }
         throw new InvalidEventException("card placement failed");

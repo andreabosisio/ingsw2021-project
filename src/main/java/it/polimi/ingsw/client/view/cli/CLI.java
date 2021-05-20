@@ -98,6 +98,7 @@ public class CLI implements View {
 
         System.out.println();
         System.out.print("Matchmaking");
+        //todo come mai è segnalato come duplicato?
         for(int i = 0; i < 3; i++){
             try {
                 Thread.sleep(500);
@@ -134,7 +135,6 @@ public class CLI implements View {
     @Override
     public void setOnSetup(List<String> leaderCardsID, int numberOfResource) {
         clearView();
-
         cliCommandListener.askSetupChoice(leaderCardsID, numberOfResource);
 
     }
@@ -159,7 +159,7 @@ public class CLI implements View {
                 System.out.println("you choose production");
                 break;
             case "leader":
-                System.out.println("you choose leader");
+                cliCommandListener.askLeaderAction();
                 break;
             case "see":
                 setOnSeeChoice();
@@ -167,8 +167,9 @@ public class CLI implements View {
     }
     private void setOnSeeChoice(){
         System.out.println("What do you wish to see?");
+        //todo add code
         //String answer = cliCommandListener.askSeeChoice();
-        //switch
+        //switch on answer and show on screen
         setOnYourTurn();
     }
 
@@ -185,9 +186,24 @@ public class CLI implements View {
     }
 
     @Override
+    public void setOnPlaceResources() {
+        //todo clearView and print wharehouse + res to place
+        cliCommandListener.askResourcePlacement();
+    }
+
+    @Override
     public void setOnTransformation(int numberOfTransformation,List<String> possibleTransformations) {
         clearView();
         cliCommandListener.askResourceTransformation(numberOfTransformation,possibleTransformations);
+    }
+
+    @Override
+    public void setOnEndTurn() {
+        if(cliCommandListener.askEndAction()){
+            //true if chosen action is a leaderAction
+            //todo clearView and print leaders in hand
+            cliCommandListener.askLeaderAction();
+        }
     }
 
 }

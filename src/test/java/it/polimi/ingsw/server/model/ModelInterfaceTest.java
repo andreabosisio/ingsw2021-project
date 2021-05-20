@@ -11,8 +11,6 @@ import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.StorableResource;
-import it.polimi.ingsw.server.network.Lobby;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -138,7 +136,7 @@ class ModelInterfaceTest {
         //market action
         modelInterface.marketAction(0);
         assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getWaitResourcePlacement());
-        modelInterface.placeResourceAction(new ArrayList<>());
+        modelInterface.placeResourceAction(new ArrayList<>(),true);
 
         //currentState: EndTurn. Player can do another leaderAction
         assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getEndTurn());
@@ -170,9 +168,9 @@ class ModelInterfaceTest {
             add(1);
             add(5);
         }};
-        assertThrows(EmptySlotException.class, () -> modelInterface.placeResourceAction(swapPairs));
+        assertThrows(EmptySlotException.class, () -> modelInterface.placeResourceAction(swapPairs,true));
         //expected res are white/white/white/red so a legal swap pair is an empty one
-        modelInterface.placeResourceAction(new ArrayList<>());
+        modelInterface.placeResourceAction(new ArrayList<>(),true);
         //check that the red resource has increased the player's faith by one
         assertEquals(1, GameBoard.getGameBoard().getFaithTrackOfPlayer(modelInterface.getTurnLogic().getPlayers().get(0)).getFaithMarker());
         modelInterface.endTurn();
@@ -189,7 +187,7 @@ class ModelInterfaceTest {
             add(0);
             add(32);
         }};
-        assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs));
+        assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs,true));
         //check that giving odd number of swap generate an exception
         List<Integer> swapPairs2 = new ArrayList<Integer>() {{
             add(0);
@@ -200,16 +198,16 @@ class ModelInterfaceTest {
             add(7);
             add(8);
         }};
-        assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs2));
+        assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs2,true));
         //check that ending swap in an illegal configuration remains in waitResourcePlacement state
         swapPairs2.remove(6);
-        assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs2));
+        assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs2,true));
         assertEquals(modelInterface.getTurnLogic().getWaitResourcePlacement(), modelInterface.getTurnLogic().getCurrentState());
         //check that a series of swap that ends in a legal position moves state to endTurn
         swapPairs2.clear();
         swapPairs2.add(4);
         swapPairs2.add(5);
-        assertTrue(modelInterface.placeResourceAction(swapPairs2));
+        assertTrue(modelInterface.placeResourceAction(swapPairs2,true));
         assertEquals(modelInterface.getTurnLogic().getEndTurn(), modelInterface.getTurnLogic().getCurrentState());
         //check that discarding one of the resources from market increased all other player's faith by 1
         assertEquals(0, GameBoard.getGameBoard().getFaithTrackOfPlayer(modelInterface.getTurnLogic().getPlayers().get(0)).getFaithMarker());
@@ -287,7 +285,7 @@ class ModelInterfaceTest {
             add(2);
             add(9);
         }};
-        modelInterface.placeResourceAction(swap);
+        modelInterface.placeResourceAction(swap,true);
         //check that player has 3 resources and they are all purple
         assertEquals(3, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().size());
         assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(0).getColor());
@@ -361,7 +359,7 @@ class ModelInterfaceTest {
             add(2);
             add(6);
         }};
-        modelInterface.placeResourceAction(swap);
+        modelInterface.placeResourceAction(swap,true);
 
         //check that player has 5 resources and they are 3 purple and 2 blue
         assertEquals(5, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().size());
@@ -600,7 +598,7 @@ class ModelInterfaceTest {
 
         //player is in the StartTurn state so he cannot do the following actions:
         assertThrows(InvalidEventException.class, () -> modelInterface.placeDevelopmentCardAction(1));
-        assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(new ArrayList<>()));
+        assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(new ArrayList<>(),true));
         assertThrows(InvalidEventException.class, () -> modelInterface.transformationAction(new ArrayList<>()));
         assertThrows(InvalidEventException.class, () -> modelInterface.placeDevelopmentCardAction(1));
         assertThrows(InvalidEventException.class, modelInterface::endTurn);

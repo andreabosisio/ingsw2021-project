@@ -1,10 +1,7 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
-import it.polimi.ingsw.server.events.send.choice.PlaceDevCardChoiceEvent;
-import it.polimi.ingsw.server.events.send.choice.PlaceResourcesChoiceEvent;
-import it.polimi.ingsw.server.events.send.choice.TransformationChoiceEvent;
+import it.polimi.ingsw.server.events.send.choice.*;
 import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
@@ -46,7 +43,10 @@ public class StartTurn extends State {
             //graphic Update of marketTray for all players
             GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
             graphicUpdateEvent.addUpdate(new MarketUpdate());
+            graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
+            graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
+
 
             //if player has to transform some white resources
             ChoiceEvent choiceEvent;
@@ -142,6 +142,7 @@ public class StartTurn extends State {
 
         hasAlreadyDoneLeaderAction = false;
         turnLogic.setCurrentState(turnLogic.getEndTurn());
+        turnLogic.getModelInterface().notifyObservers(new EndTurnChoiceEvent(turnLogic.getCurrentPlayer().getNickname()));
         return true;
     }
 

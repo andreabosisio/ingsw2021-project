@@ -155,8 +155,8 @@ public class ModelInterface implements SendObservable {
      * @throws EmptySlotException         if a swap involves an empty slot
      * @throws NonAccessibleSlotException if one of swap involves a slot that's not accessible
      */
-    public boolean placeResourceAction(List<Integer> swapPairs) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
-        return turnLogic.placeResourceAction(swapPairs);
+    public boolean placeResourceAction(List<Integer> swapPairs,boolean isFinal) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+        return turnLogic.placeResourceAction(swapPairs,isFinal);
     }
 
     /**

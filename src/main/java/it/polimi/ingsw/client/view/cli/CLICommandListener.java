@@ -6,10 +6,8 @@ import it.polimi.ingsw.client.model.Marble;
 import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -203,6 +201,44 @@ public class CLICommandListener implements CommandListener {
             }
         }
         notifyObservers(new MarketActionEvent(choice));
+    }
+
+    public void askResourcePlacement(){
+        System.out.println("Write your swaps(es:0,4,1,5), refresh to update, done to end the placement");
+        List<Integer> swaps = new ArrayList<>();
+        String answer = scanner.nextLine();
+        while(!answer.toLowerCase(Locale.ROOT).equals("refresh")&&!answer.toLowerCase(Locale.ROOT).equals("done")){
+            try {
+                //regex means any number of spaces before and after the comma
+                swaps.addAll(Arrays.stream(answer.split("\\s*,\\s*")).map(Integer::parseInt).collect(Collectors.toList()));
+                System.out.println("swaps saved, add more or type done/refresh");
+                answer = scanner.nextLine();
+            }catch (IndexOutOfBoundsException | NumberFormatException e){
+                System.out.println("Invalid input");
+                answer = scanner.nextLine();
+            }
+        }
+        System.out.println("Will try to perform this swaps: "+swaps);
+        notifyObservers(new ResourcesPlacementActionEvent(swaps,answer.equals("done")));
+    }
+
+    //return true if leader action
+    public boolean askEndAction(){
+        System.out.println("what do you wish to do?(end(to end your turn), leader(to do a leader action))");
+        String answer = scanner.nextLine();
+        while (!(answer.equals("end")||answer.equals("leader"))){
+            System.out.println("invalid action, try again");
+            answer = scanner.nextLine();
+        }
+        if(answer.equals("end")){
+            notifyObservers(new EndTurnActionEvent());
+            return false;
+        }
+        return true;
+    }
+
+    public void askLeaderAction(){
+        System.out.println("leader action in CliCommandListener not implemented");
     }
 
 

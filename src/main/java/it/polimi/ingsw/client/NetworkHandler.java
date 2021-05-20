@@ -33,6 +33,8 @@ public class NetworkHandler implements CommandListenerObserver {
         put("placeDevCard", PlaceDevCardReceiveEvent.class);
         put("transformation", TransformationReceiveEvent.class);
         put("startTurn",StartTurnUpdateEvent.class);
+        put("placeResources",PlaceResourcesReceiveEvent.class);
+        put("endTurnChoice",EndTurnReceiveEvent.class);
     }};
 
     public void setNickname(String nickname) {
