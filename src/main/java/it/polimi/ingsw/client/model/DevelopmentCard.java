@@ -8,6 +8,7 @@ import java.util.*;
  * Class that has the capacity to return a printable version of a specific Development Card
  */
 public class DevelopmentCard {
+    private static final String EMPTY_CARD = "empty";
 
     /**
      * This method return the print of a specific Development Card
@@ -15,8 +16,11 @@ public class DevelopmentCard {
      * @param cardIndex is the index of the Card to print
      * @return a List composed by the lines of the Card
      */
-    public List<String> getPrintableDevelopmentCard(String cardIndex) {
+    public List<String> getPrintable(String cardIndex) {
         List<String> developmentCardToPrint = new ArrayList<>();
+
+        if (cardIndex.equals(EMPTY_CARD))
+            return getEmptyPrintable();
 
         DevelopmentCardsDatabase devCardsDatabase = DevelopmentCardsDatabase.getDevelopmentCardsDatabase();
 
@@ -47,15 +51,15 @@ public class DevelopmentCard {
      *
      * @return a List composed by the lines of the Card
      */
-    public List<String> getPrintableEmptyDevelopmentCard() {
+    private List<String> getEmptyPrintable() {
         List<String> developmentCardToPrint = new ArrayList<>();
 
         String empty = AsciiArts.RED_BOLD_BRIGHT + "EMPTY" + AsciiArts.RESET;
         String card = AsciiArts.RED_BOLD_BRIGHT + "CARD" + AsciiArts.RESET;
 
         developmentCardToPrint.add("╔══════════╗");
-        developmentCardToPrint.add("║   "+empty+"  ║");
-        developmentCardToPrint.add("║   "+card+"   ║");
+        developmentCardToPrint.add("║   " + empty + "  ║");
+        developmentCardToPrint.add("║   " + card + "   ║");
         developmentCardToPrint.add("║──────────║");
         developmentCardToPrint.add("║    │     ║");
         developmentCardToPrint.add("║    }     ║");

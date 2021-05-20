@@ -1,10 +1,5 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.model.DevelopmentCardsGrid;
-import it.polimi.ingsw.client.model.MarketTray;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 public class Board {

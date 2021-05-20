@@ -18,21 +18,21 @@ public class DevelopmentCardsGrid {
 
     private static final int CARD_LEVEL = 3;
     private static final int CARD_LINES = 9;
-    private static final String EMPTY_CARD = "empty";
 
     public DevelopmentCardsGrid(List<String> fullGrid) {
         this.fullGrid = fullGrid;
     }
 
     /**
-     * Update method that checks if there is a first implementation of this class
+     * Update method that checks if there is a first implementation of this class,
+     * if yes it sets the map that represents the Grid and it saves his self in the Board,
+     * otherwise it just update the map with the new Card.
      */
-    public void update(){
+    public void update() {
         if (fullGrid != null) {
             setup();
             Board.getBoard().setDevelopmentCardsGrid(this);
-        }
-        else {
+        } else {
             Board.getBoard().getDevelopmentCardsGrid().setDevelopmentCard(this.color, this.level, this.iD);
         }
     }
@@ -61,7 +61,7 @@ public class DevelopmentCardsGrid {
      * @param level is the level of the Card
      * @param id    is the ID of the Card
      */
-    public void setDevelopmentCard(String color, int level, String id) {
+    private void setDevelopmentCard(String color, int level, String id) {
         mapByLevel.get(level - 1).put(color, id);
     }
 
@@ -80,26 +80,11 @@ public class DevelopmentCardsGrid {
                 for (CardColorEnum cardColorEn : CardColorEnum.values()) {
                     String color_card = cardColorEn.toString();
                     String ID_card = mapByLevel.get(level_card).get(color_card);
-                    if (ID_card.equals(EMPTY_CARD))
-                        cardsGridLine.append(developmentCard.getPrintableEmptyDevelopmentCard().get(cardLine));
-                    else
-                        cardsGridLine.append(developmentCard.getPrintableDevelopmentCard(ID_card).get(cardLine));
+                    cardsGridLine.append(developmentCard.getPrintable(ID_card).get(cardLine));
                 }
                 cardsGrid.add(cardsGridLine.toString());
             }
         }
         return cardsGrid;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public String getiD() {
-        return iD;
     }
 }
