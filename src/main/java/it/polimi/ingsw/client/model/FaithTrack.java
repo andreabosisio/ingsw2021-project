@@ -102,4 +102,7 @@ public class FaithTrack {
         return toReturn;
     }
 
+    public void update() {
+        Board.getBoard().setFaithTrack(this);
+    }
 }

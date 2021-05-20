@@ -49,6 +49,7 @@ public class CLI implements View {
     public void graphicUpdate() {
         Board.getBoard().getMarketTray().getPrintable().forEach(System.out::println);
         Board.getBoard().getFaithTrack().getPrintable().forEach(System.out::println);
+        Board.getBoard().getDevelopmentCardsGrid().getPrintable().forEach(System.out::println);
     }
 
     @Override

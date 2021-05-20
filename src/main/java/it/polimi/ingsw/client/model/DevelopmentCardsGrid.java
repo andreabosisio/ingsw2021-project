@@ -9,27 +9,48 @@ import java.util.*;
  * Class that has the capacity to print the Development Cards Grid
  */
 public class DevelopmentCardsGrid {
-    private final List<Map<String, String>> mapByLevel = new ArrayList<>();
+    private List<Map<String, String>> mapByLevel;
 
-    private final int CARD_LEVEL = 3;
-    private final int CARD_LINES = 9;
-    private final String EMPTY_CARD = "empty";
+    private Integer level;
+    private String color;
+    private String iD;
+    private final List<String> fullGrid;
+
+    private static final int CARD_LEVEL = 3;
+    private static final int CARD_LINES = 9;
+    private static final String EMPTY_CARD = "empty";
+
+    public DevelopmentCardsGrid(List<String> fullGrid) {
+        this.fullGrid = fullGrid;
+    }
+
+    /**
+     * Update method that checks if there is a first implementation of this class
+     */
+    public void update(){
+        if (fullGrid != null) {
+            setup();
+            Board.getBoard().setDevelopmentCardsGrid(this);
+        }
+        else {
+            Board.getBoard().getDevelopmentCardsGrid().setDevelopmentCard(this.color, this.level, this.iD);
+        }
+    }
 
     /**
      * This method set the variable mapByLevel:
      * It is a list of three Maps, three like the three possible level of the Cards.
      * Each Map has a key represented by the color of the Card and a value represented by the Card's ID
-     *
-     * @param cardIndexes is the List of the indexes of the Cards
      */
-    public void firstCardsGrid(List<String> cardIndexes) {
+    private void setup() {
+        this.mapByLevel = new ArrayList<>();
         for (int i = 0; i < CARD_LEVEL; i++) {
             mapByLevel.add(new HashMap<>());
         }
 
-        for (String indexCard : cardIndexes) {
-            List<String> splitIndex = Arrays.asList(indexCard.split("_"));
-            mapByLevel.get(Integer.parseInt(splitIndex.get(1)) - 1).put(splitIndex.get(0), indexCard);
+        for (String indexCard : fullGrid) {
+            String[] splitIndex = indexCard.split("_");
+            mapByLevel.get(Integer.parseInt(splitIndex[1]) - 1).put(splitIndex[0], indexCard);
         }
     }
 
@@ -49,7 +70,7 @@ public class DevelopmentCardsGrid {
      *
      * @return a List composed by the lines of the Development Cards Grid
      */
-    public List<String> getPrintableDevelopmentCardsGrid() {
+    public List<String> getPrintable() {
         List<String> cardsGrid = new ArrayList<>();
         DevelopmentCard developmentCard = new DevelopmentCard();
 
@@ -68,5 +89,17 @@ public class DevelopmentCardsGrid {
             }
         }
         return cardsGrid;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public String getiD() {
+        return iD;
     }
 }

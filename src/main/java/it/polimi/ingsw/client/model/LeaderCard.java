@@ -15,6 +15,7 @@ public class LeaderCard {
      * @param cardIndex is the index of the Card to print
      * @return a List composed by the lines of the Card
      */
+    // todo: EMPTY
     public List<String> getPrintableLeaderCard(String cardIndex) {
         List<String> leaderCardToPrint = new ArrayList<>();
         LeaderCardsDatabase leaderCardsDatabase = LeaderCardsDatabase.getLeaderCardsDatabase();

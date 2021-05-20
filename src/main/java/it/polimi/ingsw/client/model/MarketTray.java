@@ -61,10 +61,6 @@ public class MarketTray {
      * @return a List<String> containing the representation of the MarketTray row by row.
      */
     public List<String> getPrintable() {
-
-        //todo why i have to do this here ?
-        setMarketBoard();
-
         List<String> toReturn = new ArrayList<>();
         StringBuilder printable = new StringBuilder();
 
@@ -147,4 +143,8 @@ public class MarketTray {
         return arrows;
     }
 
+    public void update() {
+        setMarketBoard();
+        Board.getBoard().setMarketTray(this);
+    }
 }

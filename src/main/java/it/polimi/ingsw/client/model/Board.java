@@ -18,29 +18,21 @@ public class Board {
     }
 
     public static synchronized Board getBoard() {
-        if(instance == null)
+        if (instance == null)
             instance = new Board();
         return instance;
     }
 
-    //todo how to not hardcode
     public void setMarketTray(MarketTray marketTray) {
-        if(marketTray != null){
-            this.marketTray = marketTray;
-            this.marketTray.setMarketBoard();
-        }
+        this.marketTray = marketTray;
     }
 
     public void setDevelopmentCardsGrid(DevelopmentCardsGrid developmentCardsGrid) {
-        if(developmentCardsGrid != null) {
-            this.developmentCardsGrid = developmentCardsGrid;
-        }
+        this.developmentCardsGrid = developmentCardsGrid;
     }
 
     public void setFaithTrack(FaithTrack faithTrack) {
-        if(faithTrack != null) {
-            this.faithTrack = faithTrack;
-        }
+        this.faithTrack = faithTrack;
     }
 
     public void setPlayers(Set<Player> players) {
