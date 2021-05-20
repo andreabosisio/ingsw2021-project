@@ -242,6 +242,8 @@ public class StartTurn extends State {
             }
         }
         hasAlreadyDoneLeaderAction = true;
+        //todo check
+        turnLogic.getModelInterface().reSendLastEvent();
         return true;
     }
 }

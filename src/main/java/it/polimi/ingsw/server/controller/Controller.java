@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 import it.polimi.ingsw.server.events.receive.SetupReceiveEvent;
+import it.polimi.ingsw.server.events.send.GameStartedSendEvent;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.Lobby;
@@ -15,10 +16,12 @@ import java.util.List;
 public class Controller implements ReceiveObserver {
 
     private final ModelInterface modelInterface;
+    private final List<String> nicknames;
 
     public Controller(List<String> nicknames) {
         Collections.shuffle(nicknames);
-        modelInterface = new ModelInterface(nicknames);
+        this.modelInterface = new ModelInterface(nicknames);
+        this.nicknames = nicknames;
     }
 
     public ModelInterface getModelInterface() {
@@ -85,6 +88,8 @@ public class Controller implements ReceiveObserver {
     public void setupObservers(List<VirtualView> virtualViews) {
         virtualViews.forEach(modelInterface::registerObserver);
         virtualViews.forEach(virtualView -> virtualView.registerObserver(this));
+        //notify players of game starting
+        modelInterface.notifyObservers(new GameStartedSendEvent(nicknames));
         modelInterface.startSetup();
     }
 }

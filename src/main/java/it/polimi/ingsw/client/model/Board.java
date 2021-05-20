@@ -89,4 +89,7 @@ public class Board extends Printable{
         //fixme
         return DIM_SCENE;
     }
+    public Player getPlayerByNickname(String nickname){
+        return players.stream().filter(p->p.getNickname().equals(nickname)).findFirst().orElse(null);
+    }
 }

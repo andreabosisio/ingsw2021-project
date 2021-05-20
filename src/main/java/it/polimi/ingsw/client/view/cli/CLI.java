@@ -164,7 +164,9 @@ public class CLI implements View {
                 System.out.println("you choose production");
                 break;
             case "leader":
-                cliCommandListener.askLeaderAction();
+                if(!cliCommandListener.askLeaderAction(nickname)){
+                    setOnYourTurn();
+                }
                 break;
             case "see":
                 setOnSeeChoice();
@@ -206,9 +208,9 @@ public class CLI implements View {
     public void setOnEndTurn() {
         if(cliCommandListener.askEndAction()){
             //true if chosen action is a leaderAction
-            //todo clearView and print leaders in hand
-            cliCommandListener.askLeaderAction();
+            if(!cliCommandListener.askLeaderAction(nickname)){
+                setOnEndTurn();
+            }
         }
     }
-
 }

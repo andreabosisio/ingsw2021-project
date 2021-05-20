@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.Marble;
 import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
+import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -237,8 +238,32 @@ public class CLICommandListener implements CommandListener {
         return true;
     }
 
-    public void askLeaderAction(){
-        System.out.println("leader action in CliCommandListener not implemented");
+    public boolean askLeaderAction(String nickname){
+        List<String> hand = Board.getBoard().getPlayerByNickname(nickname).getHandLeaders();
+        int index = -1;
+        if(hand.size()!=0){
+            //todo print hand
+            while (index<0||index>hand.size()-1){
+                System.out.println("Choose the Leader card by index(0 or 1)");
+                try {
+                    index = Integer.parseInt(scanner.nextLine());
+                }catch (NumberFormatException e){
+                    System.out.println("Not a number");
+                }
+            }
+            System.out.println("What do you wish to do with this card?(activate/discard)");
+            String discard = scanner.nextLine().toLowerCase(Locale.ROOT);
+            while (!discard.equals("activate")&&!discard.equals("discard")){
+                System.out.println("invalid input");
+                discard = scanner.nextLine().toLowerCase(Locale.ROOT);
+            }
+            //todo cancellare system out qui sotto
+            System.out.println("you chose card "+hand.get(index)+"to: "+discard.equals("discard"));
+            notifyObservers(new LeaderActionEvent(hand.get(index),discard.equals("discard")));
+            return true;
+        }
+        return false;
+        //notifyObservers(new LeaderActionEvent(null,true));
     }
 
 

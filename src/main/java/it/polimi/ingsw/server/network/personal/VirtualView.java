@@ -157,7 +157,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      * @param clientHandler clientHandler of the reconnecting player
      */
     public void reconnect(ClientHandler clientHandler) {
-        Lobby.getLobby().broadcastInfoMessage(nickname + " has reconnected");
+        Lobby.getLobby().broadcastMessage(nickname + " has reconnected");
         this.setOnline(true);
         this.setClientConnectionHandler(clientHandler);
         clientHandler.getConnection().setPongObserver(this);

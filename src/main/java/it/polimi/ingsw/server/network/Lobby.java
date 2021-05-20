@@ -129,7 +129,7 @@ public class Lobby {
         if(virtualViews.stream().anyMatch(p -> p.getNickname().equals(virtualView.getNickname()))){
             return false;
         }
-        broadcastInfoMessage(virtualView.getNickname() + " joined!");
+        broadcastMessage(virtualView.getNickname() + " joined!");
         virtualViews.add(virtualView);
         return true;
     }
@@ -154,10 +154,10 @@ public class Lobby {
 
     /**
      * This method is used to broadcast a message to all the player currently in the Lobby
-     *
+     *if not parameter type is given a the message is set as an info message
      * @param message message to broadcast
      */
-    public void broadcastInfoMessage(String message) {
+    public void broadcastMessage(String message) {
         for(VirtualView virtualView : virtualViews){
             if(virtualView.isOnline()) {
                 virtualView.getClientHandler().sendInfoMessage(message);
@@ -188,7 +188,7 @@ public class Lobby {
         if(gameStarted){
             return;
         }
-        broadcastInfoMessage("Players Online: "+ getOnlinePlayersNumber() +" out of "+ numberOfPlayers);
+        broadcastMessage("Players Online: "+ getOnlinePlayersNumber() +" out of "+ numberOfPlayers);
         if(isFull()){
             gameStarted=true;
             startGame();
@@ -210,7 +210,9 @@ public class Lobby {
      * The Controller will do the rest
      */
     private void startGame(){
-        broadcastInfoMessage("Game is starting...");
+
+        //todo game is starting moved in controller
+        //broadcastMessage("Game is starting...","startGame");
         //playersData.stream().map(VirtualView::getClientHandler).forEach(ClientHandler::clearMessageStack);
         controller = new Controller(virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList()));
         controller.setupObservers(virtualViews);
