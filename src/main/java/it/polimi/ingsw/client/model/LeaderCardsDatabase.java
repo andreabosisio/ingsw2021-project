@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Class that contains all the information about all the Leader Cards
@@ -23,6 +22,7 @@ public class LeaderCardsDatabase {
     private final List<String> leaderCardsID = new ArrayList<>();
     private final List<String> leaderCardsVictoryPoints = new ArrayList<>();
     private final List<String> leaderCardsRequirements = new ArrayList<>();
+    private final List<String> leaderCardsAbilities = new ArrayList<>();
 
     /**
      * Create an instance of DevelopmentCardsDatabase or return the existing one
@@ -70,20 +70,20 @@ public class LeaderCardsDatabase {
         for (String requirement : tmpRequirements) {
             cardRequirementsList.add(requirement.split("_"));
         }
-        System.out.println(numberOfCard);
+
         // cardRequirements[0]: Number of resources, cardRequirements[1]: Color of the resource
         // Production, Market, Warehouse, Discount
         for (String[] splittedRequirements : cardRequirementsList) {
             if (numberOfCard <= 3) { // Production Leader Card
-                cardRequirements[0] = "Card: " + ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AsciiArts.RESET + "   ";
+                cardRequirements[0] = "Card: " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AsciiArts.RESET + "   ";
                 cardRequirements[1] = "lvl: " + splittedRequirements[2] + AsciiArts.RESET + "    ";
             } else if (numberOfCard >= 8 && numberOfCard <= 11) { // Warehouse Leader Card
-                cardRequirements[0] = "Res: " + ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AsciiArts.RESET + "    ";
+                cardRequirements[0] = "Res: " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AsciiArts.RESET + "    ";
             } else {
                 if (t == 0)
-                    cardRequirements[0] = "Cards: " + ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AsciiArts.RESET + "  ";
+                    cardRequirements[0] = "Cards: " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AsciiArts.RESET + "  ";
                 else if (t == 1)
-                    cardRequirements[1] = "       " + ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AsciiArts.RESET + "  ";
+                    cardRequirements[1] = "       " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AsciiArts.RESET + "  ";
                 t++;
             }
         }
@@ -103,6 +103,29 @@ public class LeaderCardsDatabase {
             return " " + AsciiArts.BLACK + AsciiArts.YELLOW_BACKGROUND + leaderCardsVictoryPoints.get(numberOfCard) + AsciiArts.RESET;
         else
             return AsciiArts.BLACK + AsciiArts.YELLOW_BACKGROUND + leaderCardsVictoryPoints.get(numberOfCard) + AsciiArts.RESET;
+    }
+
+    /**
+     * Get method that return the Ability of the Card
+     *
+     * @param cardIndex is the ID of the Card
+     * @return the Ability of the Card
+     */
+    public String getAbility(String cardIndex) {
+        int numberOfCard = getNumberOfCard(cardIndex);
+
+        switch(cardIndex.split("")[0]) {
+            case "p":
+                return ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "1" + AsciiArts.RESET
+                        + " } " + "? + " + AsciiArts.RED_BRIGHT + "1" + AsciiArts.RESET;
+            case "m":
+                return "  1 = " + ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "1" + AsciiArts.RESET + "  ";
+            case "w":
+                return ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "  |_|" + "|_| " + AsciiArts.RESET;
+            case "d":
+                return ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "   -1    " + AsciiArts.RESET;
+        }
+        return null;
     }
 
     /**
@@ -160,10 +183,26 @@ public class LeaderCardsDatabase {
                 leaderCardsVictoryPoints.add(leaderJsonObject.get("points").getAsString());
                 String type = leaderJsonObject.get("type").getAsString();
 
-                if (type.equals("warehouse"))
-                    leaderCardsRequirements.add(resRequirements.toString());
-                else
-                    leaderCardsRequirements.add(devRequirements.toString());
+                switch (type) {
+                    case "production":
+                        leaderCardsAbilities.add(leaderJsonObject.get("inResource").getAsString());
+                        leaderCardsRequirements.add(devRequirements.toString());
+                        break;
+                    case "market":
+                        leaderCardsAbilities.add(leaderJsonObject.get("transformation").getAsString());
+                        leaderCardsRequirements.add(devRequirements.toString());
+                        break;
+                    case "warehouse":
+                        leaderCardsAbilities.add(leaderJsonObject.get("extraSlotsType").getAsString());
+                        leaderCardsRequirements.add(resRequirements.toString());
+                        break;
+                    case "discount":
+                        leaderCardsAbilities.add(leaderJsonObject.get("discount").getAsString());
+                        leaderCardsRequirements.add(devRequirements.toString());
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected leaderCardType: " + type);
+                }
             }
         } catch (FileNotFoundException e) {
             System.err.println("file not found");

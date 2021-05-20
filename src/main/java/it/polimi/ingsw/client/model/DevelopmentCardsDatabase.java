@@ -63,7 +63,7 @@ public class DevelopmentCardsDatabase {
      */
     public String getColoredLevel(String cardIndex) {
         int numberOfCard = getNumberOfCard(cardIndex);
-        return ColorsForDevelopmentCard.getAsciiDevCardByColor(devCardsColor.get(numberOfCard)) +
+        return ColorsForCards.getAsciiDevCardByColor(devCardsColor.get(numberOfCard)) +
                 devCardsLevel.get(numberOfCard) + AsciiArts.RESET;
     }
 
@@ -91,11 +91,11 @@ public class DevelopmentCardsDatabase {
         // splittedPrice[0]: Number of resources, splittedPrice[1]: Color of the resource
         for (String[] splittedPrice : cardPriceList) {
             if (t == 0)
-                cardPrice[0] = ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AsciiArts.RESET;
+                cardPrice[0] = ColorsForCards.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AsciiArts.RESET;
             else if (t == 1)
-                cardPrice[1] = ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AsciiArts.RESET;
+                cardPrice[1] = ColorsForCards.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AsciiArts.RESET;
             else if (t == 2)
-                cardPrice[2] = ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AsciiArts.RESET;
+                cardPrice[2] = ColorsForCards.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AsciiArts.RESET;
             t++;
         }
 
@@ -138,11 +138,11 @@ public class DevelopmentCardsDatabase {
         // splittedInResources[0]: Number of resources, splittedInResources[1]: Color of the resource
         for (String[] splittedInResources : cardInResourcesList) {
             if (t == 0)
-                cardInResources[0] = ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AsciiArts.RESET;
+                cardInResources[0] = ColorsForCards.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AsciiArts.RESET;
             else if (t == 1)
-                cardInResources[1] = ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AsciiArts.RESET;
+                cardInResources[1] = ColorsForCards.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AsciiArts.RESET;
             else if (t == 2)
-                cardInResources[2] = ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AsciiArts.RESET;
+                cardInResources[2] = ColorsForCards.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AsciiArts.RESET;
             t++;
         }
 
@@ -184,11 +184,11 @@ public class DevelopmentCardsDatabase {
         // splittedOutResources[0]: Number of resources, splittedOutResources[1]: Color of the resource
         for (String[] splittedOutResources : cardOutResourcesList) {
             if (t == 0)
-                cardOutResources[0] = ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AsciiArts.RESET;
+                cardOutResources[0] = ColorsForCards.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AsciiArts.RESET;
             else if (t == 1)
-                cardOutResources[1] = ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AsciiArts.RESET;
+                cardOutResources[1] = ColorsForCards.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AsciiArts.RESET;
             else if (t == 2)
-                cardOutResources[2] = ColorsForDevelopmentCard.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AsciiArts.RESET;
+                cardOutResources[2] = ColorsForCards.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AsciiArts.RESET;
             t++;
         }
 

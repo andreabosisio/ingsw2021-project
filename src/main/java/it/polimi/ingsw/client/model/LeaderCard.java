@@ -16,7 +16,7 @@ public class LeaderCard {
      * @param cardIndex is the index of the Card to print
      * @return a List composed by the lines of the Card
      */
-    public List<String> getPrintableLeaderCard(String cardIndex) {
+    public List<String> getPrintable(String cardIndex) {
         List<String> leaderCardToPrint = new ArrayList<>();
 
         if (cardIndex.equals(EMPTY_CARD))
@@ -26,15 +26,16 @@ public class LeaderCard {
 
         String[] requirements = leaderCardsDatabase.getRequirements(cardIndex);
         String victoryPoints = leaderCardsDatabase.getVictoryPoints(cardIndex);
+        String ability = leaderCardsDatabase.getAbility(cardIndex);
 
         leaderCardToPrint.add("╔══════════╗");
         leaderCardToPrint.add("║" + requirements[0] + "║");
         leaderCardToPrint.add("║" + requirements[1] + "║");
         leaderCardToPrint.add("║──────────║");
         leaderCardToPrint.add("║          ║");
+        leaderCardToPrint.add("║"+ability+" ║");
         leaderCardToPrint.add("║          ║");
-        leaderCardToPrint.add("║          ║");
-        leaderCardToPrint.add("║        " + victoryPoints + "║");
+        leaderCardToPrint.add("║"+"leader"+"  " + victoryPoints + "║");
         leaderCardToPrint.add("╚══════════╝");
 
         return leaderCardToPrint;

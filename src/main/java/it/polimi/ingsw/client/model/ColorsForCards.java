@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.cli.AsciiArts;
 
-public class ColorsForDevelopmentCard {
+public class ColorsForCards {
     public static String getAsciiDevCardByColor(String color) {
         switch (color) {
             case "GREEN":
