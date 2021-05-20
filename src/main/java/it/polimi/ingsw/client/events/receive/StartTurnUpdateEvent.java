@@ -10,7 +10,7 @@ public class StartTurnUpdateEvent implements ReceiveEvent{
             view.setOnYourTurn();
         }
         else {
-            view.setOnNotYourTurn(nextPlayer);
+            view.setOnWaitForYourTurn(nextPlayer);
         }
     }
 }

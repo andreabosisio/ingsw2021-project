@@ -4,8 +4,10 @@ import it.polimi.ingsw.client.view.cli.AsciiArts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class MarketTray {
+public class MarketTray extends Printable {
+
     /**
      * Number of columns of the MarketBoard
      */
@@ -60,11 +62,12 @@ public class MarketTray {
      *
      * @return a List<String> containing the representation of the MarketTray row by row.
      */
+    @Override
     public List<String> getPrintable() {
         List<String> toReturn = new ArrayList<>();
         StringBuilder printable = new StringBuilder();
 
-        printable.append("┌─────");
+        printable.append("┌────────");
 
         for (int i = 1; i < NUM_C; i++) {
             if (i == NUM_C - 1 )
@@ -98,16 +101,16 @@ public class MarketTray {
         toReturn.add(getNUMCUpArrows().toString());
         toReturn.add(getNUMCBottomIndexes().toString());
 
-        //System.out.println( "\u001b[100C" + printable);
-        return toReturn;
+        setWidth(toReturn);
+        return toReturn.stream().map(this::fillWithEmptySpace).collect(Collectors.toList());
     }
 
     private StringBuilder getNUMCTopSlots() {
         StringBuilder topCorners = new StringBuilder();
 
-        topCorners.append("│ ┌──┐");
+        topCorners.append("│ ┌───┐");
         for (int i = 1; i < NUM_C; i++)
-            topCorners.append("┌──┐");
+            topCorners.append("┌───┐");
 
         return topCorners;
     }
@@ -115,9 +118,9 @@ public class MarketTray {
     private StringBuilder getNUMCBottomSlots() {
         StringBuilder bottomCorners = new StringBuilder();
 
-        bottomCorners.append("│ └──┘");
+        bottomCorners.append("│ └───┘");
         for (int i = 1; i < NUM_C; i++)
-            bottomCorners.append("└──┘");
+            bottomCorners.append("└───┘");
 
         return bottomCorners;
     }
@@ -125,10 +128,9 @@ public class MarketTray {
     private StringBuilder getNUMCUpArrows() {
         StringBuilder arrows = new StringBuilder();
 
-
         arrows.append("  ");
         for (int i = NUM_C; i > 0; i--)
-            arrows.append(" ").append(AsciiArts.WHITE_BRIGHT).append(AsciiArts.UP_ARROW.getAsciiArt()).append("  ").append(AsciiArts.RESET);
+            arrows.append("  ").append(AsciiArts.WHITE_BRIGHT).append(AsciiArts.UP_ARROW.getAsciiArt()).append("  ").append(AsciiArts.RESET);
 
         return arrows;
     }
@@ -138,7 +140,7 @@ public class MarketTray {
 
         arrows.append("  ");
         for (int i = NUM_C; i > 0; i--)
-            arrows.append(AsciiArts.WHITE_BRIGHT).append("[").append(i + 2).append("] ").append(AsciiArts.RESET);
+            arrows.append(AsciiArts.WHITE_BRIGHT).append(" [").append(i + 2).append("] ").append(AsciiArts.RESET);
 
         return arrows;
     }
@@ -147,4 +149,5 @@ public class MarketTray {
         setMarketBoard();
         Board.getBoard().setMarketTray(this);
     }
+
 }

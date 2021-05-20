@@ -17,7 +17,7 @@ class CardsGeneratorTest {
     void generateDevelopmentCardsTest() {
         List<DevelopmentCard> developmentCards;
         CardsGenerator generator = new CardsGenerator();
-        developmentCards=generator.generateDevelopmentCards();
+        developmentCards = generator.generateDevelopmentCards();
         //create 2 maps, one by color and one by level
         Map<CardColorEnum, Integer> mapLevelToColor = developmentCards.stream().collect(
                 Collectors.groupingBy(DevelopmentCard::getColor,

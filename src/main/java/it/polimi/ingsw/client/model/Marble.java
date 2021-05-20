@@ -2,7 +2,10 @@ package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.cli.AsciiArts;
 
-public class Marble {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Marble extends Printable{
     private final String color;
 
     public Marble(String color) {
@@ -27,8 +30,16 @@ public class Marble {
                 return AsciiArts.BLUE_MARBLE;
             case "GRAY":
                 return AsciiArts.GRAY_MARBLE;
+            case "EMPTY_RES":
+                return AsciiArts.EMPTY_RES;
             default:
                 return AsciiArts.EMPTY_RES;
         }
     }
+
+    @Override
+    public int getWidth() {
+        return 1;
+    }
+
 }

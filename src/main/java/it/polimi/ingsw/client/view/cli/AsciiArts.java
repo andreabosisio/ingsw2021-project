@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public enum AsciiArts {
 
@@ -41,22 +42,11 @@ public enum AsciiArts {
             "╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ \n" +
             "                                                                                               \n"),
 
-    MARBLE("⬤"),
+    MARBLE(" ● "),
 
     LEFT_ARROW("←"),
     UP_ARROW("↑"),
 
-    FAITH_TRACK("\n" +
-            "        ┌───┬═══┬═2═┬═══┬═══┬─4─┐               ┌─12┬═══┬═══┬═16┬═══┬═══┬═20╗\n" +
-            "        │   ║   │   │   │   ║   │               │   ║   │   │   │   │   │   ║                       \n" +
-            "        │   ║   │   │   │   ║   │               │   ║   │   │   │   │   │   ║ \n" +
-            "        ├───┼═══┼───┴───┼═══┼───┤   ╔═══════╗   ├───┼═══┴═══┼───┴───┼═══┴═══╝\n" +
-            "        1   │   ║       ║   │   │   ║   X   ║   │   │       ║       ║ \n" +
-            "        │   │   ║   X   ║   │   │   ║       ║   │   │       ║   X   ║ \n" +
-            "┌───┬───┼───┤   ╚═══════╝   ├───┼═══┼───┬───┼═══┼═══┤       ╚═══════╝\n" +
-            "│   │   │   │               │   ║   │   │   │   │   ║ \n" +
-            "│   │   │   │               │   ║   │   │   │   │   ║ \n" +
-            "└───┴───┴───┘               └───┴═6═┴═══┴═══┴═9═┴═══┘")
     ;
 
 
@@ -159,6 +149,30 @@ public enum AsciiArts {
 
     AsciiArts(final String asciiArt) {
         this.asciiArt = asciiArt;
+    }
+
+    public static String colorString(String toColor, String color) {
+        color = color.toUpperCase(Locale.ROOT);
+        switch (color) {
+            case "GREEN":
+                return AsciiArts.GREEN_BRIGHT + toColor + AsciiArts.RESET;
+            case "PURPLE":
+                return AsciiArts.PURPLE + toColor + AsciiArts.RESET;
+            case "YELLOW":
+                return AsciiArts.YELLOW_BRIGHT + toColor + AsciiArts.RESET;
+            case "BLUE":
+                return AsciiArts.BLUE_BRIGHT + toColor + AsciiArts.RESET;
+            case "GRAY":
+                return AsciiArts.BLACK_BRIGHT + toColor + AsciiArts.RESET;
+            case "RED":
+                return AsciiArts.RED_BRIGHT + toColor + AsciiArts.RESET;
+            default:
+                return toColor;
+        }
+    }
+
+    public static int getStringLengthWithoutANSI(String str) {
+        return str.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "").length();
     }
 
     public String getAsciiArt() {

@@ -15,7 +15,7 @@ public interface View {
     void setOnMatchMaking();
     void setOnSetup(List<String> leaderCardsID, int numberOfResource);
     void setOnYourTurn();
-    void setOnNotYourTurn(String currentPlayer);
+    void setOnWaitForYourTurn(String currentPlayer);
     void setOnPlaceDevCard(String newCardID);
     void setOnPlaceResources();
     void setOnTransformation(int numberOfTransformation,List<String> possibleTransformations);

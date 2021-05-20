@@ -7,26 +7,32 @@ import java.util.*;
 /**
  * Class that has the capacity to return a printable version of a specific Leader Card
  */
-public class LeaderCard {
+public class LeaderCard extends Printable{
     private static final String EMPTY_CARD = "empty";
 
+    private final String iD;
+
+    public LeaderCard(String iD) {
+        this.iD = iD;
+    }
+
     /**
-     * This method return the print of a specific Leader Card
+     * This method return the print of the card
      *
-     * @param cardIndex is the index of the Card to print
      * @return a List composed by the lines of the Card
      */
-    public List<String> getPrintable(String cardIndex) {
+    @Override
+    public List<String> getPrintable() {
         List<String> leaderCardToPrint = new ArrayList<>();
 
-        if (cardIndex.equals(EMPTY_CARD))
-            return getPrintableEmptyLeaderCard();
+        if (iD.equals(EMPTY_CARD))
+            return getPrintableEmptyCard();
 
         LeaderCardsDatabase leaderCardsDatabase = LeaderCardsDatabase.getLeaderCardsDatabase();
 
-        String[] requirements = leaderCardsDatabase.getRequirements(cardIndex);
-        String victoryPoints = leaderCardsDatabase.getVictoryPoints(cardIndex);
-        String ability = leaderCardsDatabase.getAbility(cardIndex);
+        String[] requirements = leaderCardsDatabase.getRequirements(iD);
+        String victoryPoints = leaderCardsDatabase.getVictoryPoints(iD);
+        String ability = leaderCardsDatabase.getAbility(iD);
 
         leaderCardToPrint.add("╔══════════╗");
         leaderCardToPrint.add("║" + requirements[0] + "║");
@@ -46,7 +52,7 @@ public class LeaderCard {
      *
      * @return a List composed by the lines of the Card
      */
-    private List<String> getPrintableEmptyLeaderCard() {
+    private List<String> getPrintableEmptyCard() {
         List<String> leaderCardToPrint = new ArrayList<>();
 
         String empty = AsciiArts.RED_BOLD_BRIGHT + "EMPTY" + AsciiArts.RESET;

@@ -47,9 +47,14 @@ public class CLI implements View {
 
     @Override
     public void graphicUpdate() {
+        /*
         Board.getBoard().getMarketTray().getPrintable().forEach(System.out::println);
         Board.getBoard().getFaithTrack().getPrintable().forEach(System.out::println);
         Board.getBoard().getDevelopmentCardsGrid().getPrintable().forEach(System.out::println);
+
+         */
+
+        Board.getBoard().getMarketAndGridPrintableScene().forEach(System.out::println);
     }
 
     @Override
@@ -174,8 +179,8 @@ public class CLI implements View {
     }
 
     @Override
-    public void setOnNotYourTurn(String currentPlayer) {
-        System.out.println("It's " +currentPlayer+" turn, wait for him to finish");
+    public void setOnWaitForYourTurn(String currentPlayer) {
+        System.out.println("It's " + currentPlayer +" turn, wait for him to finish");
     }
 
     @Override

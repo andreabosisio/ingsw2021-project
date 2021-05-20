@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.view.cli.AsciiArts;
 
 import java.util.*;
 
-public class FaithTrack {
+public class FaithTrack extends Printable{
     private final static int DIM_FAITH_TRACK = 25;
     private static final int DIM_POPE_REPORTS = 3;
     private final static String EMPTY_MARKER = " ";
@@ -51,6 +51,7 @@ public class FaithTrack {
      *
      * @return a List<String> containing the representation of the FaithTrack row by row.
      */
+    @Override
     public List<String> getPrintable() {
         List<String> toReturn = new ArrayList<>();
 

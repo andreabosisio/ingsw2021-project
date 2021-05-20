@@ -7,31 +7,38 @@ import java.util.*;
 /**
  * Class that has the capacity to return a printable version of a specific Development Card
  */
-public class DevelopmentCard {
+public class DevelopmentCard extends Printable{
+
     private static final String EMPTY_CARD = "empty";
+
+    private final String iD;
+
+    public DevelopmentCard(String iD) {
+        this.iD = iD;
+    }
 
     /**
      * This method return the print of a specific Development Card
      *
-     * @param cardIndex is the index of the Card to print
      * @return a List composed by the lines of the Card
      */
-    public List<String> getPrintable(String cardIndex) {
+    @Override
+    public List<String> getPrintable() {
         List<String> developmentCardToPrint = new ArrayList<>();
 
-        if (cardIndex.equals(EMPTY_CARD))
-            return getEmptyPrintable();
+        if (iD.equals(EMPTY_CARD))
+            return getPrintableEmptyCard();
 
         DevelopmentCardsDatabase devCardsDatabase = DevelopmentCardsDatabase.getDevelopmentCardsDatabase();
 
         // contains the three possible resources to buy the card
-        String[] cardPrice = devCardsDatabase.getPrice(cardIndex);
+        String[] cardPrice = devCardsDatabase.getPrice(iD);
         // contains the level of the Card colored like the color of the Card
-        String cardLevel = devCardsDatabase.getColoredLevel(cardIndex);
+        String cardLevel = devCardsDatabase.getColoredLevel(iD);
         // contains the victory points of the Card (vP < 9 ? " " + 3 : 11)
-        String cardVictoryPoints = devCardsDatabase.getVictoryPoints(cardIndex);
-        String[] cardInResources = devCardsDatabase.getInResources(cardIndex);
-        String[] cardOutResources = devCardsDatabase.getOutResources(cardIndex);
+        String cardVictoryPoints = devCardsDatabase.getVictoryPoints(iD);
+        String[] cardInResources = devCardsDatabase.getInResources(iD);
+        String[] cardOutResources = devCardsDatabase.getOutResources(iD);
 
         developmentCardToPrint.add("╔══════════╗");
         developmentCardToPrint.add("║" + cardLevel + "        " + cardLevel + "║");
@@ -51,7 +58,7 @@ public class DevelopmentCard {
      *
      * @return a List composed by the lines of the Card
      */
-    private List<String> getEmptyPrintable() {
+    private List<String> getPrintableEmptyCard() {
         List<String> developmentCardToPrint = new ArrayList<>();
 
         String empty = AsciiArts.RED_BOLD_BRIGHT + "EMPTY" + AsciiArts.RESET;
@@ -69,4 +76,5 @@ public class DevelopmentCard {
 
         return developmentCardToPrint;
     }
+
 }

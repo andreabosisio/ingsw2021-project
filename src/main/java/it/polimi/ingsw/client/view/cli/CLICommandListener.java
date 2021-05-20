@@ -157,21 +157,21 @@ public class CLICommandListener implements CommandListener {
         notifyObservers(new CardPlacementActionEvent(choice));
     }
 
-    public void askResourceTransformation(int numberOfTransformation,List<String> possibleTransformations){
+    public void askResourceTransformation(int numberOfTransformation, List<String> possibleTransformations){
         List<String> transformations = new ArrayList<>();
         System.out.println("Looks like your white marbles are evolving\nChoose the color you prefer for this "+numberOfTransformation+" marbles");
         for (int i = 0; i < numberOfTransformation; i++) {
             System.out.print("Resource n" + (i + 1) + " can be: ");
-            for(int j = 0;j<possibleTransformations.size();j++){
+            for(int j = 0; j < possibleTransformations.size(); j++){
                 String color = possibleTransformations.get(j);
-                System.out.print((j+1)+Marble.getPrintable(color.toUpperCase(Locale.ROOT))+" ");
+                System.out.print((j+1) + Marble.getPrintable(color.toUpperCase(Locale.ROOT))+" ");
             }
             System.out.print("\n");
             int choice = -1;
             while (choice<1||choice>possibleTransformations.size()){
                 System.out.println("Select between 1 and 2");
                 try {
-                    choice=Integer.parseInt(scanner.nextLine());
+                    choice = Integer.parseInt(scanner.nextLine());
                 }catch (NumberFormatException e){
                     System.out.println("Not a number");
                 }

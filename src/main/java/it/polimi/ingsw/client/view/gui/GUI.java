@@ -77,7 +77,7 @@ public class GUI implements View {
     }
 
     @Override
-    public void setOnNotYourTurn(String currentPlayer) {
+    public void setOnWaitForYourTurn(String currentPlayer) {
 
     }
 
