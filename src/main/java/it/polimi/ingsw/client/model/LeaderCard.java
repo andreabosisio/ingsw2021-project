@@ -67,7 +67,7 @@ public class LeaderCard extends Printable {
         leaderCardToPrint.add("║          ║");
         leaderCardToPrint.add("║          ║");
         leaderCardToPrint.add("║          ║");
-        leaderCardToPrint.add("║          ║");
+        leaderCardToPrint.add("║" + "leader" + "    ║");
         leaderCardToPrint.add("╚══════════╝");
 
         return leaderCardToPrint;
