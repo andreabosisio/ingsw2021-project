@@ -2,9 +2,11 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.NetworkHandler;
 import it.polimi.ingsw.client.model.Board;
+import it.polimi.ingsw.client.model.Player;
 import it.polimi.ingsw.client.view.View;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CLI implements View {
 
@@ -144,11 +146,26 @@ public class CLI implements View {
         }
     }
     private void setOnSeeChoice(){
-        System.out.println("What do you wish to see?");
         //todo add code
-        //String answer = cliCommandListener.askSeeChoice();
-        //switch on answer and show on screen
+        String answer = cliCommandListener.askSeeChoice();
+        switch (answer){
+            case "grids":{
+                //todo show show grids
+                setOnSeeChoice();
+                break;
+            }
+            case "player":{
+                setOnSeePlayerChoice();
+                setOnSeeChoice();
+                break;
+            }
+        }
         setOnYourTurn();
+    }
+    private void setOnSeePlayerChoice(){
+        String player = cliCommandListener.askSeePlayerChoice();
+        //todo show selected player board
+        System.out.println("View of player "+player+" not yet implemented");
     }
 
     protected static void showThreePointsAnimation() {

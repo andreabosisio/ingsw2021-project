@@ -263,8 +263,6 @@ public class CLICommandListener implements CommandListener {
                 System.out.println("invalid input");
                 discard = scanner.nextLine().toLowerCase(Locale.ROOT);
             }
-            //todo cancellare system out qui sotto
-            //System.out.println("you chose card "+hand.get(index)+" to: "+discard);
             notifyObservers(new LeaderActionEvent(hand.get(index),discard.equals("discard")));
             return true;
         }
@@ -279,7 +277,7 @@ public class CLICommandListener implements CommandListener {
         String answer;
         List<Integer> resources = new ArrayList<>();
         while (level < MIN_CARD_LEVEL || level > MAX_CARD_LEVEL) {
-            System.out.println("Choose the level of the card you want to buy(beetween " + MIN_CARD_LEVEL + " and " + MAX_CARD_LEVEL + ")");
+            System.out.println("Choose the level of the card you want to buy(between " + MIN_CARD_LEVEL + " and " + MAX_CARD_LEVEL + ")");
             try {
                 level = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
@@ -295,10 +293,8 @@ public class CLICommandListener implements CommandListener {
         answer = scanner.nextLine();
         while (true) {
             try {
-                //regex means any number of spaces before and after the comma
                 //Only natural numbers are accepted and any duplicate are ignored
                 resources.addAll(Arrays.stream(answer.split("\\s*,\\s*")).map(Integer::parseInt).filter(n->n>0).collect(Collectors.toSet()));
-                //System.out.println("The current resources selected are "+resources+" type done if finished or add more");
                 break;
             } catch (IndexOutOfBoundsException | NumberFormatException e) {
                 System.out.println("Invalid input");
@@ -371,6 +367,28 @@ public class CLICommandListener implements CommandListener {
             answer = scanner.nextLine();
         }
         notifyObservers(new ProductionActionEvent(inResourcesForEachProductions,outResourcesForEachProductions));
+    }
+
+    public String askSeeChoice(){
+        System.out.println("What do you wish to see(grids/done/player)?");
+        String answer = scanner.nextLine();
+        while(!answer.equals("grids")&&!answer.equals("done")&&!answer.equals("player")){
+            System.out.println("Invalid input");
+            answer = scanner.nextLine();
+        }
+        return answer;
+
+    }
+
+    public String askSeePlayerChoice(){
+        List<String> nicknames = Board.getBoard().getPlayers().stream().map(Player::getNickname).collect(Collectors.toList());
+        System.out.println("Players to see are: "+nicknames);
+        String answer = scanner.nextLine();
+        while (!nicknames.contains(answer)){
+            System.out.println("Player does not exist, try again");
+            answer = scanner.nextLine();
+        }
+        return answer;
     }
 
 
