@@ -100,7 +100,7 @@ public class FaithTrack extends Printable {
         toReturn.add("│ "+t3[0]+" "+t4[0]+" │ "+t3[1]+" "+ t4[1]+" │ "+t3[2]+" "+t4[2]+" │                       │ "+t3[11]+" "+t4[11]+" ║ "+t3[12]+" "+t4[12]+" │ "+t3[13]+" "+t4[13]+" │ "+t3[14]+" "+t4[14]+" │ "+t3[15]+" "+t4[15]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t3[16]+" "+t4[16]+" "+ AnsiEnum.RESET+"║                                    ");
         toReturn.add("└─────┴─────┴─────┘                       └─────┴══"+ AnsiEnum.REVERSE_VIDEO+"6"+ AnsiEnum.RESET+"══┴═════┴═════┴══"+ AnsiEnum.REVERSE_VIDEO+"9"+ AnsiEnum.RESET+"══┴═════┘ ");
 
-
+        setWidth(toReturn);
         return toReturn;
     }
 

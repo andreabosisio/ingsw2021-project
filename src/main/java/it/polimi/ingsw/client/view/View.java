@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view;
 import java.util.List;
 
 public interface View {
-
     void setNickname(String nickname);
     String getNickname();
     void startView();

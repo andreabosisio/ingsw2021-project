@@ -39,8 +39,8 @@ public class Player extends Printable {
         return nickname;
     }
 
-    public void setHandLeaders(List<String> handLeaders) {
-        if(handLeaders!=null) {
+    public void setHandLeaders(List<String> handLeaders, String thisClientNickname) {
+        if(handLeaders != null && this.nickname.equals(thisClientNickname)) {
             if(handLeaders.size()==0){
                 this.handLeaders = new ArrayList<String>(){{
                     add("empty");
@@ -83,12 +83,12 @@ public class Player extends Printable {
         return productionBoard;
     }
 
-    public void update(){
+    public void update(String thisClientNickname){
         Player player = Board.getBoard().getPlayerByNickname(nickname);
         player.setActiveLeaders(activeLeaders);
         player.setWarehouse(warehouse);
         player.setProductionBoard(productionBoard);
-        player.setHandLeaders(handLeaders);
+        player.setHandLeaders(handLeaders, thisClientNickname);
         player.setHandScene();
         player.setActiveLeadersScene();
         player.setProductionSlotsScene();

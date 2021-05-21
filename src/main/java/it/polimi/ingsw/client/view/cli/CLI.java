@@ -150,6 +150,7 @@ public class CLI implements View {
                 setOnSeeChoice();
         }
     }
+
     private void setOnSeeChoice(){
         String answer = cliCommandListener.askSeeChoice();
         switch (answer){
@@ -168,6 +169,7 @@ public class CLI implements View {
                 setOnYourTurn();
         }
     }
+
     private void setOnSeePlayerChoice(){
         String playerToView = cliCommandListener.askSeePlayerChoice();
         render(Board.getBoard().getPrintablePersonalBoardOf(playerToView));
@@ -192,7 +194,9 @@ public class CLI implements View {
 
     @Override
     public void setOnWaitForYourTurn(String currentPlayer) {
-        System.out.println("It's " + currentPlayer +" turn, wait for him to finish");
+        clearView();
+        render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
+        render("It's " + currentPlayer +" turn, wait for him to finish");
     }
 
     @Override
@@ -218,6 +222,8 @@ public class CLI implements View {
 
     @Override
     public void setOnEndTurn() {
+        clearView();
+        render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
         if(cliCommandListener.askEndAction()){
             //true if chosen action is a leaderAction
             if(!cliCommandListener.askLeaderAction()){
