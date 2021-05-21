@@ -101,8 +101,6 @@ public class CLI implements View {
 
         render(AnsiEnum.LOGO.getAsciiArt());
 
-        //System.out.println("Matchmaking...");
-
         System.out.println();
         System.out.print("Matchmaking");
         showThreePointsAnimation();
@@ -119,24 +117,31 @@ public class CLI implements View {
 
     @Override
     public void setOnYourTurn() {
-        //fixme clearView and print personalBoard
-        System.out.println("what do you wish to do?(market,buy,production,leader,see)");
+        System.out.print(AnsiEnum.WHITE_BRIGHT + "Your turn is starting" + AnsiEnum.RESET);
+        CLI.showThreePointsAnimation();
+
+        clearView();
+        CLI.render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
+        CLI.render("what do you wish to do?(market,buy,production,leader,see)");
         String answer = cliCommandListener.askFirstAction();
+        CLI.clearView();
         switch (answer){
             //fixme clear view and print necessary items for everySwitch
-            case "market":{
+            case "market":
+                CLI.render(Board.getBoard().getPrintableMarketAndGrid());
                 cliCommandListener.askMarketAction();
                 break;
-            }
             //todo complete code for actions below
             case "buy":
+                CLI.render(Board.getBoard().getPrintableBuySceneOf(nickname));
                 cliCommandListener.askBuyAction();
-                //System.out.println("you choose buy");
                 break;
             case "production":
+                CLI.render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
                 cliCommandListener.askProductionAction();
                 break;
             case "leader":
+                CLI.render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
                 if(!cliCommandListener.askLeaderAction()){
                     setOnYourTurn();
                 }
@@ -146,11 +151,10 @@ public class CLI implements View {
         }
     }
     private void setOnSeeChoice(){
-        //todo add code
         String answer = cliCommandListener.askSeeChoice();
         switch (answer){
             case "grids":{
-                //todo show show grids
+                CLI.render(Board.getBoard().getPrintableMarketAndGrid());
                 setOnSeeChoice();
                 break;
             }
@@ -159,13 +163,14 @@ public class CLI implements View {
                 setOnSeeChoice();
                 break;
             }
+            default:
+                clearView();
+                setOnYourTurn();
         }
-        setOnYourTurn();
     }
     private void setOnSeePlayerChoice(){
-        String player = cliCommandListener.askSeePlayerChoice();
-        //todo show selected player board
-        System.out.println("View of player "+player+" not yet implemented");
+        String playerToView = cliCommandListener.askSeePlayerChoice();
+        render(Board.getBoard().getPrintablePersonalBoardOf(playerToView));
     }
 
     protected static void showThreePointsAnimation() {
@@ -192,6 +197,7 @@ public class CLI implements View {
 
     @Override
     public void setOnPlaceDevCard(String newCardID) {
+        clearView();
         //todo clearView and print card to place and personal production board
         //Board.getBoard().printPlaceCardScene(newCardId)
         cliCommandListener.askCardPlacement();
@@ -199,7 +205,8 @@ public class CLI implements View {
 
     @Override
     public void setOnPlaceResources() {
-        //todo clearView and print wharehouse + res to place
+        clearView();
+        render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
         cliCommandListener.askResourcePlacement();
     }
 

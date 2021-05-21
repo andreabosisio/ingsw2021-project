@@ -89,7 +89,7 @@ public class CLICommandListener implements CommandListener {
                 else
                     row = PrintableScene.concatenateString(row, AnsiEnum.WHITE_BRIGHT + "[" + j + "]: " + AnsiEnum.RESET + toChoose.get(j).getEmptySpace() + "\t");
             }
-            CLI.render(PrintableScene.addTopString(PrintableScene.concatenatePrintable(toChoose, "    " + "\t"), row));
+            CLI.render(PrintableScene.addStringToTop(PrintableScene.concatenatePrintable(toChoose, "    " + "\t"), row));
             System.out.println();
 
             String choice = scanner.nextLine();
@@ -199,11 +199,11 @@ public class CLICommandListener implements CommandListener {
 
     public void askMarketAction(){
         int choice = -1;
-        System.out.println("Select which row or column you want to take");
+        CLI.render("Select which row or column you want to take");
         while(choice < MIN_MARKET_ARROW_ID || choice > MAX_MARKET_ARROW_ID){
             try {
                 choice = Integer.parseInt(scanner.nextLine());
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e){
                 System.out.println("invalid input");
             }
         }
@@ -277,7 +277,7 @@ public class CLICommandListener implements CommandListener {
         String answer;
         List<Integer> resources = new ArrayList<>();
         while (level < MIN_CARD_LEVEL || level > MAX_CARD_LEVEL) {
-            System.out.println("Choose the level of the card you want to buy(between " + MIN_CARD_LEVEL + " and " + MAX_CARD_LEVEL + ")");
+            CLI.render("Choose the level of the card you want to buy(between " + MIN_CARD_LEVEL + " and " + MAX_CARD_LEVEL + ")");
             try {
                 level = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
@@ -285,11 +285,11 @@ public class CLICommandListener implements CommandListener {
             }
         }
         while (!CARD_COLORS.contains(color.toUpperCase(Locale.ROOT))) {
-            System.out.println("Choose the color of the card to buy(green,blue,yellow,purple)");
+            CLI.render("Choose the color of the card to buy(green,blue,yellow,purple)");
             color = scanner.nextLine();
         }
-        //todo print card and warehouse
-        System.out.println("Choose which resources you want to use to pay the card(1,2,3)");
+
+        CLI.render("Choose which resources you want to use to pay the card(1,2,3)");
         answer = scanner.nextLine();
         while (true) {
             try {
@@ -297,7 +297,7 @@ public class CLICommandListener implements CommandListener {
                 resources.addAll(Arrays.stream(answer.split("\\s*,\\s*")).map(Integer::parseInt).filter(n->n>0).collect(Collectors.toSet()));
                 break;
             } catch (IndexOutOfBoundsException | NumberFormatException e) {
-                System.out.println("Invalid input");
+                CLI.render("Invalid input");
                 answer = scanner.nextLine();
             }
         }

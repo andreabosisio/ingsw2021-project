@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.cli;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PrintableScene extends Printable {
@@ -15,6 +16,11 @@ public class PrintableScene extends Printable {
 
     public PrintableScene(List<String> scene) {
         this.scene = scene;
+        setWidth(this.scene);
+    }
+
+    public PrintableScene(Printable scene) {
+        this.scene = scene.getPrintable();
         setWidth(this.scene);
     }
 
@@ -36,13 +42,18 @@ public class PrintableScene extends Printable {
     public static Printable concatenatePrintable (String separator, Printable... args) {
         List<String> rows  = new ArrayList<>();
         String row = "";
+
+        int maxHeight = 0;
+        for(Printable printable : args) {
+            int printableSize = printable.getPrintable().size();
+            if(printableSize > maxHeight)
+                maxHeight = printableSize;
+        }
+
         int i = 0;
-        int maxSize = 0;
         do {
             for (Printable printable : args) {
                 List<String> pRows = printable.getPrintable();
-                if(pRows.size() > maxSize)
-                    maxSize = pRows.size();
                 try {
                     row = concatenateString(row, pRows.get(i), separator);
                 } catch (IndexOutOfBoundsException e) {
@@ -52,7 +63,7 @@ public class PrintableScene extends Printable {
             rows.add(row);
             row = "";
             i++;
-        } while (i < maxSize);
+        } while (i < maxHeight);
 
         return new PrintableScene(rows);
     }
@@ -61,7 +72,24 @@ public class PrintableScene extends Printable {
         return concatenatePrintable("", args);
     }
 
-    public static Printable addTopString (Printable base, String toAdd) {
+    public static Printable addPrintablesToTop(Printable base, String separator, Printable ... tops) {
+        Printable builder = new PrintableScene(base.getPrintable());
+        for (Printable top : tops) {
+            builder = addStringToTop(builder, separator);
+            List<String> reversed = top.getPrintable();
+            Collections.reverse(reversed);
+            for (String row : reversed) {
+                builder = addStringToTop(builder, row);
+            }
+        }
+        return builder;
+    }
+
+    public static Printable addPrintablesToTop(Printable base, Printable ... tops) {
+        return addPrintablesToTop(base, "", tops);
+    }
+
+    public static Printable addStringToTop(Printable base, String toAdd) {
         return addStringAtRow(base, toAdd, 0);
     }
 

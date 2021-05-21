@@ -3,8 +3,6 @@ package it.polimi.ingsw.client.model;
 import it.polimi.ingsw.client.view.cli.PrintableScene;
 import it.polimi.ingsw.client.view.cli.Printable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 public class Board extends Printable {
@@ -60,41 +58,18 @@ public class Board extends Printable {
     }
 
     public Printable getPrintableMarketAndGrid() {
-        List<String> toReturn = new ArrayList<>();
-        List<String> printableMarket = marketTray.getPrintable();
-        List<String> printableGrid = developmentCardsGrid.getPrintable();
-        StringBuilder row;
-        String marketRow, gridRow;
-
-        /*
-        for(int i = 0; i < DIM_SCENE; i++) {
-            row = new StringBuilder();
-            try {
-                marketRow = printableMarket.get(i);
-            } catch (IndexOutOfBoundsException e) {
-                marketRow = marketTray.getEmptySpace();
-            }
-            row.append(marketRow);
-
-            row.append(MARKET_GRID_SEPARATOR);
-
-            try {
-                gridRow = printableGrid.get(i);
-            } catch (IndexOutOfBoundsException e) {
-                gridRow = developmentCardsGrid.getEmptySpace();
-            }
-            row.append(gridRow);
-            toReturn.add(row.toString());
-        }
-
-        setWidth(toReturn);
-        return new PrintableScene(toReturn);
-
-         */
         Printable marketWithVerticalOffset = marketTray;
         for (int i = 0; i < developmentCardsGrid.getPrintable().size()/2; i++)
-            marketWithVerticalOffset = PrintableScene.addTopString(marketWithVerticalOffset, "");
+            marketWithVerticalOffset = PrintableScene.addStringToTop(marketWithVerticalOffset, "");
         return PrintableScene.concatenatePrintable(MARKET_GRID_SEPARATOR, marketWithVerticalOffset, developmentCardsGrid);
+    }
+
+    public Printable getPrintablePersonalBoardOf(String nickname) {
+        return new PrintableScene(PrintableScene.addPrintablesToTop(getPlayerByNickname(nickname), Board.getBoard().getFaithTrack()));
+    }
+
+    public Printable getPrintableBuySceneOf(String nickname) {
+        return new PrintableScene(PrintableScene.concatenatePrintable("   ", getPlayerByNickname(nickname).getWarehouseScene(), developmentCardsGrid));
     }
 
     @Override
