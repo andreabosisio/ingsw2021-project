@@ -56,13 +56,15 @@ public class CLICommandListener implements CommandListener {
 
     protected void askNumberOfPlayers(String payload) {
         CLI.render("Choose number of players (" + payload + ") :");
-        String numberOfPlayers = scanner.nextLine();
-        try {
-            notifyObservers(new SelectNumberPlayersEvent(Integer.parseInt(numberOfPlayers)));
-        } catch (NumberFormatException e) {
-            CLI.clearView();
-            CLI.render(AnsiEnum.RED + "Please re-insert a valid number" + AnsiEnum.RESET);
-            //askNumberOfPlayers(payload);
+
+        while (true) {
+            String numberOfPlayers = scanner.nextLine();
+            try {
+                notifyObservers(new SelectNumberPlayersEvent(Integer.parseInt(numberOfPlayers)));
+                break;
+            } catch (NumberFormatException e) {
+                CLI.render(AnsiEnum.RED + "Please re-insert a valid number" + AnsiEnum.RESET);
+            }
         }
     }
 
