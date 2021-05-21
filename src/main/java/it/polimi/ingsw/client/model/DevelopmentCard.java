@@ -11,6 +11,7 @@ import java.util.*;
 public class DevelopmentCard extends Printable {
 
     private static final String EMPTY_CARD = "empty";
+    private static final String BASIC_CARD = "basicPowerCard" ;
 
     private final String iD;
 
@@ -29,6 +30,9 @@ public class DevelopmentCard extends Printable {
 
         if (iD.equals(EMPTY_CARD))
             return getPrintableEmptyCard();
+
+        if (iD.equals(BASIC_CARD))
+            return getPrintableBasicPowerCard();
 
         DevelopmentCardsDatabase devCardsDatabase = DevelopmentCardsDatabase.getDevelopmentCardsDatabase();
 
@@ -79,4 +83,25 @@ public class DevelopmentCard extends Printable {
         return developmentCardToPrint;
     }
 
+    /**
+     * This method return the print of a basic power card
+     *
+     * @return a List composed by the lines of the Card
+     */
+    private List<String> getPrintableBasicPowerCard() {
+        List<String> developmentCardToPrint = new ArrayList<>();
+
+        developmentCardToPrint.add("╔══════════╗");
+        developmentCardToPrint.add("║          ║");
+        developmentCardToPrint.add("║          ║");
+        developmentCardToPrint.add("║──────────║");
+        developmentCardToPrint.add("║  ? │     ║");
+        developmentCardToPrint.add("║    }  ?  ║");
+        developmentCardToPrint.add("║  ? │     ║");
+        developmentCardToPrint.add("║          ║");
+        developmentCardToPrint.add("╚══════════╝");
+
+        setWidth(developmentCardToPrint);
+        return developmentCardToPrint;
+    }
 }
