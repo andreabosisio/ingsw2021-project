@@ -41,7 +41,18 @@ public class Player extends Printable {
 
     public void setHandLeaders(List<String> handLeaders) {
         if(handLeaders!=null) {
-            this.handLeaders = handLeaders; //todo
+            if(handLeaders.size()==0){
+                this.handLeaders = new ArrayList<String>(){{
+                    add("empty");
+                    add("empty");
+                }};
+            }
+            else if(handLeaders.size()==1){
+                this.handLeaders = handLeaders;
+                this.handLeaders.add("empty");
+            }
+            else
+                this.handLeaders = handLeaders;
         }
     }
 
