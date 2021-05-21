@@ -11,7 +11,7 @@ import java.util.*;
 public class DevelopmentCard extends Printable {
 
     private static final String EMPTY_CARD = "empty";
-    private static final String BASIC_CARD = "basicPowerCard" ;
+    private static final String BASIC_CARD = "basicPowerCard";
 
     private final String iD;
 
@@ -66,8 +66,8 @@ public class DevelopmentCard extends Printable {
     private List<String> getPrintableEmptyCard() {
         List<String> developmentCardToPrint = new ArrayList<>();
 
-        String empty = AnsiEnum.RED_BOLD_BRIGHT + "EMPTY" + AnsiEnum.RESET;
-        String card = AnsiEnum.RED_BOLD_BRIGHT + "CARD" + AnsiEnum.RESET;
+        String empty = AnsiEnum.RED_BOLD + "Empty" + AnsiEnum.RESET;
+        String card = AnsiEnum.RED_BOLD + "Card" + AnsiEnum.RESET;
 
         developmentCardToPrint.add("╔══════════╗");
         developmentCardToPrint.add("║   " + empty + "  ║");
@@ -91,12 +91,15 @@ public class DevelopmentCard extends Printable {
     private List<String> getPrintableBasicPowerCard() {
         List<String> developmentCardToPrint = new ArrayList<>();
 
+        String basic = AnsiEnum.YELLOW_BOLD + "Basic" + AnsiEnum.RESET;
+        String power = AnsiEnum.YELLOW_BOLD + "Power" + AnsiEnum.RESET;
+
         developmentCardToPrint.add("╔══════════╗");
-        developmentCardToPrint.add("║          ║");
-        developmentCardToPrint.add("║          ║");
+        developmentCardToPrint.add("║  "+basic+"   ║");
+        developmentCardToPrint.add("║  "+power+"   ║");
         developmentCardToPrint.add("║──────────║");
         developmentCardToPrint.add("║  ? │     ║");
-        developmentCardToPrint.add("║    }  ?  ║");
+        developmentCardToPrint.add("║    } ?   ║");
         developmentCardToPrint.add("║  ? │     ║");
         developmentCardToPrint.add("║          ║");
         developmentCardToPrint.add("╚══════════╝");

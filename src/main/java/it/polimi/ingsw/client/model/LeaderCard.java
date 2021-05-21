@@ -40,9 +40,9 @@ public class LeaderCard extends Printable {
         leaderCardToPrint.add("║" + requirements[1] + "║");
         leaderCardToPrint.add("║──────────║");
         leaderCardToPrint.add("║          ║");
-        leaderCardToPrint.add("║"+ability+" ║");
+        leaderCardToPrint.add("║" + ability + " ║");
         leaderCardToPrint.add("║          ║");
-        leaderCardToPrint.add("║"+"leader"+"  " + victoryPoints + "║");
+        leaderCardToPrint.add("║" + "leader" + "  " + victoryPoints + "║");
         leaderCardToPrint.add("╚══════════╝");
 
         setWidth(leaderCardToPrint);
@@ -57,8 +57,8 @@ public class LeaderCard extends Printable {
     private List<String> getPrintableEmptyCard() {
         List<String> leaderCardToPrint = new ArrayList<>();
 
-        String empty = AnsiEnum.RED_BOLD_BRIGHT + "EMPTY" + AnsiEnum.RESET;
-        String card = AnsiEnum.RED_BOLD_BRIGHT + "CARD" + AnsiEnum.RESET;
+        String empty = AnsiEnum.RED_BOLD + "Empty" + AnsiEnum.RESET;
+        String card = AnsiEnum.RED_BOLD + "Card" + AnsiEnum.RESET;
 
         leaderCardToPrint.add("╔══════════╗");
         leaderCardToPrint.add("║   " + empty + "  ║");
