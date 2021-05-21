@@ -45,7 +45,7 @@ public class ClientHandler implements Runnable {
     public void run() {
         status = StatusEnum.LOGIN;
 
-        sendInfoMessage("Welcome to Maestri del Rinascimento");
+        //sendInfoMessage("Welcome to Maestri del Rinascimento");
 
         // 1- Wait for valid nickname and password
         login();

@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import it.polimi.ingsw.client.view.cli.AsciiArts;
+import it.polimi.ingsw.client.view.cli.AnsiEnum;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -75,15 +75,15 @@ public class LeaderCardsDatabase {
         // Production, Market, Warehouse, Discount
         for (String[] splittedRequirements : cardRequirementsList) {
             if (numberOfCard <= 3) { // Production Leader Card
-                cardRequirements[0] = "Card: " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AsciiArts.RESET + "   ";
-                cardRequirements[1] = "lvl: " + splittedRequirements[2] + AsciiArts.RESET + "    ";
+                cardRequirements[0] = "Card: " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AnsiEnum.RESET + "   ";
+                cardRequirements[1] = "lvl: " + splittedRequirements[2] + AnsiEnum.RESET + "    ";
             } else if (numberOfCard >= 8 && numberOfCard <= 11) { // Warehouse Leader Card
-                cardRequirements[0] = "Res: " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AsciiArts.RESET + "    ";
+                cardRequirements[0] = "Res: " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AnsiEnum.RESET + "    ";
             } else {
                 if (t == 0)
-                    cardRequirements[0] = "Cards: " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AsciiArts.RESET + "  ";
+                    cardRequirements[0] = "Cards: " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AnsiEnum.RESET + "  ";
                 else if (t == 1)
-                    cardRequirements[1] = "       " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AsciiArts.RESET + "  ";
+                    cardRequirements[1] = "       " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AnsiEnum.RESET + "  ";
                 t++;
             }
         }
@@ -100,9 +100,9 @@ public class LeaderCardsDatabase {
         int numberOfCard = getNumberOfCard(cardIndex);
 
         if (String.valueOf(leaderCardsVictoryPoints.get(numberOfCard)).length() == 1)
-            return " " + AsciiArts.BLACK + AsciiArts.YELLOW_BACKGROUND + leaderCardsVictoryPoints.get(numberOfCard) + AsciiArts.RESET;
+            return " " + AnsiEnum.BLACK + AnsiEnum.YELLOW_BACKGROUND + leaderCardsVictoryPoints.get(numberOfCard) + AnsiEnum.RESET;
         else
-            return AsciiArts.BLACK + AsciiArts.YELLOW_BACKGROUND + leaderCardsVictoryPoints.get(numberOfCard) + AsciiArts.RESET;
+            return AnsiEnum.BLACK + AnsiEnum.YELLOW_BACKGROUND + leaderCardsVictoryPoints.get(numberOfCard) + AnsiEnum.RESET;
     }
 
     /**
@@ -116,14 +116,14 @@ public class LeaderCardsDatabase {
 
         switch(cardIndex.split("")[0]) {
             case "p":
-                return ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "1" + AsciiArts.RESET
-                        + " } " + "? + " + AsciiArts.RED_BRIGHT + "1" + AsciiArts.RESET;
+                return ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "1" + AnsiEnum.RESET
+                        + " } " + "? + " + AnsiEnum.RED_BRIGHT + "1" + AnsiEnum.RESET;
             case "m":
-                return "  1 = " + ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "1" + AsciiArts.RESET + "  ";
+                return "  1 = " + ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "1" + AnsiEnum.RESET + "  ";
             case "w":
-                return ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "  |_|" + "|_| " + AsciiArts.RESET;
+                return ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "  |_|" + "|_| " + AnsiEnum.RESET;
             case "d":
-                return ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "   -1    " + AsciiArts.RESET;
+                return ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "   -1    " + AnsiEnum.RESET;
         }
         return null;
     }

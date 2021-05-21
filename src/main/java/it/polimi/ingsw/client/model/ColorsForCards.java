@@ -1,25 +1,25 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.cli.AsciiArts;
+import it.polimi.ingsw.client.view.cli.AnsiEnum;
 
 public class ColorsForCards {
     //todo remove
     public static String getAsciiDevCardByColor(String color) {
         switch (color) {
             case "GREEN":
-                return AsciiArts.GREEN_BRIGHT;
+                return AnsiEnum.GREEN_BRIGHT;
             case "PURPLE":
-                return AsciiArts.PURPLE;
+                return AnsiEnum.PURPLE;
             case "YELLOW":
-                return AsciiArts.YELLOW_BRIGHT;
+                return AnsiEnum.YELLOW_BRIGHT;
             case "BLUE":
-                return AsciiArts.BLUE_BRIGHT;
+                return AnsiEnum.BLUE_BRIGHT;
             case "GRAY":
-                return AsciiArts.BLACK_BRIGHT;
+                return AnsiEnum.BLACK_BRIGHT;
             case "RED":
-                return AsciiArts.RED_BRIGHT;
+                return AnsiEnum.RED_BRIGHT;
             default:
-                return AsciiArts.INVISIBLE_TEXT;
+                return AnsiEnum.INVISIBLE_TEXT;
         }
     }
 }

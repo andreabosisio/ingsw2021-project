@@ -1,13 +1,8 @@
 package it.polimi.ingsw.client.view.cli;
 
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-public enum AsciiArts {
+public enum AnsiEnum {
 
     LOGIN("\n" +
             "██╗      ██████╗  ██████╗ ██╗███╗   ██╗\n" +
@@ -139,7 +134,7 @@ public enum AsciiArts {
     public static final String	REVERSE_VIDEO		= "\u001B[7m";
     public static final String	INVISIBLE_TEXT		= "\u001B[8m";
 
-    public static final String EMPTY_RES = "〇";
+    public static final String EMPTY_RES = "   ";
     public static final String WHITE_MARBLE = WHITE_BRIGHT + MARBLE.getAsciiArt() + RESET;
     public static final String RED_MARBLE = RED + MARBLE.getAsciiArt() + RESET;
     public static final String PURPLE_MARBLE = PURPLE + MARBLE.getAsciiArt() + RESET;
@@ -147,7 +142,7 @@ public enum AsciiArts {
     public static final String BLUE_MARBLE = BLUE + MARBLE.getAsciiArt() + RESET;
     public static final String GRAY_MARBLE = BLACK_BRIGHT + MARBLE.getAsciiArt() + RESET;
 
-    AsciiArts(final String asciiArt) {
+    AnsiEnum(final String asciiArt) {
         this.asciiArt = asciiArt;
     }
 
@@ -155,24 +150,24 @@ public enum AsciiArts {
         color = color.toUpperCase(Locale.ROOT);
         switch (color) {
             case "GREEN":
-                return AsciiArts.GREEN_BRIGHT + toColor + AsciiArts.RESET;
+                return AnsiEnum.GREEN_BRIGHT + toColor + AnsiEnum.RESET;
             case "PURPLE":
-                return AsciiArts.PURPLE + toColor + AsciiArts.RESET;
+                return AnsiEnum.PURPLE + toColor + AnsiEnum.RESET;
             case "YELLOW":
-                return AsciiArts.YELLOW_BRIGHT + toColor + AsciiArts.RESET;
+                return AnsiEnum.YELLOW_BRIGHT + toColor + AnsiEnum.RESET;
             case "BLUE":
-                return AsciiArts.BLUE_BRIGHT + toColor + AsciiArts.RESET;
+                return AnsiEnum.BLUE_BRIGHT + toColor + AnsiEnum.RESET;
             case "GRAY":
-                return AsciiArts.BLACK_BRIGHT + toColor + AsciiArts.RESET;
+                return AnsiEnum.BLACK_BRIGHT + toColor + AnsiEnum.RESET;
             case "RED":
-                return AsciiArts.RED_BRIGHT + toColor + AsciiArts.RESET;
+                return AnsiEnum.RED_BRIGHT + toColor + AnsiEnum.RESET;
             default:
                 return toColor;
         }
     }
 
     public static int getStringLengthWithoutANSI(String str) {
-        return str.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "").length();
+        return str.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -/]*[@-~]", "").length();
     }
 
     public String getAsciiArt() {

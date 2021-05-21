@@ -1,10 +1,12 @@
 package it.polimi.ingsw.client.model;
 
+import it.polimi.ingsw.client.view.cli.Printable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Inventory extends Printable{
+public class Inventory extends Printable {
     private Map<Integer, String> warehouse;
     private final int N_SLOTS = 50;
 
@@ -15,7 +17,7 @@ public class Inventory extends Printable{
     @Override
     public List<String> getPrintable() {
         List<String> inventory = new ArrayList<>();
-        String[] slots = setSLots();
+        String[] slots = setSlots();
 
         inventory.add("Leader Slots: |"+slots[10]+"||"+slots[11]+"| - |"+slots[12]+"||"+slots[13]+"|    Warehouse: |"+slots[4]+"|      ");
         inventory.add("              [10] [11]  - [12] [13]                 [4]       ");
@@ -32,16 +34,14 @@ public class Inventory extends Printable{
         inventory.add("║ [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48] [49] ║");
         inventory.add("╚═════════════════════════════════════════════════════════════╝");
 
+        setWidth(inventory);
         return inventory;
     }
 
-    private String[] setSLots() {
+    private String[] setSlots() {
         String[] slots = new String[N_SLOTS];
         for (int i = 0; i < N_SLOTS; i++) {
-            if (warehouse.containsKey(i))
-                slots[i] = Marble.getPrintable(warehouse.get(i));
-            else
-                slots[i] = "   ";
+            slots[i] = Marble.getPrintable(warehouse.getOrDefault(i, "EMPTY_RES"));
         }
         return slots;
     }

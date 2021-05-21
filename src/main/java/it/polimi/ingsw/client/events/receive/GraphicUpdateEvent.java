@@ -42,7 +42,7 @@ public class GraphicUpdateEvent implements ReceiveEvent {
         }
 
 
-        Board matteo = Board.getBoard();
+        //Board matteo = Board.getBoard();
         view.graphicUpdate();
         //System.out.println(market.getPrintable(20));
     }

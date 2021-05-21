@@ -36,51 +36,51 @@ public class CLI implements View {
 
     @Override
     public void startView() {
+        render(AnsiEnum.LOGO.getAsciiArt());
         cliCommandListener.registerObservers(networkHandler);
         networkHandler.startNetwork();
     }
 
     public static void clearView() {
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 30; i++)
             System.out.println(" ");
+    }
+
+    public static void render(Printable printable) {
+        if (printable != null) {
+            List<String> toPrint = printable.getPrintable();
+            if (toPrint != null)
+                toPrint.forEach(System.out::println);
+        }
+    }
+
+    public static void render(String printable) {
+        System.out.println(printable);
     }
 
     @Override
     public void graphicUpdate() {
-        /*
-        Board.getBoard().getMarketTray().getPrintable().forEach(System.out::println);
-        Board.getBoard().getFaithTrack().getPrintable().forEach(System.out::println);
-        Board.getBoard().getDevelopmentCardsGrid().getPrintable().forEach(System.out::println);
 
-         */
-
-        Board.getBoard().getMarketAndGridPrintableScene().forEach(System.out::println);
     }
 
     @Override
     public void printInfoMessage(String info) {
         if(info == null)
             return;
-        System.out.println(info);
+        render(info);
     }
 
     @Override
     public void printErrorMessage(String error) {
         if(error == null)
             return;
-        System.out.println(AsciiArts.RED + error + AsciiArts.RESET);
+        render(AnsiEnum.RED + error + AnsiEnum.RESET);
     }
 
     @Override
     public void setOnLogin() {
-
-        clearView();
-        System.out.println(AsciiArts.LOGO.getAsciiArt());
-
         showLoginScene();
         cliCommandListener.askCredentials();
-
-        clearView();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class CLI implements View {
     }
 
     private void showLoginScene() {
-        System.out.println(AsciiArts.LOGIN_SMALL.getAsciiArt());
+        render(AnsiEnum.LOGIN_SMALL.getAsciiArt());
     }
 
     @Override
@@ -97,51 +97,21 @@ public class CLI implements View {
 
         clearView();
 
-        System.out.println(AsciiArts.LOGO.getAsciiArt());
+        render(AnsiEnum.LOGO.getAsciiArt());
 
         //System.out.println("Matchmaking...");
 
         System.out.println();
         System.out.print("Matchmaking");
-        //todo come mai è segnalato come duplicato?
-        for(int i = 0; i < 3; i++){
-            try {
-                Thread.sleep(500);
-                System.out.print(".");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println();
+        showThreePointsAnimation();
 
-        /*
-        System.out.print("Matchmaking");
-        for (int i = 0; i < 3; i++) {
-            try {
-                Thread.sleep(1000);
-                System.out.print(".");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        */
     }
 
     @Override
     public void setOnSetup(List<String> leaderCardsID, int numberOfResource) {
         clearView();
+        render(Board.getBoard().getPrintableMarketAndGrid());
         cliCommandListener.askSetupChoice(leaderCardsID, numberOfResource);
-
     }
 
 
@@ -180,6 +150,23 @@ public class CLI implements View {
         setOnYourTurn();
     }
 
+    protected static void showThreePointsAnimation() {
+        for(int i = 0; i < 3; i++){
+            try {
+                Thread.sleep(500);
+                System.out.print(".");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println();
+    }
+
     @Override
     public void setOnWaitForYourTurn(String currentPlayer) {
         System.out.println("It's " + currentPlayer +" turn, wait for him to finish");
@@ -201,7 +188,7 @@ public class CLI implements View {
     @Override
     public void setOnTransformation(int numberOfTransformation,List<String> possibleTransformations) {
         clearView();
-        cliCommandListener.askResourceTransformation(numberOfTransformation,possibleTransformations);
+        cliCommandListener.askResourceTransformation(numberOfTransformation, possibleTransformations);
     }
 
     @Override

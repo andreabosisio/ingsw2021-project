@@ -1,13 +1,14 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.cli.AsciiArts;
+import it.polimi.ingsw.client.view.cli.AnsiEnum;
+import it.polimi.ingsw.client.view.cli.Printable;
 
 import java.util.*;
 
 /**
  * Class that has the capacity to return a printable version of a specific Leader Card
  */
-public class LeaderCard extends Printable{
+public class LeaderCard extends Printable {
     private static final String EMPTY_CARD = "empty";
 
     private final String iD;
@@ -44,6 +45,7 @@ public class LeaderCard extends Printable{
         leaderCardToPrint.add("║"+"leader"+"  " + victoryPoints + "║");
         leaderCardToPrint.add("╚══════════╝");
 
+        setWidth(leaderCardToPrint);
         return leaderCardToPrint;
     }
 
@@ -55,8 +57,8 @@ public class LeaderCard extends Printable{
     private List<String> getPrintableEmptyCard() {
         List<String> leaderCardToPrint = new ArrayList<>();
 
-        String empty = AsciiArts.RED_BOLD_BRIGHT + "EMPTY" + AsciiArts.RESET;
-        String card = AsciiArts.RED_BOLD_BRIGHT + "CARD" + AsciiArts.RESET;
+        String empty = AnsiEnum.RED_BOLD_BRIGHT + "EMPTY" + AnsiEnum.RESET;
+        String card = AnsiEnum.RED_BOLD_BRIGHT + "CARD" + AnsiEnum.RESET;
 
         leaderCardToPrint.add("╔══════════╗");
         leaderCardToPrint.add("║   " + empty + "  ║");

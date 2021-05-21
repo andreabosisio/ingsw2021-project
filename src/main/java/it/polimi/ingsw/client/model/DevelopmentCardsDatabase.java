@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import it.polimi.ingsw.client.view.cli.AsciiArts;
+import it.polimi.ingsw.client.view.cli.AnsiEnum;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -64,7 +64,7 @@ public class DevelopmentCardsDatabase {
     public String getColoredLevel(String cardIndex) {
         int numberOfCard = getNumberOfCard(cardIndex);
         return ColorsForCards.getAsciiDevCardByColor(devCardsColor.get(numberOfCard)) +
-                devCardsLevel.get(numberOfCard) + AsciiArts.RESET;
+                devCardsLevel.get(numberOfCard) + AnsiEnum.RESET;
     }
 
     /**
@@ -91,11 +91,11 @@ public class DevelopmentCardsDatabase {
         // splittedPrice[0]: Number of resources, splittedPrice[1]: Color of the resource
         for (String[] splittedPrice : cardPriceList) {
             if (t == 0)
-                cardPrice[0] = ColorsForCards.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AsciiArts.RESET;
+                cardPrice[0] = ColorsForCards.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AnsiEnum.RESET;
             else if (t == 1)
-                cardPrice[1] = ColorsForCards.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AsciiArts.RESET;
+                cardPrice[1] = ColorsForCards.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AnsiEnum.RESET;
             else if (t == 2)
-                cardPrice[2] = ColorsForCards.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AsciiArts.RESET;
+                cardPrice[2] = ColorsForCards.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AnsiEnum.RESET;
             t++;
         }
 
@@ -138,11 +138,11 @@ public class DevelopmentCardsDatabase {
         // splittedInResources[0]: Number of resources, splittedInResources[1]: Color of the resource
         for (String[] splittedInResources : cardInResourcesList) {
             if (t == 0)
-                cardInResources[0] = ColorsForCards.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AsciiArts.RESET;
+                cardInResources[0] = ColorsForCards.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AnsiEnum.RESET;
             else if (t == 1)
-                cardInResources[1] = ColorsForCards.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AsciiArts.RESET;
+                cardInResources[1] = ColorsForCards.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AnsiEnum.RESET;
             else if (t == 2)
-                cardInResources[2] = ColorsForCards.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AsciiArts.RESET;
+                cardInResources[2] = ColorsForCards.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AnsiEnum.RESET;
             t++;
         }
 
@@ -184,11 +184,11 @@ public class DevelopmentCardsDatabase {
         // splittedOutResources[0]: Number of resources, splittedOutResources[1]: Color of the resource
         for (String[] splittedOutResources : cardOutResourcesList) {
             if (t == 0)
-                cardOutResources[0] = ColorsForCards.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AsciiArts.RESET;
+                cardOutResources[0] = ColorsForCards.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AnsiEnum.RESET;
             else if (t == 1)
-                cardOutResources[1] = ColorsForCards.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AsciiArts.RESET;
+                cardOutResources[1] = ColorsForCards.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AnsiEnum.RESET;
             else if (t == 2)
-                cardOutResources[2] = ColorsForCards.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AsciiArts.RESET;
+                cardOutResources[2] = ColorsForCards.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AnsiEnum.RESET;
             t++;
         }
 
@@ -215,9 +215,9 @@ public class DevelopmentCardsDatabase {
     public String getVictoryPoints(String cardIndex) {
         int numberOfCard = getNumberOfCard(cardIndex);
         if (String.valueOf(devCardsVictoryPoints.get(numberOfCard)).length() == 1)
-            return " " + AsciiArts.BLACK + AsciiArts.YELLOW_BACKGROUND + devCardsVictoryPoints.get(numberOfCard) + AsciiArts.RESET;
+            return " " + AnsiEnum.BLACK + AnsiEnum.YELLOW_BACKGROUND + devCardsVictoryPoints.get(numberOfCard) + AnsiEnum.RESET;
         else
-            return AsciiArts.BLACK + AsciiArts.YELLOW_BACKGROUND + devCardsVictoryPoints.get(numberOfCard) + AsciiArts.RESET;
+            return AnsiEnum.BLACK + AnsiEnum.YELLOW_BACKGROUND + devCardsVictoryPoints.get(numberOfCard) + AnsiEnum.RESET;
     }
 
     /**

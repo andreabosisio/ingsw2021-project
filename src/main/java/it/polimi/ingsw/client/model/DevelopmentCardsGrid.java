@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.model;
 
 
+import it.polimi.ingsw.client.view.cli.Printable;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 
 import java.util.*;
@@ -8,7 +9,7 @@ import java.util.*;
 /**
  * Class that has the capacity to print the Development Cards Grid
  */
-public class DevelopmentCardsGrid extends Printable{
+public class DevelopmentCardsGrid extends Printable {
     private List<Map<String, String>> mapByLevel;
 
     private Integer level;
@@ -86,6 +87,8 @@ public class DevelopmentCardsGrid extends Printable{
                 cardsGrid.add(cardsGridLine.toString());
             }
         }
+
+        setWidth(cardsGrid);
         return cardsGrid;
     }
 }

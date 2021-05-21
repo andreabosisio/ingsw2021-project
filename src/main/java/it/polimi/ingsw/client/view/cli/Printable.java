@@ -1,6 +1,6 @@
-package it.polimi.ingsw.client.model;
+package it.polimi.ingsw.client.view.cli;
 
-import it.polimi.ingsw.client.view.cli.AsciiArts;
+import it.polimi.ingsw.client.view.cli.AnsiEnum;
 
 import java.util.List;
 
@@ -9,10 +9,12 @@ public abstract class Printable {
     private int width = -1;
 
     public void setWidth(List<String> prePrintable) {
-        this.width = prePrintable.stream().map(AsciiArts::getStringLengthWithoutANSI).max(Integer::compareTo).orElse(-1);;
+        this.width = prePrintable.stream().map(AnsiEnum::getStringLengthWithoutANSI).max(Integer::compareTo).orElse(-1);
     }
 
     public int getWidth() {
+        if(this.width == -1)
+            getPrintable();
         return this.width;
     }
 
@@ -28,7 +30,7 @@ public abstract class Printable {
     }
 
     public String fillWithEmptySpace(String toFill) {
-        int toFillLength = AsciiArts.getStringLengthWithoutANSI(toFill);
+        int toFillLength = AnsiEnum.getStringLengthWithoutANSI(toFill);
         if (toFillLength < this.width) {
             StringBuilder filler = new StringBuilder(toFill);
             for (int i = 0; i < (this.width - toFillLength); i++)

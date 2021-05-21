@@ -1,13 +1,14 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.cli.AsciiArts;
+import it.polimi.ingsw.client.view.cli.AnsiEnum;
+import it.polimi.ingsw.client.view.cli.Printable;
 
 import java.util.*;
 
 /**
  * Class that has the capacity to return a printable version of a specific Development Card
  */
-public class DevelopmentCard extends Printable{
+public class DevelopmentCard extends Printable {
 
     private static final String EMPTY_CARD = "empty";
 
@@ -61,8 +62,8 @@ public class DevelopmentCard extends Printable{
     private List<String> getPrintableEmptyCard() {
         List<String> developmentCardToPrint = new ArrayList<>();
 
-        String empty = AsciiArts.RED_BOLD_BRIGHT + "EMPTY" + AsciiArts.RESET;
-        String card = AsciiArts.RED_BOLD_BRIGHT + "CARD" + AsciiArts.RESET;
+        String empty = AnsiEnum.RED_BOLD_BRIGHT + "EMPTY" + AnsiEnum.RESET;
+        String card = AnsiEnum.RED_BOLD_BRIGHT + "CARD" + AnsiEnum.RESET;
 
         developmentCardToPrint.add("╔══════════╗");
         developmentCardToPrint.add("║   " + empty + "  ║");
@@ -74,6 +75,7 @@ public class DevelopmentCard extends Printable{
         developmentCardToPrint.add("║          ║");
         developmentCardToPrint.add("╚══════════╝");
 
+        setWidth(developmentCardToPrint);
         return developmentCardToPrint;
     }
 

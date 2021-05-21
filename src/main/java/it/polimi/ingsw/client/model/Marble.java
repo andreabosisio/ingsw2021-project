@@ -1,11 +1,10 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.cli.AsciiArts;
+import it.polimi.ingsw.client.view.cli.AnsiEnum;
+import it.polimi.ingsw.client.view.cli.Printable;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class Marble extends Printable{
+public class Marble extends Printable {
     private final String color;
 
     public Marble(String color) {
@@ -19,21 +18,21 @@ public class Marble extends Printable{
     public static String getPrintable(String color) {
         switch (color) {
             case "WHITE":
-               return AsciiArts.WHITE_MARBLE;
+               return AnsiEnum.WHITE_MARBLE;
             case "RED":
-                return AsciiArts.RED_MARBLE;
+                return AnsiEnum.RED_MARBLE;
             case "PURPLE":
-                return AsciiArts.PURPLE_MARBLE;
+                return AnsiEnum.PURPLE_MARBLE;
             case "YELLOW":
-                return AsciiArts.YELLOW_MARBLE;
+                return AnsiEnum.YELLOW_MARBLE;
             case "BLUE":
-                return AsciiArts.BLUE_MARBLE;
+                return AnsiEnum.BLUE_MARBLE;
             case "GRAY":
-                return AsciiArts.GRAY_MARBLE;
+                return AnsiEnum.GRAY_MARBLE;
             case "EMPTY_RES":
-                return AsciiArts.EMPTY_RES;
+                return AnsiEnum.EMPTY_RES;
             default:
-                return AsciiArts.EMPTY_RES;
+                return AnsiEnum.EMPTY_RES;
         }
     }
 

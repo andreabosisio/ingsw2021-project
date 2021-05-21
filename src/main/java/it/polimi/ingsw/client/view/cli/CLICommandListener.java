@@ -2,10 +2,10 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.events.send.*;
 import it.polimi.ingsw.client.model.Board;
+import it.polimi.ingsw.client.model.LeaderCard;
 import it.polimi.ingsw.client.model.Marble;
 import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
-import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,24 +25,24 @@ public class CLICommandListener implements CommandListener {
 
     protected void askCredentials() {
 
-        System.out.println("Insert a nickname:");
+        CLI.render("Insert a nickname:");
         String nickname = scanner.nextLine();
         commandListenerObserver.setNickname(nickname);
 
-        System.out.println("Insert a password:");
+        CLI.render("Insert a password:");
         String password = scanner.nextLine();
 
         notifyObservers(new LoginEvent(nickname, password));
     }
 
     protected void askNumberOfPlayers(String payload) {
-        System.out.println("Choose number of players (" + payload + ") :");
+        CLI.render("Choose number of players (" + payload + ") :");
         String numberOfPlayers = scanner.nextLine();
         try {
             notifyObservers(new SelectNumberPlayersEvent(Integer.parseInt(numberOfPlayers)));
         } catch (NumberFormatException e) {
             CLI.clearView();
-            System.out.println(AsciiArts.RED + "Please re-insert a valid number" + AsciiArts.RESET);
+            CLI.render(AnsiEnum.RED + "Please re-insert a valid number" + AnsiEnum.RESET);
             //askNumberOfPlayers(payload);
         }
     }
@@ -55,46 +55,44 @@ public class CLICommandListener implements CommandListener {
         } else {
             notifyObservers(new ChosenSetupEvent(chosenIndexes, askResourcesChoice(numberOfResources)));
         }
-
     }
 
     private List<Integer> askLeaderCardsChoice(List<String> leaderCardsIDs) {
         List<Integer> chosenIndexes = new ArrayList<>();
-
-        //todo change where they are printed
-        for(String row : Board.getBoard().getMarketTray().getPrintable())
-            System.out.println(row);
+        List<Printable> toChoose = leaderCardsIDs.stream().map(LeaderCard::new).collect(Collectors.toList());
 
         for(int i = 0; i < LEADER_CARDS_TO_CHOOSE; i++) {
-            System.out.println("Choose a " + AsciiArts.CYAN + "LeaderCard" + AsciiArts.RESET + ": ");
+            CLI.render("Choose a " + AnsiEnum.CYAN + "LeaderCard" + AnsiEnum.RESET + ": ");
+            String row = "";
             for (int j = 0; j < leaderCardsIDs.size(); j++) {
                 if(chosenIndexes.contains(j))
-                    System.out.print(AsciiArts.GREEN_BACKGROUND + ">> " + "[" + j + "] : " + leaderCardsIDs.get(j) + " <<" + AsciiArts.RESET + "\t");
+                    row = PrintableScene.concatenateString(row, AnsiEnum.GREEN_BACKGROUND + ">> " + "[" + j + "] :  <<" + AnsiEnum.RESET + toChoose.get(j).getEmptySpace() + "\t");
                 else
-                    System.out.print(AsciiArts.WHITE_BRIGHT + "[" + j + "]: " + AsciiArts.RESET + leaderCardsIDs.get(j) + "\t");
+                    row = PrintableScene.concatenateString(row, AnsiEnum.WHITE_BRIGHT + "[" + j + "]: " + AnsiEnum.RESET + toChoose.get(j).getEmptySpace() + "\t");
             }
+            CLI.render(PrintableScene.addTopString(PrintableScene.concatenatePrintable(toChoose, "    " + "\t"), row));
             System.out.println();
+
             String choice = scanner.nextLine();
             try {
                 chosenIndexes.add(Integer.parseInt(choice));
-
                 if(chosenIndexes.stream().distinct().count() < chosenIndexes.size())
                     throw new NumberFormatException();
-
                 leaderCardsIDs.get(Integer.parseInt(choice)); //used to trigger IndexOutOfBoundsException
-
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 CLI.clearView();
-                System.out.println(AsciiArts.RED + "Invalid index: please re-choice from scratch" + AsciiArts.RESET);
+                CLI.render(AnsiEnum.RED + "Invalid index: please re-choice from scratch" + AnsiEnum.RESET);
                 return null;
             }
         }
         CLI.clearView();
-        System.out.println(AsciiArts.GREEN + "Valid LeaderCards choices!" + AsciiArts.RESET);
-        System.out.println(AsciiArts.WHITE_BOLD_BRIGHT + "Your LeaderCards: " + AsciiArts.RESET);
-        //todo print leader cards
-        for (Integer chosenIndex : chosenIndexes)
-            System.out.print(leaderCardsIDs.get(chosenIndex) + "\t\t");
+
+        CLI.render(Board.getBoard().getPrintableMarketAndGrid());
+        CLI.render(AnsiEnum.GREEN + "Valid LeaderCards choices!" + AnsiEnum.RESET);
+        CLI.render(AnsiEnum.WHITE_BOLD_BRIGHT + "Your LeaderCards: " + AnsiEnum.RESET);
+        toChoose.clear();
+        chosenIndexes.forEach(i -> toChoose.add(new LeaderCard(leaderCardsIDs.get(i))));
+        CLI.render(PrintableScene.concatenatePrintable( toChoose, "\t\t"));
         System.out.println();
         return chosenIndexes;
     }
@@ -111,9 +109,9 @@ public class CLICommandListener implements CommandListener {
 
         if(numberOfResources != 0) {
             while (chosenResourcesColor.size() < numberOfResources) {
-                System.out.println("Choose a " + AsciiArts.CYAN + "resource" + AsciiArts.RESET + ": ");
+                System.out.println("Choose a " + AnsiEnum.CYAN + "resource" + AnsiEnum.RESET + ": ");
                 for (int j = 0; j < storableMarbles.size(); j++) {
-                    System.out.print(AsciiArts.WHITE_BRIGHT + "[" + j + "]: " + AsciiArts.RESET + Marble.getPrintable(storableMarbles.get(j).getColor()) + "\t\t");
+                    System.out.print(AnsiEnum.WHITE_BRIGHT + "[" + j + "]: " + AnsiEnum.RESET + Marble.getPrintable(storableMarbles.get(j).getColor()) + "\t\t");
                 }
                 System.out.println();
                 String choice = scanner.nextLine();
@@ -121,26 +119,15 @@ public class CLICommandListener implements CommandListener {
                     chosenResourcesColor.add(storableMarbles.get(Integer.parseInt(choice)).getColor());
                 } catch (NumberFormatException | IndexOutOfBoundsException e) {
                     CLI.clearView();
-                    System.out.println(AsciiArts.RED + "Invalid index: please re-choice from scratch" + AsciiArts.RESET);
+                    System.out.println(AnsiEnum.RED + "Invalid index: please re-choice from scratch" + AnsiEnum.RESET);
                     return null;
                 }
             }
-            System.out.println(AsciiArts.GREEN + "Valid resources choices!" + AsciiArts.RESET);
+            System.out.println(AnsiEnum.GREEN + "Valid resources choices!" + AnsiEnum.RESET);
         }
-
-        System.out.print("Please wait for other players' choices ");
-        for(int i = 0; i < 3; i++){
-            try {
-                Thread.sleep(500);
-                System.out.print(".");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(Board.getBoard().getPlayers().size() > 1) {
+            System.out.print("Please wait for other players' choices ");
+            CLI.showThreePointsAnimation();
         }
         return chosenResourcesColor;
     }

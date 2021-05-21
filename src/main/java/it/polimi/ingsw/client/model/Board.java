@@ -1,10 +1,13 @@
 package it.polimi.ingsw.client.model;
 
+import it.polimi.ingsw.client.view.cli.PrintableScene;
+import it.polimi.ingsw.client.view.cli.Printable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class Board extends Printable{
+public class Board extends Printable {
     private static Board instance;
     private MarketTray marketTray;
     private DevelopmentCardsGrid developmentCardsGrid;
@@ -56,15 +59,18 @@ public class Board extends Printable{
         return players;
     }
 
-
-    public List<String> getMarketAndGridPrintableScene() {
+    public Printable getPrintableMarketAndGrid() {
         List<String> toReturn = new ArrayList<>();
+        List<String> printableMarket = marketTray.getPrintable();
+        List<String> printableGrid = developmentCardsGrid.getPrintable();
         StringBuilder row;
         String marketRow, gridRow;
+
+        /*
         for(int i = 0; i < DIM_SCENE; i++) {
             row = new StringBuilder();
             try {
-                marketRow = marketTray.getPrintable().get(i);
+                marketRow = printableMarket.get(i);
             } catch (IndexOutOfBoundsException e) {
                 marketRow = marketTray.getEmptySpace();
             }
@@ -73,7 +79,7 @@ public class Board extends Printable{
             row.append(MARKET_GRID_SEPARATOR);
 
             try {
-                gridRow = developmentCardsGrid.getPrintable().get(i);
+                gridRow = printableGrid.get(i);
             } catch (IndexOutOfBoundsException e) {
                 gridRow = developmentCardsGrid.getEmptySpace();
             }
@@ -81,7 +87,14 @@ public class Board extends Printable{
             toReturn.add(row.toString());
         }
 
-        return toReturn;
+        setWidth(toReturn);
+        return new PrintableScene(toReturn);
+
+         */
+        Printable marketWithVerticalOffset = marketTray;
+        for (int i = 0; i < developmentCardsGrid.getPrintable().size()/2; i++)
+            marketWithVerticalOffset = PrintableScene.addTopString(marketWithVerticalOffset, "");
+        return PrintableScene.concatenatePrintable(MARKET_GRID_SEPARATOR, marketWithVerticalOffset, developmentCardsGrid);
     }
 
     @Override
