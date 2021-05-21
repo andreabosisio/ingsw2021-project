@@ -79,7 +79,7 @@ public class PersonalBoard implements EndGameSubject {
      * @param card development card to place
      * @return true if placed correctly
      */
-    public boolean setNewDevelopmentCard(int pos, DevelopmentCard card) {
+    public boolean setNewProductionCard(int pos, DevelopmentCard card) {
         if (pos < firstColumnIndex || pos >= lastColumnIndex || deckProduction.stream().anyMatch(el -> el.contains(card))) {
             return false;
         }
@@ -108,7 +108,7 @@ public class PersonalBoard implements EndGameSubject {
      * @param leader LeaderCard to place
      * @return true if successfully placed
      */
-    public boolean setNewDevelopmentCard(ProductionCard leader) {
+    public boolean setNewProductionCard(ProductionCard leader) {
         if (activeLeaderCards.contains(leader) || (deckProduction.size() >= 6)) {
             return false;
         }
@@ -184,11 +184,12 @@ public class PersonalBoard implements EndGameSubject {
     /**
      * Getter of all the DevelopmentCards visible on the board
      *
-     * @return List</ DevelopmentCard> of visible cards
+     * @return List<String> of ids of visible development cards
      */
     public List<String> getVisibleDevelopmentCards() {
         List<String> toReturn = new ArrayList<>();
-        for (int i = firstColumnIndex; i < lastColumnIndex; i++) {
+        //todo changed from for (int i = FIRST_COLUMN; i < LAST_COLUMN; i++)
+        for (int i = 0; i < lastColumnIndex; i++) {
             try {
                 toReturn.add(getProductionCard(i).getID());
             } catch (InvalidIndexException e) {

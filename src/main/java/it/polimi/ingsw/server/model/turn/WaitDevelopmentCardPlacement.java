@@ -19,7 +19,7 @@ public class WaitDevelopmentCardPlacement extends State {
      */
     @Override
     public boolean placeDevelopmentCardAction(int slotPosition) throws InvalidEventException {
-        if(turnLogic.getCurrentPlayer().getPersonalBoard().setNewDevelopmentCard(slotPosition, turnLogic.getChosenDevCard())) {
+        if(turnLogic.getCurrentPlayer().getPersonalBoard().setNewProductionCard(slotPosition, turnLogic.getChosenDevCard())) {
 
             //graphic update of player's DevCards owned
             GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();

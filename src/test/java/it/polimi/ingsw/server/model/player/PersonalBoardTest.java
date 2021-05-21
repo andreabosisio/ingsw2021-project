@@ -27,26 +27,26 @@ class PersonalBoardTest {
         assertEquals(1,pBoard.getAvailablePlacement(lvl1Cards.get(0)).get(0));
         assertEquals(2,pBoard.getAvailablePlacement(lvl1Cards.get(0)).get(1));
         assertEquals(3,pBoard.getAvailablePlacement(lvl1Cards.get(0)).get(2));
-        assertFalse(pBoard.setNewDevelopmentCard(0,lvl1Cards.get(0)));
-        assertFalse(pBoard.setNewDevelopmentCard(4,lvl1Cards.get(0)));
-        assertFalse(pBoard.setNewDevelopmentCard(5,lvl1Cards.get(0)));
+        assertFalse(pBoard.setNewProductionCard(0,lvl1Cards.get(0)));
+        assertFalse(pBoard.setNewProductionCard(4,lvl1Cards.get(0)));
+        assertFalse(pBoard.setNewProductionCard(5,lvl1Cards.get(0)));
         //test that a lv1 devCard can't be placed on top of another lv1 card
         pBoard = new PersonalBoard();
-        assertTrue(pBoard.setNewDevelopmentCard(1,lvl1Cards.get(0)));//place one lvl1 card in pos 1
+        assertTrue(pBoard.setNewProductionCard(1,lvl1Cards.get(0)));//place one lvl1 card in pos 1
         assertEquals(2,pBoard.getAvailablePlacement(lvl1Cards.get(1)).size());//can be placed in 2 columns
         assertEquals(2,pBoard.getAvailablePlacement(lvl1Cards.get(1)).get(0));//can be placed in pos 2
         assertEquals(3,pBoard.getAvailablePlacement(lvl1Cards.get(1)).get(1));//can be placed in pos 3
-        assertFalse(pBoard.setNewDevelopmentCard(1,lvl1Cards.get(1)));//can't be placed on top of pos1
+        assertFalse(pBoard.setNewProductionCard(1,lvl1Cards.get(1)));//can't be placed on top of pos1
         //test that a lv2 devCard can be placed only on top of a lv1 card
         assertEquals(1,pBoard.getAvailablePlacement(lvl2Cards.get(0)).size());//can be place on 1 spot
         assertEquals(1,pBoard.getAvailablePlacement(lvl2Cards.get(0)).get(0));//the spot is the one with one lvl1 on it
-        assertTrue(pBoard.setNewDevelopmentCard(1,lvl2Cards.get(0)));//place successfully
-        assertFalse(pBoard.setNewDevelopmentCard(1,lvl2Cards.get(1)));//can't place a lv2 on top of a lv2
+        assertTrue(pBoard.setNewProductionCard(1,lvl2Cards.get(0)));//place successfully
+        assertFalse(pBoard.setNewProductionCard(1,lvl2Cards.get(1)));//can't place a lv2 on top of a lv2
         //test that a lv3 devCard can be placed only on top of a lv2 card
         assertEquals(1,pBoard.getAvailablePlacement(lvl3Cards.get(0)).size());//can be place on 1 spot
         assertEquals(1,pBoard.getAvailablePlacement(lvl3Cards.get(0)).get(0));//the spot is the one with one lvl2 on it
-        assertTrue(pBoard.setNewDevelopmentCard(1,lvl3Cards.get(0)));//place successfully
-        assertFalse(pBoard.setNewDevelopmentCard(1,lvl3Cards.get(1)));//can't place a lv3 on top of a lv1
+        assertTrue(pBoard.setNewProductionCard(1,lvl3Cards.get(0)));//place successfully
+        assertFalse(pBoard.setNewProductionCard(1,lvl3Cards.get(1)));//can't place a lv3 on top of a lv1
     }
 
     @Test
@@ -57,17 +57,17 @@ class PersonalBoardTest {
         List<DevelopmentCard> lvl3Cards = generator.generateDevelopmentCards().stream().filter(c->c.getLevel()==3).collect(Collectors.toList());
         PersonalBoard pBoard = new PersonalBoard();
         //check that a card can't be placed 2 times for all levels
-        assertTrue(pBoard.setNewDevelopmentCard(1,lvl1Cards.get(0)));
-        assertFalse(pBoard.setNewDevelopmentCard(2,lvl1Cards.get(0)));
-        assertTrue(pBoard.setNewDevelopmentCard(2,lvl1Cards.get(1)));
+        assertTrue(pBoard.setNewProductionCard(1,lvl1Cards.get(0)));
+        assertFalse(pBoard.setNewProductionCard(2,lvl1Cards.get(0)));
+        assertTrue(pBoard.setNewProductionCard(2,lvl1Cards.get(1)));
         //lv2 check
-        assertTrue(pBoard.setNewDevelopmentCard(1,lvl2Cards.get(0)));
-        assertFalse(pBoard.setNewDevelopmentCard(2,lvl2Cards.get(0)));
-        assertTrue(pBoard.setNewDevelopmentCard(2,lvl2Cards.get(1)));
+        assertTrue(pBoard.setNewProductionCard(1,lvl2Cards.get(0)));
+        assertFalse(pBoard.setNewProductionCard(2,lvl2Cards.get(0)));
+        assertTrue(pBoard.setNewProductionCard(2,lvl2Cards.get(1)));
         //lvl3 check
-        assertTrue(pBoard.setNewDevelopmentCard(1,lvl3Cards.get(0)));
-        assertFalse(pBoard.setNewDevelopmentCard(2,lvl3Cards.get(0)));
-        assertTrue(pBoard.setNewDevelopmentCard(2,lvl3Cards.get(1)));
+        assertTrue(pBoard.setNewProductionCard(1,lvl3Cards.get(0)));
+        assertFalse(pBoard.setNewProductionCard(2,lvl3Cards.get(0)));
+        assertTrue(pBoard.setNewProductionCard(2,lvl3Cards.get(1)));
     }
 
     @Test
@@ -96,7 +96,7 @@ class PersonalBoardTest {
         assertFalse(player.setActivateLeaderTest(leader3));
         assertFalse(player.getPersonalBoard().addToActiveLeaders(leader3));
         //set that same leader can't be placed twice
-        assertFalse(player.getPersonalBoard().setNewDevelopmentCard((ProductionCard) leader1));
+        assertFalse(player.getPersonalBoard().setNewProductionCard((ProductionCard) leader1));
     }
 
     @Test
@@ -166,7 +166,7 @@ class PersonalBoardTest {
         //check with devCard added
         CardsGenerator generator = new CardsGenerator();
         DevelopmentCard dev = generator.generateDevelopmentCards().get(43);
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1,dev));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(1,dev));
         assertEquals(4+dev.getPoints(),player.getPersonalBoard().getPoints(player));
 
         //check with leaderCard added
@@ -191,10 +191,10 @@ class PersonalBoardTest {
         List<DevelopmentCard> lvl2Cards = generator.generateDevelopmentCards().stream().filter(c->c.getLevel()==2).collect(Collectors.toList());
         //test that a lv1 devCard can be placed in all 3 normal spots(1,2,3) when personalBoard is empty, and only on them
         PersonalBoard pBoard = player.getPersonalBoard();
-        assertTrue(pBoard.setNewDevelopmentCard(1,lvl1Cards.get(0)));
+        assertTrue(pBoard.setNewProductionCard(1,lvl1Cards.get(0)));
         assertEquals(lvl1Cards.get(0),pBoard.getProductionCard(1));
-        assertTrue(pBoard.setNewDevelopmentCard(1,lvl2Cards.get(0)));
-        assertTrue(pBoard.setNewDevelopmentCard(2,lvl1Cards.get(1)));
+        assertTrue(pBoard.setNewProductionCard(1,lvl2Cards.get(0)));
+        assertTrue(pBoard.setNewProductionCard(2,lvl1Cards.get(1)));
         assertEquals(lvl2Cards.get(0),pBoard.getProductionCard(1));
         assertEquals(lvl1Cards.get(1),pBoard.getProductionCard(2));
         //check that trying to get a card from an empty column throws an exception

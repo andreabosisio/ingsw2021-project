@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.events.send.*;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.LeaderCard;
 import it.polimi.ingsw.client.model.Marble;
+import it.polimi.ingsw.client.model.Player;
 import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
 
@@ -17,16 +18,34 @@ import java.util.stream.Collectors;
 public class CLICommandListener implements CommandListener {
     CommandListenerObserver commandListenerObserver;
     private final Scanner scanner = new Scanner(System.in);
+    private String nickname;
 
     private static final int LEADER_CARDS_TO_CHOOSE = 2;
     private static final int MAX_MARKET_ARROW_ID = 6;
     private static final int MIN_MARKET_ARROW_ID = 0;
+    private static final int MAX_CARD_LEVEL = 3;
+    private static final int MIN_CARD_LEVEL = 1;
+    private static final int BASE_POWER_INDEX = 0;
+    private static final int FIRST_LEADER_INDEX = 4;
+    private static final List<String> CARD_COLORS = new ArrayList<String>(){{
+        add("GREEN");
+        add("PURPLE");
+        add("YELLOW");
+        add("BLUE");
+    }};
+    private static final List<String> RESOURCE_COLORS = new ArrayList<String>(){{
+        add("GRAY");
+        add("YELLOW");
+        add("PURPLE");
+        add("BLUE");
+    }};
 
 
     protected void askCredentials() {
 
         CLI.render("Insert a nickname:");
         String nickname = scanner.nextLine();
+        this.nickname = nickname;
         commandListenerObserver.setNickname(nickname);
 
         CLI.render("Insert a password:");
@@ -225,7 +244,7 @@ public class CLICommandListener implements CommandListener {
         return true;
     }
 
-    public boolean askLeaderAction(String nickname){
+    public boolean askLeaderAction(){
         List<String> hand = Board.getBoard().getPlayerByNickname(nickname).getHandLeaders();
         int index = -1;
         if(hand.size()!=0){
@@ -245,12 +264,113 @@ public class CLICommandListener implements CommandListener {
                 discard = scanner.nextLine().toLowerCase(Locale.ROOT);
             }
             //todo cancellare system out qui sotto
-            System.out.println("you chose card "+hand.get(index)+"to: "+discard.equals("discard"));
+            //System.out.println("you chose card "+hand.get(index)+" to: "+discard);
             notifyObservers(new LeaderActionEvent(hand.get(index),discard.equals("discard")));
             return true;
         }
         return false;
         //notifyObservers(new LeaderActionEvent(null,true));
+    }
+
+    public void askBuyAction() {
+        //Player player = Board.getBoard().getPlayerByNickname(nickname);
+        int level = -1;
+        String color = "";
+        String answer;
+        List<Integer> resources = new ArrayList<>();
+        while (level < MIN_CARD_LEVEL || level > MAX_CARD_LEVEL) {
+            System.out.println("Choose the level of the card you want to buy(beetween " + MIN_CARD_LEVEL + " and " + MAX_CARD_LEVEL + ")");
+            try {
+                level = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("not a number");
+            }
+        }
+        while (!CARD_COLORS.contains(color.toUpperCase(Locale.ROOT))) {
+            System.out.println("Choose the color of the card to buy(green,blue,yellow,purple)");
+            color = scanner.nextLine();
+        }
+        //todo print card and warehouse
+        System.out.println("Choose which resources you want to use to pay the card(1,2,3)");
+        answer = scanner.nextLine();
+        while (true) {
+            try {
+                //regex means any number of spaces before and after the comma
+                //Only natural numbers are accepted and any duplicate are ignored
+                resources.addAll(Arrays.stream(answer.split("\\s*,\\s*")).map(Integer::parseInt).filter(n->n>0).collect(Collectors.toSet()));
+                //System.out.println("The current resources selected are "+resources+" type done if finished or add more");
+                break;
+            } catch (IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Invalid input");
+                answer = scanner.nextLine();
+            }
+        }
+        notifyObservers(new BuyActionEvent(color,level,resources));
+    }
+
+
+    //todo test and/or cut in smaller functions
+    public void askProductionAction(){
+        Player player = Board.getBoard().getPlayerByNickname(nickname);
+        Map<Integer, List<Integer>> inResourcesForEachProductions = new HashMap<>();
+        Map<Integer, String> outResourcesForEachProductions = new HashMap<>();
+        Set<Integer> inResourcesStory = new HashSet<>();
+        Set<Integer> indexesStory = new HashSet<>();
+        List<Integer> inResources;
+        System.out.println("Choose which production you want to activate(0...5), type done when finished");
+        String answer = scanner.nextLine();
+        while (!answer.toLowerCase(Locale.ROOT).equals("done")){
+            int index;
+            String outResource = null;
+            //instantiated here to be set as null for every new card
+            try {
+                index = Integer.parseUnsignedInt(answer);
+                if(indexesStory.contains(index)){
+                    System.out.println("This card already produced,try a new one");
+                    answer = scanner.nextLine();
+                    continue;
+                }
+                //used to launch exception if card is not owned
+                indexesStory.add(index);
+            }catch (NumberFormatException e){
+                System.out.println("Couldn't get the selected card, try again");
+                answer = scanner.nextLine();
+                continue;
+            }
+            System.out.println("Choose the resources you wish to use");
+            answer = scanner.nextLine();
+            while (true) {
+                //instantiated here to be reset if failed input
+                inResources = new ArrayList<>();
+                try {
+                    //Only natural numbers are accepted and any duplicate are ignored
+                    inResources.addAll(Arrays.stream(answer.split("\\s*,\\s*")).map(Integer::parseInt).filter(n->n>0).collect(Collectors.toSet()));
+                    //if a resource is repeated ask to re choose resources
+                    if(inResources.stream().anyMatch(inResourcesStory::contains)){
+                        System.out.println("This res where already used");
+                    }
+                    else
+                        break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid resources");
+                }
+                answer = scanner.nextLine();
+            }
+            if(index==0||index>=4){
+                System.out.println("Choose the resource you wish to produce");
+                outResource = scanner.nextLine().toUpperCase(Locale.ROOT);
+                while (!RESOURCE_COLORS.contains(outResource)) {
+                    System.out.println("Choose the resource you wish to produce");
+                    outResource = scanner.nextLine().toUpperCase(Locale.ROOT);
+                }
+            }
+            inResourcesStory.addAll(inResources);
+            inResourcesForEachProductions.put(index,inResources);
+            outResourcesForEachProductions.put(index,outResource);
+            System.out.println("Choose which production you want to activate(0...5), Type done when finished");
+            answer = scanner.nextLine();
+        }
+        notifyObservers(new ProductionActionEvent(inResourcesForEachProductions,outResourcesForEachProductions));
     }
 
 

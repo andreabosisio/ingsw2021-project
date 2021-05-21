@@ -49,6 +49,10 @@ public class Player {
         return handLeaders;
     }
 
+    public List<String> getProductionBoard() {
+        return productionBoard;
+    }
+
     public void update(){
         Player player = Board.getBoard().getPlayerByNickname(nickname);
         player.setActiveLeaders(activeLeaders);

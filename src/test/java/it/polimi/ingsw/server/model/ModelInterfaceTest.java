@@ -78,7 +78,7 @@ class ModelInterfaceTest {
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
         Player currentPlayer = modelInterface.getTurnLogic().getCurrentPlayer();
         //add a green DevCard with level 1 to buy the requiredCard (level 2)
-        currentPlayer.getPersonalBoard().setNewDevelopmentCard(2, GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.GREEN, 1));
+        currentPlayer.getPersonalBoard().setNewProductionCard(2, GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.GREEN, 1));
 
         //check that player is in start turn state
         assertEquals(modelInterface.getTurnLogic().getStartTurn(), modelInterface.getTurnLogic().getCurrentState());
@@ -384,7 +384,7 @@ class ModelInterfaceTest {
         List<DevelopmentCard> developmentCards = new ArrayList<>();
         Player firstPlayer = modelInterface.getTurnLogic().getPlayers().get(0);
 
-        firstPlayer.getPersonalBoard().setNewDevelopmentCard((ProductionCard) firstPlayer.getLeaderHand().get(0));
+        firstPlayer.getPersonalBoard().setNewProductionCard((ProductionCard) firstPlayer.getLeaderHand().get(0));
 
         numberOfDevCards.add(7);
         numberOfDevCards.add(0);
@@ -532,7 +532,7 @@ class ModelInterfaceTest {
         List<DevelopmentCard> developmentCards = new ArrayList<>();
         Player firstPlayer = modelInterface.getTurnLogic().getPlayers().get(0);
 
-        firstPlayer.getPersonalBoard().setNewDevelopmentCard((ProductionCard) firstPlayer.getLeaderHand().get(0));
+        firstPlayer.getPersonalBoard().setNewProductionCard((ProductionCard) firstPlayer.getLeaderHand().get(0));
 
         numberOfDevCards.add(1);
         numberOfDevCards.add(0);

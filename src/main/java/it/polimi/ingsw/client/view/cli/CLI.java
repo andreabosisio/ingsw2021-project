@@ -128,13 +128,14 @@ public class CLI implements View {
             }
             //todo complete code for actions below
             case "buy":
-                System.out.println("you choose buy");
+                cliCommandListener.askBuyAction();
+                //System.out.println("you choose buy");
                 break;
             case "production":
-                System.out.println("you choose production");
+                cliCommandListener.askProductionAction();
                 break;
             case "leader":
-                if(!cliCommandListener.askLeaderAction(nickname)){
+                if(!cliCommandListener.askLeaderAction()){
                     setOnYourTurn();
                 }
                 break;
@@ -195,7 +196,7 @@ public class CLI implements View {
     public void setOnEndTurn() {
         if(cliCommandListener.askEndAction()){
             //true if chosen action is a leaderAction
-            if(!cliCommandListener.askLeaderAction(nickname)){
+            if(!cliCommandListener.askLeaderAction()){
                 setOnEndTurn();
             }
         }

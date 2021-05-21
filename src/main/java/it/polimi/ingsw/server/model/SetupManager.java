@@ -124,6 +124,7 @@ public class SetupManager {
                 for (Player player : modelInterface.getTurnLogic().getPlayers()) {
                     graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player));
                     graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player.getNickname(), player.getPersonalBoard().getWarehouse()));
+                    graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player.getNickname(),player.getPersonalBoard()));
                 }
                 modelInterface.notifyObservers(graphicUpdateEvent);
                 modelInterface.notifyObservers(new StartTurnEvent(modelInterface.getCurrentPlayerNickname(),false));

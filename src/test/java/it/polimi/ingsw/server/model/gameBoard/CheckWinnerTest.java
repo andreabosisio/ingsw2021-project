@@ -47,15 +47,15 @@ public class CheckWinnerTest {
         }
 
         for (int i = 0; i < 3; i++) {
-            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardsLvl1.get(i)));
+            assertTrue(players.get(0).getPersonalBoard().setNewProductionCard(i + 1, cardsLvl1.get(i)));
         }
         for (int i = 0; i < 3; i++) {
-            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardsLvl2.get(i)));
+            assertTrue(players.get(0).getPersonalBoard().setNewProductionCard(i + 1, cardsLvl2.get(i)));
         }
         // The Game is not over
         assertFalse(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
         // The player buys his seventh card
-        assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(1, cardsLvl3.get(0)));
+        assertTrue(players.get(0).getPersonalBoard().setNewProductionCard(1, cardsLvl3.get(0)));
         // The Game is over
         assertTrue(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
     }
@@ -82,15 +82,15 @@ public class CheckWinnerTest {
         }
 
         for (int i = 0; i < 3; i++) {
-            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardsLvl1.get(i)));
+            assertTrue(players.get(0).getPersonalBoard().setNewProductionCard(i + 1, cardsLvl1.get(i)));
         }
         for (int i = 0; i < 3; i++) {
-            assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(i + 1, cardsLvl2.get(i)));
+            assertTrue(players.get(0).getPersonalBoard().setNewProductionCard(i + 1, cardsLvl2.get(i)));
         }
         // The Game is not over
         assertFalse(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
         // The player buys his seventh card
-        assertTrue(players.get(0).getPersonalBoard().setNewDevelopmentCard(1, cardsLvl3.get(0)));
+        assertTrue(players.get(0).getPersonalBoard().setNewProductionCard(1, cardsLvl3.get(0)));
         // The Game is over
         assertTrue(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
     }

@@ -137,23 +137,23 @@ public class TestGameGenerator {
             for (int i = 0; i < numberOfDevCardsForPlayer.get(indexPlayer); i++) {
                 if (i < 3) {
                     modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
-                            setNewDevelopmentCard(indexSlot, cardsLvl1.get(indexDevCardLvl));
+                            setNewProductionCard(indexSlot, cardsLvl1.get(indexDevCardLvl));
                 } else if (i == 3) {
                     indexSlot = 1;
                     indexDevCardLvl = 0;
                     modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
-                            setNewDevelopmentCard(indexSlot, cardsLvl2.get(indexDevCardLvl));
+                            setNewProductionCard(indexSlot, cardsLvl2.get(indexDevCardLvl));
                 } else if (i < 6) {
                     modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
-                            setNewDevelopmentCard(indexSlot, cardsLvl2.get(indexDevCardLvl));
+                            setNewProductionCard(indexSlot, cardsLvl2.get(indexDevCardLvl));
                 } else if (i == 6) {
                     indexSlot = 1;
                     indexDevCardLvl = 0;
                     modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
-                            setNewDevelopmentCard(indexSlot, cardsLvl3.get(indexDevCardLvl));
+                            setNewProductionCard(indexSlot, cardsLvl3.get(indexDevCardLvl));
                 } else if (i < 9) {
                     modelInterface.getTurnLogic().getPlayers().get(indexPlayer).getPersonalBoard().
-                            setNewDevelopmentCard(indexSlot, cardsLvl3.get(indexDevCardLvl));
+                            setNewProductionCard(indexSlot, cardsLvl3.get(indexDevCardLvl));
                 }
                 indexDevCardLvl++;
                 indexSlot++;

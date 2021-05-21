@@ -36,16 +36,16 @@ class DevelopmentRequirementTest {
         assertFalse(player.getLeaderHand().get(0).canBeActivated(player));
         assertFalse(player.getLeaderHand().get(1).canBeActivated(player));
         //check that a leader that require 2 devCards can't be activated with only 1 of the present
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1,devLv1Blue));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(1,devLv1Blue));
         assertFalse(player.getLeaderHand().get(0).canBeActivated(player));
         //check that now leader1 can be activated with 2 blue lv1 devCards
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(2,devLv1Blue2));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(2,devLv1Blue2));
         assertTrue(player.getLeaderHand().get(0).canBeActivated(player));
         //check that leader2 remain impossible to activate
         assertFalse(player.getLeaderHand().get(1).canBeActivated(player));
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1,devLv2Blue));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(1,devLv2Blue));
         assertFalse(player.getLeaderHand().get(1).canBeActivated(player));
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1,devLv3Blue));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(1,devLv3Blue));
         //check that leader2 can now be activated with one blue lv3 devCard
         assertTrue(player.getLeaderHand().get(1).canBeActivated(player));
 
@@ -77,17 +77,17 @@ class DevelopmentRequirementTest {
         assertFalse(player.getLeaderHand().get(0).canBeActivated(player));
         assertFalse(player.getLeaderHand().get(1).canBeActivated(player));
         //activate leader1 with 2 colors
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1,devLv1Blue));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(1,devLv1Blue));
         assertFalse(player.getLeaderHand().get(0).canBeActivated(player));
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(2,devLv1Green));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(2,devLv1Green));
         assertTrue(player.getLeaderHand().get(0).canBeActivated(player));
         //check that leader2 can't be activated with 2 dev cards of lever 2
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1,devLv2Blue));
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(2,devLv2Yellow));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(1,devLv2Blue));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(2,devLv2Yellow));
         assertFalse(player.getLeaderHand().get(1).canBeActivated(player));
         //check that leader2 can be activated with 2 lv2 yellow cards
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(3,devLv1Purple));
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(3,devLv2Yellow2));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(3,devLv1Purple));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(3,devLv2Yellow2));
         assertTrue(player.getLeaderHand().get(1).canBeActivated(player));
 
     }
@@ -114,16 +114,16 @@ class DevelopmentRequirementTest {
         DevelopmentCard devLv2Yellow2 = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.YELLOW,0,2);
         //check for requirements of 2 types together
         assertFalse(player.getLeaderHand().get(0).canBeActivated(player));
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1,devLv1Blue));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(1,devLv1Blue));
         assertFalse(player.getLeaderHand().get(0).canBeActivated(player));
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(2,devLv1Purple));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(2,devLv1Purple));
         assertFalse(player.getLeaderHand().get(0).canBeActivated(player));
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(3,devLv1Green));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(3,devLv1Green));
         assertFalse(player.getLeaderHand().get(0).canBeActivated(player));
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(1,devLv2Yellow));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(1,devLv2Yellow));
         assertFalse(player.getLeaderHand().get(0).canBeActivated(player));
         //requirements are finally met
-        assertTrue(player.getPersonalBoard().setNewDevelopmentCard(2,devLv2Yellow2));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(2,devLv2Yellow2));
         assertTrue(player.getLeaderHand().get(0).canBeActivated(player));
         assertTrue(player.getLeaderHand().get(1).canBeActivated(player));
     }
