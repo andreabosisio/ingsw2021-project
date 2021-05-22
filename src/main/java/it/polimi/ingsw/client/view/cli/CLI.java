@@ -19,7 +19,7 @@ public class CLI implements View {
             this.networkHandler = new NetworkHandler(ip, port, this);
             Board.getBoard();
         } catch (IOException e) {
-            System.out.println("Could not connect to the server");
+            renderError("Could not connect to the server");
             System.exit(0);
         }
         cliCommandListener = new CLICommandListener();
@@ -54,6 +54,10 @@ public class CLI implements View {
             if (toPrint != null)
                 toPrint.forEach(System.out::println);
         }
+    }
+
+    public static void renderError(String printable) {
+        System.out.println(AnsiEnum.RED + printable + AnsiEnum.RESET);
     }
 
     public static void render(String printable) {

@@ -16,6 +16,7 @@ public class LorenzoAI implements Lorenzo{
     public LorenzoAI() {
         TokensGenerator tokensGenerator = new TokensGenerator();
         soloActionTokens = tokensGenerator.generateSoloActionTokens();
+        //todo shuffle this? not shuffle soloActionTokens?
         this.shuffle();
         GameBoard.getGameBoard().createLorenzoFaithTrack(this);
     }
@@ -31,6 +32,7 @@ public class LorenzoAI implements Lorenzo{
     public boolean play() {
         if (soloActionTokens.get(tokensDeckIndex).doAction(this)) {
             tokensDeckIndex = 0;
+            //todo shuffle this? not shuffle soloActionTokens?
             this.shuffle();
             return true;
         } else {
