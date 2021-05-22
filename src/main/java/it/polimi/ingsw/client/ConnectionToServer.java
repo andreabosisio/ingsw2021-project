@@ -96,7 +96,6 @@ public class ConnectionToServer implements Runnable {
      * When finished the timer checks that a new ping message was received and if it is missing the client is closed
      */
     private void handlePing() {
-        //todo ponder better solutions
         receivedPing = true;
         this.sendPong();
         timer.schedule(new TimerTask() {

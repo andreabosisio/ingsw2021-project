@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import java.util.List;
+import java.util.Map;
 
 public interface View {
     void setNickname(String nickname);
@@ -19,5 +20,5 @@ public interface View {
     void setOnPlaceResources();
     void setOnTransformation(int numberOfTransformation,List<String> possibleTransformations);
     void setOnEndTurn();
-
+    void setOnEndGame(String winner,Map<String, Integer> playersPoints);
 }

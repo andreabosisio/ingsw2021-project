@@ -31,6 +31,8 @@ public class Controller implements ReceiveObserver {
     /**
      * This method is called by the VirtualView to notify this class
      * of an Event coming from the Client
+     * If the owner is the currently playing player the action is performed
+     * If the action is not performed successfully the last event sent to the client is resented
      *
      * @param receiveEvent the Event from the Client
      */
@@ -41,32 +43,7 @@ public class Controller implements ReceiveObserver {
 
         if (modelInterface.getCurrentPlayerNickname().equals(receiveEvent.getNickname()) || receiveEvent instanceof SetupReceiveEvent) {
             try {
-
                 receiveEvent.doAction(modelInterface);
-                /*
-                //If you remove this comment line above MUST be deleted or double action will occur
-                if(receiveEvent.doAction(modelInterface))
-                    currentClientHandler.sendInfoMessage(receiveEvent.getNickname()+" performed a valid "+receiveEvent.getClass().getSimpleName()+"!");
-                 */
-
-
-                //fixme this is for testing!!
-                /*
-                String nickname = receiveEvent.getNickname();
-                Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream()
-                        .filter(player -> player.getNickname().equals(nickname)).findFirst()
-                        .orElseThrow(() -> new InvalidEventException("Invalid nickname"));
-
-                JsonObject info = new JsonObject();
-                info.addProperty("playerNick", currentSetupPlayer.getNickname());
-                info.addProperty("leaderHand", new Gson().toJson(currentSetupPlayer.getLeaderHand().stream().map(LeaderCard::getID).collect(Collectors.toList())));
-                info.addProperty("leaderActive", new Gson().toJson(currentSetupPlayer.getPersonalBoard().getActiveLeaderCards().stream().map(LeaderCard::getID).collect(Collectors.toList())));
-                info.addProperty("warehouse", new Gson().toJson(currentSetupPlayer.getPersonalBoard().getWarehouse().getAllResources()));
-                info.addProperty("faithTrack", GameBoard.getGameBoard().getFaithTrackOfPlayer(currentSetupPlayer).getFaithMarker());
-                currentClientHandler.sendJsonMessage(info.toString());
-
-                 */
-
             } catch (InvalidIndexException | NonStorableResourceException | EmptySlotException | NonAccessibleSlotException | InvalidEventException e) {
                 currentClientHandler.sendErrorMessage(e.getMessage());
                 //if exception was created by a choice re send choice event
@@ -81,7 +58,8 @@ public class Controller implements ReceiveObserver {
     }
 
     /**
-     * this function is used to register all the virtualViews as observers of the model
+     * This function is used to register all the virtualViews as observers of the model
+     * It also notifies all players that the game is starting
      *
      * @param virtualViews virtualViews to set as observers
      */

@@ -118,10 +118,9 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
             @Override
             public void run() {
                 if (missingPong) {
-                    disconnect();
                     System.out.println("no pong was received from " + nickname);
+                    disconnect();
                     missingPong = false;
-                    stopPingPong();
                 } else {
                     missingPong = true;
                     clientHandler.sendPing();
@@ -133,21 +132,15 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
 
     /**
      * This function is called to disconnect a player from the server
-     * It is generally called when a pong response was not received in time
+     * It is called when a pong response was not received in time or
+     * when a quit message is received during the game phase
      */
-    private void disconnect() {
+    public void disconnect() {
         //function below also set online as false
+        setOnline(false);
+        stopPingPong();
         clientHandler.kill(false);
-        //todo add disconnection during game code(state save/model notification ecc);
-    }
-
-    /**
-     * This method is called to signal that a Pong response was received from the player
-     */
-    @Override
-    public void PongUpdate() {
-        System.out.println("pong received from: " + nickname);
-        missingPong = false;
+        //todo add disconnection during game code(state save/model notification ecc); maybe do this as first thing
     }
 
     /**
@@ -163,6 +156,16 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
         clientHandler.getConnection().setPongObserver(this);
         this.timer = new Timer();
         //this.sendPing();
+        //todo add controller.reconnect(this); to be reconnected to the game and receive all the graphics update
+    }
+
+    /**
+     * This method is called to signal that a Pong response was received from the player
+     */
+    @Override
+    public void PongUpdate() {
+        System.out.println("pong received from: " + nickname);
+        missingPong = false;
     }
 
     /**

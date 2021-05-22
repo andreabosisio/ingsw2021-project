@@ -210,10 +210,6 @@ public class Lobby {
      * The Controller will do the rest
      */
     private void startGame(){
-
-        //todo game is starting moved in controller
-        //broadcastMessage("Game is starting...","startGame");
-        //playersData.stream().map(VirtualView::getClientHandler).forEach(ClientHandler::clearMessageStack);
         controller = new Controller(virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList()));
         controller.setupObservers(virtualViews);
     }

@@ -147,7 +147,6 @@ public class ClientHandler implements Runnable {
             } else {
                 //is trying to reconnect
                 if (password.equals(virtualView.getPassword())) {
-                    //todo code below is severely incomplete
                     this.nickname = nickname;
                     virtualView.reconnect(this);
                     sendInfoMessage("You are now reconnected");
@@ -171,7 +170,6 @@ public class ClientHandler implements Runnable {
                 continue;
             }
             try {
-                //todo use function getAsJsonObject
                 JsonObject jsonObject = getAsJsonObject(message);
                 if(jsonObject == null){
                     continue;
@@ -179,7 +177,8 @@ public class ClientHandler implements Runnable {
                 String type = jsonObject.get("type").getAsString();
                 Type eventType = (Type) receiveEventByJsonType.get(type);
                 if (type.equals(TYPE_QUIT)) {
-                    kill(false);
+                    sendInfoMessage("quitting");
+                    virtualView.disconnect();
                 } else if (virtualView == null) {
                     sendErrorMessage("waitForGameToStart");
                 } else if (eventType != null) {
@@ -264,34 +263,22 @@ public class ClientHandler implements Runnable {
      * After closing the connection the data of the player can be wiped off the Server depending on the game state
      *
      * @param deleteData parameter used to decide if the data should be deleted(true equals deletion of the data)
+     *                   It is false if disconnection happened during gamePhase
      */
     public void kill(boolean deleteData) {
-
-        VirtualView virtualView = Lobby.getLobby().getVirtualViewByNickname(nickname);
-
-        if (virtualView != null) {
-            //stop PingPong
-            virtualView.stopPingPong();
-
-            sendInfoMessage("quitting");
-            //deleteData = remove virtualView from Lobby
-            if (deleteData) {
+        //deleteData = true when disconnection is called by clientHandler before gameStarted
+        if (deleteData) {
+            //check if there is data to delete or if quit was called before valid credentials
+            VirtualView virtualView = Lobby.getLobby().getVirtualViewByNickname(nickname);
+            if (virtualView != null) {
+                virtualView.stopPingPong();
+                sendInfoMessage("quitting");
                 Lobby.getLobby().removeVirtualView(nickname);
-            }
-            //virtualView must remain saved and player set as offline
-            else {
-                //todo add code to save state in game quit
-                virtualView.setOnline(false);
             }
         }
         status = StatusEnum.EXIT;
         connectionToClient.close();
         Thread.currentThread().interrupt();
-    }
-
-    //todo might be removed
-    public void setVirtualView(VirtualView virtualView) {
-        this.virtualView = virtualView;
     }
 
     /**
@@ -320,8 +307,6 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    //the nickname must be a minimum of 3 and a maximum of 15 alpha-numeric characters (plus -,_ symbols)
-
     /**
      * Function used to check if the inserted credentials are syntactically valid
      * A correct Nickname must be between 3 and 15 alpha-numeric characters (plus -,_ symbols)
@@ -331,6 +316,7 @@ public class ClientHandler implements Runnable {
      * @param password the password the player wish to use
      * @return true if they are acceptable
      */
+    //todo maybe password should follow same rules as the nickname to avoid unexpected bugs
     public boolean checkCredentials(String nickname, String password) {
         return nickname != null && password != null && NICKNAME_PATTERN.matcher(nickname).matches();
     }

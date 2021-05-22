@@ -7,6 +7,6 @@ public class EndGameState extends State{
     }
 
     public void endGame(){
-        //todo EndGameEvent endGameEvent = new EndGameEvent();
+        //todo ask to play again?
     }
 }

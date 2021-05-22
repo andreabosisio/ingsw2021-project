@@ -17,7 +17,6 @@ public class GameStartedEvent implements ReceiveEvent{
 
     @Override
     public void updateView(View view) {
-        //todo add server msg with all players
         Board.getBoard().setPlayers(nicknames.stream().map(Player::new).collect(Collectors.toSet()));
     }
 }

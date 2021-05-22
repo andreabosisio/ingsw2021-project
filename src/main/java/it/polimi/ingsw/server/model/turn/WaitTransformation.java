@@ -59,8 +59,7 @@ public class WaitTransformation extends State {
         //send placement event to client
         ChoiceEvent choiceEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse());
         turnLogic.setLastEventSent(choiceEvent);
-        turnLogic.getModelInterface().
-                notifyObservers(choiceEvent);
+        turnLogic.getModelInterface().notifyObservers(choiceEvent);
         turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());
         return true;
     }

@@ -36,6 +36,7 @@ public class NetworkHandler implements CommandListenerObserver {
         put("placeResources",PlaceResourcesReceiveEvent.class);
         put("endTurnChoice",EndTurnReceiveEvent.class);
         put("gameStarted",GameStartedEvent.class);
+        put("endGame",EndGameEvent.class);
     }};
 
     public void setNickname(String nickname) {
@@ -60,18 +61,6 @@ public class NetworkHandler implements CommandListenerObserver {
         executor.submit(connectionToServer);
 
         while (true) {
-
-            //todo: metti synch all the updateView
-
-            /*
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-             */
-
             message = connectionToServer.getMessage();
             //message is null = IOException in getMessage
             if (message == null) {

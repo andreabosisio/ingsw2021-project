@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.View;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class GUI implements View {
 
@@ -98,6 +99,11 @@ public class GUI implements View {
 
     @Override
     public void setOnEndTurn() {
+
+    }
+
+    @Override
+    public void setOnEndGame(String winner,Map<String, Integer> playersPoints) {
 
     }
 

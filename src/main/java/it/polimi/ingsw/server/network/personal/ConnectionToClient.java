@@ -64,7 +64,7 @@ public class ConnectionToClient {
      */
     public void close() {
         try {
-            System.out.println("one player left");
+            System.out.println("closing socket connection with one player");
             out.println("quitting...");
             socket.close();
             in.close();

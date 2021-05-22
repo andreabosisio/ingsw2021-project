@@ -24,10 +24,11 @@ import java.util.stream.IntStream;
  * Columns are lists with latest devCard at index 0
  */
 public class PersonalBoard implements EndGameSubject {
-    private final int resPointsDivider = 5;
-    private final int lastColumnIndex = 4;
-    private final int firstColumnIndex = 1;
-    private final int leaderHandSize = 2;
+    private static final int resPointsDivider = 5;
+    private static final int lastDevColumnIndex = 4;
+    private static final int firstDevSpaceIndex = 1;
+    private static final int basicPowerIndex = 0;
+    private static final int leaderHandSize = 2;
     private final List<LeaderCard> activeLeaderCards;
     private final List<List<ProductionCard>> deckProduction;
     private final Warehouse warehouse;
@@ -36,7 +37,7 @@ public class PersonalBoard implements EndGameSubject {
     public PersonalBoard() {
         warehouse = new Warehouse();
         deckProduction = new ArrayList<>();
-        IntStream.range(0, lastColumnIndex).forEach(i -> deckProduction.add(new ArrayList<>()));
+        IntStream.range(0, lastDevColumnIndex).forEach(i -> deckProduction.add(new ArrayList<>()));
         activeLeaderCards = new ArrayList<>();
         deckProduction.get(0).add(new BasicPowerCard());
     }
@@ -63,7 +64,7 @@ public class PersonalBoard implements EndGameSubject {
      */
     public List<Integer> getAvailablePlacement(DevelopmentCard card) {
         List<Integer> toReturn = new ArrayList<>();
-        for (int i = firstColumnIndex; i < lastColumnIndex; i++) {
+        for (int i = firstDevSpaceIndex; i < lastDevColumnIndex; i++) {
             if (deckProduction.get(i).size() == card.getLevel() - 1) {
                 toReturn.add(i);
             }
@@ -80,7 +81,7 @@ public class PersonalBoard implements EndGameSubject {
      * @return true if placed correctly
      */
     public boolean setNewProductionCard(int pos, DevelopmentCard card) {
-        if (pos < firstColumnIndex || pos >= lastColumnIndex || deckProduction.stream().anyMatch(el -> el.contains(card))) {
+        if (pos < firstDevSpaceIndex || pos >= lastDevColumnIndex || deckProduction.stream().anyMatch(el -> el.contains(card))) {
             return false;
         }
         //check that pos is compliant with rules of placement
@@ -92,7 +93,7 @@ public class PersonalBoard implements EndGameSubject {
 
             deckProduction.get(pos).add(0, card);
             int numberOfDevCards = 0;
-            for (int i = 1; i < lastColumnIndex; i++)
+            for (int i = 1; i < lastDevColumnIndex; i++)
                 numberOfDevCards = numberOfDevCards + deckProduction.get(i).size();
 
             if (numberOfDevCards == 7)
@@ -139,7 +140,7 @@ public class PersonalBoard implements EndGameSubject {
      */
     public int getPoints(Player player) {
         List<Integer> points = new ArrayList<>();
-        for (int i = firstColumnIndex; i < lastColumnIndex; i++) {
+        for (int i = firstDevSpaceIndex; i < lastDevColumnIndex; i++) {
             deckProduction.get(i).forEach(el -> points.add(el.getPoints()));
         }
         activeLeaderCards.forEach(c -> points.add(c.getPoints()));
@@ -175,7 +176,7 @@ public class PersonalBoard implements EndGameSubject {
      */
     public List<DevelopmentCard> getAllDevelopmentCards() {
         List<DevelopmentCard> toReturn = new ArrayList<>();
-        for (int i = firstColumnIndex; i < lastColumnIndex; i++) {
+        for (int i = firstDevSpaceIndex; i < lastDevColumnIndex; i++) {
             deckProduction.get(i).forEach(card -> toReturn.add((DevelopmentCard) card));
         }
         return toReturn;
@@ -188,8 +189,7 @@ public class PersonalBoard implements EndGameSubject {
      */
     public List<String> getVisibleDevelopmentCards() {
         List<String> toReturn = new ArrayList<>();
-        //todo changed from for (int i = FIRST_COLUMN; i < LAST_COLUMN; i++)
-        for (int i = 0; i < lastColumnIndex; i++) {
+        for (int i = basicPowerIndex; i < lastDevColumnIndex; i++) {
             try {
                 toReturn.add(getProductionCard(i).getID());
             } catch (InvalidIndexException e) {

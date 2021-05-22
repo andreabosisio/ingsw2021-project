@@ -33,7 +33,6 @@ public class WaitResourcePlacement extends State {
     @Override
     public boolean placeResourceAction(List<Integer> swapPairs,boolean isFinal) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         //todo ricordarsi che le risorse dal market possono essere anche tolte (in caso di not legal)
-        //todo rivedere cosa va mandato in caso di invalid!!!!!
         if (swapPairs.size() % 2 != 0) {
             //resend place choice
             turnLogic.setLastEventSent(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
@@ -60,9 +59,10 @@ public class WaitResourcePlacement extends State {
             graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
             graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
-            turnLogic.setLastEventSent(null);
+            EndTurnChoiceEvent endTurnChoiceEvent = new EndTurnChoiceEvent(turnLogic.getCurrentPlayer().getNickname());
+            turnLogic.setLastEventSent(endTurnChoiceEvent);
+            turnLogic.getModelInterface().notifyObservers(endTurnChoiceEvent);
             turnLogic.setCurrentState(turnLogic.getEndTurn());
-            turnLogic.getModelInterface().notifyObservers(new EndTurnChoiceEvent(turnLogic.getCurrentPlayer().getNickname()));
             return true;
         }
 
@@ -72,14 +72,13 @@ public class WaitResourcePlacement extends State {
         turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
         PlaceResourcesChoiceEvent placeResourcesReceiveEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse());
+        turnLogic.setLastEventSent(placeResourcesReceiveEvent);
         //if not final simply resend the choice event
         if(!isFinal){
             turnLogic.getModelInterface().notifyObservers(placeResourcesReceiveEvent);
             return true;
         }
         //if final send an error message of illegal warehouse reordering
-        //prepare placeEvent that will be sent after error message
-        turnLogic.setLastEventSent(placeResourcesReceiveEvent);
         throw new InvalidEventException("Illegal Warehouse reordering");
     }
 }

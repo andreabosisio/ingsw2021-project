@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.events.send.choice.*;
 import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
@@ -141,8 +142,10 @@ public class StartTurn extends State {
         turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
         hasAlreadyDoneLeaderAction = false;
+        EndTurnChoiceEvent endTurnChoiceEvent = new EndTurnChoiceEvent(turnLogic.getCurrentPlayer().getNickname());
+        turnLogic.setLastEventSent(endTurnChoiceEvent);
+        turnLogic.getModelInterface().notifyObservers(endTurnChoiceEvent);
         turnLogic.setCurrentState(turnLogic.getEndTurn());
-        turnLogic.getModelInterface().notifyObservers(new EndTurnChoiceEvent(turnLogic.getCurrentPlayer().getNickname()));
         return true;
     }
 
@@ -242,7 +245,6 @@ public class StartTurn extends State {
             }
         }
         hasAlreadyDoneLeaderAction = true;
-        //todo check
         turnLogic.getModelInterface().reSendLastEvent();
         return true;
     }

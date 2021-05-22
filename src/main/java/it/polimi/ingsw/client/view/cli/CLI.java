@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.model.Player;
 import it.polimi.ingsw.client.view.View;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CLI implements View {
@@ -130,12 +131,10 @@ public class CLI implements View {
         String answer = cliCommandListener.askFirstAction();
         CLI.clearView();
         switch (answer){
-            //fixme clear view and print necessary items for everySwitch
             case "market":
                 CLI.render(Board.getBoard().getPrintableMarketAndGrid());
                 cliCommandListener.askMarketAction();
                 break;
-            //todo complete code for actions below
             case "buy":
                 CLI.render(Board.getBoard().getPrintableBuySceneOf(nickname));
                 cliCommandListener.askBuyAction();
@@ -234,5 +233,12 @@ public class CLI implements View {
                 setOnEndTurn();
             }
         }
+    }
+
+    @Override
+    public void setOnEndGame(String winner,Map<String, Integer> playersPoints) {
+        System.out.println("setOnEndGame in Cli called\nWinner: "+winner);
+        System.out.println("points are: "+playersPoints);
+        System.out.println("implement play again/close app");
     }
 }

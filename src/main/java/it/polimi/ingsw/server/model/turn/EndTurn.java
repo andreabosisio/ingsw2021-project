@@ -2,10 +2,11 @@ package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.events.send.StartTurnEvent;
-import it.polimi.ingsw.server.events.send.choice.EndTurnChoiceEvent;
+import it.polimi.ingsw.server.events.send.EndGameEvent;
 import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
+import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.player.Player;
 
@@ -26,9 +27,11 @@ public class EndTurn extends State {
 
         //check if the current player is the last player and check if it's the winner
         if(turnLogic.isLastPlayerTurn() && turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
-            turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
+            PlayerInterface winner = turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
             turnLogic.setCurrentState(turnLogic.getEndGame());
             //todo evento in uscita di endgame
+            EndGameEvent endGameEvent = new EndGameEvent(winner,turnLogic.getPlayers());
+            turnLogic.getModelInterface().notifyObservers(endGameEvent);
             return true;
         }
 
@@ -36,9 +39,11 @@ public class EndTurn extends State {
         if(turnLogic.getGameMode().getLorenzo().play()) {
             //if lorenzo action ended the game
             if(turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
-                turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
+                PlayerInterface winner = turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
                 turnLogic.setCurrentState(turnLogic.getEndGame());
                 //todo evento in uscita di endgame
+                EndGameEvent endGameEvent = new EndGameEvent(winner,turnLogic.getPlayers());
+                turnLogic.getModelInterface().notifyObservers(endGameEvent);
                 return true;
             }
             //todo graphic update after Lorenzo turn
@@ -64,8 +69,6 @@ public class EndTurn extends State {
     public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {
         Player currentPlayer = turnLogic.getCurrentPlayer();
 
-        //in case of failed action prepare to resend a end turn event
-        turnLogic.setLastEventSent(new EndTurnChoiceEvent(turnLogic.getCurrentPlayer().getNickname()));
         //get the chosen leader card
         LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
                 .filter(card -> card.getID().equals(ID)).findFirst()

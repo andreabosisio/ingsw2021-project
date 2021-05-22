@@ -25,9 +25,10 @@ public class WaitDevelopmentCardPlacement extends State {
             GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
             graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard()));
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
-            turnLogic.setLastEventSent(null);
+            EndTurnChoiceEvent endTurnChoiceEvent = new EndTurnChoiceEvent(turnLogic.getCurrentPlayer().getNickname());
+            turnLogic.setLastEventSent(endTurnChoiceEvent);
+            turnLogic.getModelInterface().notifyObservers(endTurnChoiceEvent);
             turnLogic.setCurrentState(turnLogic.getEndTurn());
-            turnLogic.getModelInterface().notifyObservers(new EndTurnChoiceEvent(turnLogic.getCurrentPlayer().getNickname()));
             return true;
         }
         throw new InvalidEventException("card placement failed");
