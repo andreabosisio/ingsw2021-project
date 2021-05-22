@@ -21,13 +21,16 @@ import java.util.Map;
  */
 public class TurnLogic {
     private SendEvent lastEventSent;
+
     private final GameMode gameMode;
     private final List<Player> players;
     private Player currentPlayer;
     private State currentState;
     private final State startTurn, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, endGame, idle;
+
     private final List<WhiteResource> whiteResourcesFromMarket = new ArrayList<>();
     private DevelopmentCard chosenDevCard;
+
     private final ModelInterface modelInterface;
 
     public TurnLogic(List<Player> players, ModelInterface modelInterface) {

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.events.receive;
 
 import it.polimi.ingsw.client.model.Board;
-import it.polimi.ingsw.client.model.Player;
+import it.polimi.ingsw.client.model.PersonalBoard;
 import it.polimi.ingsw.client.view.View;
 
 import java.util.List;
@@ -17,6 +17,6 @@ public class GameStartedEvent implements ReceiveEvent{
 
     @Override
     public void updateView(View view) {
-        Board.getBoard().setPlayers(nicknames.stream().map(Player::new).collect(Collectors.toSet()));
+        Board.getBoard().setPersonalBoards(nicknames.stream().map(PersonalBoard::new).collect(Collectors.toSet()));
     }
 }

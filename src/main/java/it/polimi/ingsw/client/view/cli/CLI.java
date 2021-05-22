@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.NetworkHandler;
 import it.polimi.ingsw.client.model.Board;
-import it.polimi.ingsw.client.model.Player;
 import it.polimi.ingsw.client.view.View;
 import java.io.IOException;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CLI implements View {
+
 
     private String nickname;
     private NetworkHandler networkHandler;
@@ -45,8 +45,8 @@ public class CLI implements View {
     }
 
     public static void clearView() {
-        for (int i = 0; i < 30; i++)
-            System.out.println(" ");
+        for (int i = 0; i < 50; i++)
+            System.out.println();
     }
 
     public static void render(Printable printable) {
@@ -101,15 +101,12 @@ public class CLI implements View {
 
     @Override
     public void setOnMatchMaking() {
-
         clearView();
-
         render(AnsiEnum.LOGO.getAsciiArt());
 
         System.out.println();
         System.out.print("Matchmaking");
         showThreePointsAnimation();
-
     }
 
     @Override
@@ -122,34 +119,35 @@ public class CLI implements View {
 
     @Override
     public void setOnYourTurn() {
-        System.out.print(AnsiEnum.WHITE_BRIGHT + "Your turn is starting" + AnsiEnum.RESET);
-        CLI.showThreePointsAnimation();
-
         clearView();
         CLI.render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
-        CLI.render("what do you wish to do?(market,buy,production,leader,see)");
+        CLI.render("Choose your action: (type "+CommandsEnum.MARKET+", "+CommandsEnum.BUY+", "+CommandsEnum.PRODUCTION+", "+CommandsEnum.LEADER+" or "+CommandsEnum.SEE+")");
         String answer = cliCommandListener.askFirstAction();
         CLI.clearView();
         switch (answer){
-            case "market":
+            //fixme clear view and print necessary items for everySwitch
+            case "MARKET":
                 CLI.render(Board.getBoard().getPrintableMarketAndGrid());
-                cliCommandListener.askMarketAction();
-                break;
-            case "buy":
-                CLI.render(Board.getBoard().getPrintableBuySceneOf(nickname));
-                cliCommandListener.askBuyAction();
-                break;
-            case "production":
-                CLI.render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
-                cliCommandListener.askProductionAction();
-                break;
-            case "leader":
-                CLI.render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
-                if(!cliCommandListener.askLeaderAction()){
+                if(!cliCommandListener.askMarketAction())
                     setOnYourTurn();
-                }
                 break;
-            case "see":
+            //todo complete code for actions below
+            case "BUY":
+                CLI.render(Board.getBoard().getPrintableBuySceneOf(nickname));
+                if(!cliCommandListener.askBuyAction())
+                    setOnYourTurn();
+                break;
+            case "PRODUCTION":
+                CLI.render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
+                if(!cliCommandListener.askProductionAction())
+                    setOnYourTurn();
+                break;
+            case "LEADER":
+                CLI.render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
+                if(!cliCommandListener.askLeaderAction())
+                    setOnYourTurn();
+                break;
+            case "SEE":
                 setOnSeeChoice();
         }
     }
@@ -157,12 +155,12 @@ public class CLI implements View {
     private void setOnSeeChoice(){
         String answer = cliCommandListener.askSeeChoice();
         switch (answer){
-            case "grids":{
+            case "GRIDS":{
                 CLI.render(Board.getBoard().getPrintableMarketAndGrid());
                 setOnSeeChoice();
                 break;
             }
-            case "player":{
+            case "PLAYER":{
                 setOnSeePlayerChoice();
                 setOnSeeChoice();
                 break;
@@ -178,7 +176,7 @@ public class CLI implements View {
         render(Board.getBoard().getPrintablePersonalBoardOf(playerToView));
     }
 
-    protected static void showThreePointsAnimation() {
+    public static void showThreePointsAnimation() {
         for(int i = 0; i < 3; i++){
             try {
                 Thread.sleep(500);
@@ -199,7 +197,7 @@ public class CLI implements View {
     public void setOnWaitForYourTurn(String currentPlayer) {
         clearView();
         render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
-        render("It's " + currentPlayer +" turn, wait for him to finish");
+        render("It's " + AnsiEnum.getPrettyNickname(currentPlayer) +" turn, wait for him to finish");
     }
 
     @Override

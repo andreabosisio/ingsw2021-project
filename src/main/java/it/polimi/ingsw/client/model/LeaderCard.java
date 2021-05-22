@@ -9,12 +9,20 @@ import java.util.*;
  * Class that has the capacity to return a printable version of a specific Leader Card
  */
 public class LeaderCard extends Printable {
-    private static final String EMPTY_CARD = "empty";
+    private static final String EMPTY_CARD_ID = "empty";
 
     private final String iD;
 
     public LeaderCard(String iD) {
         this.iD = iD;
+    }
+
+    public String getiD() {
+        return iD;
+    }
+
+    public static String getEmptyCardID() {
+        return EMPTY_CARD_ID;
     }
 
     /**
@@ -26,7 +34,7 @@ public class LeaderCard extends Printable {
     public List<String> getPrintable() {
         List<String> leaderCardToPrint = new ArrayList<>();
 
-        if (iD.equals(EMPTY_CARD))
+        if (iD.equals(EMPTY_CARD_ID))
             return getPrintableEmptyCard();
 
         LeaderCardsDatabase leaderCardsDatabase = LeaderCardsDatabase.getLeaderCardsDatabase();
@@ -57,17 +65,14 @@ public class LeaderCard extends Printable {
     private List<String> getPrintableEmptyCard() {
         List<String> leaderCardToPrint = new ArrayList<>();
 
-        String empty = AnsiEnum.RED_BOLD + "Empty" + AnsiEnum.RESET;
-        String card = AnsiEnum.RED_BOLD + "Card" + AnsiEnum.RESET;
-
         leaderCardToPrint.add("╔══════════╗");
-        leaderCardToPrint.add("║   " + empty + "  ║");
-        leaderCardToPrint.add("║   " + card + "   ║");
-        leaderCardToPrint.add("║──────────║");
+        leaderCardToPrint.add("║   " + "Leader" + " ║");
+        leaderCardToPrint.add("║   " + "Card" + "   ║");
+        leaderCardToPrint.add("║   " + "Slot" + "   ║");
         leaderCardToPrint.add("║          ║");
         leaderCardToPrint.add("║          ║");
         leaderCardToPrint.add("║          ║");
-        leaderCardToPrint.add("║" + "leader" + "    ║");
+        leaderCardToPrint.add("║          ║");
         leaderCardToPrint.add("╚══════════╝");
 
         return leaderCardToPrint;

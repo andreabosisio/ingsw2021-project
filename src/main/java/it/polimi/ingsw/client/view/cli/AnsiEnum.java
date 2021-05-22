@@ -166,6 +166,10 @@ public enum AnsiEnum {
         }
     }
 
+    public static String getPrettyNickname(String nickname) {
+        return AnsiEnum.WHITE_BOLD_BRIGHT + nickname + AnsiEnum.RESET;
+    }
+
     public static int getStringLengthWithoutANSI(String str) {
         return str.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -/]*[@-~]", "").length();
     }

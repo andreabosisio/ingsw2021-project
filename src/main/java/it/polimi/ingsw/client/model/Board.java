@@ -10,9 +10,10 @@ public class Board extends Printable {
     private MarketTray marketTray;
     private DevelopmentCardsGrid developmentCardsGrid;
     private FaithTrack faithTrack;
-    private Set<Player> players;
+    private Set<PersonalBoard> personalBoards;
 
-    private static String MARKET_GRID_SEPARATOR = "          ";
+    private final static String MARKET_GRID_SEPARATOR = "            ";
+    private final static String GRID_BOARD_SEPARATOR = "      |      ";
 
     private static int DIM_SCENE = 30;
 
@@ -37,8 +38,8 @@ public class Board extends Printable {
         this.faithTrack = faithTrack;
     }
 
-    public void setPlayers(Set<Player> players) {
-        this.players = players;
+    public void setPersonalBoards(Set<PersonalBoard> personalBoards) {
+        this.personalBoards = personalBoards;
     }
 
     public MarketTray getMarketTray() {
@@ -53,8 +54,8 @@ public class Board extends Printable {
         return developmentCardsGrid;
     }
 
-    public Set<Player> getPlayers() {
-        return players;
+    public Set<PersonalBoard> getAllPersonalBoards() {
+        return personalBoards;
     }
 
     public Printable getPrintableMarketAndGrid() {
@@ -65,11 +66,12 @@ public class Board extends Printable {
     }
 
     public Printable getPrintablePersonalBoardOf(String nickname) {
-        return new PrintableScene(PrintableScene.addPrintablesToTop(getPlayerByNickname(nickname), Board.getBoard().getFaithTrack()));
+        return new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname),1,  Board.getBoard().getFaithTrack().getFaithTrackWithLegendScene()));
     }
 
     public Printable getPrintableBuySceneOf(String nickname) {
-        return new PrintableScene(PrintableScene.concatenatePrintable("   ", getPlayerByNickname(nickname).getWarehouseScene(), developmentCardsGrid));
+        Printable warehouseAndCards = new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname).getWarehouseScene(), 1 ,getPersonalBoardOf(nickname).getProductionSlotsScene()));
+        return new PrintableScene(PrintableScene.concatenatePrintable(GRID_BOARD_SEPARATOR, developmentCardsGrid, warehouseAndCards));
     }
 
     @Override
@@ -77,7 +79,7 @@ public class Board extends Printable {
         //fixme
         return DIM_SCENE;
     }
-    public Player getPlayerByNickname(String nickname){
-        return players.stream().filter(p->p.getNickname().equals(nickname)).findFirst().orElse(null);
+    public PersonalBoard getPersonalBoardOf(String nickname){
+        return personalBoards.stream().filter(p -> p.getNickname().equals(nickname)).findFirst().orElse(null);
     }
 }

@@ -4,8 +4,6 @@ import com.google.gson.*;
 import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.client.view.View;
 
-import java.util.List;
-
 public class GraphicUpdateEvent implements ReceiveEvent {
 
     //they are null if not present in json
@@ -37,7 +35,7 @@ public class GraphicUpdateEvent implements ReceiveEvent {
 
         if(personalBoardUpdateList != null){
             for(JsonElement element:personalBoardUpdateList){
-                gson.fromJson(element.getAsJsonObject(), Player.class).update(view.getNickname());
+                gson.fromJson(element.getAsJsonObject(), PersonalBoard.class).update(view.getNickname());
             }
         }
     }

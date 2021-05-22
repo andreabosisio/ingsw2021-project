@@ -46,7 +46,7 @@ public class EndTurn extends State {
                 turnLogic.getModelInterface().notifyObservers(endGameEvent);
                 return true;
             }
-            //todo graphic update after Lorenzo turn (did by the tokens)
+            //todo graphic update after Lorenzo turn (done by the tokens)
         }
 
         //reset and change player

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import it.polimi.ingsw.client.view.cli.Printable;
+import it.polimi.ingsw.client.view.cli.PrintableScene;
 
 import java.util.*;
 
@@ -54,7 +55,7 @@ public class FaithTrack extends Printable {
      */
     @Override
     public List<String> getPrintable() {
-        List<String> toReturn = new ArrayList<>();
+        List<String> faithTrack = new ArrayList<>();
 
         ArrayList<String[]> tracks = new ArrayList<String[]>() {{
             add(t1);
@@ -89,19 +90,26 @@ public class FaithTrack extends Printable {
             }
         });
 
-        toReturn.add("            ┌─────┬═════┬══"+ AnsiEnum.REVERSE_VIDEO+"2"+ AnsiEnum.RESET+"══┬═════┬═════┬──"+ AnsiEnum.REVERSE_VIDEO+"4"+ AnsiEnum.RESET+"──┐                       ┌──"+ AnsiEnum.REVERSE_VIDEO+"12"+ AnsiEnum.RESET+"─┬═════┬═════┬══"+ AnsiEnum.REVERSE_VIDEO+"16"+ AnsiEnum.RESET+"═┬═════┬═════┬══"+ AnsiEnum.REVERSE_VIDEO+"20"+ AnsiEnum.RESET+"═╗");
-        toReturn.add("            │ "+t1[4]+" "+t2[4]+" ║ "+t1[5]+" "+t2[5]+" │ "+t1[6]+" "+t2[6]+" │ "+t1[7]+" "+t2[7]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t1[8]+" "+t2[8]+" "+ AnsiEnum.RESET+"║ "+t1[9]+" "+t2[9]+" │                       │ "+t1[18]+" "+t2[18]+" ║ "+t1[19]+" "+t2[19]+" │ "+t1[20]+" "+t2[20]+" │ "+t1[21]+" "+t2[21]+" │ "+t1[22]+" "+t2[22]+" │ "+t1[23]+" "+t2[23]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t1[24]+" "+t2[24]+" "+ AnsiEnum.RESET+"║");
-        toReturn.add("            │ "+t3[4]+" "+t4[4]+" ║ "+t3[5]+" "+t4[5]+" │ "+t3[6]+" "+t4[6]+" │ "+t3[7]+" "+t4[7]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t3[8]+" "+t4[8]+" "+ AnsiEnum.RESET+"║ "+t3[9]+" "+t4[9]+" │                       │ "+t3[18]+" "+t4[18]+" ║ "+t3[19]+" "+t4[19]+" │ "+t3[20]+" "+t4[20]+" │ "+t3[21]+" "+t4[21]+" │ "+t3[22]+" "+t4[22]+" │ "+t3[23]+" "+t4[23]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t3[24]+" "+t4[24]+" "+ AnsiEnum.RESET+"║");
-        toReturn.add("            ├─────┼═════┼─────┴─────┼═════┼─────┤     ╔═══════════╗     ├─────┼═════┴═════┼─────┴─────┼═════┴═════╝");
-        toReturn.add("            "+ AnsiEnum.REVERSE_VIDEO+"1"+ AnsiEnum.RESET+" "+t1[3]+" "+t2[3]+" │     ║ "+r1[0]+"       "+r2[0]+" ║     │ "+t1[10]+" "+t2[10]+" │     ║ "+r1[1]+"   "+ AnsiEnum.REVERSE_VIDEO+"2"+ AnsiEnum.RESET+"   "+r2[1]+" ║     │ "+t1[17]+" "+t2[17]+" │           ║ "+r1[2]+"       "+r2[2]+" ║            ");
-        toReturn.add("            │ "+t3[3]+" "+t4[3]+" │     ║ "+r3[0]+"   "+ AnsiEnum.REVERSE_VIDEO+"2"+ AnsiEnum.RESET+"   "+r4[0]+" ║     │ "+t3[10]+" "+t4[10]+" │     ║ "+r3[1]+"       "+r4[1]+" ║     │ "+t3[17]+" "+t4[17]+" │           ║ "+r3[2]+"   "+ AnsiEnum.REVERSE_VIDEO+"4"+ AnsiEnum.RESET+"   "+r4[2]+" ║            ");
-        toReturn.add("┌─────┬─────┼─────┤     ╚═══════════╝     ├─────┼═════┼─────┬─────┼═════┼═════┤           ╚═══════════╝            ");
-        toReturn.add("│ "+t1[0]+" "+t2[0]+" │ "+t1[1]+" "+ t2[1]+" │ "+t1[2]+" "+t2[2]+" │                       │ "+t1[11]+" "+t2[11]+" ║ "+t1[12]+" "+t2[12]+" │ "+t1[13]+" "+t2[13]+" │ "+t1[14]+" "+t2[14]+" │ "+t1[15]+" "+t2[15]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t1[16]+" "+t2[16]+" "+ AnsiEnum.RESET+"║                                    ");
-        toReturn.add("│ "+t3[0]+" "+t4[0]+" │ "+t3[1]+" "+ t4[1]+" │ "+t3[2]+" "+t4[2]+" │                       │ "+t3[11]+" "+t4[11]+" ║ "+t3[12]+" "+t4[12]+" │ "+t3[13]+" "+t4[13]+" │ "+t3[14]+" "+t4[14]+" │ "+t3[15]+" "+t4[15]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t3[16]+" "+t4[16]+" "+ AnsiEnum.RESET+"║                                    ");
-        toReturn.add("└─────┴─────┴─────┘                       └─────┴══"+ AnsiEnum.REVERSE_VIDEO+"6"+ AnsiEnum.RESET+"══┴═════┴═════┴══"+ AnsiEnum.REVERSE_VIDEO+"9"+ AnsiEnum.RESET+"══┴═════┘ ");
+        faithTrack.add("            ┌─────┬═════┬══"+ AnsiEnum.REVERSE_VIDEO+"2"+ AnsiEnum.RESET+"══┬═════┬═════┬──"+ AnsiEnum.REVERSE_VIDEO+"4"+ AnsiEnum.RESET+"──┐                       ┌──"+ AnsiEnum.REVERSE_VIDEO+"12"+ AnsiEnum.RESET+"─┬═════┬═════┬══"+ AnsiEnum.REVERSE_VIDEO+"16"+ AnsiEnum.RESET+"═┬═════┬═════┬══"+ AnsiEnum.REVERSE_VIDEO+"20"+ AnsiEnum.RESET+"═╗");
+        faithTrack.add("            │ "+t1[4]+" "+t2[4]+" ║ "+t1[5]+" "+t2[5]+" │ "+t1[6]+" "+t2[6]+" │ "+t1[7]+" "+t2[7]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t1[8]+" "+t2[8]+" "+ AnsiEnum.RESET+"║ "+t1[9]+" "+t2[9]+" │                       │ "+t1[18]+" "+t2[18]+" ║ "+t1[19]+" "+t2[19]+" │ "+t1[20]+" "+t2[20]+" │ "+t1[21]+" "+t2[21]+" │ "+t1[22]+" "+t2[22]+" │ "+t1[23]+" "+t2[23]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t1[24]+" "+t2[24]+" "+ AnsiEnum.RESET+"║");
+        faithTrack.add("            │ "+t3[4]+" "+t4[4]+" ║ "+t3[5]+" "+t4[5]+" │ "+t3[6]+" "+t4[6]+" │ "+t3[7]+" "+t4[7]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t3[8]+" "+t4[8]+" "+ AnsiEnum.RESET+"║ "+t3[9]+" "+t4[9]+" │                       │ "+t3[18]+" "+t4[18]+" ║ "+t3[19]+" "+t4[19]+" │ "+t3[20]+" "+t4[20]+" │ "+t3[21]+" "+t4[21]+" │ "+t3[22]+" "+t4[22]+" │ "+t3[23]+" "+t4[23]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t3[24]+" "+t4[24]+" "+ AnsiEnum.RESET+"║");
+        faithTrack.add("            ├─────┼═════┼─────┴─────┼═════┼─────┤     ╔═══════════╗     ├─────┼═════┴═════┼─────┴─────┼═════┴═════╝");
+        faithTrack.add("            "+ AnsiEnum.REVERSE_VIDEO+"1"+ AnsiEnum.RESET+" "+t1[3]+" "+t2[3]+" │     ║ "+r1[0]+"       "+r2[0]+" ║     │ "+t1[10]+" "+t2[10]+" │     ║ "+r1[1]+"   "+ AnsiEnum.REVERSE_VIDEO+"2"+ AnsiEnum.RESET+"   "+r2[1]+" ║     │ "+t1[17]+" "+t2[17]+" │           ║ "+r1[2]+"       "+r2[2]+" ║            ");
+        faithTrack.add("            │ "+t3[3]+" "+t4[3]+" │     ║ "+r3[0]+"   "+ AnsiEnum.REVERSE_VIDEO+"2"+ AnsiEnum.RESET+"   "+r4[0]+" ║     │ "+t3[10]+" "+t4[10]+" │     ║ "+r3[1]+"       "+r4[1]+" ║     │ "+t3[17]+" "+t4[17]+" │           ║ "+r3[2]+"   "+ AnsiEnum.REVERSE_VIDEO+"4"+ AnsiEnum.RESET+"   "+r4[2]+" ║            ");
+        faithTrack.add("┌─────┬─────┼─────┤     ╚═══════════╝     ├─────┼═════┼─────┬─────┼═════┼═════┤           ╚═══════════╝            ");
+        faithTrack.add("│ "+t1[0]+" "+t2[0]+" │ "+t1[1]+" "+ t2[1]+" │ "+t1[2]+" "+t2[2]+" │                       │ "+t1[11]+" "+t2[11]+" ║ "+t1[12]+" "+t2[12]+" │ "+t1[13]+" "+t2[13]+" │ "+t1[14]+" "+t2[14]+" │ "+t1[15]+" "+t2[15]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t1[16]+" "+t2[16]+" "+ AnsiEnum.RESET+"║                                    ");
+        faithTrack.add("│ "+t3[0]+" "+t4[0]+" │ "+t3[1]+" "+ t4[1]+" │ "+t3[2]+" "+t4[2]+" │                       │ "+t3[11]+" "+t4[11]+" ║ "+t3[12]+" "+t4[12]+" │ "+t3[13]+" "+t4[13]+" │ "+t3[14]+" "+t4[14]+" │ "+t3[15]+" "+t4[15]+" │"+ AnsiEnum.RED_BACKGROUND+" "+t3[16]+" "+t4[16]+" "+ AnsiEnum.RESET+"║                                    ");
+        faithTrack.add("└─────┴─────┴─────┘                       └─────┴══"+ AnsiEnum.REVERSE_VIDEO+"6"+ AnsiEnum.RESET+"══┴═════┴═════┴══"+ AnsiEnum.REVERSE_VIDEO+"9"+ AnsiEnum.RESET+"══┴═════┘ ");
 
-        setWidth(toReturn);
-        return toReturn;
+        setWidth(faithTrack);
+        return faithTrack;
+    }
+
+    PrintableScene getFaithTrackWithLegendScene() {
+        List<String> legend = new ArrayList<>();
+        markerByNick.forEach((nick, marker) -> legend.add(AnsiEnum.WHITE_BRIGHT + nick + AnsiEnum.RESET + ": " + marker));
+
+        return new PrintableScene(PrintableScene.concatenatePrintable(" ", new PrintableScene(legend), new PrintableScene(getPrintable())));
     }
 
     public void update() {

@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.events.send.*;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.LeaderCard;
 import it.polimi.ingsw.client.model.Marble;
-import it.polimi.ingsw.client.model.Player;
+import it.polimi.ingsw.client.model.PersonalBoard;
 import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
 
@@ -26,6 +26,7 @@ public class CLICommandListener implements CommandListener {
     private static final int MAX_CARD_LEVEL = 3;
     private static final int MIN_CARD_LEVEL = 1;
     private static final String INVALID = "Invalid input";
+
     private static final List<String> CARD_COLORS = new ArrayList<String>(){{
         add("GREEN");
         add("PURPLE");
@@ -41,7 +42,6 @@ public class CLICommandListener implements CommandListener {
 
 
     protected void askCredentials() {
-
         CLI.render("Insert a nickname:");
         String nickname = scanner.nextLine();
         this.nickname = nickname;
@@ -54,8 +54,7 @@ public class CLICommandListener implements CommandListener {
     }
 
     protected void askNumberOfPlayers(String payload) {
-        CLI.render("Choose number of players (" + payload + ") :");
-
+        CLI.render("Choose the number of players (" + payload + ") :");
         while (true) {
             String numberOfPlayers = scanner.nextLine();
             try {
@@ -144,7 +143,7 @@ public class CLICommandListener implements CommandListener {
             }
             CLI.render(AnsiEnum.GREEN + "Valid resources choices!" + AnsiEnum.RESET);
         }
-        if(Board.getBoard().getPlayers().size() > 1) {
+        if(Board.getBoard().getAllPersonalBoards().size() > 1) {
             System.out.print("Please wait for other players' choices ");
             CLI.showThreePointsAnimation();
         }
@@ -154,7 +153,7 @@ public class CLICommandListener implements CommandListener {
     public void askCardPlacement(){
         int choice = -1;
         while(choice < 1|| choice > 3){
-            CLI.render("Select where you wish to place your new card(1-2-3)");
+            CLI.render("Select the slot where you wish to place your new card (1, 2 or 3)");
             try {
                 choice = Integer.parseInt(scanner.nextLine());
             }catch (NumberFormatException e){
@@ -189,55 +188,61 @@ public class CLICommandListener implements CommandListener {
     }
 
     public String askFirstAction(){
-        String answer = scanner.nextLine();
-        while (!(answer.equals("market")||answer.equals("buy")||answer.equals("production")||answer.equals("see")||answer.equals("leader"))){
-            CLI.renderError("invalid action, try again");
-            answer = scanner.nextLine();
+        String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
+        while (!(answer.equals(CommandsEnum.MARKET.toString()) || answer.equals(CommandsEnum.BUY.toString()) || answer.equals(CommandsEnum.PRODUCTION.toString()) || answer.equals(CommandsEnum.SEE.toString()) || answer.equals(CommandsEnum.LEADER.toString()))){
+            CLI.renderError("Invalid action, try again");
+            answer = scanner.nextLine().toUpperCase(Locale.ROOT);
         }
         return answer;
     }
 
-    public void askMarketAction(){
+    public boolean askMarketAction(){
         int choice = -1;
-        CLI.render("Select which row or column you want to take");
+        CLI.render("Select an arrow (from 0 to 6) or type  "+ CommandsEnum.BACK +" to change action: ");
         while(choice < MIN_MARKET_ARROW_ID || choice > MAX_MARKET_ARROW_ID){
             try {
-                choice = Integer.parseInt(scanner.nextLine());
+                String input = scanner.nextLine().toUpperCase(Locale.ROOT);
+                if(input.equals(CommandsEnum.BACK.toString()))
+                    return false;
+                else
+                    choice = Integer.parseInt(input);
             } catch (NumberFormatException e){
                 CLI.renderError(INVALID);
             }
         }
         notifyObservers(new MarketActionEvent(choice));
+        return true;
     }
 
     public void askResourcePlacement(){
-        CLI.render("Write your swaps(es:0,4,1,5), refresh to update, done to end the placement");
+        CLI.render("Write your swaps (es: 0,4,1,5...) or type "+CommandsEnum.DONE+" for no swaps:");
         List<Integer> swaps = new ArrayList<>();
-        String answer = scanner.nextLine();
-        while(!answer.toLowerCase(Locale.ROOT).equals("refresh")&&!answer.toLowerCase(Locale.ROOT).equals("done")){
+        String answer;
+        do {
+             answer = scanner.nextLine().toUpperCase(Locale.ROOT);
+             if(answer.equals(CommandsEnum.DONE.toString()) || answer.equals(CommandsEnum.REFRESH.toString()))
+                 break;
             try {
                 //regex means any number of spaces before and after the comma
                 swaps.addAll(Arrays.stream(answer.split("\\s*,\\s*")).map(Integer::parseInt).collect(Collectors.toList()));
-                System.out.println("swaps saved, add more or type done/refresh");
-                answer = scanner.nextLine();
+                CLI.render("Swaps saved. Press "+CommandsEnum.REFRESH+" to update the view or "+CommandsEnum.DONE+" to end the placement");
             }catch (IndexOutOfBoundsException | NumberFormatException e){
                 CLI.renderError(INVALID);
-                answer = scanner.nextLine();
             }
-        }
-        CLI.render("Will try to perform this swaps: "+swaps);
-        notifyObservers(new ResourcesPlacementActionEvent(swaps,answer.equals("done")));
+        } while(!answer.equals(CommandsEnum.REFRESH.toString()) && !answer.equals(CommandsEnum.DONE.toString()));
+        notifyObservers(new ResourcesPlacementActionEvent(swaps, answer.equals(CommandsEnum.DONE.toString())));
     }
 
     //return true if leader action
     public boolean askEndAction(){
-        CLI.render("what do you wish to do?(end(to end your turn), leader(to do a leader action))");
-        String answer = scanner.nextLine();
-        while (!(answer.equals("end")||answer.equals("leader"))){
-            CLI.renderError("invalid action, try again");
-            answer = scanner.nextLine();
+        CLI.render("Type "+ CommandsEnum.DONE +" to end your turn or "+ CommandsEnum.LEADER +" to perform a leader action");
+        String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
+
+        while (!(answer.equals(CommandsEnum.DONE.toString()) || answer.equals(CommandsEnum.LEADER.toString()))){
+            answer = scanner.nextLine().toUpperCase(Locale.ROOT);
+            CLI.renderError(INVALID);
         }
-        if(answer.equals("end")){
+        if(answer.equals(CommandsEnum.DONE.toString())){
             notifyObservers(new EndTurnActionEvent());
             return false;
         }
@@ -245,50 +250,53 @@ public class CLICommandListener implements CommandListener {
     }
 
     public boolean askLeaderAction(){
-        List<String> hand = Board.getBoard().getPlayerByNickname(nickname).getHandLeaders();
+        List<String> hand = Board.getBoard().getPersonalBoardOf(nickname).getHandLeaders();
         int index = -1;
-        if(hand.size()!=0){
-            while (index<0||index>hand.size()-1){
-                System.out.println("Choose the Leader card by index(0 or 1)");
+        if(hand.size() != 0){
+            while (index <0 || index > hand.size()-1){
+                System.out.println("Choose the Leader Card slot by index (0 or 1)");
                 try {
                     index = Integer.parseInt(scanner.nextLine());
                 }catch (NumberFormatException e){
                     CLI.renderError(INVALID);
                 }
             }
-            CLI.render("What do you wish to do with this card?(activate/discard)");
-            String discard = scanner.nextLine().toLowerCase(Locale.ROOT);
-            while (!discard.equals("activate")&&!discard.equals("discard")){
+            CLI.render("Type " + CommandsEnum.ACTIVATE + "to activate the card or " + CommandsEnum.DISCARD + " to discard the card: ") ;
+            String discard = scanner.nextLine().toUpperCase(Locale.ROOT);
+            while (!discard.equals(CommandsEnum.ACTIVATE.toString()) && !discard.equals(CommandsEnum.DISCARD.toString())){
                 CLI.renderError(INVALID);
-                discard = scanner.nextLine().toLowerCase(Locale.ROOT);
+                discard = scanner.nextLine().toUpperCase(Locale.ROOT);
             }
-            notifyObservers(new LeaderActionEvent(hand.get(index),discard.equals("discard")));
+            notifyObservers(new LeaderActionEvent(hand.get(index), discard.equals(CommandsEnum.DISCARD.toString())));
             return true;
         }
         return false;
         //notifyObservers(new LeaderActionEvent(null,true));
     }
 
-    public void askBuyAction() {
-        //Player player = Board.getBoard().getPlayerByNickname(nickname);
+    public boolean askBuyAction() {
+        //PersonalBoard player = Board.getBoard().getPlayerByNickname(nickname);
         int level = -1;
         String color = "";
         String answer;
         List<Integer> resources = new ArrayList<>();
         while (level < MIN_CARD_LEVEL || level > MAX_CARD_LEVEL) {
-            CLI.render("Choose the level of the card you want to buy(between " + MIN_CARD_LEVEL + " and " + MAX_CARD_LEVEL + ")");
+            CLI.render("Choose the level of the card you want to buy (between " + MIN_CARD_LEVEL + " and " + MAX_CARD_LEVEL + ") or type " + CommandsEnum.BACK + " to change action:");
             try {
-                level = Integer.parseInt(scanner.nextLine());
+                answer = scanner.nextLine().toUpperCase(Locale.ROOT);
+                if(answer.equals(CommandsEnum.BACK.toString()))
+                    return false;
+                level = Integer.parseInt(answer);
             } catch (NumberFormatException e) {
                 CLI.renderError(INVALID);
             }
         }
         while (!CARD_COLORS.contains(color.toUpperCase(Locale.ROOT))) {
-            CLI.render("Choose the color of the card to buy(green,blue,yellow,purple)");
+            CLI.render("Choose the color of the card to buy (green, blue, yellow or purple)");
             color = scanner.nextLine();
         }
 
-        CLI.render("Choose which resources you want to use to pay the card(1,2,3)");
+        CLI.render("Choose which resources do you want to use to pay the card (ex: 4,13 ... , 9)");
         answer = scanner.nextLine();
         while (true) {
             try {
@@ -301,90 +309,91 @@ public class CLICommandListener implements CommandListener {
             answer = scanner.nextLine();
         }
         notifyObservers(new BuyActionEvent(color,level,resources));
+        return true;
     }
 
 
     //todo test and/or cut in smaller functions
-    public void askProductionAction(){
-        Player player = Board.getBoard().getPlayerByNickname(nickname);
+    public boolean askProductionAction() {
         Map<Integer, List<Integer>> inResourcesForEachProductions = new HashMap<>();
         Map<Integer, String> outResourcesForEachProductions = new HashMap<>();
         Set<Integer> inResourcesStory = new HashSet<>();
         Set<Integer> indexesStory = new HashSet<>();
         List<Integer> inResources;
-        CLI.render("Choose which production you want to activate(0...5), type done when finished");
-        String answer = scanner.nextLine();
-        while (!answer.toLowerCase(Locale.ROOT).equals("done")){
+        CLI.render("Choose the Production Slot you want to activate (from 0 to 5). Type " + CommandsEnum.DONE + " when finished or "+CommandsEnum.BACK+" to change action:");
+        String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
+        if(answer.equals(CommandsEnum.BACK.toString()))
+            return false;
+        while (!answer.equals(CommandsEnum.DONE.toString())){
             int index;
             String outResource = null;
             //instantiated here to be set as null for every new card
             try {
                 index = Integer.parseUnsignedInt(answer);
                 if(indexesStory.contains(index)){
-                    CLI.renderError("This card already produced,try a new one");
-                    answer = scanner.nextLine();
+                    CLI.renderError("You have already used this card, try a new one");
+                    answer = scanner.nextLine().toUpperCase(Locale.ROOT);
                     continue;
                 }
                 //used to launch exception if card is not owned
                 indexesStory.add(index);
             }catch (NumberFormatException e){
                 CLI.renderError("Couldn't get the selected card, try again");
-                answer = scanner.nextLine();
+                answer = scanner.nextLine().toUpperCase(Locale.ROOT);
                 continue;
             }
-            CLI.render("Choose the resources you wish to use");
-            answer = scanner.nextLine();
+            CLI.render("Choose the resources you wish to use (ex: 4,13 ... , 9)");
+            answer = scanner.nextLine().toUpperCase(Locale.ROOT);
             while (true) {
                 //instantiated here to be reset if failed input
                 inResources = new ArrayList<>();
                 try {
                     //Only natural numbers are accepted and any duplicate are ignored
                     inResources.addAll(Arrays.stream(answer.split("\\s*,\\s*")).map(Integer::parseInt).filter(n->n>0).collect(Collectors.toSet()));
-                    //if a resource is repeated ask to re choose resources
+                    //if a resource is repeated, ask to re-choose resources
                     if(inResources.stream().anyMatch(inResourcesStory::contains)){
-                        CLI.renderError("This res where already used");
+                        CLI.renderError("This resources were already used");
                     }
                     else
                         break;
                 } catch (NumberFormatException e) {
                     CLI.renderError(INVALID);
                 }
-                answer = scanner.nextLine();
+                answer = scanner.nextLine().toUpperCase(Locale.ROOT);
             }
-            if(index==0||index>=4){
-                CLI.render("Choose the resource you wish to produce");
-                outResource = scanner.nextLine().toUpperCase(Locale.ROOT);
-                while (!RESOURCE_COLORS.contains(outResource)) {
-                    CLI.render("Choose the resource you wish to produce");
+            if(index == 0 || index >= 4){
+                do {
+                    CLI.render("Choose the resource you wish to produce (ex: blue)");
                     outResource = scanner.nextLine().toUpperCase(Locale.ROOT);
-                }
+                } while(!RESOURCE_COLORS.contains(outResource));
             }
             inResourcesStory.addAll(inResources);
             inResourcesForEachProductions.put(index,inResources);
             outResourcesForEachProductions.put(index,outResource);
-            CLI.render("Choose which production you want to activate(0...5), Type done when finished");
-            answer = scanner.nextLine();
+            CLI.render("Choose the Production Slot you want to activate (from 0 to 5). Type " + CommandsEnum.DONE + " when finished or "+CommandsEnum.BACK+" to change action:");
+            answer = scanner.nextLine().toUpperCase(Locale.ROOT);
         }
-        notifyObservers(new ProductionActionEvent(inResourcesForEachProductions,outResourcesForEachProductions));
+        notifyObservers(new ProductionActionEvent(inResourcesForEachProductions, outResourcesForEachProductions));
+        return true;
     }
 
     public String askSeeChoice(){
         CLI.render("What do you wish to see(grids/done/player)?");
-        String answer = scanner.nextLine();
-        while(!answer.equals("grids")&&!answer.equals("done")&&!answer.equals("player")){
+        String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
+        while(!answer.equals(CommandsEnum.GRIDS.toString()) && !answer.equals(CommandsEnum.DONE.toString()) && !answer.equals(CommandsEnum.PLAYER.toString())){
             CLI.renderError(INVALID);
-            answer = scanner.nextLine();
+            answer = scanner.nextLine().toUpperCase(Locale.ROOT);
         }
         return answer;
 
     }
 
     public String askSeePlayerChoice(){
-        List<String> nicknames = Board.getBoard().getPlayers().stream().map(Player::getNickname).collect(Collectors.toList());
-        CLI.render("Players to see are: "+nicknames);
+        List<String> nicknames = Board.getBoard().getAllPersonalBoards().stream().map(PersonalBoard::getNickname).collect(Collectors.toList());
+        CLI.render("Players you can see are: " + nicknames + ". Choose one:");
         String answer = scanner.nextLine();
         while (!nicknames.contains(answer)){
-            CLI.renderError("Player does not exist, try again");
+            CLI.renderError(answer + " does not exist, try again");
             answer = scanner.nextLine();
         }
         return answer;

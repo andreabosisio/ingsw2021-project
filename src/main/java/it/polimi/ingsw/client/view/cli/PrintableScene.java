@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.cli;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PrintableScene extends Printable {
     private final List<String> scene;
@@ -15,8 +16,8 @@ public class PrintableScene extends Printable {
     }
 
     public PrintableScene(List<String> scene) {
-        this.scene = scene;
-        setWidth(this.scene);
+        setWidth(scene);
+        this.scene = scene.stream().map(this::fillWithEmptySpace).collect(Collectors.toList());
     }
 
     public PrintableScene(Printable scene) {
@@ -72,10 +73,11 @@ public class PrintableScene extends Printable {
         return concatenatePrintable("", args);
     }
 
-    public static Printable addPrintablesToTop(Printable base, String separator, Printable ... tops) {
+    public static Printable addPrintablesToTop(Printable base, int offset, Printable ... tops) {
         Printable builder = new PrintableScene(base.getPrintable());
         for (Printable top : tops) {
-            builder = addStringToTop(builder, separator);
+            for(int i = 0; i < offset; i++)
+                builder = addStringToTop(builder, "");
             List<String> reversed = top.getPrintable();
             Collections.reverse(reversed);
             for (String row : reversed) {
@@ -86,20 +88,28 @@ public class PrintableScene extends Printable {
     }
 
     public static Printable addPrintablesToTop(Printable base, Printable ... tops) {
-        return addPrintablesToTop(base, "", tops);
+        return addPrintablesToTop(base, 0, tops);
     }
 
     public static Printable addStringToTop(Printable base, String toAdd) {
-        return addStringAtRow(base, toAdd, 0);
+        return addStringAtRow(base, toAdd, 0, 0);
+    }
+
+    public static Printable addStringToTop(Printable base, String toAdd, int offset) {
+        return addStringAtRow(base, toAdd, 0, offset);
     }
 
     public static Printable addBottomString (Printable base, String toAdd) {
-        return addStringAtRow(base, toAdd, base.getPrintable().size());
+        return addStringAtRow(base, toAdd, base.getPrintable().size(), 0);
     }
 
-    public static Printable addStringAtRow (Printable base, String toAdd, int row) {
+    public static Printable addBottomString (Printable base, String toAdd, int offset) {
+        return addStringAtRow(base, toAdd, base.getPrintable().size(), offset);
+    }
+
+    public static Printable addStringAtRow (Printable base, String toAdd, int row, int separator) {
         List<String> newPrintable = new ArrayList<>(base.getPrintable());
-        newPrintable.add(row, String.format("%-" + base.getWidth() + "s", toAdd));
+        newPrintable.add(row, base.fillWithEmptySpace(toAdd));
         return new PrintableScene(newPrintable);
     }
 
