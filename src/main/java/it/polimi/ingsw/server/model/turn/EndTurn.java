@@ -36,7 +36,7 @@ public class EndTurn extends State {
         }
 
         //lorenzo turn
-        if(turnLogic.getGameMode().getLorenzo().play()) {
+        if(turnLogic.getGameMode().getLorenzo().play(turnLogic)) {
             //if lorenzo action ended the game
             if(turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
                 PlayerInterface winner = turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
@@ -46,8 +46,7 @@ public class EndTurn extends State {
                 turnLogic.getModelInterface().notifyObservers(endGameEvent);
                 return true;
             }
-            //todo graphic update after Lorenzo turn
-
+            //todo graphic update after Lorenzo turn (did by the tokens)
         }
 
         //reset and change player

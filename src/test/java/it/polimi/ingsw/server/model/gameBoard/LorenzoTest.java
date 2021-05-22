@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.gameBoard;
 
+import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.gameMode.*;
 import it.polimi.ingsw.server.model.player.Player;
@@ -37,25 +38,27 @@ public class LorenzoTest {
 
     @Test
     void testProgress1BlackCrossToken() {
-        List<Player> players = new ArrayList<>();
-        players.add(new Player("Trafalgar"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        List<String> playersNickname = new ArrayList<>();
+        playersNickname.add("Trafalgar");
+        ModelInterface modelInterface = new ModelInterface(playersNickname);
+        TurnLogic turnLogic = modelInterface.getTurnLogic();
+        List<Player> players = turnLogic.getPlayers();
         SoloActionToken soloActionToken = new SingleFaithTrackProgressToken();
 
         GameBoard.getGameBoard().faithProgress(players.get(0), 4); // TrafalgarProgress = 4
         // Lorenzo's Black Cross reaches the eight position of the FaithTrack
         for (int i = 0; i < 8; i++)
-            assertTrue(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo())); // LorenzoProgress = 8
+            assertTrue(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo(), turnLogic)); // LorenzoProgress = 8
         assertEquals(8, GameBoard.getGameBoard().getFaithTrackOfPlayer(turnLogic.getGameMode().getLorenzo()).getFaithMarker());
         assertEquals(4, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getFaithMarker());
 
         GameBoard.getGameBoard().faithProgress(players.get(0), 11); // TrafalgarProgress = 15
         for (int i = 0; i < 7; i++)
-            assertTrue(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo())); // LorenzoProgress = 15
+            assertTrue(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo(), turnLogic)); // LorenzoProgress = 15
         assertEquals(15, GameBoard.getGameBoard().getFaithTrackOfPlayer(turnLogic.getGameMode().getLorenzo()).getFaithMarker());
         assertEquals(15, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getFaithMarker());
 
-        assertTrue(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo())); // LorenzoProgress = 16
+        assertTrue(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo(), turnLogic)); // LorenzoProgress = 16
         // Trafalgar flip the second card
         assertEquals(12, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getVictoryPoints());
 
@@ -69,27 +72,29 @@ public class LorenzoTest {
 
     @Test
     void testProgress2BlackCrossToken() {
-        List<Player> players = new ArrayList<>();
-        players.add(new Player("Pandaman"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        List<String> playersNickname = new ArrayList<>();
+        playersNickname.add("Pandaman");
+        ModelInterface modelInterface = new ModelInterface(playersNickname);
+        TurnLogic turnLogic = modelInterface.getTurnLogic();
+        List<Player> players = turnLogic.getPlayers();
         SoloActionToken soloActionToken = new DoubleFaithTrackProgressToken();
 
         GameBoard.getGameBoard().faithProgress(players.get(0), 5); // PandamanProgress = 5
         // Lorenzo's Black Cross reaches the eight position of the FaithTrack
         for (int i = 0; i < 4; i++)
-            assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo())); // LorenzoProgress = 8
+            assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo(), turnLogic)); // LorenzoProgress = 8
         assertEquals(8, GameBoard.getGameBoard().getFaithTrackOfPlayer(turnLogic.getGameMode().getLorenzo()).getFaithMarker());
         // Pandaman flip the first card
         assertEquals(3, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getVictoryPoints());
 
         for (int i = 0; i < 7; i++)
-            assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo())); // LorenzoProgress = 22
+            assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo(), turnLogic)); // LorenzoProgress = 22
         assertEquals(22, GameBoard.getGameBoard().getFaithTrackOfPlayer(turnLogic.getGameMode().getLorenzo()).getFaithMarker());
         GameBoard.getGameBoard().faithProgress(players.get(0), 16); // PandamanProgress = 21
         assertEquals(21, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getFaithMarker());
         // The Game is not over
         assertFalse(turnLogic.getGameMode().getICheckWinner().isTheGameOver());
-        assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo())); // LorenzoProgress = 24
+        assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo(), turnLogic)); // LorenzoProgress = 24
         // Pandaman flip the third card
         assertEquals(22, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getVictoryPoints());
         // The Game is over, Lorenzo reaches the last position
@@ -100,16 +105,17 @@ public class LorenzoTest {
 
     @Test
     void testDiscardDevCardsToken() {
-        List<Player> players = new ArrayList<>();
-        players.add(new Player("Mihawk"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        List<String> playersNickname = new ArrayList<>();
+        playersNickname.add("Mihawk");
+        ModelInterface modelInterface = new ModelInterface(playersNickname);
+        TurnLogic turnLogic = modelInterface.getTurnLogic();
         SoloActionToken soloActionToken = new DiscardDevCardsToken(CardColorEnum.PURPLE);
 
         for (int i = 0; i < 5; i++) {
-            assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo()));
+            assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo(), turnLogic));
             assertFalse(GameBoard.getGameBoard().getDevelopmentCardsGrid().hasEmptyColumn());
         }
-        assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo())); // Discard the last two Cards
+        assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo(), turnLogic)); // Discard the last two Cards
         assertTrue(GameBoard.getGameBoard().getDevelopmentCardsGrid().hasEmptyColumn()); // The column is empty
         assertEquals(9, GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards().size());
         // The Game is over, a column is empty
@@ -120,21 +126,23 @@ public class LorenzoTest {
 
     @Test
     void testLorenzoPlay() {
-        List<Player> players = new ArrayList<>();
-        players.add(new Player("Ace"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        List<String> playersNickname = new ArrayList<>();
+        playersNickname.add("Ace");
+        ModelInterface modelInterface = new ModelInterface(playersNickname);
+        TurnLogic turnLogic = modelInterface.getTurnLogic();
+        List<Player> players = turnLogic.getPlayers();
         Lorenzo lorenzo = turnLogic.getGameMode().getLorenzo();
         int FaithProgress = 0;
 
         for (int i = 0; i < 11; i++) {
             if (lorenzo.extractToken() instanceof SingleFaithTrackProgressToken) {
                 FaithProgress++;
-                lorenzo.play();
+                lorenzo.play(turnLogic);
             } else if (turnLogic.getGameMode().getLorenzo().extractToken() instanceof DoubleFaithTrackProgressToken) {
                 FaithProgress = FaithProgress + 2;
-                lorenzo.play();
+                lorenzo.play(turnLogic);
             } else if (lorenzo.extractToken() instanceof DiscardDevCardsToken) {
-                lorenzo.play();
+                lorenzo.play(turnLogic);
                 assertFalse(GameBoard.getGameBoard().getDevelopmentCardsGrid().hasEmptyColumn());
             }
         }

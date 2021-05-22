@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.gameBoard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
+import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.*;
 
@@ -51,21 +52,31 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      * and calls the method notifyEndGameObserver if there is no more Cards of that color.
      *
      * @param color color of the card to remove
-     * @return true if there was at least one card of that color in the grid
+     * @return the iD of the card removed or null
      */
-    public boolean removeCardByColor(CardColorEnum color) {
-        boolean emptyColumn = true;
+    public DevelopmentCard removeCardByColor(CardColorEnum color) {
+        DevelopmentCard removedCard = null;
+        CardColorEnum colorOfRemovedCard = CardColorEnum.GREEN;
+        int levelOfRemovedCard = 0;
+
         //for and not foreach because foreach can't be interrupted
-        for (Map<CardColorEnum, List<DevelopmentCard>> m : mapByLevel)
+        for (Map<CardColorEnum, List<DevelopmentCard>> m : mapByLevel) {
             if (m.get(color).size() != 0) {
-                m.get(color).remove(0);
-                emptyColumn = false;
+                removedCard = m.get(color).remove(0);
                 break;
             }
+            else if (m.get(color).size() == 0) {
+                colorOfRemovedCard = color;
+                levelOfRemovedCard = mapByLevel.indexOf(m) + 1;
+            }
+        }
+
+        if (removedCard == null)
+            removedCard = new DevelopmentCard("empty", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), colorOfRemovedCard, 0, levelOfRemovedCard);
 
         if (hasEmptyColumn())
             this.notifyEndGameObserver();
-        return !emptyColumn;
+        return removedCard;
     }
 
     /**

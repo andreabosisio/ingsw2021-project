@@ -106,7 +106,7 @@ public class CheckWinnerTest {
 
         assertEquals("Lorenzo il Magnifico doing nothing", turnLogic.getGameMode().getLorenzo().getNickname());
         assertTrue(turnLogic.getGameMode().getLorenzo() instanceof LorenzoDoingNothing);
-        assertFalse(turnLogic.getGameMode().getLorenzo().play());
+        assertFalse(turnLogic.getGameMode().getLorenzo().play(turnLogic));
 
         // The Game is not over
         assertFalse(turnLogic.getGameMode().getICheckWinner().isTheGameOver());

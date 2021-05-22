@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.gameMode;
 
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
-import it.polimi.ingsw.server.model.player.PersonalBoard;
+import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,17 +26,17 @@ public class LorenzoAI implements Lorenzo{
      * if the token drawn is a SingleFaithTrackProgressToken.
      *
      * @return true if the deck is shuffled
+     * @param turnLogic is the TurnLogic reference
      */
     @Override
-    public boolean play() {
-        if (soloActionTokens.get(tokensDeckIndex).doAction(this)) {
+    public boolean play(TurnLogic turnLogic) {
+        if (soloActionTokens.get(tokensDeckIndex).doAction(this, turnLogic)) {
             tokensDeckIndex = 0;
             shuffle();
-            return true;
         } else {
             tokensDeckIndex++;
         }
-        return false;
+        return true;
     }
 
     /**
