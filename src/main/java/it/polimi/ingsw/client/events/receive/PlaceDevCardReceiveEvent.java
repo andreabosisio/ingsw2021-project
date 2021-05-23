@@ -3,13 +3,13 @@ package it.polimi.ingsw.client.events.receive;
 import it.polimi.ingsw.client.view.View;
 
 public class PlaceDevCardReceiveEvent implements ReceiveEvent{
-    private final String newCardId;
-    public PlaceDevCardReceiveEvent(String newCardId) {
-        this.newCardId = newCardId;
+    private final String newCardID;
+    public PlaceDevCardReceiveEvent(String newCardID) {
+        this.newCardID = newCardID;
     }
 
     @Override
     public void updateView(View view) {
-        view.setOnPlaceDevCard(newCardId);
+        view.setOnDevelopmentCardPlacement(newCardID);
     }
 }

@@ -1,5 +1,5 @@
 package it.polimi.ingsw.client.view.cli;
-
+import com.google.gson.*;
 import it.polimi.ingsw.client.NetworkHandler;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.view.View;
@@ -201,15 +201,14 @@ public class CLI implements View {
     }
 
     @Override
-    public void setOnPlaceDevCard(String newCardID) {
+    public void setOnDevelopmentCardPlacement(String newCardID) {
         clearView();
-        //todo clearView and print card to place and personal production board
-        //Board.getBoard().printPlaceCardScene(newCardId)
+        render(Board.getBoard().getPrintableCardPlacementSceneOf(nickname, newCardID));
         cliCommandListener.askCardPlacement();
     }
 
     @Override
-    public void setOnPlaceResources() {
+    public void setOnResourcesPlacement() {
         clearView();
         render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
         cliCommandListener.askResourcePlacement();

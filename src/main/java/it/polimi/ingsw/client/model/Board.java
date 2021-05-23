@@ -58,20 +58,24 @@ public class Board extends Printable {
         return personalBoards;
     }
 
-    public Printable getPrintableMarketAndGrid() {
+    public PrintableScene getPrintableMarketAndGrid() {
         Printable marketWithVerticalOffset = marketTray;
         for (int i = 0; i < developmentCardsGrid.getPrintable().size()/2; i++)
             marketWithVerticalOffset = PrintableScene.addStringToTop(marketWithVerticalOffset, "");
         return PrintableScene.concatenatePrintable(MARKET_GRID_SEPARATOR, marketWithVerticalOffset, developmentCardsGrid);
     }
 
-    public Printable getPrintablePersonalBoardOf(String nickname) {
+    public PrintableScene getPrintablePersonalBoardOf(String nickname) {
         return new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname),1,  Board.getBoard().getFaithTrack().getFaithTrackWithLegendScene()));
     }
 
-    public Printable getPrintableBuySceneOf(String nickname) {
-        Printable warehouseAndCards = new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname).getWarehouseScene(), 1 ,getPersonalBoardOf(nickname).getProductionSlotsScene()));
+    public PrintableScene getPrintableBuySceneOf(String nickname) {
+        Printable warehouseAndCards = new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname).getWarehouseScene(), 1 ,getPersonalBoardOf(nickname).getActiveCardsScene()));
         return new PrintableScene(PrintableScene.concatenatePrintable(GRID_BOARD_SEPARATOR, developmentCardsGrid, warehouseAndCards));
+    }
+
+    public PrintableScene getPrintableCardPlacementSceneOf(String nickname, String cardToPlaceID) {
+        return new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname).getActiveCardsScene(), 2, new DevelopmentCard(cardToPlaceID)));
     }
 
     @Override

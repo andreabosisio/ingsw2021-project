@@ -29,8 +29,6 @@ public class Marble extends Printable {
                 return AnsiEnum.BLUE_MARBLE;
             case "GRAY":
                 return AnsiEnum.GRAY_MARBLE;
-            case "EMPTY_RES":
-                return AnsiEnum.EMPTY_RES;
             default:
                 return AnsiEnum.EMPTY_RES;
         }

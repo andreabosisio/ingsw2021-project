@@ -106,6 +106,7 @@ public class TurnLogic {
         else
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
 
+        //fixme change and remove TurnLogicForTest.java class and make reset() private
         if (!Lobby.getLobby().isPlayerOnline(currentPlayer.getNickname())) {
             setNextPlayer();
             return;
@@ -117,7 +118,6 @@ public class TurnLogic {
     public void reset() {
         whiteResourcesFromMarket.clear();
         chosenDevCard = null;
-        currentPlayer.getPersonalBoard().getWarehouse().reorderStrongBox();
     }
 
     public GameMode getGameMode() {

@@ -167,7 +167,7 @@ public class CLICommandListener implements CommandListener {
         List<String> transformations = new ArrayList<>();
         CLI.render("Looks like your white marbles are evolving\nChoose the color you prefer for this "+numberOfTransformation+" marbles");
         for (int i = 0; i < numberOfTransformation; i++) {
-            System.out.print("Resource n" + (i + 1) + " can be: ");
+            System.out.print("Resource in slot n°" + (i + 1) + " can be: ");
             for(int j = 0; j < possibleTransformations.size(); j++){
                 String color = possibleTransformations.get(j);
                 System.out.print((j+1) + Marble.getPrintable(color.toUpperCase(Locale.ROOT))+" ");
@@ -198,7 +198,7 @@ public class CLICommandListener implements CommandListener {
 
     public boolean askMarketAction(){
         int choice = -1;
-        CLI.render("Select an arrow (from 0 to 6) or type  "+ CommandsEnum.BACK +" to change action: ");
+        CLI.render("Select an arrow (from 0 to 6) or type "+ CommandsEnum.BACK +" to change action: ");
         while(choice < MIN_MARKET_ARROW_ID || choice > MAX_MARKET_ARROW_ID){
             try {
                 String input = scanner.nextLine().toUpperCase(Locale.ROOT);
@@ -225,7 +225,7 @@ public class CLICommandListener implements CommandListener {
             try {
                 //regex means any number of spaces before and after the comma
                 swaps.addAll(Arrays.stream(answer.split("\\s*,\\s*")).map(Integer::parseInt).collect(Collectors.toList()));
-                CLI.render("Swaps saved. Press "+CommandsEnum.REFRESH+" to update the view or "+CommandsEnum.DONE+" to end the placement");
+                CLI.render("Swaps saved. Type "+CommandsEnum.REFRESH+" to update the view or "+CommandsEnum.DONE+" to end the placement");
             }catch (IndexOutOfBoundsException | NumberFormatException e){
                 CLI.renderError(INVALID);
             }
@@ -261,7 +261,7 @@ public class CLICommandListener implements CommandListener {
                     CLI.renderError(INVALID);
                 }
             }
-            CLI.render("Type " + CommandsEnum.ACTIVATE + "to activate the card or " + CommandsEnum.DISCARD + " to discard the card: ") ;
+            CLI.render("Type " + CommandsEnum.ACTIVATE + " to activate the card or " + CommandsEnum.DISCARD + " to discard the card: ") ;
             String discard = scanner.nextLine().toUpperCase(Locale.ROOT);
             while (!discard.equals(CommandsEnum.ACTIVATE.toString()) && !discard.equals(CommandsEnum.DISCARD.toString())){
                 CLI.renderError(INVALID);
@@ -296,7 +296,7 @@ public class CLICommandListener implements CommandListener {
             color = scanner.nextLine();
         }
 
-        CLI.render("Choose which resources do you want to use to pay the card (ex: 4,13 ... , 9)");
+        CLI.render("Choose which resources do you want to use to pay the card (ex: 4,13, ... ,9)");
         answer = scanner.nextLine();
         while (true) {
             try {
@@ -342,7 +342,7 @@ public class CLICommandListener implements CommandListener {
                 answer = scanner.nextLine().toUpperCase(Locale.ROOT);
                 continue;
             }
-            CLI.render("Choose the resources you wish to use (ex: 4,13 ... , 9)");
+            CLI.render("Choose the resources you wish to use (ex: 4,13, ... ,9)");
             answer = scanner.nextLine().toUpperCase(Locale.ROOT);
             while (true) {
                 //instantiated here to be reset if failed input
@@ -363,7 +363,7 @@ public class CLICommandListener implements CommandListener {
             }
             if(index == 0 || index >= 4){
                 do {
-                    CLI.render("Choose the resource you wish to produce (ex: blue)");
+                    CLI.render("Choose the resource you wish to produce (ex: blue or gray...)");
                     outResource = scanner.nextLine().toUpperCase(Locale.ROOT);
                 } while(!RESOURCE_COLORS.contains(outResource));
             }
@@ -378,7 +378,7 @@ public class CLICommandListener implements CommandListener {
     }
 
     public String askSeeChoice(){
-        CLI.render("What do you wish to see(grids/done/player)?");
+        CLI.render("Type GRIDS to see the Market Tray and the Development Cards Grid or PLAYER to see a player. Type DONE to change action.");
         String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
         while(!answer.equals(CommandsEnum.GRIDS.toString()) && !answer.equals(CommandsEnum.DONE.toString()) && !answer.equals(CommandsEnum.PLAYER.toString())){
             CLI.renderError(INVALID);
@@ -390,7 +390,7 @@ public class CLICommandListener implements CommandListener {
 
     public String askSeePlayerChoice(){
         List<String> nicknames = Board.getBoard().getAllPersonalBoards().stream().map(PersonalBoard::getNickname).collect(Collectors.toList());
-        CLI.render("Players you can see are: " + nicknames + ". Choose one:");
+        CLI.render("Players you can see are: " + nicknames.stream().filter(n -> !n.equals(nickname)) + ". Choose one:");
         String answer = scanner.nextLine();
         while (!nicknames.contains(answer)){
             CLI.renderError(answer + " does not exist, try again");

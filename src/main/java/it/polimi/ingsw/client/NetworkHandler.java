@@ -45,7 +45,7 @@ public class NetworkHandler implements CommandListenerObserver {
     }
 
     //todo regex check
-    public NetworkHandler(String ip, Integer port, View view) throws IOException {
+    public NetworkHandler(String ip, int port, View view) throws IOException {
         this.socket = new Socket(ip, port);
         this.view = view;
         this.connectionToServer = new ConnectionToServer(socket);
@@ -83,9 +83,7 @@ public class NetworkHandler implements CommandListenerObserver {
                 //todo remove this try(event is null only if we forgot a possible event from server)
                 try {
                     event = gson.fromJson(message, (Type) messageTypeMap.get(jsonObject.get("type").getAsString()));
-                    //System.out.println("Active threads before event: " + Thread.activeCount());
                     event.updateView(view);
-                    //System.out.println("Active threads: " + Thread.activeCount());
                 } catch (NullPointerException e) {
                     System.out.println("failed in executing this event: " + jsonObject.get("type"));
                     System.out.println(message);

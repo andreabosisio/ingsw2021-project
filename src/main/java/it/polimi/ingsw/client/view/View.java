@@ -16,8 +16,8 @@ public interface View {
     void setOnSetup(List<String> leaderCardsID, int numberOfResource);
     void setOnYourTurn();
     void setOnWaitForYourTurn(String currentPlayer);
-    void setOnPlaceDevCard(String newCardID);
-    void setOnPlaceResources();
+    void setOnDevelopmentCardPlacement(String newCardID);
+    void setOnResourcesPlacement();
     void setOnTransformation(int numberOfTransformation,List<String> possibleTransformations);
     void setOnEndTurn();
     void setOnEndGame(String winner,Map<String, Integer> playersPoints);

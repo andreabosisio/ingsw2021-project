@@ -83,12 +83,12 @@ public class GUI implements View {
     }
 
     @Override
-    public void setOnPlaceDevCard(String newCardID) {
+    public void setOnDevelopmentCardPlacement(String newCardID) {
 
     }
 
     @Override
-    public void setOnPlaceResources() {
+    public void setOnResourcesPlacement() {
 
     }
 

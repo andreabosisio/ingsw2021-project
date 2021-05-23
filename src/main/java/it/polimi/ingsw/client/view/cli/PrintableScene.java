@@ -40,7 +40,7 @@ public class PrintableScene extends Printable {
         return concatenatePrintable(separator, printables.toArray(new Printable[0]));
     }
 
-    public static Printable concatenatePrintable (String separator, Printable... args) {
+    public static PrintableScene concatenatePrintable (String separator, Printable... args) {
         List<String> rows  = new ArrayList<>();
         String row = "";
 
@@ -78,7 +78,7 @@ public class PrintableScene extends Printable {
         for (Printable top : tops) {
             for(int i = 0; i < offset; i++)
                 builder = addStringToTop(builder, "");
-            List<String> reversed = top.getPrintable();
+            List<String> reversed = new ArrayList<>(top.getPrintable());
             Collections.reverse(reversed);
             for (String row : reversed) {
                 builder = addStringToTop(builder, row);

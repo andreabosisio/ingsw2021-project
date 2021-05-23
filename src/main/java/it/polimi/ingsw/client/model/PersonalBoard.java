@@ -18,7 +18,7 @@ public class PersonalBoard extends Printable {
     private List<String> productionBoard;
     private Map<Integer, String> warehouse;
 
-    private PrintableScene productionSlotsScene, warehouseScene, activeLeadersScene, activeCardsScene, handScene, faithScene, cardScene;
+    private PrintableScene productionSlotsScene, warehouseScene, activeLeadersScene, activeCardsScene, handScene, faithScene, cardsScene;
 
     private final static String DEV_LEADER_SEPARATOR = "  ";
     private final static String WAREHOUSE_SLOTS_SEPARATOR = "       ";
@@ -90,7 +90,7 @@ public class PersonalBoard extends Printable {
         personalBoard.setProductionSlotsScene();
         personalBoard.setWarehouseScene();
         personalBoard.setActiveCardsScene();
-        personalBoard.setCardScene();
+        personalBoard.setCardsScene();
     }
 
     private void setProductionSlotsScene() {
@@ -136,8 +136,8 @@ public class PersonalBoard extends Printable {
         this.handScene = new PrintableScene(PrintableScene.concatenatePrintable(handSlots));
     }
 
-    private void setCardScene() {
-        this.cardScene = new PrintableScene(PrintableScene.addPrintablesToTop(handScene, ACTIVE_HAND_LEADERS_OFFSET, activeCardsScene));
+    private void setCardsScene() {
+        this.cardsScene = new PrintableScene(PrintableScene.addPrintablesToTop(handScene, ACTIVE_HAND_LEADERS_OFFSET, activeCardsScene));
     }
 
     private void setActiveCardsScene() {
@@ -148,8 +148,12 @@ public class PersonalBoard extends Printable {
         return warehouseScene;
     }
 
-    public PrintableScene getCardScene() {
-        return cardScene;
+    public PrintableScene getCardsScene() {
+        return cardsScene;
+    }
+
+    public PrintableScene getActiveCardsScene() {
+        return activeCardsScene;
     }
 
     public PrintableScene getProductionSlotsScene() {
@@ -158,8 +162,7 @@ public class PersonalBoard extends Printable {
 
     @Override
     public List<String> getPrintable() {
-
-        List<String> printable = PrintableScene.concatenatePrintable(WAREHOUSE_SLOTS_SEPARATOR, warehouseScene, cardScene).getPrintable();
+        List<String> printable = PrintableScene.concatenatePrintable(WAREHOUSE_SLOTS_SEPARATOR, warehouseScene, cardsScene).getPrintable();
         setWidth(printable);
         return printable;
     }

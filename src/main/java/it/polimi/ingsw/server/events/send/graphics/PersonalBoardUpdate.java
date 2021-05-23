@@ -40,6 +40,7 @@ public class PersonalBoardUpdate {
         this.activeLeaders = null;
         this.productionBoard = null;
         this.nickname = nickname;
+        warehouse.reorderStrongBox();
         this.warehouse = warehouse.getAllPositionsAndResources();
     }
 
