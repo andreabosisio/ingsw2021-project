@@ -14,13 +14,13 @@ import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 import java.util.List;
 
-public class WaitResourcePlacement extends State {
-    public WaitResourcePlacement(TurnLogic turnLogic) {
+public class WaitResourcePlacementState extends State {
+    public WaitResourcePlacementState(TurnLogic turnLogic) {
         super(turnLogic);
     }
 
     /**
-     * Reorder the warehouse and change the state of the game to EndTurn. If the Player has some remaining resource
+     * Reorder the warehouse and change the state of the game to EndTurnState. If the Player has some remaining resource
      * to store increases the FaithProgress of the other players.
      *
      * @param swapPairs List of all the swaps to be applied
@@ -31,7 +31,7 @@ public class WaitResourcePlacement extends State {
      * @throws NonAccessibleSlotException if one of swap involves a slot that's not accessible
      */
     @Override
-    public boolean placeResourceAction(List<Integer> swapPairs,boolean isFinal) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+    public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedPlacementAction) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         //todo ricordarsi che le risorse dal market possono essere anche tolte (in caso di not legal)
         if (swapPairs.size() % 2 != 0) {
             //resend place choice
@@ -50,7 +50,7 @@ public class WaitResourcePlacement extends State {
                 turnLogic.setLastEventSent(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
                 throw new InvalidEventException("the swap cannot be applied"); //the swap cannot be applied
             }
-        if (isFinal && warehouse.isProperlyOrdered()) {
+        if (hasCompletedPlacementAction && warehouse.isProperlyOrdered()) {
             //faith progress for other players based on the number of remaining resources
             GameBoard.getGameBoard().faithProgressForOtherPlayers(turnLogic.getCurrentPlayer(), warehouse.getNumberOfRemainingResources());
 
@@ -74,7 +74,7 @@ public class WaitResourcePlacement extends State {
         PlaceResourcesChoiceEvent placeResourcesReceiveEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse());
         turnLogic.setLastEventSent(placeResourcesReceiveEvent);
         //if not final simply resend the choice event
-        if(!isFinal){
+        if(!hasCompletedPlacementAction){
             turnLogic.getModelInterface().notifyObservers(placeResourcesReceiveEvent);
             return true;
         }

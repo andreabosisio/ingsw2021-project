@@ -5,13 +5,13 @@ import it.polimi.ingsw.server.events.send.choice.EndTurnChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 
-public class WaitDevelopmentCardPlacement extends State {
-    public WaitDevelopmentCardPlacement(TurnLogic turnLogic) {
+public class WaitDevelopmentCardPlacementState extends State {
+    public WaitDevelopmentCardPlacementState(TurnLogic turnLogic) {
         super(turnLogic);
     }
 
     /**
-     * Place the chosenDevCard just bought into the given slot and change the State of the game to EndTurn.
+     * Place the chosenDevCard just bought into the given slot and change the State of the game to EndTurnState.
      *
      * @param slotPosition of the chosen production slot
      * @return if the card has been correctly placed

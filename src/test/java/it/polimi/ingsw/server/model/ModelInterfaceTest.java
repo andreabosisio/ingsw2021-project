@@ -138,7 +138,7 @@ class ModelInterfaceTest {
         assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getWaitResourcePlacement());
         modelInterface.placeResourceAction(new ArrayList<>(),true);
 
-        //currentState: EndTurn. Player can do another leaderAction
+        //currentState: EndTurnState. Player can do another leaderAction
         assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getEndTurn());
         //cannot discard a LeaderCard which is not in the hand of the player
         assertThrows(InvalidEventException.class, () -> modelInterface.leaderAction("w1", true));
@@ -151,7 +151,7 @@ class ModelInterfaceTest {
         //discard "m1"
         modelInterface.leaderAction("m1", true);
 
-        //currentState: StartTurn.
+        //currentState: StartTurnState.
         assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getStartTurn());
     }
 
@@ -475,7 +475,7 @@ class ModelInterfaceTest {
         assertEquals(ResourceEnum.BLUE, playerRes.get(0).getColor());
         assertEquals(ResourceEnum.PURPLE, playerRes.get(1).getColor());
 
-        // Check that player is now in EndTurn state
+        // Check that player is now in EndTurnState state
         assertEquals(modelInterface.getTurnLogic().getEndTurn(), modelInterface.getTurnLogic().getCurrentState());
 
         // End first player turn
@@ -596,7 +596,7 @@ class ModelInterfaceTest {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
 
-        //player is in the StartTurn state so he cannot do the following actions:
+        //player is in the StartTurnState state so he cannot do the following actions:
         assertThrows(InvalidEventException.class, () -> modelInterface.placeDevelopmentCardAction(1));
         assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(new ArrayList<>(),true));
         assertThrows(InvalidEventException.class, () -> modelInterface.transformationAction(new ArrayList<>()));

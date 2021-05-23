@@ -10,15 +10,15 @@ import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.player.Player;
 
-public class EndTurn extends State {
-    public EndTurn(TurnLogic turnLogic) {
+public class EndTurnState extends State {
+    public EndTurnState(TurnLogic turnLogic) {
         super(turnLogic);
     }
 
     /**
      * Check if there is a winner: if yes set the state of the game to EndGameState, else Lorenzo plays and re-check if
      * there is a winner. If yes set the state of the game to EndGameState, else set the next player and change
-     * the state of the game to StartTurn.
+     * the state of the game to StartTurnState.
      *
      * @return true if there is a winner
      */

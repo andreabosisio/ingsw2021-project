@@ -91,7 +91,7 @@ public class ModelInterface implements SendObservable {
     /**
      * Take the chosen resources from the MarketTray and set the current state of the game to
      * WaitResourceTransformation if there are some White Resources to transform or else to
-     * WaitResourcePlacement.
+     * WaitResourcePlacementState.
      *
      * @param arrowID is the index of the chosen line of the MarketTray
      * @return true if the state has been changed
@@ -117,7 +117,7 @@ public class ModelInterface implements SendObservable {
 
     /**
      * Check if the player can place the card and then check if he can buy it with his discounts.
-     * If yes buy the card and set the next State of the game to WaitDevelopmentCardPlacement.
+     * If yes buy the card and set the next State of the game to WaitDevelopmentCardPlacementState.
      *
      * @param cardColor         color of the card to buy
      * @param cardLevel         level of the card to buy
@@ -145,7 +145,7 @@ public class ModelInterface implements SendObservable {
     }
 
     /**
-     * Reorder the warehouse and change the state of the game to EndTurn. If the Player has some remaining resource
+     * Reorder the warehouse and change the state of the game to EndTurnState. If the Player has some remaining resource
      * to store increases the FaithProgress of the other players.
      *
      * @param swapPairs List of all the swaps to be applied
@@ -155,12 +155,12 @@ public class ModelInterface implements SendObservable {
      * @throws EmptySlotException         if a swap involves an empty slot
      * @throws NonAccessibleSlotException if one of swap involves a slot that's not accessible
      */
-    public boolean placeResourceAction(List<Integer> swapPairs,boolean isFinal) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
-        return turnLogic.placeResourceAction(swapPairs,isFinal);
+    public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedTransformationAction) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+        return turnLogic.placeResourceAction(swapPairs, hasCompletedTransformationAction);
     }
 
     /**
-     * Place the chosenDevelopmentCard just bought into the given slot and change the State of the game to EndTurn.
+     * Place the chosenDevelopmentCard just bought into the given slot and change the State of the game to EndTurnState.
      *
      * @param slotPosition of the chosen production slot
      * @return if the card has been correctly placed
@@ -172,7 +172,7 @@ public class ModelInterface implements SendObservable {
 
     /**
      * Add the chosen resources for the white resource transformation to the warehouse's market zone
-     * and set the current state of the game to WaitResourcePlacement.
+     * and set the current state of the game to WaitResourcePlacementState.
      *
      * @param chosenColors of the chosen resources
      * @return true if the chosen resources has been correctly created
@@ -186,7 +186,7 @@ public class ModelInterface implements SendObservable {
     /**
      * Check if there is a winner: if yes set the state of the game to EndGameState, else Lorenzo plays and re-check if
      * there is a winner. If yes re-set the state of the game to EndGameState, else set the next player and change
-     * the state of the game to StartTurn.
+     * the state of the game to StartTurnState.
      *
      * @return true if there is a winner
      */

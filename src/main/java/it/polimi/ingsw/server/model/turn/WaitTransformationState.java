@@ -13,14 +13,14 @@ import it.polimi.ingsw.server.model.resources.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WaitTransformation extends State {
-    public WaitTransformation(TurnLogic turnLogic) {
+public class WaitTransformationState extends State {
+    public WaitTransformationState(TurnLogic turnLogic) {
         super(turnLogic);
     }
 
     /**
      * Add the chosen resources for the white resource transformation to the warehouse's market zone
-     * and set the current state of the game to WaitResourcePlacement.
+     * and set the current state of the game to WaitResourcePlacementState.
      *
      * @param chosenColors of the chosen resources
      * @return true if the chosen resources has been correctly created
@@ -40,11 +40,10 @@ public class WaitTransformation extends State {
             try {
                 ResourceEnum chosenEnum = ResourceEnum.valueOf(chosenColor.toUpperCase());
                 //check that chosen color is one of the 2 expected
-                if(possibleTransformations.stream().noneMatch(r -> r.getColor() == chosenEnum)) {
+                if(possibleTransformations.stream().noneMatch(r -> r.getColor() == chosenEnum))
                     throw new InvalidEventException("invalid resource type");
-
-                }
-                chosenResources.add(new ResourceFactory().produceResource(chosenEnum));
+                else
+                    chosenResources.add(new ResourceFactory().produceResource(chosenEnum));
             } catch (IllegalArgumentException e) {
                 throw new InvalidEventException("non existing resource type"); //non existing resource type
             }

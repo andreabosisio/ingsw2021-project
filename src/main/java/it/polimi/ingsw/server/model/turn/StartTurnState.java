@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class StartTurn extends State {
-    public StartTurn(TurnLogic turnLogic) {
+public class StartTurnState extends State {
+    public StartTurnState(TurnLogic turnLogic) {
         super(turnLogic);
     }
 
@@ -30,7 +30,7 @@ public class StartTurn extends State {
     /**
      * Take the chosen resources from the MarketTray and set the current state of the game to
      * WaitResourceTransformation if there are some White Resources to transform or else to
-     * WaitResourcePlacement.
+     * WaitResourcePlacementState.
      *
      * @param arrowID is the index of the chosen line of the MarketTray
      * @return true if the state has been changed
@@ -52,12 +52,10 @@ public class StartTurn extends State {
             //if player has to transform some white resources
             ChoiceEvent choiceEvent;
             if (turnLogic.getWhiteResourcesFromMarket().size() > 0) {
-
                 //send event and save choice data
                 choiceEvent = new TransformationChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getWhiteResourcesFromMarket());
                 turnLogic.setLastEventSent(choiceEvent);
-                turnLogic.getModelInterface().
-                        notifyObservers(choiceEvent);
+                turnLogic.getModelInterface().notifyObservers(choiceEvent);
                 hasAlreadyDoneLeaderAction = false;
                 turnLogic.setCurrentState(turnLogic.getWaitTransformation());
                 return true;
@@ -151,7 +149,7 @@ public class StartTurn extends State {
 
     /**
      * Check if the player can place the card and then check if he can buy it with his discounts.
-     * If yes buy the card and set the next State of the game to WaitDevelopmentCardPlacement.
+     * If yes buy the card and set the next State of the game to WaitDevelopmentCardPlacementState.
      *
      * @param cardColor         color of the card to buy
      * @param cardLevel         level of the card to buy

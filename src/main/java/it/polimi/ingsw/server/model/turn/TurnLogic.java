@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.model.turn;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.events.send.StartTurnEvent;
-import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
@@ -42,11 +41,11 @@ public class TurnLogic {
         GameBoard.getGameBoard().setTurnLogicOfMarketTray(this);
         this.gameMode = new GameMode(players);
         this.setTheObservers();
-        this.startTurn = new StartTurn(this);
-        this.waitDevCardPlacement = new WaitDevelopmentCardPlacement(this);
-        this.waitTransformation = new WaitTransformation(this);
-        this.waitResourcePlacement = new WaitResourcePlacement(this);
-        this.endTurn = new EndTurn(this);
+        this.startTurn = new StartTurnState(this);
+        this.waitDevCardPlacement = new WaitDevelopmentCardPlacementState(this);
+        this.waitTransformation = new WaitTransformationState(this);
+        this.waitResourcePlacement = new WaitResourcePlacementState(this);
+        this.endTurn = new EndTurnState(this);
         this.endGame = new EndGameState(this);
         this.idle = new IdleState(this);
         this.currentState = getIdle();
@@ -66,11 +65,11 @@ public class TurnLogic {
         GameBoard.getGameBoard().setTurnLogicOfMarketTray(this);
         this.gameMode = new GameMode(players);
         this.setTheObservers();
-        this.startTurn = new StartTurn(this);
-        this.waitDevCardPlacement = new WaitDevelopmentCardPlacement(this);
-        this.waitTransformation = new WaitTransformation(this);
-        this.waitResourcePlacement = new WaitResourcePlacement(this);
-        this.endTurn = new EndTurn(this);
+        this.startTurn = new StartTurnState(this);
+        this.waitDevCardPlacement = new WaitDevelopmentCardPlacementState(this);
+        this.waitTransformation = new WaitTransformationState(this);
+        this.waitResourcePlacement = new WaitResourcePlacementState(this);
+        this.endTurn = new EndTurnState(this);
         this.endGame = new EndGameState(this);
         this.idle = new IdleState(this);
         this.currentState = getIdle();
@@ -193,7 +192,7 @@ public class TurnLogic {
     /**
      * Take the chosen resources from the MarketTray and set the current state of the game to
      * WaitResourceTransformation if there are some White Resources to transform or else to
-     * WaitResourcePlacement.
+     * WaitResourcePlacementState.
      *
      * @param arrowID is the index of the chosen line of the MarketTray
      * @return true if the state has been changed
@@ -219,7 +218,7 @@ public class TurnLogic {
 
     /**
      * Check if the player can place the card and then check if he can buy it with his discounts.
-     * If yes buy the card and set the next State of the game to WaitDevelopmentCardPlacement.
+     * If yes buy the card and set the next State of the game to WaitDevelopmentCardPlacementState.
      *
      * @param cardColor         color of the card to buy
      * @param cardLevel         level of the card to buy
@@ -247,7 +246,7 @@ public class TurnLogic {
     }
 
     /**
-     * Reorder the warehouse and change the state of the game to EndTurn. If the Player has some remaining resource
+     * Reorder the warehouse and change the state of the game to EndTurnState. If the Player has some remaining resource
      * to store increases the FaithProgress of the other players.
      *
      * @param swapPairs List of all the swaps to be applied
@@ -257,12 +256,12 @@ public class TurnLogic {
      * @throws EmptySlotException         if a swap involves an empty slot
      * @throws NonAccessibleSlotException if one of swap involves a slot that's not accessible
      */
-    public boolean placeResourceAction(List<Integer> swapPairs,boolean isFinal) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
-        return currentState.placeResourceAction(swapPairs,isFinal);
+    public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedPlacementAction) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+        return currentState.placeResourceAction(swapPairs, hasCompletedPlacementAction);
     }
 
     /**
-     * Place the chosenDevelopmentCard just bought into the given slot and change the State of the game to EndTurn.
+     * Place the chosenDevelopmentCard just bought into the given slot and change the State of the game to EndTurnState.
      *
      * @param slotPosition of the chosen production slot
      * @return if the card has been correctly placed
@@ -274,7 +273,7 @@ public class TurnLogic {
 
     /**
      * Add the chosen resources for the white resource transformation to the warehouse's market zone
-     * and set the current state of the game to WaitResourcePlacement.
+     * and set the current state of the game to WaitResourcePlacementState.
      *
      * @param chosenColors of the chosen resources
      * @return true if the chosen resources has been correctly created
@@ -288,7 +287,7 @@ public class TurnLogic {
     /**
      * Check if there is a winner: if yes set the state of the game to EndGameState, else Lorenzo plays and re-check if
      * there is a winner. If yes re-set the state of the game to EndGameState, else set the next player and change
-     * the state of the game to StartTurn.
+     * the state of the game to StartTurnState.
      *
      * @return true if there is a winner
      */

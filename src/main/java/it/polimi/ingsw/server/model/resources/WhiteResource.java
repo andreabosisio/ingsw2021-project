@@ -42,8 +42,7 @@ public class WhiteResource extends Resource {
 
         if (possibleTransformations.size() == 1) { //the only possible transformation is applied automatically
             GameBoard.getGameBoard().getMarketTray().addNewResource(new StorableResource(possibleTransformations.get(0).getColor()));
-        }
-        if (possibleTransformations.size() == 2) { //player must choose a transformation
+        } else if (possibleTransformations.size() == 2) { //player must choose a transformation
             turn.setWhiteResourcesFromMarket(this);
         }
         return true;

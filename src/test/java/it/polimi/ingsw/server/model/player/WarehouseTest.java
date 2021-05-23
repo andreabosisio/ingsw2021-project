@@ -25,6 +25,8 @@ class WarehouseTest {
 
         warehouse.setupWarehouse(new ArrayList<>());
 
+        assertEquals(0, warehouse.getNumberOfRemainingResources());
+
         assertFalse(warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new StorableResource(ResourceEnum.BLUE));
             add(new StorableResource(ResourceEnum.YELLOW));
@@ -221,6 +223,8 @@ class WarehouseTest {
     void getResourcesTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
 
         warehouse.setupWarehouse(new ArrayList<>());
+
+        assertEquals(0, warehouse.getNumberOfRemainingResources());
 
         warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
             add(new StorableResource(ResourceEnum.BLUE));

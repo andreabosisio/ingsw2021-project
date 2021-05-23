@@ -21,16 +21,15 @@ public class MarketSlots implements ResourcesContainer {
      * @return true
      */
     public boolean addResources(List<Resource> newResources) {
-
         for (Resource newResource : newResources) {
-            this.slots.set(lastIndex, newResource);
-            lastIndex++;
+            try {
+                this.slots.set(lastIndex, newResource);
+                lastIndex++;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
         }
-        while (lastIndex < availableResourcesFromMarketSlots) {
-            this.slots.set(lastIndex, null);
-            lastIndex++;
-        }
-        this.lastIndex = 0;
         return true;
     }
 
