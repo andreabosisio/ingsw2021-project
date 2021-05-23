@@ -7,8 +7,6 @@ import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class that represents the token that discards two Development Cards
@@ -31,17 +29,36 @@ public class DiscardDevCardsToken implements SoloActionToken {
     @Override
     public boolean doAction(Lorenzo lorenzo, TurnLogic turnLogic) {
         DevelopmentCard removedCard;
+        DevelopmentCard currentCard;
 
         removedCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().removeCardByColor(this.color);
 
+        if (!removedCard.getID().equals("empty")) {
+            try {
+                currentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(removedCard.getColor(), removedCard.getLevel());
+            } catch (IndexOutOfBoundsException e) {
+                currentCard = removedCard;
+            }
+        } else
+            currentCard = removedCard;
+
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-        graphicUpdateEvent.addUpdate(new GridUpdate(removedCard.getColor(), removedCard.getLevel()));
+        graphicUpdateEvent.addUpdate(new GridUpdate(currentCard.getColor(), currentCard.getLevel()));
         turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
         removedCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().removeCardByColor(this.color);
 
+        if (!removedCard.getID().equals("empty")) {
+            try {
+                currentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(removedCard.getColor(), removedCard.getLevel());
+            } catch (IndexOutOfBoundsException e) {
+                currentCard = removedCard;
+            }
+        } else
+            currentCard = removedCard;
+
         GraphicUpdateEvent secondGraphicUpdateEvent = new GraphicUpdateEvent();
-        secondGraphicUpdateEvent.addUpdate(new GridUpdate(removedCard.getColor(), removedCard.getLevel()));
+        secondGraphicUpdateEvent.addUpdate(new GridUpdate(currentCard.getColor(), currentCard.getLevel()));
         turnLogic.getModelInterface().notifyObservers(secondGraphicUpdateEvent);
 
         return false;

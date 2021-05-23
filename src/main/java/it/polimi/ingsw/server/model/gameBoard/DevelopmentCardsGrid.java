@@ -56,8 +56,6 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      */
     public DevelopmentCard removeCardByColor(CardColorEnum color) {
         DevelopmentCard removedCard = null;
-        CardColorEnum colorOfRemovedCard = CardColorEnum.GREEN;
-        int levelOfRemovedCard = 0;
 
         //for and not foreach because foreach can't be interrupted
         for (Map<CardColorEnum, List<DevelopmentCard>> m : mapByLevel) {
@@ -65,14 +63,10 @@ public class DevelopmentCardsGrid implements EndGameSubject {
                 removedCard = m.get(color).remove(0);
                 break;
             }
-            else if (m.get(color).size() == 0) {
-                colorOfRemovedCard = color;
-                levelOfRemovedCard = mapByLevel.indexOf(m) + 1;
-            }
         }
 
         if (removedCard == null)
-            removedCard = new DevelopmentCard("empty", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), colorOfRemovedCard, 0, levelOfRemovedCard);
+            removedCard = new DevelopmentCard("empty", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), color, 0, 3);
 
         if (hasEmptyColumn())
             this.notifyEndGameObserver();
