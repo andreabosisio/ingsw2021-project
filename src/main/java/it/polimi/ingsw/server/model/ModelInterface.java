@@ -141,7 +141,7 @@ public class ModelInterface implements SendObservable {
      * Place the chosenDevelopmentCard just bought into the given slot and change the State of the game to EndTurnState.
      *
      * @param slotPosition of the chosen production slot
-     * @return if the card has been correctly placed
+     * @return true if the card has been correctly placed
      * @throws InvalidEventException if the card can't be placed in the chosen slot
      */
     public boolean placeDevelopmentCardAction(int slotPosition) throws InvalidEventException {

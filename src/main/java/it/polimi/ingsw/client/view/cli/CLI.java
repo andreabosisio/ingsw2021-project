@@ -84,6 +84,7 @@ public class CLI implements View {
         if (error == null)
             return;
         render(AnsiEnum.RED + error + AnsiEnum.RESET);
+        CLI.showThreePointsAnimation();
     }
 
     @Override

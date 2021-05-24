@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.server.model.gameBoard.DevelopmentCardsGrid;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
@@ -169,7 +170,7 @@ class ModelInterfaceTest {
             add(1);
             add(5);
         }};
-        assertThrows(EmptySlotException.class, () -> modelInterface.placeResourceAction(swapPairs,true));
+        assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs,true));
         //expected res are white/white/white/red so a legal swap pair is an empty one
         modelInterface.placeResourceAction(new ArrayList<>(),true);
         //check that the red resource has increased the player's faith by one
@@ -619,7 +620,7 @@ class ModelInterfaceTest {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
 
-        //player is in the StartTurnState state so he cannot do the following actions:
+        //player is in the StartTurnState state so he cannot do the following midTurn actions:
         assertThrows(InvalidEventException.class, () -> modelInterface.placeDevelopmentCardAction(1));
         assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(new ArrayList<>(),true));
         assertThrows(InvalidEventException.class, () -> modelInterface.transformationAction(new ArrayList<>()));
@@ -705,6 +706,27 @@ class ModelInterfaceTest {
         modelInterface.endTurn();
         game.roundOfNothing(modelInterface);
 
-        //todo matteo add a card discounted
+        DevelopmentCardsGrid dev = GameBoard.getGameBoard().getDevelopmentCardsGrid();
+
+        //prepare for discounted buy but with a card discountable(price: x6 Gray res)
+        DevelopmentCard card5 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.YELLOW, 3);
+        game.preparePlayerForDevCard(modelInterface, 0, card5);
+        List<Integer> resourcePositions5 = new ArrayList<>();
+        for (int i = 0; i < card5.getPrice().size(); i++) {
+            resourcePositions5.add(i + strongBoxPositionsOffset);
+        }
+        //trying buying expecting no discount
+        assertThrows(InvalidEventException.class, () -> modelInterface.buyAction("yellow", 3, resourcePositions5));
+
+        //try to buy expecting too much discount
+        resourcePositions5.remove(0);
+        resourcePositions5.remove(0);
+        assertThrows(InvalidEventException.class, () -> modelInterface.buyAction("yellow", 3, resourcePositions5));
+
+        //buy with the right amount of discounted resources
+        resourcePositions5.add(strongBoxPositionsOffset);
+        assertTrue(modelInterface.buyAction("yellow", 3, resourcePositions5));
+        assertTrue(modelInterface.placeDevelopmentCardAction(3));
+        modelInterface.endTurn();
     }
 }

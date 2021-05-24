@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.turn;
 
-import it.polimi.ingsw.client.events.receive.PlaceResourcesReceiveEvent;
 import it.polimi.ingsw.exceptions.EmptySlotException;
 import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.exceptions.InvalidIndexException;
@@ -24,6 +23,7 @@ public class WaitResourcePlacementState extends State {
      * to store increases the FaithProgress of the other players.
      *
      * @param swapPairs List of all the swaps to be applied
+     * @param hasCompletedPlacementAction true if player wish for this reordering to be final
      * @return true if the warehouse reordering is legal
      * @throws InvalidEventException      if the swaps cannot be applied
      * @throws InvalidIndexException      if a swap contains a negative position
@@ -39,16 +39,22 @@ public class WaitResourcePlacementState extends State {
         }
         Warehouse warehouse = turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse();
 
-        for (int i = 0; i < swapPairs.size(); i = i + 2)
-            if (!warehouse.swap(swapPairs.get(i), swapPairs.get(i + 1))) {
-                //send current state of whole warehouse
-                GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
-                turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
-                //resend choice
+        for (int i = 0; i < swapPairs.size(); i = i + 2) {
+            //todo if swap throw an exception all swaps before are applied but not notified
+            try{
+                //if a swap is not legal invalidate decision to end swaps
+                if(!warehouse.swap(swapPairs.get(i), swapPairs.get(i + 1))){
+                    sendWarehouseUpdate();
+                    turnLogic.setLastEventSent(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+                    throw new InvalidEventException("Some swaps could not be applied"); //the swap cannot be applied
+                }
+            }catch ( InvalidIndexException|EmptySlotException|NonAccessibleSlotException e){
+                //if a swap generated an exception send the new warehouse configuration
+                sendWarehouseUpdate();
                 turnLogic.setLastEventSent(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
-                throw new InvalidEventException("the swap cannot be applied"); //the swap cannot be applied
+                throw new InvalidEventException("Action failed because: "+e.getMessage()); //the swap cannot be applied
             }
+        }
         if (hasCompletedPlacementAction && warehouse.isProperlyOrdered()) {
             //faith progress for other players based on the number of remaining resources
             GameBoard.getGameBoard().faithProgressForOtherPlayers(turnLogic.getCurrentPlayer(), warehouse.getNumberOfRemainingResources());
@@ -66,9 +72,7 @@ public class WaitResourcePlacementState extends State {
         }
 
         //graphic update of player's illegal/not final warehouse
-        GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-        graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
-        turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
+        sendWarehouseUpdate();
 
         PlaceResourcesChoiceEvent placeResourcesReceiveEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse());
         turnLogic.setLastEventSent(placeResourcesReceiveEvent);
@@ -79,5 +83,11 @@ public class WaitResourcePlacementState extends State {
         }
         //if final send an error message of illegal warehouse reordering
         throw new InvalidEventException("Illegal Warehouse reordering");
+    }
+
+    private void sendWarehouseUpdate(){
+        GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+        graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+        turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
     }
 }
