@@ -12,6 +12,7 @@ public class GraphicUpdateEvent implements SendEvent {
     private GridUpdate gridUpdate = null;
     private List<PersonalBoardUpdate> personalBoardUpdateList = null;
     private FaithTracksUpdate faithTracksUpdate = null;
+    private String messageUpdate = null;
 
     public void addUpdate(MarketUpdate marketUpdate) {
         this.marketUpdate = marketUpdate;
@@ -31,6 +32,8 @@ public class GraphicUpdateEvent implements SendEvent {
     public void addUpdate(FaithTracksUpdate faithTracksUpdate) {
         this.faithTracksUpdate = faithTracksUpdate;
     }
+
+    public void addUpdate(String messageUpdate) {this.messageUpdate = messageUpdate;}
 
     @Override
     public boolean isForYou(String nickname) {

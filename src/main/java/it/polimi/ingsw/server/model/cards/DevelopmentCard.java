@@ -103,9 +103,12 @@ public class DevelopmentCard implements ProductionCard {
      * @throws NonAccessibleSlotException if one of the given position represent a slot that's not accessible
      */
     public boolean buyCard(Player buyer, List<Integer> resourcePosition, List<Resource> discount) throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
-        List<Resource> paymentResources = new ArrayList<>(discount);
+        List<Resource> paymentResources = new ArrayList<>();
         List<Resource> tempNeededResources = getPrice();
+
+        tempNeededResources.removeAll(discount);
         paymentResources.addAll(buyer.getPersonalBoard().getWarehouse().getResources(resourcePosition));
+
         if (paymentResources.size() != tempNeededResources.size())
             return false;
         for (Resource r : paymentResources) {

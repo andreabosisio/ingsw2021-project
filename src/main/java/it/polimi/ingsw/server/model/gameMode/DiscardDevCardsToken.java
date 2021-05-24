@@ -14,6 +14,7 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
  */
 public class DiscardDevCardsToken implements SoloActionToken {
     private final CardColorEnum color;
+    private static final int CARDS_TO_DISCARD = 2;
 
     public DiscardDevCardsToken(CardColorEnum color) {
         this.color = color;
@@ -31,35 +32,23 @@ public class DiscardDevCardsToken implements SoloActionToken {
         DevelopmentCard removedCard;
         DevelopmentCard currentCard;
 
-        removedCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().removeCardByColor(this.color);
+        for (int i = 0; i < CARDS_TO_DISCARD; i++) {
+            removedCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().removeCardByColor(this.color);
 
-        if (!removedCard.getID().equals("empty")) {
-            try {
-                currentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(removedCard.getColor(), removedCard.getLevel());
-            } catch (IndexOutOfBoundsException e) {
+            if (!removedCard.getID().equals("empty")) {
+                try {
+                    currentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(removedCard.getColor(), removedCard.getLevel());
+                } catch (IndexOutOfBoundsException e) {
+                    currentCard = removedCard;
+                }
+            } else
                 currentCard = removedCard;
-            }
-        } else
-            currentCard = removedCard;
 
-        GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-        graphicUpdateEvent.addUpdate(new GridUpdate(currentCard.getColor(), currentCard.getLevel()));
-        turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
-
-        removedCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().removeCardByColor(this.color);
-
-        if (!removedCard.getID().equals("empty")) {
-            try {
-                currentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(removedCard.getColor(), removedCard.getLevel());
-            } catch (IndexOutOfBoundsException e) {
-                currentCard = removedCard;
-            }
-        } else
-            currentCard = removedCard;
-
-        GraphicUpdateEvent secondGraphicUpdateEvent = new GraphicUpdateEvent();
-        secondGraphicUpdateEvent.addUpdate(new GridUpdate(currentCard.getColor(), currentCard.getLevel()));
-        turnLogic.getModelInterface().notifyObservers(secondGraphicUpdateEvent);
+            GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+            graphicUpdateEvent.addUpdate(new GridUpdate(currentCard.getColor(), currentCard.getLevel()));
+            graphicUpdateEvent.addUpdate(lorenzo.getNickname() + " destroyed one " + this.color + " card");
+            turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
+        }
 
         return false;
     }

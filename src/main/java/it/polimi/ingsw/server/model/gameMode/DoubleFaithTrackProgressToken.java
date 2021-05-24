@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
  * the Black Cross Token in the Lorenzo's Faith Track
  */
 public class DoubleFaithTrackProgressToken implements SoloActionToken {
+    private static final int FAITH_TRACK_PROGRESS = 2;
 
     /**
      * This method increments the position of the Black Cross Token of two positions.
@@ -20,11 +21,11 @@ public class DoubleFaithTrackProgressToken implements SoloActionToken {
      */
     @Override
     public boolean doAction(Lorenzo lorenzo, TurnLogic turnLogic) {
-        int faithTrackProgress = 2;
-        GameBoard.getGameBoard().faithProgress(lorenzo, faithTrackProgress);
+        GameBoard.getGameBoard().faithProgress(lorenzo, FAITH_TRACK_PROGRESS);
 
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
         graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
+        graphicUpdateEvent.addUpdate(lorenzo.getNickname() + " prayed hard and moves his Faith Track of " + FAITH_TRACK_PROGRESS + " positions");
         turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
         return false;
     }

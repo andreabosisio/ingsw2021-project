@@ -11,16 +11,7 @@ public class GraphicUpdateEvent implements ReceiveEvent {
     private JsonObject marketUpdate;
     private JsonObject faithTracksUpdate;
     private JsonArray personalBoardUpdateList;
-
-
-
-/*
-    public GraphicUpdateEvent(JsonObject gridUpdate, JsonObject marketUpdate) {
-        this.gridUpdate = gridUpdate;
-        this.marketUpdate = marketUpdate;
-    }
-
- */
+    private String messageUpdate;
 
     @Override
     public void updateView(View view) {
@@ -32,11 +23,12 @@ public class GraphicUpdateEvent implements ReceiveEvent {
             gson.fromJson(gridUpdate, DevelopmentCardsGrid.class).update();
         if (faithTracksUpdate != null)
             gson.fromJson(faithTracksUpdate, FaithTrack.class).update();
-
-        if(personalBoardUpdateList != null){
+        if (personalBoardUpdateList != null){
             for(JsonElement element:personalBoardUpdateList){
                 gson.fromJson(element.getAsJsonObject(), PersonalBoard.class).update(view.getNickname());
             }
         }
+        if (messageUpdate != null)
+            view.printInfoMessage(messageUpdate);
     }
 }
