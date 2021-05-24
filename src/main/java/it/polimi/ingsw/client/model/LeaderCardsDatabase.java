@@ -75,15 +75,15 @@ public class LeaderCardsDatabase {
         // Production, Market, Warehouse, Discount
         for (String[] splittedRequirements : cardRequirementsList) {
             if (numberOfCard <= 3) { // Production Leader Card
-                cardRequirements[0] = "Card: " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AnsiEnum.RESET + "   ";
+                cardRequirements[0] = "Card: " + AnsiEnum.colorString(splittedRequirements[0], splittedRequirements[1]) + "   ";
                 cardRequirements[1] = "lvl: " + splittedRequirements[2] + AnsiEnum.RESET + "    ";
             } else if (numberOfCard >= 8 && numberOfCard <= 11) { // Warehouse Leader Card
-                cardRequirements[0] = "Res: " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AnsiEnum.RESET + "    ";
+                cardRequirements[0] = "Res: " + AnsiEnum.colorString(splittedRequirements[0], splittedRequirements[1]) + "    ";
             } else {
                 if (t == 0)
-                    cardRequirements[0] = "Cards: " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AnsiEnum.RESET + "  ";
+                    cardRequirements[0] = "Cards: " + AnsiEnum.colorString(splittedRequirements[0], splittedRequirements[1]) + "  ";
                 else if (t == 1)
-                    cardRequirements[1] = "       " + ColorsForCards.getAsciiDevCardByColor(splittedRequirements[1]) + splittedRequirements[0] + AnsiEnum.RESET + "  ";
+                    cardRequirements[1] = "       " + AnsiEnum.colorString(splittedRequirements[0], splittedRequirements[1]) + AnsiEnum.RESET + "  ";
                 t++;
             }
         }
@@ -114,16 +114,15 @@ public class LeaderCardsDatabase {
     public String getAbility(String cardIndex) {
         int numberOfCard = getNumberOfCard(cardIndex);
 
-        switch(cardIndex.split("")[0]) {
+        switch (cardIndex.split("")[0]) {
             case "p":
-                return ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "1" + AnsiEnum.RESET
-                        + " } " + "? + " + AnsiEnum.RED_BRIGHT + "1" + AnsiEnum.RESET;
+                return AnsiEnum.colorString("1", leaderCardsAbilities.get(numberOfCard)) + " } " + "? + " + AnsiEnum.colorString("1", "RED");
             case "m":
-                return "  1 = " + ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "1" + AnsiEnum.RESET + "  ";
+                return "  1 = " + AnsiEnum.colorString("1", leaderCardsAbilities.get(numberOfCard)) + "  ";
             case "w":
-                return ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "  |_|" + "|_| " + AnsiEnum.RESET;
+                return AnsiEnum.colorString("  |_|" + "|_| ", leaderCardsAbilities.get(numberOfCard));
             case "d":
-                return ColorsForCards.getAsciiDevCardByColor(leaderCardsAbilities.get(numberOfCard)) + "   -1    " + AnsiEnum.RESET;
+                return AnsiEnum.colorString("   -1    ", leaderCardsAbilities.get(numberOfCard));
         }
         return null;
     }

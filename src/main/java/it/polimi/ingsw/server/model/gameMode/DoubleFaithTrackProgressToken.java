@@ -25,7 +25,7 @@ public class DoubleFaithTrackProgressToken implements SoloActionToken {
 
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
         graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
-        graphicUpdateEvent.addUpdate(lorenzo.getNickname() + " prayed hard and moves his Faith Track of " + FAITH_TRACK_PROGRESS + " positions");
+        graphicUpdateEvent.addUpdate(lorenzo.getNickname() + " prayed hard and moves his Faith Marker of " + FAITH_TRACK_PROGRESS + " positions");
         turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
         return false;
     }

@@ -63,8 +63,7 @@ public class DevelopmentCardsDatabase {
      */
     public String getColoredLevel(String cardIndex) {
         int numberOfCard = getNumberOfCard(cardIndex);
-        return ColorsForCards.getAsciiDevCardByColor(devCardsColor.get(numberOfCard)) +
-                devCardsLevel.get(numberOfCard) + AnsiEnum.RESET;
+        return AnsiEnum.colorString(devCardsLevel.get(numberOfCard), devCardsColor.get(numberOfCard));
     }
 
     /**
@@ -91,11 +90,11 @@ public class DevelopmentCardsDatabase {
         // splittedPrice[0]: Number of resources, splittedPrice[1]: Color of the resource
         for (String[] splittedPrice : cardPriceList) {
             if (t == 0)
-                cardPrice[0] = ColorsForCards.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AnsiEnum.RESET;
+                cardPrice[0] = AnsiEnum.colorString(splittedPrice[0], splittedPrice[1]);
             else if (t == 1)
-                cardPrice[1] = ColorsForCards.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AnsiEnum.RESET;
+                cardPrice[1] = AnsiEnum.colorString(splittedPrice[0], splittedPrice[1]);
             else if (t == 2)
-                cardPrice[2] = ColorsForCards.getAsciiDevCardByColor(splittedPrice[1]) + splittedPrice[0] + AnsiEnum.RESET;
+                cardPrice[2] = AnsiEnum.colorString(splittedPrice[0], splittedPrice[1]);
             t++;
         }
 
@@ -138,11 +137,11 @@ public class DevelopmentCardsDatabase {
         // splittedInResources[0]: Number of resources, splittedInResources[1]: Color of the resource
         for (String[] splittedInResources : cardInResourcesList) {
             if (t == 0)
-                cardInResources[0] = ColorsForCards.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AnsiEnum.RESET;
+                cardInResources[0] = AnsiEnum.colorString(splittedInResources[0], splittedInResources[1]);
             else if (t == 1)
-                cardInResources[1] = ColorsForCards.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AnsiEnum.RESET;
+                cardInResources[1] = AnsiEnum.colorString(splittedInResources[0], splittedInResources[1]);
             else if (t == 2)
-                cardInResources[2] = ColorsForCards.getAsciiDevCardByColor(splittedInResources[1]) + splittedInResources[0] + AnsiEnum.RESET;
+                cardInResources[2] = AnsiEnum.colorString(splittedInResources[0], splittedInResources[1]);
             t++;
         }
 
@@ -184,11 +183,11 @@ public class DevelopmentCardsDatabase {
         // splittedOutResources[0]: Number of resources, splittedOutResources[1]: Color of the resource
         for (String[] splittedOutResources : cardOutResourcesList) {
             if (t == 0)
-                cardOutResources[0] = ColorsForCards.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AnsiEnum.RESET;
+                cardOutResources[0] = AnsiEnum.colorString(splittedOutResources[0], splittedOutResources[1]);
             else if (t == 1)
-                cardOutResources[1] = ColorsForCards.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AnsiEnum.RESET;
+                cardOutResources[1] = AnsiEnum.colorString(splittedOutResources[0], splittedOutResources[1]);
             else if (t == 2)
-                cardOutResources[2] = ColorsForCards.getAsciiDevCardByColor(splittedOutResources[1]) + splittedOutResources[0] + AnsiEnum.RESET;
+                cardOutResources[2] = AnsiEnum.colorString(splittedOutResources[0], splittedOutResources[1]);
             t++;
         }
 

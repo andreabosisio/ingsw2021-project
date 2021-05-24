@@ -35,18 +35,22 @@ public class DiscardDevCardsToken implements SoloActionToken {
         for (int i = 0; i < CARDS_TO_DISCARD; i++) {
             removedCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().removeCardByColor(this.color);
 
+            GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+
             if (!removedCard.getID().equals("empty")) {
+                graphicUpdateEvent.addUpdate(lorenzo.getNickname() + " destroyed one " + this.color + " card of level " + removedCard.getLevel());
                 try {
                     currentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(removedCard.getColor(), removedCard.getLevel());
                 } catch (IndexOutOfBoundsException e) {
                     currentCard = removedCard;
                 }
-            } else
+            } else {
+                graphicUpdateEvent.addUpdate(lorenzo.getNickname() + " destroyed all " + this.color + " card");
                 currentCard = removedCard;
+            }
 
-            GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
             graphicUpdateEvent.addUpdate(new GridUpdate(currentCard.getColor(), currentCard.getLevel()));
-            graphicUpdateEvent.addUpdate(lorenzo.getNickname() + " destroyed one " + this.color + " card");
+
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
         }
 

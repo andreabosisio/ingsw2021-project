@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.view.cli;
+
 import com.google.gson.*;
 import it.polimi.ingsw.client.NetworkHandler;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.view.View;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -72,14 +74,14 @@ public class CLI implements View {
 
     @Override
     public void printInfoMessage(String info) {
-        if(info == null)
+        if (info == null)
             return;
         render(info);
     }
 
     @Override
     public void printErrorMessage(String error) {
-        if(error == null)
+        if (error == null)
             return;
         render(AnsiEnum.RED + error + AnsiEnum.RESET);
     }
@@ -121,28 +123,28 @@ public class CLI implements View {
     public void setOnYourTurn() {
         clearView();
         CLI.render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
-        CLI.render("Choose your action: (type "+CommandsEnum.MARKET+", "+CommandsEnum.BUY+", "+CommandsEnum.PRODUCTION+", "+CommandsEnum.LEADER+" or "+CommandsEnum.SEE+")");
+        CLI.render("Choose your action: (type " + CommandsEnum.MARKET + ", " + CommandsEnum.BUY + ", " + CommandsEnum.PRODUCTION + ", " + CommandsEnum.LEADER + " or " + CommandsEnum.SEE + ")");
         String answer = cliCommandListener.askFirstAction();
         CLI.clearView();
-        switch (answer){
+        switch (answer) {
             case "MARKET":
                 CLI.render(Board.getBoard().getPrintableMarketAndGrid());
-                if(!cliCommandListener.askMarketAction())
+                if (!cliCommandListener.askMarketAction())
                     setOnYourTurn();
                 break;
             case "BUY":
                 CLI.render(Board.getBoard().getPrintableBuySceneOf(nickname));
-                if(!cliCommandListener.askBuyAction())
+                if (!cliCommandListener.askBuyAction())
                     setOnYourTurn();
                 break;
             case "PRODUCTION":
                 CLI.render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
-                if(!cliCommandListener.askProductionAction())
+                if (!cliCommandListener.askProductionAction())
                     setOnYourTurn();
                 break;
             case "LEADER":
                 CLI.render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
-                if(!cliCommandListener.askLeaderAction())
+                if (!cliCommandListener.askLeaderAction())
                     setOnYourTurn();
                 break;
             case "SEE":
@@ -150,15 +152,15 @@ public class CLI implements View {
         }
     }
 
-    private void setOnSeeChoice(){
+    private void setOnSeeChoice() {
         String answer = cliCommandListener.askSeeChoice();
-        switch (answer){
-            case "GRIDS":{
+        switch (answer) {
+            case "GRIDS": {
                 CLI.render(Board.getBoard().getPrintableMarketAndGrid());
                 setOnSeeChoice();
                 break;
             }
-            case "PLAYER":{
+            case "PLAYER": {
                 setOnSeePlayerChoice();
                 setOnSeeChoice();
                 break;
@@ -169,13 +171,13 @@ public class CLI implements View {
         }
     }
 
-    private void setOnSeePlayerChoice(){
+    private void setOnSeePlayerChoice() {
         String playerToView = cliCommandListener.askSeePlayerChoice();
         render(Board.getBoard().getPrintablePersonalBoardOf(playerToView));
     }
 
     public static void showThreePointsAnimation() {
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             try {
                 Thread.sleep(500);
                 System.out.print(".");
@@ -195,7 +197,7 @@ public class CLI implements View {
     public void setOnWaitForYourTurn(String currentPlayer) {
         clearView();
         render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
-        render("It's " + AnsiEnum.getPrettyNickname(currentPlayer) +" turn, wait for him to finish");
+        render("It's " + AnsiEnum.getPrettyNickname(currentPlayer) + " turn, wait for him to finish");
     }
 
     @Override
@@ -213,7 +215,7 @@ public class CLI implements View {
     }
 
     @Override
-    public void setOnTransformation(int numberOfTransformation,List<String> possibleTransformations) {
+    public void setOnTransformation(int numberOfTransformation, List<String> possibleTransformations) {
         clearView();
         cliCommandListener.askResourceTransformation(numberOfTransformation, possibleTransformations);
     }
@@ -222,18 +224,18 @@ public class CLI implements View {
     public void setOnEndTurn() {
         clearView();
         render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
-        if(cliCommandListener.askEndAction()){
+        if (cliCommandListener.askEndAction()) {
             //true if chosen action is a leaderAction
-            if(!cliCommandListener.askLeaderAction()){
+            if (!cliCommandListener.askLeaderAction()) {
                 setOnEndTurn();
             }
         }
     }
 
     @Override
-    public void setOnEndGame(String winner,Map<String, Integer> playersPoints) {
-        System.out.println("setOnEndGame in Cli called\nWinner: "+winner);
-        System.out.println("points are: "+playersPoints);
-        System.out.println("implement play again/close app");
+    public void setOnEndGame(String winner, Map<String, Integer> playersPoints) {
+        System.out.println("The game is over!\nThe Winner is: " + winner + "\nThe points of all the players are:");
+        playersPoints.forEach((player, victoryPoints) -> System.out.print(player + ":" + victoryPoints + "  "));
+        //todo Implements play again / close app
     }
 }
