@@ -93,7 +93,6 @@ public class SetupManager {
                 chosenLeaderCards.add(setupSendEvent.getLeaderCards().get(chosenIndex));
             }
 
-            //todo isn't this condition checked in the first if?
             Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream()
                     .filter(player -> player.getNickname().equals(nickname)).findFirst()
                     .orElseThrow(() -> new InvalidEventException("Invalid nickname"));

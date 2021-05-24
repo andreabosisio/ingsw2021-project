@@ -32,7 +32,6 @@ public class WaitResourcePlacementState extends State {
      */
     @Override
     public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedPlacementAction) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
-        //todo ricordarsi che le risorse dal market possono essere anche tolte (in caso di not legal)
         if (swapPairs.size() % 2 != 0) {
             //resend place choice
             turnLogic.setLastEventSent(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));

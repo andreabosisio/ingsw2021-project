@@ -125,13 +125,11 @@ public class CLI implements View {
         String answer = cliCommandListener.askFirstAction();
         CLI.clearView();
         switch (answer){
-            //fixme clear view and print necessary items for everySwitch
             case "MARKET":
                 CLI.render(Board.getBoard().getPrintableMarketAndGrid());
                 if(!cliCommandListener.askMarketAction())
                     setOnYourTurn();
                 break;
-            //todo complete code for actions below
             case "BUY":
                 CLI.render(Board.getBoard().getPrintableBuySceneOf(nickname));
                 if(!cliCommandListener.askBuyAction())

@@ -187,7 +187,6 @@ public class CardsGenerator {
             }
 
         }
-        //todo create our own classes of exceptions
         catch (FileNotFoundException e) {
             System.err.println("file not found");
             e.printStackTrace();

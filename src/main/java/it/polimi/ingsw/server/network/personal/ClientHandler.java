@@ -21,8 +21,8 @@ public class ClientHandler implements Runnable {
     private static final String TYPE_LOBBY_NUMBER_CHOICE = "lobbyChoice";
     private static final String TYPE_MATCHMAKING= "matchmaking";
     private static final String TYPE_LOGIN = "login";
-    private static final String NICKNAME_REGEXP = "^[a-zA-Z0-9_-]{3,15}$";
-    private static final Pattern NICKNAME_PATTERN = Pattern.compile(NICKNAME_REGEXP);
+    private static final String CREDENTIALS_REGEXP = "^[a-zA-Z0-9_-]{3,15}$";
+    private static final Pattern CREDENTIALS_PATTERN = Pattern.compile(CREDENTIALS_REGEXP);
 
     private final Map<String, Object> receiveEventByJsonType = new HashMap<String, Object>() {{
         put("buyAction", BuyReceiveEvent.class);
@@ -317,9 +317,8 @@ public class ClientHandler implements Runnable {
      * @param password the password the player wish to use
      * @return true if they are acceptable
      */
-    //todo maybe password should follow same rules as the nickname to avoid unexpected bugs
     public boolean checkCredentials(String nickname, String password) {
-        return nickname != null && password != null && NICKNAME_PATTERN.matcher(nickname).matches();
+        return nickname != null && password != null && CREDENTIALS_PATTERN.matcher(nickname).matches() && CREDENTIALS_PATTERN.matcher(password).matches();
     }
 
     /**

@@ -149,19 +149,4 @@ public class DevelopmentCardsGrid implements EndGameSubject {
             mapByLevel.add(generator.getDevCardsAsGrid(developmentCards, i));
         }
     }
-
-    //todo da cancellare
-    /*
-    public void print(){
-        for (int i = numOfLevels-1; i >= 0; i--) {
-            for(CardColorEnum j:CardColorEnum.values()){
-                System.out.print("lv:"+mapByLevel.get(i).get(j).get(0).getLevel()+" "+
-                        mapByLevel.get(i).get(j).get(0).getColor().toString()+
-                        "-------"
-                        );
-            }
-            System.out.print("\n");
-        }
-    }
-     */
 }

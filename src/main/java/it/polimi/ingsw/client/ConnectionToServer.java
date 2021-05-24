@@ -111,7 +111,8 @@ public class ConnectionToServer implements Runnable {
                     receivedPing = false;
                 } else {
                     //todo add client closing code
-                    System.out.println("missing ping from server");
+                    System.out.println("Server is unreachable");
+                    close();
                 }
             }
         }, TIMER_DELAY);

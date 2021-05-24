@@ -141,31 +141,14 @@ public class MarketTray {
         return tempNewResources;
     }
 
+    /**
+     * This method add a resource
+     * @param toAdd resource to add
+     * @return true if added successfully
+     */
     public boolean addNewResource(Resource toAdd) {
         return this.tempNewResources.add(toAdd);
     }
-
-    //todo cancellare
-/*
-    protected void printMarket(){
-        System.out.println("                                        " + extraSlot.getColor());
-        for(int i = 0; i < NUM_R; i++) {
-            for (int j = 0; j < NUM_C; j++)
-                System.out.print(marketBoard[i][j].getColor() + "       ");
-            System.out.println("\n");
-        }
-    }
-
-    protected void printMarket(Resource[][] market, Resource extraSlot){
-        System.out.println("                                        " + extraSlot.getColor());
-        for(int i = 0; i < NUM_R; i++) {
-            for (int j = 0; j < NUM_C; j++)
-                System.out.print(market[i][j].getColor() + "       ");
-            System.out.println("\n");
-        }
-
-    }
- */
 
     /**
      * Get the color of the resources contained in the Market sorted row-by-row in a List.
@@ -239,17 +222,4 @@ public class MarketTray {
             e.printStackTrace();
         }
     }
-
-    //todo da cancellare
-    /*
-    public void print() {
-        for (Resource[] resources : marketBoard) {
-            for (Resource resource : resources) {
-                System.out.print(resource.getColor().name() + " ");
-            }
-            System.out.print("\n");
-        }
-        System.out.println(extraSlot.getColor());
-    }
-     */
 }
