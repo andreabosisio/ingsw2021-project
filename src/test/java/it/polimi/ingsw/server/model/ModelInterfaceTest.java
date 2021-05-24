@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.StorableResource;
@@ -368,6 +369,28 @@ class ModelInterfaceTest {
         assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(2).getColor());
         assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(3).getColor());
         assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(4).getColor());
+        modelInterface.endTurn();
+        game.roundOfNothing(modelInterface);
+        modelInterface.marketAction(3);
+        chosenColors.clear();
+        chosenColors.add("purple");
+        modelInterface.transformationAction(chosenColors);
+        swap.clear();
+        swap.add(0);
+        swap.add(4);
+        modelInterface.placeResourceAction(swap,true);
+        //check that player has 6 resources
+        assertEquals(6, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().size());
+        //check that they are 1 gray 2 blue and 3 purple
+        assertEquals(ResourceEnum.GRAY, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(0).getColor());
+        assertEquals(ResourceEnum.BLUE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(1).getColor());
+        assertEquals(ResourceEnum.BLUE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(2).getColor());
+        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(3).getColor());
+        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(4).getColor());
+        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(5).getColor());
+
+        modelInterface.endTurn();
+
     }
 
     @Test
@@ -602,5 +625,86 @@ class ModelInterfaceTest {
         assertThrows(InvalidEventException.class, () -> modelInterface.transformationAction(new ArrayList<>()));
         assertThrows(InvalidEventException.class, () -> modelInterface.placeDevelopmentCardAction(1));
         assertThrows(InvalidEventException.class, modelInterface::endTurn);
+    }
+
+    @Test
+    void buyCardWithDoubleDiscount() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException, InvalidEventException {
+        TestGameGenerator game = new TestGameGenerator();
+        ModelInterface modelInterface = game.modelInterfaceGenerator(false);
+        game.setMarketTrayAuto(modelInterface);
+        game.setDevelopmentCardsGrid(modelInterface);
+        List<Integer> marketLeaderIndexes = new ArrayList<Integer>() {{
+            add(12);//discount leaders:requires 1 green and 1 blue dev of any level----dicount gray
+            add(13);//market leaders:requires 1 blue lv 1 and 1 purple dev of any level----discount blue
+            add(0);
+            add(1);
+            add(2);
+            add(3);
+            add(7);
+            add(8);//random leaders for other players
+        }};
+        game.setLeaderInHand(modelInterface, marketLeaderIndexes);
+        //prepare for first leader
+
+        //prepare for first devCard
+        DevelopmentCard card1 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.BLUE, 1);
+        game.preparePlayerForDevCard(modelInterface, 0, card1);
+        List<Integer> resourcePositions1 = new ArrayList<>();
+        for (int i = 0; i < card1.getPrice().size(); i++) {
+            resourcePositions1.add(i + strongBoxPositionsOffset);
+        }
+        //place blue lv1 in pos 1
+        modelInterface.buyAction("blue", 1, resourcePositions1);
+        modelInterface.placeDevelopmentCardAction(1);
+        modelInterface.endTurn();
+        game.roundOfNothing(modelInterface);
+
+        //prepare for second devCard
+        DevelopmentCard card2 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.GREEN, 1);
+        game.preparePlayerForDevCard(modelInterface, 0, card2);
+        List<Integer> resourcePositions2 = new ArrayList<>();
+        for (int i = 0; i < card2.getPrice().size(); i++) {
+            resourcePositions2.add(i + strongBoxPositionsOffset);
+        }
+        //place green lv1 in pos 2
+        modelInterface.buyAction("green", 1, resourcePositions2);
+        modelInterface.placeDevelopmentCardAction(2);
+        modelInterface.endTurn();
+        game.roundOfNothing(modelInterface);
+
+        //prepare for third devCard
+        DevelopmentCard card3 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.PURPLE, 1);
+        game.preparePlayerForDevCard(modelInterface, 0, card3);
+        List<Integer> resourcePositions3 = new ArrayList<>();
+        for (int i = 0; i < card3.getPrice().size(); i++) {
+            resourcePositions3.add(i + strongBoxPositionsOffset);
+        }
+        //place purple lv1 in pos 3
+        modelInterface.buyAction("purple", 1, resourcePositions3);
+        modelInterface.placeDevelopmentCardAction(3);
+        modelInterface.endTurn();
+        game.roundOfNothing(modelInterface);
+
+        //activate leaders
+        modelInterface.leaderAction("d1",false);
+        modelInterface.marketAction(2);
+        modelInterface.placeResourceAction(new ArrayList<>(),true);
+        modelInterface.leaderAction("d2",false);
+        game.roundOfNothing(modelInterface);
+
+        //prepare for discounted buy but with a card not discountable by this leaders
+        DevelopmentCard card4 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.PURPLE, 2);
+        game.preparePlayerForDevCard(modelInterface, 0, card4);
+        List<Integer> resourcePositions4 = new ArrayList<>();
+        for (int i = 0; i < card4.getPrice().size(); i++) {
+            resourcePositions4.add(i + strongBoxPositionsOffset);
+        }
+        //place purple lv2 in pos 3
+        modelInterface.buyAction("purple", 2, resourcePositions4);
+        modelInterface.placeDevelopmentCardAction(3);
+        modelInterface.endTurn();
+        game.roundOfNothing(modelInterface);
+
+        //todo matteo add a card discounted
     }
 }

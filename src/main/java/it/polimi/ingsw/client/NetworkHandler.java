@@ -90,7 +90,7 @@ public class NetworkHandler implements CommandListenerObserver {
                 }
                 //event.updateView(view);
             } else {
-                System.out.println("Malformed json");
+                System.out.println("Malformed json from Server?!?!");
             }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();

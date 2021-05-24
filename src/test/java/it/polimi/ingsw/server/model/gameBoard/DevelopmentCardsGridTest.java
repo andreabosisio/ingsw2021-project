@@ -30,7 +30,7 @@ class DevelopmentCardsGridTest {
         GameBoard.getGameBoard().reset();
         List<Player> players = new ArrayList<>();
         players.add(new Player("Bob"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
         assertFalse(GameBoard.getGameBoard().getDevelopmentCardsGrid().hasEmptyColumn());
         //check that removing 11 out of 12 cards of the same color leaves no empty column
         for(int i = 0;i<11;i++) {
@@ -51,7 +51,7 @@ class DevelopmentCardsGridTest {
         GameBoard.getGameBoard().reset();
         List<Player> players = new ArrayList<>();
         players.add(new Player("Bob"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
         //check that removing all but 1 card for each color leaves no emptyColumn
         for(int i = 0;i<11;i++) {
             for(CardColorEnum color: EnumSet.allOf(CardColorEnum.class)) {

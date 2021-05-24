@@ -30,7 +30,7 @@ public class CheckWinnerTest {
     void testBuySeventhDevelopmentCardSinglePlayer() {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Mihawk"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
         List<DevelopmentCard> cards = GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards();
 
         List<DevelopmentCard> cardsLvl1 = new ArrayList<>();
@@ -65,7 +65,7 @@ public class CheckWinnerTest {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Mihawk"));
         players.add(new Player("Brook"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
         List<DevelopmentCard> cards = GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards();
 
         List<DevelopmentCard> cardsLvl1 = new ArrayList<>();
@@ -102,7 +102,7 @@ public class CheckWinnerTest {
         players.add(new Player("Monkey"));
         players.add(new Player("Nico"));
         players.add(new Player("Vinsmoke"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
 
         assertEquals("Lorenzo il Magnifico doing nothing", turnLogic.getGameMode().getLorenzo().getNickname());
         assertTrue(turnLogic.getGameMode().getLorenzo() instanceof LorenzoDoingNothing);
@@ -153,7 +153,7 @@ public class CheckWinnerTest {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
         players.add(new Player("Monkey"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
 
         // The Game is not over
         assertFalse(turnLogic.getGameMode().getICheckWinner().isTheGameOver());

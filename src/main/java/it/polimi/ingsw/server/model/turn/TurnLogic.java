@@ -52,30 +52,6 @@ public class TurnLogic {
     }
 
     /**
-     * constructor only used in testing
-     *
-     * @param players players in the game
-     */
-    // todo: to move into the TurnLogicForTest
-    public TurnLogic(List<Player> players) {
-        this.modelInterface = null;
-        this.players = players;
-        this.currentPlayer = players.get(0);
-        GameBoard.getGameBoard().createFaithTracks(players);
-        GameBoard.getGameBoard().setTurnLogicOfMarketTray(this);
-        this.gameMode = new GameMode(players);
-        this.setTheObservers();
-        this.startTurn = new StartTurnState(this);
-        this.waitDevCardPlacement = new WaitDevelopmentCardPlacementState(this);
-        this.waitTransformation = new WaitTransformationState(this);
-        this.waitResourcePlacement = new WaitResourcePlacementState(this);
-        this.endTurn = new EndTurnState(this);
-        this.endGame = new EndGameState(this);
-        this.idle = new IdleState(this);
-        this.currentState = getIdle();
-    }
-
-    /**
      * This method set all the observers for the correct functional of the two SendObserver Pattern.
      * One is used for the Faith Tracks to check the reach of a PopeSpace.
      * The other one is used by the classes that implement the interface ICheckWinner
@@ -104,9 +80,7 @@ public class TurnLogic {
             currentPlayer = players.get(0);
         else
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
-
-        //fixme change and remove TurnLogicForTest.java class and make reset() private
-        if (!Lobby.getLobby().isPlayerOnline(currentPlayer.getNickname())) {
+        if (!currentPlayer.isOnline()) {
             setNextPlayer();
             return;
         }
@@ -114,7 +88,7 @@ public class TurnLogic {
         modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname(),false));
     }
 
-    public void reset() {
+    private void reset() {
         whiteResourcesFromMarket.clear();
         chosenDevCard = null;
     }
@@ -314,10 +288,18 @@ public class TurnLogic {
     }
 
 
+    /**
+     * Saves the last event sent to the observers
+     * @param lastEventSent event to save
+     */
     public void setLastEventSent(SendEvent lastEventSent) {
         this.lastEventSent = lastEventSent;
     }
 
+    /**
+     * Resend the last event sent to the observers
+     * It is used in case of a failed action
+     */
     public void reSendLastEvent() {
         if(lastEventSent !=null) {
             modelInterface.notifyObservers(lastEventSent);

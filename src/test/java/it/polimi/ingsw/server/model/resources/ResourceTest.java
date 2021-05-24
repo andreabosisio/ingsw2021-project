@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ResourceTest {
     final TurnLogic turnLogic = new TurnLogic(new ArrayList<Player>(){{
         add(new Player("Pluto"));
-    }});
+    }},null);
     @Test
     void productionAbility() {
         assertFalse(new WhiteResource().productionAbility(turnLogic));

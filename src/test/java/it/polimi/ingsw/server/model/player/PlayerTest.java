@@ -109,7 +109,7 @@ class PlayerTest {
         List<Player> players = new ArrayList<>();
         Player player = new Player("Bunny");
         players.add(player);
-        TurnLogic turnLogic = new TurnLogic(players);//setup every faithTrack and gameBoard
+        TurnLogic turnLogic = new TurnLogic(players,null);//setup every faithTrack and gameBoard
         //give player 1 faith to put him at 3 total with 2 leaderCard discarded (no popeTile flipped)
         assertFalse(GameBoard.getGameBoard().faithProgress(players.get(0), 1));
         leaders.clear();

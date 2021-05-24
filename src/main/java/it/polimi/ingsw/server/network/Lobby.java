@@ -213,4 +213,17 @@ public class Lobby {
         controller = new Controller(virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList()));
         controller.setupObservers(virtualViews);
     }
+
+    /**
+     * Method used to communicate to the controller that a player is now offline
+     * If no game was ongoing the virtualView is removed
+     * @param nickname offline player
+     */
+    public synchronized void setPlayerOffline(String nickname){
+        if(gameStarted) {
+            controller.setPlayerOffline(nickname);
+        }
+        else
+            removeVirtualView(nickname);
+    }
 }

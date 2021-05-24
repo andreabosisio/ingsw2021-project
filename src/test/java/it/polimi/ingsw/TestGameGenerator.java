@@ -44,7 +44,7 @@ public class TestGameGenerator {
             add("second");
             add("third");
             add("fourth");
-        }}, true);
+        }});
 
         //exit from idleState because there is no setUpPhase in testing
         modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());

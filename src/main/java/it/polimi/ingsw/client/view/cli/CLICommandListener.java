@@ -165,7 +165,7 @@ public class CLICommandListener implements CommandListener {
 
     public void askResourceTransformation(int numberOfTransformation, List<String> possibleTransformations){
         List<String> transformations = new ArrayList<>();
-        CLI.render("Looks like your white marbles are evolving\nChoose the color you prefer for this "+numberOfTransformation+" marbles");
+        CLI.render("UH OH...Looks like your white marbles are evolving\nChoose the color you prefer for this "+numberOfTransformation+" marbles");
         for (int i = 0; i < numberOfTransformation; i++) {
             System.out.print("Resource in slot n°" + (i + 1) + " can be: ");
             for(int j = 0; j < possibleTransformations.size(); j++){
@@ -239,8 +239,8 @@ public class CLICommandListener implements CommandListener {
         String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
 
         while (!(answer.equals(CommandsEnum.DONE.toString()) || answer.equals(CommandsEnum.LEADER.toString()))){
-            answer = scanner.nextLine().toUpperCase(Locale.ROOT);
             CLI.renderError(INVALID);
+            answer = scanner.nextLine().toUpperCase(Locale.ROOT);
         }
         if(answer.equals(CommandsEnum.DONE.toString())){
             notifyObservers(new EndTurnActionEvent());

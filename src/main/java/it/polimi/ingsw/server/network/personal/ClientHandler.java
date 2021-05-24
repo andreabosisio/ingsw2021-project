@@ -60,11 +60,6 @@ public class ClientHandler implements Runnable {
 
             sendSpecificTypeMessage(TYPE_LOGIN);
 
-            if (Lobby.getLobby().isFull()) {
-                sendErrorMessage("cannot join: Server is full");
-                kill(true);
-                return;
-            }
             String message = connectionToClient.getMessage();
             JsonObject jsonObject = getAsJsonObject(message);
             if (jsonObject == null) {
@@ -90,7 +85,13 @@ public class ClientHandler implements Runnable {
             virtualView = Lobby.getLobby().getVirtualViewByNickname(nickname);
             //new player
             if (virtualView == null) {
-                //check if a game is ongoing
+                //check if Lobby is full
+                if (Lobby.getLobby().isFull()) {
+                    sendErrorMessage("cannot join: Server is full");
+                    kill(true);
+                    return;
+                }
+                //check if a game is ongoing even if some players are disconnected
                 if (Lobby.getLobby().isGameStarted()) {
                     sendErrorMessage("a game is currently ongoing");
                     kill(true);

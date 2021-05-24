@@ -150,7 +150,7 @@ class PersonalBoardTest {
         GameBoard.getGameBoard().reset();
         Player player = new Player("Mirko");
         players.add(player);
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
 
         GameBoard.getGameBoard().faithProgress(player, 3);
         assertEquals(1,player.getPersonalBoard().getPoints(player));

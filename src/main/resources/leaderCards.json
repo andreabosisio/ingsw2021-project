@@ -170,7 +170,7 @@
       "points": 2,
       "devRequirements": [{
         "color": "BLUE",
-        "level": 1,
+        "level": 0,
         "quantity": 1
       },
         {

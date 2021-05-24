@@ -49,7 +49,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      */
     public void setOnline(boolean online) {
         if (!online) {
-            Lobby.getLobby().broadcastToOthersInfoMessage(nickname + " has left the lobby", nickname);
+            Lobby.getLobby().broadcastToOthersInfoMessage(nickname + " has left", nickname);
         }
         this.online = online;
     }
@@ -97,12 +97,12 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      */
     public void startPingPong() {
         //fixme activate below for ping system
-        //sendPing();
+        sendPing();
     }
 
     /**
      * This method is used to stop the pingPong system with the player
-     * It is called when a player is manually disconnected frm the game
+     * It is called when a player is manually disconnected from the game
      */
     public void stopPingPong() {
         timer.cancel();
@@ -124,7 +124,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
                 } else {
                     missingPong = true;
                     clientHandler.sendPing();
-                    System.out.println("sending ping to " + nickname);
+                    //System.out.println("sending ping to " + nickname);
                 }
             }
         },PING_DELAY,PING_PERIOD);
@@ -136,11 +136,12 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      * when a quit message is received during the game phase
      */
     public void disconnect() {
-        //function below also set online as false
+        //used to notify the game of disconnection
+        Lobby.getLobby().setPlayerOffline(nickname);
+
         setOnline(false);
         stopPingPong();
         clientHandler.kill(false);
-        //todo add disconnection during game code(state save/model notification ecc); maybe do this as first thing
     }
 
     /**
@@ -164,7 +165,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      */
     @Override
     public void PongUpdate() {
-        System.out.println("pong received from: " + nickname);
+        //System.out.println("pong received from: " + nickname);
         missingPong = false;
     }
 
@@ -197,8 +198,6 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      */
     @Override
     public void update(SendEvent sendEvent) {
-        //check if player is owner of this virtual view
-        //if yes send serializable event with data to client
         if (sendEvent.isForYou(nickname)) {
             clientHandler.sendJsonMessage(sendEvent.toJson());
         }

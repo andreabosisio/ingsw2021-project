@@ -25,7 +25,7 @@ public class LorenzoTest {
     void testCorrectSetOfTheFaithTracks() {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
 
         assertEquals("Lorenzo il Magnifico", turnLogic.getGameMode().getLorenzo().getNickname());
         assertTrue(turnLogic.getGameMode().getLorenzo() instanceof LorenzoAI);
@@ -154,7 +154,7 @@ public class LorenzoTest {
         TurnLogic turnLogic = new TurnLogic(new ArrayList<Player>(){{
             add(new Player("player1"));
             add(new Player("player2"));
-        }});
+        }},null);
         Lorenzo lorenzo = turnLogic.getGameMode().getLorenzo();
 
         //lorenzo isn't playing

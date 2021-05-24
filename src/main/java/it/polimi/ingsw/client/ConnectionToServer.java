@@ -38,6 +38,7 @@ public class ConnectionToServer implements Runnable {
         } catch (IOException e) {
             System.out.println("Failed to start connection with server");
             e.printStackTrace();
+            close();
         }
     }
 
@@ -50,8 +51,8 @@ public class ConnectionToServer implements Runnable {
         try {
             message = messagesFromServer.take();
         } catch (InterruptedException e) {
-            close();
             e.printStackTrace();
+            close();
         }
         return message;
     }
@@ -64,8 +65,11 @@ public class ConnectionToServer implements Runnable {
             socket.close();
             in.close();
             out.close();
+            System.exit(0);
         } catch (IOException e) {
             System.out.println("failed to close socket");
+            e.printStackTrace();
+            System.exit(-1);
         }
     }
 
@@ -81,7 +85,9 @@ public class ConnectionToServer implements Runnable {
                 message = in.readLine();
                 if (message.equals(PING_MESSAGE)) {
                     handlePing();
-                } else {
+                } else if(message.equals(QUIT_TYPE)){
+                    close();
+                }else {
                     messagesFromServer.add(message);
                 }
             } catch (IOException e) {

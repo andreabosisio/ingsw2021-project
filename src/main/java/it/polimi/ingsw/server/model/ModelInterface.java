@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
-import it.polimi.ingsw.server.model.turn.TurnLogicForTest;
 import it.polimi.ingsw.server.utils.SendObservable;
 import it.polimi.ingsw.server.utils.SendObserver;
 
@@ -34,27 +33,6 @@ public class ModelInterface implements SendObservable {
 
         setupManager = new SetupManager(players, this);
     }
-
-    /**
-     * constructor only used in testing
-     *
-     * @param nicknames is the list of the nicknames
-     * @param isForTesting is true
-     */
-    public ModelInterface(List<String> nicknames, boolean isForTesting) {
-
-        GameBoard.getGameBoard().reset();
-
-        for (String username : nicknames) {
-            this.players.add(new Player(username));
-        }
-        virtualViews = new ArrayList<>();
-
-        turnLogic = new TurnLogicForTest(players, this);
-
-        setupManager = new SetupManager(players, this);
-    }
-
 
     /**
      * Getter of current player's nickname
@@ -246,5 +224,14 @@ public class ModelInterface implements SendObservable {
            }
        }
 
+    }
+
+    /**
+     * This method set a player in the model as offline
+     * @param nickname offline player
+     */
+    public void setPlayerOffline(String nickname){
+        getPlayerByNickname(nickname).setOnline(false);
+        //todo check if currentPlayer is the one disconnected if yes decide what to do
     }
 }

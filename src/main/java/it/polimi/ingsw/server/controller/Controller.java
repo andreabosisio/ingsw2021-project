@@ -70,4 +70,13 @@ public class Controller implements ReceiveObserver {
         modelInterface.notifyObservers(new GameStartedSendEvent(nicknames));
         modelInterface.startSetup();
     }
+
+    /**
+     * Method used to set a player as offline
+     *
+     * @param nickname offline player
+     */
+    public synchronized void setPlayerOffline(String nickname){
+        modelInterface.setPlayerOffline(nickname);
+    }
 }

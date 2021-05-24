@@ -27,7 +27,7 @@ public class FaithTrackTest {
     void testOnePlayerTile1False() {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
         assertFalse(GameBoard.getGameBoard().faithProgress(players.get(0), 2)); // No tiles are flipped up
         assertEquals(2, GameBoard.getGameBoard().getFaithTracks().size());
         assertEquals(0, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getVictoryPoints());
@@ -37,7 +37,7 @@ public class FaithTrackTest {
     void testOnePlayerTile1True() {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
         assertTrue(GameBoard.getGameBoard().faithProgress(players.get(0), 8)); // A tile is flipped up
         assertTrue(GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).hasAchievedFirstReport()); // The first tile
         assertEquals(2, GameBoard.getGameBoard().getFaithTracks().size());
@@ -48,7 +48,7 @@ public class FaithTrackTest {
     void testOnePlayerWithAllThePopeTileFlippedUp() {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
 
         assertTrue(GameBoard.getGameBoard().faithProgress(players.get(0), 9)); // A tile is flipped up
         assertTrue(GameBoard.getGameBoard().faithProgress(players.get(0), 7)); // A tile is flipped up
@@ -70,7 +70,7 @@ public class FaithTrackTest {
         players.add(new Player("Monkey"));
         players.add(new Player("Nico"));
         players.add(new Player("Vinsmoke"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
 
         GameBoard.getGameBoard().faithProgress(players.get(1), 5);
         GameBoard.getGameBoard().faithProgress(players.get(2), 3);
@@ -95,7 +95,7 @@ public class FaithTrackTest {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Roronoa"));
         players.add(new Player("Monkey"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
 
         GameBoard.getGameBoard().faithProgress(players.get(1), 4);
         assertTrue(GameBoard.getGameBoard().faithProgress(players.get(0), 8)); // A tile is flipped up
@@ -119,7 +119,7 @@ public class FaithTrackTest {
         players.add(new Player("Monkey"));
         players.add(new Player("Nico"));
         players.add(new Player("Vinsmoke"));
-        TurnLogic turnLogic = new TurnLogic(players);
+        TurnLogic turnLogic = new TurnLogic(players,null);
 
         GameBoard.getGameBoard().faithProgress(players.get(0), 4);
         GameBoard.getGameBoard().faithProgress(players.get(1), 3);

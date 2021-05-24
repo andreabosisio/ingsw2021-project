@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements PlayerInterface {
+    private boolean isOnline;
     private final String nickname;
     private List<LeaderCard> leaderHand;
     private final PersonalBoard personalBoard;
@@ -15,6 +16,7 @@ public class Player implements PlayerInterface {
     public Player(String nickname) {
         this.nickname = nickname;
         personalBoard = new PersonalBoard();
+        isOnline = true;
     }
 
     /**
@@ -125,4 +127,19 @@ public class Player implements PlayerInterface {
         return false;
     }
 
+    /**
+     * Returns if the player is currently online
+     * @return true if online
+     */
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    /**
+     * Method used to set a player as online/offline
+     * @param online status to set the player as
+     */
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
 }
