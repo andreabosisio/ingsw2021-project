@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client;
 
-import com.google.gson.*;
-
 import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.gui.GUI;
@@ -20,8 +18,15 @@ public class ClientApp {
         String ip = DEFAULT_IP;
         int port = DEFAULT_PORT;
 
-        //todo add modify port and ip by args
-        view = new CLI(ip, port);
+        if(args[0].equals("-cli"))
+            view = new CLI(ip, port);
+        else {
+            GUI gui = new GUI();
+            gui.show();
+            //new Thread(gui::show).start();
+            //gui.setGUI(ip, port);
+        }
+
         /*
         if(args.length == 2)
             view = new CLI(ip, port);

@@ -6,7 +6,7 @@ import java.util.Map;
 public interface View {
     void setNickname(String nickname);
     String getNickname();
-    void startView();
+    void startNetwork();
     void graphicUpdate();
     void printInfoMessage(String info);
     void printErrorMessage(String error);

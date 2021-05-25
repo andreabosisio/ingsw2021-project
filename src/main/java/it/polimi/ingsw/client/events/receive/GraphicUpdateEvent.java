@@ -24,7 +24,7 @@ public class GraphicUpdateEvent implements ReceiveEvent {
         if (faithTracksUpdate != null)
             gson.fromJson(faithTracksUpdate, FaithTrack.class).update();
         if (personalBoardUpdateList != null){
-            for(JsonElement element:personalBoardUpdateList){
+            for(JsonElement element : personalBoardUpdateList){
                 gson.fromJson(element.getAsJsonObject(), PersonalBoard.class).update(view.getNickname());
             }
         }

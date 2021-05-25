@@ -7,8 +7,8 @@ import it.polimi.ingsw.client.utils.CommandListenerObserver;
 /**
  * This class listens to inputs from the GUI
  */
-public class GUICommandListener implements CommandListener {
-    CommandListenerObserver commandListenerObserver;
+public abstract class GUICommandListener implements CommandListener {
+    private CommandListenerObserver commandListenerObserver;
 
     @Override
     public void notifyObservers(SendEvent sendEvent) {
@@ -19,4 +19,5 @@ public class GUICommandListener implements CommandListener {
     public void registerObservers(CommandListenerObserver commandListenerObserver) {
         this.commandListenerObserver = commandListenerObserver;
     }
+
 }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.cli;
 
-import com.google.gson.*;
 import it.polimi.ingsw.client.NetworkHandler;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.view.View;
@@ -8,10 +7,8 @@ import it.polimi.ingsw.client.view.View;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CLI implements View {
-
 
     private String nickname;
     private NetworkHandler networkHandler;
@@ -26,7 +23,7 @@ public class CLI implements View {
             System.exit(0);
         }
         cliCommandListener = new CLICommandListener();
-        startView();
+        startNetwork();
     }
 
     @Override
@@ -40,7 +37,7 @@ public class CLI implements View {
     }
 
     @Override
-    public void startView() {
+    public void startNetwork() {
         render(AnsiEnum.LOGO.getAsciiArt());
         cliCommandListener.registerObservers(networkHandler);
         networkHandler.startNetwork();

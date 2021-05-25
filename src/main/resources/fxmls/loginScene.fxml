@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="722.0" prefWidth="541.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.LoginManager">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="722.0" prefWidth="541.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
       <BorderPane StackPane.alignment="TOP_CENTER">
          <StackPane.margin>
@@ -21,9 +21,9 @@
       </BorderPane>
         <AnchorPane prefHeight="200.0" prefWidth="536.0">
             <children>
-                <TextField fx:id="username" layoutX="53.0" layoutY="161.0" prefHeight="35.0" promptText="username" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="227.0" />
+                <TextField fx:id="nickname" layoutX="53.0" layoutY="161.0" prefHeight="35.0" promptText="username" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="227.0" />
                 <PasswordField fx:id="password" layoutX="53.0" layoutY="229.0" prefHeight="35.0" promptText="password" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="227.0" />
-                <Button fx:id="login" layoutX="53.0" layoutY="297.0" minWidth="70.0" mnemonicParsing="false" onMousePressed="#loginAction" prefHeight="35.0" text="Login" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="369.0" />
+                <Button fx:id="login" layoutX="53.0" layoutY="297.0" minWidth="70.0" mnemonicParsing="false" prefHeight="35.0" text="Login" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="369.0" />
             </children>
         </AnchorPane>
     </children>

@@ -25,7 +25,7 @@ public class NetworkHandler implements CommandListenerObserver {
     private final Map<String, Object> messageTypeMap = new HashMap<String, Object>() {{
         put("info", InfoMessageEvent.class);
         put("error", ErrorMessageEvent.class);
-        put("login", ConnectionEvent.class);
+        put("login", LoginEvent.class);
         put("matchmaking", MatchMakingEvent.class);
         put("setup", ChooseSetupEvent.class);
         put("lobbyChoice", ChooseNumberPlayersEvent.class);

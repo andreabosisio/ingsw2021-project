@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * This class listens to inputs from the terminal
  */
 public class CLICommandListener implements CommandListener {
-    CommandListenerObserver commandListenerObserver;
+    private CommandListenerObserver commandListenerObserver;
     private final Scanner scanner = new Scanner(System.in);
     private String nickname;
 
@@ -27,6 +27,7 @@ public class CLICommandListener implements CommandListener {
     private static final int MIN_CARD_LEVEL = 1;
     private static final String INVALID = "Invalid input";
 
+    //todo enum del server?
     private static final List<String> CARD_COLORS = new ArrayList<String>(){{
         add("GREEN");
         add("PURPLE");
@@ -311,7 +312,6 @@ public class CLICommandListener implements CommandListener {
         notifyObservers(new BuyActionEvent(color,level,resources));
         return true;
     }
-
 
     //todo test and/or cut in smaller functions
     public boolean askProductionAction() {
