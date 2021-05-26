@@ -150,5 +150,14 @@ public class MarketTray extends Printable {
         setMarketBoard();
         Board.getBoard().setMarketTray(this);
     }
+    public List<String> toStringList() {
+        List<String> toReturn = new ArrayList<>();
+        toReturn.add(extraSlot);
+        for (int i = 0; i < NUM_R; i++)
+            for (int j = 0; j < NUM_C; j++)
+                toReturn.add(marketBoard[i][j]);
+
+        return toReturn;
+    }
 
 }

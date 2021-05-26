@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
  * This class listens to inputs from the GUI
  */
 public abstract class GUICommandListener implements CommandListener {
-    private CommandListenerObserver commandListenerObserver;
+    protected CommandListenerObserver commandListenerObserver;
     @FXML
     private TextField messageBox;
 
@@ -33,5 +33,8 @@ public abstract class GUICommandListener implements CommandListener {
     public void printErrorMessage(String error) {
         messageBox.setStyle("-fx-text-inner-color: red");
         messageBox.setText(error);
+    }
+    protected void setNetworkNick(String nickname){
+        commandListenerObserver.setNickname(nickname);
     }
 }

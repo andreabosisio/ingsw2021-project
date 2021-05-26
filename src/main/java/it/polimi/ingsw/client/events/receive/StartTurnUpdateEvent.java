@@ -9,8 +9,12 @@ public class StartTurnUpdateEvent implements ReceiveEvent{
     @Override
     public void updateView(View view) {
         if(view.getNickname().equals(nextPlayer)){
+            //fixme only for cli
+            /*
             System.out.print(AnsiEnum.WHITE_BRIGHT + "Your turn is starting" + AnsiEnum.RESET);
             CLI.showThreePointsAnimation();
+
+             */
             view.setOnYourTurn();
         }
         else {

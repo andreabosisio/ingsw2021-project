@@ -1,11 +1,10 @@
 package it.polimi.ingsw.client.view.gui;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.client.NetworkHandler;
+import it.polimi.ingsw.client.model.DevelopmentCardsGrid;
 import it.polimi.ingsw.client.view.View;
-import it.polimi.ingsw.client.view.gui.controllers.ChooseNumberController;
-import it.polimi.ingsw.client.view.gui.controllers.LoginController;
-import it.polimi.ingsw.client.view.gui.controllers.MarketController;
-import it.polimi.ingsw.client.view.gui.controllers.WelcomeController;
+import it.polimi.ingsw.client.view.gui.controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,10 +20,12 @@ import java.util.Objects;
 public class GUI extends Application implements View {
 
     private NetworkHandler networkHandler;
+    private String nickname;
     private final Map<String, GUICommandListener> guiCommandListeners = new HashMap<String, GUICommandListener>() {{
         put("loginController", new LoginController());
         put("chooseNumberController", new ChooseNumberController());
         put("marketController", new MarketController());
+        put("setupController",new SetupController());
     }};
     private GUICommandListener currentGuiCommandListener;
     private static Scene scene;
@@ -41,12 +42,12 @@ public class GUI extends Application implements View {
 
     @Override
     public void setNickname(String nickname) {
-
+        this.nickname = nickname;
     }
 
     @Override
     public String getNickname() {
-        return null;
+        return nickname;
     }
 
     @Override
@@ -86,17 +87,27 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnMatchMaking() {
-        System.out.println("matchmaking...");
+        //todo move this code in place were marketAction is selected
+        /*
+        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("marketController");
+        setRoot("marketScene", nextGuiCommandListener);
+        currentGuiCommandListener = nextGuiCommandListener;
+         */
     }
 
     @Override
     public void setOnSetup(List<String> leaderCardsID, int numberOfResource) {
-        System.out.println("setup...");
+        SetupController nextGuiCommandListener = (SetupController) guiCommandListeners.get("setupController");
+        nextGuiCommandListener.initializeData(leaderCardsID,numberOfResource);
+        setRoot("setupScene", nextGuiCommandListener);
+        currentGuiCommandListener = nextGuiCommandListener;
     }
 
     @Override
     public void setOnYourTurn() {
-
+        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("marketController");
+        setRoot("marketScene", nextGuiCommandListener);
+        currentGuiCommandListener = nextGuiCommandListener;
     }
 
     @Override

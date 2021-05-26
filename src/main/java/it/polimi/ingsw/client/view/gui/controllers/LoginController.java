@@ -24,15 +24,13 @@ public class LoginController extends GUICommandListener {
     @FXML
     private Button login;
 
-
     @FXML
     public void initialize() {
-        //File file = new File("src/main/resources/images/loginImage.jpg");
-        //background.setImage(new Image(file.toURI().toString()));
         login.setOnMousePressed((event -> loginAction()));
     }
 
     private void loginAction() {
+        setNetworkNick(nickname.getText());
         notifyObservers(new LoginEvent(nickname.getText(), password.getText()));
     }
 }
