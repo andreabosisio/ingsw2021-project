@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.NetworkHandler;
 import it.polimi.ingsw.client.view.View;
+import it.polimi.ingsw.client.view.gui.controllers.ChooseNumberController;
 import it.polimi.ingsw.client.view.gui.controllers.LoginController;
 import it.polimi.ingsw.client.view.gui.controllers.MarketController;
 import it.polimi.ingsw.client.view.gui.controllers.WelcomeController;
@@ -22,6 +23,7 @@ public class GUI extends Application implements View {
     private NetworkHandler networkHandler;
     private final Map<String, GUICommandListener> guiCommandListeners = new HashMap<String, GUICommandListener>() {{
         put("loginController", new LoginController());
+        put("chooseNumberController",new ChooseNumberController());
         put("marketController", new MarketController());
     }};
 
@@ -33,7 +35,8 @@ public class GUI extends Application implements View {
             guiCommandListeners.values().forEach(guiCommandListener -> guiCommandListener.registerObservers(networkHandler));
             new Thread(this::startNetwork).start();
         } catch (IOException e) {
-            System.exit(0);
+            e.printStackTrace();
+            //System.exit(0);
         }
     }
 
@@ -75,7 +78,7 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnChooseNumberOfPlayers(String payload) {
-        System.out.println("scegli num player");
+        setRoot("chooseNumberScene", guiCommandListeners.get("chooseNumberController"));
     }
 
     @Override
@@ -85,7 +88,7 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnSetup(List<String> leaderCardsID, int numberOfResource) {
-
+        System.out.println("setup...");
     }
 
     @Override

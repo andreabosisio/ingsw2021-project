@@ -27,8 +27,8 @@ public class LoginController extends GUICommandListener {
 
     @FXML
     public void initialize() {
-        File file = new File("src/main/resources/images/loginImage.jpg");
-        background.setImage(new Image(file.toURI().toString()));
+        //File file = new File("src/main/resources/images/loginImage.jpg");
+        //background.setImage(new Image(file.toURI().toString()));
         login.setOnMousePressed((event -> loginAction()));
     }
 
