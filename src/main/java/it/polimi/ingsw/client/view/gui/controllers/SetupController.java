@@ -8,28 +8,24 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
+
 
 public class SetupController extends GUICommandListener {
     private int numberOfResources;
     private Stage newWindow;
 
-    private List<String> possibleResources = new ArrayList<String>() {{
+    private final List<String> possibleResources = new ArrayList<String>() {{
         add("YELLOW");
         add("BLUE");
         add("PURPLE");
@@ -72,7 +68,6 @@ public class SetupController extends GUICommandListener {
         done.setOnMousePressed((event -> setupAction()));
         gridButton.setOnMousePressed((event -> seeGrid()));
         marketButton.setOnMousePressed((event -> seeMarket()));
-
     }
     public void initializeData(List<String> leaderCardsID, int numberOfResource){
         this.leaderCardsID = leaderCardsID;
