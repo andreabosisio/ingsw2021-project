@@ -29,6 +29,7 @@
                 <TextField fx:id="nickname" alignment="CENTER" layoutX="298.0" layoutY="181.0" pickOnBounds="false" prefHeight="35.0" prefWidth="204.0" promptText="username" AnchorPane.leftAnchor="298.0" AnchorPane.rightAnchor="298.0" />
                 <PasswordField fx:id="password" alignment="CENTER" layoutX="299.0" layoutY="237.0" prefHeight="35.0" prefWidth="204.0" promptText="password" AnchorPane.leftAnchor="299.0" AnchorPane.rightAnchor="297.0" />
                 <Button fx:id="login" layoutX="345.0" layoutY="597.0" minWidth="70.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="111.0" text="Login" AnchorPane.leftAnchor="345.0" AnchorPane.rightAnchor="344.0" />
+                <TextField fx:id="messageBox" alignment="CENTER" editable="false" layoutX="439.0" layoutY="37.0" prefHeight="9.0" prefWidth="221.0" />
             </children>
         </AnchorPane>
     </children>

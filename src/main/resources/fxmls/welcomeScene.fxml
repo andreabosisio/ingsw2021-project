@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <center>
@@ -30,6 +30,7 @@
             <Button fx:id="settings" layoutX="301.0" layoutY="655.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="181.0" text="Settings" />
             <TextField fx:id="serverIP" alignment="CENTER" layoutX="282.0" layoutY="184.0" prefHeight="41.0" prefWidth="221.0" promptText="Server IP" />
             <TextField fx:id="serverPort" alignment="CENTER" layoutX="278.0" layoutY="262.0" prefHeight="41.0" prefWidth="228.0" promptText="Server Port" />
+            <TextField fx:id="messageBox" alignment="CENTER" editable="false" layoutX="439.0" layoutY="37.0" prefHeight="9.0" prefWidth="221.0" />
          </children>
       </AnchorPane>
    </children>

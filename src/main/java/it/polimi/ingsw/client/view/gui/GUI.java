@@ -23,20 +23,19 @@ public class GUI extends Application implements View {
     private NetworkHandler networkHandler;
     private final Map<String, GUICommandListener> guiCommandListeners = new HashMap<String, GUICommandListener>() {{
         put("loginController", new LoginController());
-        put("chooseNumberController",new ChooseNumberController());
+        put("chooseNumberController", new ChooseNumberController());
         put("marketController", new MarketController());
     }};
-
+    private GUICommandListener currentGuiCommandListener;
     private static Scene scene;
 
-    public void setGUI(String ip, int port) {
+    public void setGUI(String ip, int port) throws IOException {
         try {
             this.networkHandler = new NetworkHandler(ip, port, this);
             guiCommandListeners.values().forEach(guiCommandListener -> guiCommandListener.registerObservers(networkHandler));
             new Thread(this::startNetwork).start();
         } catch (IOException e) {
-            e.printStackTrace();
-            //System.exit(0);
+            throw new IOException();
         }
     }
 
@@ -63,22 +62,26 @@ public class GUI extends Application implements View {
 
     @Override
     public void printInfoMessage(String info) {
-
+        currentGuiCommandListener.printInfoMessage(info);
     }
 
     @Override
     public void printErrorMessage(String error) {
-
+        currentGuiCommandListener.printErrorMessage(error);
     }
 
     @Override
     public void setOnLogin() {
-        setRoot("loginScene", guiCommandListeners.get("loginController"));
+        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("loginController");
+        setRoot("loginScene", nextGuiCommandListener);
+        currentGuiCommandListener = nextGuiCommandListener;
     }
 
     @Override
     public void setOnChooseNumberOfPlayers(String payload) {
-        setRoot("chooseNumberScene", guiCommandListeners.get("chooseNumberController"));
+        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("chooseNumberController");
+        setRoot("chooseNumberScene", nextGuiCommandListener);
+        currentGuiCommandListener = nextGuiCommandListener;
     }
 
     @Override
@@ -128,23 +131,14 @@ public class GUI extends Application implements View {
 
     @Override
     public void start(Stage stage) throws Exception {
-        scene = new Scene(Objects.requireNonNull(loadFXML("welcomeScene", new WelcomeController(this))), 800, 800);
+        currentGuiCommandListener = new WelcomeController(this);
+        scene = new Scene(Objects.requireNonNull(loadFXML("welcomeScene", currentGuiCommandListener)), 800, 800);
         stage.setTitle("Maestri del Rinascimento");
         stage.setScene(scene);
         stage.show();
     }
 
-    private static Parent loadFXML(String fxmlFileName) {
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/" + fxmlFileName + ".fxml"));
-        try {
-            return fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private static Parent loadFXML(String fxmlFileName, GUICommandListener guiCommandListener) {
+    private Parent loadFXML(String fxmlFileName, GUICommandListener guiCommandListener) {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/" + fxmlFileName + ".fxml"));
         fxmlLoader.setController(guiCommandListener);
         try {
@@ -155,12 +149,9 @@ public class GUI extends Application implements View {
         }
     }
 
-    static void setRoot(String fxml, GUICommandListener guiCommandListener) {
-        scene.setRoot(loadFXML(fxml, guiCommandListener));
-    }
-
-    static void setRoot(String fxml) {
-        scene.setRoot(loadFXML(fxml));
+    private void setRoot(String fxml, GUICommandListener guiCommandListener) {
+        if (!guiCommandListener.equals(currentGuiCommandListener))
+            scene.setRoot(loadFXML(fxml, guiCommandListener));
     }
 
     public void show() {

@@ -10,6 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
+<?import javafx.scene.control.TextField?>
 <StackPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="800.0" fitWidth="723.0" pickOnBounds="true" preserveRatio="true">
@@ -26,6 +27,7 @@
             </Label>
             <ComboBox fx:id="numberSelector" layoutX="277.0" layoutY="238.0" prefHeight="25.0" prefWidth="94.0" />
             <Button fx:id="done" layoutX="415.0" layoutY="238.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Done" />
+            <TextField fx:id="messageBox" alignment="CENTER" editable="false" layoutX="439.0" layoutY="37.0" prefHeight="9.0" prefWidth="221.0" />
          </children>
       </AnchorPane>
    </children>
