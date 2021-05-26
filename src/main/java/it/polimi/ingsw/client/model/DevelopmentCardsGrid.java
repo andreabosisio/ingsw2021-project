@@ -3,8 +3,8 @@ package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.cli.Printable;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
-
 import java.util.*;
+
 
 /**
  * Class that has the capacity to print the Development Cards Grid
@@ -90,5 +90,17 @@ public class DevelopmentCardsGrid extends Printable {
 
         setWidth(cardsGrid);
         return cardsGrid;
+    }
+
+    /**
+     * This method returns a list with all the IDs saved in the grid
+     * The IDs are in order of ascending level first and color second
+     *
+     * @return a list with all the IDs
+     */
+    public List<String> toStringList(){
+        List<String> toReturn = new ArrayList<>();
+        mapByLevel.forEach((level) -> level.forEach((key, value) -> toReturn.add(value)));
+        return toReturn;
     }
 }

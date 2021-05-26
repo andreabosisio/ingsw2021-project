@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.events.send;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.client.NetworkHandler;
 
 
 public abstract class SendEvent {

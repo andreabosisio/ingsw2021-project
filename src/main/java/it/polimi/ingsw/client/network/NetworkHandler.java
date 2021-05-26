@@ -1,8 +1,9 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.network;
 
 import com.google.gson.*;
 import it.polimi.ingsw.client.events.send.SendEvent;
 import it.polimi.ingsw.client.events.receive.*;
+import it.polimi.ingsw.client.network.ConnectionToServer;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
 import it.polimi.ingsw.client.view.View;
 

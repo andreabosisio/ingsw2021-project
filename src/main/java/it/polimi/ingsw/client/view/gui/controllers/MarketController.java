@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui.controllers;
 import it.polimi.ingsw.client.events.send.MarketActionEvent;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
+import it.polimi.ingsw.client.view.gui.GraphicUtilities;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -33,15 +34,9 @@ public class MarketController extends GUICommandListener {
     @FXML
     private void initialize(){
         printInfoMessage("Click an arrow to take the resources");
-        fullMarket = Board.getBoard().getMarketTray().toStringList();
-        File file = new File("src/main/resources/images/marbles/"+ fullMarket.remove(0).toLowerCase(Locale.ROOT)+".png");
-        extraRes.setImage(new Image(file.toURI().toString()));
-        ImageView temp;
-        for(Node res:marketGrid.getChildren()){
-            file = new File("src/main/resources/images/marbles/"+ fullMarket.remove(0).toLowerCase(Locale.ROOT)+".png");
-            temp = (ImageView)res;
-            temp.setImage(new Image(file.toURI().toString()));
-        }
+        //populate the marketGrid with savedData
+        GraphicUtilities.populateMarket(marketGrid,extraRes);
+
         //todo merge 2 for below
         for(Node b:HButtons.getChildren()){
             Button button = (Button)b;

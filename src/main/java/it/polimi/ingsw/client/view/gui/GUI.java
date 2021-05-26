@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.view.gui;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.client.NetworkHandler;
 import it.polimi.ingsw.client.model.DevelopmentCardsGrid;
+import it.polimi.ingsw.client.network.NetworkHandler;
 import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.gui.controllers.*;
 import javafx.application.Application;

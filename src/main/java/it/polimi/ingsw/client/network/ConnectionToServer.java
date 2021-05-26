@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.network;
 
 import com.google.gson.JsonObject;
 

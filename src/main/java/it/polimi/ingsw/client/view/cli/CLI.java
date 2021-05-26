@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.cli;
 
-import it.polimi.ingsw.client.NetworkHandler;
 import it.polimi.ingsw.client.model.Board;
+import it.polimi.ingsw.client.network.NetworkHandler;
 import it.polimi.ingsw.client.view.View;
 
 import java.io.IOException;
