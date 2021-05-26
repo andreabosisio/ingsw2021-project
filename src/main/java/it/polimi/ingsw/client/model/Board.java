@@ -75,7 +75,7 @@ public class Board extends Printable {
     }
 
     public PrintableScene getPrintableCardPlacementSceneOf(String nickname, String cardToPlaceID) {
-        return new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname).getActiveCardsScene(), 2, new DevelopmentCard(cardToPlaceID)));
+        return new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname).getActiveCardsScene(), 2, DevelopmentCardsDatabase.getDevelopmentCardsDatabase().createDevelopmentCardByID(cardToPlaceID)));
     }
 
     @Override

@@ -82,7 +82,7 @@ public class DevelopmentCardsGrid extends Printable {
                 for (CardColorEnum cardColorEn : CardColorEnum.values()) {
                     String color_card = cardColorEn.toString();
                     String ID_card = mapByLevel.get(level_card).get(color_card);
-                    cardsGridLine.append(new DevelopmentCard(ID_card).getPrintable().get(cardLine));
+                    cardsGridLine.append(DevelopmentCardsDatabase.getDevelopmentCardsDatabase().createDevelopmentCardByID(ID_card).getPrintable().get(cardLine));
                 }
                 cardsGrid.add(cardsGridLine.toString());
             }

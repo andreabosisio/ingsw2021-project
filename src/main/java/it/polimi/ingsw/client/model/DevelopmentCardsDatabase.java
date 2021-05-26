@@ -26,6 +26,17 @@ public class DevelopmentCardsDatabase {
     private final List<String> devCardsOutResources = new ArrayList<>();
     private final List<String> devCardsVictoryPoints = new ArrayList<>();
 
+    private static final String EMPTY_CARD_ID = "empty";
+    private static final String BASIC_CARD_ID = "basicPowerCard";
+
+    public static String getEmptyCardId() {
+        return EMPTY_CARD_ID;
+    }
+
+    public static String getBasicCardId() {
+        return BASIC_CARD_ID;
+    }
+
     /**
      * Create an instance of DevelopmentCardsDatabase or return the existing one
      *
@@ -39,18 +50,18 @@ public class DevelopmentCardsDatabase {
     }
 
     private DevelopmentCardsDatabase() {
-        devCardsFirstSettings();
+        firstSetup();
     }
 
     /**
-     * Get method that return the number of the card into the Json file,
-     * the cardIndex must be of the type: color + "_" + level + "_" + numberOfCard
+     * Get method that return the number of the card into the Json file.
+     * the cardID must be of the type: color + "_" + level + "_" + numberOfCard
      *
-     * @param cardIndex is the ID of the Card
+     * @param cardID is the ID of the Card
      * @return the number of the Card in the Json file
      */
-    private int getNumberOfCard(String cardIndex) {
-        String[] splittedCardIndex = cardIndex.split("_");
+    private int getNumberOfCard(String cardID) {
+        String[] splittedCardIndex = cardID.split("_");
         return Integer.parseInt(splittedCardIndex[2]) - 1;
     }
 
@@ -58,22 +69,31 @@ public class DevelopmentCardsDatabase {
      * Get method that return the level of the Card:
      * The number is colored like the color of the card
      *
-     * @param cardIndex is the ID of the Card
+     * @param cardID is the ID of the Card
      * @return the level of the Card
      */
-    public String getColoredLevel(String cardIndex) {
-        int numberOfCard = getNumberOfCard(cardIndex);
+    //fixme why here?
+    public String getColoredLevel(String cardID) {
+        int numberOfCard = getNumberOfCard(cardID);
         return AnsiEnum.colorString(devCardsLevel.get(numberOfCard), devCardsColor.get(numberOfCard));
+    }
+
+    public int getLevelOf(String cardID) {
+        return Integer.parseInt(devCardsLevel.get(getNumberOfCard(cardID)));
+    }
+
+    public String getColorOf(String cardID) {
+        return devCardsColor.get(getNumberOfCard(cardID));
     }
 
     /**
      * Get method that return price of the Card
      *
-     * @param cardIndex is the ID of the Card
+     * @param cardID is the ID of the Card
      * @return the price of the Card
      */
-    public String[] getPrice(String cardIndex) {
-        int numberOfCard = getNumberOfCard(cardIndex);
+    public String[] getPriceOf(String cardID) {
+        int numberOfCard = getNumberOfCard(cardID);
         String[] tmpPrice = devCardsPrice.get(numberOfCard).split("&");
         String[] cardPrice = new String[3];
         List<String[]> cardPriceList = new ArrayList<>();
@@ -116,11 +136,11 @@ public class DevelopmentCardsDatabase {
     /**
      * Get method that return the in resources of the Card
      *
-     * @param cardIndex is the ID of the Card
+     * @param cardID is the ID of the Card
      * @return the resources in input of the Card
      */
-    public String[] getInResources(String cardIndex) {
-        int numberOfCard = getNumberOfCard(cardIndex);
+    public String[] getInResources(String cardID) {
+        int numberOfCard = getNumberOfCard(cardID);
         String[] tmpInResources = devCardsInResources.get(numberOfCard).split("&");
         List<String[]> cardInResourcesList = new ArrayList<>();
         String[] cardInResources = new String[3];
@@ -162,11 +182,11 @@ public class DevelopmentCardsDatabase {
     /**
      * Get method that return the out resources of the Card
      *
-     * @param cardIndex is the ID of the Card
+     * @param cardID is the ID of the Card
      * @return the resources in output of the Card
      */
-    public String[] getOutResources(String cardIndex) {
-        int numberOfCard = getNumberOfCard(cardIndex);
+    public String[] getOutResources(String cardID) {
+        int numberOfCard = getNumberOfCard(cardID);
         String[] tmpOutResources = devCardsOutResources.get(numberOfCard).split("&");
         List<String[]> cardOutResourcesList = new ArrayList<>();
         String[] cardOutResources = new String[3];
@@ -208,11 +228,11 @@ public class DevelopmentCardsDatabase {
     /**
      * Get method that return the Victory Points of the Card
      *
-     * @param cardIndex is the ID of the Card
+     * @param cardID is the ID of the Card
      * @return the Victory Points of the Card
      */
-    public String getVictoryPoints(String cardIndex) {
-        int numberOfCard = getNumberOfCard(cardIndex);
+    public String getVictoryPoints(String cardID) {
+        int numberOfCard = getNumberOfCard(cardID);
         if (String.valueOf(devCardsVictoryPoints.get(numberOfCard)).length() == 1)
             return " " + AnsiEnum.BLACK + AnsiEnum.YELLOW_BACKGROUND + devCardsVictoryPoints.get(numberOfCard) + AnsiEnum.RESET;
         else
@@ -224,7 +244,7 @@ public class DevelopmentCardsDatabase {
      * into the various list that contains all the information of the Cards.
      * It is called only at the moment of the creation of the class.
      */
-    private void devCardsFirstSettings() {
+    private void firstSetup() {
         File input = new File(developmentCardsFileName);
 
         try {
@@ -288,5 +308,14 @@ public class DevelopmentCardsDatabase {
             System.err.println("errore format nel file json");
             e.printStackTrace();
         }
+    }
+
+    public DevelopmentCard createDevelopmentCardByID(String iD) {
+        if(iD.equals(EMPTY_CARD_ID))
+            return new ProductionSlot(EMPTY_CARD_ID);
+        else if (iD.equals(BASIC_CARD_ID))
+            return new BasicPowerCard(BASIC_CARD_ID);
+        else
+            return new DevelopmentCard(iD);
     }
 }

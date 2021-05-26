@@ -37,7 +37,7 @@ public class LeaderCardsDatabase {
     }
 
     private LeaderCardsDatabase() {
-        leaderCardsFirstSettings();
+        firstSetup();
     }
 
     /**
@@ -132,7 +132,7 @@ public class LeaderCardsDatabase {
      * into the various list that contains all the information of the Cards.
      * It is called only at the moment of the creation of the class.
      */
-    private void leaderCardsFirstSettings() {
+    private void firstSetup() {
         File input = new File(leaderCardsFileName);
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));

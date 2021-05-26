@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import it.polimi.ingsw.client.view.cli.Printable;
+import it.polimi.ingsw.client.view.cli.PrintableScene;
 
 import java.util.*;
 
@@ -10,18 +11,7 @@ import java.util.*;
  */
 public class DevelopmentCard extends Printable {
 
-    private static final String EMPTY_CARD_ID = "empty";
-    private static final String BASIC_CARD = "basicPowerCard";
-
-    public static String getEmptyCardId() {
-        return EMPTY_CARD_ID;
-    }
-
-    public static String getBasicCard() {
-        return BASIC_CARD;
-    }
-
-    private final String iD;
+    private String iD;
 
     public DevelopmentCard(String iD) {
         this.iD = iD;
@@ -36,16 +26,10 @@ public class DevelopmentCard extends Printable {
     public List<String> getPrintable() {
         List<String> developmentCardToPrint = new ArrayList<>();
 
-        if (iD.equals(EMPTY_CARD_ID))
-            return getPrintableEmptyCard();
-
-        if (iD.equals(BASIC_CARD))
-            return getPrintableBasicPowerCard();
-
         DevelopmentCardsDatabase devCardsDatabase = DevelopmentCardsDatabase.getDevelopmentCardsDatabase();
 
         // contains the three possible resources to buy the card
-        String[] cardPrice = devCardsDatabase.getPrice(iD);
+        String[] cardPrice = devCardsDatabase.getPriceOf(iD);
         // contains the level of the Card colored like the color of the Card
         String cardLevel = devCardsDatabase.getColoredLevel(iD);
         // contains the victory points of the Card (vP < 9 ? " " + 3 : 11)
@@ -67,52 +51,15 @@ public class DevelopmentCard extends Printable {
     }
 
     /**
-     * This method return the print of an empty card
+     * Create a Printable object that represents this card on top of other cards letting visible only the old cards' level and color.
      *
-     * @return a List composed by the lines of the Card
+     * @param oldCards      The Printable object representing the cards on which this card is going to be placed
+     * @return a new Printable object that represents this card on top of other cards letting visible only the old cards' level and color
      */
-    private List<String> getPrintableEmptyCard() {
-        List<String> developmentCardToPrint = new ArrayList<>();
-
-        String empty = AnsiEnum.RED_BOLD + "Empty" + AnsiEnum.RESET;
-        String card = AnsiEnum.RED_BOLD + "Card" + AnsiEnum.RESET;
-
-        developmentCardToPrint.add("╔══════════╗");
-        developmentCardToPrint.add("║Production║");
-        developmentCardToPrint.add("║   Card   ║");
-        developmentCardToPrint.add("║   Slot   ║");
-        developmentCardToPrint.add("║          ║");
-        developmentCardToPrint.add("║          ║");
-        developmentCardToPrint.add("║          ║");
-        developmentCardToPrint.add("║          ║");
-        developmentCardToPrint.add("╚══════════╝");
-
-        setWidth(developmentCardToPrint);
-        return developmentCardToPrint;
-    }
-
-    /**
-     * This method return the print of a basic power card
-     *
-     * @return a List composed by the lines of the Card
-     */
-    private List<String> getPrintableBasicPowerCard() {
-        List<String> developmentCardToPrint = new ArrayList<>();
-
-        String basic = AnsiEnum.YELLOW_BOLD + "Basic" + AnsiEnum.RESET;
-        String power = AnsiEnum.YELLOW_BOLD + "Power" + AnsiEnum.RESET;
-
-        developmentCardToPrint.add("╔══════════╗");
-        developmentCardToPrint.add("║  "+basic+"   ║");
-        developmentCardToPrint.add("║  "+power+"   ║");
-        developmentCardToPrint.add("║──────────║");
-        developmentCardToPrint.add("║  ? │     ║");
-        developmentCardToPrint.add("║    } ?   ║");
-        developmentCardToPrint.add("║  ? │     ║");
-        developmentCardToPrint.add("║          ║");
-        developmentCardToPrint.add("╚══════════╝");
-
-        setWidth(developmentCardToPrint);
-        return developmentCardToPrint;
+    public Printable placeOnAnotherCards(Printable oldCards){
+        if(oldCards.getPrintable().size() == 0)
+            return this;
+        Printable cutCards = new PrintableScene(oldCards.getPrintable().subList(0, oldCards.getPrintable().size() - this.getPrintable().size() + 2));
+        return PrintableScene.addPrintablesToTop(this, cutCards);
     }
 }

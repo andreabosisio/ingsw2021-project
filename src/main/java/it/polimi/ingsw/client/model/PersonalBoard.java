@@ -7,15 +7,15 @@ import it.polimi.ingsw.client.view.cli.PrintableScene;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class PersonalBoard extends Printable {
-    private final int ACTIVE_LEADERS_SLOTS = 2;
-    private final int HAND_LEADERS_SLOTS = 2;
 
     private final String nickname;
     private final List<String> handLeaders;
     private final List<String> activeLeaders;
     private List<String> productionBoard;
+    private final static List<LinkedHashSet<String>> developmentCardsInSlots = Arrays.asList(new LinkedHashSet<>(), new LinkedHashSet<>(), new LinkedHashSet<>(), new LinkedHashSet<>());
     private Map<Integer, String> warehouse;
 
     private PrintableScene productionSlotsScene, warehouseScene, activeLeadersScene, activeCardsScene, handScene, faithScene, cardsScene;
@@ -61,6 +61,7 @@ public class PersonalBoard extends Printable {
 
     public void setProductionBoard(List<String> productionBoard) {
         if(productionBoard != null) {
+            IntStream.range(0, productionBoard.size()).forEach(i -> developmentCardsInSlots.get(i).add(productionBoard.get(i)));
             this.productionBoard = productionBoard;
         }
     }
@@ -94,9 +95,17 @@ public class PersonalBoard extends Printable {
     }
 
     private void setProductionSlotsScene() {
-        List<Printable> devCards = productionBoard.stream().map(DevelopmentCard::new).collect(Collectors.toList());
+        List<Printable> slots = developmentCardsInSlots.stream().map(slot -> {
+            Printable slotsBuilder = new PrintableScene(new ArrayList<>());
+            if(slot.size() > 1)
+                slot.removeIf(id -> id.equals(DevelopmentCardsDatabase.getEmptyCardId()));
+            for (String id : slot) {
+                slotsBuilder = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().createDevelopmentCardByID(id).placeOnAnotherCards(slotsBuilder);
+            }
+            return slotsBuilder;
+        }).collect(Collectors.toList());
         AtomicInteger i = new AtomicInteger(-1);
-        List<Printable> devCardsSlots = devCards.stream().map(c -> {
+        List<Printable> devCardsSlots = slots.stream().map(c -> {
             i.getAndIncrement();
             return PrintableScene.addBottomString(c, "    [" + i +"]");
         }).collect(Collectors.toList());
