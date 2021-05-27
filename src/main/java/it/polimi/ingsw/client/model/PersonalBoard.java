@@ -73,7 +73,7 @@ public class PersonalBoard extends Printable {
     }
 
     public List<String> getHandLeaders() {
-        return handLeaders;
+        return new ArrayList<>(handLeaders);
     }
 
     public List<String> getProductionBoard() {

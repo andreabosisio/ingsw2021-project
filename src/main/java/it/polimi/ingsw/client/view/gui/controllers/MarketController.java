@@ -61,11 +61,6 @@ public class MarketController extends GUICommandListener {
         setButtons(true);
     }
 
-
-
-
-
-    @FXML
     public void marketAction(String arrowID) {
         System.out.println(arrowID);
         //notifyObservers(new MarketActionEvent(Integer.parseInt(arrowID)));

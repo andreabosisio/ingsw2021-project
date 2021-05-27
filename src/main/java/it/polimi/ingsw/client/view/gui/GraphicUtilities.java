@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -23,33 +24,47 @@ public class GraphicUtilities {
 
     private static final String resourcesPath = "src/main/resources/images/marbles/";
     private static final String devCardsPath = "src/main/resources/images/devCards/";
+    private static final String leaderCardsPath = "src/main/resources/images/leaders/";
     private static final String endOfPath = ".png";
 
     //todo added this method to populate a market by giving grid with imageViews and extra imageView
-    public static void populateMarket(GridPane marketToPopulate,ImageView extraRes){
+    public static void populateMarket(GridPane marketToPopulate, ImageView extraRes) {
         List<String> market = Board.getBoard().getMarketTray().toStringList();
-        File file = new File(resourcesPath+ market.remove(0).toLowerCase(Locale.ROOT)+ endOfPath);
+        File file = new File(resourcesPath + market.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
         extraRes.setImage(new Image(file.toURI().toString()));
         ImageView temp;
-        for(Node res:marketToPopulate.getChildren()){
-            file = new File(resourcesPath+ market.remove(0).toLowerCase(Locale.ROOT)+endOfPath);
-            temp = (ImageView)res;
+        for (Node res : marketToPopulate.getChildren()) {
+            file = new File(resourcesPath + market.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
+            temp = (ImageView) res;
             temp.setImage(new Image(file.toURI().toString()));
         }
     }
+
     //todo added this method to populate a devGrid by giving grid with imageViews (from lvl3 to lvl1)
-    public static void populateDevGrid(GridPane devGridToPopulate){
+    public static void populateDevGrid(GridPane devGridToPopulate) {
         ImageView temp;
         File file;
         List<String> devGrid = Board.getBoard().getDevelopmentCardsGrid().toStringList();
         Collections.reverse(devGrid);
-        for(Node res:devGridToPopulate.getChildren()){
-            file = new File(devCardsPath+ devGrid.remove(0).toLowerCase(Locale.ROOT)+endOfPath);
-            temp = (ImageView)res;
+        for (Node res : devGridToPopulate.getChildren()) {
+            file = new File(devCardsPath + devGrid.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
+            temp = (ImageView) res;
             temp.setImage(new Image(file.toURI().toString()));
         }
     }
-    public static Stage  populatePopupWindow(Window window, FXMLLoader fxmlLoader, Stage stageToPopulate, Modality modality){
+
+    public static void populateLeaders(HBox leadersBox, String nickname) {
+        File file;
+        ImageView temp;
+        List<String> population = Board.getBoard().getPersonalBoardOf(nickname).getHandLeaders();
+        for (Node leader : leadersBox.getChildren()) {
+            file = new File(leaderCardsPath + population.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
+            temp = (ImageView) leader;
+            temp.setImage(new Image(file.toURI().toString()));
+        }
+    }
+
+    public static Stage populatePopupWindow(Window window, FXMLLoader fxmlLoader, Stage stageToPopulate, Modality modality) {
         Scene secondScene = null;
         try {
             secondScene = new Scene(fxmlLoader.load());
@@ -57,7 +72,7 @@ public class GraphicUtilities {
             e.printStackTrace();
         }
         // New window (Stage)
-        if(stageToPopulate == null) {
+        if (stageToPopulate == null) {
             stageToPopulate = new Stage();
             stageToPopulate.setScene(secondScene);
             // Specifies the owner Window (parent) for new window

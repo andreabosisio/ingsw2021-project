@@ -27,7 +27,7 @@ public class GUI extends Application implements View {
     private final Map<String, GUICommandListener> guiCommandListeners = new HashMap<String, GUICommandListener>() {{
         put("loginController", new LoginController());
         put("chooseNumberController", new ChooseNumberController());
-        put("marketController", new MarketController(false));
+        //put("marketController", new MarketController(false));
         put("setupController",new SetupController());
         put("personalController",new PersonalController());
     }};
@@ -46,7 +46,10 @@ public class GUI extends Application implements View {
 
     @Override
     public void setNickname(String nickname) {
+        PersonalController p = (PersonalController) guiCommandListeners.get("personalController");
+        p.setNickname(nickname);
         this.nickname = nickname;
+
     }
 
     @Override

@@ -122,7 +122,6 @@ public class SetupController extends GUICommandListener {
         button.setGraphic(imageView);
     }
     private void seeMarket(){
-        Scene secondScene = null;
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/marketScene.fxml"));
         fxmlLoader.setController(new MarketController(true));
         marketWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader,marketWindow,Modality.NONE);
