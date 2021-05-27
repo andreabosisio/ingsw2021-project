@@ -37,15 +37,30 @@ public class PersonalController extends GUICommandListener {
     @FXML
     private GridPane marketGrid;
     @FXML
-    GridPane devGrid;
+    private GridPane devGrid;
     @FXML
-    Button handButton;
+    private Button handButton;
     @FXML
-    HBox HActiveLeaders;
+    private HBox HActiveLeaders;
     @FXML
     private VBox VArrowButtons;
     @FXML
     private HBox HArrowButtons;
+    @FXML
+    private HBox HResFromMarket;
+    @FXML
+    private VBox HLeadersRes;
+    @FXML
+    private GridPane strongboxGrid;
+    @FXML
+    private Button buyCard;
+    @FXML
+    private Button endProduction;
+    @FXML
+    private Button endTurn;
+    @FXML
+    private AnchorPane warehouse;
+
 
     @FXML
     private void initialize() {
@@ -68,8 +83,29 @@ public class PersonalController extends GUICommandListener {
         for (Node n : devGrid.getChildren()) {
             n.setOnMousePressed(event -> handleBuyRequest(n));
         }
+        //setAllResources buttons ID as their indexes
+        int i = 0;
+        for(Node n:HResFromMarket.getChildren()){
+            n.setId(String.valueOf(i));
+            n.setOnMousePressed(event -> resourceClick(n.getId()));
+            i++;
+        }
+        for(Node n:warehouse.getChildren()){
+            n.setId(String.valueOf(i));
+            n.setOnMousePressed(event -> resourceClick(n.getId()));
+            i++;
+        }
+        for(Node n:HLeadersRes.getChildren()){
+            n.setId(String.valueOf(i));
+            n.setOnMousePressed(event -> resourceClick(n.getId()));
+            i++;
+        }
+        for(Node n:strongboxGrid.getChildren()){
+            n.setId(String.valueOf(i));
+            n.setOnMousePressed(event -> resourceClick(n.getId()));
+            i++;
+        }
     }
-
     private void showHandAction() {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/leaderHandScene.fxml"));
         fxmlLoader.setController(handController);
@@ -89,6 +125,9 @@ public class PersonalController extends GUICommandListener {
     private void handleBuyRequest(Node n) {
         Button button = (Button) n;
         System.out.println(button.getId());
+    }
+    private void resourceClick(String resID){
+        System.out.println(resID);
     }
 
 }
