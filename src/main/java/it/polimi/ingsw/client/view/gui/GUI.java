@@ -7,10 +7,13 @@ import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.gui.controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +27,9 @@ public class GUI extends Application implements View {
     private final Map<String, GUICommandListener> guiCommandListeners = new HashMap<String, GUICommandListener>() {{
         put("loginController", new LoginController());
         put("chooseNumberController", new ChooseNumberController());
-        put("marketController", new MarketController());
+        put("marketController", new MarketController(false));
         put("setupController",new SetupController());
+        put("personalController",new PersonalController());
     }};
     private GUICommandListener currentGuiCommandListener;
     private static Scene scene;
@@ -105,8 +109,8 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnYourTurn() {
-        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("marketController");
-        setRoot("marketScene", nextGuiCommandListener);
+        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("personalController");
+        setRoot("boardScene", nextGuiCommandListener,1800,900);
         currentGuiCommandListener = nextGuiCommandListener;
     }
 
@@ -161,8 +165,25 @@ public class GUI extends Application implements View {
     }
 
     private void setRoot(String fxml, GUICommandListener guiCommandListener) {
-        if (!guiCommandListener.equals(currentGuiCommandListener))
+        if (!guiCommandListener.equals(currentGuiCommandListener)) {
             scene.setRoot(loadFXML(fxml, guiCommandListener));
+        }
+
+    }
+    private void setRoot(String fxml, GUICommandListener guiCommandListener,double width,double height) {
+        if (!guiCommandListener.equals(currentGuiCommandListener)) {
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            scene.setRoot(loadFXML(fxml, guiCommandListener));
+            //setWindow height
+            scene.getWindow().setHeight(height);
+            //setWindow y position
+            scene.getWindow().setY((screenBounds.getHeight()-height)/2);
+            //setWindow width
+            scene.getWindow().setWidth(width);
+            //setWindow x position
+            scene.getWindow().setX((screenBounds.getWidth()-width)/2);
+        }
+
     }
 
     public void show() {

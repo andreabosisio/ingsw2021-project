@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui.controllers;
 import it.polimi.ingsw.client.events.send.ChosenSetupEvent;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
+import it.polimi.ingsw.client.view.gui.GraphicUtilities;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -23,7 +24,8 @@ import java.util.Locale;
 
 public class SetupController extends GUICommandListener {
     private int numberOfResources;
-    private Stage newWindow;
+    private Stage marketWindow;
+    private Stage gridWindow;
 
     private final List<String> possibleResources = new ArrayList<String>() {{
         add("YELLOW");
@@ -96,8 +98,11 @@ public class SetupController extends GUICommandListener {
                 chosenResources.add(possibleResources.get(Integer.parseInt(button.getId())));
             }
         }
-        if(newWindow!=null) {
-            newWindow.close();
+        if(marketWindow !=null) {
+            marketWindow.close();
+        }
+        if(gridWindow!=null){
+            gridWindow.close();
         }
         System.out.println(chosenLeadersIndexes);
         System.out.println(chosenResources);
@@ -119,30 +124,14 @@ public class SetupController extends GUICommandListener {
     private void seeMarket(){
         Scene secondScene = null;
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/marketScene.fxml"));
-        fxmlLoader.setController(new MarketController());
-        try {
-            secondScene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // New window (Stage)
-        if(newWindow == null) {
-            newWindow = new Stage();
-            newWindow.setTitle("Market Tray popUp");
-            newWindow.setScene(secondScene);
-            // Specifies the owner Window (parent) for new window
-            newWindow.initOwner(mainPane.getScene().getWindow());
-            // Specifies the modality for new window.
-            newWindow.initModality(Modality.NONE);
-            // Set position of second window, related to primary window.
-            newWindow.setX(mainPane.getScene().getWindow().getX() + 200);
-            newWindow.setY(mainPane.getScene().getWindow().getY() + 100);
-        }
-        newWindow.setScene(secondScene);
-        newWindow.show();
+        fxmlLoader.setController(new MarketController(true));
+        marketWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader,marketWindow,Modality.NONE);
+        marketWindow.show();
     }
     private void seeGrid(){
-
+        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/devGridPopupScene.fxml"));
+        gridWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader,gridWindow,Modality.NONE);
+        gridWindow.show();
     }
 }
 

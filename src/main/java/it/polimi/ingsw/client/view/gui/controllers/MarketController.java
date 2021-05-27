@@ -17,36 +17,53 @@ import javafx.scene.layout.VBox;
 import java.io.File;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MarketController extends GUICommandListener {
 
+    private boolean viewOnly;
     private List<String> fullMarket;
     @FXML
     private ImageView extraRes;
-    @FXML
-    private Button arrow_0;
     @FXML
     private GridPane marketGrid;
     @FXML
     private VBox VButtons;
     @FXML
     private HBox HButtons;
+
+    public MarketController(boolean viewOnly) {
+        this.viewOnly = viewOnly;
+    }
+
     @FXML
     private void initialize(){
-        printInfoMessage("Click an arrow to take the resources");
         //populate the marketGrid with savedData
         GraphicUtilities.populateMarket(marketGrid,extraRes);
-
-        //todo merge 2 for below
-        for(Node b:HButtons.getChildren()){
-            Button button = (Button)b;
-            button.setOnMousePressed((event -> marketAction(button.getText())));
+        if(viewOnly){
+            HButtons.setDisable(viewOnly);
+            VButtons.setDisable(viewOnly);
+            return;
         }
-        for(Node b:VButtons.getChildren()){
-            Button button = (Button)b;
+        printInfoMessage("Click an arrow to take the resources");
+        for (Node b : Stream.concat(HButtons.getChildren().stream(), VButtons.getChildren().stream()).collect(Collectors.toList())) {
+            Button button = (Button) b;
             button.setOnMousePressed((event -> marketAction(button.getText())));
         }
     }
+    private void setButtons(boolean disable) {
+        VButtons.setDisable(disable);
+        HButtons.setDisable(disable);
+    }
+
+    public void setOnViewOnly() {
+        setButtons(true);
+    }
+
+
+
+
 
     @FXML
     public void marketAction(String arrowID) {

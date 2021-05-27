@@ -1,12 +1,20 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.model.Board;
+import it.polimi.ingsw.client.view.gui.controllers.MarketController;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -40,5 +48,27 @@ public class GraphicUtilities {
             temp = (ImageView)res;
             temp.setImage(new Image(file.toURI().toString()));
         }
+    }
+    public static Stage  populatePopupWindow(Window window, FXMLLoader fxmlLoader, Stage stageToPopulate, Modality modality){
+        Scene secondScene = null;
+        try {
+            secondScene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // New window (Stage)
+        if(stageToPopulate == null) {
+            stageToPopulate = new Stage();
+            stageToPopulate.setScene(secondScene);
+            // Specifies the owner Window (parent) for new window
+            stageToPopulate.initOwner(window);
+            // Specifies the modality for new window.
+            stageToPopulate.initModality(modality);
+            // Set position of second window, related to primary window.
+            stageToPopulate.setX(window.getX() + 200);
+            stageToPopulate.setY(window.getY() + 100);
+        }
+        stageToPopulate.setScene(secondScene);
+        return stageToPopulate;
     }
 }
