@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.events.send.LeaderActionEvent;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import it.polimi.ingsw.client.view.gui.GraphicUtilities;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -30,7 +31,7 @@ public class HandController extends GUICommandListener {
 
     @FXML
     private void initialize() {
-        GraphicUtilities.populateLeaders(HLeaders,nickname);
+        GraphicUtilities.populateLeaders(HLeaders, Board.getBoard().getPersonalBoardOf(nickname).getHandLeaders());
         discard1.setOnMousePressed(event -> discardLeader(discard1.getId()));
         discard2.setOnMousePressed(event -> discardLeader(discard2.getId()));
         activate1.setOnMousePressed(event -> activateLeader(activate1.getId()));

@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.gui.controllers.MarketController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -44,19 +45,21 @@ public class GraphicUtilities {
     public static void populateDevGrid(GridPane devGridToPopulate) {
         ImageView temp;
         File file;
+        Button button;
         List<String> devGrid = Board.getBoard().getDevelopmentCardsGrid().toStringList();
         Collections.reverse(devGrid);
         for (Node res : devGridToPopulate.getChildren()) {
+            button = (Button) res;
+            button.setId(devGrid.get(0));
+            temp = (ImageView) button.getGraphic();
             file = new File(devCardsPath + devGrid.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
-            temp = (ImageView) res;
             temp.setImage(new Image(file.toURI().toString()));
         }
     }
 
-    public static void populateLeaders(HBox leadersBox, String nickname) {
+    public static void populateLeaders(HBox leadersBox, List<String> population) {
         File file;
         ImageView temp;
-        List<String> population = Board.getBoard().getPersonalBoardOf(nickname).getHandLeaders();
         for (Node leader : leadersBox.getChildren()) {
             file = new File(leaderCardsPath + population.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
             temp = (ImageView) leader;

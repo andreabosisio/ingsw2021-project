@@ -8,7 +8,6 @@ import it.polimi.ingsw.client.view.gui.GraphicUtilities;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -53,6 +52,7 @@ public class PersonalController extends GUICommandListener {
         //Load proper grids data
         GraphicUtilities.populateMarket(marketGrid, extraRes);
         GraphicUtilities.populateDevGrid(devGrid);
+        GraphicUtilities.populateLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders());
         //Prepare action for seeLeaderHand button
         handButton.setOnMousePressed(event -> showHandAction());
         //Prepare actions for market buttons
@@ -62,7 +62,10 @@ public class PersonalController extends GUICommandListener {
         }
         handController = new HandController(nickname);
         handController.registerObservers(getCommandListenerObserver());
-        for(Node n : marketGrid.getChildren()){
+        for (Node n : marketGrid.getChildren()) {
+            n.setOnMousePressed(event -> handleMarketRequest(n));
+        }
+        for (Node n : devGrid.getChildren()) {
             n.setOnMousePressed(event -> handleBuyRequest(n));
         }
     }
@@ -74,13 +77,18 @@ public class PersonalController extends GUICommandListener {
         leaderHandWindow.show();
     }
 
-    public void marketAction(String arrowID) {
-        System.out.println("you pressed " + arrowID);
+    private void marketAction(String arrowID) {
         notifyObservers(new MarketActionEvent(Integer.parseInt(arrowID)));
     }
-    public void handleBuyRequest(Node n){
+
+    private void handleMarketRequest(Node n) {
         n.setVisible(false);
         System.out.println("buy :)");
+    }
+
+    private void handleBuyRequest(Node n) {
+        Button button = (Button) n;
+        System.out.println(button.getId());
     }
 
 }
