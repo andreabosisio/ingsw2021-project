@@ -60,7 +60,8 @@ public class PersonalController extends GUICommandListener {
     private Button endTurn;
     @FXML
     private AnchorPane warehouse;
-
+    @FXML
+    private AnchorPane productionPane;
 
     @FXML
     private void initialize() {
@@ -105,6 +106,14 @@ public class PersonalController extends GUICommandListener {
             n.setOnMousePressed(event -> resourceClick(n.getId()));
             i++;
         }
+        //set all productionBoard indexes
+        i = 0;
+        for(Node n:productionPane.getChildren()){
+            n.setId(String.valueOf(i));
+            n.setOnMousePressed(event -> productionClick(n.getId()));
+            i++;
+        }
+
     }
     private void showHandAction() {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/leaderHandScene.fxml"));
@@ -128,6 +137,9 @@ public class PersonalController extends GUICommandListener {
     }
     private void resourceClick(String resID){
         System.out.println(resID);
+    }
+    private void productionClick(String prodID){
+        System.out.println(prodID);
     }
 
 }
