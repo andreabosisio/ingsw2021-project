@@ -78,9 +78,6 @@ public class PersonalController extends GUICommandListener {
         }
         handController = new HandController(nickname);
         handController.registerObservers(getCommandListenerObserver());
-        for (Node n : marketGrid.getChildren()) {
-            n.setOnMousePressed(event -> handleMarketRequest(n));
-        }
         for (Node n : devGrid.getChildren()) {
             n.setOnMousePressed(event -> handleBuyRequest(n));
         }
@@ -124,11 +121,6 @@ public class PersonalController extends GUICommandListener {
 
     private void marketAction(String arrowID) {
         notifyObservers(new MarketActionEvent(Integer.parseInt(arrowID)));
-    }
-
-    private void handleMarketRequest(Node n) {
-        n.setVisible(false);
-        System.out.println("buy :)");
     }
 
     private void handleBuyRequest(Node n) {
