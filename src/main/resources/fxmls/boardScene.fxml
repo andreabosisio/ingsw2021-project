@@ -308,7 +308,7 @@
             </Button>
          </children>
       </HBox>
-      <HBox fx:id="HLeaderRes" layoutX="539.0" layoutY="342.0">
+      <HBox fx:id="HLeadersRes" layoutX="539.0" layoutY="342.0">
          <children>
             <Button mnemonicParsing="false">
                <graphic>
@@ -801,8 +801,8 @@
             </Button>
          </children>
       </GridPane>
-      <Button layoutX="959.0" layoutY="346.0" mnemonicParsing="false" text="Buy Card" />
-      <Button layoutX="942.0" layoutY="413.0" mnemonicParsing="false" text="End Production" />
+      <Button fx:id="buyCard" layoutX="959.0" layoutY="346.0" mnemonicParsing="false" text="Buy Card" />
+      <Button fx:id="endProduction" layoutX="942.0" layoutY="413.0" mnemonicParsing="false" text="End Production" />
       <Button id="1" layoutX="1087.0" layoutY="496.0" mnemonicParsing="false" prefHeight="239.0" prefWidth="153.0">
          <graphic>
             <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
