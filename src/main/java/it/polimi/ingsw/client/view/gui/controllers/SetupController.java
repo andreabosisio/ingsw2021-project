@@ -36,18 +36,25 @@ public class SetupController extends GUICommandListener {
     private List<String> leaderCardsID;
     private List<Integer> chosenLeadersIndexes;
     private List<String> chosenResources;
+
     @FXML
     private Button done;
+
     @FXML
     private AnchorPane mainPane;
+
     @FXML
     private Button gridButton;
+
     @FXML
     private Button marketButton;
+
     @FXML
     private HBox HToggleLeaders;
+
     @FXML
     private HBox HToggleResources;
+
     @FXML
     public void initialize() {
         File file;
@@ -61,7 +68,7 @@ public class SetupController extends GUICommandListener {
             toggleButton.setGraphic(imageView);
             i++;
         }
-        for(i = 0;i<numberOfResources;i++){
+        for(i = 0; i < numberOfResources; i++){
             Button button =(Button)HToggleResources.getChildren().get(i);
             button.setId("0");
             button.setDisable(false);
@@ -71,10 +78,12 @@ public class SetupController extends GUICommandListener {
         gridButton.setOnMousePressed((event -> seeGrid()));
         marketButton.setOnMousePressed((event -> seeMarket()));
     }
+
     public void initializeData(List<String> leaderCardsID, int numberOfResource){
         this.leaderCardsID = leaderCardsID;
         this.numberOfResources = numberOfResource;
     }
+
     private void setupAction(){
         chosenLeadersIndexes = new ArrayList<>();
         for(Node node:HToggleLeaders.getChildren()){
@@ -121,6 +130,7 @@ public class SetupController extends GUICommandListener {
         imageView.setImage(new Image(file.toURI().toString()));
         button.setGraphic(imageView);
     }
+
     private void seeMarket(){
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/marketScene.fxml"));
         fxmlLoader.setController(new MarketController(true));

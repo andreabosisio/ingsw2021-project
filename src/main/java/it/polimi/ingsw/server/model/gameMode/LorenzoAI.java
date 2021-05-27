@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.gameMode;
 
+import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
@@ -30,6 +31,9 @@ public class LorenzoAI implements Lorenzo{
      */
     @Override
     public boolean play(TurnLogic turnLogic) {
+        //notify that lorenzo is playing his turn
+        turnLogic.getModelInterface().notifyObservers(new StartTurnEvent(this.getNickname(), false));
+
         if (soloActionTokens.get(tokensDeckIndex).doAction(this, turnLogic)) {
             tokensDeckIndex = 0;
             shuffle();

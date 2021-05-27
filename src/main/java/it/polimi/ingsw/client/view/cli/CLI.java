@@ -11,6 +11,7 @@ import java.util.Map;
 public class CLI implements View {
 
     private String nickname;
+    private boolean isPlaying = false;
     private NetworkHandler networkHandler;
     private final CLICommandListener cliCommandListener;
 
@@ -37,6 +38,16 @@ public class CLI implements View {
     }
 
     @Override
+    public void setIsPlaying(boolean isPlaying) {
+        this.isPlaying = isPlaying;
+    }
+
+    @Override
+    public boolean isThisClientTurn() {
+        return isPlaying;
+    }
+
+    @Override
     public void startNetwork() {
         render(AnsiEnum.LOGO.getAsciiArt());
         cliCommandListener.registerObservers(networkHandler);
@@ -46,6 +57,11 @@ public class CLI implements View {
     public static void clearView() {
         for (int i = 0; i < 50; i++)
             System.out.println();
+    }
+
+    @Override
+    public void showWaitAnimation() {
+        showThreePointsAnimation();
     }
 
     public static void render(Printable printable) {
@@ -115,7 +131,6 @@ public class CLI implements View {
         render(Board.getBoard().getPrintableMarketAndGrid());
         cliCommandListener.askSetupChoice(leaderCardsID, numberOfResource);
     }
-
 
     @Override
     public void setOnYourTurn() {

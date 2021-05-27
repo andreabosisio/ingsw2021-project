@@ -54,9 +54,10 @@ public class WaitTransformationState extends State {
         //send update of player warehouse
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
         graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+        graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " transformed some White Marble!");
         turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
         //send placement event to client
-        ChoiceEvent choiceEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse());
+        ChoiceEvent choiceEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname());
         turnLogic.setLastEventSent(choiceEvent);
         turnLogic.getModelInterface().notifyObservers(choiceEvent);
         turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());

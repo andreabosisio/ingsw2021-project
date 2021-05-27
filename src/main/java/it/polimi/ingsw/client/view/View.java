@@ -6,6 +6,9 @@ import java.util.Map;
 public interface View {
     void setNickname(String nickname);
     String getNickname();
+    void setIsPlaying(boolean isPlaying);
+    boolean isThisClientTurn();
+    void showWaitAnimation();
     void startNetwork();
     void graphicUpdate();
     void printInfoMessage(String info);
@@ -18,7 +21,7 @@ public interface View {
     void setOnWaitForYourTurn(String currentPlayer);
     void setOnDevelopmentCardPlacement(String newCardID);
     void setOnResourcesPlacement();
-    void setOnTransformation(int numberOfTransformation,List<String> possibleTransformations);
+    void setOnTransformation(int numberOfTransformation, List<String> possibleTransformations);
     void setOnEndTurn();
-    void setOnEndGame(String winner,Map<String, Integer> playersPoints);
+    void setOnEndGame(String winner, Map<String, Integer> playersPoints);
 }

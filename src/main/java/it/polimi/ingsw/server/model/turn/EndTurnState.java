@@ -40,7 +40,7 @@ public class EndTurnState extends State {
             if(turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
                 PlayerInterface winner = turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
                 turnLogic.setCurrentState(turnLogic.getEndGame());
-                EndGameEvent endGameEvent = new EndGameEvent(winner,turnLogic.getPlayers());
+                EndGameEvent endGameEvent = new EndGameEvent(winner, turnLogic.getPlayers());
                 turnLogic.getModelInterface().notifyObservers(endGameEvent);
                 return true;
             }
@@ -72,29 +72,29 @@ public class EndTurnState extends State {
         //if the card has to be discarded
         if(discard){
             if(!currentPlayer.discardLeader(chosenLeaderCard))
-                throw new InvalidEventException("Can't discard this card");
+                throw new InvalidEventException("You cannot discard this card right now");
             else {
 
                 //graphic update of faithTracks and player's owned leaderCards
                 GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
                 graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
                 graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
+                graphicUpdateEvent.addUpdate( turnLogic.getCurrentPlayer().getNickname() + " discarded a Leader Card!");
                 turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             }
         }else
         //if the card has to be activated
         {
             if(!currentPlayer.activateLeaderCard(chosenLeaderCard))
-                throw new InvalidEventException("LeaderCard activation failed");
+                throw new InvalidEventException("You cannot activate this card right now");
             else {
-
                 //graphic update of leaderCards owned by the player
                 GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
                 graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+                graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " activated a Leader Card!");
                 turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             }
         }
-
         return endTurn();
     }
 }

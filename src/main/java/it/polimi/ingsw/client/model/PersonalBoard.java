@@ -15,7 +15,7 @@ public class PersonalBoard extends Printable {
     private final List<String> handLeaders;
     private final List<String> activeLeaders;
     private List<String> productionBoard;
-    private final static List<LinkedHashSet<String>> developmentCardsInSlots = Arrays.asList(new LinkedHashSet<>(), new LinkedHashSet<>(), new LinkedHashSet<>(), new LinkedHashSet<>());
+    private final List<LinkedHashSet<String>> developmentCardsInSlots = Arrays.asList(new LinkedHashSet<>(), new LinkedHashSet<>(), new LinkedHashSet<>(), new LinkedHashSet<>());
     private Map<Integer, String> warehouse;
 
     private PrintableScene productionSlotsScene, warehouseScene, activeLeadersScene, activeCardsScene, handScene, faithScene, cardsScene;

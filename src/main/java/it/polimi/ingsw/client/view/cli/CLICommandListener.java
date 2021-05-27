@@ -390,7 +390,7 @@ public class CLICommandListener implements CommandListener {
 
     public String askSeePlayerChoice(){
         List<String> nicknames = Board.getBoard().getAllPersonalBoards().stream().map(PersonalBoard::getNickname).collect(Collectors.toList());
-        CLI.render("Players you can see are: " + nicknames.stream().filter(n -> !n.equals(nickname)) + ". Choose one:");
+        CLI.render("Players you can see are: " + nicknames.stream().filter(n -> !n.equals(nickname)).collect(Collectors.toList()) + ". Choose one:");
         String answer = scanner.nextLine();
         while (!nicknames.contains(answer)){
             CLI.renderError(answer + " does not exist, try again");

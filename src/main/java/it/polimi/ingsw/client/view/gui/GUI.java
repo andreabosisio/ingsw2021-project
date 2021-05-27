@@ -24,6 +24,7 @@ public class GUI extends Application implements View {
 
     private NetworkHandler networkHandler;
     private String nickname;
+    private boolean isPlaying = false;
     private final Map<String, GUICommandListener> guiCommandListeners = new HashMap<String, GUICommandListener>() {{
         put("loginController", new LoginController());
         put("chooseNumberController", new ChooseNumberController());
@@ -39,7 +40,7 @@ public class GUI extends Application implements View {
             this.networkHandler = new NetworkHandler(ip, port, this);
             guiCommandListeners.values().forEach(guiCommandListener -> guiCommandListener.registerObservers(networkHandler));
             new Thread(this::startNetwork).start();
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new IOException();
         }
     }
@@ -62,6 +63,15 @@ public class GUI extends Application implements View {
         networkHandler.startNetwork();
     }
 
+    @Override
+    public void setIsPlaying(boolean isPlaying) {
+        this.isPlaying = isPlaying;
+    }
+
+    @Override
+    public boolean isThisClientTurn() {
+        return isPlaying;
+    }
 
     @Override
     public void graphicUpdate() {
@@ -76,6 +86,11 @@ public class GUI extends Application implements View {
     @Override
     public void printErrorMessage(String error) {
         currentGuiCommandListener.printErrorMessage(error);
+    }
+
+    @Override
+    public void showWaitAnimation() {
+
     }
 
     @Override
@@ -94,6 +109,13 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnMatchMaking() {
+        /*
+        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("loginController");
+        setRoot("loginScene", nextGuiCommandListener);
+        ((LoginController) nextGuiCommandListener).activateProgressIndicator();
+        currentGuiCommandListener = nextGuiCommandListener;
+
+         */
         //todo move this code in place were marketAction is selected
         /*
         GUICommandListener nextGuiCommandListener = guiCommandListeners.get("marketController");

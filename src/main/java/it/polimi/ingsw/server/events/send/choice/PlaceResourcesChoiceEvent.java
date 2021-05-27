@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceResourcesChoiceEvent extends ChoiceEvent {
-   //
-    public PlaceResourcesChoiceEvent(String nickname, Warehouse warehouse) {
+    public PlaceResourcesChoiceEvent(String nickname) {
         super(nickname, "placeResources");
-        //warehouse.getResourcesFromMarket().forEach(resource -> resourcesToPlace.add(resource.getColor().toString()));
     }
 }

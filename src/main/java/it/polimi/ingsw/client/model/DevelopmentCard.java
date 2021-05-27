@@ -31,7 +31,7 @@ public class DevelopmentCard extends Printable {
         // contains the three possible resources to buy the card
         String[] cardPrice = devCardsDatabase.getPriceOf(iD);
         // contains the level of the Card colored like the color of the Card
-        String cardLevel = devCardsDatabase.getColoredLevel(iD);
+        String cardLevel = this.getColoredLevel();
         // contains the victory points of the Card (vP < 9 ? " " + 3 : 11)
         String cardVictoryPoints = devCardsDatabase.getVictoryPoints(iD);
         String[] cardInResources = devCardsDatabase.getInResources(iD);
@@ -61,5 +61,15 @@ public class DevelopmentCard extends Printable {
             return this;
         Printable cutCards = new PrintableScene(oldCards.getPrintable().subList(0, oldCards.getPrintable().size() - this.getPrintable().size() + 2));
         return PrintableScene.addPrintablesToTop(this, cutCards);
+    }
+
+    /**
+     * Get method that return the level of the Card:
+     * The number is colored like the color of the card
+     *
+     * @return the colored level of the Card
+     */
+    private String getColoredLevel() {
+        return AnsiEnum.colorString(String.valueOf(DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getLevelOf(this.iD)), DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getColorOf(this.iD));
     }
 }

@@ -65,19 +65,6 @@ public class DevelopmentCardsDatabase {
         return Integer.parseInt(splittedCardIndex[2]) - 1;
     }
 
-    /**
-     * Get method that return the level of the Card:
-     * The number is colored like the color of the card
-     *
-     * @param cardID is the ID of the Card
-     * @return the level of the Card
-     */
-    //fixme why here?
-    public String getColoredLevel(String cardID) {
-        int numberOfCard = getNumberOfCard(cardID);
-        return AnsiEnum.colorString(devCardsLevel.get(numberOfCard), devCardsColor.get(numberOfCard));
-    }
-
     public int getLevelOf(String cardID) {
         return Integer.parseInt(devCardsLevel.get(getNumberOfCard(cardID)));
     }

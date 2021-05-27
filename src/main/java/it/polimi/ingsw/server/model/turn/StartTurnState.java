@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.events.send.choice.*;
 import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
@@ -18,7 +17,9 @@ import it.polimi.ingsw.server.model.cards.LeaderCard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StartTurnState extends State {
     public StartTurnState(TurnLogic turnLogic) {
@@ -45,9 +46,9 @@ public class StartTurnState extends State {
             GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
             graphicUpdateEvent.addUpdate(new MarketUpdate());
             graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
-            graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+            graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+            graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " took some resources from the Market Tray! \n Now he's reordering them...");
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
-
 
             //if player has to transform some white resources
             ChoiceEvent choiceEvent;
@@ -62,10 +63,10 @@ public class StartTurnState extends State {
             }
 
             //send event and save choice data
-            choiceEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse());
+            choiceEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname());
             turnLogic.setLastEventSent(choiceEvent);
             turnLogic.getModelInterface().
-                    notifyObservers(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+                    notifyObservers(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname()));
             hasAlreadyDoneLeaderAction = false;
             turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());
             return true;
@@ -128,6 +129,11 @@ public class StartTurnState extends State {
             //finally activate the production
             if (!personalBoard.getProductionCard(currentKey).usePower(turnLogic))
                 throw new InvalidEventException("production failed"); //impossible condition
+            else {
+                GraphicUpdateEvent infoMsg = new GraphicUpdateEvent();
+                infoMsg.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " produced this resources: " + personalBoard.getProductionCard(currentKey).getOutResources().stream().map(r->r.getColor().toString()).collect(Collectors.toList())+"!");
+                turnLogic.getModelInterface().notifyObservers(infoMsg);
+            }
 
             //payment
             warehouse.takeResources(production.getValue());
@@ -185,6 +191,7 @@ public class StartTurnState extends State {
                 GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
                 graphicUpdateEvent.addUpdate(new GridUpdate(chosenColorEnum, cardLevel));
                 graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+                graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " purchased a " + chosenColorEnum.toString().toUpperCase(Locale.ROOT) + " Development Card of level " + cardLevel + "!");
                 turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
                 //send event and save choice
@@ -195,7 +202,7 @@ public class StartTurnState extends State {
                 hasAlreadyDoneLeaderAction = false;
                 return true;
             }
-        throw new InvalidEventException("could not buy/place the card");
+        throw new InvalidEventException("Could not buy (or place) the card");
     }
 
     /**
@@ -210,7 +217,7 @@ public class StartTurnState extends State {
     public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {
 
         if (hasAlreadyDoneLeaderAction)
-            throw new InvalidEventException("this action was already performed");
+            throw new InvalidEventException("You have already performed a Leader Action!");
 
         Player currentPlayer = turnLogic.getCurrentPlayer();
 
@@ -221,24 +228,25 @@ public class StartTurnState extends State {
         //if the card has to be discarded
         if (discard) {
             if (!currentPlayer.discardLeader(chosenLeaderCard))
-                throw new InvalidEventException("can't discard this card");
+                throw new InvalidEventException("You cannot discard this card right now");
             else {
-
                 //graphic update of faithTracks and player's owned leaderCards
                 GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
                 graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
                 graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
+                graphicUpdateEvent.addUpdate( turnLogic.getCurrentPlayer().getNickname() + " discarded a Leader Card!");
                 turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             }
         } else
         //if the card has to be activated
         {
             if (!currentPlayer.activateLeaderCard(chosenLeaderCard))
-                throw new InvalidEventException("leaderCard activation failed");
+                throw new InvalidEventException("You cannot activate this card right now");
             else {
                 //graphic update of leaderCards owned by the player
                 GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
                 graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+                graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " activated a Leader Card!");
                 turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             }
         }

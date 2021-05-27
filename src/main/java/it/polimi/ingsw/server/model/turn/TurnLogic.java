@@ -85,7 +85,7 @@ public class TurnLogic {
             return;
         }
         reset();
-        modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname(),false));
+        modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname(), false));
     }
 
     private void reset() {

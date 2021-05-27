@@ -28,7 +28,7 @@ public class GraphicUpdateEvent implements ReceiveEvent {
                 gson.fromJson(element.getAsJsonObject(), PersonalBoard.class).update(view.getNickname());
             }
         }
-        if (messageUpdate != null)
+        if (messageUpdate != null && !view.isThisClientTurn())
             view.printInfoMessage(messageUpdate);
     }
 }

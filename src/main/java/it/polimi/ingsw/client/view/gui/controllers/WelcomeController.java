@@ -62,7 +62,7 @@ public class WelcomeController extends GUICommandListener {
         // Wrong IP or Port
         try {
             gui.setGUI(ip, port);
-        } catch (IOException e) {
+        } catch (Exception e) {
             printErrorMessage("Could not reach the Server");
             serverIP.setText(defaultIP);
             serverPort.setText(String.valueOf(defaultPort));

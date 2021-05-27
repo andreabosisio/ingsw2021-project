@@ -15,8 +15,6 @@ public class Board extends Printable {
     private final static String MARKET_GRID_SEPARATOR = "            ";
     private final static String GRID_BOARD_SEPARATOR = "      |      ";
 
-    private static int DIM_SCENE = 30;
-
     private Board() {
     }
 
@@ -78,11 +76,6 @@ public class Board extends Printable {
         return new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname).getActiveCardsScene(), 2, DevelopmentCardsDatabase.getDevelopmentCardsDatabase().createDevelopmentCardByID(cardToPlaceID)));
     }
 
-    @Override
-    public int getWidth() {
-        //fixme
-        return DIM_SCENE;
-    }
     public PersonalBoard getPersonalBoardOf(String nickname){
         return personalBoards.stream().filter(p -> p.getNickname().equals(nickname)).findFirst().orElse(null);
     }

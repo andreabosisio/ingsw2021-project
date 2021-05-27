@@ -7,6 +7,6 @@ public class LoginEvent extends SendEvent {
     public LoginEvent(String nickname, String password) {
         super("login");
         this.nickname = nickname;
-        this.password = password; //todo to hash
+        this.password = String.valueOf(password.hashCode());
     }
 }
