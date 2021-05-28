@@ -85,8 +85,9 @@ public class PersonalController extends GUICommandListener {
         GraphicUtilities.populateMarket(marketGrid, extraRes);
         GraphicUtilities.populateDevGrid(devGrid);
         GraphicUtilities.populateLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders());
-        GraphicUtilities.populateProductionBoard(productionPane,nickname);
-        GraphicUtilities.populateWarehouse(HResFromMarket,warehouse,HLeadersRes,strongboxGrid,nickname);
+        GraphicUtilities.populateProductionBoard(productionPane, nickname);
+        GraphicUtilities.populateWarehouse(HResFromMarket, warehouse, HLeadersRes, strongboxGrid, nickname);
+        GraphicUtilities.populateFaithTracks(faithTrack);
         //Prepare action for seeLeaderHand button
         handButton.setOnMousePressed(event -> showHandPopup());
         endSwap.setVisible(false);
@@ -178,12 +179,11 @@ public class PersonalController extends GUICommandListener {
 
     private void resourceClick(Node n) {
         currentSelectedResources.add(n);
-        if(canSwap){
-            if(lastSwap==null){
+        if (canSwap) {
+            if (lastSwap == null) {
                 lastSwap = n;
-            }
-            else{
-                Button last = (Button)lastSwap;
+            } else {
+                Button last = (Button) lastSwap;
                 Button selected = (Button) n;
                 Node tmp = last.getGraphic();
                 last.setGraphic(selected.getGraphic());
@@ -200,7 +200,7 @@ public class PersonalController extends GUICommandListener {
     }
 
     public void marketUpdate() {
-        if(mainPane==null)
+        if (mainPane == null)
             return;
         GraphicUtilities.populateMarket(marketGrid, extraRes);
     }
@@ -210,7 +210,9 @@ public class PersonalController extends GUICommandListener {
     }
 
     public void faithTracksUpdate() {
-        //GraphicUtilities.populateFaithTracks();
+        if (faithTrack == null)
+            return;
+        GraphicUtilities.populateFaithTracks(faithTrack);
     }
 
     public void productionBoardUpdate() {
@@ -220,23 +222,26 @@ public class PersonalController extends GUICommandListener {
     }
 
     public void warehouseUpdate() {
-        if(mainPane==null)
+        if (mainPane == null)
             return;
-        GraphicUtilities.populateWarehouse(HResFromMarket,warehouse,HLeadersRes,strongboxGrid,nickname);
+        GraphicUtilities.populateWarehouse(HResFromMarket, warehouse, HLeadersRes, strongboxGrid, nickname);
     }
-    public void activateSwaps(){
+
+    public void activateSwaps() {
         endSwap.setVisible(true);
         canSwap = true;
     }
-    private void sendSwapAction(){
+
+    private void sendSwapAction() {
         List<Integer> swaps = new ArrayList<>();
-        currentSelectedResources.forEach(node->swaps.add(Integer.parseInt(node.getId())));
-        notifyObservers(new ResourcesPlacementActionEvent(swaps,true));
+        currentSelectedResources.forEach(node -> swaps.add(Integer.parseInt(node.getId())));
+        notifyObservers(new ResourcesPlacementActionEvent(swaps, true));
         endSwap.setVisible(false);
         currentSelectedResources.clear();
-        canSwap=false;
+        canSwap = false;
     }
-    private void endTurnAction(){
+
+    private void endTurnAction() {
         //todo reset all variables
         notifyObservers(new EndTurnActionEvent());
 

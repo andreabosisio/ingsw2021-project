@@ -115,4 +115,12 @@ public class FaithTrack extends Printable {
     public void update() {
         Board.getBoard().setFaithTrack(this);
     }
+
+    public HashMap<String, Integer> getIndexes() {
+        return new HashMap<>(indexes);
+    }
+
+    public HashMap<String, Boolean[]> getReports() {
+        return new HashMap<>(reports);
+    }
 }

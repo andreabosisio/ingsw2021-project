@@ -26,6 +26,7 @@ public class GraphicUtilities {
     private static final String resourcesPath = "src/main/resources/images/resources/";
     private static final String devCardsPath = "src/main/resources/images/devCards/";
     private static final String leaderCardsPath = "src/main/resources/images/leaders/";
+    private static final String faithMarkersPath = "src/main/resources/images/faithMarkers/";
     private static final String endOfPath = ".png";
 
     //todo added this method to populate a market by giving grid with imageViews and extra imageView
@@ -55,6 +56,52 @@ public class GraphicUtilities {
             temp = (ImageView) button.getGraphic();
             file = new File(devCardsPath + devGrid.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
             temp.setImage(new Image(file.toURI().toString()));
+        }
+    }
+    //TODO: POPE REPORTS!!!
+    public static void populateFaithTracks(AnchorPane faithTrack) {
+        ImageView temp;
+        File file;
+
+        Map<String, Integer> faithTracks = Board.getBoard().getFaithTrack().getIndexes();
+        Map<String, Boolean[]> popeReports = Board.getBoard().getFaithTrack().getReports();
+
+        Map<Integer, String> mapOfPlayers = new HashMap<>();
+
+        int indexOfPlayer = 0;
+        for (String key : faithTracks.keySet()) {
+            mapOfPlayers.put(indexOfPlayer, key);
+            indexOfPlayer++;
+        }
+
+        int index = 0;
+
+        for (Node faithMarker : faithTrack.getChildren()) {
+            if (index == (faithTracks.get(mapOfPlayers.get(0)) * 4)) {
+                temp = (ImageView) faithMarker;
+                file = new File(faithMarkersPath + "faithMarker0" + endOfPath);
+                temp.setImage(new Image(file.toURI().toString()));
+            }
+            else if (index == (faithTracks.get(mapOfPlayers.get(1)) * 4 + 1)) {
+                temp = (ImageView) faithMarker;
+                file = new File(faithMarkersPath + "faithMarker1" + endOfPath);
+                temp.setImage(new Image(file.toURI().toString()));
+            }
+            else if (faithTracks.size() > 2 && index == (faithTracks.get(mapOfPlayers.get(2)) * 4 + 2)) {
+                temp = (ImageView) faithMarker;
+                file = new File(faithMarkersPath + "faithMarker2" + endOfPath);
+                temp.setImage(new Image(file.toURI().toString()));
+            }
+            else if (faithTracks.size() > 3 &&index == (faithTracks.get(mapOfPlayers.get(3)) * 4 + 3)) {
+                temp = (ImageView) faithMarker;
+                file = new File(faithMarkersPath + "faithMarker3" + endOfPath);
+                temp.setImage(new Image(file.toURI().toString()));
+            }
+            else {
+                temp = (ImageView) faithMarker;
+                temp.setImage(null);
+            }
+            index++;
         }
     }
 
