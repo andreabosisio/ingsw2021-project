@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.model;
 
+import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import it.polimi.ingsw.client.view.cli.Printable;
 import it.polimi.ingsw.client.view.cli.PrintableScene;
@@ -24,8 +25,10 @@ public class PersonalBoard extends Printable {
     private final static String WAREHOUSE_SLOTS_SEPARATOR = "       ";
     private final static int WAREHOUSE_BOARDNAME_OFFSET = 5;
     private final static int ACTIVE_HAND_LEADERS_OFFSET = 1;
+    private View view;
 
-    public PersonalBoard(String nickname) {
+    public PersonalBoard(String nickname,View view) {
+        this.view = view;
         this.nickname = nickname;
         this.handLeaders = Arrays.asList(LeaderCard.getEmptyCardID(), LeaderCard.getEmptyCardID());
         this.activeLeaders = Arrays.asList(LeaderCard.getEmptyCardID(), LeaderCard.getEmptyCardID());
@@ -56,6 +59,7 @@ public class PersonalBoard extends Printable {
                 this.activeLeaders.set(i, id);
                 i++;
             }
+            view.activeLeadersUpdate(nickname);
         }
     }
 
@@ -63,12 +67,14 @@ public class PersonalBoard extends Printable {
         if(productionBoard != null) {
             IntStream.range(0, productionBoard.size()).forEach(i -> developmentCardsInSlots.get(i).add(productionBoard.get(i)));
             this.productionBoard = productionBoard;
+            view.productionBoardUpdate(nickname);
         }
     }
 
     public void setWarehouse(Map<Integer, String> warehouse) {
         if(warehouse != null) {
             this.warehouse = warehouse;
+            view.warehouseUpdate(nickname);
         }
     }
 
@@ -117,7 +123,7 @@ public class PersonalBoard extends Printable {
     }
 
     private void setWarehouseScene() {
-        this.warehouseScene = new PrintableScene(PrintableScene.addBottomString(new Inventory(warehouse), getPrintableBoardName(), WAREHOUSE_BOARDNAME_OFFSET));
+        this.warehouseScene = new PrintableScene(PrintableScene.addBottomString(new Inventory(warehouse, activeLeaders), getPrintableBoardName(), WAREHOUSE_BOARDNAME_OFFSET));
     }
 
     private String getPrintableBoardName() {

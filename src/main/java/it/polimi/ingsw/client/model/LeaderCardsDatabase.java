@@ -22,6 +22,12 @@ public class LeaderCardsDatabase {
     private final List<String> leaderCardsID = new ArrayList<>();
     private final List<String> leaderCardsVictoryPoints = new ArrayList<>();
     private final List<String> leaderCardsRequirements = new ArrayList<>();
+
+    //fixme
+    public String getLeaderCardAbility(String id) {
+        return leaderCardsAbilities.get(getNumberOfCard(id));
+    }
+
     private final List<String> leaderCardsAbilities = new ArrayList<>();
 
     /**

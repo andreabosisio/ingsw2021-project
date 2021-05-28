@@ -24,4 +24,11 @@ public interface View {
     void setOnTransformation(int numberOfTransformation, List<String> possibleTransformations);
     void setOnEndTurn();
     void setOnEndGame(String winner, Map<String, Integer> playersPoints);
+
+    void marketUpdate();
+    void gridUpdate(String iD);
+    void faithTracksUpdate();
+    void activeLeadersUpdate(String nickname);
+    void warehouseUpdate(String nickname);
+    void productionBoardUpdate(String nickname);
 }

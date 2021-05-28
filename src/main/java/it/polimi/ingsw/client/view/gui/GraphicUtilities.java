@@ -48,12 +48,42 @@ public class GraphicUtilities {
         Button button;
         List<String> devGrid = Board.getBoard().getDevelopmentCardsGrid().toStringList();
         Collections.reverse(devGrid);
-        for (Node res : devGridToPopulate.getChildren()) {
-            button = (Button) res;
+        for (Node card : devGridToPopulate.getChildren()) {
+            button = (Button) card;
             button.setId(devGrid.get(0));
             temp = (ImageView) button.getGraphic();
             file = new File(devCardsPath + devGrid.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
             temp.setImage(new Image(file.toURI().toString()));
+        }
+    }
+
+    //todo added this method to update a devGrid by the iD of the new image
+    public static void updateDevGrid(GridPane devGridPopulated, String iD) {
+        ImageView temp;
+        File file;
+        Button button;
+        int indexNewCard = 0;
+        int counter = 0;
+
+        List<String> devGrid = Board.getBoard().getDevelopmentCardsGrid().toStringList();
+        Collections.reverse(devGrid);
+
+        for (String devCardID : devGrid) {
+            if (devCardID.equals(iD))
+                break;
+            else
+                indexNewCard++;
+        }
+        for (Node card : devGridPopulated.getChildren()) {
+            if (counter == indexNewCard) {
+                button = (Button) card;
+                temp = (ImageView) button.getGraphic();
+                file = new File(devCardsPath + iD.toLowerCase(Locale.ROOT) + endOfPath);
+                temp.setImage(new Image(file.toURI().toString()));
+                break;
+            }
+            else
+                counter++;
         }
     }
 

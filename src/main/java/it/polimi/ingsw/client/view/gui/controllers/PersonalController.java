@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.events.send.MarketActionEvent;
 import it.polimi.ingsw.client.model.Board;
+import it.polimi.ingsw.client.model.DevelopmentCardsDatabase;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import it.polimi.ingsw.client.view.gui.GraphicUtilities;
@@ -17,19 +18,24 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
 public class PersonalController extends GUICommandListener {
-    private Stage leaderHandWindow;
     private String nickname;
+    private Stage leaderHandWindow;
     private HandController handController;
+    private Stage transformationWindow;
+    private TransformationController transformationController;
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    private List<Node> currentSelectedResources = new ArrayList<>();
     @FXML
     private AnchorPane mainPane;
     @FXML
@@ -70,53 +76,66 @@ public class PersonalController extends GUICommandListener {
         GraphicUtilities.populateDevGrid(devGrid);
         GraphicUtilities.populateLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders());
         //Prepare action for seeLeaderHand button
-        handButton.setOnMousePressed(event -> showHandAction());
+        handButton.setOnMousePressed(event -> showHandPopup());
         //Prepare actions for market buttons
         for (Node b : Stream.concat(HArrowButtons.getChildren().stream(), VArrowButtons.getChildren().stream()).collect(Collectors.toList())) {
             Button button = (Button) b;
             button.setOnMousePressed((event -> marketAction(button.getText())));
         }
+
+        //setup popup scene controllers
         handController = new HandController(nickname);
         handController.registerObservers(getCommandListenerObserver());
+        transformationController = new TransformationController();
+        transformationController.registerObservers(getCommandListenerObserver());
+
         for (Node n : devGrid.getChildren()) {
             n.setOnMousePressed(event -> handleBuyRequest(n));
         }
         //setAllResources buttons ID as their indexes
         int i = 0;
-        for(Node n:HResFromMarket.getChildren()){
+        for (Node n : HResFromMarket.getChildren()) {
             n.setId(String.valueOf(i));
-            n.setOnMousePressed(event -> resourceClick(n.getId()));
+            n.setOnMousePressed(event -> resourceClick(n));
             i++;
         }
-        for(Node n:warehouse.getChildren()){
+        for (Node n : warehouse.getChildren()) {
             n.setId(String.valueOf(i));
-            n.setOnMousePressed(event -> resourceClick(n.getId()));
+            n.setOnMousePressed(event -> resourceClick(n));
             i++;
         }
-        for(Node n:HLeadersRes.getChildren()){
+        for (Node n : HLeadersRes.getChildren()) {
             n.setId(String.valueOf(i));
-            n.setOnMousePressed(event -> resourceClick(n.getId()));
+            n.setOnMousePressed(event -> resourceClick(n));
             i++;
         }
-        for(Node n:strongboxGrid.getChildren()){
+        for (Node n : strongboxGrid.getChildren()) {
             n.setId(String.valueOf(i));
-            n.setOnMousePressed(event -> resourceClick(n.getId()));
+            n.setOnMousePressed(event -> resourceClick(n));
             i++;
         }
         //set all productionBoard indexes
         i = 0;
-        for(Node n:productionPane.getChildren()){
+        for (Node n : productionPane.getChildren()) {
             n.setId(String.valueOf(i));
             n.setOnMousePressed(event -> productionClick(n.getId()));
             i++;
         }
-
     }
-    private void showHandAction() {
+
+    private void showHandPopup() {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/leaderHandScene.fxml"));
         fxmlLoader.setController(handController);
         leaderHandWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, leaderHandWindow, Modality.WINDOW_MODAL);
         leaderHandWindow.show();
+    }
+
+    public void showTransformationPopup(int numberOfTransformation, List<String> possibleTransformation) {
+        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/whiteTransformation.fxml"));
+        fxmlLoader.setController(transformationController);
+        transformationController.setTransformation(numberOfTransformation, possibleTransformation);
+        transformationWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, transformationWindow, Modality.WINDOW_MODAL);
+        transformationWindow.show();
     }
 
     private void marketAction(String arrowID) {
@@ -124,14 +143,48 @@ public class PersonalController extends GUICommandListener {
     }
 
     private void handleBuyRequest(Node n) {
-        Button button = (Button) n;
-        System.out.println(button.getId());
+        String color = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getColorOf(n.getId());
+        int level = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getLevelOf(n.getId());
+        List<Integer> resPositions = currentSelectedResources.stream().map(node -> Integer.parseInt(node.getId())).collect(Collectors.toList());
+        System.out.println("buy of " + color + " " + level + " " + resPositions);
+        //notifyObservers(new BuyActionEvent(color,level,resPositions));
+        currentSelectedResources.clear();
     }
-    private void resourceClick(String resID){
-        System.out.println(resID);
+
+    private void resourceClick(Node n) {
+        currentSelectedResources.add(n);
+        System.out.println(n.getId());
     }
-    private void productionClick(String prodID){
+
+    private void productionClick(String prodID) {
+        //List<Integer> resPositions = currentSelectedResources.stream().map(node->Integer.parseInt(node.getId())).collect(Collectors.toList());
         System.out.println(prodID);
     }
 
+    public void marketUpdate() {
+        //todo pezza
+        if(marketGrid!=null) {
+            GraphicUtilities.populateMarket(marketGrid, extraRes);
+        }
+    }
+
+    public void gridUpdate(String iD) {
+        GraphicUtilities.updateDevGrid(devGrid, iD);
+    }
+
+    public void faithTracksUpdate() {
+        //GraphicUtilities.populateFaithTracks();
+    }
+
+    public void productionBoardUpdate(){
+
+    }
+
+    public void activeLeadersUpdate(){
+
+    }
+
+    public void warehouseUpdate(){
+
+    }
 }

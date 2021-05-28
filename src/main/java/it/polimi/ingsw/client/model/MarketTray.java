@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.model;
 
+import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import it.polimi.ingsw.client.view.cli.Printable;
 
@@ -146,10 +147,12 @@ public class MarketTray extends Printable {
         return arrows;
     }
 
-    public void update() {
+    public void update(View view) {
         setMarketBoard();
         Board.getBoard().setMarketTray(this);
+        view.marketUpdate();
     }
+
     public List<String> toStringList() {
         List<String> toReturn = new ArrayList<>();
         toReturn.add(extraSlot);

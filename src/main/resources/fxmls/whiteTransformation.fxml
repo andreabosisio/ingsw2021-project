@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+    <HBox fx:id="HTransformationBox" layoutX="100.0" layoutY="81.0">
+        <children>
+         <VBox disable="true" opacity="0.5" prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <ImageView fitHeight="90.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/marbles/white.png" />
+                  </image>
+               </ImageView>
+               <ImageView fitHeight="65.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/utils/arrowDown.png" />
+                  </image></ImageView>
+                  <Button id="0" mnemonicParsing="false">
+                      <graphic>
+                          <ImageView fitHeight="74.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                  <Image url="@../images/resources/yellow.png" />
+                              </image>
+                          </ImageView>
+                      </graphic>
+                  </Button>
+            </children>
+         </VBox>
+         <VBox disable="true" opacity="0.5" prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <ImageView fitHeight="90.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/marbles/white.png" />
+                  </image>
+               </ImageView>
+               <ImageView fitHeight="65.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/utils/arrowDown.png" />
+                  </image></ImageView>
+                  <Button id="1" mnemonicParsing="false">
+                      <graphic>
+                          <ImageView fitHeight="74.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                  <Image url="@../images/resources/yellow.png" />
+                              </image>
+                          </ImageView>
+                      </graphic>
+                  </Button>
+            </children>
+         </VBox>
+         <VBox disable="true" opacity="0.5" prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <ImageView fitHeight="90.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/marbles/white.png" />
+                  </image>
+               </ImageView>
+               <ImageView fitHeight="65.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/utils/arrowDown.png" />
+                  </image></ImageView>
+               <Button id="2" mnemonicParsing="false">
+                  <graphic>
+                     <ImageView fitHeight="74.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../images/resources/yellow.png" />
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </children>
+         </VBox>
+         <VBox disable="true" opacity="0.5" prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <ImageView fitHeight="90.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/marbles/white.png" />
+                  </image>
+               </ImageView>
+               <ImageView fitHeight="65.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/utils/arrowDown.png" />
+                  </image></ImageView>
+               <Button id="3" mnemonicParsing="false">
+                  <graphic>
+                     <ImageView fitHeight="74.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../images/resources/yellow.png" />
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </children>
+         </VBox>
+        </children>
+    </HBox>
+   <Button layoutX="273.0" layoutY="339.0" mnemonicParsing="false" text="Confirm" />
+</AnchorPane>

@@ -13,9 +13,11 @@ import javafx.stage.Stage;
 
 public class HandController extends GUICommandListener {
     private String nickname;
+
     public HandController(String nickname) {
         this.nickname = nickname;
     }
+
     @FXML
     HBox HLeaders;
     @FXML
@@ -37,17 +39,18 @@ public class HandController extends GUICommandListener {
         activate1.setOnMousePressed(event -> activateLeader(activate1.getId()));
         activate2.setOnMousePressed(event -> activateLeader(activate2.getId()));
     }
-    private void discardLeader(String index){
-        String leaderID = Board.getBoard().getPersonalBoardOf(nickname).getHandLeaders().get(Integer.parseInt(index));
-        notifyObservers(new LeaderActionEvent(leaderID,true));
-        Stage stage  = (Stage) mainPane.getScene().getWindow();
-        stage.close();
 
-    }
-    private void activateLeader(String index){
+    private void discardLeader(String index) {
         String leaderID = Board.getBoard().getPersonalBoardOf(nickname).getHandLeaders().get(Integer.parseInt(index));
-        notifyObservers(new LeaderActionEvent(leaderID,false));
-        Stage stage  = (Stage) mainPane.getScene().getWindow();
+        notifyObservers(new LeaderActionEvent(leaderID, true));
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.close();
+    }
+
+    private void activateLeader(String index) {
+        String leaderID = Board.getBoard().getPersonalBoardOf(nickname).getHandLeaders().get(Integer.parseInt(index));
+        notifyObservers(new LeaderActionEvent(leaderID, false));
+        Stage stage = (Stage) mainPane.getScene().getWindow();
         stage.close();
     }
 }

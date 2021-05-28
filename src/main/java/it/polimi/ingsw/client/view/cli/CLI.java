@@ -251,4 +251,17 @@ public class CLI implements View {
         playersPoints.forEach((player, victoryPoints) -> System.out.print(player + ":" + victoryPoints + "  "));
         //todo Implements play again / close app
     }
+
+    @Override
+    public void marketUpdate() {}
+    @Override
+    public void gridUpdate(String iD) {}
+    @Override
+    public void faithTracksUpdate() {}
+    @Override
+    public void activeLeadersUpdate(String nickname) {}
+    @Override
+    public void warehouseUpdate(String nickname){}
+    @Override
+    public void productionBoardUpdate(String nickname){}
 }

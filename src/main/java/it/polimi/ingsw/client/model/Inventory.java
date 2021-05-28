@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.model;
 
+import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import it.polimi.ingsw.client.view.cli.Printable;
 
 import java.util.ArrayList;
@@ -8,10 +9,17 @@ import java.util.Map;
 
 public class Inventory extends Printable {
     private Map<Integer, String> warehouse;
-    private final int N_SLOTS = 50;
+    private List<String> activeLeadersIDs;
+    private final static int N_SLOTS = 50;
+    private final static char WAREHOUSE_LEADER_CARD_ID_PREFIX = 'w';
+    private final static String NON_ACCESSIBLE_SLOT_SYMBOL = " X ";
+    private final static int FIRST_EXTRA_SLOT_INIT_INDEX = 10;
+    private final static int SECOND_EXTRA_SLOT_INIT_INDEX = 12;
+    private final static int EXTRA_SLOTS_DIM = 2;
 
-    public Inventory(Map<Integer, String> warehouse) {
+    public Inventory(Map<Integer, String> warehouse, List<String> activeLeadersIDs) {
         this.warehouse = warehouse;
+        this.activeLeadersIDs = activeLeadersIDs;
     }
 
     @Override
@@ -41,8 +49,21 @@ public class Inventory extends Printable {
     private String[] setSlots() {
         String[] slots = new String[N_SLOTS];
         for (int i = 0; i < N_SLOTS; i++) {
-            slots[i] = Marble.getPrintable(warehouse.getOrDefault(i, "EMPTY_RES"));
+            slots[i] = Marble.getPrintable(warehouse.getOrDefault(i, Marble.getEmptyResId()));
         }
+        //fixme
+        for (int i = 0, k = 0; i < activeLeadersIDs.size(); i++) {
+            String currLeaderCardID = activeLeadersIDs.get(i);
+            for (int j = 0; j < EXTRA_SLOTS_DIM; j++, k++) {
+                    if (currLeaderCardID.charAt(0) == WAREHOUSE_LEADER_CARD_ID_PREFIX) {
+                        if (slots[FIRST_EXTRA_SLOT_INIT_INDEX + k].equals(AnsiEnum.EMPTY_RES)) {
+                            slots[FIRST_EXTRA_SLOT_INIT_INDEX + k] = " " + LeaderCardsDatabase.getLeaderCardsDatabase().getLeaderCardAbility(currLeaderCardID).charAt(0) + " ";
+                        }
+                    } else {
+                        slots[FIRST_EXTRA_SLOT_INIT_INDEX + k] = NON_ACCESSIBLE_SLOT_SYMBOL;
+                    }
+                }
+            }
         return slots;
     }
 }

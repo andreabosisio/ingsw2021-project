@@ -6,6 +6,11 @@ import it.polimi.ingsw.client.view.cli.Printable;
 
 public class Marble extends Printable {
     private final String color;
+    private final static String EMPTY_RES_ID = "EMPTY_RES";
+
+    public static String getEmptyResId() {
+        return EMPTY_RES_ID;
+    }
 
     public Marble(String color) {
         this.color = color;

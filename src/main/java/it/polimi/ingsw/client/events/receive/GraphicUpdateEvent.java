@@ -17,15 +17,20 @@ public class GraphicUpdateEvent implements ReceiveEvent {
     public void updateView(View view) {
         Gson gson = new Gson();
 
-        if (marketUpdate != null)
-            gson.fromJson(marketUpdate, MarketTray.class).update();
-        if (gridUpdate != null)
-            gson.fromJson(gridUpdate, DevelopmentCardsGrid.class).update();
-        if (faithTracksUpdate != null)
+        if (marketUpdate != null) {
+            gson.fromJson(marketUpdate, MarketTray.class).update(view);
+        }
+        if (gridUpdate != null) {
+            gson.fromJson(gridUpdate, DevelopmentCardsGrid.class).update(view);
+        }
+        if (faithTracksUpdate != null) {
             gson.fromJson(faithTracksUpdate, FaithTrack.class).update();
+            view.faithTracksUpdate();
+        }
         if (personalBoardUpdateList != null){
             for(JsonElement element : personalBoardUpdateList){
-                gson.fromJson(element.getAsJsonObject(), PersonalBoard.class).update(view.getNickname());
+                PersonalBoard personalBoard = gson.fromJson(element.getAsJsonObject(), PersonalBoard.class);
+                personalBoard.update(view.getNickname());
             }
         }
         if (messageUpdate != null && !view.isThisClientTurn())

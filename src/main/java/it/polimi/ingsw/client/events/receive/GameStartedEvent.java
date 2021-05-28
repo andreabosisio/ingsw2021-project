@@ -17,6 +17,6 @@ public class GameStartedEvent implements ReceiveEvent{
 
     @Override
     public void updateView(View view) {
-        Board.getBoard().setPersonalBoards(nicknames.stream().map(PersonalBoard::new).collect(Collectors.toSet()));
+        Board.getBoard().setPersonalBoards(nicknames.stream().map(nickname -> new PersonalBoard(nickname, view)).collect(Collectors.toSet()));
     }
 }

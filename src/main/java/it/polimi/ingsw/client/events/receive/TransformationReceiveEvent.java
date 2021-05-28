@@ -15,6 +15,6 @@ public class TransformationReceiveEvent implements ReceiveEvent{
 
     @Override
     public void updateView(View view) {
-        view.setOnTransformation(numberOfTransformation,possibleTransformations);
+        view.setOnTransformation(numberOfTransformation, possibleTransformations);
     }
 }

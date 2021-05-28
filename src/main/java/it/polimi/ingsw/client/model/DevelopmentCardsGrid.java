@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.model;
 
 
+import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.cli.Printable;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import java.util.*;
@@ -30,12 +31,13 @@ public class DevelopmentCardsGrid extends Printable {
      * if yes it sets the map that represents the Grid and it saves his self in the Board,
      * otherwise it just update the map with the new Card.
      */
-    public void update() {
+    public void update(View view) {
         if (fullGrid != null) {
             setup();
             Board.getBoard().setDevelopmentCardsGrid(this);
         } else {
             Board.getBoard().getDevelopmentCardsGrid().setDevelopmentCard(this.color, this.level, this.iD);
+            view.gridUpdate(this.iD);
         }
     }
 

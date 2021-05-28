@@ -38,10 +38,10 @@ public class MarketController extends GUICommandListener {
     }
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         //populate the marketGrid with savedData
-        GraphicUtilities.populateMarket(marketGrid,extraRes);
-        if(viewOnly){
+        GraphicUtilities.populateMarket(marketGrid, extraRes);
+        if (viewOnly) {
             HButtons.setDisable(viewOnly);
             VButtons.setDisable(viewOnly);
             return;
@@ -52,6 +52,7 @@ public class MarketController extends GUICommandListener {
             button.setOnMousePressed((event -> marketAction(button.getText())));
         }
     }
+
     private void setButtons(boolean disable) {
         VButtons.setDisable(disable);
         HButtons.setDisable(disable);
@@ -64,6 +65,10 @@ public class MarketController extends GUICommandListener {
     public void marketAction(String arrowID) {
         System.out.println(arrowID);
         //notifyObservers(new MarketActionEvent(Integer.parseInt(arrowID)));
+    }
+
+    public void update(List<String> marketUpdated) {
+        fullMarket = marketUpdated;
     }
 
 }

@@ -27,6 +27,7 @@ public class SetupController extends GUICommandListener {
     private Stage marketWindow;
     private Stage gridWindow;
 
+    //fixme change to enum and search for other uses of this
     private final List<String> possibleResources = new ArrayList<String>() {{
         add("YELLOW");
         add("BLUE");
@@ -79,12 +80,12 @@ public class SetupController extends GUICommandListener {
         marketButton.setOnMousePressed((event -> seeMarket()));
     }
 
-    public void initializeData(List<String> leaderCardsID, int numberOfResource){
+    public void initializeData(List<String> leaderCardsID, int numberOfResource) {
         this.leaderCardsID = leaderCardsID;
         this.numberOfResources = numberOfResource;
     }
 
-    private void setupAction(){
+    private void setupAction() {
         chosenLeadersIndexes = new ArrayList<>();
         for(Node node:HToggleLeaders.getChildren()){
             ToggleButton button = (ToggleButton) node;

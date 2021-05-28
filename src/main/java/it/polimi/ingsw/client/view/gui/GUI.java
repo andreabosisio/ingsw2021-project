@@ -156,7 +156,7 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnTransformation(int numberOfTransformation, List<String> possibleTransformations) {
-
+        ((PersonalController) currentGuiCommandListener).showTransformationPopup(numberOfTransformation, possibleTransformations);
     }
 
     @Override
@@ -168,6 +168,49 @@ public class GUI extends Application implements View {
     public void setOnEndGame(String winner, Map<String, Integer> playersPoints) {
 
     }
+
+    @Override
+    public void marketUpdate() {
+        PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
+        personalController.marketUpdate();
+    }
+
+    @Override
+    public void gridUpdate(String iD) {
+        PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
+        personalController.gridUpdate(iD);
+    }
+
+    @Override
+    public void faithTracksUpdate() {
+        PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
+        //personalController.faithTracksUpdate();
+    }
+
+    @Override
+    public void productionBoardUpdate(String updatingNick){
+        if(nickname.equals(updatingNick)){
+            PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
+            personalController.productionBoardUpdate();
+        }
+    }
+
+    @Override
+    public void activeLeadersUpdate(String updatingNick){
+        if(nickname.equals(updatingNick)){
+            PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
+            personalController.activeLeadersUpdate();
+        }
+    }
+
+    @Override
+    public void warehouseUpdate(String updatingNick){
+        if(nickname.equals(updatingNick)){
+            PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
+            personalController.warehouseUpdate();
+        }
+    }
+
 
     @Override
     public void start(Stage stage) throws Exception {
