@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.model.Board;
-import it.polimi.ingsw.client.view.gui.controllers.MarketController;
+import it.polimi.ingsw.client.model.Marble;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -11,31 +11,32 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class GraphicUtilities {
 
-    private static final String resourcesPath = "src/main/resources/images/marbles/";
+    private static final String marblesPath = "src/main/resources/images/marbles/";
+    private static final String resourcesPath = "src/main/resources/images/resources/";
     private static final String devCardsPath = "src/main/resources/images/devCards/";
     private static final String leaderCardsPath = "src/main/resources/images/leaders/";
     private static final String endOfPath = ".png";
 
     //todo added this method to populate a market by giving grid with imageViews and extra imageView
     public static void populateMarket(GridPane marketToPopulate, ImageView extraRes) {
+        //todo levare da qui e mettere nel metodo updateMarket di personal controller
         List<String> market = Board.getBoard().getMarketTray().toStringList();
-        File file = new File(resourcesPath + market.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
+        File file = new File(marblesPath + market.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
         extraRes.setImage(new Image(file.toURI().toString()));
         ImageView temp;
         for (Node res : marketToPopulate.getChildren()) {
-            file = new File(resourcesPath + market.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
+            file = new File(marblesPath + market.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
             temp = (ImageView) res;
             temp.setImage(new Image(file.toURI().toString()));
         }
@@ -88,6 +89,8 @@ public class GraphicUtilities {
     }
 
     public static void populateLeaders(HBox leadersBox, List<String> population) {
+        if(leadersBox==null)
+            return;
         File file;
         ImageView temp;
         for (Node leader : leadersBox.getChildren()) {
@@ -118,5 +121,37 @@ public class GraphicUtilities {
         }
         stageToPopulate.setScene(secondScene);
         return stageToPopulate;
+    }
+
+    public static void populateProductionBoard(AnchorPane personalBoard,String nickname){
+        List<String> population = new ArrayList<>(Board.getBoard().getPersonalBoardOf(nickname).getProductionBoard());
+        population.remove(0);//remove basic
+        File file;
+        ImageView temp;
+        for(int i = 1;i<personalBoard.getChildren().size();i++){
+            Button production = (Button) personalBoard.getChildren().get(i);
+            ImageView cardImage = (ImageView) production.getGraphic();
+            file = new File(devCardsPath + population.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
+            cardImage.setImage(new Image(file.toURI().toString()));
+        }
+    }
+
+    public static void populateWarehouse(HBox fromMarket, AnchorPane warehouse, VBox leaders,GridPane strongbox, String nickname){
+        List<Node> allDepotsAsNodes = new ArrayList<>();
+        allDepotsAsNodes.addAll(fromMarket.getChildren());
+        allDepotsAsNodes.addAll(warehouse.getChildren());
+        allDepotsAsNodes.addAll(leaders.getChildren());
+        allDepotsAsNodes.addAll(strongbox.getChildren());
+        Map<Integer,String> warehouseMap =  Board.getBoard().getPersonalBoardOf(nickname).getWarehouse();
+        File file;
+        int i = 0;
+        for(Node n:allDepotsAsNodes){
+            Button button = (Button) n;
+            ImageView resImage = (ImageView) button.getGraphic();
+            String res = warehouseMap.getOrDefault(i, Marble.getEmptyResId());
+            file = new File(resourcesPath + res.toLowerCase(Locale.ROOT) + endOfPath);
+            resImage.setImage(new Image(file.toURI().toString()));
+            i++;
+        }
     }
 }

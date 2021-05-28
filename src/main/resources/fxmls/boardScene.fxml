@@ -747,9 +747,6 @@
             </Button>
          </children>
       </GridPane>
-      <Button fx:id="buyCard" layoutX="959.0" layoutY="346.0" mnemonicParsing="false" text="Buy Card" />
-      <Button fx:id="endProduction" layoutX="942.0" layoutY="413.0" mnemonicParsing="false" text="End Production" />
-      <Button fx:id="endTurn" layoutX="959.0" layoutY="481.0" mnemonicParsing="false" text="End Turn" />
       <AnchorPane fx:id="warehouse" layoutX="655.0" layoutY="355.0" prefHeight="220.0" prefWidth="209.0">
          <children>
             <Button id="9" layoutX="93.0" layoutY="25.0" mnemonicParsing="false">
@@ -840,5 +837,9 @@
             </Button>
          </children>
       </AnchorPane>
+      <Button fx:id="endSwap" layoutX="793.0" layoutY="262.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="91.0" text="End Swap" />
+      <Button fx:id="endTurn" layoutX="959.0" layoutY="481.0" mnemonicParsing="false" text="End Turn" />
+      <Button fx:id="endProduction" layoutX="942.0" layoutY="413.0" mnemonicParsing="false" text="End Production" />
+      <Button fx:id="buyCard" layoutX="959.0" layoutY="346.0" mnemonicParsing="false" text="Buy Card" />
    </children>
 </AnchorPane>

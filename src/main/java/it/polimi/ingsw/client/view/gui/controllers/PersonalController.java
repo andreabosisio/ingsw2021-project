@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
+import it.polimi.ingsw.client.events.send.EndTurnActionEvent;
 import it.polimi.ingsw.client.events.send.MarketActionEvent;
+import it.polimi.ingsw.client.events.send.ResourcesPlacementActionEvent;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.DevelopmentCardsDatabase;
 import it.polimi.ingsw.client.view.gui.GUI;
@@ -36,6 +38,8 @@ public class PersonalController extends GUICommandListener {
     }
 
     private List<Node> currentSelectedResources = new ArrayList<>();
+    private boolean canSwap = false;
+    private Node lastSwap;
     @FXML
     private AnchorPane mainPane;
     @FXML
@@ -68,6 +72,8 @@ public class PersonalController extends GUICommandListener {
     private AnchorPane warehouse;
     @FXML
     private AnchorPane productionPane;
+    @FXML
+    private Button endSwap;
 
     @FXML
     private void initialize() {
@@ -75,8 +81,13 @@ public class PersonalController extends GUICommandListener {
         GraphicUtilities.populateMarket(marketGrid, extraRes);
         GraphicUtilities.populateDevGrid(devGrid);
         GraphicUtilities.populateLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders());
+        GraphicUtilities.populateProductionBoard(productionPane,nickname);
+        GraphicUtilities.populateWarehouse(HResFromMarket,warehouse,HLeadersRes,strongboxGrid,nickname);
         //Prepare action for seeLeaderHand button
         handButton.setOnMousePressed(event -> showHandPopup());
+        endSwap.setVisible(false);
+        endSwap.setOnMousePressed(event -> sendSwapAction());
+        endTurn.setOnMousePressed(event -> endTurnAction());
         //Prepare actions for market buttons
         for (Node b : Stream.concat(HArrowButtons.getChildren().stream(), VArrowButtons.getChildren().stream()).collect(Collectors.toList())) {
             Button button = (Button) b;
@@ -153,7 +164,20 @@ public class PersonalController extends GUICommandListener {
 
     private void resourceClick(Node n) {
         currentSelectedResources.add(n);
-        System.out.println(n.getId());
+        if(canSwap){
+            if(lastSwap==null){
+                lastSwap = n;
+            }
+            else{
+                Button last = (Button)lastSwap;
+                Button selected = (Button) n;
+                Node tmp = last.getGraphic();
+                last.setGraphic(selected.getGraphic());
+                selected.setGraphic(tmp);
+                lastSwap = null;
+            }
+        }
+
     }
 
     private void productionClick(String prodID) {
@@ -162,10 +186,9 @@ public class PersonalController extends GUICommandListener {
     }
 
     public void marketUpdate() {
-        //todo pezza
-        if(marketGrid!=null) {
-            GraphicUtilities.populateMarket(marketGrid, extraRes);
-        }
+        if(mainPane==null)
+            return;
+        GraphicUtilities.populateMarket(marketGrid, extraRes);
     }
 
     public void gridUpdate(String iD) {
@@ -176,15 +199,32 @@ public class PersonalController extends GUICommandListener {
         //GraphicUtilities.populateFaithTracks();
     }
 
-    public void productionBoardUpdate(){
-
+    public void productionBoardUpdate() {
     }
 
-    public void activeLeadersUpdate(){
-
+    public void activeLeadersUpdate() {
     }
 
-    public void warehouseUpdate(){
+    public void warehouseUpdate() {
+        if(mainPane==null)
+            return;
+        GraphicUtilities.populateWarehouse(HResFromMarket,warehouse,HLeadersRes,strongboxGrid,nickname);
+    }
+    public void activateSwaps(){
+        endSwap.setVisible(true);
+        canSwap = true;
+    }
+    private void sendSwapAction(){
+        List<Integer> swaps = new ArrayList<>();
+        currentSelectedResources.forEach(node->swaps.add(Integer.parseInt(node.getId())));
+        notifyObservers(new ResourcesPlacementActionEvent(swaps,true));
+        endSwap.setVisible(false);
+        currentSelectedResources.clear();
+        canSwap=false;
+    }
+    private void endTurnAction(){
+        //todo reset all variables
+        notifyObservers(new EndTurnActionEvent());
 
     }
 }

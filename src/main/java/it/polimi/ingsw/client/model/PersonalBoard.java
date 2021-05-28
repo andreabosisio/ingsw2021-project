@@ -78,6 +78,10 @@ public class PersonalBoard extends Printable {
         }
     }
 
+    public Map<Integer, String> getWarehouse() {
+        return warehouse;
+    }
+
     public List<String> getHandLeaders() {
         return new ArrayList<>(handLeaders);
     }
