@@ -41,6 +41,8 @@ public class PersonalController extends GUICommandListener {
     private boolean canSwap = false;
     private Node lastSwap;
     @FXML
+    private AnchorPane faithTrack;
+    @FXML
     private AnchorPane mainPane;
     @FXML
     private ImageView extraRes;
