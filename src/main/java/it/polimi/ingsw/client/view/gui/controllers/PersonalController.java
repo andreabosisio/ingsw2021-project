@@ -155,7 +155,8 @@ public class PersonalController extends GUICommandListener {
             fxmlLoader.setController(transformationController);
             transformationController.setTransformation(numberOfTransformation, possibleTransformation);
             transformationWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, transformationWindow, Modality.WINDOW_MODAL);
-            transformationWindow.show();});
+            transformationWindow.show();
+        });
     }
 
     public void showCardPlacementPopup(String newCardID) {
@@ -219,6 +220,10 @@ public class PersonalController extends GUICommandListener {
     }
 
     public void productionBoardUpdate() {
+        if(mainPane == null){
+            return;
+        }
+        GraphicUtilities.populateProductionBoard(productionPane,nickname);
     }
 
     public void activeLeadersUpdate() {
