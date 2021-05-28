@@ -31,6 +31,8 @@ public class PersonalController extends GUICommandListener {
     private Stage leaderHandWindow;
     private HandController handController;
     private Stage transformationWindow;
+    private CardPlacementController cardPlacementController;
+    private Stage cardPlacementWindow;
     private TransformationController transformationController;
 
     public void setNickname(String nickname) {
@@ -101,6 +103,8 @@ public class PersonalController extends GUICommandListener {
         handController.registerObservers(getCommandListenerObserver());
         transformationController = new TransformationController();
         transformationController.registerObservers(getCommandListenerObserver());
+        cardPlacementController = new CardPlacementController(nickname);
+        cardPlacementController.registerObservers(getCommandListenerObserver());
 
         for (Node n : devGrid.getChildren()) {
             n.setOnMousePressed(event -> handleBuyRequest(n));
@@ -149,6 +153,14 @@ public class PersonalController extends GUICommandListener {
         transformationController.setTransformation(numberOfTransformation, possibleTransformation);
         transformationWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, transformationWindow, Modality.WINDOW_MODAL);
         transformationWindow.show();
+    }
+
+    public void showCardPlacementPopup(String newCardID) {
+        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/cardPlacement.fxml"));
+        fxmlLoader.setController(cardPlacementController);
+        cardPlacementController.setNewCardID(newCardID);
+        cardPlacementWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, transformationWindow, Modality.WINDOW_MODAL);
+        cardPlacementWindow.show();
     }
 
     private void marketAction(String arrowID) {

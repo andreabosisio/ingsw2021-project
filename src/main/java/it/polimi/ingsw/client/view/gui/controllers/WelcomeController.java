@@ -22,10 +22,13 @@ public class WelcomeController extends GUICommandListener {
 
     @FXML
     private Button start;
+
     @FXML
     private Button settings;
+
     @FXML
     private TextField serverIP;
+
     @FXML
     private TextField serverPort;
 

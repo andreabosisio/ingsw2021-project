@@ -146,7 +146,7 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnDevelopmentCardPlacement(String newCardID) {
-
+        ((PersonalController) currentGuiCommandListener).showCardPlacementPopup(newCardID);
     }
 
     @Override
