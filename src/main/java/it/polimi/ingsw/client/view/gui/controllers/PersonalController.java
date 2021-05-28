@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
+import it.polimi.ingsw.client.events.send.BuyActionEvent;
 import it.polimi.ingsw.client.events.send.EndTurnActionEvent;
 import it.polimi.ingsw.client.events.send.MarketActionEvent;
 import it.polimi.ingsw.client.events.send.ResourcesPlacementActionEvent;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.client.model.DevelopmentCardsDatabase;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import it.polimi.ingsw.client.view.gui.GraphicUtilities;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -149,19 +151,20 @@ public class PersonalController extends GUICommandListener {
     }
 
     public void showTransformationPopup(int numberOfTransformation, List<String> possibleTransformation) {
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/whiteTransformation.fxml"));
-        fxmlLoader.setController(transformationController);
-        transformationController.setTransformation(numberOfTransformation, possibleTransformation);
-        transformationWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, transformationWindow, Modality.WINDOW_MODAL);
-        transformationWindow.show();
+        Platform.runLater(()->{FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/whiteTransformation.fxml"));
+            fxmlLoader.setController(transformationController);
+            transformationController.setTransformation(numberOfTransformation, possibleTransformation);
+            transformationWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, transformationWindow, Modality.WINDOW_MODAL);
+            transformationWindow.show();});
     }
 
     public void showCardPlacementPopup(String newCardID) {
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/cardPlacement.fxml"));
-        fxmlLoader.setController(cardPlacementController);
-        cardPlacementController.setNewCardID(newCardID);
-        cardPlacementWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, cardPlacementWindow, Modality.WINDOW_MODAL);
-        cardPlacementWindow.show();
+        Platform.runLater(()->{FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/cardPlacement.fxml"));
+            fxmlLoader.setController(cardPlacementController);
+            cardPlacementController.setNewCardID(newCardID);
+            cardPlacementWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, cardPlacementWindow, Modality.WINDOW_MODAL);
+            cardPlacementWindow.show();
+        });
     }
 
     private void marketAction(String arrowID) {
@@ -173,7 +176,7 @@ public class PersonalController extends GUICommandListener {
         int level = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getLevelOf(n.getId());
         List<Integer> resPositions = currentSelectedResources.stream().map(node -> Integer.parseInt(node.getId())).collect(Collectors.toList());
         System.out.println("buy of " + color + " " + level + " " + resPositions);
-        //notifyObservers(new BuyActionEvent(color,level,resPositions));
+        notifyObservers(new BuyActionEvent(color,level,resPositions));
         currentSelectedResources.clear();
     }
 
