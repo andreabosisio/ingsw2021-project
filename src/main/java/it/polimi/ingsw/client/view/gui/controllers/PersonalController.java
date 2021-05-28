@@ -160,7 +160,7 @@ public class PersonalController extends GUICommandListener {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/cardPlacement.fxml"));
         fxmlLoader.setController(cardPlacementController);
         cardPlacementController.setNewCardID(newCardID);
-        cardPlacementWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, transformationWindow, Modality.WINDOW_MODAL);
+        cardPlacementWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, cardPlacementWindow, Modality.WINDOW_MODAL);
         cardPlacementWindow.show();
     }
 
