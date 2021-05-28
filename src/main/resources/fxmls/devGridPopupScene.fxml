@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -7,10 +8,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.DevGridPopupController">
+<AnchorPane prefHeight="719.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.DevGridPopupController">
    <children>
-      <GridPane fx:id="devGrid" prefHeight="689.0" prefWidth="609.0">
+      <GridPane fx:id="devGrid" prefHeight="719.0" prefWidth="660.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -23,66 +23,114 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/devCards/BLUE_3_25.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-               <image>
-                  <Image url="@../images/devCards/BLUE_3_25.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
-               <image>
-                  <Image url="@../images/devCards/BLUE_3_25.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
-               <image>
-                  <Image url="@../images/devCards/BLUE_3_25.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../images/devCards/BLUE_3_25.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../images/devCards/BLUE_3_25.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../images/devCards/BLUE_3_25.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../images/devCards/BLUE_3_25.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
-               <image>
-                  <Image url="@../images/devCards/BLUE_3_25.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <image>
-                  <Image url="@../images/devCards/BLUE_3_25.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <image>
-                  <Image url="@../images/devCards/BLUE_3_25.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
-               <image>
-                  <Image url="@../images/devCards/BLUE_3_25.png" />
-               </image>
-            </ImageView>
+            <Button mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" GridPane.columnIndex="1">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" GridPane.columnIndex="2">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" GridPane.columnIndex="3">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" GridPane.rowIndex="1">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" GridPane.rowIndex="2">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <graphic>
+                  <ImageView fitHeight="232.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </GridPane>
    </children>
