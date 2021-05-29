@@ -31,6 +31,7 @@ public class GUI extends Application implements View {
         //put("marketController", new MarketController(false));
         put("setupController",new SetupController());
         put("personalController",new PersonalController());
+        put("endGameController",new EndGameController());
     }};
     private GUICommandListener currentGuiCommandListener;
     private static Scene scene;
@@ -162,12 +163,14 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnEndTurn() {
-
     }
 
     @Override
     public void setOnEndGame(String winner, Map<String, Integer> playersPoints) {
-
+        EndGameController nextGuiCommandListener = (EndGameController) guiCommandListeners.get("endGameController");
+        setRoot("endGameScene", nextGuiCommandListener, 800, 800);
+        currentGuiCommandListener = nextGuiCommandListener;
+        nextGuiCommandListener.showEndGameEvent(winner, playersPoints);
     }
 
     @Override
