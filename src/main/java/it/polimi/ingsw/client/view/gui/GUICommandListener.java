@@ -26,13 +26,15 @@ public abstract class GUICommandListener implements CommandListener {
     }
 
     public void printInfoMessage(String info) {
-        messageBox.setStyle("-fx-text-inner-color: black");
-        messageBox.setText(info);
+        //messageBox.setStyle("-fx-text-inner-color: black");
+        System.out.println("info: "+ info);
+        //messageBox.setText(info);
     }
 
     public void printErrorMessage(String error) {
-        messageBox.setStyle("-fx-text-inner-color: red");
-        messageBox.setText(error);
+        //messageBox.setStyle("-fx-text-inner-color: red");
+        System.out.println("error: "+ error);
+        //messageBox.setText(error);
     }
 
     public CommandListenerObserver getCommandListenerObserver() {

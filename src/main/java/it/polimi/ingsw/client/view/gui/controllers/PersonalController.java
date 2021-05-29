@@ -33,7 +33,9 @@ public class PersonalController extends GUICommandListener {
     private HandController handController;
     private Stage transformationWindow;
     private CardPlacementController cardPlacementController;
+    private ProductionChoiceController productionChoiceController;
     private Stage cardPlacementWindow;
+    private Stage productionChoiceWindow;
     private TransformationController transformationController;
     private Map<Integer,List<Integer>> totalInResources = new HashMap<>();
     private Map<Integer,String> totalOutResources = new HashMap<>();
@@ -92,6 +94,7 @@ public class PersonalController extends GUICommandListener {
         transformationController.registerObservers(getCommandListenerObserver());
         cardPlacementController = new CardPlacementController(nickname);
         cardPlacementController.registerObservers(getCommandListenerObserver());
+        productionChoiceController = new ProductionChoiceController(this);
 
         for (Node n : devGrid.getChildren()) {
             n.setOnMousePressed(event -> handleBuyRequest(n));
@@ -257,6 +260,12 @@ public class PersonalController extends GUICommandListener {
 
     private void endTurnAction() {
         //todo reset all variables
+        currentSelectedResources.clear();
+        totalInResources.clear();
+        totalOutResources.clear();
+        allSelectedResources.clear();
+        activatedProductions.clear();
+
         notifyObservers(new EndTurnActionEvent());
     }
 
@@ -274,9 +283,16 @@ public class PersonalController extends GUICommandListener {
 
 
     private void productionWithChoiceClick(Node production){
-
+        productionClick(production);
+        productionChoiceController.setProduction(production);
+        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/productionChoiceScene.fxml"));
+        fxmlLoader.setController(productionChoiceController);
+        productionChoiceWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, productionChoiceWindow, Modality.WINDOW_MODAL);
+        productionChoiceWindow.show();
     }
-
+    public void setChosenResource(String chosenResource,Node production){
+        totalOutResources.put(Integer.parseInt(production.getId()),chosenResource);
+    }
 
     private void productionClick(Node production) {
         List<Integer> resPositions = currentSelectedResources.stream().map(node->Integer.parseInt(node.getId())).collect(Collectors.toList());
