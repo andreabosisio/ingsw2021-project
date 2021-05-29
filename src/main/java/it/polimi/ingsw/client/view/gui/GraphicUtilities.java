@@ -59,6 +59,7 @@ public class GraphicUtilities {
             temp.setImage(new Image(file.toURI().toString()));
         }
     }
+
     //TODO: POPE REPORTS!!!
     public static void populateFaithTracks(AnchorPane faithTrack) {
         ImageView temp;
@@ -82,23 +83,19 @@ public class GraphicUtilities {
                 temp = (ImageView) faithMarker;
                 file = new File(faithMarkersPath + "faithMarker0" + endOfPath);
                 temp.setImage(new Image(file.toURI().toString()));
-            }
-            else if (index == (faithTracks.get(mapOfPlayers.get(1)) * 4 + 1)) {
+            } else if (index == (faithTracks.get(mapOfPlayers.get(1)) * 4 + 1)) {
                 temp = (ImageView) faithMarker;
                 file = new File(faithMarkersPath + "faithMarker1" + endOfPath);
                 temp.setImage(new Image(file.toURI().toString()));
-            }
-            else if (faithTracks.size() > 2 && index == (faithTracks.get(mapOfPlayers.get(2)) * 4 + 2)) {
+            } else if (faithTracks.size() > 2 && index == (faithTracks.get(mapOfPlayers.get(2)) * 4 + 2)) {
                 temp = (ImageView) faithMarker;
                 file = new File(faithMarkersPath + "faithMarker2" + endOfPath);
                 temp.setImage(new Image(file.toURI().toString()));
-            }
-            else if (faithTracks.size() > 3 &&index == (faithTracks.get(mapOfPlayers.get(3)) * 4 + 3)) {
+            } else if (faithTracks.size() > 3 && index == (faithTracks.get(mapOfPlayers.get(3)) * 4 + 3)) {
                 temp = (ImageView) faithMarker;
                 file = new File(faithMarkersPath + "faithMarker3" + endOfPath);
                 temp.setImage(new Image(file.toURI().toString()));
-            }
-            else {
+            } else {
                 temp = (ImageView) faithMarker;
                 temp.setImage(null);
             }
@@ -130,37 +127,44 @@ public class GraphicUtilities {
                 file = new File(devCardsPath + iD.toLowerCase(Locale.ROOT) + endOfPath);
                 temp.setImage(new Image(file.toURI().toString()));
                 break;
-            }
-            else
+            } else
                 counter++;
         }
     }
-    public static void populateActiveLeaders(List<String> population,HBox leadersBox,VBox warehouseLeaderBox){
+
+    public static void populateActiveLeaders(List<String> population, HBox leadersBox, VBox warehouseLeaderBox,HBox productionLeaderBox) {
         File file;
         ImageView temp;
         String leaderID;
         AtomicInteger wCount = new AtomicInteger(0);
+        AtomicInteger pCount =new AtomicInteger(0);
         for (Node leader : leadersBox.getChildren()) {
             leaderID = population.remove(0).toLowerCase(Locale.ROOT);
             //check if leader is of type warehouse and in case activate assigned buttons
-            if(leaderID.charAt(0) == 'w'){
+            if (leaderID.charAt(0) == 'w') {
                 warehouseLeaderBox.getChildren().get(wCount.getAndIncrement()).setVisible(true);
                 warehouseLeaderBox.getChildren().get(wCount.getAndIncrement()).setVisible(true);
             }
-            else if(leaderID.charAt(0) == 'p'){
-                //todo production stuff
+            if (leaderID.charAt(0) == 'p') {
+                productionLeaderBox.getChildren().get(pCount.get()).setVisible(true);
+                Button leaderProductionButton = (Button) productionLeaderBox.getChildren().get(pCount.getAndIncrement());
+                temp = (ImageView) leaderProductionButton.getGraphic();
+            }
+            else{
+                temp = (ImageView) leader;
             }
             file = new File(leaderCardsPath + leaderID + endOfPath);
-            temp = (ImageView) leader;
             temp.setImage(new Image(file.toURI().toString()));
         }
     }
 
     public static void populateHandLeaders(HBox leadersBox, List<String> population) {
         //todo line below could be removed
-
-        if(leadersBox==null)
+        /*
+        if (leadersBox == null)
             return;
+
+         */
 
 
         File file;
@@ -195,29 +199,29 @@ public class GraphicUtilities {
         return stageToPopulate;
     }
 
-    public static void populateProductionBoard(AnchorPane personalBoard,String nickname){
+    public static void populateProductionBoard(AnchorPane personalBoard, String nickname) {
         List<String> population = new ArrayList<>(Board.getBoard().getPersonalBoardOf(nickname).getProductionBoard());
         population.remove(0);//remove basic
         File file;
         ImageView temp;
-        for(int i = 1;i<personalBoard.getChildren().size();i++){
-            Button production = (Button) personalBoard.getChildren().get(i);
+        for (Node node : personalBoard.getChildren()) {
+            Button production = (Button) node;
             ImageView cardImage = (ImageView) production.getGraphic();
             file = new File(devCardsPath + population.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
             cardImage.setImage(new Image(file.toURI().toString()));
         }
     }
 
-    public static void populateWarehouse(HBox fromMarket, AnchorPane warehouse, VBox leaders,GridPane strongbox, String nickname){
+    public static void populateWarehouse(HBox fromMarket, AnchorPane warehouse, VBox leaders, GridPane strongbox, String nickname) {
         List<Node> allDepotsAsNodes = new ArrayList<>();
         allDepotsAsNodes.addAll(fromMarket.getChildren());
         allDepotsAsNodes.addAll(warehouse.getChildren());
         allDepotsAsNodes.addAll(leaders.getChildren());
         allDepotsAsNodes.addAll(strongbox.getChildren());
-        Map<Integer,String> warehouseMap =  Board.getBoard().getPersonalBoardOf(nickname).getWarehouse();
+        Map<Integer, String> warehouseMap = Board.getBoard().getPersonalBoardOf(nickname).getWarehouse();
         File file;
         int i = 0;
-        for(Node n:allDepotsAsNodes){
+        for (Node n : allDepotsAsNodes) {
             Button button = (Button) n;
             ImageView resImage = (ImageView) button.getGraphic();
             String res = warehouseMap.getOrDefault(i, Marble.getEmptyResId());

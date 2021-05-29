@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
-import it.polimi.ingsw.client.events.send.BuyActionEvent;
-import it.polimi.ingsw.client.events.send.EndTurnActionEvent;
-import it.polimi.ingsw.client.events.send.MarketActionEvent;
-import it.polimi.ingsw.client.events.send.ResourcesPlacementActionEvent;
+import it.polimi.ingsw.client.events.send.*;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.DevelopmentCardsDatabase;
 import it.polimi.ingsw.client.view.gui.GUI;
@@ -23,7 +20,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,50 +35,35 @@ public class PersonalController extends GUICommandListener {
     private CardPlacementController cardPlacementController;
     private Stage cardPlacementWindow;
     private TransformationController transformationController;
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
+    private Map<Integer,List<Integer>> totalInResources = new HashMap<>();
+    private Map<Integer,String> totalOutResources = new HashMap<>();
     private List<Node> currentSelectedResources = new ArrayList<>();
+    private List<Node> allSelectedResources = new ArrayList<>();
+    private List<Node> activatedProductions = new ArrayList<>();
+
     private boolean canSwap = false;
     private Node lastSwap;
-    @FXML
-    private AnchorPane faithTrack;
-    @FXML
-    private AnchorPane mainPane;
-    @FXML
-    private ImageView extraRes;
-    @FXML
-    private GridPane marketGrid;
-    @FXML
-    private GridPane devGrid;
-    @FXML
-    private Button handButton;
-    @FXML
-    private HBox HActiveLeaders;
-    @FXML
-    private VBox VArrowButtons;
-    @FXML
-    private HBox HArrowButtons;
-    @FXML
-    private HBox HResFromMarket;
-    @FXML
-    private VBox HLeadersRes;
-    @FXML
-    private GridPane strongboxGrid;
-    @FXML
-    private Button buyCard;
-    @FXML
-    private Button endProduction;
-    @FXML
-    private Button endTurn;
-    @FXML
-    private AnchorPane warehouse;
-    @FXML
-    private AnchorPane productionPane;
-    @FXML
-    private Button endSwap;
+
+    @FXML private AnchorPane faithTrack;
+    @FXML private HBox HActiveProductionLeaders;
+    @FXML private Button basicPower;
+    @FXML private AnchorPane mainPane;
+    @FXML private ImageView extraRes;
+    @FXML private GridPane marketGrid;
+    @FXML private GridPane devGrid;
+    @FXML private Button handButton;
+    @FXML private HBox HActiveLeaders;
+    @FXML private VBox VArrowButtons;
+    @FXML private HBox HArrowButtons;
+    @FXML private HBox HResFromMarket;
+    @FXML private VBox HLeadersRes;
+    @FXML private GridPane strongboxGrid;
+    @FXML private Button buyCard;
+    @FXML private Button endProduction;
+    @FXML private Button endTurn;
+    @FXML private AnchorPane warehouse;
+    @FXML private AnchorPane productionPane;
+    @FXML private Button endSwap;
 
     @FXML
     private void initialize() {
@@ -139,13 +123,29 @@ public class PersonalController extends GUICommandListener {
             n.setOnMousePressed(event -> resourceClick(n));
             i++;
         }
-        //set all productionBoard indexes
-        i = 0;
+        //set all normal productionBoard indexes
+        i = 1;
         for (Node n : productionPane.getChildren()) {
             n.setId(String.valueOf(i));
-            n.setOnMousePressed(event -> productionClick(n.getId()));
+            n.setOnMousePressed(event -> productionClick(n));
             i++;
         }
+        //prepare basic and productionLeader special production
+        i=4;
+        for(Node n : HActiveProductionLeaders.getChildren()){
+            n.setVisible(false);
+            n.setOnMousePressed(event -> productionWithChoiceClick(n));
+            n.setId(String.valueOf(i));
+            i++;
+        }
+        basicPower.setOnMousePressed(event -> productionWithChoiceClick(basicPower));
+        basicPower.setId(String.valueOf(0));
+        //prepare end production button
+        endProduction.setOnMousePressed(event -> endProductionClick());
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     private void showHandPopup() {
@@ -203,11 +203,6 @@ public class PersonalController extends GUICommandListener {
 
     }
 
-    private void productionClick(String prodID) {
-        //List<Integer> resPositions = currentSelectedResources.stream().map(node->Integer.parseInt(node.getId())).collect(Collectors.toList());
-        System.out.println(prodID);
-    }
-
     public void marketUpdate() {
         if (mainPane == null)
             return;
@@ -236,7 +231,7 @@ public class PersonalController extends GUICommandListener {
             return;
         }
         List<String>activeLeaders = Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders();
-        GraphicUtilities.populateActiveLeaders(activeLeaders,HActiveLeaders,HLeadersRes);
+        GraphicUtilities.populateActiveLeaders(activeLeaders,HActiveLeaders,HLeadersRes,HActiveProductionLeaders);
     }
 
     public void warehouseUpdate() {
@@ -246,6 +241,7 @@ public class PersonalController extends GUICommandListener {
     }
 
     public void activateSwaps() {
+        currentSelectedResources.clear();
         endSwap.setVisible(true);
         canSwap = true;
     }
@@ -262,5 +258,35 @@ public class PersonalController extends GUICommandListener {
     private void endTurnAction() {
         //todo reset all variables
         notifyObservers(new EndTurnActionEvent());
+    }
+
+    private void endProductionClick() {
+        notifyObservers(new ProductionActionEvent(totalInResources, totalOutResources));
+        totalInResources.clear();
+        totalOutResources.clear();
+        for(Node n:allSelectedResources){
+            n.setDisable(false);
+        }
+        for(Node n:activatedProductions){
+            n.setDisable(false);
+        }
+    }
+
+
+    private void productionWithChoiceClick(Node production){
+
+    }
+
+
+    private void productionClick(Node production) {
+        List<Integer> resPositions = currentSelectedResources.stream().map(node->Integer.parseInt(node.getId())).collect(Collectors.toList());
+        totalInResources.put(Integer.parseInt(production.getId()),resPositions);
+        for(Node n:currentSelectedResources){
+            n.setDisable(true);
+        }
+        activatedProductions.add(production);
+        production.setDisable(true);
+        allSelectedResources.addAll(currentSelectedResources);
+        currentSelectedResources.clear();
     }
 }

@@ -43,7 +43,7 @@ public class CardPlacementController extends GUICommandListener {
         File file = new File("src/main/resources/images/devCards/" + newCardID.toLowerCase(Locale.ROOT) + ".png");
         newCard.setImage(new Image(file.toURI().toString()));
         GraphicUtilities.populateProductionBoard(personalBoard, nickname);
-        int i = 0;
+        int i = 1;
         for(Node slot : personalBoard.getChildren()) {
             slot.setId(String.valueOf(i));
             slot.setOnMousePressed(mouseEvent -> placeCardAction(slot));

@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainPane" prefHeight="597.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="mainPane" prefHeight="597.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="387.0" fitWidth="528.0" layoutX="45.0" layoutY="202.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -22,7 +22,6 @@
       <ImageView fitHeight="205.0" fitWidth="145.0" layoutX="61.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" />
       <AnchorPane fx:id="personalBoard" layoutX="45.0" layoutY="202.0" prefHeight="387.0" prefWidth="512.0">
          <children>
-            <Button disable="true" mnemonicParsing="false" visible="false" />
             <Button id="3" layoutX="14.0" layoutY="168.0" mnemonicParsing="false" prefHeight="185.0" prefWidth="145.0">
                <graphic>
                   <ImageView fitHeight="149.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
