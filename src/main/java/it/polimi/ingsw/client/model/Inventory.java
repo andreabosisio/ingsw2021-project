@@ -51,19 +51,18 @@ public class Inventory extends Printable {
         for (int i = 0; i < N_SLOTS; i++) {
             slots[i] = Marble.getPrintable(warehouse.getOrDefault(i, Marble.getEmptyResId()));
         }
-        //fixme
-        for (int i = 0, k = 0; i < activeLeadersIDs.size(); i++) {
+        int j = FIRST_EXTRA_SLOT_INIT_INDEX;
+        for (int i = 0; i < activeLeadersIDs.size(); i++) {
             String currLeaderCardID = activeLeadersIDs.get(i);
-            for (int j = 0; j < EXTRA_SLOTS_DIM; j++, k++) {
-                    if (currLeaderCardID.charAt(0) == WAREHOUSE_LEADER_CARD_ID_PREFIX) {
-                        if (slots[FIRST_EXTRA_SLOT_INIT_INDEX + k].equals(AnsiEnum.EMPTY_RES)) {
-                            slots[FIRST_EXTRA_SLOT_INIT_INDEX + k] = " " + LeaderCardsDatabase.getLeaderCardsDatabase().getLeaderCardAbility(currLeaderCardID).charAt(0) + " ";
-                        }
-                    } else {
-                        slots[FIRST_EXTRA_SLOT_INIT_INDEX + k] = NON_ACCESSIBLE_SLOT_SYMBOL;
-                    }
+            if (currLeaderCardID.charAt(0) == WAREHOUSE_LEADER_CARD_ID_PREFIX) {
+                for (int k = 0; k < EXTRA_SLOTS_DIM; k++, j++) {
+                    if (slots[j].equals(AnsiEnum.EMPTY_RES))
+                        slots[j] = " " + LeaderCardsDatabase.getLeaderCardsDatabase().getLeaderCardAbility(currLeaderCardID).charAt(0) + " ";
                 }
             }
+        }
+        for (; j < SECOND_EXTRA_SLOT_INIT_INDEX + EXTRA_SLOTS_DIM; j++)
+            slots[j] = NON_ACCESSIBLE_SLOT_SYMBOL;
         return slots;
     }
 }

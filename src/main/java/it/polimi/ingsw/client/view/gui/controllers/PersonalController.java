@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -19,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +48,7 @@ public class PersonalController extends GUICommandListener {
     private boolean canSwap = false;
     private Node lastSwap;
 
+    @FXML private ImageView board;
     @FXML private AnchorPane faithTrack;
     @FXML private HBox HActiveProductionLeaders;
     @FXML private Button basicPower;
@@ -203,7 +206,6 @@ public class PersonalController extends GUICommandListener {
                 lastSwap = null;
             }
         }
-
     }
 
     public void marketUpdate() {
@@ -269,6 +271,27 @@ public class PersonalController extends GUICommandListener {
         notifyObservers(new EndTurnActionEvent());
     }
 
+    public void disableBoard() {
+        Platform.runLater(() -> {
+            File file = new File("images/boards/blackWhiteBoard.png");
+            Image image = new Image(file.toURI().toString());
+            board.setImage(image);
+            //mainPane.setDisable(true);
+        });
+
+    }
+
+    public void activateBoard() {
+        //board.setImage(new Image(new File("images/boards/coloredBoard.png").toURI().toString()));
+        Platform.runLater(() -> {
+            File file = new File("images/boards/coloredBoard.png");
+            Image image = new Image(file.toURI().toString());
+            board.setImage(image);
+            //mainPane.setDisable(false);
+        });
+
+    }
+
     private void endProductionClick() {
         notifyObservers(new ProductionActionEvent(totalInResources, totalOutResources));
         totalInResources.clear();
@@ -280,7 +303,6 @@ public class PersonalController extends GUICommandListener {
             n.setDisable(false);
         }
     }
-
 
     private void productionWithChoiceClick(Node production){
         productionClick(production);
@@ -305,4 +327,5 @@ public class PersonalController extends GUICommandListener {
         allSelectedResources.addAll(currentSelectedResources);
         currentSelectedResources.clear();
     }
+
 }

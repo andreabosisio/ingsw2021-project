@@ -14,12 +14,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<ScrollPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <AnchorPane fx:id="mainPane" prefHeight="900.0" prefWidth="1800.0">
          <children>
-            <ImageView fitHeight="900.0" fitWidth="1191.0" layoutX="608.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="board" fitHeight="900.0" fitWidth="1191.0" layoutX="608.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/boards/coloredBoard.png" />
                </image>

@@ -138,11 +138,15 @@ public class GUI extends Application implements View {
         GUICommandListener nextGuiCommandListener = guiCommandListeners.get("personalController");
         setRoot("boardScene", nextGuiCommandListener,1800,900);
         currentGuiCommandListener = nextGuiCommandListener;
+        ((PersonalController) currentGuiCommandListener).activateBoard();
     }
 
     @Override
     public void setOnWaitForYourTurn(String currentPlayer) {
-
+        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("personalController");
+        setRoot("boardScene", nextGuiCommandListener,1800,900);
+        currentGuiCommandListener = nextGuiCommandListener;
+        ((PersonalController) currentGuiCommandListener).disableBoard();
     }
 
     @Override
