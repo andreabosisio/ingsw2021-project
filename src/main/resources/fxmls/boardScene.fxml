@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainPane" prefHeight="900.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="mainPane" prefHeight="900.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="900.0" fitWidth="1191.0" layoutX="608.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -805,9 +805,9 @@
             </Button>
          </children>
       </AnchorPane>
-      <Button id="0" fx:id="basicPower" layoutX="893.0" layoutY="567.0" mnemonicParsing="false" opacity="0.4" prefHeight="159.0" prefWidth="160.0">
+      <Button id="0" fx:id="basicPower" layoutX="884.0" layoutY="568.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="170.0">
          <graphic>
-            <ImageView fitHeight="144.0" fitWidth="144.0" pickOnBounds="true" preserveRatio="true" translateY="-1.0">
+            <ImageView fitHeight="140.0" fitWidth="165.0" pickOnBounds="true" preserveRatio="true" translateY="-1.0">
                <image>
                   <Image url="@../images/boards/basicCard.png" />
                </image>
