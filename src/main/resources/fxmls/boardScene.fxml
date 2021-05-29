@@ -348,7 +348,7 @@
             </Button>
          </children>
       </VBox>
-      <GridPane fx:id="strongboxGrid" layoutX="611.0" layoutY="600.0" prefHeight="195.0" prefWidth="288.0">
+      <GridPane fx:id="strongboxGrid" layoutX="625.0" layoutY="592.0" prefHeight="177.0" prefWidth="255.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -369,7 +369,7 @@
          <children>
             <Button mnemonicParsing="false">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -378,7 +378,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="1">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -387,7 +387,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="2">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -396,7 +396,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="3">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -405,7 +405,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="4">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -414,7 +414,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="5">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -423,7 +423,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="6">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -432,7 +432,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.rowIndex="1">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -441,7 +441,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -450,7 +450,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -459,7 +459,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -468,7 +468,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="1">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -477,7 +477,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="1">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -486,7 +486,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="1">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -495,7 +495,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.rowIndex="2">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -504,7 +504,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -513,7 +513,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -522,7 +522,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -531,7 +531,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="2">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -540,7 +540,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="2">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -549,7 +549,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="2">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -558,7 +558,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.rowIndex="3">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -567,7 +567,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -576,7 +576,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -585,7 +585,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -594,7 +594,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="3">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -603,7 +603,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="3">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -612,7 +612,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="3">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -621,7 +621,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.rowIndex="4">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -630,7 +630,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -639,7 +639,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -648,7 +648,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="4">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -657,7 +657,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="4">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -666,7 +666,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="4">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -675,7 +675,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="4">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -684,7 +684,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.rowIndex="5">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -693,7 +693,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -702,7 +702,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -711,7 +711,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="5">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -720,7 +720,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="5">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -729,7 +729,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="5">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -738,7 +738,7 @@
             </Button>
             <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="5">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/marbles/blue.png" />
                      </image>
@@ -805,7 +805,7 @@
             </Button>
          </children>
       </AnchorPane>
-      <Button id="0" fx:id="basicPower" layoutX="905.0" layoutY="572.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="135.0" />
+      <Button id="0" fx:id="basicPower" layoutX="891.0" layoutY="566.0" mnemonicParsing="false" prefHeight="153.0" prefWidth="164.0" />
       <AnchorPane fx:id="productionPane" layoutX="1051.0" layoutY="343.0" prefHeight="419.0" prefWidth="743.0">
          <children>
             <Button id="1" layoutX="30.0" layoutY="115.0" mnemonicParsing="false" prefHeight="239.0" prefWidth="153.0">
