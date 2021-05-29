@@ -19,6 +19,7 @@ import javafx.stage.Window;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GraphicUtilities {
 
@@ -134,10 +135,34 @@ public class GraphicUtilities {
                 counter++;
         }
     }
+    public static void populateActiveLeaders(List<String> population,HBox leadersBox,VBox warehouseLeaderBox){
+        File file;
+        ImageView temp;
+        String leaderID;
+        AtomicInteger wCount = new AtomicInteger(0);
+        for (Node leader : leadersBox.getChildren()) {
+            leaderID = population.remove(0).toLowerCase(Locale.ROOT);
+            //check if leader is of type warehouse and in case activate assigned buttons
+            if(leaderID.charAt(0) == 'w'){
+                warehouseLeaderBox.getChildren().get(wCount.getAndIncrement()).setVisible(true);
+                warehouseLeaderBox.getChildren().get(wCount.getAndIncrement()).setVisible(true);
+            }
+            else if(leaderID.charAt(0) == 'p'){
+                //todo production stuff
+            }
+            file = new File(leaderCardsPath + leaderID + endOfPath);
+            temp = (ImageView) leader;
+            temp.setImage(new Image(file.toURI().toString()));
+        }
+    }
 
-    public static void populateLeaders(HBox leadersBox, List<String> population) {
+    public static void populateHandLeaders(HBox leadersBox, List<String> population) {
+        //todo line below could be removed
+
         if(leadersBox==null)
             return;
+
+
         File file;
         ImageView temp;
         for (Node leader : leadersBox.getChildren()) {

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.model;
 
+import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import it.polimi.ingsw.client.view.cli.Printable;
 import it.polimi.ingsw.client.view.cli.PrintableScene;
@@ -112,8 +113,9 @@ public class FaithTrack extends Printable {
         return new PrintableScene(PrintableScene.concatenatePrintable(" ", new PrintableScene(legend), new PrintableScene(getPrintable())));
     }
 
-    public void update() {
+    public void update(View view) {
         Board.getBoard().setFaithTrack(this);
+        view.faithTracksUpdate();
     }
 
     public HashMap<String, Integer> getIndexes() {

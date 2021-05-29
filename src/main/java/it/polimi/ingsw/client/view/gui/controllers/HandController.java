@@ -33,7 +33,7 @@ public class HandController extends GUICommandListener {
 
     @FXML
     private void initialize() {
-        GraphicUtilities.populateLeaders(HLeaders, Board.getBoard().getPersonalBoardOf(nickname).getHandLeaders());
+        GraphicUtilities.populateHandLeaders(HLeaders, Board.getBoard().getPersonalBoardOf(nickname).getHandLeaders());
         discard1.setOnMousePressed(event -> discardLeader(discard1.getId()));
         discard2.setOnMousePressed(event -> discardLeader(discard2.getId()));
         activate1.setOnMousePressed(event -> activateLeader(activate1.getId()));

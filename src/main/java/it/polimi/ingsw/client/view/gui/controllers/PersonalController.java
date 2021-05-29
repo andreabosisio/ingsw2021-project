@@ -86,7 +86,7 @@ public class PersonalController extends GUICommandListener {
         //Load proper grids data
         GraphicUtilities.populateMarket(marketGrid, extraRes);
         GraphicUtilities.populateDevGrid(devGrid);
-        GraphicUtilities.populateLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders());
+        GraphicUtilities.populateHandLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders());
         GraphicUtilities.populateProductionBoard(productionPane, nickname);
         GraphicUtilities.populateWarehouse(HResFromMarket, warehouse, HLeadersRes, strongboxGrid, nickname);
         GraphicUtilities.populateFaithTracks(faithTrack);
@@ -112,23 +112,28 @@ public class PersonalController extends GUICommandListener {
         for (Node n : devGrid.getChildren()) {
             n.setOnMousePressed(event -> handleBuyRequest(n));
         }
-        //setAllResources buttons ID as their indexes
+        //set all resources buttons ID as their indexes
         int i = 0;
+        //set from Market(0-3)
         for (Node n : HResFromMarket.getChildren()) {
             n.setId(String.valueOf(i));
             n.setOnMousePressed(event -> resourceClick(n));
             i++;
         }
+        //set Warehouse (4-9)
         for (Node n : warehouse.getChildren()) {
             n.setId(String.valueOf(i));
             n.setOnMousePressed(event -> resourceClick(n));
             i++;
         }
+        //set warehouseLeaders(10-13)
         for (Node n : HLeadersRes.getChildren()) {
             n.setId(String.valueOf(i));
             n.setOnMousePressed(event -> resourceClick(n));
+            n.setVisible(false);
             i++;
         }
+        //set strongBox(14...)
         for (Node n : strongboxGrid.getChildren()) {
             n.setId(String.valueOf(i));
             n.setOnMousePressed(event -> resourceClick(n));
@@ -214,7 +219,7 @@ public class PersonalController extends GUICommandListener {
     }
 
     public void faithTracksUpdate() {
-        if (faithTrack == null)
+        if (mainPane == null)
             return;
         GraphicUtilities.populateFaithTracks(faithTrack);
     }
@@ -227,6 +232,11 @@ public class PersonalController extends GUICommandListener {
     }
 
     public void activeLeadersUpdate() {
+        if(mainPane == null){
+            return;
+        }
+        List<String>activeLeaders = Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders();
+        GraphicUtilities.populateActiveLeaders(activeLeaders,HActiveLeaders,HLeadersRes);
     }
 
     public void warehouseUpdate() {
@@ -252,6 +262,5 @@ public class PersonalController extends GUICommandListener {
     private void endTurnAction() {
         //todo reset all variables
         notifyObservers(new EndTurnActionEvent());
-
     }
 }
