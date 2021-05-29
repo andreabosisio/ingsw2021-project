@@ -10,15 +10,6 @@ public class DevGridPopupController {
     GridPane devGrid;
     @FXML
     private void initialize() {
-        //todo disable or do nothing?
-        /*
-        for(Node n:devGrid.getChildren()){
-            n.setDisable(true);
-        }
-
-         */
         GraphicUtilities.populateDevGrid(devGrid);
     }
-
-
 }

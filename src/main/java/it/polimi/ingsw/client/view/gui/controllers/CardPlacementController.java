@@ -52,7 +52,6 @@ public class CardPlacementController extends GUICommandListener {
     }
 
     private void placeCardAction(Node slot) {
-        System.out.println(slot.getId());
         notifyObservers(new CardPlacementActionEvent(Integer.parseInt(slot.getId())));
         Stage stage = (Stage) mainPane.getScene().getWindow();
         stage.close();

@@ -33,6 +33,7 @@ public class MarketController extends GUICommandListener {
     @FXML
     private HBox HButtons;
 
+    //todo remove this constructor because controller can be set in fxml
     public MarketController(boolean viewOnly) {
         this.viewOnly = viewOnly;
     }
@@ -41,34 +42,7 @@ public class MarketController extends GUICommandListener {
     private void initialize() {
         //populate the marketGrid with savedData
         GraphicUtilities.populateMarket(marketGrid, extraRes);
-        if (viewOnly) {
-            HButtons.setDisable(viewOnly);
-            VButtons.setDisable(viewOnly);
-            return;
-        }
-        printInfoMessage("Click an arrow to take the resources");
-        for (Node b : Stream.concat(HButtons.getChildren().stream(), VButtons.getChildren().stream()).collect(Collectors.toList())) {
-            Button button = (Button) b;
-            button.setOnMousePressed((event -> marketAction(button.getText())));
-        }
+        VButtons.setDisable(true);
+        HButtons.setDisable(true);
     }
-
-    private void setButtons(boolean disable) {
-        VButtons.setDisable(disable);
-        HButtons.setDisable(disable);
-    }
-
-    public void setOnViewOnly() {
-        setButtons(true);
-    }
-
-    public void marketAction(String arrowID) {
-        System.out.println(arrowID);
-        //notifyObservers(new MarketActionEvent(Integer.parseInt(arrowID)));
-    }
-
-    public void update(List<String> marketUpdated) {
-        fullMarket = marketUpdated;
-    }
-
 }

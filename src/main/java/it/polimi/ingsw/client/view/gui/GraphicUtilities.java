@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.Marble;
+import it.polimi.ingsw.client.model.PersonalBoard;
+import it.polimi.ingsw.server.model.player.Player;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -12,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -20,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class GraphicUtilities {
 
@@ -29,7 +33,11 @@ public class GraphicUtilities {
     private static final String leaderCardsPath = "src/main/resources/images/leaders/";
     private static final String faithMarkersPath = "src/main/resources/images/faithMarkers/";
     private static final String endOfPath = ".png";
+    private static final String lorenzo = "Lorenzo il Magnifico";
 
+    public static String getAiName(){
+        return lorenzo;
+    }
     //todo added this method to populate a market by giving grid with imageViews and extra imageView
     public static void populateMarket(GridPane marketToPopulate, ImageView extraRes) {
         //todo levare da qui e mettere nel metodo updateMarket di personal controller
@@ -60,6 +68,26 @@ public class GraphicUtilities {
         }
     }
 
+    public static void populateLegend(AnchorPane legendPane){
+        List<String> colors = new ArrayList<String>(){{
+            add("#ff0000");
+            add("#0800ff");
+            add("#00ff33");
+            add("#ff00be");
+        }};
+        Map<String, Integer> faithTracks = Board.getBoard().getFaithTrack().getIndexes();
+        int i = 0;
+        for (String key : faithTracks.keySet()) {
+            Button button = (Button) legendPane.getChildren().get(i);
+            button.setText(key);
+            button.setTextFill(Paint.valueOf(colors.get(i)));
+            i++;
+        }
+        while(legendPane.getChildren().size()>i){
+            legendPane.getChildren().get(i).setVisible(false);
+            i++;
+        }
+    }
     //TODO: POPE REPORTS!!!
     public static void populateFaithTracks(AnchorPane faithTrack) {
         ImageView temp;
