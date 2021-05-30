@@ -6,21 +6,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane fx:id="mainPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <ImageView fitHeight="347.0" fitWidth="481.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/boards/productionSlots.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="resource" layoutX="159.0" layoutY="107.0" mnemonicParsing="false">
-         <graphic>
+    <ImageView fitHeight="347.0" fitWidth="481.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../images/boards/productionSlots.png"/>
+    </ImageView>
+    <Button fx:id="resource" layoutX="159.0" layoutY="107.0" mnemonicParsing="false">
+        <graphic>
             <ImageView fitHeight="118.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/resources/yellow.png" />
-               </image>
+                <Image url="@../images/resources/yellow.png"/>
             </ImageView>
-         </graphic>
-      </Button>
-      <Button fx:id="done" layoutX="149.0" layoutY="281.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="136.0" text="Produce this resource" />
-   </children>
+        </graphic>
+    </Button>
+    <Button fx:id="done" layoutX="149.0" layoutY="281.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="136.0"
+            text="Produce this resource"/>
 </AnchorPane>

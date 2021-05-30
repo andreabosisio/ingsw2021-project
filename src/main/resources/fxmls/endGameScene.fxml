@@ -10,35 +10,34 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <BorderPane>
-            <center>
-                <ImageView fx:id="background" fitHeight="800.0" fitWidth="777.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/loginImage.jpg" />
-                    </image>
-                </ImageView>
-            </center>
-        </BorderPane>
-        <AnchorPane prefHeight="200.0" prefWidth="536.0">
-            <children>
-                <Text fill="#eeff38" layoutX="191.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The Game is Over!" wrappingWidth="421.6034240722656">
-                    <font>
-                        <Font name="Berlin Sans FB Demi Bold" size="48.0" />
-                    </font>
-                </Text>
-                <TextField fx:id="winnerBox" editable="false" layoutX="144.0" layoutY="260.0" prefHeight="39.0" prefWidth="511.0">
-                    <font>
-                        <Font name="Comic Sans MS" size="18.0" />
-                    </font>
-                </TextField>
-                <TextArea fx:id="victoryPointsBox" editable="false" layoutX="144.0" layoutY="380.0" prefHeight="246.0" prefWidth="511.0">
-                    <font>
-                        <Font name="Comic Sans MS" size="18.0" />
-                    </font>
-                </TextArea>
-            </children>
-        </AnchorPane>
-    </children>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
+           prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+    <BorderPane>
+        <center>
+            <ImageView fx:id="background" fitHeight="800.0" fitWidth="777.0" pickOnBounds="true"
+                       preserveRatio="true">
+                <Image url="@../images/loginImage.jpg"/>
+            </ImageView>
+        </center>
+    </BorderPane>
+    <AnchorPane prefHeight="200.0" prefWidth="536.0">
+        <Text fill="#eeff38" layoutX="191.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="The Game is Over!" wrappingWidth="421.6034240722656">
+            <font>
+                <Font name="Berlin Sans FB Demi Bold" size="48.0"/>
+            </font>
+        </Text>
+        <TextField fx:id="winnerBox" editable="false" layoutX="144.0" layoutY="260.0" prefHeight="39.0"
+                   prefWidth="511.0">
+            <font>
+                <Font name="Comic Sans MS" size="18.0"/>
+            </font>
+        </TextField>
+        <TextArea fx:id="victoryPointsBox" editable="false" layoutX="144.0" layoutY="380.0" prefHeight="246.0"
+                  prefWidth="511.0">
+            <font>
+                <Font name="Comic Sans MS" size="18.0"/>
+            </font>
+        </TextArea>
+    </AnchorPane>
 </StackPane>

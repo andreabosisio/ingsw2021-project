@@ -11,27 +11,29 @@
 <?import javafx.scene.layout.StackPane?>
 
 <?import javafx.scene.control.TextArea?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-      <BorderPane StackPane.alignment="TOP_CENTER">
-         <StackPane.margin>
-            <Insets />
-         </StackPane.margin>
-         <center>
-              <ImageView fx:id="background" fitHeight="800.0" fitWidth="777.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/loginImage.jpg" />
-               </image>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
+           prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <BorderPane StackPane.alignment="TOP_CENTER">
+        <StackPane.margin>
+          <Insets/>
+        </StackPane.margin>
+        <center>
+            <ImageView fx:id="background" fitHeight="800.0" fitWidth="777.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../images/loginImage.jpg"/>
             </ImageView>
-         </center>
-      </BorderPane>
-        <AnchorPane prefHeight="200.0" prefWidth="536.0">
-            <children>
-                <TextField fx:id="nickname" alignment="CENTER" layoutX="298.0" layoutY="181.0" pickOnBounds="false" prefHeight="35.0" prefWidth="204.0" promptText="username" AnchorPane.leftAnchor="298.0" AnchorPane.rightAnchor="298.0" />
-                <PasswordField fx:id="password" alignment="CENTER" layoutX="299.0" layoutY="237.0" prefHeight="35.0" prefWidth="204.0" promptText="password" AnchorPane.leftAnchor="299.0" AnchorPane.rightAnchor="297.0" />
-                <Button fx:id="login" layoutX="345.0" layoutY="597.0" minWidth="70.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="111.0" text="Login" AnchorPane.leftAnchor="345.0" AnchorPane.rightAnchor="344.0" />
-                <TextArea fx:id="messageBox" editable="false" layoutX="439.0" layoutY="37.0" prefHeight="9.0" prefWidth="221.0" />
-            </children>
-        </AnchorPane>
-    </children>
+        </center>
+    </BorderPane>
+    <AnchorPane prefHeight="200.0" prefWidth="536.0">
+        <TextField fx:id="nickname" alignment="CENTER" layoutX="298.0" layoutY="181.0" pickOnBounds="false"
+                   prefHeight="35.0" prefWidth="204.0" promptText="username" AnchorPane.leftAnchor="298.0"
+                   AnchorPane.rightAnchor="298.0"/>
+        <PasswordField fx:id="password" alignment="CENTER" layoutX="299.0" layoutY="237.0" prefHeight="35.0"
+                       prefWidth="204.0" promptText="password" AnchorPane.leftAnchor="299.0"
+                       AnchorPane.rightAnchor="297.0"/>
+        <Button fx:id="login" layoutX="345.0" layoutY="597.0" minWidth="70.0" mnemonicParsing="false"
+                prefHeight="35.0" prefWidth="111.0" text="Login" AnchorPane.leftAnchor="345.0"
+                AnchorPane.rightAnchor="344.0"/>
+        <TextArea fx:id="messageBox" editable="false" layoutX="439.0" layoutY="37.0" prefHeight="9.0"
+                  prefWidth="221.0"/>
+    </AnchorPane>
 </StackPane>

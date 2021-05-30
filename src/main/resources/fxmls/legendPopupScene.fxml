@@ -11,596 +11,469 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="mainPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <ImageView fitHeight="613.0" fitWidth="1217.0" layoutX="23.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/boards/coloredBoardWithoutFaithTrack.png" />
-         </image>
-      </ImageView>
-      <GridPane fx:id="strongboxGrid" layoutX="37.0" layoutY="353.0" prefHeight="177.0" prefWidth="255.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <Button mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+    <ImageView fitHeight="613.0" fitWidth="1217.0" layoutX="23.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../images/boards/coloredBoardWithoutFaithTrack.png"/>
+    </ImageView>
+    <GridPane fx:id="strongboxGrid" layoutX="37.0" layoutY="353.0" prefHeight="177.0" prefWidth="255.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <Button mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="1">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="2">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="3">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="4">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="5">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="6">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.rowIndex="2">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="2">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="2">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="2">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.rowIndex="3">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="3">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="3">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="3">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.rowIndex="4">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="4">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="4">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="4">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="4">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.rowIndex="5">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="5">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="5">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="5">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="5">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+    </GridPane>
+    <AnchorPane fx:id="warehouse" layoutX="71.0" layoutY="108.0" prefHeight="220.0" prefWidth="209.0">
+        <Button id="9" layoutX="93.0" layoutY="25.0" mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button id="4" layoutX="64.0" layoutY="94.0" mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button id="5" layoutX="114.0" layoutY="94.0" mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button id="6" layoutX="37.0" layoutY="173.0" mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button id="8" layoutX="85.0" layoutY="173.0" mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button id="7" layoutX="135.0" layoutY="173.0" mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+    </AnchorPane>
+    <VBox fx:id="HLeadersRes" layoutX="37.0" layoutY="131.0">
+        <Button mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/marbles/blue.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+    </VBox>
+    <HBox fx:id="HActiveLeaders" layoutX="246.0" layoutY="2.0" prefHeight="100.0" prefWidth="200.0">
+        <ImageView fitHeight="248.0" fitWidth="144.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/leaders/empty.png"/>
+        </ImageView>
+        <ImageView fitHeight="248.0" fitWidth="144.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/leaders/empty.png"/>
+        </ImageView>
+    </HBox>
+    <HBox fx:id="ignore" layoutX="14.0" layoutY="21.0" prefHeight="100.0" prefWidth="200.0">
+        <Button mnemonicParsing="false" text="Button">
+            <graphic>
+                <ImageView pickOnBounds="true" preserveRatio="true"/>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" text="Button">
+            <graphic>
+                <ImageView pickOnBounds="true" preserveRatio="true"/>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" text="Button">
+            <graphic>
+                <ImageView pickOnBounds="true" preserveRatio="true"/>
+            </graphic>
+        </Button>
+        <Button mnemonicParsing="false" text="Button">
+            <graphic>
+                <ImageView pickOnBounds="true" preserveRatio="true"/>
+            </graphic>
+        </Button>
+    </HBox>
+    <Button fx:id="done" layoutX="365.0" layoutY="263.0" mnemonicParsing="false" text="Done"/>
+    <AnchorPane fx:id="productionPane" layoutX="516.0" layoutY="162.0" prefHeight="419.0" prefWidth="743.0">
+        <AnchorPane layoutX="20.0" layoutY="126.0" prefHeight="200.0" prefWidth="200.0">
+            <ImageView fitHeight="246.0" fitWidth="154.0" layoutX="6.0" layoutY="-150.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+            <ImageView fitHeight="273.0" fitWidth="163.0" layoutX="2.0" layoutY="-78.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+            <Button id="1" mnemonicParsing="false" prefHeight="239.0" prefWidth="153.0">
+                <graphic>
+                    <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0"
+                               pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/devCards/BLUE_3_25.png"/>
+                    </ImageView>
+                </graphic>
             </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="1">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+        </AnchorPane>
+        <AnchorPane layoutX="258.0" layoutY="126.0" prefHeight="200.0" prefWidth="200.0">
+            <ImageView fitHeight="246.0" fitWidth="154.0" layoutX="5.0" layoutY="-151.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+            <ImageView fitHeight="273.0" fitWidth="163.0" layoutX="1.0" layoutY="-79.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+            <Button id="2" mnemonicParsing="false" prefHeight="239.0" prefWidth="153.0">
+                <graphic>
+                    <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0"
+                               pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/devCards/BLUE_3_25.png"/>
+                    </ImageView>
+                </graphic>
             </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="2">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+        </AnchorPane>
+        <AnchorPane layoutX="487.0" layoutY="126.0" prefHeight="200.0" prefWidth="200.0">
+            <ImageView fitHeight="246.0" fitWidth="154.0" layoutY="-154.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+            <ImageView fitHeight="273.0" fitWidth="163.0" layoutY="-81.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+            <Button id="3" layoutX="-7.0" mnemonicParsing="false" prefHeight="239.0" prefWidth="153.0">
+                <graphic>
+                    <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0"
+                               pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/devCards/BLUE_3_25.png"/>
+                    </ImageView>
+                </graphic>
             </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="3">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="4">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="5">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="6">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.rowIndex="1">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="1">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="1">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="1">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.rowIndex="2">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="2">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="2">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="2">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="2">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.rowIndex="3">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="3">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="3">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="3">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="3">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="3">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.rowIndex="4">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="4">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="4">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="4">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="4">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="4">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.rowIndex="5">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="5">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="5">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="5">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="5">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" GridPane.columnIndex="6" GridPane.rowIndex="5">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-         </children>
-      </GridPane>
-      <AnchorPane fx:id="warehouse" layoutX="71.0" layoutY="108.0" prefHeight="220.0" prefWidth="209.0">
-         <children>
-            <Button id="9" layoutX="93.0" layoutY="25.0" mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button id="4" layoutX="64.0" layoutY="94.0" mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button id="5" layoutX="114.0" layoutY="94.0" mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button id="6" layoutX="37.0" layoutY="173.0" mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button id="8" layoutX="85.0" layoutY="173.0" mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button id="7" layoutX="135.0" layoutY="173.0" mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-         </children>
-      </AnchorPane>
-      <VBox fx:id="HLeadersRes" layoutX="37.0" layoutY="131.0">
-         <children>
-            <Button mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/marbles/blue.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-         </children>
-      </VBox>
-      <HBox fx:id="HActiveLeaders" layoutX="246.0" layoutY="2.0" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <ImageView fitHeight="248.0" fitWidth="144.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/leaders/empty.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="248.0" fitWidth="144.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/leaders/empty.png" />
-               </image>
-            </ImageView>
-         </children>
-      </HBox>
-      <HBox fx:id="ignore" layoutX="14.0" layoutY="21.0" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Button mnemonicParsing="false" text="Button">
-               <graphic>
-                  <ImageView pickOnBounds="true" preserveRatio="true" />
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" text="Button">
-               <graphic>
-                  <ImageView pickOnBounds="true" preserveRatio="true" />
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" text="Button">
-               <graphic>
-                  <ImageView pickOnBounds="true" preserveRatio="true" />
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" text="Button">
-               <graphic>
-                  <ImageView pickOnBounds="true" preserveRatio="true" />
-               </graphic>
-            </Button>
-         </children>
-      </HBox>
-      <Button fx:id="done" layoutX="365.0" layoutY="263.0" mnemonicParsing="false" text="Done" />
-      <AnchorPane fx:id="productionPane" layoutX="516.0" layoutY="162.0" prefHeight="419.0" prefWidth="743.0">
-         <children>
-            <AnchorPane layoutX="20.0" layoutY="126.0" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <ImageView fitHeight="246.0" fitWidth="154.0" layoutX="6.0" layoutY="-150.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="273.0" fitWidth="163.0" layoutX="2.0" layoutY="-78.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button id="1" mnemonicParsing="false" prefHeight="239.0" prefWidth="153.0">
-                     <graphic>
-                        <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/devCards/BLUE_3_25.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </AnchorPane>
-            <AnchorPane layoutX="258.0" layoutY="126.0" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <ImageView fitHeight="246.0" fitWidth="154.0" layoutX="5.0" layoutY="-151.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="273.0" fitWidth="163.0" layoutX="1.0" layoutY="-79.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button id="2" mnemonicParsing="false" prefHeight="239.0" prefWidth="153.0">
-                     <graphic>
-                        <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/devCards/BLUE_3_25.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </AnchorPane>
-            <AnchorPane layoutX="487.0" layoutY="126.0" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <ImageView fitHeight="246.0" fitWidth="154.0" layoutY="-154.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="273.0" fitWidth="163.0" layoutY="-81.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button id="3" layoutX="-7.0" mnemonicParsing="false" prefHeight="239.0" prefWidth="153.0">
-                     <graphic>
-                        <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/devCards/BLUE_3_25.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </AnchorPane>
-         </children>
-      </AnchorPane>
-   </children>
+        </AnchorPane>
+    </AnchorPane>
 </AnchorPane>

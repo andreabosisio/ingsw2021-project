@@ -200,13 +200,14 @@ public class GraphicUtilities {
             }
             if (leaderID.charAt(0) == 'p') {
                 productionLeaderBox.getChildren().get(pCount.get()).setVisible(true);
-                Button leaderProductionButton = (Button) productionLeaderBox.getChildren().get(pCount.getAndIncrement());
+                Button leaderProductionButton = (Button) productionLeaderBox.getChildren().get(pCount.get());
                 temp = (ImageView) leaderProductionButton.getGraphic();
             } else {
                 temp = (ImageView) leader;
             }
             file = new File(leaderCardsPath + leaderID + endOfPath);
             temp.setImage(new Image(file.toURI().toString()));
+            pCount.getAndIncrement();
         }
     }
 

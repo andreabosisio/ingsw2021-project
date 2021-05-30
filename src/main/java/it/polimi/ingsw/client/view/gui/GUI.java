@@ -133,7 +133,7 @@ public class GUI extends Application implements View {
     @Override
     public void setOnYourTurn() {
         GUICommandListener nextGuiCommandListener = guiCommandListeners.get("personalController");
-        setRoot("boardScene", nextGuiCommandListener,1800,900);
+        setRoot("boardScene", nextGuiCommandListener,1800,932);
         currentGuiCommandListener = nextGuiCommandListener;
         ((PersonalController) currentGuiCommandListener).activateBoard();
     }
@@ -141,7 +141,7 @@ public class GUI extends Application implements View {
     @Override
     public void setOnWaitForYourTurn(String currentPlayer) {
         GUICommandListener nextGuiCommandListener = guiCommandListeners.get("personalController");
-        setRoot("boardScene", nextGuiCommandListener,1800,900);
+        setRoot("boardScene", nextGuiCommandListener,1800,932);
         currentGuiCommandListener = nextGuiCommandListener;
         ((PersonalController) currentGuiCommandListener).disableBoard();
     }
@@ -220,7 +220,7 @@ public class GUI extends Application implements View {
     @Override
     public void start(Stage stage) throws Exception {
         currentGuiCommandListener = new WelcomeController(this);
-        scene = new Scene(Objects.requireNonNull(loadFXML("welcomeScene", currentGuiCommandListener)), 800, 800);
+        scene = new Scene(Objects.requireNonNull(loadFXML("welcomeScene", currentGuiCommandListener)), 600, 800);
         stage.setTitle("Maestri del Rinascimento");
         stage.setScene(scene);
         stage.show();

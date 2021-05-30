@@ -7,33 +7,22 @@
 <?import javafx.scene.layout.HBox?>
 
 
-<AnchorPane fx:id="mainPane" prefHeight="362.0" prefWidth="418.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <HBox layoutX="55.0" layoutY="322.0">
-         <children>
-            <Button id="0" fx:id="discard1" mnemonicParsing="false" text="Discard" />
-            <Button id="0" fx:id="activate1" mnemonicParsing="false" text="Activate" />
-         </children>
-      </HBox>
-      <HBox layoutX="264.0" layoutY="322.0">
-         <children>
-            <Button id="1" fx:id="discard2" mnemonicParsing="false" text="Discard" />
-            <Button id="1" fx:id="activate2" mnemonicParsing="false" text="Activate" />
-         </children>
-      </HBox>
-      <HBox fx:id="HLeaders" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <ImageView fitHeight="315.0" fitWidth="434.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/leaders/d1.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="315.0" fitWidth="434.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/leaders/d1.png" />
-               </image>
-            </ImageView>
-         </children>
-      </HBox>
-   </children>
+<AnchorPane fx:id="mainPane" prefHeight="362.0" prefWidth="418.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1">
+    <HBox layoutX="55.0" layoutY="322.0">
+        <Button id="0" fx:id="discard1" mnemonicParsing="false" text="Discard"/>
+        <Button id="0" fx:id="activate1" mnemonicParsing="false" text="Activate"/>
+    </HBox>
+    <HBox layoutX="264.0" layoutY="322.0">
+        <Button id="1" fx:id="discard2" mnemonicParsing="false" text="Discard"/>
+        <Button id="1" fx:id="activate2" mnemonicParsing="false" text="Activate"/>
+    </HBox>
+    <HBox fx:id="HLeaders" prefHeight="100.0" prefWidth="200.0">
+        <ImageView fitHeight="315.0" fitWidth="434.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/leaders/d1.png"/>
+        </ImageView>
+        <ImageView fitHeight="315.0" fitWidth="434.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/leaders/d1.png"/>
+        </ImageView>
+    </HBox>
 </AnchorPane>
