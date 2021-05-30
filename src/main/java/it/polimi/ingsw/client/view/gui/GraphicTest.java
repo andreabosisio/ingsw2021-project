@@ -10,10 +10,10 @@ import javafx.stage.Stage;
 public class GraphicTest extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        LoginController controller = new LoginController();
+        //LoginController controller = new LoginController();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/" + "loginScene" + ".fxml"));
-        fxmlLoader.setController(controller);
+        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/" + "test" + ".fxml"));
+        //fxmlLoader.setController(controller);
 
         Parent root = fxmlLoader.load();
         stage.setTitle("test");

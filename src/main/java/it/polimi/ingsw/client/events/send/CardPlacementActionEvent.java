@@ -4,6 +4,6 @@ public class CardPlacementActionEvent extends SendEvent{
     private final int slotPosition;
     public CardPlacementActionEvent(int slotPosition) {
         super("cardPlacementAction");
-        this.slotPosition=slotPosition;
+        this.slotPosition = slotPosition;
     }
 }

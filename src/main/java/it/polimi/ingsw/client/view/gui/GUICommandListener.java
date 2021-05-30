@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
 import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 /**
@@ -13,7 +14,7 @@ import javafx.scene.control.TextField;
 public abstract class GUICommandListener implements CommandListener {
     private CommandListenerObserver commandListenerObserver;
     @FXML
-    private TextField messageBox;
+    private TextArea messageBox;
 
     @Override
     public void notifyObservers(SendEvent sendEvent) {
@@ -25,16 +26,17 @@ public abstract class GUICommandListener implements CommandListener {
         this.commandListenerObserver = commandListenerObserver;
     }
 
+    //todo better messageBox
     public void printInfoMessage(String info) {
-        //messageBox.setStyle("-fx-text-inner-color: black");
-        System.out.println("info: "+ info);
-        //messageBox.setText(info);
+        messageBox.setStyle("-fx-text-inner-color: black");
+        //System.out.println("info: "+ info);
+        messageBox.setText(info);
     }
 
     public void printErrorMessage(String error) {
-        //messageBox.setStyle("-fx-text-inner-color: red");
-        System.out.println("error: "+ error);
-        //messageBox.setText(error);
+        messageBox.setStyle("-fx-text-inner-color: red");
+        //System.out.println("error: "+ error);
+        messageBox.setText(error);
     }
 
     public CommandListenerObserver getCommandListenerObserver() {

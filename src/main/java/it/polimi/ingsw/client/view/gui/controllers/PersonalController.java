@@ -168,8 +168,10 @@ public class PersonalController extends GUICommandListener {
         //set all normal productionBoard indexes
         i = 1;
         for (Node n : productionPane.getChildren()) {
-            n.setId(String.valueOf(i));
-            n.setOnMousePressed(event -> productionClick(n));
+            int buttonIndex = ((AnchorPane)n).getChildren().size() - 1;
+            Button slot = (Button) ((AnchorPane)n).getChildren().get(buttonIndex);
+            slot.setId(String.valueOf(i));
+            slot.setOnMousePressed(event -> productionClick(slot));
             i++;
         }
         //prepare basic and productionLeader special production

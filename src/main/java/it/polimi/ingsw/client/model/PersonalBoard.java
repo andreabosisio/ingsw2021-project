@@ -16,6 +16,7 @@ public class PersonalBoard extends Printable {
     private final List<String> handLeaders;
     private final List<String> activeLeaders;
     private List<String> productionBoard;
+
     private final List<LinkedHashSet<String>> developmentCardsInSlots = Arrays.asList(new LinkedHashSet<>(), new LinkedHashSet<>(), new LinkedHashSet<>(), new LinkedHashSet<>());
     private Map<Integer, String> warehouse;
 
@@ -92,6 +93,10 @@ public class PersonalBoard extends Printable {
 
     public List<String> getProductionBoard() {
         return productionBoard;
+    }
+
+    public List<LinkedHashSet<String>> getDevelopmentCardsInSlots() {
+        return developmentCardsInSlots;
     }
 
     public void update(String thisClientNickname){

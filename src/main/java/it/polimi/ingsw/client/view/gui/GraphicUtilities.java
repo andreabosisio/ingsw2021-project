@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.model.Board;
+import it.polimi.ingsw.client.model.DevelopmentCardsDatabase;
 import it.polimi.ingsw.client.model.Marble;
 import it.polimi.ingsw.client.model.PersonalBoard;
 import it.polimi.ingsw.server.model.player.Player;
@@ -250,16 +251,30 @@ public class GraphicUtilities {
         return stageToPopulate;
     }
 
-    public static void populateProductionBoard(AnchorPane personalBoard, String nickname) {
-        List<String> population = new ArrayList<>(Board.getBoard().getPersonalBoardOf(nickname).getProductionBoard());
+    public static void populateProductionBoard(AnchorPane productionPane, String nickname) {
+        List<LinkedHashSet<String>> population = new ArrayList<>(Board.getBoard().getPersonalBoardOf(nickname).getDevelopmentCardsInSlots());
         population.remove(0);//remove basic
         File file;
-        ImageView temp;
-        for (Node node : personalBoard.getChildren()) {
-            Button production = (Button) node;
-            ImageView cardImage = (ImageView) production.getGraphic();
-            file = new File(devCardsPath + population.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
-            cardImage.setImage(new Image(file.toURI().toString()));
+        int i = 0;
+        for (Node slotNode : productionPane.getChildren()) {
+            AnchorPane slotPane = (AnchorPane) slotNode;
+            List<Node> cardSlots = slotPane.getChildren();
+            LinkedHashSet<String> slot = population.get(i);
+            if(slot.size() > 1)
+                slot.removeIf(id -> id.equals(DevelopmentCardsDatabase.getEmptyCardId()));
+            int j = cardSlots.size() - 1;
+            String[] slotAsArray = slot.toArray(new String[0]);
+            for (int k = slotAsArray.length - 1; k >= 0; k--) {
+                ImageView cardImage;
+                if(j == cardSlots.size() - 1)
+                    cardImage = (ImageView) ((Button)cardSlots.get(j)).getGraphic();
+                else
+                    cardImage = (ImageView) cardSlots.get(j);
+                file = new File(devCardsPath + slotAsArray[k].toLowerCase(Locale.ROOT) + endOfPath);
+                cardImage.setImage(new Image(file.toURI().toString()));
+                j--;
+            }
+            i++;
         }
     }
 

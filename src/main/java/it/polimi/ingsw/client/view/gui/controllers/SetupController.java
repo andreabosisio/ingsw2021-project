@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.view.gui.GraphicUtilities;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
@@ -16,7 +15,6 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -133,11 +131,12 @@ public class SetupController extends GUICommandListener {
     }
 
     private void seeMarket(){
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/marketScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/marketPopup.fxml"));
         fxmlLoader.setController(new MarketController(true));
         marketWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader,marketWindow,Modality.NONE);
         marketWindow.show();
     }
+
     private void seeGrid(){
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/devGridPopupScene.fxml"));
         gridWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader,gridWindow,Modality.NONE);
