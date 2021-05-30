@@ -32,12 +32,14 @@ public class GraphicUtilities {
     private static final String devCardsPath = "src/main/resources/images/devCards/";
     private static final String leaderCardsPath = "src/main/resources/images/leaders/";
     private static final String faithMarkersPath = "src/main/resources/images/faithMarkers/";
+    private static final String popeTilesPath = "src/main/resources/images/popeTiles/";
     private static final String endOfPath = ".png";
     private static final String lorenzo = "Lorenzo il Magnifico";
 
-    public static String getAiName(){
+    public static String getAiName() {
         return lorenzo;
     }
+
     //todo added this method to populate a market by giving grid with imageViews and extra imageView
     public static void populateMarket(GridPane marketToPopulate, ImageView extraRes) {
         //todo levare da qui e mettere nel metodo updateMarket di personal controller
@@ -68,8 +70,8 @@ public class GraphicUtilities {
         }
     }
 
-    public static void populateLegend(AnchorPane legendPane){
-        List<String> colors = new ArrayList<String>(){{
+    public static void populateLegend(AnchorPane legendPane) {
+        List<String> colors = new ArrayList<String>() {{
             add("#ff0000");
             add("#0800ff");
             add("#00ff33");
@@ -83,12 +85,12 @@ public class GraphicUtilities {
             button.setTextFill(Paint.valueOf(colors.get(i)));
             i++;
         }
-        while(legendPane.getChildren().size()>i){
+        while (legendPane.getChildren().size() > i) {
             legendPane.getChildren().get(i).setVisible(false);
             i++;
         }
     }
-    //TODO: POPE REPORTS!!!
+
     public static void populateFaithTracks(AnchorPane faithTrack) {
         ImageView temp;
         File file;
@@ -131,6 +133,28 @@ public class GraphicUtilities {
         }
     }
 
+    public static void populatePopeTiles(AnchorPane popeTiles, String nickname) {
+        ImageView temp;
+        File file;
+
+        Boolean[] popeReports = Board.getBoard().getFaithTrack().getReports().get(nickname);
+
+        int i = 0;
+        for (Node popeTile : popeTiles.getChildren()) {
+            if (popeReports[i]) {
+                temp = (ImageView) popeTile;
+                file = new File(popeTilesPath + "popeTile" + i + endOfPath);
+                temp.setImage(new Image(file.toURI().toString()));
+            }
+            else {
+                temp = (ImageView) popeTile;
+                file = new File(popeTilesPath + "popeTileBack" + i + endOfPath);
+                temp.setImage(new Image(file.toURI().toString()));
+            }
+            i++;
+        }
+    }
+
     //todo added this method to update a devGrid by the iD of the new image
     public static void updateDevGrid(GridPane devGridPopulated, String iD) {
         ImageView temp;
@@ -160,12 +184,12 @@ public class GraphicUtilities {
         }
     }
 
-    public static void populateActiveLeaders(List<String> population, HBox leadersBox, VBox warehouseLeaderBox,HBox productionLeaderBox) {
+    public static void populateActiveLeaders(List<String> population, HBox leadersBox, VBox warehouseLeaderBox, HBox productionLeaderBox) {
         File file;
         ImageView temp;
         String leaderID;
         AtomicInteger wCount = new AtomicInteger(0);
-        AtomicInteger pCount =new AtomicInteger(0);
+        AtomicInteger pCount = new AtomicInteger(0);
         for (Node leader : leadersBox.getChildren()) {
             leaderID = population.remove(0).toLowerCase(Locale.ROOT);
             //check if leader is of type warehouse and in case activate assigned buttons
@@ -177,8 +201,7 @@ public class GraphicUtilities {
                 productionLeaderBox.getChildren().get(pCount.get()).setVisible(true);
                 Button leaderProductionButton = (Button) productionLeaderBox.getChildren().get(pCount.getAndIncrement());
                 temp = (ImageView) leaderProductionButton.getGraphic();
-            }
-            else{
+            } else {
                 temp = (ImageView) leader;
             }
             file = new File(leaderCardsPath + leaderID + endOfPath);

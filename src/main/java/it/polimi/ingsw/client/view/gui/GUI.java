@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client.view.gui;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.client.model.DevelopmentCardsGrid;
 import it.polimi.ingsw.client.network.NetworkHandler;
 import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.gui.controllers.*;
@@ -13,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -192,7 +189,7 @@ public class GUI extends Application implements View {
     @Override
     public void faithTracksUpdate() {
         PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
-        personalController.faithTracksUpdate();
+        personalController.faithTracksAndPopeTilesUpdate();
     }
 
     @Override

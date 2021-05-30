@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <AnchorPane fx:id="mainPane" prefHeight="900.0" prefWidth="1800.0">
          <children>
@@ -856,7 +856,6 @@
             <Button fx:id="endSwap" layoutX="793.0" layoutY="299.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="91.0" text="End Swap" />
             <Button fx:id="endTurn" layoutX="959.0" layoutY="481.0" mnemonicParsing="false" text="End Turn" />
             <Button fx:id="endProduction" layoutX="942.0" layoutY="413.0" mnemonicParsing="false" text="End Production" />
-            <Button fx:id="buyCard" layoutX="959.0" layoutY="346.0" mnemonicParsing="false" text="Buy Card" />
             <HBox fx:id="HActiveProductionLeaders" layoutX="296.0" layoutY="568.0" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button mnemonicParsing="false">
@@ -1389,6 +1388,24 @@
                   <Button layoutX="1.0" layoutY="32.0" mnemonicParsing="false" text="1234567891234" />
                   <Button layoutX="1.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" text="Button" />
                   <Button layoutX="2.0" layoutY="101.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="101.0" text="Button" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="popeTiles" layoutX="881.0" layoutY="50.0" prefHeight="180.0" prefWidth="766.0">
+               <children>
+                  <ImageView fitHeight="59.0" fitWidth="54.0" layoutX="36.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/popeTiles/popeTile0.png" />
+                     </image></ImageView>
+                  <ImageView fitHeight="59.0" fitWidth="54.0" layoutX="333.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/popeTiles/popeTile1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="59.0" fitWidth="54.0" layoutX="684.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/popeTiles/popeTile2.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children>

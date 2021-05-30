@@ -57,6 +57,8 @@ public class PersonalController extends GUICommandListener {
     @FXML
     private AnchorPane faithTrack;
     @FXML
+    private AnchorPane popeTiles;
+    @FXML
     private HBox HActiveProductionLeaders;
     @FXML
     private Button basicPower;
@@ -83,8 +85,6 @@ public class PersonalController extends GUICommandListener {
     @FXML
     private GridPane strongboxGrid;
     @FXML
-    private Button buyCard;
-    @FXML
     private Button endProduction;
     @FXML
     private Button endTurn;
@@ -104,14 +104,15 @@ public class PersonalController extends GUICommandListener {
         GraphicUtilities.populateProductionBoard(productionPane, nickname);
         GraphicUtilities.populateWarehouse(HResFromMarket, warehouse, HLeadersRes, strongboxGrid, nickname);
         GraphicUtilities.populateFaithTracks(faithTrack);
+        GraphicUtilities.populatePopeTiles(popeTiles, nickname);
         GraphicUtilities.populateLegend(legendPane);
         //Prepare action for legend buttons
-        for (Node n: legendPane.getChildren()){
+        for (Node n : legendPane.getChildren()) {
             Button button = (Button) n;
-            if(button.getText().equals(nickname)||button.getText().equals(GraphicUtilities.getAiName())) {
+            if (button.getText().equals(nickname) || button.getText().equals(GraphicUtilities.getAiName())) {
                 continue;
             }
-            n.setOnMousePressed(event -> legendClick((Button)n));
+            n.setOnMousePressed(event -> legendClick((Button) n));
         }
         //Prepare action for seeLeaderHand button
         handButton.setOnMousePressed(event -> showHandPopup());
@@ -255,10 +256,11 @@ public class PersonalController extends GUICommandListener {
         GraphicUtilities.updateDevGrid(devGrid, iD);
     }
 
-    public void faithTracksUpdate() {
+    public void faithTracksAndPopeTilesUpdate() {
         if (mainPane == null)
             return;
         GraphicUtilities.populateFaithTracks(faithTrack);
+        GraphicUtilities.populatePopeTiles(popeTiles, nickname);
     }
 
     public void productionBoardUpdate() {
@@ -311,11 +313,13 @@ public class PersonalController extends GUICommandListener {
     public void disableBoard() {
         board.setVisible(false);
         faithTrack.setVisible(false);
+        popeTiles.setVisible(false);
     }
 
     public void activateBoard() {
         board.setVisible(true);
         faithTrack.setVisible(true);
+        popeTiles.setVisible(true);
     }
 
     private void endProductionClick() {
@@ -354,7 +358,8 @@ public class PersonalController extends GUICommandListener {
         allSelectedResources.addAll(currentSelectedResources);
         currentSelectedResources.clear();
     }
-    private void legendClick(Button b){
+
+    private void legendClick(Button b) {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/legendPopupScene.fxml"));
         fxmlLoader.setController(legendPopupController);
         legendPopupController.setPlayerToSee(b.getText());
