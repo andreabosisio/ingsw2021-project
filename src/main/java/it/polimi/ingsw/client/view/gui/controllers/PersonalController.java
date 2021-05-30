@@ -122,7 +122,7 @@ public class PersonalController extends GUICommandListener {
         //Prepare actions for market buttons
         for (Node b : Stream.concat(HArrowButtons.getChildren().stream(), VArrowButtons.getChildren().stream()).collect(Collectors.toList())) {
             Button button = (Button) b;
-            button.setOnMousePressed((event -> marketAction(button.getText())));
+            button.setOnMousePressed((event -> marketAction(button.getId())));
         }
 
         //setup popup scene controllers
@@ -211,6 +211,7 @@ public class PersonalController extends GUICommandListener {
     }
 
     public void showCardPlacementPopup(String newCardID) {
+        endTurn.setVisible(true);
         Platform.runLater(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/cardPlacement.fxml"));
             fxmlLoader.setController(cardPlacementController);
@@ -299,15 +300,19 @@ public class PersonalController extends GUICommandListener {
         endSwap.setVisible(false);
         currentSelectedResources.clear();
         canSwap = false;
+        endTurn.setVisible(true);
     }
 
     private void endTurnAction() {
         //todo reset all variables
+
         currentSelectedResources.clear();
         totalInResources.clear();
         totalOutResources.clear();
         allSelectedResources.clear();
         activatedProductions.clear();
+
+        endTurn.setVisible(false);
 
         notifyObservers(new EndTurnActionEvent());
     }
@@ -334,6 +339,7 @@ public class PersonalController extends GUICommandListener {
         for (Node n : activatedProductions) {
             n.setDisable(false);
         }
+        endTurn.setVisible(true);
     }
 
     private void productionWithChoiceClick(Node production) {

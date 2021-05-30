@@ -55,22 +55,6 @@ public class GraphicUtilities {
         }
     }
 
-    //todo added this method to populate a devGrid by giving grid with imageViews (from lvl3 to lvl1)
-    public static void populateDevGrid(GridPane devGridToPopulate) {
-        ImageView temp;
-        File file;
-        Button button;
-        List<String> devGrid = Board.getBoard().getDevelopmentCardsGrid().toStringList();
-        Collections.reverse(devGrid);
-        for (Node card : devGridToPopulate.getChildren()) {
-            button = (Button) card;
-            button.setId(devGrid.get(0));
-            temp = (ImageView) button.getGraphic();
-            file = new File(devCardsPath + devGrid.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
-            temp.setImage(new Image(file.toURI().toString()));
-        }
-    }
-
     public static void populateLegend(AnchorPane legendPane) {
         List<String> colors = new ArrayList<String>() {{
             add("#ff0000");
@@ -156,8 +140,29 @@ public class GraphicUtilities {
         }
     }
 
+    //todo added this method to populate a devGrid by giving grid with imageViews (from lvl3 to lvl1)
+    public static void populateDevGrid(GridPane devGridToPopulate) {
+        ImageView temp;
+        File file;
+        Button button;
+        List<String> devGrid = Board.getBoard().getDevelopmentCardsGrid().toStringList();
+        Collections.reverse(devGrid);
+        for (Node card : devGridToPopulate.getChildren()) {
+            button = (Button) card;
+            button.setId(devGrid.get(0));
+            temp = (ImageView) button.getGraphic();
+            file = new File(devCardsPath + devGrid.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
+            temp.setImage(new Image(file.toURI().toString()));
+        }
+    }
+
     //todo added this method to update a devGrid by the iD of the new image
     public static void updateDevGrid(GridPane devGridPopulated, String iD) {
+        //todo find a better solution solution
+        if(iD.equals("empty")){
+            populateDevGrid(devGridPopulated);
+            return;
+        }
         ImageView temp;
         File file;
         Button button;
@@ -183,6 +188,7 @@ public class GraphicUtilities {
             } else
                 counter++;
         }
+        System.out.println();
     }
 
     public static void populateActiveLeaders(List<String> population, HBox leadersBox, VBox warehouseLeaderBox, HBox productionLeaderBox) {
