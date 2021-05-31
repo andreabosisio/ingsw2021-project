@@ -23,7 +23,7 @@ public class GUI extends Application implements View {
     private NetworkHandler networkHandler;
     private String nickname;
     private boolean isPlaying = false;
-    private final Map<String, GUICommandListener> guiCommandListeners = new HashMap<String, GUICommandListener>() {{
+    private final Map<String, GUICommandListener> guiCommandListeners = new HashMap<>() {{
         put("loginController", new LoginController());
         put("chooseNumberController", new ChooseNumberController());
         put("setupController", new SetupController());
@@ -131,7 +131,7 @@ public class GUI extends Application implements View {
     @Override
     public void setOnYourTurn() {
         GUICommandListener nextGuiCommandListener = personalController;
-        setRoot("boardScene", nextGuiCommandListener, 1800, 932);
+        setRoot("boardScene", nextGuiCommandListener, 1800, 1000);
         currentGuiCommandListener = nextGuiCommandListener;
         personalController.activateBoard();
     }
@@ -139,7 +139,7 @@ public class GUI extends Application implements View {
     @Override
     public void setOnWaitForYourTurn(String currentPlayer) {
         GUICommandListener nextGuiCommandListener = personalController;
-        setRoot("boardScene", nextGuiCommandListener, 1800, 932);
+        setRoot("boardScene", nextGuiCommandListener, 1800, 1000);
         currentGuiCommandListener = nextGuiCommandListener;
         personalController.disableBoard();
     }

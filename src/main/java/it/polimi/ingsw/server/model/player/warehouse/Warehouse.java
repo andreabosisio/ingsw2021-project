@@ -66,13 +66,13 @@ public class Warehouse {
     private final MarketSlots resourcesFromMarket = new MarketSlots();
 
 
-    private final List<Depot> depots = new ArrayList<Depot>(){{
+    private final List<Depot> depots = new ArrayList<>() {{
         add(new Depot(startSecondDepot - startFirstDepot));
         add(new Depot(startThirdDepot - startSecondDepot));
         add(new Depot(startFirstExtraSlotsZone - startThirdDepot));
     }};
 
-    private final List<ExtraSlots> extraSlots = new ArrayList<ExtraSlots>(){{
+    private final List<ExtraSlots> extraSlots = new ArrayList<>() {{
         add(new ExtraSlots());
         add(new ExtraSlots());
     }};
@@ -229,6 +229,8 @@ public class Warehouse {
             swap(i,i + 5);
             i++;
         }
+        //reset market slots
+        getNumberOfRemainingResources();
     }
 
     /**
