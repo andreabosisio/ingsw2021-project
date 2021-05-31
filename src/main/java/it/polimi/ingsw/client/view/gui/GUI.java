@@ -26,11 +26,10 @@ public class GUI extends Application implements View {
     private final Map<String, GUICommandListener> guiCommandListeners = new HashMap<String, GUICommandListener>() {{
         put("loginController", new LoginController());
         put("chooseNumberController", new ChooseNumberController());
-        //put("marketController", new MarketController(false));
-        put("setupController",new SetupController());
-        put("personalController",new PersonalController());
-        put("endGameController",new EndGameController());
+        put("setupController", new SetupController());
+        put("endGameController", new EndGameController());
     }};
+    private final PersonalController personalController = new PersonalController();
     private GUICommandListener currentGuiCommandListener;
     private static Scene scene;
 
@@ -38,6 +37,7 @@ public class GUI extends Application implements View {
         try {
             this.networkHandler = new NetworkHandler(ip, port, this);
             guiCommandListeners.values().forEach(guiCommandListener -> guiCommandListener.registerObservers(networkHandler));
+            personalController.registerObservers(networkHandler);
             new Thread(this::startNetwork).start();
         } catch (Exception e) {
             throw new IOException();
@@ -46,10 +46,8 @@ public class GUI extends Application implements View {
 
     @Override
     public void setNickname(String nickname) {
-        PersonalController p = (PersonalController) guiCommandListeners.get("personalController");
-        p.setNickname(nickname);
+        personalController.setNickname(nickname);
         this.nickname = nickname;
-
     }
 
     @Override
@@ -74,7 +72,6 @@ public class GUI extends Application implements View {
 
     @Override
     public void graphicUpdate() {
-
     }
 
     @Override
@@ -126,41 +123,40 @@ public class GUI extends Application implements View {
     @Override
     public void setOnSetup(List<String> leaderCardsID, int numberOfResource) {
         SetupController nextGuiCommandListener = (SetupController) guiCommandListeners.get("setupController");
-        nextGuiCommandListener.initializeData(leaderCardsID,numberOfResource);
+        nextGuiCommandListener.initializeData(leaderCardsID, numberOfResource);
         setRoot("setupScene", nextGuiCommandListener);
         currentGuiCommandListener = nextGuiCommandListener;
     }
 
     @Override
     public void setOnYourTurn() {
-        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("personalController");
-        setRoot("boardScene", nextGuiCommandListener,1800,932);
+        GUICommandListener nextGuiCommandListener = personalController;
+        setRoot("boardScene", nextGuiCommandListener, 1800, 932);
         currentGuiCommandListener = nextGuiCommandListener;
-        ((PersonalController) currentGuiCommandListener).activateBoard();
+        personalController.activateBoard();
     }
 
     @Override
     public void setOnWaitForYourTurn(String currentPlayer) {
-        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("personalController");
-        setRoot("boardScene", nextGuiCommandListener,1800,932);
+        GUICommandListener nextGuiCommandListener = personalController;
+        setRoot("boardScene", nextGuiCommandListener, 1800, 932);
         currentGuiCommandListener = nextGuiCommandListener;
-        ((PersonalController) currentGuiCommandListener).disableBoard();
+        personalController.disableBoard();
     }
 
     @Override
     public void setOnDevelopmentCardPlacement(String newCardID) {
-        ((PersonalController) currentGuiCommandListener).showCardPlacementPopup(newCardID);
+        personalController.showCardPlacementPopup(newCardID);
     }
 
     @Override
     public void setOnResourcesPlacement() {
-        PersonalController p = (PersonalController) guiCommandListeners.get("personalController");
-        p.activateSwaps();
+        personalController.activateSwaps();
     }
 
     @Override
     public void setOnTransformation(int numberOfTransformation, List<String> possibleTransformations) {
-        ((PersonalController) currentGuiCommandListener).showTransformationPopup(numberOfTransformation, possibleTransformations);
+        personalController.showTransformationPopup(numberOfTransformation, possibleTransformations);
     }
 
     @Override
@@ -170,49 +166,43 @@ public class GUI extends Application implements View {
     @Override
     public void setOnEndGame(String winner, Map<String, Integer> playersPoints) {
         EndGameController nextGuiCommandListener = (EndGameController) guiCommandListeners.get("endGameController");
-        setRoot("endGameScene", nextGuiCommandListener, 800, 800);
+        setRoot("endGameScene", nextGuiCommandListener, 600, 800);
         currentGuiCommandListener = nextGuiCommandListener;
         nextGuiCommandListener.showEndGameEvent(winner, playersPoints);
     }
 
     @Override
     public void marketUpdate() {
-        PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
         personalController.marketUpdate();
     }
 
     @Override
     public void gridUpdate(String iD) {
-        PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
         personalController.gridUpdate(iD);
     }
 
     @Override
     public void faithTracksUpdate() {
-        PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
         personalController.faithTracksAndPopeTilesUpdate();
     }
 
     @Override
-    public void productionBoardUpdate(String updatingNick){
-        if(nickname.equals(updatingNick)){
-            PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
+    public void productionBoardUpdate(String updatingNick) {
+        if (nickname.equals(updatingNick)) {
             personalController.productionBoardUpdate();
         }
     }
 
     @Override
-    public void activeLeadersUpdate(String updatingNick){
-        if(nickname.equals(updatingNick)){
-            PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
+    public void activeLeadersUpdate(String updatingNick) {
+        if (nickname.equals(updatingNick)) {
             personalController.activeLeadersUpdate();
         }
     }
 
     @Override
-    public void warehouseUpdate(String updatingNick){
-        if(nickname.equals(updatingNick)){
-            PersonalController personalController = (PersonalController) guiCommandListeners.get("personalController");
+    public void warehouseUpdate(String updatingNick) {
+        if (nickname.equals(updatingNick)) {
             personalController.warehouseUpdate();
         }
     }
@@ -247,22 +237,21 @@ public class GUI extends Application implements View {
         if (!guiCommandListener.equals(currentGuiCommandListener)) {
             scene.setRoot(loadFXML(fxml, guiCommandListener));
         }
-
     }
-    private void setRoot(String fxml, GUICommandListener guiCommandListener,double width,double height) {
+
+    private void setRoot(String fxml, GUICommandListener guiCommandListener, double width, double height) {
         if (!guiCommandListener.equals(currentGuiCommandListener)) {
             Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
             scene.setRoot(loadFXML(fxml, guiCommandListener));
             //setWindow height
             scene.getWindow().setHeight(height);
             //setWindow y position
-            scene.getWindow().setY((screenBounds.getHeight()-height)/2);
+            scene.getWindow().setY((screenBounds.getHeight() - height) / 2);
             //setWindow width
             scene.getWindow().setWidth(width);
             //setWindow x position
-            scene.getWindow().setX((screenBounds.getWidth()-width)/2);
+            scene.getWindow().setX((screenBounds.getWidth() - width) / 2);
         }
-
     }
 
     public void show() {

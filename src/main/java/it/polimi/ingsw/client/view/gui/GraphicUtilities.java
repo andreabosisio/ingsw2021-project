@@ -41,7 +41,7 @@ public class GraphicUtilities {
         return lorenzo;
     }
 
-    //todo added this method to populate a market by giving grid with imageViews and extra imageView
+    //Used to populate a market by giving a grid with imageViews and an extra imageView
     public static void populateMarket(GridPane marketToPopulate, ImageView extraRes) {
         //todo levare da qui e mettere nel metodo updateMarket di personal controller
         List<String> market = Board.getBoard().getMarketTray().toStringList();
@@ -55,6 +55,7 @@ public class GraphicUtilities {
         }
     }
 
+    //Used to populate the Legend represented on the Board
     public static void populateLegend(AnchorPane legendPane) {
         List<String> colors = new ArrayList<String>() {{
             add("#ff0000");
@@ -130,8 +131,7 @@ public class GraphicUtilities {
                 temp = (ImageView) popeTile;
                 file = new File(popeTilesPath + "popeTile" + i + endOfPath);
                 temp.setImage(new Image(file.toURI().toString()));
-            }
-            else {
+            } else {
                 temp = (ImageView) popeTile;
                 file = new File(popeTilesPath + "popeTileBack" + i + endOfPath);
                 temp.setImage(new Image(file.toURI().toString()));
@@ -140,7 +140,7 @@ public class GraphicUtilities {
         }
     }
 
-    //todo added this method to populate a devGrid by giving grid with imageViews (from lvl3 to lvl1)
+    //Used to populate a devGrid by giving grid with imageViews (from lvl3 to lvl1)
     public static void populateDevGrid(GridPane devGridToPopulate) {
         ImageView temp;
         File file;
@@ -156,10 +156,10 @@ public class GraphicUtilities {
         }
     }
 
-    //todo added this method to update a devGrid by the iD of the new image
+    //Used to update a devGrid by the iD of the new image
     public static void updateDevGrid(GridPane devGridPopulated, String iD) {
         //todo find a better solution solution
-        if(iD.equals("empty")){
+        if (iD.equals("empty")) {
             populateDevGrid(devGridPopulated);
             return;
         }
@@ -222,9 +222,7 @@ public class GraphicUtilities {
         /*
         if (leadersBox == null)
             return;
-
          */
-
 
         File file;
         ImageView temp;
@@ -267,14 +265,14 @@ public class GraphicUtilities {
             AnchorPane slotPane = (AnchorPane) slotNode;
             List<Node> cardSlots = slotPane.getChildren();
             LinkedHashSet<String> slot = population.get(i);
-            if(slot.size() > 1)
+            if (slot.size() > 1)
                 slot.removeIf(id -> id.equals(DevelopmentCardsDatabase.getEmptyCardId()));
             int j = cardSlots.size() - 1;
             String[] slotAsArray = slot.toArray(new String[0]);
             for (int k = slotAsArray.length - 1; k >= 0; k--) {
                 ImageView cardImage;
-                if(j == cardSlots.size() - 1)
-                    cardImage = (ImageView) ((Button)cardSlots.get(j)).getGraphic();
+                if (j == cardSlots.size() - 1)
+                    cardImage = (ImageView) ((Button) cardSlots.get(j)).getGraphic();
                 else
                     cardImage = (ImageView) cardSlots.get(j);
                 file = new File(devCardsPath + slotAsArray[k].toLowerCase(Locale.ROOT) + endOfPath);

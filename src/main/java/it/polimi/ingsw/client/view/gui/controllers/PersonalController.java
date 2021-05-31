@@ -186,6 +186,7 @@ public class PersonalController extends GUICommandListener {
         basicPower.setId(String.valueOf(0));
         //prepare end production button
         endProduction.setOnMousePressed(event -> endProductionClick());
+        endProduction.setVisible(false);
 
     }
 
@@ -339,6 +340,7 @@ public class PersonalController extends GUICommandListener {
         for (Node n : activatedProductions) {
             n.setDisable(false);
         }
+        endProduction.setVisible(false);
         endTurn.setVisible(true);
     }
 
@@ -365,6 +367,8 @@ public class PersonalController extends GUICommandListener {
         production.setDisable(true);
         allSelectedResources.addAll(currentSelectedResources);
         currentSelectedResources.clear();
+        endTurn.setVisible(false);
+        endProduction.setVisible(true);
     }
 
     private void legendClick(Button b) {

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane prefHeight="932.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane prefHeight="932.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <AnchorPane fx:id="mainPane" prefHeight="864.0" prefWidth="1791.0" translateY="70.0">
       <ImageView fitHeight="852.0" fitWidth="1802.0" layoutX="607.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@../images/boards/blackWhiteBoard.png" />
@@ -1003,7 +1003,7 @@
       </AnchorPane>
       <TextArea fx:id="messageBox" editable="false" layoutX="400.0" layoutY="-69.0" prefHeight="61.0" prefWidth="994.0">
          <font>
-            <Font size="17.0" />
+            <Font size="13.0" />
          </font>
       </TextArea>
    </AnchorPane>

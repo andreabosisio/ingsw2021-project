@@ -132,7 +132,6 @@ public class SetupController extends GUICommandListener {
 
     private void seeMarket(){
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/marketPopup.fxml"));
-        fxmlLoader.setController(new MarketController(true));
         marketWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader,marketWindow,Modality.NONE);
         marketWindow.show();
     }
