@@ -52,11 +52,11 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
      */
     @Override
     public boolean usePower(TurnLogic turnLogic) {
+        this.outResources.add(new RedResource());
         for(Resource outResource : outResources)
             if(!outResource.productionAbility(turnLogic))
                 return false;
-        this.outResources.clear();
-        return this.outResources.add(new RedResource());
+        return true;
     }
 
     /**
@@ -90,6 +90,8 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
      */
     @Override
     public boolean canDoProduction(List<Resource> desiredProductionResources) {
+
+        this.outResources.clear();
 
         desiredProductionResources = desiredProductionResources.stream().filter(Objects::nonNull).collect(Collectors.toList());
 

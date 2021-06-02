@@ -19,7 +19,8 @@ public class ProductionChoiceController {
     @FXML private Button done;
     @FXML private AnchorPane mainPane;
     private Node production;
-    private final List<String> possibleResources = new ArrayList<String>() {{
+    //todo switch to enum
+    private final List<String> possibleResources = new ArrayList<>() {{
         add("YELLOW");
         add("BLUE");
         add("PURPLE");

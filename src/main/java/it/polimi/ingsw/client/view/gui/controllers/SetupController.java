@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.events.send.ChosenSetupEvent;
+import it.polimi.ingsw.client.model.StorableResourceEnum;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import it.polimi.ingsw.client.view.gui.GraphicUtilities;
@@ -25,13 +26,16 @@ public class SetupController extends GUICommandListener {
     private Stage marketWindow;
     private Stage gridWindow;
 
-    //fixme change to enum and search for other uses of this
+    //fixme change to enum and search for other uses of this (DONE)
+    /*
     private final List<String> possibleResources = new ArrayList<String>() {{
         add("YELLOW");
         add("BLUE");
         add("PURPLE");
         add("GRAY");
     }};
+
+     */
     private List<String> leaderCardsID;
     private List<Integer> chosenLeadersIndexes;
     private List<String> chosenResources;
@@ -103,7 +107,7 @@ public class SetupController extends GUICommandListener {
         for(int i = 0;i<numberOfResources;i++){
             Button button =(Button)HToggleResources.getChildren().get(i);
             if(!button.isDisable()){
-                chosenResources.add(possibleResources.get(Integer.parseInt(button.getId())));
+                chosenResources.add(StorableResourceEnum.values()[Integer.parseInt(button.getId())].toString());
             }
         }
         if(marketWindow !=null) {
@@ -112,19 +116,17 @@ public class SetupController extends GUICommandListener {
         if(gridWindow!=null){
             gridWindow.close();
         }
-        System.out.println(chosenLeadersIndexes);
-        System.out.println(chosenResources);
         notifyObservers(new ChosenSetupEvent(chosenLeadersIndexes,chosenResources));
     }
 
     private void changeResourceAction(Button button){
         int number = Integer.parseInt(button.getId());
         number++;
-        if(number>=possibleResources.size()){
+        if(number >= StorableResourceEnum.values().length){
             number = 0;
         }
         button.setId(String.valueOf(number));
-        File file = new File("src/main/resources/images/resources/"+possibleResources.get(number).toLowerCase(Locale.ROOT)+".png");
+        File file = new File("src/main/resources/images/resources/" + StorableResourceEnum.values()[number].toString().toLowerCase(Locale.ROOT)+".png");
         ImageView imageView = (ImageView) button.getGraphic();
         imageView.setImage(new Image(file.toURI().toString()));
         button.setGraphic(imageView);

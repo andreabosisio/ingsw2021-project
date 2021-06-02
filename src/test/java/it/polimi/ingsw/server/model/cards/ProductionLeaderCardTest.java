@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductionLeaderCardTest {
-    final List<String> nicknames = new ArrayList<String>(){{
+    final List<String> nicknames = new ArrayList<>() {{
         add("Andrea");
         add("Marco");
         add("Matteo");
@@ -41,14 +41,14 @@ class ProductionLeaderCardTest {
         List<Resource> insufficientDesiredResources = new ArrayList<Resource>(){{
             add(new StorableResource(ResourceEnum.BLUE));
         }};
-        List<Resource> anotherCorrectDesiredResources = new ArrayList<Resource>(){{
+        List<Resource> anotherCorrectDesiredResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.YELLOW));
             add(new StorableResource(ResourceEnum.PURPLE));
         }};
 
         assertTrue(leaderCard.canDoProduction(correctDesiredResources));
 
-        usePowerTest(leaderCard);
+        usePowerTest(leaderCard, correctDesiredResources.subList(1, correctDesiredResources.size()));
 
         assertFalse(leaderCard.canDoProduction(wrongDesiredResources));
 
@@ -58,19 +58,17 @@ class ProductionLeaderCardTest {
 
         assertTrue(leaderCard.canDoProduction(anotherCorrectDesiredResources));
 
-        usePowerTest(leaderCard);
+        usePowerTest(leaderCard, anotherCorrectDesiredResources.subList(1, anotherCorrectDesiredResources.size()));
 
     }
 
-    void usePowerTest(ProductionLeaderCard leaderCard){
-        List<Resource> correctOutResources = new ArrayList<Resource>(){{
-            add(new RedResource());
-        }};
+    void usePowerTest(ProductionLeaderCard leaderCard, List<Resource> correctOutResources){
+        correctOutResources.add(new RedResource());
         List<Resource> correctInResources = new ArrayList<Resource>(){{
             add(new StorableResource(ResourceEnum.YELLOW));
         }};
         leaderCard.usePower(modelInterface.getTurnLogic());
-        assertEquals(leaderCard.getOutResources(), correctOutResources);
-        assertEquals(leaderCard.getInResources(), correctInResources);
+        assertTrue(correctOutResources.size() == leaderCard.getOutResources().size() && correctOutResources.containsAll(leaderCard.getOutResources()) && leaderCard.getOutResources().containsAll(correctOutResources));
+        assertEquals(correctInResources, leaderCard.getInResources());
     }
 }

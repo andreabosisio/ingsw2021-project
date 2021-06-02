@@ -38,7 +38,6 @@ public class BasicPowerCard implements ProductionCard {
         for(Resource outResource : outResources)
             if(!outResource.productionAbility(turnLogic))
                 return false;
-        this.outResources.clear();
         return true;
     }
 
@@ -71,6 +70,7 @@ public class BasicPowerCard implements ProductionCard {
      */
     @Override
     public boolean canDoProduction(List<Resource> givenResources) {
+        this.outResources.clear();
         givenResources = givenResources.stream().filter(Objects::nonNull).collect(Collectors.toList());
         if(givenResources.size() != choosableInResourcesSlots + choosableOutResourcesSlots)
             return false;

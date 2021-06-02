@@ -171,6 +171,7 @@ public class PersonalController extends GUICommandListener {
             int buttonIndex = ((AnchorPane)n).getChildren().size() - 1;
             Button slot = (Button) ((AnchorPane)n).getChildren().get(buttonIndex);
             slot.setId(String.valueOf(i));
+            //fixme: se production card è attivata nello slot 5, nel server è nello slot 4
             slot.setOnMousePressed(event -> productionClick(slot));
             i++;
         }

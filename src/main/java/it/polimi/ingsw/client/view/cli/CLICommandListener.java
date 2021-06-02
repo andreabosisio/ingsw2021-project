@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.events.send.*;
-import it.polimi.ingsw.client.model.Board;
-import it.polimi.ingsw.client.model.LeaderCard;
-import it.polimi.ingsw.client.model.Marble;
-import it.polimi.ingsw.client.model.PersonalBoard;
+import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
 
@@ -28,6 +25,8 @@ public class CLICommandListener implements CommandListener {
     private static final String INVALID = "Invalid input";
 
     //todo enum del server?
+    //Todo same thing for RESOURCE_COLORS (create enum)
+    /*
     private static final List<String> CARD_COLORS = new ArrayList<String>(){{
         add("GREEN");
         add("PURPLE");
@@ -40,6 +39,7 @@ public class CLICommandListener implements CommandListener {
         add("PURPLE");
         add("BLUE");
     }};
+     */
 
 
     protected void askCredentials() {
@@ -118,24 +118,18 @@ public class CLICommandListener implements CommandListener {
 
     private List<String> askResourcesChoice(int numberOfResources) {
 
-        List<Marble> storableMarbles = new ArrayList<Marble>(){{
-            add(new Marble("YELLOW"));
-            add(new Marble("GRAY"));
-            add(new Marble("PURPLE"));
-            add(new Marble("BLUE"));
-        }};
         List<String> chosenResourcesColor = new ArrayList<>();
 
         if(numberOfResources != 0) {
             while (chosenResourcesColor.size() < numberOfResources) {
                 CLI.render("Choose a " + AnsiEnum.CYAN + "resource" + AnsiEnum.RESET + ": ");
-                for (int j = 0; j < storableMarbles.size(); j++) {
-                    System.out.print(AnsiEnum.WHITE_BRIGHT + "[" + j + "]: " + AnsiEnum.RESET + Marble.getPrintable(storableMarbles.get(j).getColor()) + "\t\t");
+                for (int j = 0; j < StorableResourceEnum.values().length; j++) {
+                    System.out.print(AnsiEnum.WHITE_BRIGHT + "[" + j + "]: " + AnsiEnum.RESET + Marble.getPrintable(StorableResourceEnum.values()[j].toString()) + "\t\t");
                 }
                 System.out.println();
                 String choice = scanner.nextLine();
                 try {
-                    chosenResourcesColor.add(storableMarbles.get(Integer.parseInt(choice)).getColor());
+                    chosenResourcesColor.add(StorableResourceEnum.values()[Integer.parseInt(choice)].toString());
                 } catch (NumberFormatException | IndexOutOfBoundsException e) {
                     CLI.clearView();
                     CLI.renderError("Invalid index: please re-choice from scratch");
@@ -254,7 +248,7 @@ public class CLICommandListener implements CommandListener {
         List<String> hand = Board.getBoard().getPersonalBoardOf(nickname).getHandLeaders();
         int index = -1;
         if(hand.size() != 0){
-            while (index <0 || index > hand.size()-1){
+            while (index < 0 || index > hand.size() - 1){
                 System.out.println("Choose the Leader Card slot by index (0 or 1)");
                 try {
                     index = Integer.parseInt(scanner.nextLine());
@@ -292,7 +286,7 @@ public class CLICommandListener implements CommandListener {
                 CLI.renderError(INVALID);
             }
         }
-        while (!CARD_COLORS.contains(color.toUpperCase(Locale.ROOT))) {
+        while (Arrays.stream(CardColorsEnum.values()).map(Enum::toString).collect(Collectors.toList()).contains(color.toUpperCase(Locale.ROOT))) {
             CLI.render("Choose the color of the card to buy (green, blue, yellow or purple)");
             color = scanner.nextLine();
         }
@@ -365,7 +359,7 @@ public class CLICommandListener implements CommandListener {
                 do {
                     CLI.render("Choose the resource you wish to produce (ex: blue or gray...)");
                     outResource = scanner.nextLine().toUpperCase(Locale.ROOT);
-                } while(!RESOURCE_COLORS.contains(outResource));
+                } while(!Arrays.stream(StorableResourceEnum.values()).map(Enum::toString).collect(Collectors.toList()).contains(outResource));
             }
             inResourcesStory.addAll(inResources);
             inResourcesForEachProductions.put(index,inResources);
