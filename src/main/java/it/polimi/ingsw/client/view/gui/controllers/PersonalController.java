@@ -175,7 +175,7 @@ public class PersonalController extends GUICommandListener {
             slot.setOnMousePressed(event -> productionClick(slot));
             i++;
         }
-        //prepare basic and productionLeader special production
+        //prepare productionLeader special production
         i = 4;
         for (Node n : HActiveProductionLeaders.getChildren()) {
             n.setVisible(false);
@@ -183,6 +183,7 @@ public class PersonalController extends GUICommandListener {
             n.setId(String.valueOf(i));
             i++;
         }
+        //prepare basic special production
         basicPower.setOnMousePressed(event -> productionWithChoiceClick(basicPower));
         basicPower.setId(String.valueOf(0));
         //prepare end production button

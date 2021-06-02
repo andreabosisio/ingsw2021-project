@@ -195,8 +195,9 @@ public class GraphicUtilities {
         File file;
         ImageView temp;
         String leaderID;
+        int i = 0;
         AtomicInteger wCount = new AtomicInteger(0);
-        AtomicInteger pCount = new AtomicInteger(0);
+        AtomicInteger pCount = new AtomicInteger(4);
         for (Node leader : leadersBox.getChildren()) {
             leaderID = population.remove(0).toLowerCase(Locale.ROOT);
             //check if leader is of type warehouse and in case activate assigned buttons
@@ -205,15 +206,17 @@ public class GraphicUtilities {
                 warehouseLeaderBox.getChildren().get(wCount.getAndIncrement()).setVisible(true);
             }
             if (leaderID.charAt(0) == 'p') {
-                productionLeaderBox.getChildren().get(pCount.get()).setVisible(true);
-                Button leaderProductionButton = (Button) productionLeaderBox.getChildren().get(pCount.get());
+                productionLeaderBox.getChildren().get(i).setVisible(true);
+                Button leaderProductionButton = (Button) productionLeaderBox.getChildren().get(i);
+                //todo added to fix andrea problem
+                leaderProductionButton.setId(String.valueOf(pCount.getAndIncrement()));
                 temp = (ImageView) leaderProductionButton.getGraphic();
             } else {
                 temp = (ImageView) leader;
             }
             file = new File(leaderCardsPath + leaderID + endOfPath);
             temp.setImage(new Image(file.toURI().toString()));
-            pCount.getAndIncrement();
+            i++;
         }
     }
 
