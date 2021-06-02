@@ -286,7 +286,7 @@ public class CLICommandListener implements CommandListener {
                 CLI.renderError(INVALID);
             }
         }
-        while (Arrays.stream(CardColorsEnum.values()).map(Enum::toString).collect(Collectors.toList()).contains(color.toUpperCase(Locale.ROOT))) {
+        while (!Arrays.stream(CardColorsEnum.values()).map(Enum::toString).collect(Collectors.toList()).contains(color.toUpperCase(Locale.ROOT))) {
             CLI.render("Choose the color of the card to buy (green, blue, yellow or purple)");
             color = scanner.nextLine();
         }

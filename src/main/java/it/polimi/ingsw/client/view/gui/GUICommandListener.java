@@ -16,6 +16,7 @@ public abstract class GUICommandListener implements CommandListener {
     @FXML
     private TextArea messageBox;
     private int textCounter = 0;
+    private final int MAX_NUMBER_OF_MESSAGES = 10;
 
     @Override
     public void notifyObservers(SendEvent sendEvent) {
@@ -27,12 +28,11 @@ public abstract class GUICommandListener implements CommandListener {
         this.commandListenerObserver = commandListenerObserver;
     }
 
-    //todo better messageBox
+    //todo better messageBox (setStyle set the color of all the BOX)
     public void printInfoMessage(String info) {
         textCounter++;
-        messageBox.setStyle("-fx-text-inner-color: black");
-        //System.out.println("info: "+ info);
-        if (textCounter > 5) {
+        //messageBox.setStyle("-fx-text-inner-color: black");
+        if (textCounter > MAX_NUMBER_OF_MESSAGES) {
             messageBox.setText(info + "\n");
             textCounter = 0;
         } else
@@ -41,9 +41,8 @@ public abstract class GUICommandListener implements CommandListener {
 
     public void printErrorMessage(String error) {
         textCounter++;
-        messageBox.setStyle("-fx-text-inner-color: red");
-        //System.out.println("error: "+ error);
-        if (textCounter > 5) {
+        //messageBox.setStyle("-fx-text-inner-color: red");
+        if (textCounter > MAX_NUMBER_OF_MESSAGES) {
             messageBox.setText(error + "\n");
             textCounter = 0;
         } else

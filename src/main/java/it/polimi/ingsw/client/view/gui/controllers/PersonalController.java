@@ -229,6 +229,12 @@ public class PersonalController extends GUICommandListener {
     }
 
     private void handleBuyRequest(Node n) {
+        //todo: find better solution???
+        if (n.getId().equals("empty")) {
+            currentSelectedResources.clear();
+            printErrorMessage("No Cards selected");
+            return;
+        }
         String color = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getColorOf(n.getId());
         int level = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getLevelOf(n.getId());
         List<Integer> resPositions = currentSelectedResources.stream().map(node -> Integer.parseInt(node.getId())).collect(Collectors.toList());
