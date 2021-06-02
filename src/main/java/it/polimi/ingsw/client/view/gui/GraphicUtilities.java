@@ -36,6 +36,10 @@ public class GraphicUtilities {
     private static final String popeTilesPath = "src/main/resources/images/popeTiles/";
     private static final String endOfPath = ".png";
     private static final String lorenzo = "Lorenzo il Magnifico";
+    private static final String redColor = "#ff0000";
+    private static final String blueColor = "#0800ff";
+    private static final String greenColor = "#00ff33";
+    private static final String pinkColor = "#ff00be";
 
     public static String getAiName() {
         return lorenzo;
@@ -58,10 +62,10 @@ public class GraphicUtilities {
     //Used to populate the Legend represented on the Board
     public static void populateLegend(AnchorPane legendPane) {
         List<String> colors = new ArrayList<String>() {{
-            add("#ff0000");
-            add("#0800ff");
-            add("#00ff33");
-            add("#ff00be");
+            add(redColor);
+            add(blueColor);
+            add(greenColor);
+            add(pinkColor);
         }};
         Map<String, Integer> faithTracks = Board.getBoard().getFaithTrack().getIndexes();
         int i = 0;

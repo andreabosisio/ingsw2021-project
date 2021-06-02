@@ -31,6 +31,7 @@ public class WaitResourcePlacementState extends State {
     public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedPlacementAction) throws InvalidEventException {
         if (swapPairs.size() % 2 != 0) {
             //resend place choice
+            sendWarehouseUpdate();
             turnLogic.setLastEventSent(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname()));
             throw new InvalidEventException("Every swap should always have an initial position and a final position"); //a swap should always have an initPosition and a finalPosition
         }
