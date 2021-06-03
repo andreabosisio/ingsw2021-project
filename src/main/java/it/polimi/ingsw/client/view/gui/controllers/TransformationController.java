@@ -59,7 +59,9 @@ public class TransformationController extends GUICommandListener {
             int buttonIndex = transformation.getChildren().size() - 1;
             Button transformer = (Button) transformation.getChildren().get(buttonIndex);
             if (transformer != null) {
+
                 ((ImageView) transformer.getGraphic()).setImage(new Image(new File("src/main/resources/images/resources/" + possibleTransformations.get(0).toLowerCase(Locale.ROOT) + ".png").toURI().toString()));
+                transformer.setId(String.valueOf(0));
                 transformer.setOnMousePressed((event -> changeResourceAction(transformer)));
             }
         }
