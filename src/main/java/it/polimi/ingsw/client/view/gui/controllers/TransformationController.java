@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui.controllers;
 import it.polimi.ingsw.client.events.send.TransformationActionEvent;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class TransformationController extends GUICommandListener {
     private int numberOfTransformation;
@@ -53,21 +55,21 @@ public class TransformationController extends GUICommandListener {
             VBox transformation = (VBox) HTransformationBox.getChildren().get(i);
             transformation.setDisable(false);
             transformation.setOpacity(1);
-            int finalI = i;
-            Button transformer = (Button) transformation.getChildren().stream().filter(n -> n.getId().equals(String.valueOf(finalI))).findFirst().orElse(null);
+            String id = transformation.getId();
+            Button transformer = (Button) transformation.getChildren().stream().filter(n -> n.getId().equals(id)).findFirst().orElse(null);
             if (transformer != null) {
+                ((ImageView) transformer.getGraphic()).setImage(new Image(new File("src/main/resources/images/resources/" + possibleTransformations.get(0).toLowerCase(Locale.ROOT) + ".png").toURI().toString()));
                 transformer.setOnMousePressed((event -> changeResourceAction(transformer)));
             }
-            confirm.setOnMousePressed((event -> transformationAction()));
         }
+        confirm.setOnMousePressed((event -> transformationAction()));
     }
 
     private void changeResourceAction(Button transformer){
         int index = Integer.parseInt(transformer.getId());
         index++;
-        if (index >= possibleTransformations.size()){
+        if (index >= possibleTransformations.size())
             index = 0;
-        }
         transformer.setId(String.valueOf(index));
         File file = new File("src/main/resources/images/resources/" + possibleTransformations.get(index).toLowerCase(Locale.ROOT) + ".png");
         ImageView imageView = (ImageView) transformer.getGraphic();
@@ -77,10 +79,8 @@ public class TransformationController extends GUICommandListener {
 
     private void transformationAction() {
         chosenResources = new ArrayList<>();
-        for(int i = 0; i < numberOfTransformation; i++){
-            VBox transformation = (VBox) HTransformationBox.getChildren().get(i);
-            int finalI = i;
-            Button transformer = (Button) transformation.getChildren().stream().filter(n -> n.getId().equals(String.valueOf(finalI))).findFirst().orElse(null);
+        for (Node transformation : HTransformationBox.getChildren()) {
+            Button transformer = (Button) ((VBox) transformation).getChildren().stream().filter(b -> b.getId().equals(transformation.getId())).findFirst().orElse(null);
             if (transformer != null && !transformer.isDisable()) {
                 chosenResources.add(possibleTransformations.get(Integer.parseInt(transformer.getId())));
             }

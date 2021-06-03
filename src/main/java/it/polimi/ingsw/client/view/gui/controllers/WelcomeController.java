@@ -49,11 +49,14 @@ public class WelcomeController extends GUICommandListener {
     private void startAction() {
         String ip;
         int port;
+        /*
         if (!IP_PATTERN.matcher(serverIP.getText()).matches()) {
             printErrorMessage("Not an IPv4");
             serverIP.setText(defaultIP);
             return;
         }
+
+         */
         ip = serverIP.getText();
         try {
             port = Integer.parseInt(serverPort.getText());
