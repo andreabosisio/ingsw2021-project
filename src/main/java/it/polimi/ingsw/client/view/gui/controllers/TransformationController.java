@@ -56,7 +56,8 @@ public class TransformationController extends GUICommandListener {
             transformation.setDisable(false);
             transformation.setOpacity(1);
             String id = transformation.getId();
-            Button transformer = (Button) transformation.getChildren().stream().filter(n -> n.getId().equals(id)).findFirst().orElse(null);
+            int buttonIndex = transformation.getChildren().size() - 1;
+            Button transformer = (Button) transformation.getChildren().get(buttonIndex);
             if (transformer != null) {
                 ((ImageView) transformer.getGraphic()).setImage(new Image(new File("src/main/resources/images/resources/" + possibleTransformations.get(0).toLowerCase(Locale.ROOT) + ".png").toURI().toString()));
                 transformer.setOnMousePressed((event -> changeResourceAction(transformer)));
@@ -80,8 +81,9 @@ public class TransformationController extends GUICommandListener {
     private void transformationAction() {
         chosenResources = new ArrayList<>();
         for (Node transformation : HTransformationBox.getChildren()) {
-            Button transformer = (Button) ((VBox) transformation).getChildren().stream().filter(b -> b.getId().equals(transformation.getId())).findFirst().orElse(null);
-            if (transformer != null && !transformer.isDisable()) {
+            int buttonIndex = ((VBox) transformation).getChildren().size() - 1;
+            Button transformer = (Button) ((VBox) transformation).getChildren().get(buttonIndex);
+            if (transformer != null && !transformation.isDisable()) {
                 chosenResources.add(possibleTransformations.get(Integer.parseInt(transformer.getId())));
             }
         }

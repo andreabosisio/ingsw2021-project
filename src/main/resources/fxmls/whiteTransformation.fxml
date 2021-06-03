@@ -16,7 +16,7 @@
             <ImageView id="empty" fitHeight="65.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../images/utils/arrowDown.png" />
             </ImageView>
-            <Button id="0" mnemonicParsing="false">
+            <Button mnemonicParsing="false">
                 <graphic>
                     <ImageView fitHeight="74.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../images/resources/yellow.png" />
@@ -31,7 +31,7 @@
             <ImageView id="empty" fitHeight="65.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../images/utils/arrowDown.png" />
             </ImageView>
-            <Button id="1" mnemonicParsing="false">
+            <Button mnemonicParsing="false">
                 <graphic>
                     <ImageView fitHeight="74.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../images/resources/yellow.png" />
@@ -46,7 +46,7 @@
             <ImageView id="empty" fitHeight="65.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../images/utils/arrowDown.png" />
             </ImageView>
-            <Button id="2" mnemonicParsing="false">
+            <Button mnemonicParsing="false">
                 <graphic>
                     <ImageView fitHeight="74.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../images/resources/yellow.png" />
@@ -61,7 +61,7 @@
             <ImageView id="empty" fitHeight="65.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../images/utils/arrowDown.png" />
             </ImageView>
-            <Button id="3" mnemonicParsing="false">
+            <Button mnemonicParsing="false">
                 <graphic>
                     <ImageView fitHeight="74.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../images/resources/yellow.png" />
