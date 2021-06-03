@@ -84,7 +84,7 @@ public class DevelopmentCardsDatabase {
         String[] tmpPrice = devCardsPrice.get(numberOfCard).split("&");
         String[] cardPrice = new String[3];
         List<String[]> cardPriceList = new ArrayList<>();
-
+        //todo put code below in function to avoid duplicated lines
         int t = 0;
         cardPrice[0] = " ";
         cardPrice[1] = " "; // if there is not a resource, there is a space

@@ -175,13 +175,13 @@
       "price": [
         {
           "color": "YELLOW",
-          "quantity": 5
+          "quantity": 4
         }
       ],
       "inResources": [
         {
           "color": "PURPLE",
-          "quantity": 2
+          "quantity": 1
         }
       ],
       "outResources": [
