@@ -51,7 +51,7 @@ public class DevelopmentCardsGrid extends Printable {
         for (int i = 0; i < CARD_LEVELS; i++) {
             mapByLevel.add(new HashMap<>());
         }
-
+        //todo fix for empty MARCO
         for (String indexCard : fullGrid) {
             String[] splitIndex = indexCard.split("_");
             mapByLevel.get(Integer.parseInt(splitIndex[1]) - 1).put(splitIndex[0], indexCard);

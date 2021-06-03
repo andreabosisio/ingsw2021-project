@@ -1,19 +1,21 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.events.send.ReconnectEvent;
 import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.events.send.StartTurnEvent;
+import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.gameMode.GameMode;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.WhiteResource;
-import it.polimi.ingsw.server.network.Lobby;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Contains all the information of the current turn
@@ -27,7 +29,7 @@ public class TurnLogic {
     private State currentState;
     private final State startTurn, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, endGame, idle;
 
-    private final List<WhiteResource> whiteResourcesFromMarket = new ArrayList<>();
+    private List<WhiteResource> whiteResourcesFromMarket = new ArrayList<>();
     private DevelopmentCard chosenDevCard;
 
     private final ModelInterface modelInterface;
@@ -84,8 +86,12 @@ public class TurnLogic {
             setNextPlayer();
             return;
         }
-        reset();
+        setCurrentState(getStartTurn());
         modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname(), false));
+        setLastEventSent(new StartTurnEvent(getCurrentPlayer().getNickname(),true));
+        if(!currentPlayer.prepareTurn(this)){
+            reset();
+        }
     }
 
     private void reset() {
@@ -145,6 +151,11 @@ public class TurnLogic {
     public void setWhiteResourcesFromMarket(WhiteResource whiteResourceFromMarket) {
         this.whiteResourcesFromMarket.add(whiteResourceFromMarket);
     }
+
+    public void setWhiteResourcesFromMarket(List<WhiteResource> whiteResourcesFromMarket) {
+        this.whiteResourcesFromMarket = whiteResourcesFromMarket;
+    }
+
 
     public List<WhiteResource> getWhiteResourcesFromMarket() {
         return whiteResourcesFromMarket;
@@ -304,5 +315,38 @@ public class TurnLogic {
         if(lastEventSent !=null) {
             modelInterface.notifyObservers(lastEventSent);
         }
+    }
+    public void disconnectPlayer(String nickname){
+        Player disconnected = players.stream().filter(player->player.getNickname().equals(nickname)).findFirst().orElse(null);
+        assert disconnected != null;
+        disconnected.setOnline(false);
+        if(currentPlayer.equals(disconnected)){
+            currentPlayer.setDisconnectedData(currentState,whiteResourcesFromMarket,chosenDevCard,lastEventSent);
+            if(players.stream().noneMatch(Player::isOnline)){
+                //todo la partita salta
+                System.out.println("happy feet");
+            }
+            else{
+                setNextPlayer();
+                setCurrentState(startTurn);
+                setLastEventSent(new StartTurnEvent(currentPlayer.getNickname(),true));
+            }
+        }
+    }
+
+    public void reconnectPlayer(String nickname) {
+        Player reconnected = players.stream().filter(player->player.getNickname().equals(nickname)).findFirst().orElse(null);
+        GraphicUpdateEvent graphicsForReconnection = new GraphicUpdateEvent();
+        graphicsForReconnection.addUpdate(new MarketUpdate());
+        graphicsForReconnection.addUpdate(new GridUpdate());
+        graphicsForReconnection.addUpdate(new FaithTracksUpdate());
+        players.forEach(player->{
+            graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player));
+            graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player.getNickname(),player.getPersonalBoard()));
+            graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player.getNickname(),player.getPersonalBoard().getWarehouse()));
+        });
+        modelInterface.notifyObservers(new ReconnectEvent(nickname, currentPlayer.getNickname(), players.stream().map(Player::getNickname).collect(Collectors.toList()),graphicsForReconnection));
+        assert reconnected != null;
+        reconnected.setOnline(true);
     }
 }

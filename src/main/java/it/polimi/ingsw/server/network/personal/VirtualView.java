@@ -137,7 +137,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      */
     public void disconnect() {
         //used to notify the game of disconnection
-        Lobby.getLobby().setPlayerOffline(nickname);
+        Lobby.getLobby().disconnectPlayer(nickname);
 
         setOnline(false);
         stopPingPong();
@@ -157,6 +157,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
         clientHandler.getConnection().setPongObserver(this);
         this.timer = new Timer();
         //this.sendPing();
+        Lobby.getLobby().reconnectPlayer(nickname);
         //todo add controller.reconnect(this); to be reconnected to the game and receive all the graphics update
     }
 

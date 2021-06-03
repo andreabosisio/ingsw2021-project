@@ -48,8 +48,6 @@ public class EndTurnState extends State {
 
         //reset and change player
         turnLogic.setNextPlayer();
-        turnLogic.setCurrentState(turnLogic.getStartTurn());
-        turnLogic.setLastEventSent(new StartTurnEvent(turnLogic.getCurrentPlayer().getNickname(),true));
         return true;
     }
 

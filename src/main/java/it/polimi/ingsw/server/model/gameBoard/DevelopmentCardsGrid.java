@@ -47,6 +47,19 @@ public class DevelopmentCardsGrid implements EndGameSubject {
         return toReturn;
     }
 
+    public List<String> getFullGrid() {
+        List<String> toReturn = new ArrayList<>();
+        mapByLevel.forEach((level) -> level.forEach((key, value) -> {
+            if (value.size() != 0) {
+                toReturn.add(value.get(0).getID());
+            }
+            else
+                toReturn.add("empty");
+        }));
+        return toReturn;
+    }
+
+
     /**
      * Remove the lowest level card of the given color
      * and calls the method notifyEndGameObserver if there is no more Cards of that color.

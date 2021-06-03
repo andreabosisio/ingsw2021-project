@@ -219,11 +219,16 @@ public class Lobby {
      * If no game was ongoing the virtualView is removed
      * @param nickname offline player
      */
-    public synchronized void setPlayerOffline(String nickname){
+    public synchronized void disconnectPlayer(String nickname){
         if(gameStarted) {
-            controller.setPlayerOffline(nickname);
+            controller.disconnectPlayer(nickname);
         }
         else
             removeVirtualView(nickname);
+    }
+    public synchronized void reconnectPlayer(String nickname){
+        if(gameStarted) {
+            controller.reconnectPlayer(nickname);
+        }
     }
 }

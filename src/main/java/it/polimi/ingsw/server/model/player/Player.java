@@ -1,13 +1,30 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.server.events.send.SendEvent;
+import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.model.PlayerInterface;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
+import it.polimi.ingsw.server.model.resources.WhiteResource;
+import it.polimi.ingsw.server.model.turn.State;
+import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements PlayerInterface {
+
+    private State disconnectedState;
+    private List<WhiteResource> whiteResourcesFromMarket;
+    private DevelopmentCard chosenDevCard;
+    private SendEvent lastReceivedEvent;
+
+
+
+
+
+
     private boolean isOnline;
     private final String nickname;
     private List<LeaderCard> leaderHand;
@@ -141,5 +158,31 @@ public class Player implements PlayerInterface {
      */
     public void setOnline(boolean online) {
         isOnline = online;
+    }
+
+    public void setDisconnectedData(State currentState, List<WhiteResource> whiteResourcesFromMarket, DevelopmentCard chosenDevCard,SendEvent lastReceivedEvent) {
+        this.disconnectedState = currentState;
+        this.whiteResourcesFromMarket = whiteResourcesFromMarket;
+        this.chosenDevCard = chosenDevCard;
+        this.lastReceivedEvent = lastReceivedEvent;
+    }
+
+    public State getDisconnectedState() {
+        return disconnectedState;
+    }
+
+    public boolean prepareTurn(TurnLogic turnLogic) {
+        if(disconnectedState== null){
+            return false;
+        }
+        turnLogic.setWhiteResourcesFromMarket(whiteResourcesFromMarket);
+        turnLogic.setChosenDevCard(chosenDevCard);
+        turnLogic.setCurrentState(disconnectedState);
+        turnLogic.getModelInterface().notifyObservers(lastReceivedEvent);
+        turnLogic.setLastEventSent(lastReceivedEvent);
+        disconnectedState = null;
+        whiteResourcesFromMarket.clear();
+        chosenDevCard = null;
+        return true;
     }
 }

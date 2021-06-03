@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,8 +30,6 @@ public class GridUpdate {
         this.level = null;
         this.color = null;
         this.iD = null;
-        this.fullGrid = GameBoard.getGameBoard().getDevelopmentCardsGrid().getAvailableCards()
-                .stream().map(DevelopmentCard::getID)
-                .collect(Collectors.toList());
+        this.fullGrid = new ArrayList<>(GameBoard.getGameBoard().getDevelopmentCardsGrid().getFullGrid());
     }
 }

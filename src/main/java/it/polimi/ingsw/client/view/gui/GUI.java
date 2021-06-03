@@ -213,9 +213,11 @@ public class GUI extends Application implements View {
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(e -> {
+            if(networkHandler!=null){
+                networkHandler.close();
+            }
             //todo add closing of socket and quit event to server before System.exit(might need to move System.exit at the end of the function called)
             Platform.exit();//this might not be needed
-            System.exit(0);
         });
     }
 

@@ -38,6 +38,7 @@ public class NetworkHandler implements CommandListenerObserver {
         put("endTurnChoice",EndTurnReceiveEvent.class);
         put("gameStarted",GameStartedEvent.class);
         put("endGame",EndGameEvent.class);
+        put("reconnect",ReconnectEvent.class);
     }};
 
     public void setNickname(String nickname) {
@@ -101,5 +102,8 @@ public class NetworkHandler implements CommandListenerObserver {
     @Override
     public void update(SendEvent sendEvent) {
         connectionToServer.sendMessage(sendEvent.toJson(nickname));
+    }
+    public void close(){
+        connectionToServer.close();
     }
 }

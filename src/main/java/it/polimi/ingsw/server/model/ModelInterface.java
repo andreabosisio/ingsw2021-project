@@ -230,8 +230,12 @@ public class ModelInterface implements SendObservable {
      * This method set a player in the model as offline
      * @param nickname offline player
      */
-    public void setPlayerOffline(String nickname){
-        getPlayerByNickname(nickname).setOnline(false);
+    public void disconnectPlayer(String nickname){
+        turnLogic.disconnectPlayer(nickname);
         //todo check if currentPlayer is the one disconnected if yes decide what to do
+    }
+
+    public void reconnectPlayer(String nickname) {
+        turnLogic.reconnectPlayer(nickname);
     }
 }
