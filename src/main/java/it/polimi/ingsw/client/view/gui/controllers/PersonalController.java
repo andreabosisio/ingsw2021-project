@@ -189,6 +189,9 @@ public class PersonalController extends GUICommandListener {
         //prepare end production button
         endProduction.setOnMousePressed(event -> endProductionClick());
         endProduction.setVisible(false);
+        //repopulate leader warehouse and leader production special buttons
+        List<String> activeLeaders = Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders();
+        GraphicUtilities.populateActiveLeaders(activeLeaders, HActiveLeaders, HLeadersRes, HActiveProductionLeaders);
 
     }
 
