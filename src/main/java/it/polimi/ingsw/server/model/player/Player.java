@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.server.events.send.SendEvent;
-import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;

@@ -3,10 +3,8 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.events.send.SendEvent;
 import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
-import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 
 /**
  * This class listens to inputs from the GUI

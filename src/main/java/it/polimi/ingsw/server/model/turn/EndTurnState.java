@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.exceptions.InvalidEventException;
-import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.events.send.EndGameEvent;
 import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;

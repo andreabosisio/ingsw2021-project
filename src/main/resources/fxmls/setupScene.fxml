@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
@@ -10,76 +11,62 @@
 <?import javafx.scene.layout.HBox?>
 
 <AnchorPane fx:id="mainPane" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Button fx:id="done" layoutX="502.0" layoutY="620.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="79.0" text="Done" />
-      <ScrollPane layoutY="141.0" prefHeight="409.0" prefWidth="800.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="141.0">
-         <content>
-            <HBox fx:id="HToggleLeaders">
-               <children>
-                  <ToggleButton contentDisplay="CENTER" mnemonicParsing="false" textAlignment="CENTER">
-                     <graphic>
-                        <ImageView fitHeight="385.0" fitWidth="255.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/leaders/d1.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton mnemonicParsing="false">
-                     <graphic>
-                        <ImageView fitHeight="385.0" fitWidth="255.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/leaders/m1.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton mnemonicParsing="false">
-                     <graphic>
-                        <ImageView fitHeight="385.0" fitWidth="255.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/leaders/p1.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton mnemonicParsing="false">
-                     <graphic>
-                        <ImageView fitHeight="385.0" fitWidth="255.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/leaders/w1.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-               </children>
-            </HBox>
-         </content>
-      </ScrollPane>
-      <TextArea fx:id="messageBox" layoutX="125.0" layoutY="61.0" prefHeight="25.0" prefWidth="349.0" />
-      <HBox fx:id="HToggleResources" layoutX="300.0" layoutY="598.0">
-         <children>
-            <Button disable="true" mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="74.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/resources/yellow.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button disable="true" mnemonicParsing="false">
-               <graphic>
-                  <ImageView fitHeight="74.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/resources/yellow.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-         </children>
-      </HBox>
-      <Button fx:id="gridButton" layoutX="34.0" layoutY="598.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="See Grid" />
-      <Button fx:id="marketButton" layoutX="34.0" layoutY="654.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="See Market" />
-   </children>
+    <Button fx:id="done" layoutX="502.0" layoutY="620.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="79.0" text="Done" />
+    <ScrollPane layoutY="141.0" prefHeight="409.0" prefWidth="800.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="141.0">
+        <HBox fx:id="HToggleLeaders">
+            <ToggleButton contentDisplay="CENTER" mnemonicParsing="false" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS">
+                <graphic>
+                    <ImageView fitHeight="385.0" fitWidth="255.0" pickOnBounds="true" preserveRatio="true" scaleX="0.95" scaleY="0.95" scaleZ="0.95">
+                        <Image url="@../images/leaders/d1.png" />
+                    </ImageView>
+                </graphic>
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <HBox.margin>
+               <Insets />
+            </HBox.margin>
+            </ToggleButton>
+            <ToggleButton mnemonicParsing="false">
+                <graphic>
+                    <ImageView fitHeight="385.0" fitWidth="255.0" pickOnBounds="true" preserveRatio="true" scaleX="0.95" scaleY="0.95" scaleZ="0.95">
+                        <Image url="@../images/leaders/m1.png" />
+                    </ImageView>
+                </graphic>
+            </ToggleButton>
+            <ToggleButton mnemonicParsing="false">
+                <graphic>
+                    <ImageView fitHeight="385.0" fitWidth="255.0" pickOnBounds="true" preserveRatio="true" scaleX="0.95" scaleY="0.95" scaleZ="0.95">
+                        <Image url="@../images/leaders/p1.png" />
+                    </ImageView>
+                </graphic>
+            </ToggleButton>
+            <ToggleButton mnemonicParsing="false">
+                <graphic>
+                    <ImageView fitHeight="385.0" fitWidth="255.0" pickOnBounds="true" preserveRatio="true" scaleX="0.95" scaleY="0.95" scaleZ="0.95">
+                        <Image url="@../images/leaders/w1.png" />
+                    </ImageView>
+                </graphic>
+            </ToggleButton>
+        </HBox>
+    </ScrollPane>
+    <TextArea fx:id="messageBox" layoutX="125.0" layoutY="61.0" prefHeight="25.0" prefWidth="349.0" />
+    <HBox fx:id="HToggleResources" layoutX="300.0" layoutY="598.0">
+        <Button disable="true" mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="74.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/resources/yellow.png" />
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button disable="true" mnemonicParsing="false">
+            <graphic>
+                <ImageView fitHeight="74.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/resources/yellow.png" />
+                </ImageView>
+            </graphic>
+        </Button>
+    </HBox>
+    <Button fx:id="gridButton" layoutX="34.0" layoutY="598.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="See Grid" />
+    <Button fx:id="marketButton" layoutX="34.0" layoutY="654.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="See Market" />
 </AnchorPane>

@@ -46,7 +46,7 @@ public class StartTurnState extends State {
             GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
             graphicUpdateEvent.addUpdate(new MarketUpdate());
             graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
-            graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+            graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new WarehouseUpdate()));
             graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " took some resources from the Market Tray! \n Now he's reordering them...");
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
@@ -141,7 +141,7 @@ public class StartTurnState extends State {
 
         //graphic Update of player's warehouse and faithTrack
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-        graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+        graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new WarehouseUpdate()));
         graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
         turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 
@@ -190,7 +190,7 @@ public class StartTurnState extends State {
                 //graphic update of DevelopmentCardsGrid for all players
                 GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
                 graphicUpdateEvent.addUpdate(new GridUpdate(chosenColorEnum, cardLevel));
-                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new WarehouseUpdate()));
                 graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " purchased a " + chosenColorEnum.toString().toUpperCase(Locale.ROOT) + " Development Card of level " + cardLevel + "!");
                 turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
 

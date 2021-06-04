@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 
 public class SetupManager {
-    private final List<Integer> numberOfResourcesToChoose = new ArrayList<Integer>(){{
+    private final List<Integer> numberOfResourcesToChoose = new ArrayList<>() {{
         add(0);
         add(1);
         add(1);
@@ -112,6 +112,7 @@ public class SetupManager {
                 GameBoard.getGameBoard().faithProgress(currentSetupPlayer, 1);
 
             setupSendEvents.remove(setupSendEvent);
+
             if (setupSendEvents.size() == 0) {
                 //set turnLogic state from (idleState where very action is invalidEvent) to startTurn
                 modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());
@@ -119,12 +120,9 @@ public class SetupManager {
                 //all the players receive an update event with the gameBoard
                 GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
                 graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
-                modelInterface.notifyObservers(graphicUpdateEvent);
-                for (Player player : modelInterface.getTurnLogic().getPlayers()) {
-                    graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player));
-                    graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player.getNickname(), player.getPersonalBoard().getWarehouse()));
-                    graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player.getNickname(),player.getPersonalBoard()));
-                }
+                //modelInterface.notifyObservers(graphicUpdateEvent); // fixme ??
+                for (Player player : modelInterface.getTurnLogic().getPlayers())
+                    graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player, new LeaderCardSlotsUpdate(), new ProductionSlotsUpdate(), new WarehouseUpdate()));
                 modelInterface.notifyObservers(graphicUpdateEvent);
                 modelInterface.notifyObservers(new StartTurnEvent(modelInterface.getCurrentPlayerNickname(),false));
                 modelInterface.getTurnLogic().setLastEventSent(new StartTurnEvent(modelInterface.getCurrentPlayerNickname(),true));

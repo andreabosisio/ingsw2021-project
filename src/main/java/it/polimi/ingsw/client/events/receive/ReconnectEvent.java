@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.events.receive;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.client.model.Board;
-import it.polimi.ingsw.client.model.MarketTray;
 import it.polimi.ingsw.client.model.PersonalBoard;
 import it.polimi.ingsw.client.view.View;
 

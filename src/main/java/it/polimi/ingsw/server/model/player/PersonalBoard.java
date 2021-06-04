@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -30,16 +31,16 @@ public class PersonalBoard implements EndGameSubject {
     private static final int basicPowerIndex = 0;
     private static final int leaderHandSize = 2;
     private final List<LeaderCard> activeLeaderCards;
-    private final List<List<ProductionCard>> deckProduction;
+    private final List<List<ProductionCard>> productionDeck;
     private final Warehouse warehouse;
     private EndGameObserver endGameObserver;
 
     public PersonalBoard() {
         warehouse = new Warehouse();
-        deckProduction = new ArrayList<>();
-        IntStream.range(0, lastDevColumnIndex).forEach(i -> deckProduction.add(new ArrayList<>()));
+        productionDeck = new ArrayList<>();
+        IntStream.range(0, lastDevColumnIndex).forEach(i -> productionDeck.add(new ArrayList<>()));
         activeLeaderCards = new ArrayList<>();
-        deckProduction.get(0).add(new BasicPowerCard());
+        productionDeck.get(0).add(new BasicPowerCard());
     }
 
     public Warehouse getWarehouse() {
@@ -65,11 +66,25 @@ public class PersonalBoard implements EndGameSubject {
     public List<Integer> getAvailablePlacement(DevelopmentCard card) {
         List<Integer> toReturn = new ArrayList<>();
         for (int i = firstDevSpaceIndex; i < lastDevColumnIndex; i++) {
-            if (deckProduction.get(i).size() == card.getLevel() - 1) {
+            if (productionDeck.get(i).size() == card.getLevel() - 1) {
                 toReturn.add(i);
             }
         }
         return toReturn;
+    }
+
+    /**
+     * Get all the Production Cards' IDs in all the Production Slots (including the Basic Power Card).
+     * 
+     * @return a list containing a list 
+     */
+    public List<List<String>> getAllBoughtDevelopmentCardsIDs() {
+        return productionDeck.stream().map(slot -> {
+            List<String> newSlotIDs = slot.stream().limit(lastDevColumnIndex).map(ProductionCard::getID).collect(Collectors.toList());
+            if(newSlotIDs.size() == 0)
+                newSlotIDs.add("empty");
+            return newSlotIDs;
+        }).collect(Collectors.toList());
     }
 
     /**
@@ -81,20 +96,20 @@ public class PersonalBoard implements EndGameSubject {
      * @return true if placed correctly
      */
     public boolean setNewProductionCard(int pos, DevelopmentCard card) {
-        if (pos < firstDevSpaceIndex || pos >= lastDevColumnIndex || deckProduction.stream().anyMatch(el -> el.contains(card))) {
+        if (pos < firstDevSpaceIndex || pos >= lastDevColumnIndex || productionDeck.stream().anyMatch(el -> el.contains(card))) {
             return false;
         }
         //check that pos is compliant with rules of placement
         if (getAvailablePlacement(card).contains(pos)) {
             //check that if there is a card under, it is acceptable to place the new one over it
-            if (deckProduction.get(pos).size() > 0) {
-                DevelopmentCard last = (DevelopmentCard) deckProduction.get(pos).get(0);
+            if (productionDeck.get(pos).size() > 0) {
+                DevelopmentCard last = (DevelopmentCard) productionDeck.get(pos).get(0);
             }
 
-            deckProduction.get(pos).add(0, card);
+            productionDeck.get(pos).add(0, card);
             int numberOfDevCards = 0;
             for (int i = 1; i < lastDevColumnIndex; i++)
-                numberOfDevCards = numberOfDevCards + deckProduction.get(i).size();
+                numberOfDevCards = numberOfDevCards + productionDeck.get(i).size();
 
             if (numberOfDevCards == 7)
                 this.notifyEndGameObserver();
@@ -110,12 +125,12 @@ public class PersonalBoard implements EndGameSubject {
      * @return true if successfully placed
      */
     public boolean setNewProductionCard(ProductionCard leader) {
-        if (activeLeaderCards.contains(leader) || (deckProduction.size() >= 6)) {
+        if (activeLeaderCards.contains(leader) || (productionDeck.size() >= 6))
             return false;
-        }
+
         List<ProductionCard> newLevel = new ArrayList<>();
         newLevel.add(leader);
-        deckProduction.add(newLevel);
+        productionDeck.add(newLevel);
         return true;
     }
 
@@ -141,7 +156,7 @@ public class PersonalBoard implements EndGameSubject {
     public int getPoints(Player player) {
         List<Integer> points = new ArrayList<>();
         for (int i = firstDevSpaceIndex; i < lastDevColumnIndex; i++) {
-            deckProduction.get(i).forEach(el -> points.add(el.getPoints()));
+            productionDeck.get(i).forEach(el -> points.add(el.getPoints()));
         }
         activeLeaderCards.forEach(c -> points.add(c.getPoints()));
         points.add(GameBoard.getGameBoard().getFaithTrackOfPlayer(player).getVictoryPoints());
@@ -177,17 +192,17 @@ public class PersonalBoard implements EndGameSubject {
     public List<DevelopmentCard> getAllDevelopmentCards() {
         List<DevelopmentCard> toReturn = new ArrayList<>();
         for (int i = firstDevSpaceIndex; i < lastDevColumnIndex; i++) {
-            deckProduction.get(i).forEach(card -> toReturn.add((DevelopmentCard) card));
+            productionDeck.get(i).forEach(card -> toReturn.add((DevelopmentCard) card));
         }
         return toReturn;
     }
 
     /**
-     * Getter of all the DevelopmentCards visible on the board
+     * Getter of the ID of all the DevelopmentCards visible on the board
      *
      * @return List<String> of ids of visible development cards
      */
-    public List<String> getVisibleDevelopmentCards() {
+    public List<String> getVisibleDevelopmentCardsIDs() {
         List<String> toReturn = new ArrayList<>();
         for (int i = basicPowerIndex; i < lastDevColumnIndex; i++) {
             try {
@@ -207,7 +222,7 @@ public class PersonalBoard implements EndGameSubject {
      */
     public ProductionCard getProductionCard(int slotPosition) throws InvalidIndexException {
         try {
-            return deckProduction.get(slotPosition).get(0);
+            return productionDeck.get(slotPosition).get(0);
         } catch (IndexOutOfBoundsException e) {
             throw new InvalidIndexException("invalid production slot");
         }

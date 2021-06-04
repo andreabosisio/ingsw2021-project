@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.model.gameBoard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
-import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.*;
 

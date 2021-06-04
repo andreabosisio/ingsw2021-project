@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.events.send.choice.PlaceResourcesChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
+import it.polimi.ingsw.server.events.send.graphics.WarehouseUpdate;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 import java.util.List;
@@ -60,7 +61,7 @@ public class WaitResourcePlacementState extends State {
             //graphic update of player's warehouse and players faithTracks
             GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
             graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
-            graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+            graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new WarehouseUpdate()));
             if (remainingResources > 0)
                 graphicUpdateEvent.addUpdate("Your Faith Marker is moving by " + remainingResources + " positions because " + turnLogic.getCurrentPlayer().getNickname() + " is not able to reorder his warehouse!");
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
@@ -87,7 +88,7 @@ public class WaitResourcePlacementState extends State {
 
     private void sendWarehouseUpdate(){
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-        graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(), turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse()));
+        graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new WarehouseUpdate()));
         turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
     }
 }

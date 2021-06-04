@@ -42,7 +42,8 @@ public class DevelopmentCard implements ProductionCard {
     /**
      * for test
      */
-    public DevelopmentCard( List<Resource> inResources, List<Resource> outResources, List<Resource> price, CardColorEnum color, int points, int level) {
+    //todo
+    public DevelopmentCard(List<Resource> inResources, List<Resource> outResources, List<Resource> price, CardColorEnum color, int points, int level) {
         this.iD = "useless";
         this.inResources = inResources;
         this.outResources = outResources;
@@ -103,12 +104,11 @@ public class DevelopmentCard implements ProductionCard {
      * @throws NonAccessibleSlotException if one of the given position represent a slot that's not accessible
      */
     public boolean buyCard(Player buyer, List<Integer> resourcePosition, List<Resource> discount) throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
-        List<Resource> paymentResources = new ArrayList<>();
         List<Resource> tempNeededResources = getPrice();
         for (Resource res : discount){
             tempNeededResources.remove(res);
         }
-        paymentResources.addAll(buyer.getPersonalBoard().getWarehouse().getResources(resourcePosition));
+        List<Resource> paymentResources = new ArrayList<>(buyer.getPersonalBoard().getWarehouse().getResources(resourcePosition));
 
         if (paymentResources.size() != tempNeededResources.size())
             return false;

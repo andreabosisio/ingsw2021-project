@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client.events.receive;
 
 import it.polimi.ingsw.client.view.View;
-import it.polimi.ingsw.client.view.cli.AnsiEnum;
-import it.polimi.ingsw.client.view.cli.CLI;
 
 public class StartTurnUpdateEvent implements ReceiveEvent{
     private String nextPlayer;

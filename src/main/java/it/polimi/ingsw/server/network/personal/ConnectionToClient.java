@@ -50,7 +50,7 @@ public class ConnectionToClient {
             message = in.readLine();
             //start of PingPong code
             if (message.equals("pong")) {
-                pongObserver.PongUpdate();
+                pongObserver.pongUpdate();
             }
         } catch (IOException e) {
             message = null;

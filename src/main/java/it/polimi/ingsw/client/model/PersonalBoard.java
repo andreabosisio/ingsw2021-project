@@ -15,7 +15,7 @@ public class PersonalBoard extends Printable {
     private final String nickname;
     private final List<String> handLeaders;
     private final List<String> activeLeaders;
-    private List<String> productionBoard;
+    private List<List<String>> productionBoard;
 
     private final List<LinkedHashSet<String>> developmentCardsInSlots = Arrays.asList(new LinkedHashSet<>(), new LinkedHashSet<>(), new LinkedHashSet<>(), new LinkedHashSet<>());
     private Map<Integer, String> warehouse;
@@ -64,9 +64,11 @@ public class PersonalBoard extends Printable {
         }
     }
 
-    public void setProductionBoard(List<String> productionBoard) {
+    public void setProductionBoard(List<List<String>> productionBoard) {
         if(productionBoard != null) {
-            IntStream.range(0, productionBoard.size()).forEach(i -> developmentCardsInSlots.get(i).add(productionBoard.get(i)));
+            for(List<String> level : productionBoard) {
+                IntStream.range(0, level.size()).forEach(i -> developmentCardsInSlots.get(i).add(level.get(i)));
+            }
             this.productionBoard = productionBoard;
             view.productionBoardUpdate(nickname);
         }
@@ -89,10 +91,6 @@ public class PersonalBoard extends Printable {
 
     public List<String> getActiveLeaders() {
         return new ArrayList<>(activeLeaders);
-    }
-
-    public List<String> getProductionBoard() {
-        return productionBoard;
     }
 
     public List<LinkedHashSet<String>> getDevelopmentCardsInSlots() {

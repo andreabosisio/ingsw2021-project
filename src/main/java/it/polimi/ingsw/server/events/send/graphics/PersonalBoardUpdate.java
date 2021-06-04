@@ -4,44 +4,39 @@ import it.polimi.ingsw.server.model.player.PersonalBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 
-import java.util.ArrayList;
 import java.util.*;
 
 public class PersonalBoardUpdate {
-    private final String nickname;
-    private final List<String> handLeaders;
-    private final List<String> activeLeaders;
-    private final List<String> productionBoard;
-    private final Map<Integer, String> warehouse;
+    private String nickname;
+    private List<String> handLeaders;
+    private List<String> activeLeaders;
+    private List<List<String>> productionBoard;
+    private Map<Integer, String> warehouse;
 
-    // leader card slots update
-    public PersonalBoardUpdate(Player player) {
-        this.handLeaders = new ArrayList<>();
-        this.activeLeaders = new ArrayList<>();
-        this.productionBoard = null;
-        this.warehouse = null;
-        this.nickname = player.getNickname();
-        player.getLeaderHand().forEach(leaderCard -> handLeaders.add(leaderCard.getID()));
-        player.getPersonalBoard().getActiveLeaderCards().forEach(leaderCard -> activeLeaders.add(leaderCard.getID()));
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
-    // production slots update
-    public PersonalBoardUpdate(String nickname, PersonalBoard personalBoard) {
-        this.handLeaders = null;
-        this.activeLeaders = null;
-        this.warehouse = null;
-        this.nickname = nickname;
-        this.productionBoard = personalBoard.getVisibleDevelopmentCards();
+    public void setHandLeaders(List<String> handLeaders) {
+        this.handLeaders = handLeaders;
     }
 
-    // warehouse update
-    public PersonalBoardUpdate(String nickname, Warehouse warehouse) {
-        this.handLeaders = null;
-        this.activeLeaders = null;
-        this.productionBoard = null;
-        this.nickname = nickname;
-        warehouse.reorderStrongBox();
-        this.warehouse = warehouse.getAllPositionsAndResources();
+    public void setActiveLeaders(List<String> activeLeaders) {
+        this.activeLeaders = activeLeaders;
+    }
+
+    public void setProductionBoard(List<List<String>> productionBoard) {
+        this.productionBoard = productionBoard;
+    }
+
+    public void setWarehouse(Map<Integer, String> warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    public PersonalBoardUpdate(Player player, PersonalUpdate... personalUpdates) {
+        for(PersonalUpdate personalUpdate : personalUpdates) {
+            personalUpdate.addUpdateTo(this, player);
+        }
     }
 
 }

@@ -16,7 +16,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class TransformationController extends GUICommandListener {
     private int numberOfTransformation;
@@ -55,13 +54,11 @@ public class TransformationController extends GUICommandListener {
             VBox transformation = (VBox) HTransformationBox.getChildren().get(i);
             transformation.setDisable(false);
             transformation.setOpacity(1);
-            String id = transformation.getId();
             int buttonIndex = transformation.getChildren().size() - 1;
             Button transformer = (Button) transformation.getChildren().get(buttonIndex);
             if (transformer != null) {
-
-                ((ImageView) transformer.getGraphic()).setImage(new Image(new File("src/main/resources/images/resources/" + possibleTransformations.get(0).toLowerCase(Locale.ROOT) + ".png").toURI().toString()));
                 transformer.setId(String.valueOf(0));
+                ((ImageView) transformer.getGraphic()).setImage(new Image(new File("src/main/resources/images/resources/" + possibleTransformations.get(0).toLowerCase(Locale.ROOT) + ".png").toURI().toString()));
                 transformer.setOnMousePressed((event -> changeResourceAction(transformer)));
             }
         }

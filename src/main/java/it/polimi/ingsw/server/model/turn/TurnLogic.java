@@ -340,11 +340,7 @@ public class TurnLogic {
         graphicsForReconnection.addUpdate(new MarketUpdate());
         graphicsForReconnection.addUpdate(new GridUpdate());
         graphicsForReconnection.addUpdate(new FaithTracksUpdate());
-        players.forEach(player -> {
-            graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player));
-            graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player.getNickname(), player.getPersonalBoard()));
-            graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player.getNickname(), player.getPersonalBoard().getWarehouse()));
-        });
+        players.forEach(player -> graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player, new FullProductionSlotsUpdate(), new LeaderCardSlotsUpdate(), new WarehouseUpdate())));
         modelInterface.notifyObservers(new ReconnectEvent(nickname, currentPlayer.getNickname(), players.stream().map(Player::getNickname).collect(Collectors.toList()), graphicsForReconnection));
         assert reconnected != null;
         reconnected.setOnline(true);

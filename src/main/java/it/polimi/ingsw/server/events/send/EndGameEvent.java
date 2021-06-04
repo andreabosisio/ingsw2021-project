@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.events.send;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.player.Player;
 

@@ -24,24 +24,6 @@ public class CLICommandListener implements CommandListener {
     private static final int MIN_CARD_LEVEL = 1;
     private static final String INVALID = "Invalid input";
 
-    //todo enum del server?
-    //Todo same thing for RESOURCE_COLORS (create enum)
-    /*
-    private static final List<String> CARD_COLORS = new ArrayList<String>(){{
-        add("GREEN");
-        add("PURPLE");
-        add("YELLOW");
-        add("BLUE");
-    }};
-    private static final List<String> RESOURCE_COLORS = new ArrayList<String>(){{
-        add("GRAY");
-        add("YELLOW");
-        add("PURPLE");
-        add("BLUE");
-    }};
-     */
-
-
     protected void askCredentials() {
         CLI.render("Insert a nickname:");
         String nickname = scanner.nextLine();
@@ -318,7 +300,7 @@ public class CLICommandListener implements CommandListener {
         String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
         if(answer.equals(CommandsEnum.BACK.toString()))
             return false;
-        while (!answer.equals(CommandsEnum.DONE.toString())){
+        while (!answer.equals(CommandsEnum.DONE.toString())) {
             int index;
             String outResource = null;
             //instantiated here to be set as null for every new card

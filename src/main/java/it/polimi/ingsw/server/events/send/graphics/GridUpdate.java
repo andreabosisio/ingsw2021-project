@@ -1,12 +1,10 @@
 package it.polimi.ingsw.server.events.send.graphics;
 
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GridUpdate {
     private final Integer level;

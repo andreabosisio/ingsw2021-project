@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.events.receive;
 
 import it.polimi.ingsw.client.view.View;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class EndGameEvent implements ReceiveEvent{

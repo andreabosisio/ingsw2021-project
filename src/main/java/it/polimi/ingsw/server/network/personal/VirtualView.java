@@ -165,7 +165,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      * This method is called to signal that a Pong response was received from the player
      */
     @Override
-    public void PongUpdate() {
+    public void pongUpdate() {
         //System.out.println("pong received from: " + nickname);
         missingPong = false;
     }

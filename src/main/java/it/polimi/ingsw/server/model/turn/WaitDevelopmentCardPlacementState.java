@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.events.send.choice.EndTurnChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
+import it.polimi.ingsw.server.events.send.graphics.ProductionSlotsUpdate;
 
 public class WaitDevelopmentCardPlacementState extends State {
     public WaitDevelopmentCardPlacementState(TurnLogic turnLogic) {
@@ -23,7 +24,7 @@ public class WaitDevelopmentCardPlacementState extends State {
 
             //graphic update of player's DevCards owned
             GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-            graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer().getNickname(),turnLogic.getCurrentPlayer().getPersonalBoard()));
+            graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new ProductionSlotsUpdate()));
             graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " is placing his new card...");
             turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             EndTurnChoiceEvent endTurnChoiceEvent = new EndTurnChoiceEvent(turnLogic.getCurrentPlayer().getNickname());

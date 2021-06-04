@@ -60,9 +60,8 @@ public class ModelInterface implements SendObservable {
      * @param resources         chosen by the Player
      * @return true if the choices are correct
      * @throws InvalidEventException        if the choices aren't correct
-     * @throws NonStorableResourceException if Player choose a NonStorableResource
      */
-    public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, NonStorableResourceException, InvalidSetupException {
+    public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, InvalidSetupException {
         return setupManager.setupAction(nickname, leaderCardIndexes, resources);
     }
 

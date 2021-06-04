@@ -26,16 +26,6 @@ public class SetupController extends GUICommandListener {
     private Stage marketWindow;
     private Stage gridWindow;
 
-    //fixme change to enum and search for other uses of this (DONE)
-    /*
-    private final List<String> possibleResources = new ArrayList<String>() {{
-        add("YELLOW");
-        add("BLUE");
-        add("PURPLE");
-        add("GRAY");
-    }};
-
-     */
     private List<String> leaderCardsID;
     private List<Integer> chosenLeadersIndexes;
     private List<String> chosenResources;

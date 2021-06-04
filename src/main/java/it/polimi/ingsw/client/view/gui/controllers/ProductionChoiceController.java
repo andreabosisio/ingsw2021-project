@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
+import it.polimi.ingsw.client.model.StorableResourceEnum;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -14,18 +15,12 @@ import java.util.List;
 import java.util.Locale;
 
 public class ProductionChoiceController {
-    private PersonalController personalController;
+    private final PersonalController personalController;
     @FXML private Button resource;
     @FXML private Button done;
     @FXML private AnchorPane mainPane;
     private Node production;
-    //todo switch to enum
-    private final List<String> possibleResources = new ArrayList<>() {{
-        add("YELLOW");
-        add("BLUE");
-        add("PURPLE");
-        add("GRAY");
-    }};
+
     public ProductionChoiceController(PersonalController personalController) {
         this.personalController = personalController;
     }
@@ -37,7 +32,7 @@ public class ProductionChoiceController {
     }
 
     private void doneAction() {
-        String chosenResource = possibleResources.get(Integer.parseInt(resource.getId()));
+        String chosenResource = StorableResourceEnum.values()[Integer.parseInt(resource.getId())].toString();
         personalController.setChosenResource(chosenResource,production);
         Stage stage = (Stage) mainPane.getScene().getWindow();
         stage.close();
@@ -49,11 +44,11 @@ public class ProductionChoiceController {
     private void changeResourceAction(Button button){
         int number = Integer.parseInt(button.getId());
         number++;
-        if(number>=possibleResources.size()){
+        if(number >= StorableResourceEnum.values().length){
             number = 0;
         }
         button.setId(String.valueOf(number));
-        File file = new File("src/main/resources/images/resources/"+possibleResources.get(number).toLowerCase(Locale.ROOT)+".png");
+        File file = new File("src/main/resources/images/resources/" + StorableResourceEnum.values()[number].toString().toLowerCase(Locale.ROOT)+".png");
         ImageView imageView = (ImageView) button.getGraphic();
         imageView.setImage(new Image(file.toURI().toString()));
         button.setGraphic(imageView);
