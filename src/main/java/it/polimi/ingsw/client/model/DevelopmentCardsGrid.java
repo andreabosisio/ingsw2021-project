@@ -3,7 +3,9 @@ package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.cli.Printable;
+import it.polimi.ingsw.client.view.gui.GraphicUtilities;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
+
 import java.util.*;
 
 
@@ -51,10 +53,18 @@ public class DevelopmentCardsGrid extends Printable {
         for (int i = 0; i < CARD_LEVELS; i++) {
             mapByLevel.add(new HashMap<>());
         }
-        //todo fix for empty MARCO
+
         for (String indexCard : fullGrid) {
-            String[] splitIndex = indexCard.split("_");
-            mapByLevel.get(Integer.parseInt(splitIndex[1]) - 1).put(splitIndex[0], indexCard);
+            if (!indexCard.equals(GraphicUtilities.getEmptyID())) {
+                String[] splitIndex = indexCard.split("_");
+                mapByLevel.get(Integer.parseInt(splitIndex[1]) - 1).put(splitIndex[0], indexCard);
+            }
+        }
+
+        for (int level_card = 0; level_card < CARD_LEVELS; level_card++) {
+            for (CardColorEnum cardColorEn : CardColorEnum.values()) {
+                mapByLevel.get(level_card).computeIfAbsent(String.valueOf(cardColorEn), k -> GraphicUtilities.getEmptyID());
+            }
         }
     }
 
@@ -100,7 +110,7 @@ public class DevelopmentCardsGrid extends Printable {
      *
      * @return a list with all the IDs
      */
-    public List<String> toStringList(){
+    public List<String> toStringList() {
         List<String> toReturn = new ArrayList<>();
         mapByLevel.forEach((level) -> level.forEach((key, value) -> toReturn.add(value)));
         return toReturn;

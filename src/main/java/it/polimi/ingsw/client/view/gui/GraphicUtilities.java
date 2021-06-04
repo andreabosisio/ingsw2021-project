@@ -36,6 +36,7 @@ public class GraphicUtilities {
     private static final String popeTilesPath = "src/main/resources/images/popeTiles/";
     private static final String endOfPath = ".png";
     private static final String lorenzo = "Lorenzo il Magnifico";
+    private static final String emptyID = "empty";
     private static final String redColor = "#ff0000";
     private static final String blueColor = "#0800ff";
     private static final String greenColor = "#00ff33";
@@ -43,6 +44,10 @@ public class GraphicUtilities {
 
     public static String getAiName() {
         return lorenzo;
+    }
+
+    public static String getEmptyID() {
+        return emptyID;
     }
 
     //Used to populate a market by giving a grid with imageViews and an extra imageView

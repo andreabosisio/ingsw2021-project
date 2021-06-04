@@ -233,9 +233,9 @@ public class PersonalController extends GUICommandListener {
 
     private void handleBuyRequest(Node n) {
         //todo: find better solution???
-        if (n.getId().equals("empty")) {
+        if (n.getId().equals(GraphicUtilities.getEmptyID())) {
             currentSelectedResources.clear();
-            printErrorMessage("No Cards selected");
+            printErrorMessage("This slot is empty");
             return;
         }
         String color = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getColorOf(n.getId());

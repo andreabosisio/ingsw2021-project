@@ -20,11 +20,6 @@ public class Player implements PlayerInterface {
     private DevelopmentCard chosenDevCard;
     private SendEvent lastReceivedEvent;
 
-
-
-
-
-
     private boolean isOnline;
     private final String nickname;
     private List<LeaderCard> leaderHand;
@@ -162,7 +157,7 @@ public class Player implements PlayerInterface {
 
     public void setDisconnectedData(State currentState, List<WhiteResource> whiteResourcesFromMarket, DevelopmentCard chosenDevCard,SendEvent lastReceivedEvent) {
         this.disconnectedState = currentState;
-        this.whiteResourcesFromMarket = whiteResourcesFromMarket;
+        this.whiteResourcesFromMarket = new ArrayList<>(whiteResourcesFromMarket);
         this.chosenDevCard = chosenDevCard;
         this.lastReceivedEvent = lastReceivedEvent;
     }

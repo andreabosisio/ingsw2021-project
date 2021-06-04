@@ -88,8 +88,8 @@ public class TurnLogic {
         }
         setCurrentState(getStartTurn());
         modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname(), false));
-        setLastEventSent(new StartTurnEvent(getCurrentPlayer().getNickname(),true));
-        if(!currentPlayer.prepareTurn(this)){
+        setLastEventSent(new StartTurnEvent(getCurrentPlayer().getNickname(), true));
+        if (!currentPlayer.prepareTurn(this)) {
             reset();
         }
     }
@@ -153,9 +153,8 @@ public class TurnLogic {
     }
 
     public void setWhiteResourcesFromMarket(List<WhiteResource> whiteResourcesFromMarket) {
-        this.whiteResourcesFromMarket = whiteResourcesFromMarket;
+        this.whiteResourcesFromMarket = new ArrayList<>(whiteResourcesFromMarket);
     }
-
 
     public List<WhiteResource> getWhiteResourcesFromMarket() {
         return whiteResourcesFromMarket;
@@ -301,6 +300,7 @@ public class TurnLogic {
 
     /**
      * Saves the last event sent to the observers
+     *
      * @param lastEventSent event to save
      */
     public void setLastEventSent(SendEvent lastEventSent) {
@@ -312,40 +312,40 @@ public class TurnLogic {
      * It is used in case of a failed action
      */
     public void reSendLastEvent() {
-        if(lastEventSent !=null) {
+        if (lastEventSent != null) {
             modelInterface.notifyObservers(lastEventSent);
         }
     }
-    public void disconnectPlayer(String nickname){
-        Player disconnected = players.stream().filter(player->player.getNickname().equals(nickname)).findFirst().orElse(null);
+
+    public void disconnectPlayer(String nickname) {
+        Player disconnected = players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst().orElse(null);
         assert disconnected != null;
         disconnected.setOnline(false);
-        if(currentPlayer.equals(disconnected)){
-            currentPlayer.setDisconnectedData(currentState,whiteResourcesFromMarket,chosenDevCard,lastEventSent);
-            if(players.stream().noneMatch(Player::isOnline)){
+        if (currentPlayer.equals(disconnected)) {
+            currentPlayer.setDisconnectedData(currentState, whiteResourcesFromMarket, chosenDevCard, lastEventSent);
+            if (players.stream().noneMatch(Player::isOnline)) {
                 //todo la partita salta
                 System.out.println("happy feet");
-            }
-            else{
+            } else {
                 setNextPlayer();
                 setCurrentState(startTurn);
-                setLastEventSent(new StartTurnEvent(currentPlayer.getNickname(),true));
+                setLastEventSent(new StartTurnEvent(currentPlayer.getNickname(), true));
             }
         }
     }
 
     public void reconnectPlayer(String nickname) {
-        Player reconnected = players.stream().filter(player->player.getNickname().equals(nickname)).findFirst().orElse(null);
+        Player reconnected = players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst().orElse(null);
         GraphicUpdateEvent graphicsForReconnection = new GraphicUpdateEvent();
         graphicsForReconnection.addUpdate(new MarketUpdate());
         graphicsForReconnection.addUpdate(new GridUpdate());
         graphicsForReconnection.addUpdate(new FaithTracksUpdate());
-        players.forEach(player->{
+        players.forEach(player -> {
             graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player));
-            graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player.getNickname(),player.getPersonalBoard()));
-            graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player.getNickname(),player.getPersonalBoard().getWarehouse()));
+            graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player.getNickname(), player.getPersonalBoard()));
+            graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player.getNickname(), player.getPersonalBoard().getWarehouse()));
         });
-        modelInterface.notifyObservers(new ReconnectEvent(nickname, currentPlayer.getNickname(), players.stream().map(Player::getNickname).collect(Collectors.toList()),graphicsForReconnection));
+        modelInterface.notifyObservers(new ReconnectEvent(nickname, currentPlayer.getNickname(), players.stream().map(Player::getNickname).collect(Collectors.toList()), graphicsForReconnection));
         assert reconnected != null;
         reconnected.setOnline(true);
     }

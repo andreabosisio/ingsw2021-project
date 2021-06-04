@@ -88,16 +88,20 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnLogin() {
-        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("loginController");
-        setRoot("loginScene", nextGuiCommandListener);
-        currentGuiCommandListener = nextGuiCommandListener;
+        Platform.runLater(() -> {
+            GUICommandListener nextGuiCommandListener = guiCommandListeners.get("loginController");
+            setRoot("loginScene", nextGuiCommandListener);
+            currentGuiCommandListener = nextGuiCommandListener;
+        });
     }
 
     @Override
     public void setOnChooseNumberOfPlayers(String payload) {
-        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("chooseNumberController");
-        setRoot("chooseNumberScene", nextGuiCommandListener);
-        currentGuiCommandListener = nextGuiCommandListener;
+        Platform.runLater(() -> {
+            GUICommandListener nextGuiCommandListener = guiCommandListeners.get("chooseNumberController");
+            setRoot("chooseNumberScene", nextGuiCommandListener);
+            currentGuiCommandListener = nextGuiCommandListener;
+        });
     }
 
     @Override
@@ -119,41 +123,51 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnSetup(List<String> leaderCardsID, int numberOfResource) {
-        SetupController nextGuiCommandListener = (SetupController) guiCommandListeners.get("setupController");
-        nextGuiCommandListener.initializeData(leaderCardsID, numberOfResource);
-        setRoot("setupScene", nextGuiCommandListener);
-        currentGuiCommandListener = nextGuiCommandListener;
+        Platform.runLater(() -> {
+            SetupController nextGuiCommandListener = (SetupController) guiCommandListeners.get("setupController");
+            nextGuiCommandListener.initializeData(leaderCardsID, numberOfResource);
+            setRoot("setupScene", nextGuiCommandListener);
+            currentGuiCommandListener = nextGuiCommandListener;
+        });
     }
 
     @Override
     public void setOnYourTurn() {
-        GUICommandListener nextGuiCommandListener = personalController;
-        setRoot("boardScene", nextGuiCommandListener, 1800, 1000);
-        currentGuiCommandListener = nextGuiCommandListener;
-        personalController.activateBoard();
+        Platform.runLater(() -> {
+            GUICommandListener nextGuiCommandListener = personalController;
+            setRoot("boardScene", nextGuiCommandListener, 1800, 1000);
+            currentGuiCommandListener = nextGuiCommandListener;
+            personalController.activateBoard();
+        });
     }
 
     @Override
     public void setOnWaitForYourTurn(String currentPlayer) {
-        GUICommandListener nextGuiCommandListener = personalController;
-        setRoot("boardScene", nextGuiCommandListener, 1800, 1000);
-        currentGuiCommandListener = nextGuiCommandListener;
-        personalController.disableBoard();
+        Platform.runLater(() -> {
+            GUICommandListener nextGuiCommandListener = personalController;
+            setRoot("boardScene", nextGuiCommandListener, 1800, 1000);
+            currentGuiCommandListener = nextGuiCommandListener;
+            personalController.disableBoard();
+        });
     }
 
     @Override
     public void setOnDevelopmentCardPlacement(String newCardID) {
-        personalController.showCardPlacementPopup(newCardID);
+        Platform.runLater(() -> {
+            personalController.showCardPlacementPopup(newCardID);
+        });
     }
 
     @Override
     public void setOnResourcesPlacement() {
-        personalController.activateSwaps();
+        Platform.runLater(personalController::activateSwaps);
     }
 
     @Override
     public void setOnTransformation(int numberOfTransformation, List<String> possibleTransformations) {
-        personalController.showTransformationPopup(numberOfTransformation, possibleTransformations);
+        Platform.runLater(() -> {
+            personalController.showTransformationPopup(numberOfTransformation, possibleTransformations);
+        });
     }
 
     @Override
@@ -162,10 +176,12 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnEndGame(String winner, Map<String, Integer> playersPoints) {
-        EndGameController nextGuiCommandListener = (EndGameController) guiCommandListeners.get("endGameController");
-        setRoot("endGameScene", nextGuiCommandListener, 600, 800);
-        currentGuiCommandListener = nextGuiCommandListener;
-        nextGuiCommandListener.showEndGameEvent(winner, playersPoints);
+        Platform.runLater(() -> {
+            EndGameController nextGuiCommandListener = (EndGameController) guiCommandListeners.get("endGameController");
+            setRoot("endGameScene", nextGuiCommandListener, 600, 800);
+            currentGuiCommandListener = nextGuiCommandListener;
+            nextGuiCommandListener.showEndGameEvent(winner, playersPoints);
+        });
     }
 
     @Override
@@ -213,7 +229,7 @@ public class GUI extends Application implements View {
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(e -> {
-            if(networkHandler!=null){
+            if (networkHandler != null) {
                 networkHandler.close();
             }
             //todo add closing of socket and quit event to server before System.exit(might need to move System.exit at the end of the function called)
