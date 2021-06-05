@@ -11,6 +11,13 @@ import it.polimi.ingsw.server.utils.SendObserver;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * This class like an usual View of the pattern MVC is Observer of the Model and
+ * it is Observable by the Controller. It works with the network sending the Events reaches
+ * from the Model and it notify the Controller of the Events reaches from the Network.
+ * Every Player have an instance of this class and it permits to communicate with the Model
+ * with Object of type Event, the most abstract messages.
+ */
 public class VirtualView implements PongObserver, SendObserver, ReceiveObservable {
     //ping period variables in milliseconds
     private final static int PING_DELAY = 0;

@@ -17,8 +17,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-
-
 public class SetupManager {
     private final List<Integer> numberOfResourcesToChoose = new ArrayList<>() {{
         add(0);

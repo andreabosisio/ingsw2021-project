@@ -4,10 +4,16 @@ import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 
 public interface ReceiveObservable {
     /**
-     * This method notify the Controller of the reach of an Event from the Client
+     * This method is used to notify all the Observers of an Event from the Client
      *
      * @param receiveEventFromClient the Event from the Client
      */
     void notifyObservers(ReceiveEvent receiveEventFromClient);
+
+    /**
+     * This method is used to set an Observer
+     *
+     * @param observer object to set
+     */
     void registerObserver(ReceiveObserver observer);
 }

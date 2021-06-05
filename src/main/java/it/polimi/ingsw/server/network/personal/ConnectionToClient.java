@@ -5,6 +5,10 @@ import it.polimi.ingsw.server.network.PongObserver;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * This class is used by the ClientHandler to send messages via Socket
+ * It's aim is to manage all of that concerne the Socket of the Client.
+ */
 public class ConnectionToClient {
     private BufferedReader in;
     private PrintWriter out;

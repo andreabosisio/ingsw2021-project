@@ -4,8 +4,7 @@ import it.polimi.ingsw.server.events.send.SendEvent;
 
 public interface SendObserver {
     /**
-     * This method is called by the ModelInterface to notify this class
-     * of an amendment of the Model
+     * This method is called by a notify method to be update of an Event coming from the Model
      *
      * @param sendEvent the Event from the Model
      */

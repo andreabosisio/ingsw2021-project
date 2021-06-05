@@ -7,8 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class contains all the information about the number and the status of the Players.
+ * It has the power to start a new game, to send Broadcast messages and to notify the Controller
+ * of the status of a Player (online/offline).
+ * It is Singleton so that only a game at time can be instantiate.
+ */
 public class Lobby {
-
     private boolean gameStarted;
     public static final int NOT_DECIDED = -1;
     public static final int MIN_PLAYERS = 1;
@@ -41,15 +46,15 @@ public class Lobby {
      * This method is used to set the Lobby size
      * It automatically disconnect every player that does not fit in the new size
      *
-     * @param numberOfPlayers size to set
+     * @param numberOfPlayers    size to set
      * @param decidingPlayerName Player deciding the size(he can't be disconnected)
      * @return true if the Lobby sizing was completed successfully
      */
-    public boolean setNumberOfPlayers(int numberOfPlayers,String decidingPlayerName) {
-        if(numberOfPlayers>MAX_PLAYERS || numberOfPlayers<MIN_PLAYERS){
+    public boolean setNumberOfPlayers(int numberOfPlayers, String decidingPlayerName) {
+        if (numberOfPlayers > MAX_PLAYERS || numberOfPlayers < MIN_PLAYERS) {
             return false;
         }
-        if(this.numberOfPlayers == NOT_DECIDED){
+        if (this.numberOfPlayers == NOT_DECIDED) {
             this.numberOfPlayers = numberOfPlayers;
             //put excess player offline
             int playerOnline = 1;//start as 1 because deciding player must remain connected
@@ -64,8 +69,8 @@ public class Lobby {
                 }
             }
             //remove offline players and close connection with them
-            List<VirtualView>offlinePlayers = virtualViews.stream().filter(p->!p.isOnline()).collect(Collectors.toList());
-            offlinePlayers.stream().map(VirtualView::getClientHandler).forEach(c->c.kill(true));
+            List<VirtualView> offlinePlayers = virtualViews.stream().filter(p -> !p.isOnline()).collect(Collectors.toList());
+            offlinePlayers.stream().map(VirtualView::getClientHandler).forEach(c -> c.kill(true));
             virtualViews.removeAll(offlinePlayers);
             return true;
         }
@@ -77,8 +82,8 @@ public class Lobby {
      *
      * @return true if the Lobby is full
      */
-    public boolean isFull(){
-        if(this.numberOfPlayers == NOT_DECIDED){
+    public boolean isFull() {
+        if (this.numberOfPlayers == NOT_DECIDED) {
             return false;
         }
         return !(getOnlinePlayersNumber() < this.numberOfPlayers);
@@ -89,7 +94,7 @@ public class Lobby {
      *
      * @return the number of players online
      */
-    public int getOnlinePlayersNumber(){
+    public int getOnlinePlayersNumber() {
         return (int) virtualViews.stream().filter(VirtualView::isOnline).count();
     }
 
@@ -99,7 +104,7 @@ public class Lobby {
      * @param nickname nickname to search for
      * @return the VirtualView associated with the nickname or null if nothing was found
      */
-    public VirtualView getVirtualViewByNickname(String nickname){
+    public VirtualView getVirtualViewByNickname(String nickname) {
         return virtualViews.stream().filter(p -> p.getNickname().equals(nickname)).findFirst().orElse(null);
     }
 
@@ -107,7 +112,6 @@ public class Lobby {
      * This method is used to see if the player associated with the specified nickname is still online
      *
      * @param nickname nickname of the player to check
-     *
      * @return true if the player is online
      */
     public boolean isPlayerOnline(String nickname) {
@@ -123,10 +127,10 @@ public class Lobby {
      * @return true if added successfully and false if the Lobby was full
      */
     public synchronized boolean addVirtualView(VirtualView virtualView) {
-        if(isFull()){
+        if (isFull()) {
             return false;
         }
-        if(virtualViews.stream().anyMatch(p -> p.getNickname().equals(virtualView.getNickname()))){
+        if (virtualViews.stream().anyMatch(p -> p.getNickname().equals(virtualView.getNickname()))) {
             return false;
         }
         broadcastMessage(virtualView.getNickname() + " joined!");
@@ -154,12 +158,13 @@ public class Lobby {
 
     /**
      * This method is used to broadcast a message to all the player currently in the Lobby
-     *if not parameter type is given a the message is set as an info message
+     * if not parameter type is given a the message is set as an info message
+     *
      * @param message message to broadcast
      */
     public void broadcastMessage(String message) {
-        for(VirtualView virtualView : virtualViews){
-            if(virtualView.isOnline()) {
+        for (VirtualView virtualView : virtualViews) {
+            if (virtualView.isOnline()) {
                 virtualView.getClientHandler().sendInfoMessage(message);
             }
         }
@@ -169,11 +174,11 @@ public class Lobby {
      * This method is used to broadcast a message to all the players connected to the Lobby except one
      *
      * @param message message to broadcast
-     * @param name nickname of the player to ignore
+     * @param name    nickname of the player to ignore
      */
-    public void broadcastToOthersInfoMessage(String message,String name) {
-        for(VirtualView virtualView : virtualViews){
-            if(virtualView.isOnline()&& !virtualView.getNickname().equals(name)) {
+    public void broadcastToOthersInfoMessage(String message, String name) {
+        for (VirtualView virtualView : virtualViews) {
+            if (virtualView.isOnline() && !virtualView.getNickname().equals(name)) {
                 virtualView.getClientHandler().sendInfoMessage(message);
             }
         }
@@ -185,12 +190,12 @@ public class Lobby {
      * If the game can be started every player is notified and startGame is called
      */
     public synchronized void updateLobbyState() {
-        if(gameStarted){
+        if (gameStarted) {
             return;
         }
-        broadcastMessage("Players Online: "+ getOnlinePlayersNumber() +" out of "+ numberOfPlayers);
-        if(isFull()){
-            gameStarted=true;
+        broadcastMessage("Players Online: " + getOnlinePlayersNumber() + " out of " + numberOfPlayers);
+        if (isFull()) {
+            gameStarted = true;
             startGame();
         }
     }
@@ -209,7 +214,7 @@ public class Lobby {
      * It does so by creating a new Controller class and passing to it all the virtualViews
      * The Controller will do the rest
      */
-    private void startGame(){
+    private void startGame() {
         controller = new Controller(virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList()));
         controller.setupObservers(virtualViews);
     }
@@ -217,17 +222,23 @@ public class Lobby {
     /**
      * Method used to communicate to the controller that a player is now offline
      * If no game was ongoing the virtualView is removed
-     * @param nickname offline player
+     *
+     * @param nickname of the Player offline
      */
-    public synchronized void disconnectPlayer(String nickname){
-        if(gameStarted) {
+    public synchronized void disconnectPlayer(String nickname) {
+        if (gameStarted) {
             controller.disconnectPlayer(nickname);
-        }
-        else
+        } else
             removeVirtualView(nickname);
     }
-    public synchronized void reconnectPlayer(String nickname){
-        if(gameStarted) {
+
+    /**
+     * Method used to communicate to the controller that a player is now reconnected and online
+     *
+     * @param nickname of the Player online
+     */
+    public synchronized void reconnectPlayer(String nickname) {
+        if (gameStarted) {
             controller.reconnectPlayer(nickname);
         }
     }

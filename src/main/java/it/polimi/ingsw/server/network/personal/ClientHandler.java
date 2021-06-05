@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * This class is used by the Virtual View to send Json Objects.
+ * It's purpose is also to notify the Client of the possible Errors during the Login phase.
+ */
 public class ClientHandler implements Runnable {
     private String nickname;
     private StatusEnum status;
@@ -19,7 +23,7 @@ public class ClientHandler implements Runnable {
     private VirtualView virtualView;
     private static final String TYPE_QUIT = "quit";
     private static final String TYPE_LOBBY_NUMBER_CHOICE = "lobbyChoice";
-    private static final String TYPE_MATCHMAKING= "matchmaking";
+    private static final String TYPE_MATCHMAKING = "matchmaking";
     private static final String TYPE_LOGIN = "login";
     private static final String CREDENTIALS_REGEXP = "^[a-zA-Z0-9_-]{3,15}$";
     private static final Pattern CREDENTIALS_PATTERN = Pattern.compile(CREDENTIALS_REGEXP);
@@ -136,7 +140,7 @@ public class ClientHandler implements Runnable {
                         clearMessageStack();
                     }
                     status = StatusEnum.GAME;
-                    if(!Lobby.getLobby().isGameStarted()) {
+                    if (!Lobby.getLobby().isGameStarted()) {
                         sendSpecificTypeMessage(TYPE_MATCHMAKING);
                     }
                     Lobby.getLobby().updateLobbyState();
@@ -172,7 +176,7 @@ public class ClientHandler implements Runnable {
             }
             try {
                 JsonObject jsonObject = getAsJsonObject(message);
-                if(jsonObject == null){
+                if (jsonObject == null) {
                     continue;
                 }
                 String type = jsonObject.get("type").getAsString();
@@ -184,7 +188,7 @@ public class ClientHandler implements Runnable {
                     sendErrorMessage("waitForGameToStart");
                 } else if (eventType != null) {
                     ReceiveEvent event = gson.fromJson(message, eventType);
-                    if(event.getNickname()==null){
+                    if (event.getNickname() == null) {
                         sendErrorMessage("you can't play with a null nickname");
                         continue;
                     }
@@ -249,7 +253,7 @@ public class ClientHandler implements Runnable {
     /**
      * This function is used to send a Json message with both a specified type and a specified data
      *
-     * @param type type of the Json message to send
+     * @param type    type of the Json message to send
      * @param message message to save as Json payload
      */
     public void sendSpecificTypeMessage(String type, String message) {
@@ -343,8 +347,5 @@ public class ClientHandler implements Runnable {
     public ConnectionToClient getConnection() {
         return connectionToClient;
     }
-
-
-
 
 }

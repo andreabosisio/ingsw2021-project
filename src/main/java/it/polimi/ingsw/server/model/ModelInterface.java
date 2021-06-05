@@ -13,6 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the component Model of the Pattern MVC,
+ * it contains all the information to describe correctly the application.
+ * It is Observable by all the Virtual Views, it's purpose is to notify them when
+ * there was a modify of the internal structure.
+ */
 public class ModelInterface implements SendObservable {
 
     private final List<Player> players = new ArrayList<>();
@@ -59,7 +65,7 @@ public class ModelInterface implements SendObservable {
      * @param leaderCardIndexes of the chosen LeaderCards by the Player
      * @param resources         chosen by the Player
      * @return true if the choices are correct
-     * @throws InvalidEventException        if the choices aren't correct
+     * @throws InvalidEventException if the choices aren't correct
      */
     public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, InvalidSetupException {
         return setupManager.setupAction(nickname, leaderCardIndexes, resources);
@@ -171,17 +177,14 @@ public class ModelInterface implements SendObservable {
         return turnLogic.endTurn();
     }
 
+    /**
+     * This method is used to add the Virtual View in the list of the Observer of this class
+     *
+     * @param virtualView object to add
+     */
     @Override
     public void registerObserver(SendObserver virtualView) {
         virtualViews.add(virtualView);
-    }
-
-    @Override
-    public void removeObserver(SendObserver virtualView) {
-        int i = virtualViews.indexOf(virtualView);
-        if (i >= 0) {
-            virtualViews.remove(virtualView);
-        }
     }
 
     /**
@@ -194,6 +197,12 @@ public class ModelInterface implements SendObservable {
         virtualViews.forEach(view -> view.update(sendEvent));
     }
 
+    /**
+     * This method return the object Player given his nickname
+     *
+     * @param nickname is the nickname of the Player
+     * @return the instance of the Player
+     */
     public Player getPlayerByNickname(String nickname) {
         return players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst()
                 .orElse(null);
@@ -209,31 +218,38 @@ public class ModelInterface implements SendObservable {
     /**
      * This method is used to resend the last event the model produced in case of an illegalAction
      */
-    public void reSendLastEvent(){turnLogic.reSendLastEvent();}
+    public void reSendLastEvent() {
+        turnLogic.reSendLastEvent();
+    }
 
     /**
      * This method is used to resent a setupEvent in case of an illegal SetupAction
      *
      * @param nickname player that will receive the setupEvent again
      */
-    public void reSendSetup(String nickname){
-       for(SetupChoiceEvent event :setupManager.getSetupSendEvents()){
-           if(event.getNickname().equals(nickname)){
-               notifyObservers(event);
-           }
-       }
-
+    public void reSendSetup(String nickname) {
+        for (SetupChoiceEvent event : setupManager.getSetupSendEvents()) {
+            if (event.getNickname().equals(nickname)) {
+                notifyObservers(event);
+            }
+        }
     }
 
     /**
      * This method set a player in the model as offline
-     * @param nickname offline player
+     *
+     * @param nickname of the player offline
      */
-    public void disconnectPlayer(String nickname){
+    public void disconnectPlayer(String nickname) {
         turnLogic.disconnectPlayer(nickname);
         //todo check if currentPlayer is the one disconnected if yes decide what to do
     }
 
+    /**
+     * This method set a player in the model as online
+     *
+     * @param nickname of the player reconnected
+     */
     public void reconnectPlayer(String nickname) {
         turnLogic.reconnectPlayer(nickname);
     }

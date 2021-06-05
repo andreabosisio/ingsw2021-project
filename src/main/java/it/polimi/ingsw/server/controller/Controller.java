@@ -13,6 +13,11 @@ import it.polimi.ingsw.server.utils.ReceiveObserver;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class represents the component Controller of the Pattern MVC,
+ * it's purpose is to receive the actions of the Players and changes the State of the Model.
+ * It is Observer of the Events send by the Virtual Views.
+ */
 public class Controller implements ReceiveObserver {
 
     private final ModelInterface modelInterface;
@@ -48,12 +53,12 @@ public class Controller implements ReceiveObserver {
                 currentClientHandler.sendErrorMessage(e.getMessage());
                 //if exception was created by a choice re send choice event
                 modelInterface.reSendLastEvent();
-            } catch (InvalidSetupException ex){
+            } catch (InvalidSetupException ex) {
                 //if exception was created by a failed setup event resend setup choice event
                 currentClientHandler.sendErrorMessage(ex.getMessage());
                 modelInterface.reSendSetup(receiveEvent.getNickname());
             }
-        }else
+        } else
             currentClientHandler.sendErrorMessage("It's not your turn!");
     }
 
@@ -74,11 +79,17 @@ public class Controller implements ReceiveObserver {
     /**
      * Method used to set a player as offline
      *
-     * @param nickname offline player
+     * @param nickname of the player offline
      */
-    public synchronized void disconnectPlayer(String nickname){
+    public synchronized void disconnectPlayer(String nickname) {
         modelInterface.disconnectPlayer(nickname);
     }
+
+    /**
+     * Method used to set a player as online after a reconnection
+     *
+     * @param nickname of the player reconnected
+     */
     public synchronized void reconnectPlayer(String nickname) {
         modelInterface.reconnectPlayer(nickname);
     }
