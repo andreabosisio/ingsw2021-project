@@ -118,7 +118,6 @@ public class SetupManager {
                 //all the players receive an update event with the gameBoard
                 GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
                 graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
-                //modelInterface.notifyObservers(graphicUpdateEvent); // fixme ??
                 for (Player player : modelInterface.getTurnLogic().getPlayers())
                     graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player, new LeaderCardSlotsUpdate(), new ProductionSlotsUpdate(), new WarehouseUpdate()));
                 modelInterface.notifyObservers(graphicUpdateEvent);

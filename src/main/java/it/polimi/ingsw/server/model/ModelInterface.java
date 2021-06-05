@@ -242,7 +242,6 @@ public class ModelInterface implements SendObservable {
      */
     public void disconnectPlayer(String nickname) {
         turnLogic.disconnectPlayer(nickname);
-        //todo check if currentPlayer is the one disconnected if yes decide what to do
     }
 
     /**

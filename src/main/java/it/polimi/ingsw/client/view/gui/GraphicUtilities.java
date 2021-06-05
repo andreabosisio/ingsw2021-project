@@ -202,7 +202,7 @@ public class GraphicUtilities {
      * @param iD ID of the new placed card
      */
     public static void updateDevGrid(GridPane devGridPopulated, String iD) {
-        //todo find a better solution solution
+        //todo find a better solution
         if (iD.equals("empty")) {
             populateDevGrid(devGridPopulated);
             return;

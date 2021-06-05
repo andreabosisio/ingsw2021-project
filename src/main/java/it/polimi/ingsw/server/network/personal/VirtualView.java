@@ -131,7 +131,6 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
                 } else {
                     missingPong = true;
                     clientHandler.sendPing();
-                    //System.out.println("sending ping to " + nickname);
                 }
             }
         },PING_DELAY,PING_PERIOD);
@@ -163,9 +162,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
         this.setClientConnectionHandler(clientHandler);
         clientHandler.getConnection().setPongObserver(this);
         this.timer = new Timer();
-        //this.sendPing();
         Lobby.getLobby().reconnectPlayer(nickname);
-        //todo add controller.reconnect(this); to be reconnected to the game and receive all the graphics update
     }
 
     /**
@@ -173,7 +170,6 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      */
     @Override
     public void pongUpdate() {
-        //System.out.println("pong received from: " + nickname);
         missingPong = false;
     }
 

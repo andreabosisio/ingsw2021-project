@@ -88,7 +88,6 @@ public class ConnectionToClient {
             try {
                 if (!in.ready()) break;
                 str = in.readLine();
-                //if ((str = in.readLine()) == null) break;
                 System.out.println(str + " was ignored during synchronization");
             } catch (IOException e) {
                 e.printStackTrace();

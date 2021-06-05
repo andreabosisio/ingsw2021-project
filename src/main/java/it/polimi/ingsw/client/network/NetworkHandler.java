@@ -90,7 +90,6 @@ public class NetworkHandler implements CommandListenerObserver {
                     System.out.println("failed in executing this event: " + jsonObject.get("type"));
                     System.out.println(message);
                 }
-                //event.updateView(view);
             } else {
                 System.out.println("Malformed json from Server");
             }
@@ -103,7 +102,8 @@ public class NetworkHandler implements CommandListenerObserver {
     public void update(SendEvent sendEvent) {
         connectionToServer.sendMessage(sendEvent.toJson(nickname));
     }
+
     public void close(){
-        connectionToServer.close();
+        connectionToServer.close(true);
     }
 }

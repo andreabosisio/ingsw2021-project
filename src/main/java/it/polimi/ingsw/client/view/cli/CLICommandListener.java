@@ -357,7 +357,7 @@ public class CLICommandListener implements CommandListener {
      *
      * @return false if the player wishes to go back to the start turn phase
      */
-    //todo test and/or cut in smaller functions
+    //todo cut in smaller functions
     public boolean askProductionAction() {
         Map<Integer, List<Integer>> inResourcesForEachProductions = new HashMap<>();
         Map<Integer, String> outResourcesForEachProductions = new HashMap<>();

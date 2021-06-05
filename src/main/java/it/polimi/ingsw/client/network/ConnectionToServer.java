@@ -38,7 +38,7 @@ public class ConnectionToServer implements Runnable {
         } catch (IOException e) {
             System.out.println("Failed to start connection with server");
             e.printStackTrace();
-            close();
+            close(false);
         }
     }
 
@@ -52,16 +52,18 @@ public class ConnectionToServer implements Runnable {
             message = messagesFromServer.take();
         } catch (InterruptedException e) {
             e.printStackTrace();
-            close();
+            close(false);
         }
         return message;
     }
 
-    public void close() {
+    public void close(boolean inform) {
         try {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("type", QUIT_TYPE);
-            sendMessage(jsonObject.toString());
+            if(inform) {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("type", QUIT_TYPE);
+                sendMessage(jsonObject.toString());
+            }
             socket.close();
             in.close();
             out.close();
@@ -86,7 +88,7 @@ public class ConnectionToServer implements Runnable {
                 if (message.equals(PING_MESSAGE)) {
                     handlePing();
                 } else if(message.equals(QUIT_TYPE)){
-                    close();
+                    close(false);
                 }else {
                     messagesFromServer.add(message);
                 }
@@ -112,7 +114,7 @@ public class ConnectionToServer implements Runnable {
                 } else {
                     //todo add client closing code
                     System.out.println("Server is unreachable");
-                    close();
+                    close(false);
                 }
             }
         }, TIMER_DELAY);
