@@ -24,6 +24,9 @@ public class CLICommandListener implements CommandListener {
     private static final int MIN_CARD_LEVEL = 1;
     private static final String INVALID = "Invalid input";
 
+    /**
+     * This method is used to ask a player for the credentials he wish to use in game
+     */
     protected void askCredentials() {
         CLI.render("Insert a nickname:");
         String nickname = scanner.nextLine();
@@ -36,6 +39,11 @@ public class CLICommandListener implements CommandListener {
         notifyObservers(new LoginEvent(nickname, password));
     }
 
+    /**
+     * This method is used to ask a player the number of players he wish to play against
+     *
+     * @param payload the valid numbers to choose from
+     */
     protected void askNumberOfPlayers(String payload) {
         CLI.render("Choose the number of players (" + payload + ") :");
         while (true) {
@@ -49,6 +57,12 @@ public class CLICommandListener implements CommandListener {
         }
     }
 
+    /**
+     * This method is used to ask a player his setupChoices
+     *
+     * @param leaderCardsIDs IDs of the cards he can choose from
+     * @param numberOfResources number of resources he can choose
+     */
     protected void askSetupChoice(List<String> leaderCardsIDs, int numberOfResources) {
 
         List<Integer> chosenIndexes = askLeaderCardsChoice(leaderCardsIDs);
@@ -59,6 +73,12 @@ public class CLICommandListener implements CommandListener {
         }
     }
 
+    /**
+     * This method is used to ask a player his setup leadersChoices
+     *
+     * @param leaderCardsIDs IDS of the leaders he can choose from
+     * @return the list of chosen leadersCardIDs
+     */
     private List<Integer> askLeaderCardsChoice(List<String> leaderCardsIDs) {
         List<Integer> chosenIndexes = new ArrayList<>();
         List<Printable> toChoose = leaderCardsIDs.stream().map(LeaderCard::new).collect(Collectors.toList());
@@ -98,6 +118,12 @@ public class CLICommandListener implements CommandListener {
         return chosenIndexes;
     }
 
+    /**
+     * This method is used to ask a player the resources he wish to start with
+     *
+     * @param numberOfResources number of resources he can choose
+     * @return a list containing the chosen resources colors
+     */
     private List<String> askResourcesChoice(int numberOfResources) {
 
         List<String> chosenResourcesColor = new ArrayList<>();
@@ -127,6 +153,9 @@ public class CLICommandListener implements CommandListener {
         return chosenResourcesColor;
     }
 
+    /**
+     * This method is used to ask a player where he wish to place a new devCard
+     */
     public void askCardPlacement(){
         int choice = -1;
         while(choice < 1|| choice > 3){
@@ -140,6 +169,12 @@ public class CLICommandListener implements CommandListener {
         notifyObservers(new CardPlacementActionEvent(choice));
     }
 
+    /**
+     * This method is used to ask a player the transformation he wants to apply to his white resources
+     *
+     * @param numberOfTransformation number of white resources to transform
+     * @param possibleTransformations possible colors in which the white resources can transform
+     */
     public void askResourceTransformation(int numberOfTransformation, List<String> possibleTransformations){
         List<String> transformations = new ArrayList<>();
         CLI.render("UH OH...Looks like your white marbles are evolving\nChoose the color you prefer for this "+numberOfTransformation+" marbles");
@@ -164,6 +199,11 @@ public class CLICommandListener implements CommandListener {
         notifyObservers(new TransformationActionEvent(transformations));
     }
 
+    /**
+     * This method is used to ask a player with which action he wish to start his turn (market-buy-production-see-leader)
+     *
+     * @return the player choice
+     */
     public String askFirstAction(){
         String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
         while (!(answer.equals(CommandsEnum.MARKET.toString()) || answer.equals(CommandsEnum.BUY.toString()) || answer.equals(CommandsEnum.PRODUCTION.toString()) || answer.equals(CommandsEnum.SEE.toString()) || answer.equals(CommandsEnum.LEADER.toString()))){
@@ -173,6 +213,11 @@ public class CLICommandListener implements CommandListener {
         return answer;
     }
 
+    /**
+     * This method is used to ask a player which column or row in the marketTray he wish to take
+     *
+     * @return false if the player decided to go back to the starting choice
+     */
     public boolean askMarketAction(){
         int choice = -1;
         CLI.render("Select an arrow (from 0 to 6) or type "+ CommandsEnum.BACK +" to change action: ");
@@ -191,6 +236,10 @@ public class CLICommandListener implements CommandListener {
         return true;
     }
 
+    /**
+     * This method is used to ask a player where he wish to place his new resources
+     * After the swaps are inserted he can then choose to submit them or to show how they will affect the warehouse
+     */
     public void askResourcePlacement(){
         CLI.render("Write your swaps (es: 0,4,1,5...) or type "+CommandsEnum.DONE+" for no swaps:");
         List<Integer> swaps = new ArrayList<>();
@@ -210,7 +259,11 @@ public class CLICommandListener implements CommandListener {
         notifyObservers(new ResourcesPlacementActionEvent(swaps, answer.equals(CommandsEnum.DONE.toString())));
     }
 
-    //return true if leader action
+    /**
+     * This method is used to ask a player what he wishes to do in his endTurn phase(leader action/end)
+     *
+     * @return true if the player wishes to perform a leader action
+     */
     public boolean askEndAction(){
         CLI.render("Type "+ CommandsEnum.DONE +" to end your turn or "+ CommandsEnum.LEADER +" to perform a leader action");
         String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
@@ -226,6 +279,11 @@ public class CLICommandListener implements CommandListener {
         return true;
     }
 
+    /**
+     * This method is used to ask a player what leaderActon he wishes to perform(discard/activate)
+     *
+     * @return false if the player has no leaders in his hand
+     */
     public boolean askLeaderAction(){
         List<String> hand = Board.getBoard().getPersonalBoardOf(nickname).getHandLeaders();
         int index = -1;
@@ -251,6 +309,11 @@ public class CLICommandListener implements CommandListener {
         //notifyObservers(new LeaderActionEvent(null,true));
     }
 
+    /**
+     * This method is used to ask a player which card he wishes to buy and the resources he wish to use
+     *
+     * @return false if the player wishes to go back to the start turn phase
+     */
     public boolean askBuyAction() {
         //PersonalBoard player = Board.getBoard().getPlayerByNickname(nickname);
         int level = -1;
@@ -289,6 +352,11 @@ public class CLICommandListener implements CommandListener {
         return true;
     }
 
+    /**
+     * This method is used to ask a player which cards and which resources he wishes to use in his productions
+     *
+     * @return false if the player wishes to go back to the start turn phase
+     */
     //todo test and/or cut in smaller functions
     public boolean askProductionAction() {
         Map<Integer, List<Integer>> inResourcesForEachProductions = new HashMap<>();
@@ -353,6 +421,11 @@ public class CLICommandListener implements CommandListener {
         return true;
     }
 
+    /**
+     * This method is used to ask a player what part of the board he wishes to see in particular(grids-players)
+     *
+     * @return the player decision
+     */
     public String askSeeChoice(){
         CLI.render("Type GRIDS to see the Market Tray and the Development Cards Grid or PLAYER to see a player. Type DONE to change action.");
         String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
@@ -364,6 +437,11 @@ public class CLICommandListener implements CommandListener {
 
     }
 
+    /**
+     * This method is used to ask a player which enemyPlayer board che wishes to see
+     *
+     * @return the nickname of the selected player
+     */
     public String askSeePlayerChoice(){
         List<String> nicknames = Board.getBoard().getAllPersonalBoards().stream().map(PersonalBoard::getNickname).collect(Collectors.toList());
         CLI.render("Players you can see are: " + nicknames.stream().filter(n -> !n.equals(nickname)).collect(Collectors.toList()) + ". Choose one:");
@@ -376,11 +454,21 @@ public class CLICommandListener implements CommandListener {
     }
 
 
+    /**
+     * This method is used to notify the commandListenerObserver of the player choices
+     *
+     * @param sendEvent event containing the player choices data
+     */
     @Override
     public void notifyObservers(SendEvent sendEvent) {
         commandListenerObserver.update(sendEvent);
     }
 
+    /**
+     * This method is used to register a commandListenerObserver as observer of this class
+     *
+     * @param commandListenerObserver observer interested in the player actions
+     */
     @Override
     public void registerObservers(CommandListenerObserver commandListenerObserver) {
         this.commandListenerObserver = commandListenerObserver;

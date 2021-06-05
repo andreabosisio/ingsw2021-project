@@ -37,7 +37,7 @@ public class LegendPopupController {
         GraphicUtilities.populateHandLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(playerToSee).getActiveLeaders());
         GraphicUtilities.populateProductionBoard(productionPane,playerToSee);
         ignore.setVisible(false);
-        GraphicUtilities.populateWarehouse(ignore,warehouse,HLeadersRes,strongboxGrid,playerToSee);
+        GraphicUtilities.populateDepots(ignore,warehouse,HLeadersRes,strongboxGrid,playerToSee);
     }
     private void doneAction(){
         Stage stage = (Stage) mainPane.getScene().getWindow();

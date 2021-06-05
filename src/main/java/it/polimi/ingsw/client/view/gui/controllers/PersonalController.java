@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -20,7 +19,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -102,7 +100,7 @@ public class PersonalController extends GUICommandListener {
         GraphicUtilities.populateDevGrid(devGrid);
         GraphicUtilities.populateHandLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders());
         GraphicUtilities.populateProductionBoard(productionPane, nickname);
-        GraphicUtilities.populateWarehouse(HResFromMarket, warehouse, HLeadersRes, strongboxGrid, nickname);
+        GraphicUtilities.populateDepots(HResFromMarket, warehouse, HLeadersRes, strongboxGrid, nickname);
         GraphicUtilities.populateFaithTracks(faithTrack);
         GraphicUtilities.populatePopeTiles(popeTiles, nickname);
         GraphicUtilities.populateLegend(legendPane);
@@ -296,7 +294,7 @@ public class PersonalController extends GUICommandListener {
     public void warehouseUpdate() {
         if (mainPane == null)
             return;
-        GraphicUtilities.populateWarehouse(HResFromMarket, warehouse, HLeadersRes, strongboxGrid, nickname);
+        GraphicUtilities.populateDepots(HResFromMarket, warehouse, HLeadersRes, strongboxGrid, nickname);
     }
 
     public void activateSwaps() {

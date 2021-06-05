@@ -3,8 +3,6 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.DevelopmentCardsDatabase;
 import it.polimi.ingsw.client.model.Marble;
-import it.polimi.ingsw.client.model.PersonalBoard;
-import it.polimi.ingsw.server.model.player.Player;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -19,12 +17,10 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 public class GraphicUtilities {
 
@@ -42,17 +38,33 @@ public class GraphicUtilities {
     private static final String greenColor = "#00ff33";
     private static final String pinkColor = "#ff00be";
 
+    /**
+     * Getter of the single player AI name
+     *
+     * @return AI name
+     */
     public static String getAiName() {
         return lorenzo;
     }
 
+    /**
+     * Getter of the id associated with an empty card
+     *
+     * @return emptyID
+     */
     public static String getEmptyID() {
         return emptyID;
     }
 
-    //Used to populate a market by giving a grid with imageViews and an extra imageView
+    /**
+     * Method used to populate a market as defined in the GUI:
+     * A GridPane with 12 imageViews representing the marbles and a single imageView for the extra resource
+     * It does so by asking the reduced model for data and loading appropriates images in the imageViews
+     *
+     * @param marketToPopulate The gridPane to populate
+     * @param extraRes the imageView representing the extra slot
+     */
     public static void populateMarket(GridPane marketToPopulate, ImageView extraRes) {
-        //todo levare da qui e mettere nel metodo updateMarket di personal controller
         List<String> market = Board.getBoard().getMarketTray().toStringList();
         File file = new File(marblesPath + market.remove(0).toLowerCase(Locale.ROOT) + endOfPath);
         extraRes.setImage(new Image(file.toURI().toString()));
@@ -64,9 +76,14 @@ public class GraphicUtilities {
         }
     }
 
-    //Used to populate the Legend represented on the Board
+    /**
+     * This method is used to populate the player legend in the GUI:
+     * It does so by writing each player name in a button using the color associated with him;
+     *
+     * @param legendPane The Pane containing the buttons for the names
+     */
     public static void populateLegend(AnchorPane legendPane) {
-        List<String> colors = new ArrayList<String>() {{
+        List<String> colors = new ArrayList<>() {{
             add(redColor);
             add(blueColor);
             add(greenColor);
@@ -86,23 +103,23 @@ public class GraphicUtilities {
         }
     }
 
+    /**
+     * This method is used to populate the common faithTrack in the GUI:
+     * It does so by putting the right faith marker in the appropriate imageView in the anchorPane
+     *
+     * @param faithTrack AnchorPane containing only imageViews as groups of 4 for each faith step
+     */
     public static void populateFaithTracks(AnchorPane faithTrack) {
         ImageView temp;
         File file;
-
         Map<String, Integer> faithTracks = Board.getBoard().getFaithTrack().getIndexes();
-        Map<String, Boolean[]> popeReports = Board.getBoard().getFaithTrack().getReports();
-
         Map<Integer, String> mapOfPlayers = new HashMap<>();
-
         int indexOfPlayer = 0;
         for (String key : faithTracks.keySet()) {
             mapOfPlayers.put(indexOfPlayer, key);
             indexOfPlayer++;
         }
-
         int index = 0;
-
         for (Node faithMarker : faithTrack.getChildren()) {
             if (index == (faithTracks.get(mapOfPlayers.get(0)) * 4)) {
                 temp = (ImageView) faithMarker;
@@ -128,28 +145,38 @@ public class GraphicUtilities {
         }
     }
 
+    /**
+     * Method used to populate the popeTiles in the GUI:
+     *
+     * @param popeTiles anchorPane containing three imageViews
+     * @param nickname nickname of the player whose tiles must be populated
+     */
     public static void populatePopeTiles(AnchorPane popeTiles, String nickname) {
         ImageView temp;
         File file;
-
         Boolean[] popeReports = Board.getBoard().getFaithTrack().getReports().get(nickname);
-
         int i = 0;
         for (Node popeTile : popeTiles.getChildren()) {
+            temp = (ImageView) popeTile;
             if (popeReports[i]) {
-                temp = (ImageView) popeTile;
                 file = new File(popeTilesPath + "popeTile" + i + endOfPath);
-                temp.setImage(new Image(file.toURI().toString()));
             } else {
-                temp = (ImageView) popeTile;
                 file = new File(popeTilesPath + "popeTileBack" + i + endOfPath);
-                temp.setImage(new Image(file.toURI().toString()));
             }
+            temp.setImage(new Image(file.toURI().toString()));
             i++;
         }
     }
 
-    //Used to populate a devGrid by giving grid with imageViews (from lvl3 to lvl1)
+
+    /**
+     * This method is used to populate the developmentCardsGrid  in the GUI:
+     * It does so by loading the right image in the associated imageView using the cardId for the path
+     * and the reduced model for data.
+     * The cards are loaded from lvl1 to lvl3
+     *
+     * @param devGridToPopulate GridPane containing 12 buttons representing cards
+     */
     public static void populateDevGrid(GridPane devGridToPopulate) {
         ImageView temp;
         File file;
@@ -166,6 +193,14 @@ public class GraphicUtilities {
     }
 
     //Used to update a devGrid by the iD of the new image
+
+    /**
+     * This method is used to update the developmentCardsGrid  in the GUI:
+     * It does so by matching the modified ImageView with its new card and loading in it the new image
+     *
+     * @param devGridPopulated gridPane containing the developmentCardsGrid
+     * @param iD ID of the new placed card
+     */
     public static void updateDevGrid(GridPane devGridPopulated, String iD) {
         //todo find a better solution solution
         if (iD.equals("empty")) {
@@ -200,6 +235,15 @@ public class GraphicUtilities {
         System.out.println();
     }
 
+    /**
+     * This method is used to populate the activeLeaders in the GUI:
+     * It does so by activating the javafx elements associated with each leaderCard id power
+     *
+     * @param population List of IDs representing the active leaderCards the player own
+     * @param leadersBox HBox containing the images of active leaders
+     * @param warehouseLeaderBox VBox containing the buttons for the extraSlots offered by some leaders
+     * @param productionLeaderBox VBox containing the buttons for the extraProductionSlots offered by some leaders
+     */
     public static void populateActiveLeaders(List<String> population, HBox leadersBox, VBox warehouseLeaderBox, HBox productionLeaderBox) {
         File file;
         ImageView temp;
@@ -217,7 +261,6 @@ public class GraphicUtilities {
             if (leaderID.charAt(0) == 'p') {
                 productionLeaderBox.getChildren().get(i).setVisible(true);
                 Button leaderProductionButton = (Button) productionLeaderBox.getChildren().get(i);
-                //todo added to fix andrea problem
                 leaderProductionButton.setId(String.valueOf(pCount.getAndIncrement()));
                 temp = (ImageView) leaderProductionButton.getGraphic();
             } else {
@@ -229,13 +272,14 @@ public class GraphicUtilities {
         }
     }
 
+    /**
+     * This method is used to populate the leader in hand in the GUI:
+     * It does so by loading the leader images in the imageViews using the ID as path
+     *
+     * @param leadersBox HBox containing the imageViews where to load the leaders
+     * @param population List of Ids of the leaders in hand to load
+     */
     public static void populateHandLeaders(HBox leadersBox, List<String> population) {
-        //todo line below could be removed
-        /*
-        if (leadersBox == null)
-            return;
-         */
-
         File file;
         ImageView temp;
         for (Node leader : leadersBox.getChildren()) {
@@ -245,6 +289,16 @@ public class GraphicUtilities {
         }
     }
 
+    /**
+     * This method is used to populate a new or given stage using a given fxmlLoader,
+     * It is then given a specified modality with a given window as its parent
+     *
+     * @param window parent of the new popup
+     * @param fxmlLoader fxmlLoader containing the fxml to use
+     * @param stageToPopulate Stage where the scene will be loaded(null to create a new stage)
+     * @param modality relationship to set between the popup and its parent
+     * @return the popup Stage created
+     */
     public static Stage populatePopupWindow(Window window, FXMLLoader fxmlLoader, Stage stageToPopulate, Modality modality) {
         Scene secondScene = null;
         try {
@@ -268,6 +322,13 @@ public class GraphicUtilities {
         return stageToPopulate;
     }
 
+    /**
+     * This method is used to populate the production board in the GUI:
+     * It does so by loading the appropriate images in a AnchorPane containing only buttons following the reduced model data
+     *
+     * @param productionPane Pane containing the buttons representing the productions basic and leaders not included
+     * @param nickname player owner of the productionBoard
+     */
     public static void populateProductionBoard(AnchorPane productionPane, String nickname) {
         List<LinkedHashSet<String>> population = new ArrayList<>(Board.getBoard().getPersonalBoardOf(nickname).getDevelopmentCardsInSlots());
         population.remove(0);//remove basic
@@ -295,7 +356,17 @@ public class GraphicUtilities {
         }
     }
 
-    public static void populateWarehouse(HBox fromMarket, AnchorPane warehouse, VBox leaders, GridPane strongbox, String nickname) {
+    /**
+     * This method is used to populate the depots of a player in the GUI:
+     * It does so by using the reduced model data to load the appropriate images in a list of buttons contained in multiple panes
+     *
+     * @param fromMarket HBox containing the buttons for the resources form market
+     * @param warehouse AnchorPane containing the buttons for the resources in the warehouse
+     * @param leaders VBox containing the buttons for the resources in the leaders special slots
+     * @param strongbox GridPane containing the buttons for the resources in the strongBox
+     * @param nickname nickname of the player owner of the depots
+     */
+    public static void populateDepots(HBox fromMarket, AnchorPane warehouse, VBox leaders, GridPane strongbox, String nickname) {
         List<Node> allDepotsAsNodes = new ArrayList<>();
         allDepotsAsNodes.addAll(fromMarket.getChildren());
         allDepotsAsNodes.addAll(warehouse.getChildren());
