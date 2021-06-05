@@ -40,20 +40,6 @@ public class DevelopmentCard implements ProductionCard {
     }
 
     /**
-     * for test
-     */
-    //todo
-    public DevelopmentCard(List<Resource> inResources, List<Resource> outResources, List<Resource> price, CardColorEnum color, int points, int level) {
-        this.iD = "useless";
-        this.inResources = inResources;
-        this.outResources = outResources;
-        this.price = price;
-        this.color = color;
-        this.points = points;
-        this.level = level;
-    }
-
-    /**
      * @return the ID of the card
      */
     @Override

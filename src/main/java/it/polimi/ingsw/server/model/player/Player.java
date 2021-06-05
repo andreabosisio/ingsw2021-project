@@ -154,6 +154,14 @@ public class Player implements PlayerInterface {
         isOnline = online;
     }
 
+    /**
+     * Saves the Turn state of the disconnected player
+     *
+     * @param currentState turnLogic state the player was in
+     * @param whiteResourcesFromMarket white resources the player needed to transform
+     * @param chosenDevCard devCard the player needed to place
+     * @param lastReceivedEvent last event sent to the player before he disconnected
+     */
     public void setDisconnectedData(State currentState, List<WhiteResource> whiteResourcesFromMarket, DevelopmentCard chosenDevCard,SendEvent lastReceivedEvent) {
         this.disconnectedState = currentState;
         this.whiteResourcesFromMarket = new ArrayList<>(whiteResourcesFromMarket);
@@ -161,10 +169,13 @@ public class Player implements PlayerInterface {
         this.lastReceivedEvent = lastReceivedEvent;
     }
 
-    public State getDisconnectedState() {
-        return disconnectedState;
-    }
-
+    /**
+     * Prepare the turn as the player left it when he disconnected
+     *
+     * @param turnLogic turnLogic to set as it was when disconnection happened
+     *
+     * @return true if player suffered a disconnection
+     */
     public boolean prepareTurn(TurnLogic turnLogic) {
         if(disconnectedState== null){
             return false;

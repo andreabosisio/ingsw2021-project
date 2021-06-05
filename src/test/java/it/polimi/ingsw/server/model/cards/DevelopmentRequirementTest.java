@@ -28,10 +28,10 @@ class DevelopmentRequirementTest {
         leaderCardList.add(leader2);
         player.setLeaderHand(leaderCardList);
         List<Resource> placeHolder = new ArrayList<>();
-        DevelopmentCard devLv1Blue = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,1);
-        DevelopmentCard devLv1Blue2 = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,1);
-        DevelopmentCard devLv2Blue = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,2);
-        DevelopmentCard devLv3Blue = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,3);
+        DevelopmentCard devLv1Blue = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,1);
+        DevelopmentCard devLv1Blue2 = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,1);
+        DevelopmentCard devLv2Blue = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,2);
+        DevelopmentCard devLv3Blue = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,3);
         //check bothLeaders can't be activated when player has 0 devCards
         assertFalse(player.getLeaderHand().get(0).canBeActivated(player));
         assertFalse(player.getLeaderHand().get(1).canBeActivated(player));
@@ -67,12 +67,12 @@ class DevelopmentRequirementTest {
         leaderCardList.add(leader2);
         player.setLeaderHand(leaderCardList);
         List<Resource> placeHolder = new ArrayList<>();
-        DevelopmentCard devLv1Blue = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,1);
-        DevelopmentCard devLv1Purple = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.PURPLE,0,1);
-        DevelopmentCard devLv1Green = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.GREEN,0,1);
-        DevelopmentCard devLv2Yellow = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.YELLOW,0,2);
-        DevelopmentCard devLv2Yellow2 = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.YELLOW,0,2);
-        DevelopmentCard devLv2Blue = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,2);
+        DevelopmentCard devLv1Blue = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,1);
+        DevelopmentCard devLv1Purple = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.PURPLE,0,1);
+        DevelopmentCard devLv1Green = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.GREEN,0,1);
+        DevelopmentCard devLv2Yellow = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.YELLOW,0,2);
+        DevelopmentCard devLv2Yellow2 = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.YELLOW,0,2);
+        DevelopmentCard devLv2Blue = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,2);
         //check bothLeaders can't be activated when player has 0 devCards
         assertFalse(player.getLeaderHand().get(0).canBeActivated(player));
         assertFalse(player.getLeaderHand().get(1).canBeActivated(player));
@@ -107,11 +107,11 @@ class DevelopmentRequirementTest {
         leaderCardList.add(leader2);
         player.setLeaderHand(leaderCardList);
         List<Resource> placeHolder = new ArrayList<>();
-        DevelopmentCard devLv1Blue = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,1);
-        DevelopmentCard devLv1Purple = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.PURPLE,0,1);
-        DevelopmentCard devLv1Green = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.GREEN,0,1);
-        DevelopmentCard devLv2Yellow = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.YELLOW,0,2);
-        DevelopmentCard devLv2Yellow2 = new DevelopmentCard(placeHolder,placeHolder,placeHolder,CardColorEnum.YELLOW,0,2);
+        DevelopmentCard devLv1Blue = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.BLUE,0,1);
+        DevelopmentCard devLv1Purple = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.PURPLE,0,1);
+        DevelopmentCard devLv1Green = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.GREEN,0,1);
+        DevelopmentCard devLv2Yellow = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.YELLOW,0,2);
+        DevelopmentCard devLv2Yellow2 = new DevelopmentCard("empty",placeHolder,placeHolder,placeHolder,CardColorEnum.YELLOW,0,2);
         //check for requirements of 2 types together
         assertFalse(player.getLeaderHand().get(0).canBeActivated(player));
         assertTrue(player.getPersonalBoard().setNewProductionCard(1,devLv1Blue));

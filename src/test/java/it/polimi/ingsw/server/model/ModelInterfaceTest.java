@@ -729,4 +729,26 @@ class ModelInterfaceTest {
         assertTrue(modelInterface.placeDevelopmentCardAction(3));
         modelInterface.endTurn();
     }
+    @Test
+    void disconnectionTest() throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException {
+        TestGameGenerator game = new TestGameGenerator();
+        ModelInterface modelInterface = game.modelInterfaceGenerator(true);
+        modelInterface.marketAction(5);
+        //disconnect first in the middle of placing his resources
+        modelInterface.disconnectPlayer("first");
+        //check that the first player turn has been skipped
+        assertEquals("second",modelInterface.getCurrentPlayerNickname());
+        modelInterface.disconnectPlayer("second");
+        modelInterface.disconnectPlayer("third");
+        assertEquals("fourth",modelInterface.getCurrentPlayerNickname());
+        //reconnect first and finish fourth turn
+        modelInterface.reconnectPlayer("first");
+        modelInterface.marketAction(2);
+        modelInterface.placeResourceAction(new ArrayList<>(),true);
+        modelInterface.endTurn();
+        //check tha first is reconnected and his turn isn't skipped
+        assertEquals("first",modelInterface.getCurrentPlayerNickname());
+        //check that his turn restart form resource placement
+        assertEquals(modelInterface.getTurnLogic().getWaitResourcePlacement(),modelInterface.getTurnLogic().getCurrentState());
+    }
 }

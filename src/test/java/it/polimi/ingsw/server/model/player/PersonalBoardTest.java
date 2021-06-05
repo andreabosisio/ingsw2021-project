@@ -200,4 +200,30 @@ class PersonalBoardTest {
         //check that trying to get a card from an empty column throws an exception
         assertThrows(InvalidIndexException.class,()->pBoard.getProductionCard(5));
     }
+    @Test
+    void getAllBoughtDevelopmentCardsIDsTest(){
+        Player player = new Player("Pep");
+        CardsGenerator generator = new CardsGenerator();
+        List<DevelopmentCard> lvl1Cards = generator.generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList());
+        List<DevelopmentCard> lvl2Cards = generator.generateDevelopmentCards().stream().filter(c->c.getLevel()==2).collect(Collectors.toList());
+        PersonalBoard pBoard = player.getPersonalBoard();
+        //check that the playerBoard has 4 slots for production cards and that at the start they are basic-empty-empty-empty
+        assertEquals(4,pBoard.getAllBoughtDevelopmentCardsIDs().size());
+        assertEquals("basicPowerCard",pBoard.getAllBoughtDevelopmentCardsIDs().get(0).get(0));
+        for(int i = 1;i<4;i++){
+            assertEquals("empty",pBoard.getAllBoughtDevelopmentCardsIDs().get(i).get(0));
+        }
+        assertTrue(pBoard.setNewProductionCard(1,lvl1Cards.get(0)));
+        assertTrue(pBoard.setNewProductionCard(1,lvl2Cards.get(0)));
+        //check that there are now 2 ids saved in pos 1 and they are equals to the placed cards
+        assertEquals(lvl2Cards.get(0).getID(),pBoard.getAllBoughtDevelopmentCardsIDs().get(1).get(0));
+        assertEquals(lvl1Cards.get(0).getID(),pBoard.getAllBoughtDevelopmentCardsIDs().get(1).get(1));
+        assertTrue(pBoard.setNewProductionCard(2,lvl1Cards.get(1)));
+        assertTrue(pBoard.setNewProductionCard(2,lvl2Cards.get(1)));
+        //check that there are now 2 more ids saved in pos 2 and they are equals to the placed cards
+        assertEquals(lvl2Cards.get(1).getID(),pBoard.getAllBoughtDevelopmentCardsIDs().get(2).get(0));
+        assertEquals(lvl1Cards.get(1).getID(),pBoard.getAllBoughtDevelopmentCardsIDs().get(2).get(1));
+        //check that the Ids saved are now 4
+        assertEquals(4,pBoard.getAllBoughtDevelopmentCardsIDs().size());
+    }
 }

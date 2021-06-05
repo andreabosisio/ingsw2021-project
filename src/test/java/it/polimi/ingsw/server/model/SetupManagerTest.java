@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SetupManagerTest {
 
     @Test
-    void setupAction() throws InvalidEventException, NonStorableResourceException, InvalidSetupException {
+    void setupAction() throws InvalidEventException, InvalidSetupException {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(false);
         modelInterface.startSetup();
