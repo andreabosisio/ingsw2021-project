@@ -27,26 +27,50 @@ public class CLI implements View {
         startNetwork();
     }
 
+    /**
+     * This method is used to set the name of the player using this view
+     *
+     * @param nickname nickname the user has chosen
+     */
     @Override
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    /**
+     * This method is used to get the nickname of the owner of this view
+     *
+     * @return the owner nickname
+     */
     @Override
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * This method is used to set the player owner of this view as currently doing his turn
+     *
+     * @param isPlaying true if player is currently playing
+     */
     @Override
     public void setIsPlaying(boolean isPlaying) {
         this.isPlaying = isPlaying;
     }
 
+    /**
+     * This method returns the player playing state
+     *
+     * @return true if the player is currently performing his turn
+     */
     @Override
     public boolean isThisClientTurn() {
         return isPlaying;
     }
 
+    /**
+     * This method is used to start the network used to communicate with the server
+     * It also set the networkHandler as listener to the cliCommandListener
+     */
     @Override
     public void startNetwork() {
         render(AnsiEnum.LOGO.getAsciiArt());
@@ -54,16 +78,27 @@ public class CLI implements View {
         networkHandler.startNetwork();
     }
 
+    /**
+     * This method is used to cleanup the player terminal before a new scene is printed
+     */
     public static void clearView() {
         for (int i = 0; i < 50; i++)
             System.out.println();
     }
 
+    /**
+     * This method is used to show the wait animation in the terminal
+     */
     @Override
     public void showWaitAnimation() {
         showThreePointsAnimation();
     }
 
+    /**
+     * This method is used to print a specific printable scene on the terminal
+     *
+     * @param printable the scene to print
+     */
     public static void render(Printable printable) {
         if (printable != null) {
             List<String> toPrint = printable.getPrintable();
@@ -72,19 +107,30 @@ public class CLI implements View {
         }
     }
 
+    /**
+     * This method is used to print an error message from the server in red on the terminal
+     *
+     * @param printable the error to print in red
+     */
+    //todo print error message is a method below which does the same thing more or less?
     public static void renderError(String printable) {
         System.out.println(AnsiEnum.RED + printable + AnsiEnum.RESET);
     }
 
+    /**
+     * This method is used to print a message on the terminal
+     *
+     * @param printable String containing the message you wish to print
+     */
     public static void render(String printable) {
         System.out.println(printable);
     }
 
-    @Override
-    public void graphicUpdate() {
-
-    }
-
+    /**
+     * This message is used to print an info message from the server on the terminal
+     *
+     * @param info String containing the message to print
+     */
     @Override
     public void printInfoMessage(String info) {
         if (info == null)
@@ -92,6 +138,11 @@ public class CLI implements View {
         render(info);
     }
 
+    /**
+     * This method is used to print an error message on the terminal followed by a three points animation
+     *
+     * @param error message to print in red
+     */
     @Override
     public void printErrorMessage(String error) {
         if (error == null)
@@ -100,21 +151,35 @@ public class CLI implements View {
         CLI.showThreePointsAnimation();
     }
 
+    /**
+     * This method is used to set the view on the login phase
+     */
     @Override
     public void setOnLogin() {
         showLoginScene();
         cliCommandListener.askCredentials();
     }
 
+    /**
+     * This method is used to set the view on the choose number of player phase
+     *
+     * @param payload the numbers available to chose
+     */
     @Override
     public void setOnChooseNumberOfPlayers(String payload) {
         cliCommandListener.askNumberOfPlayers(payload);
     }
 
+    /**
+     * This method is show the login scene on the terminal
+     */
     private void showLoginScene() {
         render(AnsiEnum.LOGIN_SMALL.getAsciiArt());
     }
 
+    /**
+     * This method is used to set the view on the matchmaking phase
+     */
     @Override
     public void setOnMatchMaking() {
         clearView();
@@ -125,6 +190,12 @@ public class CLI implements View {
         showThreePointsAnimation();
     }
 
+    /**
+     * This method is used to set the view on the setup phase
+     *
+     * @param leaderCardsID IDs the player can chose from as his leaderCards
+     * @param numberOfResource number of resources the player can chose
+     */
     @Override
     public void setOnSetup(List<String> leaderCardsID, int numberOfResource) {
         clearView();
@@ -132,6 +203,10 @@ public class CLI implements View {
         cliCommandListener.askSetupChoice(leaderCardsID, numberOfResource);
     }
 
+    /**
+     * This method is used to set the view on the start turn phase
+     * It uses the command listener to ask which action the player wish to perform and call the appropriate method
+     */
     @Override
     public void setOnYourTurn() {
         clearView();
@@ -165,6 +240,10 @@ public class CLI implements View {
         }
     }
 
+    /**
+     * This method is used to set the view on the see phase
+     * Its uses the cli command listener to ask the player what he wishes to see
+     */
     private void setOnSeeChoice() {
         String answer = cliCommandListener.askSeeChoice();
         switch (answer) {
@@ -184,11 +263,18 @@ public class CLI implements View {
         }
     }
 
+    /**
+     * This method is used to set the view on the see player choice phase
+     * It uses the cli command listener to ask the player which enemy he wishes to see and show his personal board to him
+     */
     private void setOnSeePlayerChoice() {
         String playerToView = cliCommandListener.askSeePlayerChoice();
         render(Board.getBoard().getPrintablePersonalBoardOf(playerToView));
     }
 
+    /**
+     * This method is used to show the 3 points animation on the terminal
+     */
     public static void showThreePointsAnimation() {
         for (int i = 0; i < 3; i++) {
             try {
@@ -206,6 +292,9 @@ public class CLI implements View {
         System.out.println();
     }
 
+    /**
+     * This method is used to set the view on the wait for your turn phase
+     */
     @Override
     public void setOnWaitForYourTurn(String currentPlayer) {
         clearView();
@@ -213,6 +302,11 @@ public class CLI implements View {
         render("It's " + AnsiEnum.getPrettyNickname(currentPlayer) + " turn, wait for him to finish");
     }
 
+    /**
+     * This method is used to set the view on the development card placement phase
+     *
+     * @param newCardID card the player needs to place
+     */
     @Override
     public void setOnDevelopmentCardPlacement(String newCardID) {
         clearView();
@@ -220,6 +314,9 @@ public class CLI implements View {
         cliCommandListener.askCardPlacement();
     }
 
+    /**
+     * This method is used to set the view on the place resources phase
+     */
     @Override
     public void setOnResourcesPlacement() {
         clearView();
@@ -227,12 +324,21 @@ public class CLI implements View {
         cliCommandListener.askResourcePlacement();
     }
 
+    /**
+     * This method is used to set the view on the transformation phase
+     *
+     * @param numberOfTransformation number of resources the player needs to transform
+     * @param possibleTransformations possible colors he can chose from
+     */
     @Override
     public void setOnTransformation(int numberOfTransformation, List<String> possibleTransformations) {
         clearView();
         cliCommandListener.askResourceTransformation(numberOfTransformation, possibleTransformations);
     }
 
+    /**
+     * This method is used to set the view on the end turn phase
+     */
     @Override
     public void setOnEndTurn() {
         clearView();
@@ -245,6 +351,12 @@ public class CLI implements View {
         }
     }
 
+    /**
+     * This method is used to set the view on the end game view
+     *
+     * @param winner winner of the game
+     * @param playersPoints points of each player
+     */
     @Override
     public void setOnEndGame(String winner, Map<String, Integer> playersPoints) {
         System.out.println("The game is over!\nThe Winner is: " + winner + "\nThe points of all the players are:");

@@ -137,7 +137,6 @@ public class Warehouse {
      * @param slotsType the resource's type of the extra slots
      * @return true if the extra slots can be activated
      */
-    //TODO (per la view) si deve attivare per primo l'extra slot nella FirstExtraSlotZone e poi nella seconda
     public boolean addExtraSlots(Resource slotsType){
         for(ExtraSlots remainingExtraSlots : extraSlots){
             if (!remainingExtraSlots.isActivated()){

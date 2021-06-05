@@ -10,7 +10,6 @@ public interface View {
     boolean isThisClientTurn();
     void showWaitAnimation();
     void startNetwork();
-    void graphicUpdate();
     void printInfoMessage(String info);
     void printErrorMessage(String error);
     void setOnLogin();

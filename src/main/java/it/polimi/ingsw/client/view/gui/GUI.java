@@ -68,10 +68,6 @@ public class GUI extends Application implements View {
     }
 
     @Override
-    public void graphicUpdate() {
-    }
-
-    @Override
     public void printInfoMessage(String info) {
         currentGuiCommandListener.printInfoMessage(info);
     }
@@ -106,19 +102,7 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnMatchMaking() {
-        /*
-        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("loginController");
-        setRoot("loginScene", nextGuiCommandListener);
-        ((LoginController) nextGuiCommandListener).activateProgressIndicator();
-        currentGuiCommandListener = nextGuiCommandListener;
-
-         */
-        //todo move this code in place were marketAction is selected
-        /*
-        GUICommandListener nextGuiCommandListener = guiCommandListeners.get("marketController");
-        setRoot("marketScene", nextGuiCommandListener);
-        currentGuiCommandListener = nextGuiCommandListener;
-         */
+        //todo matchmaking scene?
     }
 
     @Override
@@ -232,8 +216,7 @@ public class GUI extends Application implements View {
             if (networkHandler != null) {
                 networkHandler.close();
             }
-            //todo add closing of socket and quit event to server before System.exit(might need to move System.exit at the end of the function called)
-            Platform.exit();//this might not be needed
+            Platform.exit();
         });
     }
 
