@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class HandController extends GUICommandListener {
-    private String nickname;
+    private final String nickname;
 
     public HandController(String nickname) {
         this.nickname = nickname;

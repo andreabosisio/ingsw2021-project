@@ -206,7 +206,7 @@ public class GUI extends Application implements View {
 
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         currentGuiCommandListener = new WelcomeController(this);
         scene = new Scene(Objects.requireNonNull(loadFXML("welcomeScene", currentGuiCommandListener)), 600, 800);
         stage.setTitle("Maestri del Rinascimento");

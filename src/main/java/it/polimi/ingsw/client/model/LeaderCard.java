@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import it.polimi.ingsw.client.view.cli.Printable;
 
 import java.util.*;
@@ -66,7 +65,7 @@ public class LeaderCard extends Printable {
         List<String> leaderCardToPrint = new ArrayList<>();
 
         leaderCardToPrint.add("╔══════════╗");
-        leaderCardToPrint.add("║   " + "Leader" + " ║");
+        leaderCardToPrint.add("║  " + "Leader" + "  ║");
         leaderCardToPrint.add("║   " + "Card" + "   ║");
         leaderCardToPrint.add("║   " + "Slot" + "   ║");
         leaderCardToPrint.add("║          ║");

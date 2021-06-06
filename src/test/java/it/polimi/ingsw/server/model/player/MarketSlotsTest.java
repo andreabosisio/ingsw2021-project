@@ -19,9 +19,9 @@ class MarketSlotsTest {
 
     @Test
     void simplyMarketSlotsTest(){
-        List<Resource> correctResources = new ArrayList<Resource>(){{
-           add(new StorableResource(ResourceEnum.YELLOW));
-           add(new StorableResource(ResourceEnum.BLUE));
+        List<Resource> correctResources = new ArrayList<>() {{
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.BLUE));
         }};
 
         marketSlots.addResources(correctResources);

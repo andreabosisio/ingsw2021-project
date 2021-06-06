@@ -11,7 +11,7 @@ public final class NonStorableResources {
     /**
      * Resources that can't be stored and used to activate a production.
      */
-    final static List<Resource> nonStorableResources = new ArrayList<Resource>(){{
+    final static List<Resource> nonStorableResources = new ArrayList<>() {{
         add(new RedResource());
         add(new WhiteResource());
     }};

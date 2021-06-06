@@ -59,7 +59,7 @@ public abstract class LeaderCard {
      * @param player player activating the card
      * @return true if it can be activated
      */
-    public boolean canBeActivated(Player player){
+    public boolean canBeActivatedBy(Player player){
         for(Requirement requirement : requirements){
             if(!requirement.isSatisfied(player)) {
                 return false;

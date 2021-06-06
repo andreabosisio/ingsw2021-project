@@ -27,7 +27,7 @@ class WarehouseTest {
 
         assertEquals(0, warehouse.getNumberOfRemainingResources());
 
-        assertFalse(warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
+        assertFalse(warehouse.addResourcesFromMarket(new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.BLUE));
             add(new StorableResource(ResourceEnum.YELLOW));
             add(new StorableResource(ResourceEnum.YELLOW));
@@ -35,7 +35,7 @@ class WarehouseTest {
             add(new StorableResource(ResourceEnum.YELLOW));
         }})); //too many resource
 
-        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
+        warehouse.addResourcesFromMarket(new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.BLUE));
             add(new StorableResource(ResourceEnum.YELLOW));
         }});
@@ -90,7 +90,7 @@ class WarehouseTest {
         //1° extra slots:   X, X
         //2° extra slots:   X, X
 
-        Map<Integer, String> correctPositionsAndResources = new HashMap<Integer, String>(){{
+        Map<Integer, String> correctPositionsAndResources = new HashMap<>() {{
             put(0, ResourceEnum.EMPTY_RES.toString());
             put(1, ResourceEnum.EMPTY_RES.toString());
             put(2, ResourceEnum.EMPTY_RES.toString());
@@ -104,7 +104,7 @@ class WarehouseTest {
 
         assertEquals(correctPositionsAndResources, warehouse.getAllPositionsAndResources());
 
-        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
+        warehouse.addResourcesFromMarket(new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.YELLOW));
             add(new StorableResource(ResourceEnum.GRAY));
         }});
@@ -161,7 +161,7 @@ class WarehouseTest {
         assertTrue(warehouse.swap(4,11));
         assertTrue(warehouse.isProperlyOrdered()); //back to the last legal configuration
 
-        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
+        warehouse.addResourcesFromMarket(new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.BLUE));
             add(new StorableResource(ResourceEnum.PURPLE));
             add(new StorableResource(ResourceEnum.BLUE));
@@ -207,7 +207,7 @@ class WarehouseTest {
         //1° extra slots:   Y, Y
         //2° extra slots:   B, P
 
-        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
+        warehouse.addResourcesFromMarket(new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.BLUE));
         }});
         assertEquals(warehouse.getResourcesFromMarket(), new ArrayList<Resource>(){{
@@ -226,7 +226,7 @@ class WarehouseTest {
 
         assertEquals(0, warehouse.getNumberOfRemainingResources());
 
-        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
+        warehouse.addResourcesFromMarket(new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.BLUE));
             add(new StorableResource(ResourceEnum.YELLOW));
             add(new StorableResource(ResourceEnum.YELLOW));
@@ -256,7 +256,7 @@ class WarehouseTest {
         }
         */
 
-        Map<Integer, String> correctPositionsAndResources = new HashMap<Integer, String>(){{
+        Map<Integer, String> correctPositionsAndResources = new HashMap<>() {{
             put(0, ResourceEnum.BLUE.toString());
             put(1, ResourceEnum.YELLOW.toString());
             put(2, ResourceEnum.YELLOW.toString());
@@ -334,7 +334,7 @@ class WarehouseTest {
         warehouse.addResourcesToStrongBox(new StorableResource(ResourceEnum.PURPLE));
         warehouse.addResourcesToStrongBox(new StorableResource(ResourceEnum.GRAY));
 
-        warehouse.addResourcesFromMarket(new ArrayList<Resource>(){{
+        warehouse.addResourcesFromMarket(new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.YELLOW));
             add(new StorableResource(ResourceEnum.BLUE));
             add(new StorableResource(ResourceEnum.PURPLE));
@@ -346,7 +346,7 @@ class WarehouseTest {
         warehouse.addExtraSlots(new StorableResource(ResourceEnum.PURPLE));
         warehouse.swap(2, 11);
 
-        List<Resource> correctResources = new ArrayList<Resource>(){{
+        List<Resource> correctResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.GRAY));
             add(new StorableResource(ResourceEnum.PURPLE));
             add(new StorableResource(ResourceEnum.GRAY));
@@ -362,7 +362,7 @@ class WarehouseTest {
     void setupWarehouseTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         warehouse = new Warehouse();
 
-        List<Resource> chosenResources = new ArrayList<Resource>(){{
+        List<Resource> chosenResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.GRAY));
             add(new StorableResource(ResourceEnum.PURPLE));
         }};

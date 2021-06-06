@@ -81,7 +81,7 @@ public class Player implements PlayerInterface {
     public List<LeaderCard> getAvailableLeaderActivationTest() {
         List<LeaderCard> toReturn = new ArrayList<>();
         for (LeaderCard card : leaderHand) {
-            if (card.canBeActivated(this)) {
+            if (card.canBeActivatedBy(this)) {
                 toReturn.add(card);
             }
         }
@@ -113,7 +113,7 @@ public class Player implements PlayerInterface {
      */
     public boolean activateLeaderCard(LeaderCard leaderCard) {
         if (leaderHand != null && leaderHand.contains(leaderCard)) {
-            if (leaderCard.canBeActivated(this)) {
+            if (leaderCard.canBeActivatedBy(this)) {
                 if (leaderCard.activate(this)) {
                     leaderHand.remove(leaderCard);
                     return true;

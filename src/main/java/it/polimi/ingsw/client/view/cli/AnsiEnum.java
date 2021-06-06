@@ -138,8 +138,8 @@ public enum AnsiEnum {
     public static final String WHITE_MARBLE = WHITE_BRIGHT + MARBLE.getAsciiArt() + RESET;
     public static final String RED_MARBLE = RED + MARBLE.getAsciiArt() + RESET;
     public static final String PURPLE_MARBLE = PURPLE + MARBLE.getAsciiArt() + RESET;
-    public static final String YELLOW_MARBLE = YELLOW + MARBLE.getAsciiArt() + RESET;
-    public static final String BLUE_MARBLE = BLUE + MARBLE.getAsciiArt() + RESET;
+    public static final String YELLOW_MARBLE = YELLOW_BRIGHT + MARBLE.getAsciiArt() + RESET;
+    public static final String BLUE_MARBLE = CYAN_BRIGHT + MARBLE.getAsciiArt() + RESET;
     public static final String GRAY_MARBLE = BLACK_BRIGHT + MARBLE.getAsciiArt() + RESET;
 
     AnsiEnum(final String asciiArt) {
@@ -156,7 +156,7 @@ public enum AnsiEnum {
             case "YELLOW":
                 return AnsiEnum.YELLOW_BRIGHT + toColor + AnsiEnum.RESET;
             case "BLUE":
-                return AnsiEnum.BLUE_BRIGHT + toColor + AnsiEnum.RESET;
+                return AnsiEnum.CYAN_BRIGHT + toColor + AnsiEnum.RESET;
             case "GRAY":
                 return AnsiEnum.BLACK_BRIGHT + toColor + AnsiEnum.RESET;
             case "RED":

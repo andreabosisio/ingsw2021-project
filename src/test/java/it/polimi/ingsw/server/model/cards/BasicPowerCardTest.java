@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BasicPowerCardTest {
-    final ModelInterface modelInterface = new ModelInterface(new ArrayList<String>(){{
+    final ModelInterface modelInterface = new ModelInterface(new ArrayList<>() {{
         add("pepo");
     }});
     final TurnLogic turnLogic = modelInterface.getTurnLogic();

@@ -6,10 +6,10 @@ import it.polimi.ingsw.server.model.ModelInterface;
 import java.util.List;
 import java.util.Map;
 
-public class ProductionReceiveEvent extends ReceiveEvent {
+public class ProductionEvent extends ReceiveEvent {
     private final Map<Integer, List<Integer>> inResourcesForEachProductions;
     private final Map<Integer, String> outResourcesForEachProductions;
-    public ProductionReceiveEvent(String nickname, Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) {
+    public ProductionEvent(String nickname, Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) {
         super(nickname);
         this.inResourcesForEachProductions = inResourcesForEachProductions;
         this.outResourcesForEachProductions = outResourcesForEachProductions;

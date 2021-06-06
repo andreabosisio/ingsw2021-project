@@ -11,7 +11,6 @@ public class FaithTracksUpdate {
     private final Map<String, Boolean[]> reports = new HashMap<>();
 
     public FaithTracksUpdate() {
-
         GameBoard.getGameBoard().getFaithTracks().
                 forEach(faithTrack -> {
                     indexes.put(faithTrack.getOwner().getNickname(), faithTrack.getFaithMarker());

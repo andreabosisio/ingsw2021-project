@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.DevelopmentCardsGrid;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.StorableResource;
@@ -166,7 +165,7 @@ class ModelInterfaceTest {
         //perform a market action
         modelInterface.marketAction(2);
         //check that invalid swap generate an exception
-        List<Integer> swapPairs = new ArrayList<Integer>() {{
+        List<Integer> swapPairs = new ArrayList<>() {{
             add(1);
             add(5);
         }};
@@ -185,13 +184,13 @@ class ModelInterfaceTest {
         //perform a market action
         modelInterface.marketAction(1);//generate yellow/yellow/purple/purple
         //check that invalid swap generate an exception
-        List<Integer> swapPairs = new ArrayList<Integer>() {{
+        List<Integer> swapPairs = new ArrayList<>() {{
             add(0);
             add(32);
         }};
         assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs,true));
         //check that giving odd number of swap generate an exception
-        List<Integer> swapPairs2 = new ArrayList<Integer>() {{
+        List<Integer> swapPairs2 = new ArrayList<>() {{
             add(0);
             add(4);
             add(1);
@@ -224,7 +223,7 @@ class ModelInterfaceTest {
         ModelInterface modelInterface = game.modelInterfaceGenerator(false);
         game.setMarketTrayAuto(modelInterface);
         game.setDevelopmentCardsGrid(modelInterface);
-        List<Integer> marketLeaderIndexes = new ArrayList<Integer>() {{
+        List<Integer> marketLeaderIndexes = new ArrayList<>() {{
             add(4);//market leaders:requires 2 yellow and 1 blue dev of any level----transform white to purple
             add(5);//market leaders:requires 2 green and 1 purple dev of any level----transform white to blue
             add(0);
@@ -279,7 +278,7 @@ class ModelInterfaceTest {
         //test transformation with one leader
         modelInterface.marketAction(2);//expected res are(3white and 1 red)
         //market action has produced 3 purple res because there is only one active marketLeader
-        List<Integer> swap = new ArrayList<Integer>() {{
+        List<Integer> swap = new ArrayList<>() {{
             add(0);
             add(7);
             add(1);
@@ -339,7 +338,7 @@ class ModelInterfaceTest {
         //try market action with 2 leaderCards
         modelInterface.marketAction(2);
         //check that giving less chosen color than needed (needed 3:given 2) throws and exception
-        List<String> chosenColors = new ArrayList<String>() {{
+        List<String> chosenColors = new ArrayList<>() {{
             add("purple");
             add("blue");
         }};
@@ -355,7 +354,7 @@ class ModelInterfaceTest {
         chosenColors.remove(2);
         chosenColors.add("blue");
         modelInterface.transformationAction(chosenColors);
-        swap = new ArrayList<Integer>() {{
+        swap = new ArrayList<>() {{
             add(1);
             add(5);
             add(2);
@@ -634,7 +633,7 @@ class ModelInterfaceTest {
         ModelInterface modelInterface = game.modelInterfaceGenerator(false);
         game.setMarketTrayAuto(modelInterface);
         game.setDevelopmentCardsGrid(modelInterface);
-        List<Integer> marketLeaderIndexes = new ArrayList<Integer>() {{
+        List<Integer> marketLeaderIndexes = new ArrayList<>() {{
             add(12);//discount leaders:requires 1 green and 1 blue dev of any level----dicount gray
             add(13);//market leaders:requires 1 blue lv 1 and 1 purple dev of any level----discount blue
             add(0);

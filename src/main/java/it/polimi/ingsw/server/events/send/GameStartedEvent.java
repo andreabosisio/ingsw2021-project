@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-public class GameStartedSendEvent implements SendEvent{
+public class GameStartedEvent implements SendEvent{
     private final String type = "gameStarted";
     private final List<String> nicknames;
 
-    public GameStartedSendEvent(List<String> nicknames) {
+    public GameStartedEvent(List<String> nicknames) {
         this.nicknames = nicknames;
     }
 

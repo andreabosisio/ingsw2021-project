@@ -39,11 +39,11 @@ public class PersonalController extends GUICommandListener {
     private Stage cardPlacementWindow;
     private Stage productionChoiceWindow;
     private TransformationController transformationController;
-    private Map<Integer, List<Integer>> totalInResources = new HashMap<>();
-    private Map<Integer, String> totalOutResources = new HashMap<>();
-    private List<Node> currentSelectedResources = new ArrayList<>();
-    private List<Node> allSelectedResources = new ArrayList<>();
-    private List<Node> activatedProductions = new ArrayList<>();
+    private final Map<Integer, List<Integer>> totalInResources = new HashMap<>();
+    private final Map<Integer, String> totalOutResources = new HashMap<>();
+    private final List<Node> currentSelectedResources = new ArrayList<>();
+    private final List<Node> allSelectedResources = new ArrayList<>();
+    private final List<Node> activatedProductions = new ArrayList<>();
 
     private boolean canSwap = false;
     private Node lastSwap;

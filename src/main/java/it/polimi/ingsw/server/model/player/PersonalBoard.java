@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -26,7 +27,7 @@ import java.util.stream.IntStream;
  */
 public class PersonalBoard implements EndGameSubject {
     private static final int resPointsDivider = 5;
-    private static final int lastDevColumnIndex = 4;
+    private static final int lastDevSlotIndex = 4;
     private static final int firstDevSpaceIndex = 1;
     private static final int basicPowerIndex = 0;
     private static final int leaderHandSize = 2;
@@ -38,7 +39,7 @@ public class PersonalBoard implements EndGameSubject {
     public PersonalBoard() {
         warehouse = new Warehouse();
         productionDeck = new ArrayList<>();
-        IntStream.range(0, lastDevColumnIndex).forEach(i -> productionDeck.add(new ArrayList<>()));
+        IntStream.range(0, lastDevSlotIndex).forEach(i -> productionDeck.add(new ArrayList<>()));
         activeLeaderCards = new ArrayList<>();
         productionDeck.get(0).add(new BasicPowerCard());
     }
@@ -50,7 +51,7 @@ public class PersonalBoard implements EndGameSubject {
     /**
      * Get all the currently active LeaderCards
      *
-     * @return List</ LeaderCard> of active LeaderCards
+     * @return List</LeaderCard> of active LeaderCards
      */
     public List<LeaderCard> getActiveLeaderCards() {
         return activeLeaderCards;
@@ -65,7 +66,7 @@ public class PersonalBoard implements EndGameSubject {
      */
     public List<Integer> getAvailablePlacement(DevelopmentCard card) {
         List<Integer> toReturn = new ArrayList<>();
-        for (int i = firstDevSpaceIndex; i < lastDevColumnIndex; i++) {
+        for (int i = firstDevSpaceIndex; i < lastDevSlotIndex; i++) {
             if (productionDeck.get(i).size() == card.getLevel() - 1) {
                 toReturn.add(i);
             }
@@ -75,14 +76,16 @@ public class PersonalBoard implements EndGameSubject {
 
     /**
      * Get all the Production Cards' IDs in all the Production Slots (including the Basic Power Card).
+     * All the cards in a slot are ordered by level and the lower level card is on the first position.
      * 
-     * @return a list containing a list 
+     * @return a list containing a all the bought cards' IDs for each slot
      */
     public List<List<String>> getAllBoughtDevelopmentCardsIDs() {
-        return productionDeck.stream().map(slot -> {
-            List<String> newSlotIDs = slot.stream().limit(lastDevColumnIndex).map(ProductionCard::getID).collect(Collectors.toList());
+        return productionDeck.stream().limit(lastDevSlotIndex).map(slot -> {
+            List<String> newSlotIDs = slot.stream().map(ProductionCard::getID).collect(Collectors.toList());
             if(newSlotIDs.size() == 0)
                 newSlotIDs.add("empty");
+            Collections.reverse(newSlotIDs);
             return newSlotIDs;
         }).collect(Collectors.toList());
     }
@@ -96,7 +99,7 @@ public class PersonalBoard implements EndGameSubject {
      * @return true if placed correctly
      */
     public boolean setNewProductionCard(int pos, DevelopmentCard card) {
-        if (pos < firstDevSpaceIndex || pos >= lastDevColumnIndex || productionDeck.stream().anyMatch(el -> el.contains(card))) {
+        if (pos < firstDevSpaceIndex || pos >= lastDevSlotIndex || productionDeck.stream().anyMatch(el -> el.contains(card))) {
             return false;
         }
         //check that pos is compliant with rules of placement
@@ -108,7 +111,7 @@ public class PersonalBoard implements EndGameSubject {
 
             productionDeck.get(pos).add(0, card);
             int numberOfDevCards = 0;
-            for (int i = 1; i < lastDevColumnIndex; i++)
+            for (int i = 1; i < lastDevSlotIndex; i++)
                 numberOfDevCards = numberOfDevCards + productionDeck.get(i).size();
 
             if (numberOfDevCards == 7)
@@ -155,7 +158,7 @@ public class PersonalBoard implements EndGameSubject {
      */
     public int getPoints(Player player) {
         List<Integer> points = new ArrayList<>();
-        for (int i = firstDevSpaceIndex; i < lastDevColumnIndex; i++) {
+        for (int i = firstDevSpaceIndex; i < lastDevSlotIndex; i++) {
             productionDeck.get(i).forEach(el -> points.add(el.getPoints()));
         }
         activeLeaderCards.forEach(c -> points.add(c.getPoints()));
@@ -187,11 +190,11 @@ public class PersonalBoard implements EndGameSubject {
     /**
      * Getter of all the DevelopmentCards currently on the board
      *
-     * @return List</ DevelopmentCard> of cards on the board
+     * @return List</DevelopmentCard> of cards on the board
      */
     public List<DevelopmentCard> getAllDevelopmentCards() {
         List<DevelopmentCard> toReturn = new ArrayList<>();
-        for (int i = firstDevSpaceIndex; i < lastDevColumnIndex; i++) {
+        for (int i = firstDevSpaceIndex; i < lastDevSlotIndex; i++) {
             productionDeck.get(i).forEach(card -> toReturn.add((DevelopmentCard) card));
         }
         return toReturn;
@@ -204,7 +207,7 @@ public class PersonalBoard implements EndGameSubject {
      */
     public List<String> getVisibleDevelopmentCardsIDs() {
         List<String> toReturn = new ArrayList<>();
-        for (int i = basicPowerIndex; i < lastDevColumnIndex; i++) {
+        for (int i = basicPowerIndex; i < lastDevSlotIndex; i++) {
             try {
                 toReturn.add(getProductionCard(i).getID());
             } catch (InvalidIndexException e) {
@@ -224,7 +227,7 @@ public class PersonalBoard implements EndGameSubject {
         try {
             return productionDeck.get(slotPosition).get(0);
         } catch (IndexOutOfBoundsException e) {
-            throw new InvalidIndexException("invalid production slot");
+            throw new InvalidIndexException("Invalid production slot");
         }
     }
 }

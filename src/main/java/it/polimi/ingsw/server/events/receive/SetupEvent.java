@@ -5,11 +5,11 @@ import it.polimi.ingsw.server.model.ModelInterface;
 
 import java.util.List;
 
-public class SetupReceiveEvent extends ReceiveEvent{
+public class SetupEvent extends ReceiveEvent{
     private final List<Integer> chosenLeaderCardIndexes;
     private final List<String> chosenResources;
 
-    public SetupReceiveEvent(String sender, List<Integer> chosenLeaderCardIndexes, List<String> chosenResources) {
+    public SetupEvent(String sender, List<Integer> chosenLeaderCardIndexes, List<String> chosenResources) {
         super(sender);
         this.chosenLeaderCardIndexes = chosenLeaderCardIndexes;
         this.chosenResources = chosenResources;

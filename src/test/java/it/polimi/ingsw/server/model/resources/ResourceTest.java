@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceTest {
-    final TurnLogic turnLogic = new TurnLogic(new ArrayList<Player>(){{
+    final TurnLogic turnLogic = new TurnLogic(new ArrayList<>() {{
         add(new Player("Pluto"));
     }},null);
     @Test

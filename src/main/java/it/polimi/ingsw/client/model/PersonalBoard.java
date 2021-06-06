@@ -66,8 +66,10 @@ public class PersonalBoard extends Printable {
 
     public void setProductionBoard(List<List<String>> productionBoard) {
         if(productionBoard != null) {
-            for(List<String> level : productionBoard) {
-                IntStream.range(0, level.size()).forEach(i -> developmentCardsInSlots.get(i).add(level.get(i)));
+            int i = 0;
+            for(List<String> slot : productionBoard) {
+                developmentCardsInSlots.get(i).addAll(slot);
+                i++;
             }
             this.productionBoard = productionBoard;
             view.productionBoardUpdate(nickname);

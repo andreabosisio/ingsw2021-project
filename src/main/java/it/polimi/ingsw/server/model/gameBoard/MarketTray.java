@@ -48,7 +48,7 @@ public class MarketTray {
     /**
      * List of the resources available in the MarketBoard
      */
-    private final List<Resource> initResources = new ArrayList<Resource>() {{
+    private final List<Resource> initResources = new ArrayList<>() {{
         add(new StorableResource(ResourceEnum.BLUE));
         add(new StorableResource(ResourceEnum.BLUE));
         add(new StorableResource(ResourceEnum.GRAY));

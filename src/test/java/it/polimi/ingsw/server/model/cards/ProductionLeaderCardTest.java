@@ -26,19 +26,19 @@ class ProductionLeaderCardTest {
     void canDoProductionTest() {
         leaderCard = (ProductionLeaderCard) leaderCardGenerator.generateLeaderCards().get(0);
 
-        List<Resource> correctDesiredResources = new ArrayList<Resource>(){{
-           add(new StorableResource(ResourceEnum.YELLOW));
-           add(new StorableResource(ResourceEnum.BLUE));
+        List<Resource> correctDesiredResources = new ArrayList<>() {{
+            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourceEnum.BLUE));
         }};
-        List<Resource> wrongDesiredResources = new ArrayList<Resource>(){{
+        List<Resource> wrongDesiredResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.PURPLE));
             add(new StorableResource(ResourceEnum.BLUE));
         }};
-        List<Resource> nonStorableDesiredResources = new ArrayList<Resource>(){{
+        List<Resource> nonStorableDesiredResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.PURPLE));
             add(new RedResource());
         }};
-        List<Resource> insufficientDesiredResources = new ArrayList<Resource>(){{
+        List<Resource> insufficientDesiredResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.BLUE));
         }};
         List<Resource> anotherCorrectDesiredResources = new ArrayList<>() {{
@@ -64,7 +64,7 @@ class ProductionLeaderCardTest {
 
     void usePowerTest(ProductionLeaderCard leaderCard, List<Resource> correctOutResources){
         correctOutResources.add(new RedResource());
-        List<Resource> correctInResources = new ArrayList<Resource>(){{
+        List<Resource> correctInResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.YELLOW));
         }};
         leaderCard.usePower(modelInterface.getTurnLogic());

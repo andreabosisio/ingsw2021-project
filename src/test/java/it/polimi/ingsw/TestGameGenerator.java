@@ -39,7 +39,7 @@ public class TestGameGenerator {
      * @return model prepared to start the game from player one
      */
     public ModelInterface modelInterfaceGenerator(boolean auto) {
-        ModelInterface modelInterface = new ModelInterface(new ArrayList<String>() {{
+        ModelInterface modelInterface = new ModelInterface(new ArrayList<>() {{
             add("first");
             add("second");
             add("third");
@@ -69,19 +69,19 @@ public class TestGameGenerator {
     public void setLeaderInHandAuto(ModelInterface modelInterface) {
         List<Player> players = modelInterface.getTurnLogic().getPlayers();
         List<LeaderCard> leaderCards = new CardsGenerator().generateLeaderCards();
-        players.get(0).setLeaderHand(new ArrayList<LeaderCard>() {{
+        players.get(0).setLeaderHand(new ArrayList<>() {{
             add(leaderCards.get(0));
             add(leaderCards.get(4));
         }});
-        players.get(1).setLeaderHand(new ArrayList<LeaderCard>() {{
+        players.get(1).setLeaderHand(new ArrayList<>() {{
             add(leaderCards.get(7));
             add(leaderCards.get(11));
         }});
-        players.get(2).setLeaderHand(new ArrayList<LeaderCard>() {{
+        players.get(2).setLeaderHand(new ArrayList<>() {{
             add(leaderCards.get(8));
             add(leaderCards.get(12));
         }});
-        players.get(3).setLeaderHand(new ArrayList<LeaderCard>() {{
+        players.get(3).setLeaderHand(new ArrayList<>() {{
             add(leaderCards.get(15));
             add(leaderCards.get(3));
         }});

@@ -5,10 +5,10 @@ import it.polimi.ingsw.server.model.ModelInterface;
 
 import java.util.List;
 
-public class PlaceResourcesReceiveEvent extends ReceiveEvent {
+public class PlaceResourcesEvent extends ReceiveEvent {
     private final List<Integer> placementChoices;
     private final boolean isFinal;
-    public PlaceResourcesReceiveEvent(String nickname, List<Integer> placementChoices,boolean isFinal) {
+    public PlaceResourcesEvent(String nickname, List<Integer> placementChoices, boolean isFinal) {
         super(nickname);
         this.placementChoices = placementChoices;
         this.isFinal = isFinal;

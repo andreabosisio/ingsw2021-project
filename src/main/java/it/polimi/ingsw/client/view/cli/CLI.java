@@ -73,6 +73,7 @@ public class CLI implements View {
      */
     @Override
     public void startNetwork() {
+        clearView();
         render(AnsiEnum.LOGO.getAsciiArt());
         cliCommandListener.registerObservers(networkHandler);
         networkHandler.startNetwork();
@@ -114,7 +115,7 @@ public class CLI implements View {
      */
     //todo print error message is a method below which does the same thing more or less?
     public static void renderError(String printable) {
-        System.out.println(AnsiEnum.RED + printable + AnsiEnum.RESET);
+        System.err.println(printable);
     }
 
     /**
@@ -147,7 +148,7 @@ public class CLI implements View {
     public void printErrorMessage(String error) {
         if (error == null)
             return;
-        render(AnsiEnum.RED + error + AnsiEnum.RESET);
+        renderError(error);
         CLI.showThreePointsAnimation();
     }
 

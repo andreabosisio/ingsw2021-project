@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.events.send.EndGameEvent;
 import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
+import it.polimi.ingsw.server.events.send.graphics.LeaderCardSlotsUpdate;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
@@ -74,7 +75,7 @@ public class EndTurnState extends State {
 
                 //graphic update of faithTracks and player's owned leaderCards
                 GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new LeaderCardSlotsUpdate()));
                 graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
                 graphicUpdateEvent.addUpdate( turnLogic.getCurrentPlayer().getNickname() + " discarded a Leader Card!");
                 turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
@@ -87,7 +88,7 @@ public class EndTurnState extends State {
             else {
                 //graphic update of leaderCards owned by the player
                 GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer()));
+                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new LeaderCardSlotsUpdate()));
                 graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " activated a Leader Card!");
                 turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             }

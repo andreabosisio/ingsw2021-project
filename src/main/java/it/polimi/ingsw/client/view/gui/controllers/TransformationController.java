@@ -86,7 +86,6 @@ public class TransformationController extends GUICommandListener {
                 chosenResources.add(possibleTransformations.get(Integer.parseInt(transformer.getId())));
             }
         }
-        System.out.println(chosenResources);
         notifyObservers(new TransformationActionEvent(chosenResources));
         Stage stage = (Stage) mainPane.getScene().getWindow();
         stage.close();

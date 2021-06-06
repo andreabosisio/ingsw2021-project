@@ -12,7 +12,7 @@ public class FaithTrack extends Printable {
     private static final int DIM_POPE_REPORTS = 3;
     private final static String EMPTY_MARKER = " ";
 
-    private static final ArrayList<String> markers = new ArrayList<String>() {{
+    private static final ArrayList<String> markers = new ArrayList<>() {{
         add(AnsiEnum.BLUE + '†' + AnsiEnum.RESET);
         add(AnsiEnum.YELLOW + '†' + AnsiEnum.RESET);
         add(AnsiEnum.GREEN + '†' + AnsiEnum.RESET);
@@ -58,13 +58,13 @@ public class FaithTrack extends Printable {
     public List<String> getPrintable() {
         List<String> faithTrack = new ArrayList<>();
 
-        ArrayList<String[]> tracks = new ArrayList<String[]>() {{
+        ArrayList<String[]> tracks = new ArrayList<>() {{
             add(t1);
             add(t2);
             add(t3);
             add(t4);
         }};
-        ArrayList<String[]> tiles = new ArrayList<String[]>() {{
+        ArrayList<String[]> tiles = new ArrayList<>() {{
             add(r1);
             add(r2);
             add(r3);

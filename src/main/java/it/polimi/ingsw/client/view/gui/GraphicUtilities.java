@@ -232,7 +232,7 @@ public class GraphicUtilities {
             } else
                 counter++;
         }
-        System.out.println();
+        // fixme why this system.out? -> System.out.println();
     }
 
     /**

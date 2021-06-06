@@ -5,11 +5,11 @@ import it.polimi.ingsw.server.model.ModelInterface;
 
 import java.util.List;
 
-public class BuyReceiveEvent extends ReceiveEvent {
+public class BuyEvent extends ReceiveEvent {
     private final String cardColor;
     private final int cardLevel;
     private final List<Integer> resourcePositions;
-    public BuyReceiveEvent(String sender, String cardColor, int cardLevel, List<Integer> resourcePositions) {
+    public BuyEvent(String sender, String cardColor, int cardLevel, List<Integer> resourcePositions) {
         super(sender);
         this.cardColor = cardColor;
         this.cardLevel = cardLevel;

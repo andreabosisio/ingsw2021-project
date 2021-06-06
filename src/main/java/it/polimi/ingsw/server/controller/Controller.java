@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.receive.ReceiveEvent;
-import it.polimi.ingsw.server.events.receive.SetupReceiveEvent;
-import it.polimi.ingsw.server.events.send.GameStartedSendEvent;
+import it.polimi.ingsw.server.events.receive.SetupEvent;
+import it.polimi.ingsw.server.events.send.GameStartedEvent;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.Lobby;
@@ -46,7 +46,7 @@ public class Controller implements ReceiveObserver {
 
         ClientHandler currentClientHandler = Lobby.getLobby().getVirtualViewByNickname(receiveEvent.getNickname()).getClientHandler();
 
-        if (modelInterface.getCurrentPlayerNickname().equals(receiveEvent.getNickname()) || receiveEvent instanceof SetupReceiveEvent) {
+        if (modelInterface.getCurrentPlayerNickname().equals(receiveEvent.getNickname()) || receiveEvent instanceof SetupEvent) {
             try {
                 receiveEvent.doAction(modelInterface);
             } catch (InvalidIndexException | NonStorableResourceException | EmptySlotException | NonAccessibleSlotException | InvalidEventException e) {
@@ -72,7 +72,7 @@ public class Controller implements ReceiveObserver {
         virtualViews.forEach(modelInterface::registerObserver);
         virtualViews.forEach(virtualView -> virtualView.registerObserver(this));
         //notify players of game starting
-        modelInterface.notifyObservers(new GameStartedSendEvent(nicknames));
+        modelInterface.notifyObservers(new GameStartedEvent(nicknames));
         modelInterface.startSetup();
     }
 

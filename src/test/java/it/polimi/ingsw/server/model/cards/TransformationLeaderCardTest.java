@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TransformationLeaderCardTest {
     final List<LeaderCard> leaderCards = new CardsGenerator().generateLeaderCards();
-    final List<String> nickname = new ArrayList<String>(){{
+    final List<String> nickname = new ArrayList<>() {{
         add("Ubaldo");
     }};
     final ModelInterface modelInterface = new ModelInterface(nickname);

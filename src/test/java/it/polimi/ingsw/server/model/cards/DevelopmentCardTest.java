@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DevelopmentCardTest {
 
     final CardsGenerator devCardGenerator = new CardsGenerator();
-    final ModelInterface modelInterface = new ModelInterface(new ArrayList<String>(){{
+    final ModelInterface modelInterface = new ModelInterface(new ArrayList<>() {{
         add("Simone");
         add("Andrea");
     }});
@@ -88,14 +88,14 @@ class DevelopmentCardTest {
     @Test
     void getterTest(){
             devCard = devCards.get(19);
-        List<Resource> correctPrice = new ArrayList<Resource>(){{
+        List<Resource> correctPrice = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.BLUE));
             add(new StorableResource(ResourceEnum.BLUE));
         }};
-        List<Resource> correctInResources = new ArrayList<Resource>(){{
+        List<Resource> correctInResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.YELLOW));
         }};
-        List<Resource> correctOutResources = new ArrayList<Resource>(){{
+        List<Resource> correctOutResources = new ArrayList<>() {{
             add(new RedResource());
         }};
         assertEquals(correctPrice, devCard.getPrice());
@@ -108,7 +108,7 @@ class DevelopmentCardTest {
     @Test
     void usePowerTest(){
         devCard = devCards.get(9);
-        List<Resource> correctOutResources = new ArrayList<Resource>(){{
+        List<Resource> correctOutResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.PURPLE));
             add(new StorableResource((ResourceEnum.PURPLE)));
             add(new RedResource());
@@ -125,7 +125,7 @@ class DevelopmentCardTest {
 
         //----------------
 
-        List<Resource> strongBoxResources = new ArrayList<Resource>(){{
+        List<Resource> strongBoxResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.YELLOW));
             add(new StorableResource(ResourceEnum.YELLOW));
             add(new StorableResource(ResourceEnum.YELLOW));
@@ -137,12 +137,12 @@ class DevelopmentCardTest {
         discount = new ArrayList<>();
 
         //correct resources for payment
-        paymentResourcePositions = new ArrayList<Integer>(){{
-           add(14);
-           add(15);
-           add(16);
-           add(17);
-           add(18);
+        paymentResourcePositions = new ArrayList<>() {{
+            add(14);
+            add(15);
+            add(16);
+            add(17);
+            add(18);
         }};
 
         assertTrue(devCard.buyCard(turnLogic.getCurrentPlayer(), paymentResourcePositions, discount));
@@ -153,7 +153,7 @@ class DevelopmentCardTest {
         paymentResourcePositions.clear();
         warehouse.reorderStrongBox();
 
-        strongBoxResources = new ArrayList<Resource>(){{
+        strongBoxResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.YELLOW));
             add(new StorableResource(ResourceEnum.YELLOW));
             add(new StorableResource(ResourceEnum.YELLOW));
@@ -166,20 +166,20 @@ class DevelopmentCardTest {
         discount.add(new StorableResource(ResourceEnum.YELLOW));
 
         //correct resources for payment with discount
-        paymentResourcePositions = new ArrayList<Integer>(){{
+        paymentResourcePositions = new ArrayList<>() {{
             add(15);
             add(16);
             add(18);
         }};
 
-        List<Resource> remainingResources = new ArrayList<Resource>(){{
+        List<Resource> remainingResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.YELLOW));
             add(new StorableResource(ResourceEnum.GRAY));
         }};
 
         assertTrue(devCard.buyCard(turnLogic.getCurrentPlayer(), paymentResourcePositions, discount));
         assertEquals(warehouse.getResources(paymentResourcePositions).size(), 0);
-        assertEquals(warehouse.takeResources(new ArrayList<Integer>(){{
+        assertEquals(warehouse.takeResources(new ArrayList<>() {{
             add(14);
             add(17);
         }}), remainingResources);
@@ -192,7 +192,7 @@ class DevelopmentCardTest {
 
         //----------------
 
-        List<Resource> incorrectResources = new ArrayList<Resource>(){{
+        List<Resource> incorrectResources = new ArrayList<>() {{
             add(new StorableResource(ResourceEnum.YELLOW));
             add(new StorableResource(ResourceEnum.PURPLE));
             add(new StorableResource(ResourceEnum.BLUE));
@@ -201,7 +201,7 @@ class DevelopmentCardTest {
         warehouse.addResourcesToStrongBox(incorrectResources);
 
         //incorrect resources for payment
-        paymentResourcePositions = new ArrayList<Integer>(){{
+        paymentResourcePositions = new ArrayList<>() {{
             add(14);
             add(15);
             add(16);

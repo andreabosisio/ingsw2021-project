@@ -1,16 +1,16 @@
 package it.polimi.ingsw.client.network;
 
 import com.google.gson.*;
-import it.polimi.ingsw.client.events.send.SendEvent;
 import it.polimi.ingsw.client.events.receive.*;
-import it.polimi.ingsw.client.network.ConnectionToServer;
+import it.polimi.ingsw.client.events.send.SendEvent;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
 import it.polimi.ingsw.client.view.View;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.Socket;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -18,12 +18,12 @@ import java.util.concurrent.Executors;
  * This class is Observer of the CLI/GUI CommandListener class.
  */
 public class NetworkHandler implements CommandListenerObserver {
-    private final ConnectionToServer connectionToServer;
-    private final Socket socket;
+    private final Connection connection;
     private final View view;
     private String nickname;
 
-    private final Map<String, Object> messageTypeMap = new HashMap<String, Object>() {{
+
+    private final Map<String, Object> messageTypeMap = new HashMap<>() {{
         put("info", InfoMessageEvent.class);
         put("error", ErrorMessageEvent.class);
         put("login", LoginEvent.class);
@@ -33,11 +33,11 @@ public class NetworkHandler implements CommandListenerObserver {
         put("graphicUpdate", GraphicUpdateEvent.class);
         put("placeDevCard", PlaceDevCardReceiveEvent.class);
         put("transformation", TransformationReceiveEvent.class);
-        put("startTurn",StartTurnUpdateEvent.class);
-        put("placeResources",PlaceResourcesReceiveEvent.class);
-        put("endTurnChoice",EndTurnReceiveEvent.class);
-        put("gameStarted",GameStartedEvent.class);
-        put("endGame",EndGameEvent.class);
+        put("startTurn", StartTurnUpdateEvent.class);
+        put("placeResources", PlaceResourcesReceiveEvent.class);
+        put("endTurnChoice", EndTurnReceiveEvent.class);
+        put("gameStarted", GameStartedEvent.class);
+        put("endGame", EndGameEvent.class);
         put("reconnect",ReconnectEvent.class);
     }};
 
@@ -48,9 +48,14 @@ public class NetworkHandler implements CommandListenerObserver {
 
     //todo regex check
     public NetworkHandler(String ip, int port, View view) throws IOException {
-        this.socket = new Socket(ip, port);
+        Socket socket = new Socket(ip, port);
         this.view = view;
-        this.connectionToServer = new ConnectionToServer(socket);
+        this.connection = new ConnectionToServer(socket);
+    }
+
+    public NetworkHandler(View view) {
+        this.view = view;
+        this.connection = new FakeConnection();
     }
 
     /**
@@ -60,10 +65,10 @@ public class NetworkHandler implements CommandListenerObserver {
 
         String message;
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.submit(connectionToServer);
+        executor.submit(connection);
 
         while (true) {
-            message = connectionToServer.getMessage();
+            message = connection.getMessage();
             //message is null = IOException in getMessage
             if (message == null) {
                 break;
@@ -100,10 +105,10 @@ public class NetworkHandler implements CommandListenerObserver {
 
     @Override
     public void update(SendEvent sendEvent) {
-        connectionToServer.sendMessage(sendEvent.toJson(nickname));
+        connection.sendMessage(sendEvent.toJson(nickname));
     }
 
     public void close(){
-        connectionToServer.close(true);
+        connection.close(true);
     }
 }

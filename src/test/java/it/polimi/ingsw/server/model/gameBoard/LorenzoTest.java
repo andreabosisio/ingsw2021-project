@@ -151,7 +151,7 @@ public class LorenzoTest {
 
     @Test
     void lorenzoDoingNothingTest() {
-        TurnLogic turnLogic = new TurnLogic(new ArrayList<Player>(){{
+        TurnLogic turnLogic = new TurnLogic(new ArrayList<>() {{
             add(new Player("player1"));
             add(new Player("player2"));
         }},null);

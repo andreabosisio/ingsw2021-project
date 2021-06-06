@@ -28,16 +28,16 @@ public class ClientHandler implements Runnable {
     private static final String CREDENTIALS_REGEXP = "^[a-zA-Z0-9_-]{3,15}$";
     private static final Pattern CREDENTIALS_PATTERN = Pattern.compile(CREDENTIALS_REGEXP);
 
-    private final Map<String, Object> receiveEventByJsonType = new HashMap<String, Object>() {{
-        put("buyAction", BuyReceiveEvent.class);
-        put("cardPlacementAction", PlaceDevCardReceiveEvent.class);
-        put("setupAction", SetupReceiveEvent.class);
-        put("endTurnAction", EndTurnReceiveEvent.class);
-        put("leaderAction", LeaderReceiveEvent.class);
-        put("marketAction", MarketReceiveEvent.class);
-        put("productionAction", ProductionReceiveEvent.class);
-        put("resourcesPlacementAction", PlaceResourcesReceiveEvent.class);
-        put("transformationAction", TransformationReceiveEvent.class);
+    private final Map<String, Object> receiveEventByJsonType = new HashMap<>() {{
+        put("buyAction", BuyEvent.class);
+        put("cardPlacementAction", PlaceDevelopmentCardEvent.class);
+        put("setupAction", SetupEvent.class);
+        put("endTurnAction", EndTurnEvent.class);
+        put("leaderAction", LeaderHandEvent.class);
+        put("marketAction", MarketEvent.class);
+        put("productionAction", ProductionEvent.class);
+        put("resourcesPlacementAction", PlaceResourcesEvent.class);
+        put("transformationAction", TransformationEvent.class);
     }};
 
     public ClientHandler(Socket socket) {

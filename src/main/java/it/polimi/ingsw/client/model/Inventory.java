@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Inventory extends Printable {
-    private Map<Integer, String> warehouse;
-    private List<String> activeLeadersIDs;
+    private final Map<Integer, String> warehouse;
+    private final List<String> activeLeadersIDs;
     private final static int N_SLOTS = 50;
     private final static char WAREHOUSE_LEADER_CARD_ID_PREFIX = 'w';
     private final static String NON_ACCESSIBLE_SLOT_SYMBOL = " X ";
@@ -52,8 +52,7 @@ public class Inventory extends Printable {
             slots[i] = Marble.getPrintable(warehouse.getOrDefault(i, Marble.getEmptyResId()));
         }
         int j = FIRST_EXTRA_SLOT_INIT_INDEX;
-        for (int i = 0; i < activeLeadersIDs.size(); i++) {
-            String currLeaderCardID = activeLeadersIDs.get(i);
+        for (String currLeaderCardID : activeLeadersIDs) {
             if (currLeaderCardID.charAt(0) == WAREHOUSE_LEADER_CARD_ID_PREFIX) {
                 for (int k = 0; k < EXTRA_SLOTS_DIM; k++, j++) {
                     if (slots[j].equals(AnsiEnum.EMPTY_RES))

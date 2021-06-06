@@ -9,7 +9,7 @@ public class PrintableScene extends Printable {
     private final List<String> scene;
 
     public PrintableScene(String scene) {
-        this.scene = new ArrayList<String>(){{
+        this.scene = new ArrayList<>() {{
             add(scene);
         }};
         setWidth(this.scene);

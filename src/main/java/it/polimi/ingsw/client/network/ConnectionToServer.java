@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class ConnectionToServer implements Runnable {
+public class ConnectionToServer implements Connection {
     private final static String PONG_MESSAGE = "pong";
     private final static String QUIT_TYPE = "quit";
     private final Socket socket;
@@ -19,7 +19,7 @@ public class ConnectionToServer implements Runnable {
     private PrintWriter out;
     private final BlockingQueue<String> messagesFromServer = new LinkedBlockingQueue<>();
     private boolean receivedPing;
-    private Timer timer;
+    private final Timer timer;
     //must be higher than the ping period
     private final static int TIMER_DELAY = 6000;//in milliseconds
     private final static String PING_MESSAGE = "ping";

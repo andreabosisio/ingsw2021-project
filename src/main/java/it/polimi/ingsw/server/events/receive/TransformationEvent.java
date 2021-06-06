@@ -6,10 +6,10 @@ import it.polimi.ingsw.server.model.ModelInterface;
 
 import java.util.List;
 
-public class TransformationReceiveEvent extends ReceiveEvent {
+public class TransformationEvent extends ReceiveEvent {
     private final List<String> chosenResources;
 
-    public TransformationReceiveEvent(String nickname, List<String> chosenResources) {
+    public TransformationEvent(String nickname, List<String> chosenResources) {
         super(nickname);
         this.chosenResources = chosenResources;
     }
