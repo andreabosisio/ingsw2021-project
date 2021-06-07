@@ -11,6 +11,11 @@ import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * This class is used by the NetworkHandler to read the messages from the Server and to send messages via Socket:
+ * all the messages received from the Server are added in a Queue.
+ * It's aim is also to manage all of that concerne the Socket.
+ */
 public class ConnectionToServer implements Connection {
     private final static String PONG_MESSAGE = "pong";
     private final static String QUIT_TYPE = "quit";
@@ -31,6 +36,10 @@ public class ConnectionToServer implements Connection {
         this.timer = new Timer();
     }
 
+    /**
+     * This method saves the BufferedReader and the PrintWriter
+     * They will be used to send and receive messages through the socket
+     */
     private void startConnection() {
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -42,10 +51,21 @@ public class ConnectionToServer implements Connection {
         }
     }
 
+    /**
+     * This method is used to send a plain text message through the socket
+     *
+     * @param message message to send
+     */
     public void sendMessage(String message) {
         out.println(message);
     }
 
+    /**
+     * This method is used to return the plain text messages received from the Server:
+     * it retrieves and removes the head of the queue, waiting if necessary until an element becomes available.
+     *
+     * @return the head of the queue
+     */
     public String getMessage() {
         String message = null;
         try {
@@ -57,6 +77,9 @@ public class ConnectionToServer implements Connection {
         return message;
     }
 
+    /**
+     * This method is used to safely close the connection with the Server
+     */
     public void close(boolean inform) {
         try {
             if(inform) {
@@ -75,10 +98,17 @@ public class ConnectionToServer implements Connection {
         }
     }
 
+    /**
+     * This method send the pong message to answer to a ping message from the Server
+     */
     private void sendPong() {
         out.println(PONG_MESSAGE);
     }
 
+    /**
+     * In this method a Thread remain in listen of the messages from the Network
+     * and add them in the Queue
+     */
     @Override
     public void run() {
         String message;

@@ -6,6 +6,9 @@ import it.polimi.ingsw.client.view.cli.Printable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that has the capacity to return a printable version of a Basic Power Card
+ */
 public class BasicPowerCard extends DevelopmentCard{
 
     public BasicPowerCard(String iD) {

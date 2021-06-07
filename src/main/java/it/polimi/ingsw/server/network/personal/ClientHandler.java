@@ -58,7 +58,7 @@ public class ClientHandler implements Runnable {
         game();
 
     }
-
+    //todo: java doc e metodo un po' lungo?
     private void login() {
         while (status == StatusEnum.LOGIN) {
 

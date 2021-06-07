@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
+/**
+ * This class has the purpose to manage the first phase of the Game: the Setup Phase of all the Players
+ */
 public class SetupManager {
     private final List<Integer> numberOfResourcesToChoose = new ArrayList<>() {{
         add(0);

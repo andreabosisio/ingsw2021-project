@@ -6,8 +6,9 @@ import java.io.*;
 import java.net.Socket;
 
 /**
- * This class is used by the ClientHandler to send messages via Socket
- * It's aim is to manage all of that concerne the Socket of the Client.
+ * This class is used by the ClientHandler to read the messages from the Client and
+ * to send messages via Socket.
+ * It's aim is also to manage all of that concerne the Socket.
  */
 public class ConnectionToClient {
     private BufferedReader in;
@@ -22,7 +23,7 @@ public class ConnectionToClient {
 
     /**
      * This method saves the BufferedReader and the PrintWriter
-     * They will be used to send messages through the socket
+     * They will be used to send and receive messages through the socket
      */
     private void startConnection() {
         try {

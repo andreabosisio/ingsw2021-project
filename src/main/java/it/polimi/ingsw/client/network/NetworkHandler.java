@@ -15,13 +15,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * This class is Observer of the CLI/GUI CommandListener class.
+ * This class is Observer of the CLI/GUI CommandListener class:
+ * from them it receives the Events to send to the Server,
+ * it creates the specific Json File and through the Connection class it sends the message just created.
+ * In addition, it picks up the messages from the Server (saved in a Queue located in the Connection class)
+ * and it creates the correct Events.
  */
 public class NetworkHandler implements CommandListenerObserver {
     private final Connection connection;
     private final View view;
     private String nickname;
-
 
     private final Map<String, Object> messageTypeMap = new HashMap<>() {{
         put("info", InfoMessageEvent.class);
@@ -38,13 +41,8 @@ public class NetworkHandler implements CommandListenerObserver {
         put("endTurnChoice", EndTurnReceiveEvent.class);
         put("gameStarted", GameStartedEvent.class);
         put("endGame", EndGameEvent.class);
-        put("reconnect",ReconnectEvent.class);
+        put("reconnect", ReconnectEvent.class);
     }};
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-        view.setNickname(nickname);
-    }
 
     //todo regex check
     public NetworkHandler(String ip, int port, View view) throws IOException {
@@ -59,7 +57,17 @@ public class NetworkHandler implements CommandListenerObserver {
     }
 
     /**
-     * Read event from the Queue and handle it
+     * Method that set the Nickname of the Player
+     *
+     * @param nickname of the Player
+     */
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+        view.setNickname(nickname);
+    }
+
+    /**
+     * Method that reads events from the Queue and handles it
      */
     public void startNetwork() {
 
@@ -80,6 +88,12 @@ public class NetworkHandler implements CommandListenerObserver {
         System.out.println("Socket generated an IOException");
     }
 
+    /**
+     * Method that creates a specific Event from a message serialized as a Json message and
+     * it calls his method updateView(View view)
+     *
+     * @param message is the String message received from the Server
+     */
     private void handleAction(String message) {
         Gson gson = new Gson();
         try {
@@ -103,12 +117,22 @@ public class NetworkHandler implements CommandListenerObserver {
         }
     }
 
+    /**
+     * This method creates the Json File from an Object of type SendEvent and
+     * it sends the message through the class Connection.
+     *
+     * @param sendEvent Event to send to the Server
+     */
     @Override
     public void update(SendEvent sendEvent) {
         connection.sendMessage(sendEvent.toJson(nickname));
     }
 
-    public void close(){
+    /**
+     * Calls the method close of the class Connection
+     * to close the connection with the Server.
+     */
+    public void close() {
         connection.close(true);
     }
 }
