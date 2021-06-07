@@ -139,24 +139,32 @@ public class GUI extends Application implements View {
     public void setOnDevelopmentCardPlacement(String newCardID) {
         Platform.runLater(() -> {
             personalController.showCardPlacementPopup(newCardID);
+            personalController.activateBoard();
         });
     }
 
     @Override
     public void setOnResourcesPlacement() {
-        Platform.runLater(personalController::activateSwaps);
+        Platform.runLater(()->{
+            personalController.activateSwaps();
+            personalController.activateBoard();
+        });
     }
 
     @Override
     public void setOnTransformation(int numberOfTransformation, List<String> possibleTransformations) {
         Platform.runLater(() -> {
             personalController.showTransformationPopup(numberOfTransformation, possibleTransformations);
+            personalController.activateBoard();
         });
     }
 
     @Override
     public void setOnEndTurn() {
+        personalController.activateBoard();
     }
+
+
 
     @Override
     public void setOnEndGame(String winner, Map<String, Integer> playersPoints) {
