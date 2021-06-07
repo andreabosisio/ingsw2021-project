@@ -121,8 +121,8 @@ public class SetupManager {
                 for (Player player : modelInterface.getTurnLogic().getPlayers())
                     graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player, new LeaderCardSlotsUpdate(), new ProductionSlotsUpdate(), new WarehouseUpdate()));
                 modelInterface.notifyObservers(graphicUpdateEvent);
-                modelInterface.notifyObservers(new StartTurnEvent(modelInterface.getCurrentPlayerNickname(),false));
-                modelInterface.getTurnLogic().setLastEventSent(new StartTurnEvent(modelInterface.getCurrentPlayerNickname(),true));
+                modelInterface.notifyObservers(new StartTurnEvent(modelInterface.getCurrentPlayerNickname()));
+                modelInterface.getTurnLogic().setLastEventSent(new StartTurnEvent(modelInterface.getCurrentPlayerNickname(),modelInterface.getCurrentPlayerNickname()));
             }
             return true;
         }

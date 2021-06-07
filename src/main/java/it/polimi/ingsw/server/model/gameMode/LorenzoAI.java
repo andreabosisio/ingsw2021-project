@@ -32,7 +32,7 @@ public class LorenzoAI implements Lorenzo{
     @Override
     public boolean play(TurnLogic turnLogic) {
         //notify that lorenzo is playing his turn
-        turnLogic.getModelInterface().notifyObservers(new StartTurnEvent(this.getNickname(), false));
+        turnLogic.getModelInterface().notifyObservers(new StartTurnEvent(this.getNickname()));
 
         if (soloActionTokens.get(tokensDeckIndex).doAction(this, turnLogic)) {
             tokensDeckIndex = 0;

@@ -87,10 +87,13 @@ public class TurnLogic {
             return;
         }
         setCurrentState(getStartTurn());
-        modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname(), false));
-        setLastEventSent(new StartTurnEvent(getCurrentPlayer().getNickname(), true));
         if (!currentPlayer.prepareTurn(this)) {
+            modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname()));
+            setLastEventSent(new StartTurnEvent(getCurrentPlayer().getNickname(), getCurrentPlayer().getNickname()));
             reset();
+        }
+        else{
+            modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname(),players.stream().map(Player::getNickname).filter(n->!n.equals(currentPlayer.getNickname())).toArray(String[]::new)));
         }
     }
 
@@ -329,7 +332,7 @@ public class TurnLogic {
             } else {
                 setNextPlayer();
                 setCurrentState(startTurn);
-                setLastEventSent(new StartTurnEvent(currentPlayer.getNickname(), true));
+                setLastEventSent(new StartTurnEvent(currentPlayer.getNickname(), currentPlayer.getNickname()));
             }
         }
     }
