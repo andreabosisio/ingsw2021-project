@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.DevelopmentCardsDatabase;
 import it.polimi.ingsw.client.model.Marble;
+import it.polimi.ingsw.client.model.StorableResourceEnum;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -383,5 +384,24 @@ public class GraphicUtilities {
             resImage.setImage(new Image(file.toURI().toString()));
             i++;
         }
+    }
+
+    /**
+     * This method is used to load in a ImageView of a button containing a resource
+     * the image of the next resource in line
+     *
+     * @param button button containing the imageView to change
+     */
+    public static void loopResources(Button button) {
+        int number = Integer.parseInt(button.getId());
+        number++;
+        if(number >= StorableResourceEnum.values().length){
+            number = 0;
+        }
+        button.setId(String.valueOf(number));
+        File file = new File("src/main/resources/images/resources/" + StorableResourceEnum.values()[number].toString().toLowerCase(Locale.ROOT)+".png");
+        ImageView imageView = (ImageView) button.getGraphic();
+        imageView.setImage(new Image(file.toURI().toString()));
+        button.setGraphic(imageView);
     }
 }

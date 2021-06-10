@@ -134,16 +134,7 @@ public class SetupController extends GUICommandListener {
      * @param button button with the ImageView of the resource inside
      */
     private void changeResourceAction(Button button){
-        int number = Integer.parseInt(button.getId());
-        number++;
-        if(number >= StorableResourceEnum.values().length){
-            number = 0;
-        }
-        button.setId(String.valueOf(number));
-        File file = new File("src/main/resources/images/resources/" + StorableResourceEnum.values()[number].toString().toLowerCase(Locale.ROOT)+".png");
-        ImageView imageView = (ImageView) button.getGraphic();
-        imageView.setImage(new Image(file.toURI().toString()));
-        button.setGraphic(imageView);
+        GraphicUtilities.loopResources(button);
     }
 
     /**

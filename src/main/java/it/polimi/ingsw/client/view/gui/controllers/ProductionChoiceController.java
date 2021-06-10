@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.model.StorableResourceEnum;
+import it.polimi.ingsw.client.view.gui.GraphicUtilities;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -42,15 +43,6 @@ public class ProductionChoiceController {
     }
 
     private void changeResourceAction(Button button){
-        int number = Integer.parseInt(button.getId());
-        number++;
-        if(number >= StorableResourceEnum.values().length){
-            number = 0;
-        }
-        button.setId(String.valueOf(number));
-        File file = new File("src/main/resources/images/resources/" + StorableResourceEnum.values()[number].toString().toLowerCase(Locale.ROOT)+".png");
-        ImageView imageView = (ImageView) button.getGraphic();
-        imageView.setImage(new Image(file.toURI().toString()));
-        button.setGraphic(imageView);
+        GraphicUtilities.loopResources(button);
     }
 }
