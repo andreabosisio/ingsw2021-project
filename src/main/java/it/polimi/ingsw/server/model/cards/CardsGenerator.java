@@ -88,7 +88,7 @@ public class CardsGenerator {
             System.err.println("file not found");
             e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("errore format nel file json");
+            System.err.println("error in the json file format");
             e.printStackTrace();
         }
         return developmentCards;
@@ -191,7 +191,7 @@ public class CardsGenerator {
             System.err.println("file not found");
             e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("errore nel file json");
+            System.err.println("error in the json file format");
             e.printStackTrace();
         }
         return leaderCards;

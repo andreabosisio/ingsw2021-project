@@ -399,7 +399,7 @@ public class GraphicUtilities {
             number = 0;
         }
         button.setId(String.valueOf(number));
-        File file = new File("src/main/resources/images/resources/" + StorableResourceEnum.values()[number].toString().toLowerCase(Locale.ROOT)+".png");
+        File file = new File(resourcesPath + StorableResourceEnum.values()[number].toString().toLowerCase(Locale.ROOT)+endOfPath);
         ImageView imageView = (ImageView) button.getGraphic();
         imageView.setImage(new Image(file.toURI().toString()));
         button.setGraphic(imageView);

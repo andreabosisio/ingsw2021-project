@@ -33,6 +33,7 @@ public class DevelopmentCardsDatabase {
         return EMPTY_CARD_ID;
     }
 
+    //fixme unused method
     public static String getBasicCardId() {
         return BASIC_CARD_ID;
     }
@@ -49,6 +50,9 @@ public class DevelopmentCardsDatabase {
         return instance;
     }
 
+    /**
+     * Constructor of the database instance
+     */
     private DevelopmentCardsDatabase() {
         firstSetup();
     }
@@ -61,14 +65,26 @@ public class DevelopmentCardsDatabase {
      * @return the number of the Card in the Json file
      */
     private int getNumberOfCard(String cardID) {
-        String[] splittedCardIndex = cardID.split("_");
-        return Integer.parseInt(splittedCardIndex[2]) - 1;
+        String[] splitCardIndex = cardID.split("_");
+        return Integer.parseInt(splitCardIndex[2]) - 1;
     }
 
+    /**
+     * Method used to get the level of a card from its ID
+     *
+     * @param cardID ID of the card
+     * @return the level of the card
+     */
     public int getLevelOf(String cardID) {
         return Integer.parseInt(devCardsLevel.get(getNumberOfCard(cardID)));
     }
 
+    /**
+     * Method used to get the color of a card from its ID
+     *
+     * @param cardID ID of the card
+     * @return the color of the card
+     */
     public String getColorOf(String cardID) {
         return devCardsColor.get(getNumberOfCard(cardID));
     }
@@ -94,14 +110,14 @@ public class DevelopmentCardsDatabase {
             cardPriceList.add(price.split("_"));
         }
 
-        // splittedPrice[0]: Number of resources, splittedPrice[1]: Color of the resource
-        for (String[] splittedPrice : cardPriceList) {
+        // splitPrice[0]: Number of resources, splitPrice[1]: Color of the resource
+        for (String[] splitPrice : cardPriceList) {
             if (t == 0)
-                cardPrice[0] = AnsiEnum.colorString(splittedPrice[0], splittedPrice[1]);
+                cardPrice[0] = AnsiEnum.colorString(splitPrice[0], splitPrice[1]);
             else if (t == 1)
-                cardPrice[1] = AnsiEnum.colorString(splittedPrice[0], splittedPrice[1]);
+                cardPrice[1] = AnsiEnum.colorString(splitPrice[0], splitPrice[1]);
             else if (t == 2)
-                cardPrice[2] = AnsiEnum.colorString(splittedPrice[0], splittedPrice[1]);
+                cardPrice[2] = AnsiEnum.colorString(splitPrice[0], splitPrice[1]);
             t++;
         }
 
@@ -141,14 +157,14 @@ public class DevelopmentCardsDatabase {
             cardInResourcesList.add(inResource.split("_"));
         }
 
-        // splittedInResources[0]: Number of resources, splittedInResources[1]: Color of the resource
-        for (String[] splittedInResources : cardInResourcesList) {
+        // splitInResources[0]: Number of resources, splitInResources[1]: Color of the resource
+        for (String[] splitInResources : cardInResourcesList) {
             if (t == 0)
-                cardInResources[0] = AnsiEnum.colorString(splittedInResources[0], splittedInResources[1]);
+                cardInResources[0] = AnsiEnum.colorString(splitInResources[0], splitInResources[1]);
             else if (t == 1)
-                cardInResources[1] = AnsiEnum.colorString(splittedInResources[0], splittedInResources[1]);
+                cardInResources[1] = AnsiEnum.colorString(splitInResources[0], splitInResources[1]);
             else if (t == 2)
-                cardInResources[2] = AnsiEnum.colorString(splittedInResources[0], splittedInResources[1]);
+                cardInResources[2] = AnsiEnum.colorString(splitInResources[0], splitInResources[1]);
             t++;
         }
 
@@ -187,14 +203,14 @@ public class DevelopmentCardsDatabase {
             cardOutResourcesList.add(outResource.split("_"));
         }
 
-        // splittedOutResources[0]: Number of resources, splittedOutResources[1]: Color of the resource
-        for (String[] splittedOutResources : cardOutResourcesList) {
+        // splitOutResources[0]: Number of resources, splitOutResources[1]: Color of the resource
+        for (String[] splitOutResources : cardOutResourcesList) {
             if (t == 0)
-                cardOutResources[0] = AnsiEnum.colorString(splittedOutResources[0], splittedOutResources[1]);
+                cardOutResources[0] = AnsiEnum.colorString(splitOutResources[0], splitOutResources[1]);
             else if (t == 1)
-                cardOutResources[1] = AnsiEnum.colorString(splittedOutResources[0], splittedOutResources[1]);
+                cardOutResources[1] = AnsiEnum.colorString(splitOutResources[0], splitOutResources[1]);
             else if (t == 2)
-                cardOutResources[2] = AnsiEnum.colorString(splittedOutResources[0], splittedOutResources[1]);
+                cardOutResources[2] = AnsiEnum.colorString(splitOutResources[0], splitOutResources[1]);
             t++;
         }
 
@@ -292,7 +308,7 @@ public class DevelopmentCardsDatabase {
             System.err.println("file not found");
             e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("errore format nel file json");
+            System.err.println("error in the json file format");
             e.printStackTrace();
         }
     }

@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
  */
 public class ClientHandler implements Runnable {
     private String nickname;
+    private String password;
     private StatusEnum status;
     private final ConnectionToClient connectionToClient;
     private final Gson gson;
@@ -48,22 +49,21 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         status = StatusEnum.LOGIN;
-
-        //sendInfoMessage("Welcome to Maestri del Rinascimento");
-
         // 1- Wait for valid nickname and password
         login();
-
-        // 3- In game/
+        // 2- In Lobby/Game
         game();
 
     }
-    //todo: java doc e metodo un po' lungo?
+
+    /**
+     * This method is used to handle the login phase of the player
+     * A player will remain in this method till he is successfully added to the lobby
+     * or if he rejoins an ongoing game
+     */
     private void login() {
         while (status == StatusEnum.LOGIN) {
-
             sendSpecificTypeMessage(TYPE_LOGIN);
-
             String message = connectionToClient.getMessage();
             JsonObject jsonObject = getAsJsonObject(message);
             if (jsonObject == null) {
@@ -79,90 +79,156 @@ public class ClientHandler implements Runnable {
                 sendErrorMessage("invalid login json");
                 continue;//go back to reading a new message
             }
-            String nickname = jsonObject.get("nickname").getAsString();
-            String password = jsonObject.get("password").getAsString();
+            this.nickname = jsonObject.get("nickname").getAsString();
+            this.password = jsonObject.get("password").getAsString();
             //check if username and password are acceptable
             if (!checkCredentials(nickname, password)) {
                 sendErrorMessage("nickname/password not permitted");
                 continue;
             }
             virtualView = Lobby.getLobby().getVirtualViewByNickname(nickname);
-            //new player
-            if (virtualView == null) {
-                //check if Lobby is full
-                if (Lobby.getLobby().isFull()) {
-                    sendErrorMessage("cannot join: Server is full");
-                    kill(true);
-                    return;
-                }
-                //check if a game is ongoing even if some players are disconnected
-                if (Lobby.getLobby().isGameStarted()) {
-                    sendErrorMessage("a game is currently ongoing");
-                    kill(true);
-                    return;
-                }
-                virtualView = new VirtualView(nickname, password, this);
-                //addVirtualView is synchronized and recheck for new player to be multiThread safe
-                if (!Lobby.getLobby().addVirtualView(virtualView)) {
-                    sendErrorMessage("how unlucky! this nickname was taken a moment ago");
-                    continue;//go back to reading message
-                }
-                this.nickname = nickname;
-                sendInfoMessage("Joining lobby... ");
-                //try to start game
-                //synchronized segment for first in lobby(further testing on what to synchronize on is required)
-                synchronized (Server.getServer()) {
-                    if (Lobby.getLobby().isFirstInLobby()) {
-                        String answer;
-                        boolean stillDeciding = true;
-                        while (stillDeciding) {
-                            sendSpecificTypeMessage(TYPE_LOBBY_NUMBER_CHOICE, "between " + Lobby.MIN_PLAYERS + " and " + Lobby.MAX_PLAYERS);
-                            answer = connectionToClient.getMessage();
-                            JsonObject jsonAnswerObject = getAsJsonObject(answer);
-                            if (jsonAnswerObject == null) {
-                                continue;
-                            }
-                            String answerType = jsonAnswerObject.get("type").getAsString();
-                            if (answerType.equals(TYPE_QUIT)) {
-                                kill(true);
-                                return;
-                            }
-                            if (!answerType.equals(TYPE_LOBBY_NUMBER_CHOICE) || !jsonAnswerObject.has("size")) {
-                                continue;//go back to reading a new message
-                            }
-                            int choice = jsonAnswerObject.get("size").getAsInt();
-                            if (Lobby.getLobby().setNumberOfPlayers(choice, nickname)) {
-                                stillDeciding = false;
-                                status = StatusEnum.GAME;
-                            }
-                        }
-                    } else if (virtualView.isOnline()) {
-                        clearMessageStack();
-                    }
-                    status = StatusEnum.GAME;
-                    if (!Lobby.getLobby().isGameStarted()) {
-                        sendSpecificTypeMessage(TYPE_MATCHMAKING);
-                    }
-                    Lobby.getLobby().updateLobbyState();
-                }
-                //try to start game
-            } else if (virtualView.isOnline()) {
-                //nickname already in use
-                sendErrorMessage("Nickname already in use");
-            } else {
-                //is trying to reconnect
-                if (password.equals(virtualView.getPassword())) {
-                    this.nickname = nickname;
-                    virtualView.reconnect(this);
-                    sendInfoMessage("You are now reconnected");
-                    status = StatusEnum.GAME;
-                } else {
-                    sendErrorMessage("Incorrect password");
-                }
+            if(handleLoginType()){
+                return;
             }
         }
     }
 
+    /**
+     * This method is used to handle the 2 different types of login a player can attempt
+     * 1 first time login
+     * 2 reconnection to an ongoing game
+     *
+     * @return true if the player was unable to join/rejoin
+     */
+    private boolean handleLoginType(){
+        if (virtualView == null) {
+            return firstTimeConnection();
+        }
+        else if (virtualView.isOnline()) {//try to start game
+            sendErrorMessage("Nickname already in use");//nickname already in use
+        }
+        else {
+            reConnection();
+        }
+        return false;
+    }
+
+    /**
+     * This method is used to try and connect a player for the first time
+     * If the player is the first one in the lobby he is also asked to decide the lobby size
+     *
+     * @return true If the player couldn't be added to the lobby or if he wishes to leave
+     */
+    private boolean firstTimeConnection(){
+        if(unableToJoin()){
+            return true;
+        }
+        virtualView = new VirtualView(nickname, password, this);
+        if (!Lobby.getLobby().addVirtualView(virtualView)) {
+            sendErrorMessage("how unlucky! this nickname was taken a moment ago");
+            return false;//go back to reading message
+        }
+        sendInfoMessage("Joining lobby... ");
+        return !firstInLobby();
+    }
+
+    /**
+     * This method handles the connection attempt of the player
+     * It does so by checking if the lobby is full or if a game is already started
+     *
+     * @return true if the player couldn't be added to the lobby
+     */
+    private boolean unableToJoin(){
+        if (Lobby.getLobby().isFull()) {
+            sendErrorMessage("cannot join: Server is full");
+            kill(true);
+            return true;
+        }
+        if (Lobby.getLobby().isGameStarted()) {
+            sendErrorMessage("a game is currently ongoing");
+            kill(true);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method is used to connect new players one by one
+     * If the player is the first one in the lobby he is also asked to decide the size of the lobby
+     * or else his messageStack is cleared in case he was waiting on the synchronization
+     * It also asks the lobby to notify all other players that he joined
+     *
+     * @return false if the player left in the middle of his connection
+     */
+    private boolean firstInLobby(){
+        synchronized (Server.getServer()) {
+            if (Lobby.getLobby().isFirstInLobby()) {
+                if(!decidingSizeLoop()){
+                    return false;
+                }
+            } else if (virtualView.isOnline()) {
+                clearMessageStack();
+            }
+            status = StatusEnum.GAME;
+            if (!Lobby.getLobby().isGameStarted()) {
+                sendSpecificTypeMessage(TYPE_MATCHMAKING);
+            }
+            Lobby.getLobby().updateLobbyState();
+            return true;
+        }
+    }
+
+
+    /**
+     * This method is used to ask the player the size of the lobby he wants
+     *
+     * @return false if the player left before deciding the size
+     */
+    private boolean decidingSizeLoop(){
+        boolean stillDeciding = true;
+        while (stillDeciding) {
+            sendSpecificTypeMessage(TYPE_LOBBY_NUMBER_CHOICE, "between " + Lobby.MIN_PLAYERS + " and " + Lobby.MAX_PLAYERS);
+            String answer = connectionToClient.getMessage();
+            JsonObject jsonAnswerObject = getAsJsonObject(answer);
+            if (jsonAnswerObject == null) {
+                continue;
+            }
+            String answerType = jsonAnswerObject.get("type").getAsString();
+            if (answerType.equals(TYPE_QUIT)) {
+                kill(true);
+                return false;
+            }
+            if (!answerType.equals(TYPE_LOBBY_NUMBER_CHOICE) || !jsonAnswerObject.has("size")) {
+                continue;//go back to reading a new message
+            }
+            int choice = jsonAnswerObject.get("size").getAsInt();
+            if (Lobby.getLobby().setNumberOfPlayers(choice, nickname)) {
+                stillDeciding = false;
+                status = StatusEnum.GAME;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * This method is used to try reconnecting a player to an ongoing game
+     * If the nickname and password do not match an error message is sent to the client
+     * Otherwise the player is reconnected to his game
+     */
+    private void reConnection(){
+        if (password.equals(virtualView.getPassword())) {
+            sendInfoMessage("You are now reconnected");
+            virtualView.reconnect(this);
+            status = StatusEnum.GAME;
+        } else {
+            sendErrorMessage("Incorrect password");
+        }
+    }
+
+
+    /**
+     * This method is used to handle the game phase of the player
+     */
     private void game() {
         status = StatusEnum.GAME;
         String message;
@@ -288,7 +354,7 @@ public class ClientHandler implements Runnable {
 
     /**
      * This function is used to translate e plain text message into a JsonObject
-     * If the message can't be translated it automatically send an Error message as a response
+     * If the message can't be translated it automatically send an Error message as a response and return null
      *
      * @param message message to translate into a JsonObject
      * @return the new JsonObject

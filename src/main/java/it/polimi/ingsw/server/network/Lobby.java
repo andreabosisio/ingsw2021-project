@@ -109,16 +109,6 @@ public class Lobby {
     }
 
     /**
-     * This method is used to see if the player associated with the specified nickname is still online
-     *
-     * @param nickname nickname of the player to check
-     * @return true if the player is online
-     */
-    public boolean isPlayerOnline(String nickname) {
-        return getVirtualViewByNickname(nickname).isOnline();
-    }
-
-    /**
      * This method is used to add a new virtualView to the List saved in the Lobby(If the lobby is nt full)
      * Every VirtualView represent a player
      * This method also automatically broadcast a message to all the other players informing them that a new one joined
@@ -189,7 +179,7 @@ public class Lobby {
      * If the Lobby is still not full a message with the number of online players is broadcast to every player
      * If the game can be started every player is notified and startGame is called
      */
-    public synchronized void updateLobbyState() {
+    public void updateLobbyState() {
         if (gameStarted) {
             return;
         }
