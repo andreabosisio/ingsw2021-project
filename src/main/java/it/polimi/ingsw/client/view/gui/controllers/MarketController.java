@@ -8,17 +8,24 @@ import javafx.scene.layout.GridPane;
 
 import java.util.List;
 
+/**
+ * This class is used as the controller of the market popup
+ * It doesn't allow for any action on it
+ */
 public class MarketController extends GUICommandListener {
 
-    private List<String> fullMarket;
     @FXML
     private ImageView extraRes;
     @FXML
     private GridPane marketGrid;
 
+    /**
+     * Function used to initialize the fxml when loaded
+     * It loads the current market state in the scene' gridPane
+     * and the extra resource in the imageView
+     */
     @FXML
     private void initialize() {
-        //populate the marketGrid with savedData
         GraphicUtilities.populateMarket(marketGrid, extraRes);
     }
 }

@@ -8,7 +8,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.client.view.gui.controllers.MarketController">
     <ImageView fitHeight="582.0" fitWidth="516.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@../images/market.png" />
     </ImageView>

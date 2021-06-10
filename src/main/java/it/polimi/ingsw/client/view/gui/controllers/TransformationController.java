@@ -16,11 +16,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
+/**
+ * This class is used as the controller for the fxml scene:whiteTransformation.fxml
+ */
 public class TransformationController extends GUICommandListener {
     private int numberOfTransformation;
     private List<String> possibleTransformations;
-
     private List<String> chosenResources;
 
     @FXML
@@ -35,19 +36,40 @@ public class TransformationController extends GUICommandListener {
     @FXML
     private Button confirm;
 
+    /**
+     * This method is used to set the number and the possible colors of the transformations the player must perform
+     *
+     * @param numberOfTransformation number of the resources to transform
+     * @param possibleTransformations colors in which the resources can transform
+     */
     public void setTransformation(int numberOfTransformation, List<String> possibleTransformations) {
         setNumberOfTransformation(numberOfTransformation);
         setPossibleTransformations(possibleTransformations);
     }
 
+    /**
+     * This method is used to set the number of resources the player must transform
+     *
+     * @param numberOfTransformation number of resources to transform
+     */
     private void setNumberOfTransformation(int numberOfTransformation) {
         this.numberOfTransformation = numberOfTransformation;
     }
 
+    /**
+     * This method is used to set the color in which the white resources can transform
+     *
+     * @param possibleTransformations colors in which the resources can transform
+     */
     private void setPossibleTransformations(List<String> possibleTransformations) {
         this.possibleTransformations = possibleTransformations;
     }
 
+    /**
+     * Function used to initialize the fxml when loaded
+     * It set as enabled a number of transformation buttons equal to the number of resources to transform
+     * It also set TransformationAction as the action confirm will perform on a mousePressed
+     */
     @FXML
     private void initialize() {
         for (int i = 0; i < numberOfTransformation; i++) {
@@ -65,6 +87,12 @@ public class TransformationController extends GUICommandListener {
         confirm.setOnMousePressed((event -> transformationAction()));
     }
 
+    /**
+     * This method is called when the player presses a transformation button
+     * It sets the button id and imageView as the next resource in the list
+     *
+     * @param transformer button pressed b the player
+     */
     private void changeResourceAction(Button transformer){
         int index = Integer.parseInt(transformer.getId());
         index++;
@@ -77,6 +105,11 @@ public class TransformationController extends GUICommandListener {
         transformer.setGraphic(imageView);
     }
 
+    /**
+     * This method is called when the player presses the confirm button
+     * It construct an event to send to the server containing the transformation chosen by the player
+     * It also closes the transformation popup
+     */
     private void transformationAction() {
         chosenResources = new ArrayList<>();
         for (Node transformation : HTransformationBox.getChildren()) {

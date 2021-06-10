@@ -20,12 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
+/**
+ * This class is used as the controller for the fxml scene:setupScene.fxml
+ */
 public class SetupController extends GUICommandListener {
     private int numberOfResources;
     private Stage marketWindow;
     private Stage gridWindow;
-
     private List<String> leaderCardsID;
     private List<Integer> chosenLeadersIndexes;
     private List<String> chosenResources;
@@ -48,6 +49,12 @@ public class SetupController extends GUICommandListener {
     @FXML
     private HBox HToggleResources;
 
+    /**
+     * Function used to initialize the fxml when loaded
+     * It loads the leader cards the player can choose from in the corresponding buttons
+     * It also activates the buttons to choose the resources if the player has the right to
+     * It then pairs each button with its corresponding action
+     */
     @FXML
     public void initialize() {
         File file;
@@ -72,11 +79,23 @@ public class SetupController extends GUICommandListener {
         marketButton.setOnMousePressed((event -> seeMarket()));
     }
 
+    /**
+     * This method is used to set from which leaderCard IDs the player can choose and how many resources he deserves
+     *
+     * @param leaderCardsID list with the IDs of each leader card
+     * @param numberOfResource number of resources to choose
+     */
     public void initializeData(List<String> leaderCardsID, int numberOfResource) {
         this.leaderCardsID = leaderCardsID;
         this.numberOfResources = numberOfResource;
     }
 
+    /**
+     * This method is called when the player wishes to send to the server his choices
+     * If he has chosen less than 2 cards an error message is printed
+     * If the data is valid the method construct an event to send to server with all the necessary data
+     * Every popup associated with this window is then closed
+     */
     private void setupAction() {
         chosenLeadersIndexes = new ArrayList<>();
         for(Node node:HToggleLeaders.getChildren()){
@@ -109,6 +128,11 @@ public class SetupController extends GUICommandListener {
         notifyObservers(new ChosenSetupEvent(chosenLeadersIndexes,chosenResources));
     }
 
+    /**
+     * This method is used to change the resource chosen by the player
+     *
+     * @param button button with the ImageView of the resource inside
+     */
     private void changeResourceAction(Button button){
         int number = Integer.parseInt(button.getId());
         number++;
@@ -122,12 +146,18 @@ public class SetupController extends GUICommandListener {
         button.setGraphic(imageView);
     }
 
+    /**
+     * This method is used to show a popup with the marketTray in it
+     */
     private void seeMarket(){
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/marketPopup.fxml"));
         marketWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader,marketWindow,Modality.NONE);
         marketWindow.show();
     }
 
+    /**
+     * This method is used to show a popup with the devGrid in it
+     */
     private void seeGrid(){
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/devGridPopupScene.fxml"));
         gridWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader,gridWindow,Modality.NONE);

@@ -8,6 +8,9 @@ import javafx.scene.control.TextField;
 
 import java.util.regex.Pattern;
 
+/**
+ * This class is used as the controller for the fxml scene:welcomeScene.fxml
+ */
 public class WelcomeController extends GUICommandListener {
 
     private GUI gui;
@@ -31,6 +34,16 @@ public class WelcomeController extends GUICommandListener {
     @FXML
     private TextField serverPort;
 
+    public WelcomeController(GUI gui) {
+        this.gui = gui;
+    }
+
+    /**
+     * Function used to initialize the fxml when loaded
+     * It sets the serverIP and serverPort textFields as not visible and as the default values
+     * It also sets showSettings() as the mousePressed action for the button settings
+     * It also sets startAction() as the mousePressed action for the button start
+     */
     @FXML
     public void initialize() {
         serverIP.setVisible(false);
@@ -41,10 +54,11 @@ public class WelcomeController extends GUICommandListener {
         settings.setOnMousePressed((event -> showSettings()));
     }
 
-    public WelcomeController(GUI gui) {
-        this.gui = gui;
-    }
-
+    /**
+     * This method is called when the player presses the start button
+     * It tries to establish a connection with the selected serverIP and serverPort
+     * In case of a failure it sets the serverIP and serverPort to the default values
+     */
     private void startAction() {
         String ip;
         int port;
@@ -74,6 +88,10 @@ public class WelcomeController extends GUICommandListener {
         }
     }
 
+    /**
+     * This method is called when the player presses the settings button
+     * It sets the serverIP and serverPort textField as visible
+     */
     private void showSettings() {
         serverIP.setVisible(true);
         serverPort.setVisible(true);
