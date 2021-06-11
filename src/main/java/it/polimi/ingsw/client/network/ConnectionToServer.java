@@ -14,7 +14,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * This class is used by the NetworkHandler to read the messages from the Server and to send messages via Socket:
  * all the messages received from the Server are added in a Queue.
- * It's aim is also to manage all of that concerne the Socket.
+ * It's aim is also to manage all of that concern the Socket.
  */
 public class ConnectionToServer implements Connection {
     private final static String PONG_MESSAGE = "pong";
@@ -28,6 +28,7 @@ public class ConnectionToServer implements Connection {
     //must be higher than the ping period
     private final static int TIMER_DELAY = 6000;//in milliseconds
     private final static String PING_MESSAGE = "ping";
+    private boolean run = true;
 
     public ConnectionToServer(Socket socket) {
         this.socket = socket;
@@ -45,7 +46,7 @@ public class ConnectionToServer implements Connection {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException e) {
-            System.out.println("Failed to start connection with server");
+            System.err.println("Failed to start connection with server");
             e.printStackTrace();
             close(false);
         }
@@ -87,12 +88,13 @@ public class ConnectionToServer implements Connection {
                 jsonObject.addProperty("type", QUIT_TYPE);
                 sendMessage(jsonObject.toString());
             }
+            run = false;
             socket.close();
             in.close();
             out.close();
             System.exit(0);
         } catch (IOException e) {
-            System.out.println("failed to close socket");
+            System.err.println("failed to close socket");
             e.printStackTrace();
             System.exit(-1);
         }
@@ -112,7 +114,7 @@ public class ConnectionToServer implements Connection {
     @Override
     public void run() {
         String message;
-        while (true) {
+        while (run) {
             try {
                 message = in.readLine();
                 if (message.equals(PING_MESSAGE)) {
@@ -123,7 +125,9 @@ public class ConnectionToServer implements Connection {
                     messagesFromServer.add(message);
                 }
             } catch (IOException e) {
-                message = null; //todo: socket failed
+                System.err.println("Socket Failed");
+                e.printStackTrace();
+                close(false);
             }
         }
     }
@@ -142,7 +146,6 @@ public class ConnectionToServer implements Connection {
                 if (receivedPing) {
                     receivedPing = false;
                 } else {
-                    //todo add client closing code
                     System.out.println("Server is unreachable");
                     close(false);
                 }

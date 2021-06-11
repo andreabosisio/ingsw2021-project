@@ -28,7 +28,7 @@ public class Lobby {
         gameStarted = false;
     }
 
-    //todo synchronizzare su this per ogni metodo
+    //todo synchronize all the necessary methods
 
     /**
      * This method is used to get the only instance of the Lobby or create a new one if it does not exist
@@ -212,15 +212,32 @@ public class Lobby {
     /**
      * Method used to communicate to the controller that a player is now offline
      * If no game was ongoing the virtualView is removed
+     * If the player was the last one connected to the game the lobby is reset
      *
      * @param nickname of the Player offline
      */
     public synchronized void disconnectPlayer(String nickname) {
         if (gameStarted) {
-            controller.disconnectPlayer(nickname);
+            if(controller.disconnectPlayer(nickname)){
+                System.out.println("Last player left\nResetting server");
+                destroyLobby(nickname);
+            }
         } else
             removeVirtualView(nickname);
     }
+
+    /**
+     * This method is used to reset the lobby state
+     *
+     * @param nickname nickname of the currently disconnecting player
+     */
+    private void destroyLobby(String nickname){
+        numberOfPlayers = NOT_DECIDED;
+        gameStarted = false;
+        virtualViews.stream().filter(v -> !v.getNickname().equals(nickname)).forEach(VirtualView::disconnect);//if a player is waiting on the lock for a reconnection abort it
+        virtualViews.clear();
+    }
+
 
     /**
      * Method used to communicate to the controller that a player is now reconnected and online

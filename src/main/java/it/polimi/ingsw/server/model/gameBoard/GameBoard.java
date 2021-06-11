@@ -174,6 +174,12 @@ public class GameBoard {
         return faithObservers.stream().filter(p -> p.getOwner().equals(player)).findFirst().orElse(null);
     }
 
+    /**
+     * This method is used to save in the marketTray the turnLogic it will operate on
+     * This will be used when a player with 2 transformation leaders will take white resources
+     *
+     * @param turnLogic turnLogic of the game
+     */
     public void setTurnLogicOfMarketTray(TurnLogic turnLogic) {
         this.marketTray.setTurn(turnLogic);
     }

@@ -48,7 +48,7 @@ public class LoginController extends GUICommandListener {
         notifyObservers(new LoginEvent(nickname.getText(), password.getText()));
     }
 
-    //fixme?
+    //fixme what is this method?
     public void activateProgressIndicator() {
         this.progressIndicator.setVisible(true);
     }

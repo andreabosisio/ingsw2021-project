@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class is the Manager of the Communication with the Clients, in fact for every Clients that connects
@@ -14,6 +15,7 @@ import java.util.concurrent.Executors;
  */
 public class ServerSocketManager extends Thread {
     private ServerSocket serverSocket;//java ServerSocket class
+    private ExecutorService executor;
 
     public ServerSocketManager(int socketPort) {
         try {
@@ -33,7 +35,7 @@ public class ServerSocketManager extends Thread {
      */
     @Override
     public void run() {
-        ExecutorService executor = Executors.newCachedThreadPool();
+        executor = Executors.newCachedThreadPool();
         while (Server.getServer().getStatus()) {
             try {
                 Socket socket = serverSocket.accept();//server accept request to connect from a client
@@ -43,15 +45,28 @@ public class ServerSocketManager extends Thread {
                 break;
             }
         }
-        //todo check how to close a server
         executor.shutdown();
+        try {
+            if (!executor.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executor.shutdownNow();
+        }
     }
 
     /**
      * close the multiThreadServer
      */
     public void close() {
-        System.exit(0);
+        executor.shutdown();
+        try {
+            if (!executor.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executor.shutdownNow();
+        }
     }
 }
 

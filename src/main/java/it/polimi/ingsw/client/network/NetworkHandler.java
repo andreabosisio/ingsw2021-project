@@ -84,8 +84,8 @@ public class NetworkHandler implements CommandListenerObserver {
                 handleAction(message);
             }
         }
-        //todo close clientApp
         System.out.println("Socket generated an IOException");
+        close();
     }
 
     /**
@@ -108,6 +108,7 @@ public class NetworkHandler implements CommandListenerObserver {
                 } catch (NullPointerException e) {
                     System.out.println("failed in executing this event: " + jsonObject.get("type"));
                     System.out.println(message);
+                    e.printStackTrace();
                 }
             } else {
                 System.out.println("Malformed json from Server");

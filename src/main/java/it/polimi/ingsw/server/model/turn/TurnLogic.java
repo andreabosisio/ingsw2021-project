@@ -110,15 +110,6 @@ public class TurnLogic {
         return currentPlayer;
     }
 
-    /**
-     * Used for testing
-     *
-     * @param currentPlayer is the current player
-     */
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
     public void setCurrentState(State currentState) {
         this.currentState = currentState;
     }
@@ -238,12 +229,9 @@ public class TurnLogic {
      *
      * @param swapPairs List of all the swaps to be applied
      * @return true if the warehouse reordering is legal
-     * @throws InvalidEventException      if the swaps cannot be applied
-     * @throws InvalidIndexException      if a swap contains a negative position
-     * @throws EmptySlotException         if a swap involves an empty slot
-     * @throws NonAccessibleSlotException if one of swap involves a slot that's not accessible
+     * @throws InvalidEventException if the swaps cannot be applied
      */
-    public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedPlacementAction) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+    public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedPlacementAction) throws InvalidEventException{
         return currentState.placeResourceAction(swapPairs, hasCompletedPlacementAction);
     }
 
@@ -320,21 +308,21 @@ public class TurnLogic {
         }
     }
 
-    public void disconnectPlayer(String nickname) {
+    public boolean disconnectPlayer(String nickname) {
         Player disconnected = players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst().orElse(null);
         assert disconnected != null;
         disconnected.setOnline(false);
         if (currentPlayer.equals(disconnected)) {
             currentPlayer.setDisconnectedData(currentState, whiteResourcesFromMarket, chosenDevCard, lastEventSent);
             if (players.stream().noneMatch(Player::isOnline)) {
-                //todo la partita salta
-                System.out.println("happy feet");
+                return true;
             } else {
                 setNextPlayer();
                 setCurrentState(startTurn);
                 setLastEventSent(new StartTurnEvent(currentPlayer.getNickname(), currentPlayer.getNickname()));
             }
         }
+        return false;
     }
 
     public void reconnectPlayer(String nickname) {

@@ -133,12 +133,9 @@ public class ModelInterface implements SendObservable {
      *
      * @param swapPairs List of all the swaps to be applied
      * @return true if the warehouse reordering is legal
-     * @throws InvalidEventException      if the swaps cannot be applied
-     * @throws InvalidIndexException      if a swap contains a negative position
-     * @throws EmptySlotException         if a swap involves an empty slot
-     * @throws NonAccessibleSlotException if one of swap involves a slot that's not accessible
+     * @throws InvalidEventException if the swaps cannot be applied
      */
-    public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedTransformationAction) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
+    public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedTransformationAction) throws InvalidEventException {
         return turnLogic.placeResourceAction(swapPairs, hasCompletedTransformationAction);
     }
 
@@ -240,8 +237,8 @@ public class ModelInterface implements SendObservable {
      *
      * @param nickname of the player offline
      */
-    public void disconnectPlayer(String nickname) {
-        turnLogic.disconnectPlayer(nickname);
+    public boolean disconnectPlayer(String nickname) {
+        return turnLogic.disconnectPlayer(nickname);
     }
 
     /**

@@ -36,16 +36,14 @@ public class Server {
     public void start() {
         Scanner scanner = new Scanner(System.in);
         String input;
-        while (true) {
+        while (serverUp) {
             System.out.println("SERVER READY\nTYPE LOBBY FOR ONLINE PLAYER-----QUIT TO CLOSE");
             input = scanner.nextLine().toLowerCase();
             switch (input) {
                 case "quit":
                     serverSocket.close();//close the multiThreadServer
-                    //Lobby.getLobby().close();//close the lobby
                     System.out.println("SERVER CLOSED");
                     System.exit(0);//close the running main
-                    break;
                 case "lobby":
                     System.out.println(Lobby.getLobby().getOnlinePlayersNumber());
                     continue;

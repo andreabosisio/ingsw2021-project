@@ -81,8 +81,8 @@ public class Controller implements ReceiveObserver {
      *
      * @param nickname of the player offline
      */
-    public synchronized void disconnectPlayer(String nickname) {
-        modelInterface.disconnectPlayer(nickname);
+    public synchronized boolean disconnectPlayer(String nickname) {
+        return modelInterface.disconnectPlayer(nickname);
     }
 
     /**
