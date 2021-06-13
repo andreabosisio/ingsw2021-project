@@ -2,20 +2,18 @@ package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.events.send.TransformationActionEvent;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
+import it.polimi.ingsw.client.view.gui.GraphicUtilities;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
 /**
  * This class is used as the controller for the fxml scene:whiteTransformation.fxml
  */
@@ -80,7 +78,7 @@ public class TransformationController extends GUICommandListener {
             Button transformer = (Button) transformation.getChildren().get(buttonIndex);
             if (transformer != null) {
                 transformer.setId(String.valueOf(0));
-                ((ImageView) transformer.getGraphic()).setImage(new Image(new File("src/main/resources/images/resources/" + possibleTransformations.get(0).toLowerCase(Locale.ROOT) + ".png").toURI().toString()));
+                GraphicUtilities.loadResource(transformer,possibleTransformations.get(0));
                 transformer.setOnMousePressed((event -> changeResourceAction(transformer)));
             }
         }
@@ -99,10 +97,7 @@ public class TransformationController extends GUICommandListener {
         if (index >= possibleTransformations.size())
             index = 0;
         transformer.setId(String.valueOf(index));
-        File file = new File("src/main/resources/images/resources/" + possibleTransformations.get(index).toLowerCase(Locale.ROOT) + ".png");
-        ImageView imageView = (ImageView) transformer.getGraphic();
-        imageView.setImage(new Image(file.toURI().toString()));
-        transformer.setGraphic(imageView);
+        GraphicUtilities.loadResource(transformer,possibleTransformations.get(index));
     }
 
     /**

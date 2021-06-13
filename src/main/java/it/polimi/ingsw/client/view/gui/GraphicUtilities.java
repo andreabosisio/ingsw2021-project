@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -399,7 +400,61 @@ public class GraphicUtilities {
             number = 0;
         }
         button.setId(String.valueOf(number));
+        loadResourceFromEnumIndex(button, number);
+    }
+
+    /**
+     * This method is used to load in a ImageView of a button containing a resource
+     * the image of the resource associated with the button current id
+     *
+     * @param button button containing the imageView to change
+     */
+    public static void loadResource(Button button){
+        int number = Integer.parseInt(button.getId());
+        loadResourceFromEnumIndex(button, number);
+    }
+
+    /**
+     * This method is used to load in a ImageView of a button the image of the resource
+     * associated with the given color;
+     * @param button
+     * @param color
+     */
+    public static void loadResource(Button button, String color){
+        File file = new File(resourcesPath + color.toLowerCase(Locale.ROOT) + endOfPath);
+        loadFileInButtonImageView(button,file);
+    }
+
+    /**
+     * This method is used to load in a ImageView of a button the image of the resource
+     * associated with the given id;
+     *
+     * @param button button containing the imageView to change
+     * @param number color enum index of the resource to load
+     */
+    private static void loadResourceFromEnumIndex(Button button, int number) {
         File file = new File(resourcesPath + StorableResourceEnum.values()[number].toString().toLowerCase(Locale.ROOT)+endOfPath);
+        loadFileInButtonImageView(button,file);
+    }
+
+    /**
+     * This method is used to load a leader image in a button imageView using the ID as path
+     *
+     * @param button button where the image will be loaded
+     * @param leaderID ID of the leader to load
+     */
+    public static void loadLeaderImage(ButtonBase button,String leaderID){
+        File file = new File(leaderCardsPath + leaderID + endOfPath);
+        loadFileInButtonImageView(button,file);
+    }
+
+    /**
+     * This method is used to load a file into a button imageView
+     *
+     * @param button button where to load the file
+     * @param file file to load
+     */
+    private static void loadFileInButtonImageView(ButtonBase button,File file){
         ImageView imageView = (ImageView) button.getGraphic();
         imageView.setImage(new Image(file.toURI().toString()));
         button.setGraphic(imageView);

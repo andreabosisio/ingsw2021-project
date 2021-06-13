@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
  */
 public class Lobby {
     private boolean gameStarted;
-    public static final int NOT_DECIDED = -1;
-    public static final int MIN_PLAYERS = 1;
-    public static final int MAX_PLAYERS = 4;
+    private static final int NOT_DECIDED = -1;
+    private static final int MIN_PLAYERS = 1;
+    private static final int MAX_PLAYERS = 4;
     private static Lobby instance = null;
     private int numberOfPlayers = NOT_DECIDED;
     private final List<VirtualView> virtualViews;
@@ -28,7 +28,14 @@ public class Lobby {
         gameStarted = false;
     }
 
-    //todo synchronize all the necessary methods
+    public static int getMinPlayers() {
+        return MIN_PLAYERS;
+    }
+
+    public static int getMaxPlayers() {
+        return MAX_PLAYERS;
+    }
+//todo synchronize all the necessary methods
 
     /**
      * This method is used to get the only instance of the Lobby or create a new one if it does not exist
@@ -232,9 +239,9 @@ public class Lobby {
      * @param nickname nickname of the currently disconnecting player
      */
     private void destroyLobby(String nickname){
+        virtualViews.stream().filter(v -> !v.getNickname().equals(nickname)).forEach(VirtualView::disconnect);//if a player is waiting on the lock for a reconnection abort it
         numberOfPlayers = NOT_DECIDED;
         gameStarted = false;
-        virtualViews.stream().filter(v -> !v.getNickname().equals(nickname)).forEach(VirtualView::disconnect);//if a player is waiting on the lock for a reconnection abort it
         virtualViews.clear();
     }
 

@@ -21,7 +21,7 @@ public class LegendPopupController {
     @FXML
     Button done;
     @FXML
-    HBox ignore;
+    HBox resourcesFromMarket;
     @FXML
     GridPane strongboxGrid;
     @FXML
@@ -32,13 +32,18 @@ public class LegendPopupController {
     VBox HLeadersRes;
     @FXML
     HBox HActiveLeaders;
+
+    /**
+     * Function used to initialize the fxml when loaded
+     * It does so by loading all the chosen player board element in the legendScene
+     */
     @FXML
     private void initialize() {
         done.setOnMousePressed(event -> doneAction());
         GraphicUtilities.populateHandLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(playerToSee).getActiveLeaders());
         GraphicUtilities.populateProductionBoard(productionPane,playerToSee);
-        ignore.setVisible(false);
-        GraphicUtilities.populateDepots(ignore,warehouse,HLeadersRes,strongboxGrid,playerToSee);
+        resourcesFromMarket.setVisible(false);
+        GraphicUtilities.populateDepots(resourcesFromMarket,warehouse,HLeadersRes,strongboxGrid,playerToSee);
     }
 
     /**

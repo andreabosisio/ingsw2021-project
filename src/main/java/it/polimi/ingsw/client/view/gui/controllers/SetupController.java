@@ -10,15 +10,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * This class is used as the controller for the fxml scene:setupScene.fxml
@@ -62,15 +59,13 @@ public class SetupController extends GUICommandListener {
         for(String leaderID : leaderCardsID){
             ToggleButton toggleButton = (ToggleButton)HToggleLeaders.getChildren().get(i);
             toggleButton.setId(String.valueOf(i));
-            file = new File("src/main/resources/images/leaders/"+leaderID+".png");
-            ImageView imageView = (ImageView) toggleButton.getGraphic();
-            imageView.setImage(new Image(file.toURI().toString()));
-            toggleButton.setGraphic(imageView);
+            GraphicUtilities.loadLeaderImage(toggleButton,leaderID);
             i++;
         }
         for(i = 0; i < numberOfResources; i++){
             Button button =(Button)HToggleResources.getChildren().get(i);
             button.setId("0");
+            GraphicUtilities.loadResource(button);
             button.setDisable(false);
             button.setOnMousePressed((event -> changeResourceAction(button)));
         }
