@@ -33,11 +33,9 @@ class ResourceTest {
 
     @Test
     void constructor() throws NonStorableResourceException {
-        ResourceFactory factory = new ResourceFactory();
+        assertEquals(ResourceFactory.produceResource(ResourceEnum.GRAY), new StorableResource(ResourceEnum.GRAY));
 
-        assertEquals(factory.produceResource(ResourceEnum.GRAY), new StorableResource(ResourceEnum.GRAY));
-
-        assertThrows(NonStorableResourceException.class, () -> factory.produceResource(ResourceEnum.RED));
-        assertThrows(NonStorableResourceException.class, () -> factory.produceResource(ResourceEnum.WHITE));
+        assertThrows(NonStorableResourceException.class, () -> ResourceFactory.produceResource(ResourceEnum.RED));
+        assertThrows(NonStorableResourceException.class, () -> ResourceFactory.produceResource(ResourceEnum.WHITE));
     }
 }

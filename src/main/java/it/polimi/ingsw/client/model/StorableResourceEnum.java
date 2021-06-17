@@ -1,8 +1,11 @@
 package it.polimi.ingsw.client.model;
 
+/**
+ * Contains the Stroble Resource's colors.
+ */
 public enum StorableResourceEnum {
-    GRAY,
     YELLOW,
+    GRAY,
     PURPLE,
     BLUE
 }

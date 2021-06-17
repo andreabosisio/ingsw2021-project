@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="it.polimi.ingsw.client.view.gui.controllers.MarketController">
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <ImageView fitHeight="582.0" fitWidth="516.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@../images/market.png" />
     </ImageView>
@@ -31,40 +30,40 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/marbles/blue.png" />
+
         </ImageView>
         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-            <Image url="@../images/marbles/blue.png" />
+
         </ImageView>
         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
-            <Image url="@../images/marbles/blue.png" />
+
         </ImageView>
         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
-            <Image url="@../images/marbles/blue.png" />
+
         </ImageView>
         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
-            <Image url="@../images/marbles/blue.png" />
+
         </ImageView>
         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            <Image url="@../images/marbles/blue.png" />
+
         </ImageView>
         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
-            <Image url="@../images/marbles/blue.png" />
+
         </ImageView>
         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
-            <Image url="@../images/marbles/blue.png" />
+
         </ImageView>
         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
-            <Image url="@../images/marbles/blue.png" />
+
         </ImageView>
         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
-            <Image url="@../images/marbles/blue.png" />
+
         </ImageView>
         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
-            <Image url="@../images/marbles/blue.png" />
+
         </ImageView>
         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
-            <Image url="@../images/marbles/blue.png" />
+
         </ImageView>
     </GridPane>
 </AnchorPane>

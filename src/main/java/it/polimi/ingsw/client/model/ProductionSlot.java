@@ -44,7 +44,7 @@ public class ProductionSlot extends DevelopmentCard{
      * @return this
      */
     @Override
-    public Printable placeOnAnotherCards(Printable oldCards) {
+    public Printable placeOnOtherCards(Printable oldCards) {
         return this;
     }
 }

@@ -44,7 +44,7 @@ public class WaitTransformationState extends State {
                 if(possibleTransformations.stream().noneMatch(r -> r.getColor() == chosenEnum))
                     throw new InvalidEventException("invalid resource type");
                 else
-                    chosenResources.add(new ResourceFactory().produceResource(chosenEnum));
+                    chosenResources.add(ResourceFactory.produceResource(chosenEnum));
             } catch (IllegalArgumentException e) {
                 throw new InvalidEventException("non existing resource type"); //non existing resource type
             }

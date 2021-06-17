@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.view.cli;
 
+/**
+ * Contains the possible commands of the CLI.
+ */
 public enum CommandsEnum {
     MARKET("MARKET"),
     BUY("BUY"),
@@ -20,6 +23,9 @@ public enum CommandsEnum {
         this.cmd = cmd;
     }
 
+    /**
+     * @return the String of the Command
+     */
     @Override
     public String toString() {
         return cmd;

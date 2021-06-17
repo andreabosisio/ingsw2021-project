@@ -2,16 +2,11 @@ package it.polimi.ingsw.client.view.cli;
 
 import java.util.Locale;
 
+/**
+ * This class contains all the Ascii Arts and the Ansi Escapes used in the CLI.
+ */
 public enum AnsiEnum {
 
-    LOGIN("\n" +
-            "██╗      ██████╗  ██████╗ ██╗███╗   ██╗\n" +
-            "██║     ██╔═══██╗██╔════╝ ██║████╗  ██║\n" +
-            "██║     ██║   ██║██║  ███╗██║██╔██╗ ██║\n" +
-            "██║     ██║   ██║██║   ██║██║██║╚██╗██║\n" +
-            "███████╗╚██████╔╝╚██████╔╝██║██║ ╚████║\n" +
-            "╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝\n" +
-            "                                       \n"),
     LOGIN_SMALL("\n" +
             "█░░ █▀█ █▀▀ █ █▄░█\n" +
             "█▄▄ █▄█ █▄█ █ █░▀█"),
@@ -146,6 +141,13 @@ public enum AnsiEnum {
         this.asciiArt = asciiArt;
     }
 
+    /**
+     * Used to color String with Ansi Encodes.
+     *
+     * @param toColor the String to color
+     * @param color Name of the color
+     * @return the colored String
+     */
     public static String colorString(String toColor, String color) {
         color = color.toUpperCase(Locale.ROOT);
         switch (color) {
@@ -166,14 +168,29 @@ public enum AnsiEnum {
         }
     }
 
+    /**
+     * Return the nickname colored in White Bold.
+     *
+     * @param nickname to color
+     * @return the colored String
+     */
     public static String getPrettyNickname(String nickname) {
         return AnsiEnum.WHITE_BOLD_BRIGHT + nickname + AnsiEnum.RESET;
     }
 
+    /**
+     * Calculate the length of a String without considering the Ansi Escape characters.
+     *
+     * @param str String with Ansi Escapes
+     * @return the length of a String without considering the Ansi Escape characters.
+     */
     public static int getStringLengthWithoutANSI(String str) {
         return str.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -/]*[@-~]", "").length();
     }
 
+    /**
+     * @return the Ascii Art
+     */
     public String getAsciiArt() {
         return asciiArt;
     }

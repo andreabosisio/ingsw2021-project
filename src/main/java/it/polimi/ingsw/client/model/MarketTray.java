@@ -36,9 +36,11 @@ public class MarketTray extends Printable {
         this.market = market;
     }
 
-    public final void setMarketBoard() {
+    /**
+     * Update the data of the Market Tray.
+     */
+    private void setMarketBoard() {
         extraSlot = market.get(0);
-
         int k = 1;
         for (int i = 0; i < NUM_R; i++)
             for (int j = 0; j < NUM_C; j++) {
@@ -46,21 +48,9 @@ public class MarketTray extends Printable {
                 k++;
             }
     }
-/*
-    public String[] getAsArray(StringBuilder printable) {
-        int lastIndex = 0;
-        int currentIndex;
-
-        do {
-            currentIndex = printable.indexOf("\n", lastIndex);
-
-        } while (currentIndex != -1);
-    }
- */
 
     /**
      * Return a printable representation of the MarketTray.
-     * Dimensions: 21*12 chars
      *
      * @return a List<String> containing the representation of the MarketTray row by row.
      */
@@ -81,7 +71,6 @@ public class MarketTray extends Printable {
         toReturn.add(printable.toString());
 
         toReturn.add(getNUMCTopSlots().toString());
-
 
         for (int i = 0; i < NUM_R; i++) {
             printable = new StringBuilder();
@@ -107,6 +96,9 @@ public class MarketTray extends Printable {
         return toReturn.stream().map(this::fillWithEmptySpace).collect(Collectors.toList());
     }
 
+    /**
+     * @return the Ascii Art of the top of NUMC slots
+     */
     private StringBuilder getNUMCTopSlots() {
         StringBuilder topCorners = new StringBuilder();
 
@@ -117,6 +109,9 @@ public class MarketTray extends Printable {
         return topCorners;
     }
 
+    /**
+     * @return the Ascii Art of the bottom of NUMC slots
+     */
     private StringBuilder getNUMCBottomSlots() {
         StringBuilder bottomCorners = new StringBuilder();
 
@@ -127,6 +122,9 @@ public class MarketTray extends Printable {
         return bottomCorners;
     }
 
+    /**
+     * @return the Ascii Art of NUMC up arrows
+     */
     private StringBuilder getNUMCUpArrows() {
         StringBuilder arrows = new StringBuilder();
 
@@ -137,9 +135,11 @@ public class MarketTray extends Printable {
         return arrows;
     }
 
+    /**
+     * @return the Ascii Art of NUMC bottom indexes
+     */
     private StringBuilder getNUMCBottomIndexes() {
         StringBuilder arrows = new StringBuilder();
-
         arrows.append("  ");
         for (int i = NUM_C; i > 0; i--)
             arrows.append(AnsiEnum.WHITE_BRIGHT).append(" [").append(i + 2).append("] ").append(AnsiEnum.RESET);
@@ -147,12 +147,20 @@ public class MarketTray extends Printable {
         return arrows;
     }
 
+    /**
+     * Update the data of the Market Tray and call the view to show the update.
+     *
+     * @param view the current View
+     */
     public void update(View view) {
         setMarketBoard();
         Board.getBoard().setMarketTray(this);
         view.marketUpdate();
     }
 
+    /**
+     * @return the content of the Market Tray row by row.
+     */
     public List<String> toStringList() {
         List<String> toReturn = new ArrayList<>();
         toReturn.add(extraSlot);

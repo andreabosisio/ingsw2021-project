@@ -106,7 +106,7 @@ public class StartTurnState extends State {
                 } catch (IllegalArgumentException e) {
                     throw new InvalidEventException("'" + outResourcesForEachProductions.get(currentKey) + "' isn't a valid resource"); //not existing ResourceEnum
                 }
-                chosenOutResource = new ResourceFactory().produceResource(chosenOutResourceEnum); //throws NonStorableResourceException if RED or WHITE
+                chosenOutResource = ResourceFactory.produceResource(chosenOutResourceEnum); //throws NonStorableResourceException if RED or WHITE
             }
 
             chosenCard = personalBoard.getProductionCard(currentKey);

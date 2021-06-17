@@ -88,11 +88,11 @@ public class CLICommandListener implements CommandListener {
             String row = "";
             for (int j = 0; j < leaderCardsIDs.size(); j++) {
                 if (chosenIndexes.contains(j))
-                    row = PrintableScene.concatenateString(row, AnsiEnum.GREEN_BACKGROUND + ">> " + "[" + j + "] :  <<" + AnsiEnum.RESET + toChoose.get(j).getEmptySpace() + "\t");
+                    row = PrintableScene.concatenateStrings(row, AnsiEnum.GREEN_BACKGROUND + ">> " + "[" + j + "] :  <<" + AnsiEnum.RESET + toChoose.get(j).getEmptySpace() + "\t");
                 else
-                    row = PrintableScene.concatenateString(row, AnsiEnum.WHITE_BRIGHT + "[" + j + "]: " + AnsiEnum.RESET + toChoose.get(j).getEmptySpace() + "\t");
+                    row = PrintableScene.concatenateStrings(row, AnsiEnum.WHITE_BRIGHT + "[" + j + "]: " + AnsiEnum.RESET + toChoose.get(j).getEmptySpace() + "\t");
             }
-            CLI.render(PrintableScene.addStringToTop(PrintableScene.concatenatePrintable(toChoose, "    " + "\t"), row));
+            CLI.render(PrintableScene.addStringToTop(PrintableScene.concatenatePrintables(toChoose, "    " + "\t"), row));
             System.out.println();
 
             String choice = scanner.nextLine();
@@ -113,7 +113,7 @@ public class CLICommandListener implements CommandListener {
         CLI.render(AnsiEnum.WHITE_BOLD_BRIGHT + "Your LeaderCards: " + AnsiEnum.RESET);
         toChoose.clear();
         chosenIndexes.forEach(i -> toChoose.add(new LeaderCard(leaderCardsIDs.get(i))));
-        CLI.render(PrintableScene.concatenatePrintable(toChoose, "\t\t"));
+        CLI.render(PrintableScene.concatenatePrintables(toChoose, "\t\t"));
         System.out.println();
         return chosenIndexes;
     }
@@ -396,7 +396,7 @@ public class CLICommandListener implements CommandListener {
                     inResources.addAll(Arrays.stream(answer.split("\\s*,\\s*")).map(Integer::parseInt).filter(n -> n > 0).collect(Collectors.toSet()));
                     //if a resource is repeated, ask to re-choose resources
                     if (inResources.stream().anyMatch(inResourcesStory::contains)) {
-                        CLI.renderError("This resources were already used");
+                        CLI.renderError("This resources were already used, please re-choose the resources you wish to use (ex: 4,13, ... ,9)");
                     } else
                         break;
                 } catch (NumberFormatException e) {

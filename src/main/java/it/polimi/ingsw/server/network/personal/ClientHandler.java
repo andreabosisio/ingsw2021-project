@@ -16,8 +16,7 @@ import java.util.regex.Pattern;
  * It's purpose is also to notify the Client of the possible Errors during the Login phase.
  */
 public class ClientHandler implements Runnable {
-    private String nickname;
-    private String password;
+    private String nickname, password;
     private StatusEnum status;
     private final ConnectionToClient connectionToClient;
     private final Gson gson;

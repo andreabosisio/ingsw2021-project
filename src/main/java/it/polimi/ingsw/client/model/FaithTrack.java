@@ -50,7 +50,6 @@ public class FaithTrack extends Printable {
 
     /**
      * Return a printable representation of the FaithTrack containing all the Players' markers.
-     * Dimensions: 115*10 chars
      *
      * @return a List<String> containing the representation of the FaithTrack row by row.
      */
@@ -110,7 +109,7 @@ public class FaithTrack extends Printable {
         List<String> legend = new ArrayList<>();
         markerByNick.forEach((nick, marker) -> legend.add(AnsiEnum.WHITE_BRIGHT + nick + AnsiEnum.RESET + ": " + marker));
 
-        return new PrintableScene(PrintableScene.concatenatePrintable(" ", new PrintableScene(legend), new PrintableScene(getPrintable())));
+        return new PrintableScene(PrintableScene.concatenatePrintables(" ", new PrintableScene(legend), new PrintableScene(getPrintable())));
     }
 
     public void update(View view) {

@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Bloom;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -197,19 +198,19 @@ public class GraphicUtilities {
     //Used to update a devGrid by the iD of the new image
 
     /**
-     * This method is used to update the developmentCardsGrid  in the GUI:
-     * It does so by matching the modified ImageView with its new card and loading in it the new image
+     * This method is used to update the developmentCardsGrid in the GUI:
+     * It does so by matching the modified ImageView with its new card and loading in it the new image.
      *
-     * @param devGridPopulated gridPane containing the developmentCardsGrid
+     * @param populatedDevelopmentGrid gridPane containing the developmentCardsGrid
      * @param iD ID of the new placed card
      */
-    public static void updateDevGrid(GridPane devGridPopulated, String iD) {
+    public static void updateDevGrid(GridPane populatedDevelopmentGrid, String iD) {
         //todo find a better solution
         if (iD.equals("empty")) {
-            populateDevGrid(devGridPopulated);
+            populateDevGrid(populatedDevelopmentGrid);
             return;
         }
-        ImageView temp;
+        ImageView cardSlot;
         File file;
         Button button;
         int indexNewCard = 0;
@@ -224,17 +225,26 @@ public class GraphicUtilities {
             else
                 indexNewCard++;
         }
-        for (Node card : devGridPopulated.getChildren()) {
+        for (Node card : populatedDevelopmentGrid.getChildren()) {
             if (counter == indexNewCard) {
                 button = (Button) card;
-                temp = (ImageView) button.getGraphic();
+                cardSlot = (ImageView) button.getGraphic();
+
+                Bloom bloom = new Bloom();
+                for(int threshold = 100000; threshold >= 0; threshold--) {
+                    cardSlot.setEffect(bloom);
+                    bloom.setThreshold(threshold*0.00001);
+                }
+
                 file = new File(devCardsPath + iD.toLowerCase(Locale.ROOT) + endOfPath);
-                temp.setImage(new Image(file.toURI().toString()));
+                cardSlot.setImage(new Image(file.toURI().toString()));
+                cardSlot.setEffect(null);
                 break;
             } else
                 counter++;
         }
-        // fixme why this system.out? -> System.out.println();
+        // fixme why this system.out?
+        System.out.println();
     }
 
     /**

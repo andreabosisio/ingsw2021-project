@@ -8,7 +8,6 @@ import it.polimi.ingsw.client.view.cli.PrintableScene;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class PersonalBoard extends Printable {
 
@@ -119,7 +118,7 @@ public class PersonalBoard extends Printable {
             if(slot.size() > 1)
                 slot.removeIf(id -> id.equals(DevelopmentCardsDatabase.getEmptyCardId()));
             for (String id : slot) {
-                slotsBuilder = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().createDevelopmentCardByID(id).placeOnAnotherCards(slotsBuilder);
+                slotsBuilder = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().createDevelopmentCardByID(id).placeOnOtherCards(slotsBuilder);
             }
             return slotsBuilder;
         }).collect(Collectors.toList());
@@ -128,7 +127,7 @@ public class PersonalBoard extends Printable {
             i.getAndIncrement();
             return PrintableScene.addBottomString(c, "    [" + i +"]");
         }).collect(Collectors.toList());
-        this.productionSlotsScene = new PrintableScene(PrintableScene.concatenatePrintable(devCardsSlots));
+        this.productionSlotsScene = new PrintableScene(PrintableScene.concatenatePrintables(devCardsSlots));
     }
 
     private void setWarehouseScene() {
@@ -151,7 +150,7 @@ public class PersonalBoard extends Printable {
             }
             return PrintableScene.addBottomString(c, "    [X]");
         }).collect(Collectors.toList());
-        this.activeLeadersScene = new PrintableScene(PrintableScene.concatenatePrintable(leaderSlots));
+        this.activeLeadersScene = new PrintableScene(PrintableScene.concatenatePrintables(leaderSlots));
     }
 
     private void setHandScene() {
@@ -161,7 +160,7 @@ public class PersonalBoard extends Printable {
             i.getAndIncrement();
             return PrintableScene.addBottomString(c, "    [" + i +"]");
         }).collect(Collectors.toList());
-        this.handScene = new PrintableScene(PrintableScene.concatenatePrintable(handSlots));
+        this.handScene = new PrintableScene(PrintableScene.concatenatePrintables(handSlots));
     }
 
     private void setCardsScene() {
@@ -169,7 +168,7 @@ public class PersonalBoard extends Printable {
     }
 
     private void setActiveCardsScene() {
-        this.activeCardsScene = new PrintableScene(PrintableScene.concatenatePrintable(DEV_LEADER_SEPARATOR, productionSlotsScene, activeLeadersScene));
+        this.activeCardsScene = new PrintableScene(PrintableScene.concatenatePrintables(DEV_LEADER_SEPARATOR, productionSlotsScene, activeLeadersScene));
     }
 
     public PrintableScene getWarehouseScene() {
@@ -190,7 +189,7 @@ public class PersonalBoard extends Printable {
 
     @Override
     public List<String> getPrintable() {
-        List<String> printable = PrintableScene.concatenatePrintable(WAREHOUSE_SLOTS_SEPARATOR, warehouseScene, cardsScene).getPrintable();
+        List<String> printable = PrintableScene.concatenatePrintables(WAREHOUSE_SLOTS_SEPARATOR, warehouseScene, cardsScene).getPrintable();
         setWidth(printable);
         return printable;
     }

@@ -84,7 +84,7 @@ public class SetupManager {
             for(String chosenColor : resources) {
                 try {
                     ResourceEnum chosenEnum = ResourceEnum.valueOf(chosenColor.toUpperCase());
-                    chosenResources.add(new ResourceFactory().produceResource(chosenEnum)); //throws NonStorableResourceException if RED or WHITE
+                    chosenResources.add(ResourceFactory.produceResource(chosenEnum)); //throws NonStorableResourceException if RED or WHITE
                 } catch (IllegalArgumentException | NonStorableResourceException e) {
                     throw new InvalidSetupException("Non permitted resource type"); //non existing resource type
                 }
