@@ -33,11 +33,6 @@ public class DevelopmentCardsDatabase {
         return EMPTY_CARD_ID;
     }
 
-    //fixme unused method
-    public static String getBasicCardId() {
-        return BASIC_CARD_ID;
-    }
-
     /**
      * Create an instance of DevelopmentCardsDatabase or return the existing one
      *
@@ -96,31 +91,95 @@ public class DevelopmentCardsDatabase {
      * @return the price of the Card
      */
     public String[] getPriceOf(String cardID) {
-        int numberOfCard = getNumberOfCard(cardID);
-        String[] tmpPrice = devCardsPrice.get(numberOfCard).split("&");
-        String[] cardPrice = new String[3];
-        List<String[]> cardPriceList = new ArrayList<>();
-        //todo put code below in function to avoid duplicated lines
-        int t = 0;
-        cardPrice[0] = " ";
-        cardPrice[1] = " "; // if there is not a resource, there is a space
-        cardPrice[2] = " ";
+        String[] priceResourcesToSplit = devCardsPrice.get(getNumberOfCard(cardID)).split("&");
+        String[] cardPrice = splitResources(priceResourcesToSplit);
+        setThePositionOfThePrice(cardPrice);
+        return cardPrice;
+    }
 
-        for (String price : tmpPrice) {
-            cardPriceList.add(price.split("_"));
+    /**
+     * Get method that return the in resources of the Card
+     *
+     * @param cardID is the ID of the Card
+     * @return the resources in input of the Card
+     */
+    public String[] getInResources(String cardID) {
+        String[] inResourcesToSplit = devCardsInResources.get(getNumberOfCard(cardID)).split("&");
+        String[] inResources = splitResources(inResourcesToSplit);
+        setThePositionOfTheResources(inResources);
+        return inResources;
+    }
+
+    /**
+     * Get method that return the out resources of the Card
+     *
+     * @param cardID is the ID of the Card
+     * @return the resources in output of the Card
+     */
+    public String[] getOutResources(String cardID) {
+        String[] outResourcesToSplit = devCardsOutResources.get(getNumberOfCard(cardID)).split("&");
+        String[] outResources = splitResources(outResourcesToSplit);
+        setThePositionOfTheResources(outResources);
+        return outResources;
+    }
+
+    /**
+     * This method split correctly the resources
+     *
+     * @param resourcesToSplit array of the resources to split
+     * @return the splitted resources of the correct color
+     */
+    private String[] splitResources(String[] resourcesToSplit) {
+        List<String[]> cardResourcesInList = new ArrayList<>();
+        String[] cardResources = new String[3];
+
+        int t = 0;
+        cardResources[0] = " ";
+        cardResources[1] = " ";
+        cardResources[2] = " ";
+
+        for (String Resource : resourcesToSplit) {
+            cardResourcesInList.add(Resource.split("_"));
         }
 
-        // splitPrice[0]: Number of resources, splitPrice[1]: Color of the resource
-        for (String[] splitPrice : cardPriceList) {
+        for (String[] splitOutResources : cardResourcesInList) {
             if (t == 0)
-                cardPrice[0] = AnsiEnum.colorString(splitPrice[0], splitPrice[1]);
+                cardResources[0] = AnsiEnum.colorString(splitOutResources[0], splitOutResources[1]);
             else if (t == 1)
-                cardPrice[1] = AnsiEnum.colorString(splitPrice[0], splitPrice[1]);
+                cardResources[1] = AnsiEnum.colorString(splitOutResources[0], splitOutResources[1]);
             else if (t == 2)
-                cardPrice[2] = AnsiEnum.colorString(splitPrice[0], splitPrice[1]);
+                cardResources[2] = AnsiEnum.colorString(splitOutResources[0], splitOutResources[1]);
             t++;
         }
 
+        return cardResources;
+    }
+
+    /**
+     * This method set the position of the out and in resources in the printable Development Card
+     *
+     * @param cardResources in or out resources of the Card
+     */
+    private void setThePositionOfTheResources(String[] cardResources) {
+        for (int i = 0; i < 3; i++) {
+            if (cardResources[1].equals(" ")) {
+                cardResources[1] = cardResources[0];
+                cardResources[0] = " ";
+                break;
+            } else if (cardResources[2].equals(" ")) {
+                cardResources[2] = cardResources[1];
+                cardResources[1] = " ";
+                break;
+            }
+        }
+    }
+
+    /**
+     * This method set the position of the price in the printable Development Card
+     *
+     * @param cardPrice price of the Card
+     */
+    private void setThePositionOfThePrice(String[] cardPrice) {
         for (int i = 0; i < 3; i++) {
             if (cardPrice[1].equals(" ")) {
                 cardPrice[2] = cardPrice[0] + "  ";
@@ -133,99 +192,6 @@ public class DevelopmentCardsDatabase {
                 break;
             }
         }
-        return cardPrice;
-    }
-
-    /**
-     * Get method that return the in resources of the Card
-     *
-     * @param cardID is the ID of the Card
-     * @return the resources in input of the Card
-     */
-    public String[] getInResources(String cardID) {
-        int numberOfCard = getNumberOfCard(cardID);
-        String[] tmpInResources = devCardsInResources.get(numberOfCard).split("&");
-        List<String[]> cardInResourcesList = new ArrayList<>();
-        String[] cardInResources = new String[3];
-
-        int t = 0;
-        cardInResources[0] = " ";
-        cardInResources[1] = " "; // if there is not a resource, there is a space
-        cardInResources[2] = " ";
-
-        for (String inResource : tmpInResources) {
-            cardInResourcesList.add(inResource.split("_"));
-        }
-
-        // splitInResources[0]: Number of resources, splitInResources[1]: Color of the resource
-        for (String[] splitInResources : cardInResourcesList) {
-            if (t == 0)
-                cardInResources[0] = AnsiEnum.colorString(splitInResources[0], splitInResources[1]);
-            else if (t == 1)
-                cardInResources[1] = AnsiEnum.colorString(splitInResources[0], splitInResources[1]);
-            else if (t == 2)
-                cardInResources[2] = AnsiEnum.colorString(splitInResources[0], splitInResources[1]);
-            t++;
-        }
-
-        for (int i = 0; i < 3; i++) {
-            if (cardInResources[1].equals(" ")) {
-                cardInResources[1] = cardInResources[0];
-                cardInResources[0] = " ";
-                break;
-            } else if (cardInResources[2].equals(" ")) {
-                cardInResources[2] = cardInResources[1];
-                cardInResources[1] = " ";
-                break;
-            }
-        }
-        return cardInResources;
-    }
-
-    /**
-     * Get method that return the out resources of the Card
-     *
-     * @param cardID is the ID of the Card
-     * @return the resources in output of the Card
-     */
-    public String[] getOutResources(String cardID) {
-        int numberOfCard = getNumberOfCard(cardID);
-        String[] tmpOutResources = devCardsOutResources.get(numberOfCard).split("&");
-        List<String[]> cardOutResourcesList = new ArrayList<>();
-        String[] cardOutResources = new String[3];
-
-        int t = 0;
-        cardOutResources[0] = " ";
-        cardOutResources[1] = " "; // if there is not a resource, there is a space
-        cardOutResources[2] = " ";
-
-        for (String outResource : tmpOutResources) {
-            cardOutResourcesList.add(outResource.split("_"));
-        }
-
-        // splitOutResources[0]: Number of resources, splitOutResources[1]: Color of the resource
-        for (String[] splitOutResources : cardOutResourcesList) {
-            if (t == 0)
-                cardOutResources[0] = AnsiEnum.colorString(splitOutResources[0], splitOutResources[1]);
-            else if (t == 1)
-                cardOutResources[1] = AnsiEnum.colorString(splitOutResources[0], splitOutResources[1]);
-            else if (t == 2)
-                cardOutResources[2] = AnsiEnum.colorString(splitOutResources[0], splitOutResources[1]);
-            t++;
-        }
-
-        for (int i = 0; i < 3; i++) {
-            if (cardOutResources[1].equals(" ")) {
-                cardOutResources[1] = cardOutResources[0];
-                cardOutResources[0] = " ";
-                break;
-            } else if (cardOutResources[2].equals(" ")) {
-                cardOutResources[2] = cardOutResources[1];
-                cardOutResources[1] = " ";
-                break;
-            }
-        }
-        return cardOutResources;
     }
 
     /**
@@ -313,8 +279,14 @@ public class DevelopmentCardsDatabase {
         }
     }
 
+    /**
+     * Method that creates the specific card according with the iD in input
+     *
+     * @param iD of the Card
+     * @return the Card to print
+     */
     public DevelopmentCard createDevelopmentCardByID(String iD) {
-        if(iD.equals(EMPTY_CARD_ID))
+        if (iD.equals(EMPTY_CARD_ID))
             return new ProductionSlot(EMPTY_CARD_ID);
         else if (iD.equals(BASIC_CARD_ID))
             return new BasicPowerCard(BASIC_CARD_ID);
