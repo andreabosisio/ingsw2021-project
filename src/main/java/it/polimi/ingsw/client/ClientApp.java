@@ -6,8 +6,8 @@ import it.polimi.ingsw.client.view.gui.GUI;
 
 public class ClientApp {
     private static final String CLI_ARGUMENT = "-cli";
-    //private static final String DEFAULT_IP = "0.tcp.ngrok.io";
-    //private static final int DEFAULT_PORT = 17144;
+    //private static final String DEFAULT_IP = "8.tcp.ngrok.io";
+    //private static final int DEFAULT_PORT = 19721;
     private static final String DEFAULT_IP = "localhost";
     private static final int DEFAULT_PORT = 1337;
 

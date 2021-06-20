@@ -21,6 +21,8 @@ public class WelcomeController extends GUICommandListener {
             + zeroTo255 + "\\." + zeroTo255 + ")$";
     private static final Pattern IP_PATTERN = Pattern.compile(IP_REGEXP);
     private static final int defaultPort = 1337;
+    //private static final int defaultPort = 19721;
+    //private static final String defaultIP = "8.tcp.ngrok.io";
 
     @FXML
     private Button start;

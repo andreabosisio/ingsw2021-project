@@ -27,6 +27,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
+/**
+ * This class is used as the controller for the fxml scene:boardScene.fxml,
+ * it shows the Personal Board and the the common Game Board (Development Cards Grid, Market Tray)
+ */
 public class PersonalController extends GUICommandListener {
     private String nickname;
     private Stage leaderHandWindow;
@@ -93,6 +97,11 @@ public class PersonalController extends GUICommandListener {
     @FXML
     private Button endSwap;
 
+    /**
+     * Function used to initialize the fxml when loaded.
+     * It loads the current market state, the current Development Cards Grid and the current state of the Personal Board.
+     * It set all the Buttons to allow the Player to start playing.
+     */
     @FXML
     private void initialize() {
         //Load proper grids data
@@ -166,8 +175,8 @@ public class PersonalController extends GUICommandListener {
         //set all normal productionBoard indexes
         i = 1;
         for (Node n : productionPane.getChildren()) {
-            int buttonIndex = ((AnchorPane)n).getChildren().size() - 1;
-            Button slot = (Button) ((AnchorPane)n).getChildren().get(buttonIndex);
+            int buttonIndex = ((AnchorPane) n).getChildren().size() - 1;
+            Button slot = (Button) ((AnchorPane) n).getChildren().get(buttonIndex);
             slot.setId(String.valueOf(i));
             slot.setOnMousePressed(event -> productionClick(slot));
             i++;
@@ -196,6 +205,10 @@ public class PersonalController extends GUICommandListener {
         this.nickname = nickname;
     }
 
+    /**
+     * This method is called when the Player click on the Your Hand Button:
+     * it show a popup with the hand of the Player in it
+     */
     private void showHandPopup() {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/leaderHandScene.fxml"));
         fxmlLoader.setController(handController);
@@ -203,6 +216,10 @@ public class PersonalController extends GUICommandListener {
         leaderHandWindow.show();
     }
 
+    /**
+     * This method is called when the Player has to choose the transformation of the White Resources:
+     * it show a popup with the possibly colors of the resources to pick
+     */
     public void showTransformationPopup(int numberOfTransformation, List<String> possibleTransformation) {
         Platform.runLater(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/whiteTransformation.fxml"));
@@ -213,6 +230,12 @@ public class PersonalController extends GUICommandListener {
         });
     }
 
+    /**
+     * This method is called when the Player has to choose the slot to place the Development Card just bought:
+     * it show a popup with the possibly slots to place the Card
+     *
+     * @param newCardID is the CardID of the Card to place
+     */
     public void showCardPlacementPopup(String newCardID) {
         endTurn.setVisible(true);
         Platform.runLater(() -> {
@@ -224,12 +247,23 @@ public class PersonalController extends GUICommandListener {
         });
     }
 
+    /**
+     * This method is called when the Player click on an arrow of the Market Tray:
+     * it creates a new MarketActionEvent and it notify the commandListenerObserver with the Event just made
+     *
+     * @param arrowID is the ID of the Arrow
+     */
     private void marketAction(String arrowID) {
         notifyObservers(new MarketActionEvent(Integer.parseInt(arrowID)));
     }
 
+    /**
+     * This method is called when the Player click on a Card of the Development Cards Grid:
+     * it creates a new BuyActionEvent and it notify the commandListenerObserver with the Event just made
+     *
+     * @param n is the Button with the ID of the chosen Development Card
+     */
     private void handleBuyRequest(Node n) {
-        //todo: find better solution???
         if (n.getId().equals(GraphicUtilities.getEmptyID())) {
             currentSelectedResources.clear();
             printErrorMessage("This slot is empty");
@@ -242,6 +276,13 @@ public class PersonalController extends GUICommandListener {
         currentSelectedResources.clear();
     }
 
+    /**
+     * This method is called when the Player click on a Resource:
+     * it add the selected Resource in the List currentSelectedResources
+     *
+     * @param n
+     */
+    //todo: javaDOC
     private void resourceClick(Node n) {
         currentSelectedResources.add(n);
         if (canSwap) {
@@ -258,16 +299,29 @@ public class PersonalController extends GUICommandListener {
         }
     }
 
+    /**
+     * This method is used to update the state of the Market Tray:
+     * all the resources are updated
+     */
     public void marketUpdate() {
         if (mainPane == null)
             return;
         GraphicUtilities.populateMarket(marketGrid, extraRes);
     }
 
+    /**
+     * This method is used to update the state of the Development Cards Grid:
+     * only the new Card is updated
+     *
+     * @param iD is the new Card to show
+     */
     public void gridUpdate(String iD) {
         GraphicUtilities.updateDevGrid(devGrid, iD);
     }
 
+    /**
+     * This method is used to update the state of the Faith Tracks and of the Pope Tile
+     */
     public void faithTracksAndPopeTilesUpdate() {
         if (mainPane == null)
             return;
@@ -275,6 +329,9 @@ public class PersonalController extends GUICommandListener {
         GraphicUtilities.populatePopeTiles(popeTiles, nickname);
     }
 
+    /**
+     * This method is used to update the activated Development Cards of the Player
+     */
     public void productionBoardUpdate() {
         if (mainPane == null) {
             return;
@@ -282,6 +339,9 @@ public class PersonalController extends GUICommandListener {
         GraphicUtilities.populateProductionBoard(productionPane, nickname);
     }
 
+    /**
+     * This method is used to update the state of the activated Leader Cards of the Player
+     */
     public void activeLeadersUpdate() {
         if (mainPane == null) {
             return;
@@ -290,18 +350,31 @@ public class PersonalController extends GUICommandListener {
         GraphicUtilities.populateActiveLeaders(activeLeaders, HActiveLeaders, HLeadersRes, HActiveProductionLeaders);
     }
 
+    /**
+     * This method is used to update the state of the Inventory
+     * (Warehouse, Strongbox, Resources from Market, Leader slots)
+     */
     public void warehouseUpdate() {
         if (mainPane == null)
             return;
         GraphicUtilities.populateDepots(HResFromMarket, warehouse, HLeadersRes, strongboxGrid, nickname);
     }
 
+    /**
+     * This method is called when the Player has to choose the slots to place the Resources just take from the Market,
+     * it sets visible the End Swap Button
+     */
     public void activateSwaps() {
         currentSelectedResources.clear();
         endSwap.setVisible(true);
         canSwap = true;
     }
 
+    /**
+     * This method is called when the Player click on the End Swap Button:
+     * it creates a new ResourcesPlacementActionEvent and it notify the commandListenerObserver with the Event just made,
+     * it sets Visible the End Turn Button
+     */
     private void sendSwapAction() {
         List<Integer> swaps = new ArrayList<>();
         currentSelectedResources.forEach(node -> swaps.add(Integer.parseInt(node.getId())));
@@ -312,6 +385,11 @@ public class PersonalController extends GUICommandListener {
         endTurn.setVisible(true);
     }
 
+    /**
+     * This method is called when the Player click on the End Turn Button:
+     * it creates a new EndTurnActionEvent and it notify the commandListenerObserver with the Event just made,
+     * it resets all the variables
+     */
     private void endTurnAction() {
         currentSelectedResources.clear();
         totalInResources.clear();
@@ -322,18 +400,31 @@ public class PersonalController extends GUICommandListener {
         notifyObservers(new EndTurnActionEvent());
     }
 
+    /**
+     * This method is called when it is not the turn of the Player:
+     * it set a new image of the Board without the Faith Tracks
+     */
     public void disableBoard() {
         board.setVisible(false);
         faithTrack.setVisible(false);
         popeTiles.setVisible(false);
     }
 
+    /**
+     * This method is called when it is the turn of the Player:
+     * it set the correct image of the Board
+     */
     public void activateBoard() {
         board.setVisible(true);
         faithTrack.setVisible(true);
         popeTiles.setVisible(true);
     }
 
+    /**
+     * This method is called when the Player click on the End Production Button:
+     * it creates a new ProductionActionEvent and it notify the commandListenerObserver with the Event just made,
+     * it reset the chosen resources
+     */
     private void endProductionClick() {
         notifyObservers(new ProductionActionEvent(totalInResources, totalOutResources));
         totalInResources.clear();
@@ -348,6 +439,12 @@ public class PersonalController extends GUICommandListener {
         endTurn.setVisible(true);
     }
 
+    /**
+     * This method is called when the Player has to do a Production with a choice of the Resources:
+     * it show a popup with the possibly resources to choose
+     *
+     * @param production is the clicked Button (Basic Power, Leader Card of type Production)
+     */
     private void productionWithChoiceClick(Node production) {
         productionClick(production);
         productionChoiceController.setProduction(production);
@@ -357,10 +454,23 @@ public class PersonalController extends GUICommandListener {
         productionChoiceWindow.show();
     }
 
+    /**
+     * This method is called when the Player did a Production with a choice of the Resources:
+     * it put in the list totalOutResources the chosen resources
+     *
+     * @param chosenResource are the chosen resources
+     * @param production     is the clicked Button (Basic Power, Leader Card of type Production)
+     */
     public void setChosenResource(String chosenResource, Node production) {
         totalOutResources.put(Integer.parseInt(production.getId()), chosenResource);
     }
 
+    /**
+     * This method is called when the Player click on a Card placed on his Personal Board:
+     * it saves the selected resources, it sets Visible the End Production Button
+     *
+     * @param production is the chosen Development Card
+     */
     private void productionClick(Node production) {
         List<Integer> resPositions = currentSelectedResources.stream().map(node -> Integer.parseInt(node.getId())).collect(Collectors.toList());
         totalInResources.put(Integer.parseInt(production.getId()), resPositions);
@@ -375,12 +485,17 @@ public class PersonalController extends GUICommandListener {
         endProduction.setVisible(true);
     }
 
-    private void legendClick(Button b) {
+    /**
+     * This method is called when the Player click on a nickname of another Player:
+     * it show a popup with the current Personal Board of the Player to see
+     *
+     * @param nickname is the Player to see
+     */
+    private void legendClick(Button nickname) {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/legendPopupScene.fxml"));
         fxmlLoader.setController(legendPopupController);
-        legendPopupController.setPlayerToSee(b.getText());
+        legendPopupController.setPlayerToSee(nickname.getText());
         legendWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, legendWindow, Modality.WINDOW_MODAL);
         legendWindow.show();
     }
-
 }
