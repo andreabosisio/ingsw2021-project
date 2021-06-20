@@ -165,7 +165,7 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnEndTurn() {
-        personalController.activateBoard();
+        Platform.runLater(personalController::activateBoard);
     }
 
 
@@ -182,37 +182,37 @@ public class GUI extends Application implements View {
 
     @Override
     public void marketUpdate() {
-        personalController.marketUpdate();
+        Platform.runLater(personalController::marketUpdate);
     }
 
     @Override
     public void gridUpdate(String iD) {
-        personalController.gridUpdate(iD);
+        Platform.runLater(() -> personalController.gridUpdate(iD));
     }
 
     @Override
     public void faithTracksUpdate() {
-        personalController.faithTracksAndPopeTilesUpdate();
+        Platform.runLater(personalController::faithTracksAndPopeTilesUpdate);
     }
 
     @Override
     public void productionBoardUpdate(String updatingNick) {
         if (nickname.equals(updatingNick)) {
-            personalController.productionBoardUpdate();
+            Platform.runLater(personalController::productionBoardUpdate);
         }
     }
 
     @Override
     public void activeLeadersUpdate(String updatingNick) {
         if (nickname.equals(updatingNick)) {
-            personalController.activeLeadersUpdate();
+            Platform.runLater(personalController::activeLeadersUpdate);
         }
     }
 
     @Override
     public void warehouseUpdate(String updatingNick) {
         if (nickname.equals(updatingNick)) {
-            personalController.warehouseUpdate();
+            Platform.runLater(personalController::warehouseUpdate);
         }
     }
 
