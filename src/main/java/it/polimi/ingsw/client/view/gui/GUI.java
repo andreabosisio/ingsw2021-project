@@ -69,12 +69,16 @@ public class GUI extends Application implements View {
 
     @Override
     public void printInfoMessage(String info) {
-        currentGuiCommandListener.printInfoMessage(info);
+        Platform.runLater(() -> {
+            currentGuiCommandListener.printInfoMessage(info);
+        });
     }
 
     @Override
     public void printErrorMessage(String error) {
-        currentGuiCommandListener.printErrorMessage(error);
+        Platform.runLater(() -> {
+            currentGuiCommandListener.printErrorMessage(error);
+        });
     }
 
     @Override

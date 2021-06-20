@@ -99,39 +99,23 @@ public class PersonalController extends GUICommandListener {
 
     /**
      * Function used to initialize the fxml when loaded.
-     * It loads the current market state, the current Development Cards Grid and the current state of the Personal Board.
-     * It set all the Buttons to allow the Player to start playing.
+     * It loads the current market state, the current Development Cards Grid, the current state of the Personal Board and the faithTracks of each player with their names
+     * It also pairs every button with its corresponding action to allow the Player to start playing.
      */
     @FXML
     private void initialize() {
-        //Load proper grids data
-        GraphicUtilities.populateMarket(marketGrid, extraRes);
-        GraphicUtilities.populateDevGrid(devGrid);
-        GraphicUtilities.populateHandLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders());
-        GraphicUtilities.populateProductionBoard(productionPane, nickname);
-        GraphicUtilities.populateDepots(HResFromMarket, warehouse, HLeadersRes, strongboxGrid, nickname);
-        GraphicUtilities.populateFaithTracks(faithTrack);
-        GraphicUtilities.populatePopeTiles(popeTiles, nickname);
-        GraphicUtilities.populateLegend(legendPane);
-        //Prepare action for legend buttons
-        for (Node n : legendPane.getChildren()) {
-            Button button = (Button) n;
-            if (button.getText().equals(nickname) || button.getText().equals(GraphicUtilities.getAiName())) {
-                continue;
-            }
-            n.setOnMousePressed(event -> legendClick((Button) n));
-        }
-        //Prepare action for seeLeaderHand button
-        handButton.setOnMousePressed(event -> showHandPopup());
-        endSwap.setVisible(false);
-        endSwap.setOnMousePressed(event -> sendSwapAction());
-        endTurn.setOnMousePressed(event -> endTurnAction());
-        //Prepare actions for market buttons
-        for (Node b : Stream.concat(HArrowButtons.getChildren().stream(), VArrowButtons.getChildren().stream()).collect(Collectors.toList())) {
-            Button button = (Button) b;
-            button.setOnMousePressed((event -> marketAction(button.getId())));
-        }
+        populateAll();
+        prepareLegend();
+        prepareActions();
+        preparePopupsControllers();
+        prepareDepots();
+        prepareProductions();
+    }
 
+    /**
+     * This method is used to setup every popup controller and sets the commandListenerObserver as observer if needed
+     */
+    private void preparePopupsControllers(){
         //setup popup scene controllers
         handController = new HandController(nickname);
         handController.registerObservers(getCommandListenerObserver());
@@ -141,10 +125,91 @@ public class PersonalController extends GUICommandListener {
         cardPlacementController.registerObservers(getCommandListenerObserver());
         productionChoiceController = new ProductionChoiceController(this);
         legendPopupController = new LegendPopupController();
+    }
 
+    /**
+     * This method is used to pair every button with its respective action
+     */
+    private void prepareActions(){
+        //Prepare actions for grid buttons
         for (Node n : devGrid.getChildren()) {
             n.setOnMousePressed(event -> handleBuyRequest(n));
         }
+        //Prepare actions for market buttons
+        for (Node b : Stream.concat(HArrowButtons.getChildren().stream(), VArrowButtons.getChildren().stream()).collect(Collectors.toList())) {
+            Button button = (Button) b;
+            button.setOnMousePressed((event -> marketAction(button.getId())));
+        }
+        endSwap.setOnMousePressed(event -> sendSwapAction());
+        endSwap.setVisible(false);
+        endTurn.setOnMousePressed(event -> endTurnAction());
+        handButton.setOnMousePressed(event -> showHandPopup());
+    }
+
+    /**
+     * This method is used to load the graphic elements in every element of the gameBoard
+     */
+    private void populateAll(){
+        GraphicUtilities.populateMarket(marketGrid, extraRes);
+        GraphicUtilities.populateDevGrid(devGrid);
+        GraphicUtilities.populateHandLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders());
+        GraphicUtilities.populateProductionBoard(productionPane, nickname);
+        GraphicUtilities.populateDepots(HResFromMarket, warehouse, HLeadersRes, strongboxGrid, nickname);
+        GraphicUtilities.populateFaithTracks(faithTrack);
+        GraphicUtilities.populatePopeTiles(popeTiles, nickname);
+        GraphicUtilities.populateLegend(legendPane);
+        //repopulate leader warehouse and leader production special buttons
+        List<String> activeLeaders = Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders();
+        GraphicUtilities.populateActiveLeaders(activeLeaders, HActiveLeaders, HLeadersRes, HActiveProductionLeaders);
+    }
+
+    /**
+     * This method is used to prepare every production button id and its action on mousePressed
+     */
+    private void prepareProductions(){
+        //set all normal productionBoard indexes
+        int i = 1;
+        for (Node n : productionPane.getChildren()) {
+            int buttonIndex = ((AnchorPane) n).getChildren().size() - 1;
+            Button slot = (Button) ((AnchorPane) n).getChildren().get(buttonIndex);
+            slot.setId(String.valueOf(i));
+            slot.setOnMousePressed(event -> productionClick(slot));
+            i++;
+        }
+        //prepare productionLeader special production
+        i = 4;
+        for (Node n : HActiveProductionLeaders.getChildren()) {
+            n.setVisible(false);
+            n.setOnMousePressed(event -> productionWithChoiceClick(n));
+            n.setId(String.valueOf(i));
+            i++;
+        }
+        //prepare basic special production
+        basicPower.setOnMousePressed(event -> productionWithChoiceClick(basicPower));
+        basicPower.setId(String.valueOf(0));
+        //prepare end production button
+        endProduction.setOnMousePressed(event -> endProductionClick());
+        endProduction.setVisible(false);
+    }
+
+    /**
+     * This method is used to load each player name and color in the legend
+     */
+    private void prepareLegend(){
+        //Prepare action for legend buttons
+        for (Node n : legendPane.getChildren()) {
+            Button button = (Button) n;
+            if (button.getText().equals(nickname) || button.getText().equals(GraphicUtilities.getAiName())) {
+                continue;
+            }
+            n.setOnMousePressed(event -> legendClick((Button) n));
+        }
+    }
+
+    /**
+     * This method is used to prepare each resource button id and sets its mousePressed action
+     */
+    private void prepareDepots(){
         //set all resources buttons ID as their indexes
         int i = 0;
         //set from Market(0-3)
@@ -172,35 +237,13 @@ public class PersonalController extends GUICommandListener {
             n.setOnMousePressed(event -> resourceClick(n));
             i++;
         }
-        //set all normal productionBoard indexes
-        i = 1;
-        for (Node n : productionPane.getChildren()) {
-            int buttonIndex = ((AnchorPane) n).getChildren().size() - 1;
-            Button slot = (Button) ((AnchorPane) n).getChildren().get(buttonIndex);
-            slot.setId(String.valueOf(i));
-            slot.setOnMousePressed(event -> productionClick(slot));
-            i++;
-        }
-        //prepare productionLeader special production
-        i = 4;
-        for (Node n : HActiveProductionLeaders.getChildren()) {
-            n.setVisible(false);
-            n.setOnMousePressed(event -> productionWithChoiceClick(n));
-            n.setId(String.valueOf(i));
-            i++;
-        }
-        //prepare basic special production
-        basicPower.setOnMousePressed(event -> productionWithChoiceClick(basicPower));
-        basicPower.setId(String.valueOf(0));
-        //prepare end production button
-        endProduction.setOnMousePressed(event -> endProductionClick());
-        endProduction.setVisible(false);
-        //repopulate leader warehouse and leader production special buttons
-        List<String> activeLeaders = Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders();
-        GraphicUtilities.populateActiveLeaders(activeLeaders, HActiveLeaders, HLeadersRes, HActiveProductionLeaders);
-
     }
 
+    /**
+     * This method is used to set the nickname of the player owner of this GUI
+     *
+     * @param nickname player's nickname
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -260,6 +303,7 @@ public class PersonalController extends GUICommandListener {
     /**
      * This method is called when the Player click on a Card of the Development Cards Grid:
      * it creates a new BuyActionEvent and it notify the commandListenerObserver with the Event just made
+     * the resources for the buy action are taken from the list currentSelectedResources which is cleared after the event is sent
      *
      * @param n is the Button with the ID of the chosen Development Card
      */
@@ -278,11 +322,11 @@ public class PersonalController extends GUICommandListener {
 
     /**
      * This method is called when the Player click on a Resource:
-     * it add the selected Resource in the List currentSelectedResources
+     * It add the selected Resource in the List currentSelectedResources
+     * If the player is performing a swap action it also swaps the imageViews of two resources when pressed one after the other
      *
-     * @param n
+     * @param n Node pressed by the player representing the resource in the GUI
      */
-    //todo: javaDOC
     private void resourceClick(Node n) {
         currentSelectedResources.add(n);
         if (canSwap) {
@@ -361,8 +405,8 @@ public class PersonalController extends GUICommandListener {
     }
 
     /**
-     * This method is called when the Player has to choose the slots to place the Resources just take from the Market,
-     * it sets visible the End Swap Button
+     * This method is called when the Player must perform a swap action in order to place the Resources taken from the Market,
+     * it sets the player in canSwap mode and the endSwap Button as visible
      */
     public void activateSwaps() {
         currentSelectedResources.clear();
@@ -372,8 +416,9 @@ public class PersonalController extends GUICommandListener {
 
     /**
      * This method is called when the Player click on the End Swap Button:
-     * it creates a new ResourcesPlacementActionEvent and it notify the commandListenerObserver with the Event just made,
-     * it sets Visible the End Turn Button
+     * It creates a new ResourcesPlacementActionEvent and it notify the commandListenerObserver with the Event just made,
+     * The swaps indexes are taken from the list currentSelectedResources which is cleared after the event is sent
+     * it also sets the player as not in a swap phase and sets as invisible the endSwap button and as visible the End Turn Button
      */
     private void sendSwapAction() {
         List<Integer> swaps = new ArrayList<>();
@@ -423,7 +468,7 @@ public class PersonalController extends GUICommandListener {
     /**
      * This method is called when the Player click on the End Production Button:
      * it creates a new ProductionActionEvent and it notify the commandListenerObserver with the Event just made,
-     * it reset the chosen resources
+     * it resets both the totalInResources and totalOutResources lists
      */
     private void endProductionClick() {
         notifyObservers(new ProductionActionEvent(totalInResources, totalOutResources));
@@ -441,7 +486,8 @@ public class PersonalController extends GUICommandListener {
 
     /**
      * This method is called when the Player has to do a Production with a choice of the Resources:
-     * it show a popup with the possibly resources to choose
+     * It calls the productionClick function in order to add the selected resources to the list totalInResources
+     * It also shows a popup with the possible resources to choose
      *
      * @param production is the clicked Button (Basic Power, Leader Card of type Production)
      */
@@ -455,8 +501,8 @@ public class PersonalController extends GUICommandListener {
     }
 
     /**
-     * This method is called when the Player did a Production with a choice of the Resources:
-     * it put in the list totalOutResources the chosen resources
+     * This method is called when the Player did a Production with a resource choice:
+     * it puts in the list totalOutResources the chosen resources
      *
      * @param chosenResource are the chosen resources
      * @param production     is the clicked Button (Basic Power, Leader Card of type Production)
@@ -466,8 +512,8 @@ public class PersonalController extends GUICommandListener {
     }
 
     /**
-     * This method is called when the Player click on a Card placed on his Personal Board:
-     * it saves the selected resources, it sets Visible the End Production Button
+     * This method is called when the Player click on a Card placed on his Personal Board for a production without choice:
+     * it saves the selected resources in the list totalInResources and also sets Visible the End Production Button
      *
      * @param production is the chosen Development Card
      */
