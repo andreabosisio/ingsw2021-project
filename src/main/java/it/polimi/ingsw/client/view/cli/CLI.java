@@ -17,8 +17,7 @@ public class CLI implements View {
     private final CLICommandListener cliCommandListener;
 
     public CLI(String ip, int port) {
-        //todo ask ip and port
-
+        //todo ask ip and port and if local game
         if(onlineGame) {
             try {
                 this.networkHandler = new NetworkHandler(ip, port, this);

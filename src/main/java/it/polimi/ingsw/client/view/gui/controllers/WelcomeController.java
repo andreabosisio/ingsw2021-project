@@ -63,6 +63,7 @@ public class WelcomeController extends GUICommandListener {
      * In case of a failure it sets the serverIP and serverPort to the default values
      */
     private void startAction() {
+        //todo if checked for local do local game
         String ip;
         int port;
         /*
@@ -84,6 +85,7 @@ public class WelcomeController extends GUICommandListener {
         // Wrong IP or Port
         try {
             gui.setGUI(ip, port);
+            //gui.setGui();
         } catch (Exception e) {
             printErrorMessage("Could not reach the Server");
             serverIP.setText(defaultIP);

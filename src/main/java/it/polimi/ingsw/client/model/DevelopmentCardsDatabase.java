@@ -213,6 +213,7 @@ public class DevelopmentCardsDatabase {
      * into the various list that contains all the information of the Cards.
      * It is called only at the moment of the creation of the class.
      */
+    //todo long method (leader and token too)
     private void firstSetup() {
         File input = new File(developmentCardsFileName);
 

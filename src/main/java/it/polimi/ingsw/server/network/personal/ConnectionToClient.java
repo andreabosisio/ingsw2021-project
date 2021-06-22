@@ -10,7 +10,7 @@ import java.net.Socket;
  * to send messages via Socket.
  * It's aim is also to manage all of that concerne the Socket.
  */
-public class ConnectionToClient {
+public class ConnectionToClient implements Connection{
     private BufferedReader in;
     private PrintWriter out;
     private final Socket socket;
@@ -42,7 +42,7 @@ public class ConnectionToClient {
     public void sendMessage(String message) {
         out.println(message);
     }
-
+    public void sendPing(){out.println("ping");}
     /**
      * This method is used to return the plain text messages received from the client through the socket
      * If the message is a pong message it also notifies a pongObserver of the received message

@@ -93,4 +93,11 @@ public class Controller implements ReceiveObserver {
     public synchronized void reconnectPlayer(String nickname) {
         modelInterface.reconnectPlayer(nickname);
     }
+
+    /**
+     * This method is used to cheat 5 resources to each player during the game demo
+     */
+    public void cheat() {
+        modelInterface.cheat();
+    }
 }

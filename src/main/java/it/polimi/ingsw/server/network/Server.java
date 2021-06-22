@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.network;
 
+import it.polimi.ingsw.server.model.gameBoard.GameBoard;
+
 import java.util.Scanner;
 
 /**
@@ -37,7 +39,7 @@ public class Server {
         Scanner scanner = new Scanner(System.in);
         String input;
         while (serverUp) {
-            System.out.println("SERVER READY\nTYPE LOBBY FOR ONLINE PLAYER-----QUIT TO CLOSE");
+            System.out.println("SERVER READY\nTYPE LOBBY FOR ONLINE PLAYER-----QUIT TO CLOSE---CHEAT TO CHEAT");
             input = scanner.nextLine().toLowerCase();
             switch (input) {
                 case "quit":
@@ -47,7 +49,10 @@ public class Server {
                 case "lobby":
                     System.out.println(Lobby.getLobby().getOnlinePlayersNumber());
                     continue;
-                //todo cheat
+                case "cheat":
+                    Lobby.getLobby().cheat();
+                    System.out.println("added 6 resources to each player");
+                    continue;
                 default:
                     System.out.println("Invalid input");
             }

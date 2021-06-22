@@ -41,6 +41,12 @@ public class GUI extends Application implements View {
             throw new IOException();
         }
     }
+    public void setGui(){
+        this.networkHandler = new NetworkHandler(this);
+        guiCommandListeners.values().forEach(guiCommandListener -> guiCommandListener.registerObservers(networkHandler));
+        personalController.registerObservers(networkHandler);
+        new Thread(this::startNetwork).start();
+    }
 
     @Override
     public void setNickname(String nickname) {

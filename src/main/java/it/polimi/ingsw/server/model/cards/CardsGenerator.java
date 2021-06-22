@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class CardsGenerator {
     private final String developmentCardsFileName = "src/main/resources/developmentCards.json";
     private final String leaderCardsFileName = "src/main/resources/leaderCards.json";
-
     private final String mainDevJsonArrayName = "cards";
     private final String mainLeaderJsonArrayName = "leaders";
     private final String resAndDevColorNameInJson = "color";

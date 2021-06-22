@@ -1,10 +1,19 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.client.model.StorableResourceEnum;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
+import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
+import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
+import it.polimi.ingsw.server.events.send.graphics.WarehouseUpdate;
+import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.resources.NonStorableResources;
+import it.polimi.ingsw.server.model.resources.Resource;
+import it.polimi.ingsw.server.model.resources.ResourceFactory;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 import it.polimi.ingsw.server.utils.SendObservable;
 import it.polimi.ingsw.server.utils.SendObserver;
@@ -249,5 +258,25 @@ public class ModelInterface implements SendObservable {
      */
     public void reconnectPlayer(String nickname) {
         turnLogic.reconnectPlayer(nickname);
+    }
+
+    /**
+     * This method is used to cheat 5 resources to each player during the game demo
+     * It does so by adding them to each player strongBox
+     */
+    public void cheat() {
+        List<Resource> cheatResources = new ArrayList<>();
+        for(ResourceEnum resourceEnum:ResourceEnum.values()){
+            for(int i = 0;i<6;i++){
+                try {
+                    cheatResources.add(ResourceFactory.produceResource(resourceEnum));
+                } catch (NonStorableResourceException ignored) {
+                }
+            }
+        }
+        players.forEach(p->p.getPersonalBoard().getWarehouse().addResourcesToStrongBox(cheatResources));
+        GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+        players.forEach(p->graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(p, new WarehouseUpdate())));
+        notifyObservers(graphicUpdateEvent);
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.network.personal;
 
 import com.google.gson.*;
+import it.polimi.ingsw.client.network.FakeConnection;
 import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.Server;
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
 public class ClientHandler implements Runnable {
     private String nickname, password;
     private StatusEnum status;
-    private final ConnectionToClient connectionToClient;
+    private final Connection connectionToClient;
     private final Gson gson;
     private VirtualView virtualView;
     private static final String TYPE_QUIT = "quit";
@@ -42,6 +43,13 @@ public class ClientHandler implements Runnable {
 
     public ClientHandler(Socket socket) {
         this.connectionToClient = new ConnectionToClient(socket);
+        this.gson = new Gson();
+    }
+
+    public ClientHandler(FakeConnection fakeConnection){
+        FakeConnectionToClient f = new FakeConnectionToClient(fakeConnection);
+        fakeConnection.setFakeConnectionToClient(f);
+        this.connectionToClient = f;
         this.gson = new Gson();
     }
 
@@ -160,7 +168,8 @@ public class ClientHandler implements Runnable {
      * @return false if the player left in the middle of his connection
      */
     private boolean firstInLobby(){
-        synchronized (Server.getServer()) {
+        //todo pensarci bene
+        synchronized (Lobby.getLobby()) {
             if (Lobby.getLobby().isFirstInLobby()) {
                 if(!decidingSizeLoop()){
                     return false;
@@ -231,6 +240,7 @@ public class ClientHandler implements Runnable {
     private void game() {
         status = StatusEnum.GAME;
         String message;
+        //todo pingpong for local game
         Lobby.getLobby().getVirtualViewByNickname(nickname).startPingPong();
 
         while (status == StatusEnum.GAME) {
@@ -401,7 +411,7 @@ public class ClientHandler implements Runnable {
      * This method is used to send a plain text ping to the client
      */
     public void sendPing() {
-        connectionToClient.sendMessage("ping");
+        connectionToClient.sendPing();
     }
 
     /**
@@ -409,7 +419,7 @@ public class ClientHandler implements Runnable {
      *
      * @return true if the connection is up and running
      */
-    public ConnectionToClient getConnection() {
+    public Connection getConnection() {
         return connectionToClient;
     }
 
