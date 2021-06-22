@@ -85,7 +85,7 @@ public class NetworkHandler implements CommandListenerObserver {
             }
         }
         System.out.println("Socket generated an IOException");
-        close();
+        connection.close(false);
     }
 
     /**

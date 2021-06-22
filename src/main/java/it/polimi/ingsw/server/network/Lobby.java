@@ -249,7 +249,7 @@ public class Lobby {
      * @param nickname nickname of the currently disconnecting player
      */
     private void destroyLobby(String nickname){
-        virtualViews.stream().filter(v -> !v.getNickname().equals(nickname)).forEach(VirtualView::disconnect);//if a player is waiting on the lock for a reconnection abort it
+        virtualViews.stream().filter(v -> !v.getNickname().equals(nickname) && v.isOnline()).forEach(VirtualView::disconnect);//if a player is waiting on the lock for a reconnection abort it
         numberOfPlayers = NOT_DECIDED;
         gameStarted = false;
         virtualViews.clear();

@@ -79,7 +79,10 @@ public class ConnectionToServer implements Connection {
     }
 
     /**
-     * This method is used to safely close the connection with the Server
+     * This method is used to safely close the connection with the server
+     * It can do so by either informing the server of the quitting or not
+     *
+     * @param inform true if the server should be informed of the socket closing
      */
     public void close(boolean inform) {
         try {
@@ -87,6 +90,7 @@ public class ConnectionToServer implements Connection {
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("type", QUIT_TYPE);
                 sendMessage(jsonObject.toString());
+                return;
             }
             run = false;
             socket.close();

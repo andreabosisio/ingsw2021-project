@@ -36,10 +36,10 @@ public class GraphicUtilities {
     private static final String endOfPath = ".png";
     private static final String lorenzo = "Lorenzo il Magnifico";
     private static final String emptyID = "empty";
-    private static final String redColor = "#ff0000";
-    private static final String blueColor = "#0800ff";
-    private static final String greenColor = "#00ff33";
-    private static final String pinkColor = "#ff00be";
+    private static final String redCrossColor = "#ff0000";
+    private static final String blueCrossColor = "#0800ff";
+    private static final String greenCrossColor = "#00ff33";
+    private static final String pinkCrossColor = "#ff00be";
 
     /**
      * Getter of the single player AI name
@@ -87,10 +87,10 @@ public class GraphicUtilities {
      */
     public static void populateLegend(AnchorPane legendPane) {
         List<String> colors = new ArrayList<>() {{
-            add(redColor);
-            add(blueColor);
-            add(greenColor);
-            add(pinkColor);
+            add(redCrossColor);
+            add(blueCrossColor);
+            add(greenCrossColor);
+            add(pinkCrossColor);
         }};
         Map<String, Integer> faithTracks = Board.getBoard().getFaithTrack().getIndexes();
         int i = 0;
@@ -427,8 +427,8 @@ public class GraphicUtilities {
     /**
      * This method is used to load in a ImageView of a button the image of the resource
      * associated with the given color;
-     * @param button
-     * @param color
+     * @param button The button containing the imageView to change
+     * @param color color of the resource to load in the imageView
      */
     public static void loadResource(Button button, String color){
         File file = new File(resourcesPath + color.toLowerCase(Locale.ROOT) + endOfPath);

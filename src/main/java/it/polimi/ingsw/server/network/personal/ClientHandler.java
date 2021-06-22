@@ -247,7 +247,7 @@ public class ClientHandler implements Runnable {
                 String type = jsonObject.get("type").getAsString();
                 Type eventType = (Type) receiveEventByJsonType.get(type);
                 if (type.equals(TYPE_QUIT)) {
-                    sendInfoMessage("quitting");
+                    //sendInfoMessage("quitting");
                     virtualView.disconnect();
                 } else if (virtualView == null) {
                     sendErrorMessage("waitForGameToStart");
@@ -342,7 +342,7 @@ public class ClientHandler implements Runnable {
             VirtualView virtualView = Lobby.getLobby().getVirtualViewByNickname(nickname);
             if (virtualView != null) {
                 virtualView.stopPingPong();
-                sendInfoMessage("quitting");
+                //sendInfoMessage("quitting");
                 Lobby.getLobby().removeVirtualView(nickname);
             }
         }
