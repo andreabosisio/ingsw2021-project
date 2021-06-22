@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * This class is the implementation of the Basic Power Card.
+ */
 public class BasicPowerCard implements ProductionCard {
 
     private final int inResourceSlots = 2;

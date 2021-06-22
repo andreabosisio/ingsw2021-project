@@ -5,6 +5,9 @@ import it.polimi.ingsw.client.view.cli.Printable;
 
 import java.util.Set;
 
+/**
+ * This class implements the visible Board of the Game.
+ */
 public class Board extends Printable {
     private static Board instance;
     private MarketTray marketTray;
@@ -15,6 +18,9 @@ public class Board extends Printable {
     private final static String MARKET_GRID_SEPARATOR = "            ";
     private final static String GRID_BOARD_SEPARATOR = "      |      ";
 
+    /**
+     * Create the single instance of this class.
+     */
     private Board() {
     }
 

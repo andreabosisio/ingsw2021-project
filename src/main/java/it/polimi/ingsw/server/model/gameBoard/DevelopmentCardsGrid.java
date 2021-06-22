@@ -143,7 +143,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      * @return the requested DevelopmentCard
      * @throws IndexOutOfBoundsException if the requested DevelopmentCard is not present
      */
-    public DevelopmentCard getCardByColorAndLevel(CardColorEnum color,int level) throws IndexOutOfBoundsException{
+    public DevelopmentCard getCardByColorAndLevel(CardColorEnum color, int level) throws IndexOutOfBoundsException{
         //index out of bounds exception if card is not present
         return mapByLevel.get(level-1).get(color).get(0);
     }

@@ -137,6 +137,11 @@ public enum AnsiEnum {
     public static final String BLUE_MARBLE = CYAN_BRIGHT + MARBLE.getAsciiArt() + RESET;
     public static final String GRAY_MARBLE = BLACK_BRIGHT + MARBLE.getAsciiArt() + RESET;
 
+    /**
+     * Set the current asciiArt.
+     *
+     * @param asciiArt The current asciiArt
+     */
     AnsiEnum(final String asciiArt) {
         this.asciiArt = asciiArt;
     }

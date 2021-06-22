@@ -364,10 +364,13 @@ public class CLICommandListener implements CommandListener {
         Set<Integer> inResourcesStory = new HashSet<>();
         Set<Integer> indexesStory = new HashSet<>();
         List<Integer> inResources;
+
         CLI.render("Choose the Production Slot you want to activate (from 0 to 5). Type " + CommandsEnum.DONE + " when finished or " + CommandsEnum.BACK + " to change action:");
         String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
+
         if (answer.equals(CommandsEnum.BACK.toString()))
             return false;
+
         while (!answer.equals(CommandsEnum.DONE.toString())) {
             int index;
             String outResource = null;
@@ -379,13 +382,14 @@ public class CLICommandListener implements CommandListener {
                     answer = scanner.nextLine().toUpperCase(Locale.ROOT);
                     continue;
                 }
-                //used to launch exception if card is not owned
+                //used to throw an exception if card is not owned
                 indexesStory.add(index);
             } catch (NumberFormatException e) {
                 CLI.renderError("Couldn't get the selected card, try again");
                 answer = scanner.nextLine().toUpperCase(Locale.ROOT);
                 continue;
             }
+
             CLI.render("Choose the resources you wish to use (ex: 4,13, ... ,9)");
             answer = scanner.nextLine().toUpperCase(Locale.ROOT);
             while (true) {
@@ -404,6 +408,7 @@ public class CLICommandListener implements CommandListener {
                 }
                 answer = scanner.nextLine().toUpperCase(Locale.ROOT);
             }
+
             if (index == 0 || index >= 4) {
                 do {
                     CLI.render("Choose the resource you wish to produce (ex: blue or gray...)");

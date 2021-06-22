@@ -20,10 +20,10 @@ import java.util.Locale;
  */
 public class ProductionChoiceController {
     private final PersonalController personalController;
-    @FXML private Button resource;
-    @FXML private Button done;
-    @FXML private AnchorPane mainPane;
-    private Node production;
+    @FXML Button resource;
+    @FXML Button done;
+    @FXML AnchorPane mainPane;
+    @FXML Node production;
 
     public ProductionChoiceController(PersonalController personalController) {
         this.personalController = personalController;

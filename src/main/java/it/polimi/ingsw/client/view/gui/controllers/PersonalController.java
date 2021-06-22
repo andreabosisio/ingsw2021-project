@@ -53,49 +53,49 @@ public class PersonalController extends GUICommandListener {
     private Node lastSwap;
 
     @FXML
-    private AnchorPane legendPane;
+    AnchorPane legendPane;
     @FXML
-    private ImageView board;
+    ImageView board;
     @FXML
-    private AnchorPane faithTrack;
+    AnchorPane faithTrack;
     @FXML
-    private AnchorPane popeTiles;
+    AnchorPane popeTiles;
     @FXML
-    private HBox HActiveProductionLeaders;
+    HBox HActiveProductionLeaders;
     @FXML
-    private Button basicPower;
+    Button basicPower;
     @FXML
-    private AnchorPane mainPane;
+    AnchorPane mainPane;
     @FXML
-    private ImageView extraRes;
+    ImageView extraRes;
     @FXML
-    private GridPane marketGrid;
+    GridPane marketGrid;
     @FXML
-    private GridPane devGrid;
+    GridPane devGrid;
     @FXML
-    private Button handButton;
+    Button handButton;
     @FXML
-    private HBox HActiveLeaders;
+    HBox HActiveLeaders;
     @FXML
-    private VBox VArrowButtons;
+    VBox VArrowButtons;
     @FXML
-    private HBox HArrowButtons;
+    HBox HArrowButtons;
     @FXML
-    private HBox HResFromMarket;
+    HBox HResFromMarket;
     @FXML
-    private VBox HLeadersRes;
+    VBox HLeadersRes;
     @FXML
-    private GridPane strongboxGrid;
+    GridPane strongboxGrid;
     @FXML
-    private Button endProduction;
+    Button endProduction;
     @FXML
-    private Button endTurn;
+    Button endTurn;
     @FXML
-    private AnchorPane warehouse;
+    AnchorPane warehouse;
     @FXML
-    private AnchorPane productionPane;
+    AnchorPane productionPane;
     @FXML
-    private Button endSwap;
+    Button endSwap;
 
     /**
      * Function used to initialize the fxml when loaded.

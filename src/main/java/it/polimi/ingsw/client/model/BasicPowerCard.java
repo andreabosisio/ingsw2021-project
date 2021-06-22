@@ -11,6 +11,11 @@ import java.util.List;
  */
 public class BasicPowerCard extends DevelopmentCard{
 
+    /**
+     * Create a new Basic Power Card by the ID.
+     *
+     * @param iD of the Basic Power Card
+     */
     public BasicPowerCard(String iD) {
         super(iD);
     }
