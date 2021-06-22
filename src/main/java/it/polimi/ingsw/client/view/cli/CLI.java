@@ -16,6 +16,7 @@ public class CLI implements View {
     private final CLICommandListener cliCommandListener;
 
     public CLI(String ip, int port) {
+        //todo ask ip and port
         try {
             this.networkHandler = new NetworkHandler(ip, port, this);
             Board.getBoard();

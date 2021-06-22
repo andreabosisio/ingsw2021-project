@@ -26,6 +26,7 @@ public class GUI extends Application implements View {
         put("setupController", new SetupController());
         put("endGameController", new EndGameController());
     }};
+    private GUICommandListener welcome;
     private final PersonalController personalController = new PersonalController();
     private GUICommandListener currentGuiCommandListener;
     private static Scene scene;

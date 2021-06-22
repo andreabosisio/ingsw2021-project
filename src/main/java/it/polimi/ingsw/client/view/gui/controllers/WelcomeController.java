@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
+import it.polimi.ingsw.client.ClientApp;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import javafx.fxml.FXML;
@@ -15,12 +16,12 @@ public class WelcomeController extends GUICommandListener {
 
     private GUI gui;
 
-    private static final String defaultIP = "127.0.0.1";
+    private static final String defaultIP = ClientApp.getIP();
+    private static final int defaultPort = ClientApp.getPort();
     private static final String zeroTo255 = "([01]?[0-9]{1,2}|2[0-4][0-9]|25[0-5])";
     private static final String IP_REGEXP = "^(" + zeroTo255 + "\\." + zeroTo255 + "\\."
             + zeroTo255 + "\\." + zeroTo255 + ")$";
     private static final Pattern IP_PATTERN = Pattern.compile(IP_REGEXP);
-    private static final int defaultPort = 1337;
     //private static final int defaultPort = 19721;
     //private static final String defaultIP = "8.tcp.ngrok.io";
 

@@ -12,14 +12,24 @@ public class ClientApp {
     private static final int DEFAULT_PORT = 1337;
 
 
+    public static String getIP(){
+        return DEFAULT_IP;
+    }
+    public static int getPort(){
+        return DEFAULT_PORT;
+    }
+
+
+
     public static void main(String[] args) {
 
         View view;
         String ip = DEFAULT_IP;
         int port = DEFAULT_PORT;
 
-        if(args[0].equals("-cli"))
+        if(args[0].equals("-cli")) {
             view = new CLI(ip, port);
+        }
         else {
             GUI gui = new GUI();
             gui.show();
