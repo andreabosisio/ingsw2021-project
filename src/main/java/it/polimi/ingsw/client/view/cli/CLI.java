@@ -12,18 +12,26 @@ public class CLI implements View {
 
     private String nickname;
     private boolean isPlaying = false;
+    private boolean onlineGame = true;
     private NetworkHandler networkHandler;
     private final CLICommandListener cliCommandListener;
 
     public CLI(String ip, int port) {
         //todo ask ip and port
-        try {
-            this.networkHandler = new NetworkHandler(ip, port, this);
-            Board.getBoard();
-        } catch (IOException e) {
-            renderError("Could not connect to the server");
-            System.exit(0);
+
+        if(onlineGame) {
+            try {
+                this.networkHandler = new NetworkHandler(ip, port, this);
+                //todo matteo told me to remove
+                //Board.getBoard();
+            } catch (IOException e) {
+                renderError("Could not connect to the server");
+                System.exit(0);
+            }
+        } else {
+            this.networkHandler = new NetworkHandler(this);
         }
+
         cliCommandListener = new CLICommandListener();
         startNetwork();
     }

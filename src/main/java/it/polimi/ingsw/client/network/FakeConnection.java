@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.network;
 
 public class FakeConnection implements Connection{
 
-
     @Override
     public String getMessage() {
         return null;
