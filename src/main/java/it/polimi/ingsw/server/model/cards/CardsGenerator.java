@@ -54,7 +54,6 @@ public class CardsGenerator {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
             JsonObject fileObject = fileElement.getAsJsonObject();
             JsonArray jsonArrayOfCards = fileObject.get(mainDevJsonArrayName).getAsJsonArray();
-            //todo assign ID in json
             int cardID = 1;
             for (JsonElement cardElement : jsonArrayOfCards) {
                 JsonObject cardJsonObject = cardElement.getAsJsonObject();

@@ -78,7 +78,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
         }
 
         if (removedCard == null)
-            removedCard = new DevelopmentCard("empty", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), color, 0, 3);
+            removedCard = new DevelopmentCard();
 
         if (hasEmptyColumn())
             this.notifyEndGameObserver();
@@ -134,20 +134,21 @@ public class DevelopmentCardsGrid implements EndGameSubject {
         iCheckWinner.update(true);
     }
 
-
     /**
      * This method find the requested DevelopmentCard and return it
      *
      * @param color the color of the requested card
      * @param level the level of the requested card
      * @return the requested DevelopmentCard
-     * @throws IndexOutOfBoundsException if the requested DevelopmentCard is not present
      */
-    public DevelopmentCard getCardByColorAndLevel(CardColorEnum color, int level) throws IndexOutOfBoundsException{
+    public DevelopmentCard getCardByColorAndLevel(CardColorEnum color, int level){
         //index out of bounds exception if card is not present
-        return mapByLevel.get(level-1).get(color).get(0);
+        try {
+            return mapByLevel.get(level - 1).get(color).get(0);
+        } catch (IndexOutOfBoundsException e) {
+            return new DevelopmentCard();
+        }
     }
-
 
     /**
      * Method used in testing: fill the grid following the developmentsCards.json order

@@ -173,8 +173,10 @@ public class StartTurnState extends State {
         try {
             chosenColorEnum = CardColorEnum.valueOf(cardColor.toUpperCase());
             chosenDevelopmentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(chosenColorEnum, cardLevel);
-        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
-            throw new InvalidEventException("not existing card color/card level"); //non existing card color type or non existing card level
+            if (chosenDevelopmentCard.getID().equals("empty"))
+                throw new InvalidEventException("Invalid card level");
+        } catch (IllegalArgumentException e) {
+            throw new InvalidEventException("Invalid card color"); //non existing card color type
         }
 
         //check if the player has discounts

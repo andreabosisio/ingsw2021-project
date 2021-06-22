@@ -15,12 +15,7 @@ public class GridUpdate {
     public GridUpdate(CardColorEnum color, int level) {
         this.level = level;
         this.color = color.toString();
-        //todo: togli il try catch e metti return null (getCardByColorAndLevel) e iD final
-        try {
-            this.iD = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(color, level).getID();
-        } catch (IndexOutOfBoundsException e) {
-            this.iD = "empty";
-        }
+        this.iD = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(color, level).getID();
         this.fullGrid = null;
     }
 

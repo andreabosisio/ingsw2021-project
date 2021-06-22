@@ -10,12 +10,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This class is used as the controller for the fxml scene:setupScene.fxml
@@ -24,6 +27,7 @@ public class SetupController extends GUICommandListener {
     private int numberOfResources;
     private Stage marketWindow;
     private Stage gridWindow;
+
     private List<String> leaderCardsID;
     private List<Integer> chosenLeadersIndexes;
     private List<String> chosenResources;
@@ -123,27 +127,25 @@ public class SetupController extends GUICommandListener {
         notifyObservers(new ChosenSetupEvent(chosenLeadersIndexes,chosenResources));
     }
 
-    /**
-     * This method is used to change the resource chosen by the player
-     *
-     * @param button button with the ImageView of the resource inside
-     */
     private void changeResourceAction(Button button){
-        GraphicUtilities.loopResources(button);
+        int number = Integer.parseInt(button.getId());
+        number++;
+        if(number >= StorableResourceEnum.values().length){
+            number = 0;
+        }
+        button.setId(String.valueOf(number));
+        File file = new File("src/main/resources/images/resources/" + StorableResourceEnum.values()[number].toString().toLowerCase(Locale.ROOT)+".png");
+        ImageView imageView = (ImageView) button.getGraphic();
+        imageView.setImage(new Image(file.toURI().toString()));
+        button.setGraphic(imageView);
     }
 
-    /**
-     * This method is used to show a popup with the marketTray in it
-     */
     private void seeMarket(){
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/marketPopup.fxml"));
         marketWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader,marketWindow,Modality.NONE);
         marketWindow.show();
     }
 
-    /**
-     * This method is used to show a popup with the devGrid in it
-     */
     private void seeGrid(){
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/devGridPopupScene.fxml"));
         gridWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader,gridWindow,Modality.NONE);

@@ -210,9 +210,9 @@ public class Warehouse {
      * Add the chosen resources in the initial part of the game in the depots.
      *
      * @param initialResources chosen in the initial part of the game (max 2)
-     * @throws EmptySlotException
-     * @throws InvalidIndexException
-     * @throws NonAccessibleSlotException
+     * @throws EmptySlotException if the chosen slot is empty
+     * @throws InvalidIndexException if the given position is negative
+     * @throws NonAccessibleSlotException if the given position represents a slot that's not accessible
      */
     public void setupWarehouse(List<Resource> initialResources) throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
 

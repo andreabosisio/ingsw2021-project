@@ -44,7 +44,6 @@ public class NetworkHandler implements CommandListenerObserver {
         put("reconnect", ReconnectEvent.class);
     }};
 
-    //todo regex check
     public NetworkHandler(String ip, int port, View view) throws IOException {
         Socket socket = new Socket(ip, port);
         this.view = view;

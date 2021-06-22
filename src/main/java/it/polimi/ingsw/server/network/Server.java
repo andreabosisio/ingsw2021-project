@@ -47,6 +47,7 @@ public class Server {
                 case "lobby":
                     System.out.println(Lobby.getLobby().getOnlinePlayersNumber());
                     continue;
+                //todo cheat
                 default:
                     System.out.println("Invalid input");
             }

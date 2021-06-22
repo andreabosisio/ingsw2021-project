@@ -169,6 +169,7 @@ public class ModelInterface implements SendObservable {
      * the state of the game to StartTurnState.
      *
      * @return true if there is a winner
+     * @throws InvalidEventException if the Player cannot end the turn
      */
     public boolean endTurn() throws InvalidEventException {
         return turnLogic.endTurn();

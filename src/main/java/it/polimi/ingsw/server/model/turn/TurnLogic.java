@@ -69,6 +69,11 @@ public class TurnLogic {
         GameBoard.getGameBoard().setObserverOfDevCardsGrid(gameMode.getICheckWinner());
     }
 
+    /**
+     * Return true if it's the turn of the last player.
+     *
+     * @return true if it's the turn of the last player
+     */
     public boolean isLastPlayerTurn() {
         return players.indexOf(currentPlayer) == players.size() - 1;
     }
@@ -265,6 +270,7 @@ public class TurnLogic {
      * the state of the game to StartTurnState.
      *
      * @return true if there is a winner
+     * @throws InvalidEventException if the Player cannot end the turn
      */
     public boolean endTurn() throws InvalidEventException {
         return currentState.endTurn();

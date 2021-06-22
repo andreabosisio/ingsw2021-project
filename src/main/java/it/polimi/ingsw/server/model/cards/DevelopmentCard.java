@@ -29,6 +29,16 @@ public class DevelopmentCard implements ProductionCard {
     private final List<Resource> inResources;
     private final List<Resource> outResources;
 
+    public DevelopmentCard() {
+        this.iD = "empty";
+        this.inResources = null;
+        this.outResources = null;
+        this.price = new ArrayList<>();
+        this.color = null;
+        this.points = -1;
+        this.level = 3;
+    }
+
     public DevelopmentCard(String iD, List<Resource> inResources, List<Resource> outResources, List<Resource> price, CardColorEnum color, int points, int level) {
         this.iD = iD;
         this.inResources = inResources;

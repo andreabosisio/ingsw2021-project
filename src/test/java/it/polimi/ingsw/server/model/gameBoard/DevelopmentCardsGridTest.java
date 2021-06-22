@@ -86,7 +86,7 @@ class DevelopmentCardsGridTest {
             assertEquals(1, developmentCard.getLevel());
             assertTrue(developmentCardsGrid.removeCard(developmentCard));
         }
-        //check that trying to get one more card of that level and color throws an exception
-        assertThrows(IndexOutOfBoundsException.class,()-> developmentCardsGrid.getCardByColorAndLevel(CardColorEnum.GREEN,1));
+
+        assertEquals("empty",  developmentCardsGrid.getCardByColorAndLevel(CardColorEnum.GREEN,1).getID());
     }
 }

@@ -28,14 +28,14 @@ public class Lobby {
         gameStarted = false;
     }
 
-    public static int getMinPlayers() {
+    public synchronized static int getMinPlayers() {
         return MIN_PLAYERS;
     }
 
-    public static int getMaxPlayers() {
+    public synchronized static int getMaxPlayers() {
         return MAX_PLAYERS;
     }
-//todo synchronize all the necessary methods
+    //todo synchronize all the necessary methods (maybe done)
 
     /**
      * This method is used to get the only instance of the Lobby or create a new one if it does not exist
@@ -89,7 +89,7 @@ public class Lobby {
      *
      * @return true if the Lobby is full
      */
-    public boolean isFull() {
+    public synchronized boolean isFull() {
         if (this.numberOfPlayers == NOT_DECIDED) {
             return false;
         }
@@ -101,7 +101,7 @@ public class Lobby {
      *
      * @return the number of players online
      */
-    public int getOnlinePlayersNumber() {
+    public synchronized int getOnlinePlayersNumber() {
         return (int) virtualViews.stream().filter(VirtualView::isOnline).count();
     }
 
@@ -111,7 +111,7 @@ public class Lobby {
      * @param nickname nickname to search for
      * @return the VirtualView associated with the nickname or null if nothing was found
      */
-    public VirtualView getVirtualViewByNickname(String nickname) {
+    public synchronized VirtualView getVirtualViewByNickname(String nickname) {
         return virtualViews.stream().filter(p -> p.getNickname().equals(nickname)).findFirst().orElse(null);
     }
 
@@ -169,7 +169,7 @@ public class Lobby {
      *
      * @param message message to broadcast
      */
-    public void broadcastMessage(String message) {
+    public synchronized void broadcastMessage(String message) {
         for (VirtualView virtualView : virtualViews) {
             if (virtualView.isOnline()) {
                 virtualView.getClientHandler().sendInfoMessage(message);
@@ -183,7 +183,7 @@ public class Lobby {
      * @param message message to broadcast
      * @param name    nickname of the player to ignore
      */
-    public void broadcastToOthersInfoMessage(String message, String name) {
+    public synchronized void broadcastToOthersInfoMessage(String message, String name) {
         for (VirtualView virtualView : virtualViews) {
             if (virtualView.isOnline() && !virtualView.getNickname().equals(name)) {
                 virtualView.getClientHandler().sendInfoMessage(message);
@@ -212,7 +212,7 @@ public class Lobby {
      *
      * @return true if a game is ongoing
      */
-    public boolean isGameStarted() {
+    public synchronized boolean isGameStarted() {
         return gameStarted;
     }
 
