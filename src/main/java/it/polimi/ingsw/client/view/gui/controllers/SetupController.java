@@ -31,7 +31,7 @@ public class SetupController extends GUICommandListener {
     private List<String> leaderCardsID;
     private List<Integer> chosenLeadersIndexes;
     private List<String> chosenResources;
-    private static final String waitMessage = "SetUpDone, wait for other players";
+    private static final String waitMessage = "Setup done. Please wait for other players' choices.";
 
     @FXML
     private Button done;

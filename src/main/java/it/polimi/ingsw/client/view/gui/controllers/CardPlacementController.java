@@ -27,7 +27,6 @@ public class CardPlacementController extends GUICommandListener {
     @FXML
     private AnchorPane productionPane;
 
-
     public CardPlacementController(String nickname) {
         this.nickname = nickname;
     }
