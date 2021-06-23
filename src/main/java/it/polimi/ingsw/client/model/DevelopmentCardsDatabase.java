@@ -209,11 +209,9 @@ public class DevelopmentCardsDatabase {
     }
 
     /**
-     * This method add the information taken from the file json
-     * into the various list that contains all the information of the Cards.
-     * It is called only at the moment of the creation of the class.
+     * This method is called only at the moment of the creation of the class.
+     * It reads the information containing into the Json file and add that into the local variables
      */
-    //todo long method (leader and token too)
     private void firstSetup() {
         File input = new File(developmentCardsFileName);
 
@@ -226,50 +224,7 @@ public class DevelopmentCardsDatabase {
             for (JsonElement cardElement : jsonArrayOfCards) {
                 //Get Json object
                 JsonObject cardJsonObject = cardElement.getAsJsonObject();
-
-                StringBuilder price = new StringBuilder();
-                JsonArray jsonArrayOfPrices = cardJsonObject.get("price").getAsJsonArray();
-
-                for (JsonElement priceElement : jsonArrayOfPrices) {
-                    JsonObject priceJsonObject = priceElement.getAsJsonObject();
-                    price.append(priceJsonObject.get("quantity").getAsString())
-                            .append("_")
-                            .append(priceJsonObject.get("color").getAsString())
-                            .append("&");
-                }
-
-                StringBuilder inResources = new StringBuilder();
-                JsonArray jsonArrayOfInResources = cardJsonObject.get("inResources").getAsJsonArray();
-
-                for (JsonElement inResourcesElement : jsonArrayOfInResources) {
-                    JsonObject inResourcesJsonObject = inResourcesElement.getAsJsonObject();
-                    inResources.append(inResourcesJsonObject.get("quantity").getAsString())
-                            .append("_")
-                            .append(inResourcesJsonObject.get("color").getAsString())
-                            .append("&");
-                }
-
-                StringBuilder outResources = new StringBuilder();
-                JsonArray jsonArrayOfOutResources = cardJsonObject.get("outResources").getAsJsonArray();
-
-                for (JsonElement outResourcesElement : jsonArrayOfOutResources) {
-                    JsonObject outResourcesJsonObject = outResourcesElement.getAsJsonObject();
-                    outResources.append(outResourcesJsonObject.get("quantity").getAsString())
-                            .append("_")
-                            .append(outResourcesJsonObject.get("color").getAsString())
-                            .append("&");
-                }
-
-                String color = cardJsonObject.get("color").getAsString();
-                int level = cardJsonObject.get("level").getAsInt();
-                int points = cardJsonObject.get("points").getAsInt();
-
-                devCardsLevel.add(String.valueOf(level));
-                devCardsColor.add(color);
-                devCardsVictoryPoints.add(String.valueOf(points));
-                devCardsPrice.add(price.toString());
-                devCardsInResources.add(inResources.toString());
-                devCardsOutResources.add(outResources.toString());
+                takeInformationForADevelopmentCard(cardJsonObject);
             }
         } catch (FileNotFoundException e) {
             System.err.println("file not found");
@@ -278,6 +233,54 @@ public class DevelopmentCardsDatabase {
             System.err.println("error in the json file format");
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This method add the information taken from the file json
+     * into the local variables that contain all the information of the Cards.
+     *
+     * @param cardJsonObject JsonObject containing the Card data
+     */
+    private void takeInformationForADevelopmentCard(JsonObject cardJsonObject) {
+        devCardsLevel.add(extractStringValueFromJson(cardJsonObject, "level"));
+        devCardsColor.add(extractStringValueFromJson(cardJsonObject, "color"));
+        devCardsVictoryPoints.add(extractStringValueFromJson(cardJsonObject, "points"));
+        devCardsPrice.add(extractResourcesFromJson(cardJsonObject, "price"));
+        devCardsInResources.add(extractResourcesFromJson(cardJsonObject, "inResources"));
+        devCardsOutResources.add(extractResourcesFromJson(cardJsonObject, "outResources"));
+    }
+
+    /**
+     * This method is used to extract the resources from a JsonArray contained in a jsonObject
+     *
+     * @param cardJsonObject           JsonObject containing the jsonArray with the resources data
+     * @param resourcesArrayNameInJson name of the JsonArray in the JsonObject
+     * @return a Sting containing all the resources
+     */
+    private String extractResourcesFromJson(JsonObject cardJsonObject, String resourcesArrayNameInJson) {
+        StringBuilder resourcesToPopulate = new StringBuilder();
+        JsonArray jsonArrayOfResources = cardJsonObject.get(resourcesArrayNameInJson).getAsJsonArray();
+
+        for (JsonElement outResourcesElement : jsonArrayOfResources) {
+            JsonObject outResourcesJsonObject = outResourcesElement.getAsJsonObject();
+            resourcesToPopulate.append(outResourcesJsonObject.get("quantity").getAsString())
+                    .append("_")
+                    .append(outResourcesJsonObject.get("color").getAsString())
+                    .append("&");
+        }
+
+        return resourcesToPopulate.toString();
+    }
+
+    /**
+     * This method is used to extract a String value from the jsonObject
+     *
+     * @param cardJsonObject  JsonObject containing the Card data
+     * @param nameValueInJson name of the value in the JsonObject
+     * @return the String value extracted
+     */
+    private String extractStringValueFromJson(JsonObject cardJsonObject, String nameValueInJson) {
+        return cardJsonObject.get(nameValueInJson).getAsString();
     }
 
     /**
