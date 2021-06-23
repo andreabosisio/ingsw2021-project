@@ -100,13 +100,12 @@ public class NetworkHandler implements CommandListenerObserver {
             if (jsonElement.isJsonObject()) {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
                 ReceiveEvent event;
-                //todo remove this try(event is null only if we forgot a possible event from server)
                 try {
                     event = gson.fromJson(message, (Type) messageTypeMap.get(jsonObject.get("type").getAsString()));
                     event.updateView(view);
                 } catch (NullPointerException e) {
-                    System.out.println("failed in executing this event: " + jsonObject.get("type"));
-                    System.out.println(message);
+                    //malformed message
+                    System.out.println("FAILED: " + message);
                     e.printStackTrace();
                 }
             } else {

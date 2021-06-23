@@ -12,10 +12,10 @@ public class ClientApp {
     private static final int DEFAULT_PORT = 1337;
 
 
-    public static String getIP(){
+    public static String getDefaultIP(){
         return DEFAULT_IP;
     }
-    public static int getPort(){
+    public static int getDefaultPort(){
         return DEFAULT_PORT;
     }
 
@@ -24,11 +24,9 @@ public class ClientApp {
     public static void main(String[] args) {
 
         View view;
-        String ip = DEFAULT_IP;
-        int port = DEFAULT_PORT;
 
         if(args[0].equals("-cli")) {
-            view = new CLI(ip, port);
+            view = new CLI();
         }
         else {
             GUI gui = new GUI();

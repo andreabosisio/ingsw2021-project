@@ -240,7 +240,7 @@ public class ClientHandler implements Runnable {
     private void game() {
         status = StatusEnum.GAME;
         String message;
-        //todo pingpong for local game
+
         Lobby.getLobby().getVirtualViewByNickname(nickname).startPingPong();
 
         while (status == StatusEnum.GAME) {

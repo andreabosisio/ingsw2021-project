@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli;
 
+import it.polimi.ingsw.client.ClientApp;
 import it.polimi.ingsw.client.events.send.*;
 import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.client.utils.CommandListener;
@@ -23,6 +24,38 @@ public class CLICommandListener implements CommandListener {
     private static final int MAX_CARD_LEVEL = 3;
     private static final int MIN_CARD_LEVEL = 1;
     private static final String INVALID = "Invalid input";
+
+    protected String askGameMode() {
+        String answer;
+        do {
+            CLI.render("Do you want to play online or locally? Type ONLINE or LOCAL: ");
+            answer = scanner.nextLine().toUpperCase(Locale.ROOT);
+        } while (!answer.equals("ONLINE") && !answer.equals("LOCAL"));
+        return answer;
+    }
+
+    protected String askIP () {
+        CLI.render("Insert a valid IP:");
+        return scanner.nextLine();
+    }
+
+    protected int askPort () {
+        int port = -1;
+        CLI.render("Insert a valid port: ");
+        do {
+            try {
+                port = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                CLI.renderError("Invalid port. Please re-insert: ");
+            }
+        } while (port < 0);
+        return port;
+    }
+
+    protected String askForNetworkSettingsChanges() {
+        CLI.render("Default IP address is " + ClientApp.getDefaultIP() + " and Default port is " + ClientApp.getDefaultPort() + ". \nType CHANGE if you want to change network settings, else type OK: ");
+        return scanner.nextLine().toUpperCase(Locale.ROOT);
+    }
 
     /**
      * This method is used to ask a player for the credentials he wish to use in game

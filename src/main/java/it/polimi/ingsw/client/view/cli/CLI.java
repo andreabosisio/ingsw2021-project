@@ -1,12 +1,15 @@
 package it.polimi.ingsw.client.view.cli;
 
+import it.polimi.ingsw.client.ClientApp;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.network.NetworkHandler;
 import it.polimi.ingsw.client.view.View;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Scanner;
 
 public class CLI implements View {
 
@@ -14,25 +17,54 @@ public class CLI implements View {
     private boolean isPlaying = false;
     private boolean onlineGame = true;
     private NetworkHandler networkHandler;
+    private String ip = ClientApp.getDefaultIP();
+    private int port = ClientApp.getDefaultPort();
     private final CLICommandListener cliCommandListener;
 
-    public CLI(String ip, int port) {
-        //todo ask ip and port and if local game
-        if(onlineGame) {
-            try {
-                this.networkHandler = new NetworkHandler(ip, port, this);
-                //todo matteo told me to remove
-                //Board.getBoard();
-            } catch (IOException e) {
-                renderError("Could not connect to the server");
-                System.exit(0);
+    public CLI() {
+        clearView();
+        render(AnsiEnum.LOGO.getAsciiArt());
+
+        boolean correctSettings = false;
+        cliCommandListener = new CLICommandListener();
+        askSettings();
+
+        if (onlineGame) {
+            while(!correctSettings) {
+                try {
+                    this.networkHandler = new NetworkHandler(ip, port, this);
+                    correctSettings = true;
+                } catch (IOException e) {
+                    renderError("Could not connect to the server");
+                    askIPAndPort();
+                }
             }
         } else {
             this.networkHandler = new NetworkHandler(this);
         }
 
-        cliCommandListener = new CLICommandListener();
         startNetwork();
+    }
+
+    private void askSettings() {
+        if(cliCommandListener.askGameMode().equals("ONLINE")) {
+            onlineGame = true;
+            if(cliCommandListener.askForNetworkSettingsChanges().equals("CHANGE")) {
+                askIPAndPort();
+            } else {
+                ip = ClientApp.getDefaultIP();
+                port = ClientApp.getDefaultPort();
+            }
+        } else {
+            onlineGame = false;
+            render("Starting a Local Game...");
+        }
+    }
+
+    private void askIPAndPort() {
+        ip = cliCommandListener.askIP();
+        port = cliCommandListener.askPort();
+        render("Network settings changed.");
     }
 
     /**
@@ -81,8 +113,6 @@ public class CLI implements View {
      */
     @Override
     public void startNetwork() {
-        clearView();
-        render(AnsiEnum.LOGO.getAsciiArt());
         cliCommandListener.registerObservers(networkHandler);
         networkHandler.startNetwork();
     }
@@ -121,9 +151,8 @@ public class CLI implements View {
      *
      * @param printable the error to print in red
      */
-    //todo print error message is a method below which does the same thing more or less?
     public static void renderError(String printable) {
-        System.err.println(printable);
+        System.out.println(AnsiEnum.RED + printable + AnsiEnum.RESET);
     }
 
     /**
