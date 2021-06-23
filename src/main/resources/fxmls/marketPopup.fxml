@@ -8,14 +8,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controllers.MarketController">
     <ImageView fitHeight="582.0" fitWidth="516.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@../images/market.png" />
     </ImageView>
     <Pane layoutX="292.0" layoutY="77.0" prefHeight="43.0" prefWidth="44.0">
-        <ImageView fx:id="extraRes" fitHeight="45.0" fitWidth="45.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/marbles/white.png" />
-        </ImageView>
+        <ImageView fx:id="extraRes" fitHeight="45.0" fitWidth="45.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
     </Pane>
     <GridPane fx:id="marketGrid" layoutX="131.0" layoutY="132.0" prefHeight="146.0" prefWidth="215.0">
         <columnConstraints>

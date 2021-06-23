@@ -31,6 +31,7 @@ public class SetupController extends GUICommandListener {
     private List<String> leaderCardsID;
     private List<Integer> chosenLeadersIndexes;
     private List<String> chosenResources;
+    private static final String waitMessage = "SetUpDone, wait for other players";
 
     @FXML
     private Button done;
@@ -125,9 +126,13 @@ public class SetupController extends GUICommandListener {
             gridWindow.close();
         }
         notifyObservers(new ChosenSetupEvent(chosenLeadersIndexes,chosenResources));
+        printInfoMessage(waitMessage);
+        done.setDisable(true);
     }
 
     private void changeResourceAction(Button button){
+        GraphicUtilities.loopResources(button);
+        /*
         int number = Integer.parseInt(button.getId());
         number++;
         if(number >= StorableResourceEnum.values().length){
@@ -138,6 +143,8 @@ public class SetupController extends GUICommandListener {
         ImageView imageView = (ImageView) button.getGraphic();
         imageView.setImage(new Image(file.toURI().toString()));
         button.setGraphic(imageView);
+
+         */
     }
 
     private void seeMarket(){

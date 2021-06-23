@@ -3,8 +3,11 @@ package it.polimi.ingsw.client.view.gui.controllers;
 import it.polimi.ingsw.client.ClientApp;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import java.util.regex.Pattern;
@@ -22,8 +25,9 @@ public class WelcomeController extends GUICommandListener {
     private static final String IP_REGEXP = "^(" + zeroTo255 + "\\." + zeroTo255 + "\\."
             + zeroTo255 + "\\." + zeroTo255 + ")$";
     private static final Pattern IP_PATTERN = Pattern.compile(IP_REGEXP);
-    //private static final int defaultPort = 19721;
-    //private static final String defaultIP = "8.tcp.ngrok.io";
+    private static String localMode = "localGame";
+    private static String onlineMode = "onlineGame";
+    ObservableList<String> connectionModes = FXCollections.observableArrayList(onlineMode,localMode);
 
     @FXML
     private Button start;
@@ -36,6 +40,8 @@ public class WelcomeController extends GUICommandListener {
 
     @FXML
     private TextField serverPort;
+    @FXML
+    private ComboBox<String> connectionSelector;
 
     public WelcomeController(GUI gui) {
         this.gui = gui;
@@ -55,6 +61,9 @@ public class WelcomeController extends GUICommandListener {
         serverPort.setText(String.valueOf(defaultPort));
         start.setOnMousePressed((event -> startAction()));
         settings.setOnMousePressed((event -> showSettings()));
+        connectionSelector.setVisible(false);
+        connectionSelector.setItems(connectionModes);
+        connectionSelector.setValue(connectionModes.get(0));
     }
 
     /**
@@ -63,7 +72,10 @@ public class WelcomeController extends GUICommandListener {
      * In case of a failure it sets the serverIP and serverPort to the default values
      */
     private void startAction() {
-        //todo if checked for local do local game
+        if(connectionSelector.getValue().equals(localMode)){
+            gui.setGui();
+            return;
+        }
         String ip;
         int port;
         /*
@@ -100,5 +112,6 @@ public class WelcomeController extends GUICommandListener {
     private void showSettings() {
         serverIP.setVisible(true);
         serverPort.setVisible(true);
+        connectionSelector.setVisible(true);
     }
 }

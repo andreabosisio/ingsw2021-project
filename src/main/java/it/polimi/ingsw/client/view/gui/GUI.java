@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.network.NetworkHandler;
 import it.polimi.ingsw.client.view.View;
+import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import it.polimi.ingsw.client.view.gui.controllers.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -25,6 +26,7 @@ public class GUI extends Application implements View {
         put("chooseNumberController", new ChooseNumberController());
         put("setupController", new SetupController());
         put("endGameController", new EndGameController());
+        put("matchmakingController", new MatchMakingController());
     }};
     private GUICommandListener welcome;
     private final PersonalController personalController = new PersonalController();
@@ -76,16 +78,12 @@ public class GUI extends Application implements View {
 
     @Override
     public void printInfoMessage(String info) {
-        Platform.runLater(() -> {
-            currentGuiCommandListener.printInfoMessage(info);
-        });
+        Platform.runLater(() -> currentGuiCommandListener.printInfoMessage(info));
     }
 
     @Override
     public void printErrorMessage(String error) {
-        Platform.runLater(() -> {
-            currentGuiCommandListener.printErrorMessage(error);
-        });
+        Platform.runLater(() -> currentGuiCommandListener.printErrorMessage(error));
     }
 
     @Override
@@ -113,11 +111,20 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnMatchMaking() {
-        //todo matchmaking scene?
+        Platform.runLater(() -> {
+            GUICommandListener nextGuiCommandListener = guiCommandListeners.get("matchmakingController");
+            setRoot("matchMakingScene", nextGuiCommandListener);
+            currentGuiCommandListener = nextGuiCommandListener;
+        });
     }
 
     @Override
     public void setOnSetup(List<String> leaderCardsID, int numberOfResource) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Platform.runLater(() -> {
             SetupController nextGuiCommandListener = (SetupController) guiCommandListeners.get("setupController");
             nextGuiCommandListener.initializeData(leaderCardsID, numberOfResource);
@@ -128,6 +135,11 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnYourTurn() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Platform.runLater(() -> {
             GUICommandListener nextGuiCommandListener = personalController;
             setRoot("boardScene", nextGuiCommandListener, 1800, 1000);
@@ -143,6 +155,7 @@ public class GUI extends Application implements View {
             setRoot("boardScene", nextGuiCommandListener, 1800, 1000);
             currentGuiCommandListener = nextGuiCommandListener;
             personalController.disableBoard();
+            personalController.printInfoMessage("It's " + currentPlayer + " turn");
         });
     }
 
