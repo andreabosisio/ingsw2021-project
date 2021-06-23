@@ -26,7 +26,7 @@ public abstract class GUICommandListener implements CommandListener {
         this.commandListenerObserver = commandListenerObserver;
     }
 
-    //todo better messageBox (setStyle set the color of all the BOX)
+    //todo better messageBox (setStyle set the color of all the BOX), JAVADOC
     public void printInfoMessage(String info) {
         textCounter++;
         //messageBox.setStyle("-fx-text-inner-color: black");

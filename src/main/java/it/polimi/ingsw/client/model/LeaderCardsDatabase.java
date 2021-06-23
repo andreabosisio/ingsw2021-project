@@ -133,9 +133,8 @@ public class LeaderCardsDatabase {
     }
 
     /**
-     * This method add the information taken from the file json
-     * into the various list that contains all the information of the Cards.
-     * It is called only at the moment of the creation of the class.
+     * This method is called only at the moment of the creation of the class.
+     * It reads the information containing into the Json file and add that into the local variables
      */
     private void firstSetup() {
         File input = new File(leaderCardsFileName);
@@ -146,67 +145,9 @@ public class LeaderCardsDatabase {
 
             //Cycle through all leaders element in the file
             for (JsonElement leaderElement : jsonArrayOfLeaders) {
-
                 //Get Json object
                 JsonObject leaderJsonObject = leaderElement.getAsJsonObject();
-
-                StringBuilder devRequirements = new StringBuilder();
-                if (leaderJsonObject.has("devRequirements")) {
-
-                    JsonArray jsonArrayOfRequirements = leaderJsonObject.get("devRequirements").getAsJsonArray();
-
-                    for (JsonElement requirementsElement : jsonArrayOfRequirements) {
-                        JsonObject requirementJsonObject = requirementsElement.getAsJsonObject();
-
-                        devRequirements.append(requirementJsonObject.get("quantity").getAsString())
-                                .append("_")
-                                .append(requirementJsonObject.get("color").getAsString())
-                                .append("_")
-                                .append(requirementJsonObject.get("level").getAsInt())
-                                .append("&");
-                    }
-                }
-
-                StringBuilder resRequirements = new StringBuilder();
-                if (leaderJsonObject.has("resRequirements")) {
-
-                    JsonArray jsonArrayOfRequirements = leaderJsonObject.get("resRequirements").getAsJsonArray();
-
-                    for (JsonElement requirementsElement : jsonArrayOfRequirements) {
-                        JsonObject requirementJsonObject = requirementsElement.getAsJsonObject();
-
-                        resRequirements.append(requirementJsonObject.get("quantity").getAsInt())
-                                .append("_")
-                                .append(requirementJsonObject.get("color").getAsString())
-                                .append("&");
-                    }
-                }
-
-                //extract common data to all leaderCards
-                leaderCardsID.add(leaderJsonObject.get("id").getAsString());
-                leaderCardsVictoryPoints.add(leaderJsonObject.get("points").getAsString());
-                String type = leaderJsonObject.get("type").getAsString();
-
-                switch (type) {
-                    case "production":
-                        leaderCardsAbilities.add(leaderJsonObject.get("inResource").getAsString());
-                        leaderCardsRequirements.add(devRequirements.toString());
-                        break;
-                    case "market":
-                        leaderCardsAbilities.add(leaderJsonObject.get("transformation").getAsString());
-                        leaderCardsRequirements.add(devRequirements.toString());
-                        break;
-                    case "warehouse":
-                        leaderCardsAbilities.add(leaderJsonObject.get("extraSlotsType").getAsString());
-                        leaderCardsRequirements.add(resRequirements.toString());
-                        break;
-                    case "discount":
-                        leaderCardsAbilities.add(leaderJsonObject.get("discount").getAsString());
-                        leaderCardsRequirements.add(devRequirements.toString());
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected leaderCardType: " + type);
-                }
+                takeInformationForALeaderCard(leaderJsonObject);
             }
         } catch (FileNotFoundException e) {
             System.err.println("file not found");
@@ -215,5 +156,103 @@ public class LeaderCardsDatabase {
             System.err.println("errore nel file json");
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This method add the information taken from the file json
+     * into the local variables that contain all the information of the Cards.
+     *
+     * @param leaderJsonObject JsonObject containing the Card data
+     */
+    private void takeInformationForALeaderCard(JsonObject leaderJsonObject) {
+        String requirements = null;
+        if (leaderJsonObject.has("devRequirements"))
+            requirements = extractDevRequirementsFromJson(leaderJsonObject);
+
+        if (leaderJsonObject.has("resRequirements"))
+            requirements = extractResRequirementsFromJson(leaderJsonObject);
+
+        //extract common data to all leaderCards
+        leaderCardsID.add(extractStringValueFromJson(leaderJsonObject, "id"));
+        leaderCardsVictoryPoints.add(extractStringValueFromJson(leaderJsonObject, "points"));
+        String type = extractStringValueFromJson(leaderJsonObject, "type");
+
+        switch (type) {
+            case "production":
+                leaderCardsAbilities.add(leaderJsonObject.get("inResource").getAsString());
+                leaderCardsRequirements.add(requirements);
+                break;
+            case "market":
+                leaderCardsAbilities.add(leaderJsonObject.get("transformation").getAsString());
+                leaderCardsRequirements.add(requirements);
+                break;
+            case "warehouse":
+                leaderCardsAbilities.add(leaderJsonObject.get("extraSlotsType").getAsString());
+                leaderCardsRequirements.add(requirements);
+                break;
+            case "discount":
+                leaderCardsAbilities.add(leaderJsonObject.get("discount").getAsString());
+                leaderCardsRequirements.add(requirements);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected leaderCardType: " + type);
+        }
+    }
+
+    /**
+     * This method is used to extract Resources Requirements from a JsonArray contained in a jsonObject
+     *
+     * @param cardJsonObject JsonObject containing the jsonArray with the resources data
+     * @return a Sting containing all the Resources Requirements
+     */
+    private String extractResRequirementsFromJson(JsonObject cardJsonObject) {
+        StringBuilder resRequirementsToPopulate = new StringBuilder();
+        JsonArray jsonArrayOfRequirements = cardJsonObject.get("resRequirements").getAsJsonArray();
+
+        for (JsonElement requirementsElement : jsonArrayOfRequirements) {
+            JsonObject requirementJsonObject = requirementsElement.getAsJsonObject();
+
+            resRequirementsToPopulate.append(requirementJsonObject.get("quantity").getAsInt())
+                    .append("_")
+                    .append(requirementJsonObject.get("color").getAsString())
+                    .append("&");
+        }
+
+        return resRequirementsToPopulate.toString();
+    }
+
+    /**
+     * This method is used to extract Development Card Requirements from a JsonArray contained in a jsonObject
+     *
+     * @param cardJsonObject JsonObject containing the jsonArray with the Development Card Requirements data
+     * @return a Sting containing all the Development Card Requirements
+     */
+    private String extractDevRequirementsFromJson(JsonObject cardJsonObject) {
+        StringBuilder devRequirementsToPopulate = new StringBuilder();
+        JsonArray jsonArrayOfRequirements = cardJsonObject.get("devRequirements").getAsJsonArray();
+
+        for (JsonElement requirementsElement : jsonArrayOfRequirements) {
+            JsonObject requirementJsonObject = requirementsElement.getAsJsonObject();
+
+            devRequirementsToPopulate.append(requirementJsonObject.get("quantity").getAsString())
+                    .append("_")
+                    .append(requirementJsonObject.get("color").getAsString())
+                    .append("_")
+                    .append(requirementJsonObject.get("level").getAsInt())
+                    .append("&");
+        }
+
+        return devRequirementsToPopulate.toString();
+    }
+
+    /**
+     * This method is used to extract a String value from the jsonObject
+     *
+     * @param cardJsonObject  JsonObject containing the Card data
+     * @param nameValueInJson name of the value in the JsonObject
+     * @return the String value extracted
+     */
+    private String extractStringValueFromJson(JsonObject cardJsonObject, String nameValueInJson) {
+        return cardJsonObject.get(nameValueInJson).getAsString();
     }
 }
