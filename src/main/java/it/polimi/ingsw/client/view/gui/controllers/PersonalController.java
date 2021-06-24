@@ -48,6 +48,7 @@ public class PersonalController extends GUICommandListener {
     private final List<Node> currentSelectedResources = new ArrayList<>();
     private final List<Node> allSelectedResources = new ArrayList<>();
     private final List<Node> activatedProductions = new ArrayList<>();
+    private final int firstStrongBoxIndex = 14;
 
     private boolean canSwap = false;
     private Node lastSwap;
@@ -328,8 +329,10 @@ public class PersonalController extends GUICommandListener {
      * @param n Node pressed by the player representing the resource in the GUI
      */
     private void resourceClick(Node n) {
-        currentSelectedResources.add(n);
         if (canSwap) {
+            if(Integer.parseInt(n.getId())>=firstStrongBoxIndex){
+                return;
+            }
             if (lastSwap == null) {
                 lastSwap = n;
             } else {
@@ -341,6 +344,7 @@ public class PersonalController extends GUICommandListener {
                 lastSwap = null;
             }
         }
+        currentSelectedResources.add(n);
     }
 
     /**

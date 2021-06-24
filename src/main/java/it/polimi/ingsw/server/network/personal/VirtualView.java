@@ -207,7 +207,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      */
     @Override
     public void update(SendEvent sendEvent) {
-        if (sendEvent.isForYou(nickname)) {
+        if (sendEvent.isForYou(nickname) && isOnline()) {
             clientHandler.sendJsonMessage(sendEvent.toJson());
         }
     }

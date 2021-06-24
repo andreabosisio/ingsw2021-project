@@ -28,15 +28,4 @@ public class SetupChoiceEvent extends ChoiceEvent {
         return numberOfResources;
     }
 
-    /*
-
-    @Override
-    public String toJson() {
-        Map<String, Object> mapJson = new HashMap<>();
-        mapJson.put("leaders", leaderCards.stream().map(LeaderCard::getID).collect(Collectors.toList()));
-        mapJson.put("resources", numberOfResources);
-        return getGson().toJson(mapJson);
-    }
-
-     */
 }

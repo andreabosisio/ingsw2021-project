@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.events.send.GameStartedEvent;
 import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.*;
@@ -13,6 +14,7 @@ import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -93,45 +95,116 @@ public class SetupManager {
                 chosenLeaderCards.add(setupSendEvent.getLeaderCards().get(chosenIndex));
             }
 
-            Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream()
-                    .filter(player -> player.getNickname().equals(nickname)).findFirst()
-                    .orElseThrow(() -> new InvalidEventException("Invalid nickname"));
-
-            //add the chosen resources to the warehouse
-            try {
-                currentSetupPlayer.getPersonalBoard().getWarehouse().setupWarehouse(chosenResources);
-            } catch (InvalidIndexException | EmptySlotException | NonAccessibleSlotException e) {
-                throw new InvalidSetupException("Failed to add chosen resources"); //impossible condition
-            }
-
-            //add the chosen leader cards to player's hand
-            currentSetupPlayer.setLeaderHand(chosenLeaderCards);
-
-            //second and third player receive an extra Faith Point
-            if (modelInterface.getTurnLogic().getPlayers().indexOf(currentSetupPlayer) >= 2)
-                GameBoard.getGameBoard().faithProgress(currentSetupPlayer, 1);
+            preparePlayer(nickname,chosenLeaderCards,chosenResources);
 
             setupSendEvents.remove(setupSendEvent);
 
-            if (setupSendEvents.size() == 0) {
-                //set turnLogic state from (idleState where very action is invalidEvent) to startTurn
-                modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());
-
-                //all the players receive an update event with the gameBoard
-                GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-                graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
-                for (Player player : modelInterface.getTurnLogic().getPlayers())
-                    graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player, new LeaderCardSlotsUpdate(), new ProductionSlotsUpdate(), new WarehouseUpdate()));
-                modelInterface.notifyObservers(graphicUpdateEvent);
-                modelInterface.notifyObservers(new StartTurnEvent(modelInterface.getCurrentPlayerNickname()));
-                modelInterface.getTurnLogic().setLastEventSent(new StartTurnEvent(modelInterface.getCurrentPlayerNickname(),modelInterface.getCurrentPlayerNickname()));
-            }
+            checkForGameStart();
             return true;
         }
         throw new InvalidSetupException("Invalid number of chosen Resources and/or LeaderCards");
     }
 
+    /**
+     * This method return the list of setup events sent to every player
+     *
+     * @return a list containing the SetupChoiceEvents
+     */
     public List<SetupChoiceEvent> getSetupSendEvents() {
         return setupSendEvents;
+    }
+
+    /**
+     * This method is used to disconnect a player while the game is in the setup phase
+     * If the server was waiting for this player setup the setup is carried out randomly
+     *
+     * @param nickname nickname of the player to disconnect
+     *
+     * @return if the player was the last one online
+     */
+    public boolean disconnectPlayer(String nickname) {
+        SetupChoiceEvent event = setupSendEvents.stream().filter(e->e.getNickname().equals(nickname)).findFirst().orElse(null);
+        if(event==null){
+            return players.stream().noneMatch(Player::isOnline);
+        }
+        players.stream().filter(p->p.getNickname().equals(nickname)).forEach(p->p.setOnline(false));
+        List<LeaderCard> chosenLeaderCards = event.getLeaderCards().subList(0,2);
+        Random random = new Random();
+        int number = random.nextInt(3);
+        List<Resource> chosenResources = new ArrayList<>();
+        for(int i = 0;i<event.getNumberOfResources();i++){
+            try {
+                chosenResources.add(ResourceFactory.produceResource(ResourceEnum.values()[number]));
+            } catch (NonStorableResourceException ignored){}
+        }
+        try {
+            preparePlayer(nickname,chosenLeaderCards,chosenResources);
+        } catch (InvalidSetupException|InvalidEventException ignored) {}
+        setupSendEvents.remove(event);
+        checkForGameStart();
+        return players.stream().noneMatch(Player::isOnline);
+    }
+
+    /**
+     * This method updates the model with the player' choices
+     *
+     * @param nickname nickname of the player to prepare
+     * @param chosenLeaderCards List of the chosen leader cards
+     * @param chosenResources list of the chosen resources
+     *
+     * @throws InvalidSetupException If the setup choices weren't legal
+     * @throws InvalidEventException If the setup failed
+     */
+    private void preparePlayer(String nickname,List<LeaderCard> chosenLeaderCards,List<Resource> chosenResources) throws InvalidSetupException, InvalidEventException {
+        Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream()
+                .filter(player -> player.getNickname().equals(nickname)).findFirst()
+                .orElseThrow(() -> new InvalidEventException("Invalid nickname"));
+
+        //add the chosen resources to the warehouse
+        try {
+            currentSetupPlayer.getPersonalBoard().getWarehouse().setupWarehouse(chosenResources);
+        } catch (InvalidIndexException | EmptySlotException | NonAccessibleSlotException e) {
+            throw new InvalidSetupException("Failed to add chosen resources"); //impossible condition
+        }
+
+        //add the chosen leader cards to player's hand
+        currentSetupPlayer.setLeaderHand(chosenLeaderCards);
+
+        //second and third player receive an extra Faith Point
+        if (modelInterface.getTurnLogic().getPlayers().indexOf(currentSetupPlayer) >= 2)
+            GameBoard.getGameBoard().faithProgress(currentSetupPlayer, 1);
+    }
+
+    /**
+     * This method is used to check if every player has done his setup action, if so the game starts and every player is updated
+     */
+    private void checkForGameStart(){
+        if (setupSendEvents.size() == 0) {
+            //set turnLogic state from (idleState where very action is invalidEvent) to startTurn
+            modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());
+
+            //all the players receive an update event with the gameBoard
+            GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+            graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
+            for (Player player : modelInterface.getTurnLogic().getPlayers())
+                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player, new LeaderCardSlotsUpdate(), new ProductionSlotsUpdate(), new WarehouseUpdate()));
+            modelInterface.notifyObservers(graphicUpdateEvent);
+            modelInterface.getTurnLogic().setNextPlayer();
+           }
+    }
+
+    /**
+     * This method is used to reconnect a player while the model is in the setupPhase
+     *
+     * @param nickname nickname of the player to reconnect
+     */
+    public void reconnectPlayer(String nickname) {
+        players.stream().filter(p->p.getNickname().equals(nickname)).forEach(p->p.setOnline(true));
+        modelInterface.notifyObservers(new GameStartedEvent(players.stream().map(Player::getNickname).collect(Collectors.toList())));
+        GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
+        graphicUpdateEvent.addUpdate(new MarketUpdate());
+        graphicUpdateEvent.addUpdate(new GridUpdate());
+        modelInterface.notifyObservers(graphicUpdateEvent);
+
     }
 }

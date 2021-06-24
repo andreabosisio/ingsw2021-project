@@ -38,7 +38,7 @@ public class TurnLogic {
         this.lastEventSent = null;
         this.modelInterface = modelInterface;
         this.players = players;
-        this.currentPlayer = players.get(0);
+        this.currentPlayer = players.get(players.size()-1);
         GameBoard.getGameBoard().createFaithTracks(players);
         GameBoard.getGameBoard().setTurnLogicOfMarketTray(this);
         this.gameMode = new GameMode(players);
@@ -75,7 +75,8 @@ public class TurnLogic {
      * @return true if it's the turn of the last player
      */
     public boolean isLastPlayerTurn() {
-        return players.indexOf(currentPlayer) == players.size() - 1;
+        List<Player> onlinePlayers = players.stream().filter(Player::isOnline).collect(Collectors.toList());
+        return onlinePlayers.indexOf(currentPlayer) == onlinePlayers.size() - 1;
     }
 
     /**
@@ -314,6 +315,14 @@ public class TurnLogic {
         }
     }
 
+    /**
+     * This method is used to disconnect a player during the game
+     * If it was this player turn his turnState is saved for a later reconnection and the next player in line starts his turn
+     *
+     * @param nickname nickname of the player to disconnect
+     *
+     * @return if the player was the last one online
+     */
     public boolean disconnectPlayer(String nickname) {
         Player disconnected = players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst().orElse(null);
         assert disconnected != null;
@@ -331,6 +340,11 @@ public class TurnLogic {
         return false;
     }
 
+    /**
+     * This method is used to reconnect a player during the game
+     *
+     * @param nickname nickname of the player to reconnect
+     */
     public void reconnectPlayer(String nickname) {
         Player reconnected = players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst().orElse(null);
         GraphicUpdateEvent graphicsForReconnection = new GraphicUpdateEvent();

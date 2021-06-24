@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <BorderPane>
         <center>
             <ImageView fx:id="background" fitHeight="800.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
@@ -34,5 +34,6 @@
                 <Font name="Comic Sans MS" size="18.0" />
             </font>
         </TextArea>
+      <TextArea fx:id="messageBox" editable="false" layoutX="142.0" layoutY="33.0" prefHeight="39.0" prefWidth="323.0" />
     </AnchorPane>
 </StackPane>

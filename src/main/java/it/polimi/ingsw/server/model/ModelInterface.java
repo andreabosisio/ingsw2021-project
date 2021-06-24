@@ -248,6 +248,9 @@ public class ModelInterface implements SendObservable {
      * @param nickname of the player offline
      */
     public boolean disconnectPlayer(String nickname) {
+        if(turnLogic.getCurrentState().equals(turnLogic.getIdle())){
+            return setupManager.disconnectPlayer(nickname);
+        }
         return turnLogic.disconnectPlayer(nickname);
     }
 
@@ -257,6 +260,9 @@ public class ModelInterface implements SendObservable {
      * @param nickname of the player reconnected
      */
     public void reconnectPlayer(String nickname) {
+        if(turnLogic.getCurrentState().equals(turnLogic.getIdle())){
+            setupManager.reconnectPlayer(nickname);
+        }
         turnLogic.reconnectPlayer(nickname);
     }
 
