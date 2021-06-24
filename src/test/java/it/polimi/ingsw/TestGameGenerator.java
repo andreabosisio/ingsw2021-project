@@ -54,6 +54,7 @@ public class TestGameGenerator {
             setMarketTrayAuto(modelInterface);
             setDevelopmentCardsGrid(modelInterface);
         }
+        modelInterface.getTurnLogic().setNextPlayer();
         return modelInterface;
     }
 
