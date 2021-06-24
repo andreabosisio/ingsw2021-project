@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.receive.ReceiveEvent;
-import it.polimi.ingsw.server.events.receive.SetupEvent;
 import it.polimi.ingsw.server.events.send.GameStartedEvent;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
@@ -35,7 +34,7 @@ public class Controller implements ReceiveObserver {
 
     /**
      * This method is called by the VirtualView to notify this class
-     * of an Event coming from the Client
+     * of an Event coming from the Client.
      * If the owner is the currently playing player the action is performed
      * If the action is not performed successfully the last event sent to the client is resented
      *
@@ -46,7 +45,7 @@ public class Controller implements ReceiveObserver {
 
         ClientHandler currentClientHandler = Lobby.getLobby().getVirtualViewByNickname(receiveEvent.getNickname()).getClientHandler();
 
-        if (modelInterface.getCurrentPlayerNickname().equals(receiveEvent.getNickname()) || receiveEvent instanceof SetupEvent) {
+        if(receiveEvent.canBeExecutedFor(modelInterface.getCurrentPlayerNickname())) {
             try {
                 receiveEvent.doAction(modelInterface);
             } catch (InvalidIndexException | NonStorableResourceException | EmptySlotException | NonAccessibleSlotException | InvalidEventException e) {

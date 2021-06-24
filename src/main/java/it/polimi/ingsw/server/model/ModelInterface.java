@@ -141,6 +141,7 @@ public class ModelInterface implements SendObservable {
      * to store increases the FaithProgress of the other players.
      *
      * @param swapPairs List of all the swaps to be applied
+     * @param hasCompletedTransformationAction true if the Player has already completed the Transformation Action
      * @return true if the warehouse reordering is legal
      * @throws InvalidEventException if the swaps cannot be applied
      */
@@ -267,8 +268,8 @@ public class ModelInterface implements SendObservable {
     }
 
     /**
-     * This method is used to cheat 5 resources to each player during the game demo
-     * It does so by adding them to each player strongBox
+     * This method is used to cheat 6 resources of each types to each player during the game demo
+     * It does so by adding them to each player's Strong Box
      */
     public void cheat() {
         List<Resource> cheatResources = new ArrayList<>();

@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.send.GameStartedEvent;
-import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
@@ -35,7 +34,6 @@ public class SetupManager {
 
     public SetupManager(List<Player> players, ModelInterface modelInterface) {
         this.players = players;
-        //startSetup();
         this.modelInterface = modelInterface;
     }
 
@@ -99,7 +97,7 @@ public class SetupManager {
 
             setupSendEvents.remove(setupSendEvent);
 
-            checkForGameStart();
+            initialGameSetup();
             return true;
         }
         throw new InvalidSetupException("Invalid number of chosen Resources and/or LeaderCards");
@@ -141,7 +139,7 @@ public class SetupManager {
             preparePlayer(nickname,chosenLeaderCards,chosenResources);
         } catch (InvalidSetupException|InvalidEventException ignored) {}
         setupSendEvents.remove(event);
-        checkForGameStart();
+        initialGameSetup();
         return players.stream().noneMatch(Player::isOnline);
     }
 
@@ -176,9 +174,9 @@ public class SetupManager {
     }
 
     /**
-     * This method is used to check if every player has done his setup action, if so the game starts and every player is updated
+     * This method is used to check if every player has done his setup action, if so the game starts and every player is updated.
      */
-    private void checkForGameStart(){
+    private void initialGameSetup(){
         if (setupSendEvents.size() == 0) {
             //set turnLogic state from (idleState where very action is invalidEvent) to startTurn
             modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());

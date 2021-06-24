@@ -29,17 +29,19 @@ public class BuyEvent extends ReceiveEvent {
     }
 
     /**
-     * Executes the Buy Action.
+     * Executes the action.
      *
-     * @param modelInterface The model reference
-     * @return true if the card has been successfully bought
-     * @throws InvalidEventException      if the player can't buy the card
-     * @throws InvalidIndexException      if one of the resource positions is negative
-     * @throws EmptySlotException         if one of the resource slots is empty
-     * @throws NonAccessibleSlotException if one of the resource position represents a slot that's not accessible
+     * @param modelInterface The reference of the game model
+     * @return true if the action has been correctly executed
+     * @throws EmptySlotException           if an empty resource slot has been accessed
+     * @throws NonAccessibleSlotException   if a non accessible resource slot has been accessed
+     * @throws InvalidEventException        if it's an invalid action
+     * @throws InvalidIndexException        if an index it's out of range
+     * @throws InvalidSetupException        if it's an invalid setup event
+     * @throws NonStorableResourceException if a Non Storable Resource has been requested
      */
     @Override
-    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException {
+    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
         return modelInterface.buyAction(cardColor, cardLevel, resourcePositions);
     }
 }
