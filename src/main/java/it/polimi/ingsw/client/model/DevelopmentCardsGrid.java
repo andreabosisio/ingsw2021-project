@@ -32,6 +32,7 @@ public class DevelopmentCardsGrid extends Printable {
      * Update method that checks if there is a first implementation of this class,
      * if yes it sets the map that represents the Grid and it saves his self in the Board,
      * otherwise it just update the map with the new Card.
+     * @param view The UI
      */
     public void update(View view) {
         if (fullGrid != null) {
@@ -55,7 +56,7 @@ public class DevelopmentCardsGrid extends Printable {
         }
 
         for (String indexCard : fullGrid) {
-            if (!indexCard.equals(GraphicUtilities.getEmptyID())) {
+            if (!indexCard.equals(DevelopmentCard.getEmptyCardID())) {
                 String[] splitIndex = indexCard.split("_");
                 mapByLevel.get(Integer.parseInt(splitIndex[1]) - 1).put(splitIndex[0], indexCard);
             }
@@ -63,7 +64,7 @@ public class DevelopmentCardsGrid extends Printable {
 
         for (int level_card = 0; level_card < CARD_LEVELS; level_card++) {
             for (CardColorEnum cardColorEn : CardColorEnum.values()) {
-                mapByLevel.get(level_card).computeIfAbsent(String.valueOf(cardColorEn), k -> GraphicUtilities.getEmptyID());
+                mapByLevel.get(level_card).computeIfAbsent(String.valueOf(cardColorEn), k -> DevelopmentCard.getEmptyCardID());
             }
         }
     }

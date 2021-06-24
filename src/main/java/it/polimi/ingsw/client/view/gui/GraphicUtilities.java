@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client.view.gui;
 
-import it.polimi.ingsw.client.model.Board;
-import it.polimi.ingsw.client.model.DevelopmentCardsDatabase;
-import it.polimi.ingsw.client.model.Marble;
-import it.polimi.ingsw.client.model.StorableResourceEnum;
+import it.polimi.ingsw.client.model.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -35,7 +32,6 @@ public class GraphicUtilities {
     private static final String popeTilesPath = "src/main/resources/images/popeTiles/";
     private static final String endOfPath = ".png";
     private static final String lorenzo = "Lorenzo il Magnifico";
-    private static final String emptyID = "empty";
     private static final String redCrossColor = "#ff0000";
     private static final String blueCrossColor = "#0800ff";
     private static final String greenCrossColor = "#00ff33";
@@ -48,15 +44,6 @@ public class GraphicUtilities {
      */
     public static String getAiName() {
         return lorenzo;
-    }
-
-    /**
-     * Getter of the id associated with an empty card
-     *
-     * @return emptyID
-     */
-    public static String getEmptyID() {
-        return emptyID;
     }
 
     /**
@@ -205,7 +192,7 @@ public class GraphicUtilities {
      * @param iD ID of the new placed card
      */
     public static void updateDevGrid(GridPane populatedDevelopmentGrid, String iD) {
-        if (iD.equals("empty")) {
+        if (iD.equals(DevelopmentCard.getEmptyCardID())) {
             populateDevGrid(populatedDevelopmentGrid);
             return;
         }
@@ -340,7 +327,7 @@ public class GraphicUtilities {
      */
     public static void populateProductionBoard(AnchorPane productionPane, String nickname) {
         List<LinkedHashSet<String>> population = new ArrayList<>(Board.getBoard().getPersonalBoardOf(nickname).getDevelopmentCardsInSlots());
-        population.remove(0);//remove basic
+        population.remove(0);//remove basic power card
         File file;
         int i = 0;
         for (Node slotNode : productionPane.getChildren()) {
@@ -348,7 +335,7 @@ public class GraphicUtilities {
             List<Node> cardSlots = slotPane.getChildren();
             LinkedHashSet<String> slot = population.get(i);
             if (slot.size() > 1)
-                slot.removeIf(id -> id.equals(DevelopmentCardsDatabase.getEmptyCardId()));
+                slot.removeIf(id -> id.equals(DevelopmentCard.getEmptyCardID()));
             int j = cardSlots.size() - 1;
             String[] slotAsArray = slot.toArray(new String[0]);
             for (int k = slotAsArray.length - 1; k >= 0; k--) {

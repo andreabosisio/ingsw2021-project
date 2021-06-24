@@ -84,7 +84,7 @@ public class PersonalBoard implements EndGameSubject {
         return productionDeck.stream().limit(lastDevSlotIndex).map(slot -> {
             List<String> newSlotIDs = slot.stream().map(ProductionCard::getID).collect(Collectors.toList());
             if(newSlotIDs.size() == 0)
-                newSlotIDs.add("empty");
+                newSlotIDs.add(DevelopmentCard.getEmptyCardID());
             Collections.reverse(newSlotIDs);
             return newSlotIDs;
         }).collect(Collectors.toList());
@@ -152,8 +152,9 @@ public class PersonalBoard implements EndGameSubject {
     }
 
     /**
-     * get the total number of endGame points for everything currently on the board
+     * Get the total number of game points counting everything currently on the board of the Player.
      *
+     * @param player The Player
      * @return total number of points
      */
     public int getPoints(Player player) {
@@ -211,7 +212,7 @@ public class PersonalBoard implements EndGameSubject {
             try {
                 toReturn.add(getProductionCard(i).getID());
             } catch (InvalidIndexException e) {
-                toReturn.add("empty");
+                toReturn.add(DevelopmentCard.getEmptyCardID());
             }
         }
         return toReturn;
@@ -222,6 +223,7 @@ public class PersonalBoard implements EndGameSubject {
      *
      * @param slotPosition of the selected slot
      * @return the top ProductionCard of the selected slot
+     * @throws InvalidIndexException if slotPosition is an invalid index
      */
     public ProductionCard getProductionCard(int slotPosition) throws InvalidIndexException {
         try {

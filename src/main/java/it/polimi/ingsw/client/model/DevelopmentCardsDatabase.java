@@ -26,12 +26,7 @@ public class DevelopmentCardsDatabase {
     private final List<String> devCardsOutResources = new ArrayList<>();
     private final List<String> devCardsVictoryPoints = new ArrayList<>();
 
-    private static final String EMPTY_CARD_ID = "empty";
     private static final String BASIC_CARD_ID = "basicPowerCard";
-
-    public static String getEmptyCardId() {
-        return EMPTY_CARD_ID;
-    }
 
     /**
      * Create an instance of DevelopmentCardsDatabase or return the existing one
@@ -290,8 +285,8 @@ public class DevelopmentCardsDatabase {
      * @return the Card to print
      */
     public DevelopmentCard createDevelopmentCardByID(String iD) {
-        if (iD.equals(EMPTY_CARD_ID))
-            return new ProductionSlot(EMPTY_CARD_ID);
+        if (iD.equals(DevelopmentCard.getEmptyCardID()))
+            return new ProductionSlot(DevelopmentCard.getEmptyCardID());
         else if (iD.equals(BASIC_CARD_ID))
             return new BasicPowerCard(BASIC_CARD_ID);
         else

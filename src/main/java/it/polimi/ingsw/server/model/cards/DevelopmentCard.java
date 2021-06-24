@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class DevelopmentCard implements ProductionCard {
 
     private final String iD;
+    private final static String EMPTY_CARD_ID = "empty";
 
     private final List<Resource> price;
 
@@ -30,9 +31,9 @@ public class DevelopmentCard implements ProductionCard {
     private final List<Resource> outResources;
 
     public DevelopmentCard() {
-        this.iD = "empty";
-        this.inResources = null;
-        this.outResources = null;
+        this.iD = EMPTY_CARD_ID;
+        this.inResources =  new ArrayList<>();
+        this.outResources =  new ArrayList<>();
         this.price = new ArrayList<>();
         this.color = null;
         this.points = -1;
@@ -55,6 +56,20 @@ public class DevelopmentCard implements ProductionCard {
     @Override
     public String getID() {
         return iD;
+    }
+
+    /**
+     * @return the ID of the Empty Card.
+     */
+    public static String getEmptyCardID() {
+        return EMPTY_CARD_ID;
+    }
+
+    /**
+     * @return true if this it's the Empty Card, else otherwise.
+     */
+    public boolean isTheEmptyCard() {
+        return iD.equals(EMPTY_CARD_ID);
     }
 
     /**

@@ -116,7 +116,7 @@ public class PersonalBoard extends Printable {
         List<Printable> slots = developmentCardsInSlots.stream().map(slot -> {
             Printable slotsBuilder = new PrintableScene(new ArrayList<>());
             if(slot.size() > 1)
-                slot.removeIf(id -> id.equals(DevelopmentCardsDatabase.getEmptyCardId()));
+                slot.removeIf(id -> id.equals(DevelopmentCard.getEmptyCardID()));
             for (String id : slot) {
                 slotsBuilder = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().createDevelopmentCardByID(id).placeOnOtherCards(slotsBuilder);
             }

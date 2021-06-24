@@ -12,9 +12,14 @@ import java.util.*;
 public class DevelopmentCard extends Printable {
 
     private final String iD;
+    private static final String EMPTY_CARD_ID = "empty";
 
     public DevelopmentCard(String iD) {
         this.iD = iD;
+    }
+
+    public static String getEmptyCardID() {
+        return EMPTY_CARD_ID;
     }
 
     /**

@@ -173,7 +173,7 @@ public class StartTurnState extends State {
         try {
             chosenColorEnum = CardColorEnum.valueOf(cardColor.toUpperCase());
             chosenDevelopmentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(chosenColorEnum, cardLevel);
-            if (chosenDevelopmentCard.getID().equals("empty"))
+            if (chosenDevelopmentCard.isTheEmptyCard())
                 throw new InvalidEventException("Invalid card level");
         } catch (IllegalArgumentException e) {
             throw new InvalidEventException("Invalid card color"); //non existing card color type

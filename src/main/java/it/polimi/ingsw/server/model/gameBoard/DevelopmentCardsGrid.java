@@ -53,7 +53,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
                 toReturn.add(value.get(0).getID());
             }
             else
-                toReturn.add("empty");
+                toReturn.add(DevelopmentCard.getEmptyCardID());
         }));
         return toReturn;
     }
@@ -104,6 +104,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      * and calls the method notifyEndGameObserver if a column of Cards is empty
      *
      * @param developmentCard is the Development Card to remove
+     * @return true if the grid contain the developmentCard, false otherwise
      */
     public boolean removeCard(DevelopmentCard developmentCard) {
         if (!mapByLevel.get(developmentCard.getLevel() - 1).get(developmentCard.getColor()).contains(developmentCard))

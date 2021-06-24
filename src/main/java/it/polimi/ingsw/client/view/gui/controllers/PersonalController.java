@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.events.send.*;
 import it.polimi.ingsw.client.model.Board;
+import it.polimi.ingsw.client.model.DevelopmentCard;
 import it.polimi.ingsw.client.model.DevelopmentCardsDatabase;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
@@ -262,7 +263,10 @@ public class PersonalController extends GUICommandListener {
 
     /**
      * This method is called when the Player has to choose the transformation of the White Resources:
-     * it show a popup with the possibly colors of the resources to pick
+     * it show a popup with the possibly colors of the resources to pick.
+     *
+     * @param numberOfTransformation The number of White Resource Transformations to apply
+     * @param possibleTransformation A List containing Resource's colors of a possible transformation
      */
     public void showTransformationPopup(int numberOfTransformation, List<String> possibleTransformation) {
         Platform.runLater(() -> {
@@ -309,7 +313,7 @@ public class PersonalController extends GUICommandListener {
      * @param n is the Button with the ID of the chosen Development Card
      */
     private void handleBuyRequest(Node n) {
-        if (n.getId().equals(GraphicUtilities.getEmptyID())) {
+        if (n.getId().equals(DevelopmentCard.getEmptyCardID())) {
             currentSelectedResources.clear();
             printErrorMessage("This slot is empty");
             return;
