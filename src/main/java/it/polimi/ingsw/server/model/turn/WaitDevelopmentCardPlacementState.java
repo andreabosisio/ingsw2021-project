@@ -7,6 +7,11 @@ import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.events.send.graphics.ProductionSlotsUpdate;
 
 public class WaitDevelopmentCardPlacementState extends State {
+    /**
+     * Used to construct a turnLogic state waiting for the player to place his new development card
+     *
+     * @param turnLogic turnLogic associated with the state
+     */
     public WaitDevelopmentCardPlacementState(TurnLogic turnLogic) {
         super(turnLogic);
     }

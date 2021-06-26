@@ -21,6 +21,9 @@ public class CLI implements View {
     private int port = ClientApp.getDefaultPort();
     private final CLICommandListener cliCommandListener;
 
+    /**
+     * This class is used to play in CLI mode
+     */
     public CLI() {
         clearView();
         render(AnsiEnum.LOGO.getAsciiArt());
@@ -46,6 +49,10 @@ public class CLI implements View {
         startNetwork();
     }
 
+    /**
+     * This method is used to ask the player if he wants to play online or locally
+     * If online it also asks for an ip and port to use
+     */
     private void askSettings() {
         if(cliCommandListener.askGameMode().equals("ONLINE")) {
             onlineGame = true;
@@ -61,6 +68,9 @@ public class CLI implements View {
         }
     }
 
+    /**
+     * This method is used to ask the player which ip and port he wants to use
+     */
     private void askIPAndPort() {
         ip = cliCommandListener.askIP();
         port = cliCommandListener.askPort();

@@ -9,7 +9,7 @@ import java.util.List;
 public class GridUpdate {
     private final Integer level;
     private final String color;
-    private String iD;
+    private final String iD;
     private final List<String> fullGrid;
 
     public GridUpdate(CardColorEnum color, int level) {

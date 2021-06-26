@@ -30,6 +30,14 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
     private boolean missingPong = false;
     private Timer timer;
 
+    /**
+     * This method is used to construct a new virtualView for a player
+     * It also sets the virtualView as a pongObserver
+     *
+     * @param nickname nickname of the player owner of the virtualView
+     * @param password password of the player owner of the virtualView
+     * @param clientHandler clientHandler handling the connection with the player
+     */
     public VirtualView(String nickname, String password, ClientHandler clientHandler) {
         this.nickname = nickname;
         this.password = password;

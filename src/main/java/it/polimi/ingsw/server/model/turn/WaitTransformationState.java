@@ -15,6 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WaitTransformationState extends State {
+    /**
+     * Used to construct a turnLogic state waiting for the player to input his white resources transformation choices
+     *
+     * @param turnLogic turnLogic associated with the state
+     */
     public WaitTransformationState(TurnLogic turnLogic) {
         super(turnLogic);
     }

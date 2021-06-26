@@ -25,7 +25,7 @@ public class PersonalBoard extends Printable {
     private final static String WAREHOUSE_SLOTS_SEPARATOR = "       ";
     private final static int WAREHOUSE_BOARDNAME_OFFSET = 5;
     private final static int ACTIVE_HAND_LEADERS_OFFSET = 1;
-    private View view;
+    private final View view;
 
     public PersonalBoard(String nickname,View view) {
         this.view = view;

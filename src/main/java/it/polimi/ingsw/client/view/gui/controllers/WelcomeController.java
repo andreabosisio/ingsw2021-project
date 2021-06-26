@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  */
 public class WelcomeController extends GUICommandListener {
 
-    private GUI gui;
+    private final GUI gui;
 
     private static final String defaultIP = ClientApp.getDefaultIP();
     private static final int defaultPort = ClientApp.getDefaultPort();
@@ -25,8 +25,8 @@ public class WelcomeController extends GUICommandListener {
     private static final String IP_REGEXP = "^(" + zeroTo255 + "\\." + zeroTo255 + "\\."
             + zeroTo255 + "\\." + zeroTo255 + ")$";
     private static final Pattern IP_PATTERN = Pattern.compile(IP_REGEXP);
-    private static String localMode = "localGame";
-    private static String onlineMode = "onlineGame";
+    private final static String localMode = "localGame";
+    private final static String onlineMode = "onlineGame";
     ObservableList<String> connectionModes = FXCollections.observableArrayList(onlineMode,localMode);
 
     @FXML
@@ -43,6 +43,11 @@ public class WelcomeController extends GUICommandListener {
     @FXML
     private ComboBox<String> connectionSelector;
 
+    /**
+     * Used to create a controller to handle the welcome phase
+     *
+     * @param gui gui associated with the player
+     */
     public WelcomeController(GUI gui) {
         this.gui = gui;
     }

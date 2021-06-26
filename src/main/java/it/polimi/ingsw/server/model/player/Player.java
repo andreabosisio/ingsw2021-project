@@ -180,7 +180,7 @@ public class Player implements PlayerInterface {
         if(disconnectedState== null){
             return false;
         }
-        turnLogic.setWhiteResourcesFromMarket(whiteResourcesFromMarket);
+        turnLogic.addWhiteResourcesFromMarketToTransform(whiteResourcesFromMarket);
         turnLogic.setChosenDevCard(chosenDevCard);
         turnLogic.setCurrentState(disconnectedState);
         turnLogic.getModelInterface().notifyObservers(lastReceivedEvent);

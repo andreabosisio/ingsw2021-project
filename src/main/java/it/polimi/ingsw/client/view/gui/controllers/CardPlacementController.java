@@ -27,6 +27,11 @@ public class CardPlacementController extends GUICommandListener {
     @FXML
     private AnchorPane productionPane;
 
+    /**
+     * This is the controller used to place a card when bought
+     *
+     * @param nickname nickname of the player placing the card
+     */
     public CardPlacementController(String nickname) {
         this.nickname = nickname;
     }

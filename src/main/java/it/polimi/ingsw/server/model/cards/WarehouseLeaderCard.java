@@ -8,6 +8,14 @@ public class WarehouseLeaderCard extends LeaderCard{
 
     private final Resource extraSlotsType;
 
+    /**
+     * Used to construct a LeaderCard of type warehouse
+     *
+     * @param ID id of the leaderCard
+     * @param points points the card is worth
+     * @param requirements requirements to activate the card
+     * @param extraSlotsType color of the resource placeable on the card
+     */
     public WarehouseLeaderCard(String ID, int points, List<Requirement> requirements, Resource extraSlotsType) {
         super(ID, points, requirements);
         this.extraSlotsType = extraSlotsType;

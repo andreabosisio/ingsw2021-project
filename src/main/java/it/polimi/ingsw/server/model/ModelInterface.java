@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.client.model.StorableResourceEnum;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
@@ -10,14 +9,11 @@ import it.polimi.ingsw.server.events.send.graphics.WarehouseUpdate;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.resources.NonStorableResources;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.ResourceFactory;
-import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 import it.polimi.ingsw.server.utils.SendObservable;
 import it.polimi.ingsw.server.utils.SendObserver;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +31,13 @@ public class ModelInterface implements SendObservable {
     private final SetupManager setupManager;
     private final List<SendObserver> virtualViews;
 
+    /**
+     * This class contains all the methods visible to the controller in the MVC pattern
+     * This constructor creates a new TurnLogic and setupManager with the given nicknames
+     * It also resets the gameBoard in case it is not the first game played with this server 
+     *
+     * @param nicknames nicknames of the player in the game
+     */
     public ModelInterface(List<String> nicknames) {
 
         GameBoard.getGameBoard().reset();
@@ -67,7 +70,7 @@ public class ModelInterface implements SendObservable {
         return turnLogic;
     }
 
-    /**
+     /**
      * Add the chosen LeaderCards and Resources to the Player's board in the setup phase.
      *
      * @param nickname          of the Player
@@ -75,10 +78,12 @@ public class ModelInterface implements SendObservable {
      * @param resources         chosen by the Player
      * @return true if the choices are correct
      * @throws InvalidEventException if the choices aren't correct
+     * @throws InvalidSetupException if setup failed
      */
     public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, InvalidSetupException {
         return setupManager.setupAction(nickname, leaderCardIndexes, resources);
     }
+
 
     /**
      * Take the chosen resources from the MarketTray and set the current state of the game to
@@ -87,7 +92,9 @@ public class ModelInterface implements SendObservable {
      *
      * @param arrowID is the index of the chosen line of the MarketTray
      * @return true if the state has been changed
-     * @throws InvalidIndexException if the arrowID is not correct
+     * @throws InvalidIndexException if the arrowID is not correct/**
+     * @throws InvalidEventException if the action failed
+
      */
     public boolean marketAction(int arrowID) throws InvalidEventException, InvalidIndexException {
         return turnLogic.marketAction(arrowID);
@@ -102,6 +109,8 @@ public class ModelInterface implements SendObservable {
      * @throws InvalidEventException        if one of the production can't be applied
      * @throws InvalidIndexException        if one of the index of the chosen ProductionCard doesn't exists
      * @throws NonStorableResourceException if one of the chosen resources contains a NonStorableResource
+     * @throws EmptySlotException if the first slot in at least one of the swap pairs is empty
+     * @throws NonAccessibleSlotException if one of the selected slot is not accessible for this action
      */
     public boolean productionAction(Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
         return turnLogic.productionAction(inResourcesForEachProductions, outResourcesForEachProductions);
@@ -247,6 +256,7 @@ public class ModelInterface implements SendObservable {
      * This method set a player in the model as offline
      *
      * @param nickname of the player offline
+     * @return true if the player was the last one online
      */
     public boolean disconnectPlayer(String nickname) {
         if(turnLogic.getCurrentState().equals(turnLogic.getIdle())){

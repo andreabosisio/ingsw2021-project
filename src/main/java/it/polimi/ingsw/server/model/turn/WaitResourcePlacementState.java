@@ -15,6 +15,11 @@ import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 import java.util.List;
 
 public class WaitResourcePlacementState extends State {
+    /**
+     * Used to construct a turnLogic state waiting for the player to place his resources
+     *
+     * @param turnLogic turnLogic associated with the state
+     */
     public WaitResourcePlacementState(TurnLogic turnLogic) {
         super(turnLogic);
     }
@@ -86,6 +91,9 @@ public class WaitResourcePlacementState extends State {
         throw new InvalidEventException("Illegal Warehouse reordering");
     }
 
+    /**
+     * This method is used to notify the modelInterface observers with a graphic event containing the changes in the player' warehouse
+     */
     private void sendWarehouseUpdate(){
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
         graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new WarehouseUpdate()));

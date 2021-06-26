@@ -34,6 +34,12 @@ public class TurnLogic {
 
     private final ModelInterface modelInterface;
 
+    /**
+     * Used to construct a new turnLogic and everything needed for the model to work
+     *
+     * @param players players in the game
+     * @param modelInterface modelInterface accessible from the controller
+     */
     public TurnLogic(List<Player> players, ModelInterface modelInterface) {
         this.lastEventSent = null;
         this.modelInterface = modelInterface;
@@ -103,71 +109,154 @@ public class TurnLogic {
         }
     }
 
+    /**
+     * This method is used to reset the turnLogic for a new player' turn
+     */
     private void reset() {
         whiteResourcesFromMarket.clear();
         chosenDevCard = null;
     }
 
+    /**
+     * This method is used to get the gameMode the model is operating on
+     *
+     * @return the model' gameMode
+     */
     public GameMode getGameMode() {
         return gameMode;
     }
 
+    /**
+     * This method is used to return the player currently doing his turn
+     *
+     * @return the currently playing player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * This method is used to set the current turnLogic state
+     *
+     * @param currentState state to set as current
+     */
     public void setCurrentState(State currentState) {
         this.currentState = currentState;
     }
 
+    /**
+     * This method is used to get the startTurn state of the turnLogic
+     *
+     * @return the turnLogic' startTurn state
+     */
     public State getStartTurn() {
         return startTurn;
     }
 
+    /**
+     * This method is used to get the waitDevCardPlacement state of the turnLogic
+     *
+     * @return the turnLogic' waitDevCardPlacement state
+     */
     public State getWaitDevCardPlacement() {
         return waitDevCardPlacement;
     }
 
+    /**
+     * This method is used to get the waitTransformation state of the turnLogic
+     *
+     * @return the turnLogic' waitTransformation state
+     */
     public State getWaitTransformation() {
         return waitTransformation;
     }
 
+    /**
+     * This method is used to get the waitResourcePlacement state of the turnLogic
+     *
+     * @return the turnLogic' waitResourcePlacement state
+     */
     public State getWaitResourcePlacement() {
         return waitResourcePlacement;
     }
 
+    /**
+     * This method is used to get the endTurn state of the turnLogic
+     *
+     * @return the turnLogic' endTurn state
+     */
     public State getEndTurn() {
         return endTurn;
     }
 
+    /**
+     * This method is used to get the endGame state of the turnLogic
+     *
+     * @return the turnLogic' endGame state
+     */
     public State getEndGame() {
         return endGame;
     }
 
+    /**
+     * This method is used to get the idle state of the turnLogic
+     *
+     * @return the turnLogic' idle state
+     */
     public State getIdle() {
         return idle;
     }
 
-    public void setWhiteResourcesFromMarket(WhiteResource whiteResourceFromMarket) {
+    /**
+     * This method is used to add a single white resource to the list of  white resources the player must transform
+     *
+     * @param whiteResourceFromMarket white resource to add
+     */
+    public void addWhiteResourcesFromMarketToTransform(WhiteResource whiteResourceFromMarket) {
         this.whiteResourcesFromMarket.add(whiteResourceFromMarket);
     }
 
-    public void setWhiteResourcesFromMarket(List<WhiteResource> whiteResourcesFromMarket) {
+    /**
+     * This method is used to set a list of white resource as the list of  white resources the player must transform
+     *
+     * @param whiteResourcesFromMarket resources to set as the white resources to transform
+     */
+    public void addWhiteResourcesFromMarketToTransform(List<WhiteResource> whiteResourcesFromMarket) {
         this.whiteResourcesFromMarket = new ArrayList<>(whiteResourcesFromMarket);
     }
 
+    /**
+     * This method is esed to get the list of white resources the player must transform this turn
+     *
+     * @return the list of white resources to transform
+     */
     public List<WhiteResource> getWhiteResourcesFromMarket() {
         return whiteResourcesFromMarket;
     }
 
+    /**
+     * This method is used to get the modelInterface visible to the controller
+     *
+     * @return the visible modelInterface
+     */
     public ModelInterface getModelInterface() {
         return modelInterface;
     }
 
+    /**
+     * This method is used to set the development card the player must position
+     *
+     * @param chosenDevCard development card the player must position
+     */
     public void setChosenDevCard(DevelopmentCard chosenDevCard) {
         this.chosenDevCard = chosenDevCard;
     }
 
+    /**
+     * This method is used to get the development card the player must place this turn
+     *
+     * @return development card the player must position
+     */
     public DevelopmentCard getChosenDevCard() {
         return chosenDevCard;
     }
@@ -181,6 +270,7 @@ public class TurnLogic {
      * @param arrowID is the index of the chosen line of the MarketTray
      * @return true if the state has been changed
      * @throws InvalidIndexException if the arrowID is not correct
+     * @throws InvalidEventException if the market action failed
      */
     public boolean marketAction(int arrowID) throws InvalidEventException, InvalidIndexException {
         return currentState.marketAction(arrowID);
@@ -195,6 +285,8 @@ public class TurnLogic {
      * @throws InvalidEventException        if one of the production can't be applied
      * @throws InvalidIndexException        if one of the index of the chosen ProductionCard doesn't exists
      * @throws NonStorableResourceException if one of the chosen resources contains a NonStorableResource
+     * @throws EmptySlotException           if the first position of any swap pair doesn't contain a resource
+     * @throws NonAccessibleSlotException   if the slot the player chose couldn't be accessed
      */
     public boolean productionAction(Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
         return currentState.productionAction(inResourcesForEachProductions, outResourcesForEachProductions);
@@ -233,6 +325,7 @@ public class TurnLogic {
      * Reorder the warehouse and change the state of the game to EndTurnState. If the Player has some remaining resource
      * to store increases the FaithProgress of the other players.
      *
+     * @param hasCompletedPlacementAction true if the player wishes for this place action to be final
      * @param swapPairs List of all the swaps to be applied
      * @return true if the warehouse reordering is legal
      * @throws InvalidEventException if the swaps cannot be applied
