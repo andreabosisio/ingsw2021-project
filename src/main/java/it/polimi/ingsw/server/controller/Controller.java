@@ -46,6 +46,7 @@ public class Controller implements ReceiveObserver {
     public Controller(List<VirtualView> virtualViews) {
         this.nicknames = virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList());
         if (matchSavedGameData()) {
+            this.modelInterface = new ModelInterface(nicknames);
             startSetup();
             reloadGame();
             setupObservers(virtualViews);
@@ -101,7 +102,7 @@ public class Controller implements ReceiveObserver {
     }
 
     private void reloadGame() {
-        this.modelInterface = new ModelInterface(nicknames);
+        //this.modelInterface = new ModelInterface(nicknames);
 
 
         modelInterface.loadMarketAndGridData();
@@ -119,7 +120,7 @@ public class Controller implements ReceiveObserver {
             JsonArray jsonArrayOfActions = fileObject.get("actions").getAsJsonArray();
             for (JsonElement element : jsonArrayOfActions) {
                 JsonObject action = element.getAsJsonObject();
-                Type eventType = (Type) actionTypes.get(action.get("type"));
+                Type eventType = (Type) actionTypes.get(action.get("type").getAsString());
                 ReceiveEvent event = gson.fromJson(action, eventType);
                 //do the action
                 event.doAction(modelInterface);
