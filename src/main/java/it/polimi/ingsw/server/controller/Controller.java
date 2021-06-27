@@ -173,7 +173,7 @@ public class Controller implements ReceiveObserver {
 
         ClientHandler currentClientHandler = Lobby.getLobby().getVirtualViewByNickname(receiveEvent.getNickname()).getClientHandler();
 
-        if(receiveEvent.canBeExecutedFor(modelInterface.getCurrentPlayerNickname())) {
+        if (receiveEvent.canBeExecutedFor(modelInterface.getCurrentPlayerNickname())) {
             try {
                 //todo place resources action the model evolves even if the action throws an exception
                 updateSavedGame(receiveEvent);

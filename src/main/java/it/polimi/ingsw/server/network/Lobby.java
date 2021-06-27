@@ -222,8 +222,7 @@ public class Lobby {
      * The Controller will do the rest
      */
     private void startGame() {
-        controller = new Controller(virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList()));
-        controller.setupObservers(virtualViews);
+        controller = new Controller(virtualViews);
     }
 
     /**

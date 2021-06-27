@@ -1,10 +1,13 @@
 package it.polimi.ingsw.server.model.gameBoard;
 
+import com.google.gson.*;
 import it.polimi.ingsw.server.model.cards.*;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DeckLeader {
     private final List<LeaderCard> leaders;

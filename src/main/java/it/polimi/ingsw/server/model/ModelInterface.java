@@ -269,6 +269,7 @@ public class ModelInterface implements SendObservable {
      * This method set a player in the model as online
      *
      * @param nickname of the player reconnected
+     * @return true
      */
     public boolean reconnectPlayer(String nickname) {
         if(turnLogic.getCurrentState().equals(turnLogic.getIdle())){

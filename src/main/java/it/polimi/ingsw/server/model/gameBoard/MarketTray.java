@@ -58,13 +58,12 @@ public class MarketTray {
         loadResources();
         Collections.shuffle(initResources);
         populateMarket();
-        saveInitialState();
     }
 
     /**
      * Save the initial state in the in the file MARKET_INIT_RES_PATH.
      */
-    private void saveInitialState() {
+    public void saveData() {
         Gson gson = new Gson();
         try (FileWriter file = new FileWriter(MARKET_INIT_RES_PATH)) {
             JsonObject jsonObject = new JsonObject();

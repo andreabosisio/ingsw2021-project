@@ -56,7 +56,7 @@ public class CardsGenerator {
             int cardID = 1;
             for (JsonElement cardElement : jsonArrayOfCards) {
                 JsonObject cardJsonObject = cardElement.getAsJsonObject();
-                developmentCards.add(generateSingleDevCardFromJsonObject(cardJsonObject,cardID));
+                developmentCards.add(generateSingleDevCardFromJsonObject(cardJsonObject, cardID));
                 cardID++;
             }
         } catch (FileNotFoundException e) {
@@ -74,19 +74,19 @@ public class CardsGenerator {
      * The card is also assigned an ID structured like this:(color_level_absoluteCardID)
      *
      * @param cardJsonObject JsonObject containing the data of the card
-     * @param cardID Absolute ID of the card
+     * @param cardID         Absolute ID of the card
      * @return generated card
      */
-    private DevelopmentCard generateSingleDevCardFromJsonObject(JsonObject cardJsonObject, int cardID){
+    private DevelopmentCard generateSingleDevCardFromJsonObject(JsonObject cardJsonObject, int cardID) {
         //Cycle through requirements and save them as list of requirements
         List<Resource> price = new ArrayList<>();
-        addCardPrice(price,cardJsonObject);
+        addCardPrice(price, cardJsonObject);
 
         List<Resource> inResources = new ArrayList<>();
-        addInResources(inResources,cardJsonObject);
+        addInResources(inResources, cardJsonObject);
 
         List<Resource> outResources = new ArrayList<>();
-        addOutResources(outResources,cardJsonObject);
+        addOutResources(outResources, cardJsonObject);
 
         CardColorEnum color = CardColorEnum.valueOf(cardJsonObject.get(resAndDevColorNameInJson).getAsString());
         int level = cardJsonObject.get(levelNameInJson).getAsInt();
@@ -100,16 +100,16 @@ public class CardsGenerator {
     /**
      * This method is used to create and add the price of resources of a specific development card to a list
      *
-     * @param price List to populate with the price
+     * @param price          List to populate with the price
      * @param cardJsonObject JsonObject containing the card data
      */
-    private void addCardPrice(List<Resource> price,JsonObject cardJsonObject){
+    private void addCardPrice(List<Resource> price, JsonObject cardJsonObject) {
         JsonArray jsonArrayOfPrices = cardJsonObject.get(priceNameInJson).getAsJsonArray();
         for (JsonElement priceElement : jsonArrayOfPrices) {
             JsonObject priceJsonObject = priceElement.getAsJsonObject();
             int quantity = priceJsonObject.get(quantityNameInJson).getAsInt();
             ResourceEnum color = ResourceEnum.valueOf(priceJsonObject.get(resAndDevColorNameInJson).getAsString());
-            for(int i = 0; i < quantity; i++){
+            for (int i = 0; i < quantity; i++) {
                 price.add(new StorableResource(color));
             }
 
@@ -119,28 +119,28 @@ public class CardsGenerator {
     /**
      * This method is used to add the price of resources to activate a production of a specific devCard to a list
      *
-     * @param inResources List to populate with the resources required
+     * @param inResources    List to populate with the resources required
      * @param cardJsonObject JsonObject containing the card data
      */
-    private void addInResources(List<Resource> inResources, JsonObject cardJsonObject){
+    private void addInResources(List<Resource> inResources, JsonObject cardJsonObject) {
         extractResourcesFromJson(inResources, cardJsonObject, inResourcesNameInJson);
     }
 
     /**
      * This method is used to add the resources produced by a specific devCard during a production to a list
      *
-     * @param outResources List to populate with the resources produced
+     * @param outResources   List to populate with the resources produced
      * @param cardJsonObject JsonObject containing the card data
      */
-    private void addOutResources(List<Resource> outResources, JsonObject cardJsonObject){
+    private void addOutResources(List<Resource> outResources, JsonObject cardJsonObject) {
         extractResourcesFromJson(outResources, cardJsonObject, outResourcesNameInJson);
     }
 
     /**
      * This method is used to create resources from a JsonArray contained in a jsonObject
      *
-     * @param resourcesListToPopulate List where to add the resources
-     * @param cardJsonObject JsonObject containing the jsonArray with the resources data
+     * @param resourcesListToPopulate  List where to add the resources
+     * @param cardJsonObject           JsonObject containing the jsonArray with the resources data
      * @param resourcesArrayNameInJson name of the JsonArray in the JsonObject
      */
     private void extractResourcesFromJson(List<Resource> resourcesListToPopulate, JsonObject cardJsonObject, String resourcesArrayNameInJson) {
@@ -187,8 +187,7 @@ public class CardsGenerator {
                 JsonObject leaderJsonObject = leaderElement.getAsJsonObject();
                 leaderCards.add(generateLeaderCardFromJsonObject(leaderJsonObject));
             }
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.err.println("file not found");
             e.printStackTrace();
         } catch (Exception e) {
@@ -205,11 +204,11 @@ public class CardsGenerator {
      * @param leaderJsonObject JsonObject containing the card data
      * @return a new LeaderCard
      */
-    private LeaderCard generateLeaderCardFromJsonObject(JsonObject leaderJsonObject){
+    private LeaderCard generateLeaderCardFromJsonObject(JsonObject leaderJsonObject) {
         //Save card resources and development requirements
         List<Requirement> requirements = new ArrayList<>();
-        addDevRequirements(requirements,leaderJsonObject);
-        addResRequirements(requirements,leaderJsonObject);
+        addDevRequirements(requirements, leaderJsonObject);
+        addResRequirements(requirements, leaderJsonObject);
         //extract common data to all leaderCards
         String id = leaderJsonObject.get(idNameInJson).getAsString();
         int points = leaderJsonObject.get(pointsNameInJson).getAsInt();
@@ -243,10 +242,10 @@ public class CardsGenerator {
     /**
      * This method is used to create ad add the development type requirements of the leader card
      *
-     * @param requirements List of requirements to populate
+     * @param requirements     List of requirements to populate
      * @param leaderJsonObject JsonObject containing the leaderCard data
      */
-    private void addDevRequirements(List<Requirement>requirements,JsonObject leaderJsonObject){
+    private void addDevRequirements(List<Requirement> requirements, JsonObject leaderJsonObject) {
         if (leaderJsonObject.has(developmentRequirementNameInJson)) {
             JsonArray jsonArrayOfRequirements = leaderJsonObject.get(developmentRequirementNameInJson).getAsJsonArray();
             for (JsonElement requirementsElement : jsonArrayOfRequirements) {
@@ -263,10 +262,10 @@ public class CardsGenerator {
     /**
      * This method is used to create ad add the resources type requirements of the leader card
      *
-     * @param requirements List of requirements to populate
+     * @param requirements     List of requirements to populate
      * @param leaderJsonObject JsonObject containing the leaderCard data
      */
-    private void addResRequirements(List<Requirement>requirements,JsonObject leaderJsonObject) {
+    private void addResRequirements(List<Requirement> requirements, JsonObject leaderJsonObject) {
         if (leaderJsonObject.has(resourcesRequirementNameInJson)) {
             JsonArray jsonArrayOfRequirements = leaderJsonObject.get(resourcesRequirementNameInJson).getAsJsonArray();
             for (JsonElement requirementsElement : jsonArrayOfRequirements) {
@@ -284,7 +283,7 @@ public class CardsGenerator {
      *
      * @param devCards List of cards to map
      * @param level    Level of the cards i want to include in the map
-     * @return Map<CardsColorEnum,List>
+     * @return Map<CardsColorEnum, List>
      */
     public Map<CardColorEnum, List<DevelopmentCard>> getDevCardsAsGrid(List<DevelopmentCard> devCards, int level) {
         return devCards.stream().filter((el) -> el.getLevel() == level).collect(Collectors.groupingBy(DevelopmentCard::getColor));
