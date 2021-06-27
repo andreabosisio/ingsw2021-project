@@ -28,7 +28,7 @@ public class ClientHandler implements Runnable {
     private static final String CREDENTIALS_REGEXP = "^[a-zA-Z0-9_-]{3,15}$";
     private static final Pattern CREDENTIALS_PATTERN = Pattern.compile(CREDENTIALS_REGEXP);
 
-    private final Map<String, Object> receiveEventByJsonType = new HashMap<>() {{
+    private final Map<String, Object> receiveEventByJsonType = new HashMap<String,Object>() {{
         put("buyAction", BuyEvent.class);
         put("cardPlacementAction", PlaceDevelopmentCardEvent.class);
         put("setupAction", SetupEvent.class);

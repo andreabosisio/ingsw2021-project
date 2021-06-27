@@ -1,0 +1,1 @@
+{"players":["asd","dsa"],"actions":[{"chosenLeaderCardIndexes":[0,1],"chosenResources":[],"sender":"asd","type":"setupAction"},{"chosenLeaderCardIndexes":[0,1],"chosenResources":["YELLOW"],"sender":"dsa","type":"setupAction"},{"sender":"dsa","type":"disconnect"},{"sender":"asd","type":"disconnect"}]}

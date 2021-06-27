@@ -29,10 +29,7 @@ public class EndTurnState extends State {
 
         //check if the current player is the last player and check if it's the winner
         if(turnLogic.isLastPlayerTurn() && turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
-            PlayerInterface winner = turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
-            turnLogic.setCurrentState(turnLogic.getEndGame());
-            EndGameEvent endGameEvent = new EndGameEvent(winner,turnLogic.getPlayers());
-            turnLogic.getModelInterface().notifyObservers(endGameEvent);
+            sendGraphicForEndGame();
             return true;
         }
 
@@ -40,10 +37,7 @@ public class EndTurnState extends State {
         if(turnLogic.getGameMode().getLorenzo().play(turnLogic)) {
             //if lorenzo action ended the game
             if(turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
-                PlayerInterface winner = turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
-                turnLogic.setCurrentState(turnLogic.getEndGame());
-                EndGameEvent endGameEvent = new EndGameEvent(winner, turnLogic.getPlayers());
-                turnLogic.getModelInterface().notifyObservers(endGameEvent);
+                sendGraphicForEndGame();
                 return true;
             }
         }
@@ -70,6 +64,7 @@ public class EndTurnState extends State {
                 .filter(card -> card.getID().equals(ID)).findFirst()
                 .orElseThrow(() -> new InvalidEventException("LeaderCard is not owned"));
         //if the card has to be discarded
+        //todo duplicated code
         if(discard){
             if(!currentPlayer.discardLeader(chosenLeaderCard))
                 throw new InvalidEventException("You cannot discard this card right now");
@@ -96,5 +91,16 @@ public class EndTurnState extends State {
             }
         }
         return endTurn();
+    }
+
+    /**
+     * Send the graphicUpdate necessary to display an end game screen for the player
+     * It also set the turnLogic in the endGame state
+     */
+    private void sendGraphicForEndGame(){
+        PlayerInterface winner = turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
+        turnLogic.setCurrentState(turnLogic.getEndGame());
+        EndGameEvent endGameEvent = new EndGameEvent(winner,turnLogic.getPlayers());
+        turnLogic.getModelInterface().notifyObservers(endGameEvent);
     }
 }

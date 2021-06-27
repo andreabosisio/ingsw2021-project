@@ -44,7 +44,7 @@ public class SetupEvent extends ReceiveEvent{
     }
 
     /**
-     * A setup event could always be executed.
+     * A setup event can always be executed.
      *
      * @param currentPlayerNickname The nickname of the current Player
      * @return true

@@ -235,7 +235,7 @@ public class MarketTray {
     /**
      * Reset the Market to its initial state of the Game.
      */
-    public void resetToInitialState() {
+    public void loadSavedData() {
         loadResources();
         populateMarket();
     }

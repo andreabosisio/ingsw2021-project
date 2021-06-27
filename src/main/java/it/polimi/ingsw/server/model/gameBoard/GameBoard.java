@@ -158,6 +158,15 @@ public class GameBoard {
     /**
      * Get method that
      *
+     * @return the deck of the Leader Cards
+     */
+    public DeckLeader getDeckLeader() {
+        return deckLeader;
+    }
+
+    /**
+     * Get method that
+     *
      * @return the list of all the Faith Tracks
      */
     public List<FaithTrack> getFaithTracks() {

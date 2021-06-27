@@ -20,25 +20,25 @@ import java.util.stream.Collectors;
 
 
 public class CardsGenerator {
-    private final String developmentCardsFileName = "src/main/resources/developmentCards.json";
-    private final String leaderCardsFileName = "src/main/resources/leaderCards.json";
-    private final String mainDevJsonArrayName = "cards";
-    private final String mainLeaderJsonArrayName = "leaders";
-    private final String resAndDevColorNameInJson = "color";
-    private final String levelNameInJson = "level";
-    private final String quantityNameInJson = "quantity";
-    private final String resourcesRequirementNameInJson = "resRequirements";
-    private final String developmentRequirementNameInJson = "devRequirements";
-    private final String pointsNameInJson = "points";
-    private final String idNameInJson = "id";
-    private final String priceNameInJson = "price";
-    private final String inResourcesNameInJson = "inResources";
-    private final String outResourcesNameInJson ="outResources";
-    private final String typeNameInJson = "type";
-    private final String marketTypeNameInJson = "market";
-    private final String discountTypeNameInJson = "discount";
-    private final String productionTypeNameInJson = "production";
-    private final String warehouseTypeNameInJson = "warehouse";
+    private final static String developmentCardsFileName = "src/main/resources/developmentCards.json";
+    private final static String leaderCardsFileName = "src/main/resources/leaderCards.json";
+    private final static String mainDevJsonArrayName = "cards";
+    private final static String mainLeaderJsonArrayName = "leaders";
+    private final static String resAndDevColorNameInJson = "color";
+    private final static String levelNameInJson = "level";
+    private final static String quantityNameInJson = "quantity";
+    private final static String resourcesRequirementNameInJson = "resRequirements";
+    private final static String developmentRequirementNameInJson = "devRequirements";
+    private final static String pointsNameInJson = "points";
+    private final static String idNameInJson = "id";
+    private final static String priceNameInJson = "price";
+    private final static String inResourcesNameInJson = "inResources";
+    private final static String outResourcesNameInJson = "outResources";
+    private final static String typeNameInJson = "type";
+    private final static String marketTypeNameInJson = "market";
+    private final static String discountTypeNameInJson = "discount";
+    private final static String productionTypeNameInJson = "production";
+    private final static String warehouseTypeNameInJson = "warehouse";
     private final List<DevelopmentCard> developmentCards = new ArrayList<>();
     private final List<LeaderCard> leaderCards = new ArrayList<>();
 
@@ -288,5 +288,73 @@ public class CardsGenerator {
      */
     public Map<CardColorEnum, List<DevelopmentCard>> getDevCardsAsGrid(List<DevelopmentCard> devCards, int level) {
         return devCards.stream().filter((el) -> el.getLevel() == level).collect(Collectors.groupingBy(DevelopmentCard::getColor));
+    }
+
+    /**
+     * This method generate a Development Card from his ID.
+     * It takes the information from the Json File.
+     *
+     * @param cardId the ID of the Card
+     * @return the Development Card generated
+     */
+    public DevelopmentCard generateDevelopmentCardFromId(String cardId) {
+        File input = new File(developmentCardsFileName);
+        try {
+            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+            JsonObject fileObject = fileElement.getAsJsonObject();
+            JsonArray jsonArrayOfCards = fileObject.get(mainDevJsonArrayName).getAsJsonArray();
+            int cardIDNumber = getNumberOfCard(cardId);
+            JsonObject cardJsonObject = jsonArrayOfCards.get(cardIDNumber).getAsJsonObject();
+            return generateSingleDevCardFromJsonObject(cardJsonObject, cardIDNumber + 1);
+        } catch (FileNotFoundException e) {
+            System.err.println("file not found");
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("error in the json file format");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * Get method that return the number of the card into the Json file.
+     * the cardID must be of the type: color + "_" + level + "_" + numberOfCard
+     *
+     * @param cardID is the ID of the Card
+     * @return the number of the Card in the Json file
+     */
+    private int getNumberOfCard(String cardID) {
+        String[] splitCardIndex = cardID.split("_");
+        return Integer.parseInt(splitCardIndex[2]) - 1;
+    }
+
+    /**
+     * This method generate a Leader Card from his ID.
+     * It takes the information from the Json File.
+     *
+     * @param cardId the ID of the Card
+     * @return the Leader Card
+     */
+    public LeaderCard generateLeaderCardFromId(String cardId) {
+        File input = new File(leaderCardsFileName);
+        try {
+            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+            JsonObject fileObject = fileElement.getAsJsonObject();
+            JsonArray jsonArrayOfCards = fileObject.get(mainLeaderJsonArrayName).getAsJsonArray();
+            for (JsonElement el : jsonArrayOfCards) {
+                JsonObject cardJsonObject = el.getAsJsonObject();
+                if (cardJsonObject.get("id").getAsString().equals(cardId)) {
+                    return generateLeaderCardFromJsonObject(cardJsonObject);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("file not found");
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("error in the json file format");
+            e.printStackTrace();
+        }
+        return null;
     }
 }

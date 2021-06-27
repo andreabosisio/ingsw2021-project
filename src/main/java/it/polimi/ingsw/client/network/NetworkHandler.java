@@ -26,7 +26,7 @@ public class NetworkHandler implements CommandListenerObserver {
     private final View view;
     private String nickname;
 
-    private final Map<String, Object> messageTypeMap = new HashMap<>() {{
+    private final Map<String, Object> messageTypeMap = new HashMap<String,Object>() {{
         put("info", InfoMessageEvent.class);
         put("error", ErrorMessageEvent.class);
         put("login", LoginEvent.class);

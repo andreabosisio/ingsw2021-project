@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.ModelInterface;
  */
 public abstract class ReceiveEvent {
     private final String sender;
+    private String type;
 
     /**
      * Create a new Event by giving the sender of the action request.
@@ -16,6 +17,17 @@ public abstract class ReceiveEvent {
      */
     public ReceiveEvent(String sender) {
         this.sender = sender;
+    }
+
+    /**
+     * Create a new Event by giving the sender of the action request.
+     *
+     * @param sender The nickname of the Player who wants to perform an action
+     * @param type The type of the action
+     */
+    public ReceiveEvent(String sender,String type){
+        this.sender = sender;
+        this.type = type;
     }
 
     /**

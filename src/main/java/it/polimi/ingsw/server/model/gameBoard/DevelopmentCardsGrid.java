@@ -1,17 +1,21 @@
 package it.polimi.ingsw.server.model.gameBoard;
 
+import com.google.gson.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 
+import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DevelopmentCardsGrid implements EndGameSubject {
     private static final int numOfLevels = 3;
-    private List<Map<CardColorEnum, List<DevelopmentCard>>> mapByLevel;
+    private final List<Map<CardColorEnum, List<DevelopmentCard>>> mapByLevel;
     private final List<DevelopmentCard> developmentCards;
     private final CardsGenerator generator = new CardsGenerator();
     private EndGameObserver iCheckWinner;
+    private final static String SAVED_CARD_DATA_PATH = "src/main/resources/cardsSaved.json";
 
     public DevelopmentCardsGrid() {
         developmentCards = generator.generateDevelopmentCards();
@@ -158,9 +162,53 @@ public class DevelopmentCardsGrid implements EndGameSubject {
     public void setNonRandom(){
         developmentCards.clear();
         developmentCards.addAll(generator.generateDevelopmentCards());
-        mapByLevel = new ArrayList<>();
+        mapByLevel.clear();//todo non era clear ma new
         for (int i = 1; i <= numOfLevels; i++) {
             mapByLevel.add(generator.getDevCardsAsGrid(developmentCards, i));
+        }
+    }
+
+    /**
+     * This method writes in a Json file the ID of the Card of the Development Cards Grid
+     */
+    public void saveData() {
+        Gson gson = new Gson();
+        try (FileWriter file = new FileWriter(SAVED_CARD_DATA_PATH)) {
+            //We can write any JSONArray or JSONObject instance to the file
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.add("cards",gson.toJsonTree(developmentCards.stream().map(DevelopmentCard::getID).collect(Collectors.toList())));
+            gson.toJson(jsonObject,file);
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method loads from a Json file the ID of the Cards of the Development Cards Grid
+     */
+    public void loadSavedData(){
+        File input = new File(SAVED_CARD_DATA_PATH);
+        JsonObject fileObject = null;
+        developmentCards.clear();
+        try {
+            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+            fileObject = fileElement.getAsJsonObject();
+            JsonArray jsonArrayOfDevelopmentCards = fileObject.get("cards").getAsJsonArray();
+            for(JsonElement el:jsonArrayOfDevelopmentCards){
+               String cardId = el.getAsString();
+               developmentCards.add(generator.generateDevelopmentCardFromId(cardId));
+            }
+            mapByLevel.clear();
+            for (int i = 1; i <= numOfLevels; i++) {
+                mapByLevel.add(generator.getDevCardsAsGrid(developmentCards, i));
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("file not found");
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("error in the json file format");
+            e.printStackTrace();
         }
     }
 }

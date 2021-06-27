@@ -270,11 +270,12 @@ public class ModelInterface implements SendObservable {
      *
      * @param nickname of the player reconnected
      */
-    public void reconnectPlayer(String nickname) {
+    public boolean reconnectPlayer(String nickname) {
         if(turnLogic.getCurrentState().equals(turnLogic.getIdle())){
             setupManager.reconnectPlayer(nickname);
         }
         turnLogic.reconnectPlayer(nickname);
+        return true;
     }
 
     /**
@@ -295,5 +296,25 @@ public class ModelInterface implements SendObservable {
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
         players.forEach(p->graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(p, new WarehouseUpdate())));
         notifyObservers(graphicUpdateEvent);
+    }
+
+    /**
+     * This method loads the MarketTray and the Development Cards Grid data
+     * saved in the Json Files during previous Games.
+     */
+    public void loadMarketAndGridData() {
+        GameBoard.getGameBoard().getDevelopmentCardsGrid().loadSavedData();
+        GameBoard.getGameBoard().getDeckLeader().loadSavedData();
+        GameBoard.getGameBoard().getMarketTray().loadSavedData();
+    }
+
+    /**
+     * This method saves the MarketTray and the Development Cards Grid data
+     * in the Json Files.
+     */
+    public void saveMarketAndGridData() {
+        GameBoard.getGameBoard().getDevelopmentCardsGrid().saveData();
+        GameBoard.getGameBoard().getDeckLeader().saveData();
+        GameBoard.getGameBoard().getMarketTray().saveData();
     }
 }
