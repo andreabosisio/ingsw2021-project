@@ -22,4 +22,24 @@ public class ResourceFactory {
 
         return new StorableResource(color);
     }
+
+    /**
+     * Produce a new Resource to fill initial game's parts.
+     * .
+     * @param color The color of the desired Resource
+     * @return The new Resource
+     */
+    public static Resource produceInitialResource(String color) {
+        try {
+            return produceResource(ResourceEnum.valueOf(color));
+        } catch (NonStorableResourceException e) {
+            if(color.equals(ResourceEnum.WHITE.toString()))
+                return new WhiteResource();
+            else if (color.equals(ResourceEnum.RED.toString()))
+                return new RedResource();
+        } catch (RuntimeException runtimeException) {
+            runtimeException.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -1,18 +1,17 @@
 package it.polimi.ingsw.server.model.gameBoard;
 
+import com.google.gson.*;
 import it.polimi.ingsw.exceptions.InvalidIndexException;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
-import it.polimi.ingsw.server.model.resources.StorableResource;
-import it.polimi.ingsw.server.model.resources.RedResource;
-import it.polimi.ingsw.server.model.resources.Resource;
-import it.polimi.ingsw.server.model.resources.WhiteResource;
+import it.polimi.ingsw.server.model.resources.*;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
+ * This class implements the Market Tray.
  * Arrow index implementation:
  * X X X X < 0
  * X X X X < 1
@@ -21,6 +20,8 @@ import java.util.List;
  * 6 5 4 3
  */
 public class MarketTray {
+
+    private static final String MARKET_INIT_RES_PATH = "src/main/resources/market.json";
 
     /**
      * Number of columns of the MarketBoard
@@ -42,36 +43,43 @@ public class MarketTray {
      */
     private Resource extraSlot;
 
+    /**
+     * The current turn
+     */
     private TurnLogic turn;
 
-
-    /**
-     * List of the resources available in the MarketBoard
-     */
-    private final List<Resource> initResources = new ArrayList<>() {{
-        add(new StorableResource(ResourceEnum.BLUE));
-        add(new StorableResource(ResourceEnum.BLUE));
-        add(new StorableResource(ResourceEnum.GRAY));
-        add(new StorableResource(ResourceEnum.GRAY));
-        add(new StorableResource(ResourceEnum.YELLOW));
-        add(new StorableResource(ResourceEnum.YELLOW));
-        add(new StorableResource(ResourceEnum.PURPLE));
-        add(new StorableResource(ResourceEnum.PURPLE));
-        add(new RedResource());
-        add(new WhiteResource());
-        add(new WhiteResource());
-        add(new WhiteResource());
-        add(new WhiteResource());
-    }};
-
+    private final List<Resource> initResources = new ArrayList<>();
     private List<Resource> tempNewResources = new ArrayList<>();
 
     /**
-     * Public constructor of the MarketTray.
-     * Random initialization of the MarketBoard.
+     * Create a Market Tray reading the initial Resources configuration contained in the file MARKET_INIT_RES_PATH.
      */
     public MarketTray() {
+        loadResources();
         Collections.shuffle(initResources);
+        populateMarket();
+        saveInitialState();
+    }
+
+    /**
+     * Save the initial state in the in the file MARKET_INIT_RES_PATH.
+     */
+    private void saveInitialState() {
+        Gson gson = new Gson();
+        try (FileWriter file = new FileWriter(MARKET_INIT_RES_PATH)) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.add("resources", gson.toJsonTree(toStringList()));
+            gson.toJson(jsonObject, file);
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Update the state of the MarketBoard with the Resources stored in initResources.
+     */
+    private void populateMarket() {
         int k = 0;
         for (int i = 0; i < NUM_R; i++) {
             for (int j = 0; j < NUM_C; j++) {
@@ -86,6 +94,30 @@ public class MarketTray {
         try {
             extraSlot = initResources.get(k);
         } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Read the Resources configuration saved in the file MARKET_INIT_RES_PATH.
+     */
+    private void loadResources() {
+        initResources.clear();
+
+        File input = new File(MARKET_INIT_RES_PATH);
+        try {
+            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+            JsonObject fileObject = fileElement.getAsJsonObject();
+            JsonArray jsonArrayOfResources = fileObject.get("resources").getAsJsonArray();
+            for (JsonElement resource : jsonArrayOfResources) {//cycle through all resources
+                initResources.add(ResourceFactory.produceInitialResource(resource.getAsString()));
+            }
+        }
+        catch (FileNotFoundException e) {
+            System.err.println("file not found");
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("error in the json file format");
             e.printStackTrace();
         }
     }
@@ -111,11 +143,6 @@ public class MarketTray {
                 }
                 temp = chosenLine[0];
 
-                /* replaced
-                for(int i = 0; i < NUM_C - 1; i++)
-                    marketBoard[arrow][i] = chosenLine[i + 1];
-                */
-
                 System.arraycopy(chosenLine, 1, marketBoard[arrow], 0, NUM_C - 1);
                 marketBoard[arrow][NUM_C - 1] = extraSlot;
             } else if (arrow <= 6) { //if player chose a column
@@ -134,10 +161,6 @@ public class MarketTray {
             throw new InvalidIndexException("the arrow's id can't be < 0");
         extraSlot = temp;
 
-        //System.out.println("--- INIT MARKET TRAY---");
-        //tempNewResources.stream().forEach(rsc -> System.out.print(rsc.toString() + ", "));
-        //System.out.println();
-        //System.out.println("---END MARKET TRAY---");
         return tempNewResources;
     }
 
@@ -162,7 +185,6 @@ public class MarketTray {
         for (int i = 0; i < NUM_R; i++)
             for (int j = 0; j < NUM_C; j++)
                 toReturn.add(marketBoard[i][j].getColor().toString());
-
         return toReturn;
     }
 
@@ -200,26 +222,21 @@ public class MarketTray {
     }
 
     /**
-     * set state of market tray in a predetermined position
+     * Reset the Market by giving an initial state.
+     *
+     * @param initResources The initial configuration of the Market
      */
-    public void setNonRandom(List<Resource> resources) {
-        initResources.clear();
-        initResources.addAll(resources);
-        int k = 0;
-        for (int i = 0; i < NUM_R; i++) {
-            for (int j = 0; j < NUM_C; j++) {
-                try {
-                    marketBoard[i][j] = initResources.get(k);
-                    k++;
-                } catch (IndexOutOfBoundsException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        try {
-            extraSlot = initResources.get(k);
-        } catch (IndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
+    public void setNonRandom(List<Resource> initResources) {
+        this.initResources.clear();
+        this.initResources.addAll(initResources);
+        populateMarket();
+    }
+
+    /**
+     * Reset the Market to its initial state of the Game.
+     */
+    public void resetToInitialState() {
+        loadResources();
+        populateMarket();
     }
 }

@@ -4,7 +4,6 @@ import com.google.gson.*;
 import it.polimi.ingsw.client.network.FakeConnection;
 import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.network.Lobby;
-import it.polimi.ingsw.server.network.Server;
 
 import java.lang.reflect.Type;
 import java.net.Socket;
@@ -20,7 +19,7 @@ public class ClientHandler implements Runnable {
     private String nickname, password;
     private StatusEnum status;
     private final Connection connectionToClient;
-    private final Gson gson;
+    private final Gson gson = new Gson();
     private VirtualView virtualView;
     private static final String TYPE_QUIT = "quit";
     private static final String TYPE_LOBBY_NUMBER_CHOICE = "lobbyChoice";
@@ -43,14 +42,12 @@ public class ClientHandler implements Runnable {
 
     public ClientHandler(Socket socket) {
         this.connectionToClient = new ConnectionToClient(socket);
-        this.gson = new Gson();
     }
 
     public ClientHandler(FakeConnection fakeConnection){
-        FakeConnectionToClient f = new FakeConnectionToClient(fakeConnection);
-        fakeConnection.setFakeConnectionToClient(f);
-        this.connectionToClient = f;
-        this.gson = new Gson();
+        FakeConnectionToClient fakeConnectionToClient = new FakeConnectionToClient(fakeConnection);
+        fakeConnection.setFakeConnectionToClient(fakeConnectionToClient);
+        this.connectionToClient = fakeConnectionToClient;
     }
 
     @Override
@@ -115,7 +112,7 @@ public class ClientHandler implements Runnable {
             sendErrorMessage("Nickname already in use");//nickname already in use
         }
         else {
-            reConnection();
+            reConnect();
         }
         return false;
     }
@@ -223,7 +220,7 @@ public class ClientHandler implements Runnable {
      * If the nickname and password do not match an error message is sent to the client
      * Otherwise the player is reconnected to his game
      */
-    private void reConnection(){
+    private void reConnect(){
         if (password.equals(virtualView.getPassword())) {
             sendInfoMessage("You are now reconnected");
             virtualView.reconnect(this);
