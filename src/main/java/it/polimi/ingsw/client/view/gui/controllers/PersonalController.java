@@ -286,7 +286,7 @@ public class PersonalController extends GUICommandListener {
      * @param newCardID is the CardID of the Card to place
      */
     public void showCardPlacementPopup(String newCardID) {
-        endTurn.setVisible(true);
+        //endTurn.setVisible(true);
         Platform.runLater(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/cardPlacement.fxml"));
             fxmlLoader.setController(cardPlacementController);
@@ -436,7 +436,7 @@ public class PersonalController extends GUICommandListener {
         endSwap.setVisible(false);
         currentSelectedResources.clear();
         canSwap = false;
-        endTurn.setVisible(true);
+        //endTurn.setVisible(true);
     }
 
     /**
@@ -490,7 +490,7 @@ public class PersonalController extends GUICommandListener {
             n.setDisable(false);
         }
         endProduction.setVisible(false);
-        endTurn.setVisible(true);
+        //endTurn.setVisible(true);
     }
 
     /**

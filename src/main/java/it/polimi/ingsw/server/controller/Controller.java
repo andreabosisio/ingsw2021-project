@@ -35,7 +35,7 @@ public class Controller implements ReceiveObserver {
         put("productionAction", ProductionEvent.class);
         put("resourcesPlacementAction", PlaceResourcesEvent.class);
         put("transformationAction", TransformationEvent.class);
-        put("connect", ReconnectEvent.class);
+        put("reconnect", ReconnectEvent.class);
         put("disconnect", DisconnectEvent.class);
     }};
     private final ModelInterface modelInterface;
@@ -133,6 +133,7 @@ public class Controller implements ReceiveObserver {
             //do the actions
             try {
                 event.doAction(modelInterface);
+                System.out.println("redone action: "+event);
             } catch (InvalidSetupException | InvalidIndexException | NonStorableResourceException | EmptySlotException | NonAccessibleSlotException | InvalidEventException ignored) {
             }
         }

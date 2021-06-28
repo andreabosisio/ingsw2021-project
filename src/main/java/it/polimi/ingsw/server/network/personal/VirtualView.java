@@ -112,7 +112,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      */
     public void startPingPong() {
         //fixme activate below for ping system
-        sendPing();
+        //sendPing();
     }
 
     /**
