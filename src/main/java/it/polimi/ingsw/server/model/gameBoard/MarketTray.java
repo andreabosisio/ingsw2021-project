@@ -4,6 +4,7 @@ import com.google.gson.*;
 import it.polimi.ingsw.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.model.resources.*;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
+import it.polimi.ingsw.server.utils.FileUtilities;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -20,8 +21,6 @@ import java.util.List;
  * 6 5 4 3
  */
 public class MarketTray {
-
-    private static final String MARKET_INIT_RES_PATH = "src/main/resources/market.json";
 
     /**
      * Number of columns of the MarketBoard
@@ -65,14 +64,9 @@ public class MarketTray {
      */
     public void saveData() {
         Gson gson = new Gson();
-        try (FileWriter file = new FileWriter(MARKET_INIT_RES_PATH)) {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.add("resources", gson.toJsonTree(toStringList()));
-            gson.toJson(jsonObject, file);
-            file.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add("resources", gson.toJsonTree(toStringList()));
+        FileUtilities.writeJsonElementInFile(jsonObject,FileUtilities.getSavedMarketInitResPath());
     }
 
     /**
@@ -155,6 +149,7 @@ public class MarketTray {
 
     /**
      * This method add a resource
+     *
      * @param toAdd resource to add
      * @return true if added successfully
      */

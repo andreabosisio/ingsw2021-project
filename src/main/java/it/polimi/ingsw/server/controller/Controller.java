@@ -42,6 +42,14 @@ public class Controller implements ReceiveObserver {
     private List<String> nicknames;
     private final Gson gson = new Gson();
 
+    /**
+     * This constructor firstly checks if the new Players are the same of the previous Game
+     * saved in the gameSaved.json Json File, if yes it reloads the information written in the Json Files
+     * otherwise it creates a new Game and it resets the Json Files.
+     * In both cases it also set all the VirtualViews as observers of the model.
+     *
+     * @param virtualViews the list of the Virtual Views of the Players
+     */
     public Controller(List<VirtualView> virtualViews) {
         this.nicknames = virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList());
         if (nicknamesMatchSavedGame()) {
@@ -72,7 +80,7 @@ public class Controller implements ReceiveObserver {
     }
 
     /**
-     * This function is used to register all the virtualViews as observers of the mod
+     * This function is used to register all the virtualViews as observers of the model
      *
      * @param virtualViews virtualViews to set as observers
      */
@@ -90,17 +98,28 @@ public class Controller implements ReceiveObserver {
         modelInterface.startSetup();
     }
 
-
+    /**
+     * This method reset the Game Data saved in the gameSaved.json Json File
+     * and saves the state of the Market Tray in the initialMarketState.json json File
+     * and the state of the Development Cards Grid in the initialGridState.json json File
+     */
     private void resetGameDataFile() {
         FileUtilities.resetGameData(nicknames);
         modelInterface.saveMarketAndGridData();
     }
 
+    /**
+     * This method loads the state of the Market Tray and the state of the Development Cards Grid
+     * from the Json Files and it performs all the saved actions
+     */
     private void reloadGame() {
         modelInterface.loadMarketAndGridData();
         doSavedActions();
     }
 
+    /**
+     * This method read and performs all the actions written in the Json File gameSaved.json
+     */
     private void doSavedActions() {
         JsonObject fileObject;
         JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedGamePath());

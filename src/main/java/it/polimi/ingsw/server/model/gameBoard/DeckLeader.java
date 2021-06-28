@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.gameBoard;
 
 import com.google.gson.*;
 import it.polimi.ingsw.server.model.cards.*;
+import it.polimi.ingsw.server.utils.FileUtilities;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.stream.Collectors;
 public class DeckLeader {
     private final List<LeaderCard> leaders;
     private final CardsGenerator generator = new CardsGenerator();
-    private final static String SAVED_CARD_DATA_PATH = "src/main/resources/deckLeaderSaved.json";
 
     /**
      * Constructor of a deck of leader cards
@@ -63,7 +63,6 @@ public class DeckLeader {
      * This method loads from a Json file the ID of the Cards of the Leaders Cards
      */
     public void loadSavedData() {
-        File input = new File(SAVED_CARD_DATA_PATH);
         JsonObject fileObject;
         leaders.clear();
         JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedLeaderCardDataPath());

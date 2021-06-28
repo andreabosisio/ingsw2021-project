@@ -4,7 +4,7 @@ import com.google.gson.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
-
+import it.polimi.ingsw.server.utils.FileUtilities;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,7 +15,6 @@ public class DevelopmentCardsGrid implements EndGameSubject {
     private final List<DevelopmentCard> developmentCards;
     private final CardsGenerator generator = new CardsGenerator();
     private EndGameObserver iCheckWinner;
-    private final static String SAVED_CARD_DATA_PATH = "src/main/resources/cardsSaved.json";
 
     public DevelopmentCardsGrid() {
         developmentCards = generator.generateDevelopmentCards();
@@ -55,8 +54,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
         mapByLevel.forEach((level) -> level.forEach((key, value) -> {
             if (value.size() != 0) {
                 toReturn.add(value.get(0).getID());
-            }
-            else
+            } else
                 toReturn.add(DevelopmentCard.getEmptyCardID());
         }));
         return toReturn;
@@ -91,7 +89,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
 
     /**
      * Check if all the cards of at least one color have been removed
-     *
+     * <p>
      * It does so by counting the number of columns with at least one card in them
      * and checking if they are less than 4
      *
@@ -146,7 +144,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      * @param level the level of the requested card
      * @return the requested DevelopmentCard
      */
-    public DevelopmentCard getCardByColorAndLevel(CardColorEnum color, int level){
+    public DevelopmentCard getCardByColorAndLevel(CardColorEnum color, int level) {
         //index out of bounds exception if card is not present
         try {
             return mapByLevel.get(level - 1).get(color).get(0);
@@ -159,7 +157,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      * Method used in testing: fill the grid following the developmentsCards.json order
      * in order to have no random elements
      */
-    public void setNonRandom(){
+    public void setNonRandom() {
         developmentCards.clear();
         developmentCards.addAll(generator.generateDevelopmentCards());
         mapByLevel.clear();//todo non era clear ma new
@@ -173,23 +171,15 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      */
     public void saveData() {
         Gson gson = new Gson();
-        try (FileWriter file = new FileWriter(SAVED_CARD_DATA_PATH)) {
-            //We can write any JSONArray or JSONObject instance to the file
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.add("cards",gson.toJsonTree(developmentCards.stream().map(DevelopmentCard::getID).collect(Collectors.toList())));
-            gson.toJson(jsonObject,file);
-            file.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add("cards", gson.toJsonTree(developmentCards.stream().map(DevelopmentCard::getID).collect(Collectors.toList())));
+        FileUtilities.writeJsonElementInFile(jsonObject,FileUtilities.getSavedDevCardDataPath());
     }
 
     /**
      * This method loads from a Json file the ID of the Cards of the Development Cards Grid
      */
-    public void loadSavedData(){
-        File input = new File(SAVED_CARD_DATA_PATH);
-        JsonObject fileObject = null;
+    public void loadSavedData() {
         developmentCards.clear();
         JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedDevCardDataPath());
         assert fileElement != null;
