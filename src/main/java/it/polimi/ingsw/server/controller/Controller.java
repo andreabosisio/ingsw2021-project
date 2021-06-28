@@ -150,7 +150,7 @@ public class Controller implements ReceiveObserver {
         JsonArray jsonArrayOfNicknames = fileObject.get("players").getAsJsonArray();
         List<String> savedNicks = new ArrayList<>();
         jsonArrayOfNicknames.forEach(jEl -> savedNicks.add(jEl.getAsString()));
-        if (savedNicks.size() >= 1 && savedNicks.size() == nicknames.size() && savedNicks.containsAll(nicknames)) {
+        if (savedNicks.size() > 1 && savedNicks.size() == nicknames.size() && savedNicks.containsAll(nicknames)) {
             //reset turn order
             this.nicknames = savedNicks;
             return true;
