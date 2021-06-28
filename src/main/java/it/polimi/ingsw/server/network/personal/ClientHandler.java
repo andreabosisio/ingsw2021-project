@@ -4,6 +4,7 @@ import com.google.gson.*;
 import it.polimi.ingsw.client.network.FakeConnection;
 import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.network.Lobby;
+import it.polimi.ingsw.server.utils.FileUtilities;
 
 import java.lang.reflect.Type;
 import java.net.Socket;
@@ -73,14 +74,14 @@ public class ClientHandler implements Runnable {
             if (jsonObject == null) {
                 continue;
             }
-            String type = jsonObject.get("type").getAsString();
+            String type = jsonObject.get(it.polimi.ingsw.server.utils.FileUtilities.getMsgTypeID()).getAsString();
             if (type.equals(TYPE_QUIT)) {
                 kill(true);
                 return;
             }
             //check if message is not a login valid json
             if (!type.equals(TYPE_LOGIN) || !jsonObject.has("nickname") || !jsonObject.has("password")) {
-                sendErrorMessage("invalid login json");
+                sendErrorMessage("Invalid login json");
                 continue;//go back to reading a new message
             }
             this.nickname = jsonObject.get("nickname").getAsString();
@@ -129,7 +130,7 @@ public class ClientHandler implements Runnable {
         }
         virtualView = new VirtualView(nickname, password, this);
         if (!Lobby.getLobby().addVirtualView(virtualView)) {
-            sendErrorMessage("how unlucky! this nickname was taken a moment ago");
+            sendErrorMessage("How unlucky! this nickname was taken a moment ago");
             return false;//go back to reading message
         }
         sendInfoMessage("Joining lobby... ");
@@ -144,12 +145,12 @@ public class ClientHandler implements Runnable {
      */
     private boolean unableToJoin(){
         if (Lobby.getLobby().isFull()) {
-            sendErrorMessage("cannot join: Server is full");
+            sendErrorMessage("Cannot join: Server is full");
             kill(true);
             return true;
         }
         if (Lobby.getLobby().isGameStarted()) {
-            sendErrorMessage("a game is currently ongoing");
+            sendErrorMessage("A game is currently ongoing");
             kill(true);
             return true;
         }
@@ -198,7 +199,7 @@ public class ClientHandler implements Runnable {
             if (jsonAnswerObject == null) {
                 continue;
             }
-            String answerType = jsonAnswerObject.get("type").getAsString();
+            String answerType = jsonAnswerObject.get(FileUtilities.getMsgTypeID()).getAsString();
             if (answerType.equals(TYPE_QUIT)) {
                 kill(true);
                 return false;
@@ -251,7 +252,7 @@ public class ClientHandler implements Runnable {
                 if (jsonObject == null) {
                     continue;
                 }
-                String type = jsonObject.get("type").getAsString();
+                String type = jsonObject.get(FileUtilities.getMsgTypeID()).getAsString();
                 Type eventType = (Type) receiveEventByJsonType.get(type);
                 if (type.equals(TYPE_QUIT)) {
                     //sendInfoMessage("quitting");
@@ -261,16 +262,16 @@ public class ClientHandler implements Runnable {
                 } else if (eventType != null) {
                     ReceiveEvent event = gson.fromJson(message, eventType);
                     if (event.getNickname() == null) {
-                        sendErrorMessage("you can't play with a null nickname");
+                        sendErrorMessage("You can't play with a null nickname");
                         continue;
                     }
                     if (event.getNickname().equals(nickname)) {
                         virtualView.notifyObservers(event);
                     } else {
-                        sendErrorMessage("you can't play for another player");
+                        sendErrorMessage("You can't play for another player");
                     }
                 } else {
-                    sendErrorMessage("not existing action");
+                    sendErrorMessage("' " + type + " '" + " isn't an existing action");
                 }
             } catch (JsonSyntaxException e) {
                 sendErrorMessage("invalid message");
@@ -294,7 +295,7 @@ public class ClientHandler implements Runnable {
      */
     public void sendInfoMessage(String message) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("type", "info");
+        jsonObject.addProperty(FileUtilities.getMsgTypeID(), "info");
         jsonObject.addProperty("payload", message);
         sendJsonMessage(jsonObject.toString());
     }
@@ -306,7 +307,7 @@ public class ClientHandler implements Runnable {
      */
     public void sendErrorMessage(String message) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("type", "error");
+        jsonObject.addProperty(FileUtilities.getMsgTypeID(), "error");
         jsonObject.addProperty("payload", message);
         sendJsonMessage(jsonObject.toString());
     }
@@ -318,7 +319,7 @@ public class ClientHandler implements Runnable {
      */
     public void sendSpecificTypeMessage(String type) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("type", type);
+        jsonObject.addProperty(FileUtilities.getMsgTypeID(), type);
         sendJsonMessage(jsonObject.toString());
     }
 
@@ -330,7 +331,7 @@ public class ClientHandler implements Runnable {
      */
     public void sendSpecificTypeMessage(String type, String message) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("type", type);
+        jsonObject.addProperty(FileUtilities.getMsgTypeID(), type);
         jsonObject.addProperty("payload", message);
         sendJsonMessage(jsonObject.toString());
     }
@@ -369,17 +370,17 @@ public class ClientHandler implements Runnable {
         try {
             JsonElement jsonElement = JsonParser.parseString(message);
             if (!jsonElement.isJsonObject()) {
-                sendErrorMessage("not a json message");
+                sendErrorMessage("Not a JSON message");
                 return null;//go back to reading a new message
             }
             JsonObject jsonObject = jsonElement.getAsJsonObject();
-            if (!jsonObject.has("type")) {
-                sendErrorMessage("not a valid json");
+            if (!jsonObject.has(FileUtilities.getMsgTypeID())) {
+                sendErrorMessage("Not a valid message");
                 return null;//go back to reading a new message
             }
             return jsonObject;
         } catch (JsonSyntaxException e) {
-            sendErrorMessage("invalid message structure");
+            sendErrorMessage("Invalid JSON structure");
             return null;
         }
     }

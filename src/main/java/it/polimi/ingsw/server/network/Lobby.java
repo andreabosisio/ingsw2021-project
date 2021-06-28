@@ -68,7 +68,7 @@ public class Lobby {
             for (VirtualView player : virtualViews) {
                 if (player.isOnline() && !player.getNickname().equals(decidingPlayerName)) {
                     if (playerOnline >= numberOfPlayers) {
-                        player.getClientHandler().sendInfoMessage("excluded from starting game");
+                        player.getClientHandler().sendInfoMessage("Excluded from starting game");
                         player.setOnline(false);
                         continue;
                     }
