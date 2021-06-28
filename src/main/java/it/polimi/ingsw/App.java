@@ -26,17 +26,12 @@ public class App {
      * @param args args to start app(server/cli/gui)
      */
     public static void main(String[] args) {
-
-        create();
-
-        //todo rimettilo come prima biskero!!
-        /*
+        //todo to remove
+        //create();
         if (args[0].equals("-server"))
             ServerApp.main(args);
         else
             ClientApp.main(args);
-
-         */
     }
 
     private static void create(){

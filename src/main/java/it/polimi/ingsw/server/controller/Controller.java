@@ -13,7 +13,6 @@ import it.polimi.ingsw.server.network.personal.VirtualView;
 import it.polimi.ingsw.server.utils.FileUtilities;
 import it.polimi.ingsw.server.utils.ReceiveObserver;
 
-import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -54,8 +53,9 @@ public class Controller implements ReceiveObserver {
         this.nicknames = virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList());
         if (nicknamesMatchSavedGame()) {
             this.modelInterface = new ModelInterface(nicknames);
-            startSetup();
             reloadGame();
+            startSetup();
+            doSavedActions();
             setupObservers(virtualViews);
             //use reconnect event to send every graphic information to every player
             for (String nickname : nicknames) {
@@ -109,12 +109,10 @@ public class Controller implements ReceiveObserver {
     }
 
     /**
-     * This method loads the state of the Market Tray and the state of the Development Cards Grid
-     * from the Json Files and it performs all the saved actions
+     * This method loads the state of the Market Tray and the state of the Development Cards Grid from the Json Files
      */
     private void reloadGame() {
-        modelInterface.loadMarketAndGridData();
-        doSavedActions();
+        modelInterface.loadMarketAndGridAndDeckLeaderData();
     }
 
     /**
@@ -152,7 +150,7 @@ public class Controller implements ReceiveObserver {
         JsonArray jsonArrayOfNicknames = fileObject.get("players").getAsJsonArray();
         List<String> savedNicks = new ArrayList<>();
         jsonArrayOfNicknames.forEach(jEl -> savedNicks.add(jEl.getAsString()));
-        if (savedNicks.size() > 1 && savedNicks.size() == nicknames.size() && savedNicks.containsAll(nicknames)) {
+        if (savedNicks.size() >= 1 && savedNicks.size() == nicknames.size() && savedNicks.containsAll(nicknames)) {
             //reset turn order
             this.nicknames = savedNicks;
             return true;

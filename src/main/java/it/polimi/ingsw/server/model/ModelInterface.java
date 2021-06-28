@@ -300,10 +300,10 @@ public class ModelInterface implements SendObservable {
     }
 
     /**
-     * This method loads the MarketTray and the Development Cards Grid data
+     * This method loads the MarketTray, the Development Cards Grid and the Deck of the Leader Cards data
      * saved in the Json Files during previous Games.
      */
-    public void loadMarketAndGridData() {
+    public void loadMarketAndGridAndDeckLeaderData() {
         GameBoard.getGameBoard().getDevelopmentCardsGrid().loadSavedData();
         GameBoard.getGameBoard().getDeckLeader().loadSavedData();
         GameBoard.getGameBoard().getMarketTray().loadSavedData();
