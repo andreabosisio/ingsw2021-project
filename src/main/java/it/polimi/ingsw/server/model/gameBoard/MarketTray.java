@@ -79,7 +79,7 @@ public class MarketTray {
      * Update the state of the MarketBoard with the Resources stored in initResources.
      */
     private void populateMarket() {
-        int k = 0;
+        int k = 1;
         for (int i = 0; i < NUM_R; i++) {
             for (int j = 0; j < NUM_C; j++) {
                 try {
@@ -91,7 +91,7 @@ public class MarketTray {
             }
         }
         try {
-            extraSlot = initResources.get(k);
+            extraSlot = initResources.get(0);
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
@@ -102,22 +102,12 @@ public class MarketTray {
      */
     private void loadResources() {
         initResources.clear();
-
-        File input = new File(MARKET_INIT_RES_PATH);
-        try {
-            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
-            JsonObject fileObject = fileElement.getAsJsonObject();
-            JsonArray jsonArrayOfResources = fileObject.get("resources").getAsJsonArray();
-            for (JsonElement resource : jsonArrayOfResources) {//cycle through all resources
-                initResources.add(ResourceFactory.produceInitialResource(resource.getAsString()));
-            }
-        }
-        catch (FileNotFoundException e) {
-            System.err.println("file not found");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("error in the json file format");
-            e.printStackTrace();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedMarketInitResPath());
+        assert fileElement != null;
+        JsonObject fileObject = fileElement.getAsJsonObject();
+        JsonArray jsonArrayOfResources = fileObject.get("resources").getAsJsonArray();
+        for (JsonElement resource : jsonArrayOfResources) {//cycle through all resources
+            initResources.add(ResourceFactory.produceInitialResource(resource.getAsString()));
         }
     }
 

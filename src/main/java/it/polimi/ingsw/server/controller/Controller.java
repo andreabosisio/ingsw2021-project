@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.personal.VirtualView;
+import it.polimi.ingsw.server.utils.FileUtilities;
 import it.polimi.ingsw.server.utils.ReceiveObserver;
 
 import java.io.*;
@@ -37,24 +38,27 @@ public class Controller implements ReceiveObserver {
         put("connect", ReconnectEvent.class);
         put("disconnect", DisconnectEvent.class);
     }};
-
-    private static final String SAVED_GAME_PATH = "src/main/resources/gameSaved.json";
-    private ModelInterface modelInterface;
+    private final ModelInterface modelInterface;
     private List<String> nicknames;
     private final Gson gson = new Gson();
 
     public Controller(List<VirtualView> virtualViews) {
         this.nicknames = virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList());
-        if (matchSavedGameData()) {
+        if (nicknamesMatchSavedGame()) {
             this.modelInterface = new ModelInterface(nicknames);
             startSetup();
             reloadGame();
             setupObservers(virtualViews);
-            //loadGraphic stuff e resend last event and sent turno di
-
-            //todo test
-            for(String nickname : nicknames){
+            //use reconnect event to send every graphic information to every player
+            for (String nickname : nicknames) {
                 modelInterface.reconnectPlayer(nickname);
+                //todo test a game where 3 players start one disconnect the game crashes all 3 reconnect and play and the game crashes again with all 3 connected
+                updateSavedGame(new ReconnectEvent(nickname));
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             modelInterface.reSendLastEvent();
 
@@ -88,74 +92,50 @@ public class Controller implements ReceiveObserver {
 
 
     private void resetGameDataFile() {
-        try (FileWriter file = new FileWriter(SAVED_GAME_PATH)) {
-            //We can write any JSONArray or JSONObject instance to the file
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.add("players", gson.toJsonTree(nicknames));
-            jsonObject.add("actions", new JsonArray());
-            gson.toJson(jsonObject, file);
-            file.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileUtilities.resetGameData(nicknames);
         modelInterface.saveMarketAndGridData();
     }
 
     private void reloadGame() {
-        //this.modelInterface = new ModelInterface(nicknames);
-
-
         modelInterface.loadMarketAndGridData();
-        //todo reload startingGame from saved data (remember to disconnect virtualViews)
         doSavedActions();
-        //todo reAttack virtualViews
     }
 
     private void doSavedActions() {
-        File input = new File(SAVED_GAME_PATH);
         JsonObject fileObject;
-        try {
-            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
-            fileObject = fileElement.getAsJsonObject();
-            JsonArray jsonArrayOfActions = fileObject.get("actions").getAsJsonArray();
-            for (JsonElement element : jsonArrayOfActions) {
-                JsonObject action = element.getAsJsonObject();
-                Type eventType = (Type) actionTypes.get(action.get("type").getAsString());
-                ReceiveEvent event = gson.fromJson(action, eventType);
-                //do the action
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedGamePath());
+        assert fileElement != null;
+        fileObject = fileElement.getAsJsonObject();
+        JsonArray jsonArrayOfActions = fileObject.get("actions").getAsJsonArray();
+        for (JsonElement element : jsonArrayOfActions) {
+            JsonObject action = element.getAsJsonObject();
+            Type eventType = (Type) actionTypes.get(action.get("type").getAsString());
+            ReceiveEvent event = gson.fromJson(action, eventType);
+            //do the actions
+            try {
                 event.doAction(modelInterface);
+            } catch (InvalidSetupException | InvalidIndexException | NonStorableResourceException | EmptySlotException | NonAccessibleSlotException | InvalidEventException ignored) {
             }
-
-        } catch (FileNotFoundException e) {
-            System.err.println("file not found");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("error in the json file format");
-            e.printStackTrace();
         }
     }
 
-    private boolean matchSavedGameData() {
-        File input = new File(SAVED_GAME_PATH);
+    /**
+     * This method checks if the new Players have the same nickname of that saved in the Json File
+     *
+     * @return true if the Players are the same, false otherwise
+     */
+    private boolean nicknamesMatchSavedGame() {
         JsonObject fileObject;
-        try {
-            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
-            fileObject = fileElement.getAsJsonObject();
-            JsonArray jsonArrayOfNicknames = fileObject.get("players").getAsJsonArray();
-            List<String> savedNicks = new ArrayList<>();
-            jsonArrayOfNicknames.forEach(jEl -> savedNicks.add(jEl.getAsString()));
-            if (savedNicks.size() == nicknames.size() && savedNicks.containsAll(nicknames)) {
-                //reset turn order
-                this.nicknames = savedNicks;
-                return true;
-            }
-
-        } catch (FileNotFoundException e) {
-            System.err.println("file not found");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("error in the json file format");
-            e.printStackTrace();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedGamePath());
+        assert fileElement != null;
+        fileObject = fileElement.getAsJsonObject();
+        JsonArray jsonArrayOfNicknames = fileObject.get("players").getAsJsonArray();
+        List<String> savedNicks = new ArrayList<>();
+        jsonArrayOfNicknames.forEach(jEl -> savedNicks.add(jEl.getAsString()));
+        if (savedNicks.size() > 1 && savedNicks.size() == nicknames.size() && savedNicks.containsAll(nicknames)) {
+            //reset turn order
+            this.nicknames = savedNicks;
+            return true;
         }
         return false;
     }
@@ -176,7 +156,6 @@ public class Controller implements ReceiveObserver {
 
         if (receiveEvent.canBeExecutedFor(modelInterface.getCurrentPlayerNickname())) {
             try {
-                //todo place resources action the model evolves even if the action throws an exception
                 updateSavedGame(receiveEvent);
                 receiveEvent.doAction(modelInterface);
             } catch (InvalidIndexException | NonStorableResourceException | EmptySlotException | NonAccessibleSlotException | InvalidEventException e) {
@@ -200,7 +179,12 @@ public class Controller implements ReceiveObserver {
      */
     public synchronized boolean disconnectPlayer(String nickname) {
         updateSavedGame(new DisconnectEvent(nickname));
-        return modelInterface.disconnectPlayer(nickname);
+        if (modelInterface.disconnectPlayer(nickname)) {
+            //invalidate gameSaved data
+            FileUtilities.resetGameData(new ArrayList<>());
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -226,29 +210,13 @@ public class Controller implements ReceiveObserver {
      * @param receiveEvent the completed action
      */
     private void updateSavedGame(ReceiveEvent receiveEvent) {
-        File input = new File(SAVED_GAME_PATH);
-        JsonObject fileObject = null;
-        try {
-            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
-            fileObject = fileElement.getAsJsonObject();
-            JsonArray jsonArrayOfInstructions = fileObject.get("actions").getAsJsonArray();
-            System.out.println(jsonArrayOfInstructions);
-            jsonArrayOfInstructions.add(gson.toJsonTree(receiveEvent));
-        } catch (FileNotFoundException e) {
-            System.err.println("file not found");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("error in the json file format");
-            e.printStackTrace();
-        }
-
-        try (FileWriter file = new FileWriter(SAVED_GAME_PATH)) {
-            //We can write any JSONArray or JSONObject instance to the file
-            gson.toJson(fileObject, file);
-            file.flush();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        JsonObject fileObject;
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedGamePath());
+        assert fileElement != null;
+        fileObject = fileElement.getAsJsonObject();
+        JsonArray jsonArrayOfInstructions = fileObject.get("actions").getAsJsonArray();
+        //System.out.println(jsonArrayOfInstructions);
+        jsonArrayOfInstructions.add(gson.toJsonTree(receiveEvent));
+        FileUtilities.writeJsonElementInFile(fileObject,FileUtilities.getSavedGamePath());
     }
 }

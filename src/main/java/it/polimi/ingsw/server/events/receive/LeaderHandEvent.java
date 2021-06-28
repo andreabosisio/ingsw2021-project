@@ -37,6 +37,6 @@ public class LeaderHandEvent extends ReceiveEvent {
      */
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
-        return super.doAction(modelInterface);
+        return modelInterface.leaderAction(leaderCardID,discardCard);
     }
 }

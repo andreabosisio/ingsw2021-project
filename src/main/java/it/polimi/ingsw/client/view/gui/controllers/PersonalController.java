@@ -145,6 +145,7 @@ public class PersonalController extends GUICommandListener {
         endSwap.setOnMousePressed(event -> sendSwapAction());
         endSwap.setVisible(false);
         endTurn.setOnMousePressed(event -> endTurnAction());
+        endTurn.setVisible(false);
         handButton.setOnMousePressed(event -> showHandPopup());
     }
 
@@ -551,5 +552,12 @@ public class PersonalController extends GUICommandListener {
         legendPopupController.setPlayerToSee(nickname.getText());
         legendWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, legendWindow, Modality.WINDOW_MODAL);
         legendWindow.show();
+    }
+
+    /**
+     * This method is used to activate the end turn button in the GUI
+     */
+    public void activateEndButton(){
+        endTurn.setVisible(true);
     }
 }

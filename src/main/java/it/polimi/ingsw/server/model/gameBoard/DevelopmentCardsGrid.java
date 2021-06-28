@@ -191,24 +191,17 @@ public class DevelopmentCardsGrid implements EndGameSubject {
         File input = new File(SAVED_CARD_DATA_PATH);
         JsonObject fileObject = null;
         developmentCards.clear();
-        try {
-            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
-            fileObject = fileElement.getAsJsonObject();
-            JsonArray jsonArrayOfDevelopmentCards = fileObject.get("cards").getAsJsonArray();
-            for(JsonElement el:jsonArrayOfDevelopmentCards){
-               String cardId = el.getAsString();
-               developmentCards.add(generator.generateDevelopmentCardFromId(cardId));
-            }
-            mapByLevel.clear();
-            for (int i = 1; i <= numOfLevels; i++) {
-                mapByLevel.add(generator.getDevCardsAsGrid(developmentCards, i));
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("file not found");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("error in the json file format");
-            e.printStackTrace();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedDevCardDataPath());
+        assert fileElement != null;
+        JsonObject fileObject = fileElement.getAsJsonObject();
+        JsonArray jsonArrayOfDevelopmentCards = fileObject.get("cards").getAsJsonArray();
+        for (JsonElement el : jsonArrayOfDevelopmentCards) {
+            String cardId = el.getAsString();
+            developmentCards.add(generator.generateDevelopmentCardFromId(cardId));
+        }
+        mapByLevel.clear();
+        for (int i = 1; i <= numOfLevels; i++) {
+            mapByLevel.add(generator.getDevCardsAsGrid(developmentCards, i));
         }
     }
 }

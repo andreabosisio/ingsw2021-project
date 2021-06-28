@@ -221,7 +221,7 @@ class ModelInterfaceTest {
     void marketActionWithMultiTransformationSimulation() throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException, NonStorableResourceException {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(false);
-        game.setMarketTrayAuto(modelInterface);
+        game.setMarketTrayAuto();
         game.setDevelopmentCardsGrid(modelInterface);
         List<Integer> marketLeaderIndexes = new ArrayList<>() {{
             add(4);//market leaders:requires 2 yellow and 1 blue dev of any level----transform white to purple
@@ -631,7 +631,7 @@ class ModelInterfaceTest {
     void buyCardWithDoubleDiscount() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException, InvalidEventException {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(false);
-        game.setMarketTrayAuto(modelInterface);
+        game.setMarketTrayAuto();
         game.setDevelopmentCardsGrid(modelInterface);
         List<Integer> marketLeaderIndexes = new ArrayList<>() {{
             add(12);//discount leaders:requires 1 green and 1 blue dev of any level----dicount gray

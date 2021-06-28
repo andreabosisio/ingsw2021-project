@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.network;
 
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.client.view.View;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -129,8 +130,8 @@ public class ConnectionToServer implements Connection {
                     messagesFromServer.add(message);
                 }
             } catch (IOException e) {
-                System.err.println("Socket Failed");
-                e.printStackTrace();
+                System.err.println("Connection with server failed");
+                //e.printStackTrace();
                 close(false);
             }
         }
@@ -150,7 +151,7 @@ public class ConnectionToServer implements Connection {
                 if (receivedPing) {
                     receivedPing = false;
                 } else {
-                    System.out.println("Server is unreachable");
+                    System.err.println("No Ping received from Server\nClosing...");
                     close(false);
                 }
             }

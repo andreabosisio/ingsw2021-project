@@ -54,15 +54,9 @@ public class DeckLeader {
      */
     public void saveData() {
         Gson gson = new Gson();
-        try (FileWriter file = new FileWriter(SAVED_CARD_DATA_PATH)) {
-            //We can write any JSONArray or JSONObject instance to the file
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.add("leaders",gson.toJsonTree(leaders.stream().map(LeaderCard::getID).collect(Collectors.toList())));
-            gson.toJson(jsonObject,file);
-            file.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add("leaders",gson.toJsonTree(leaders.stream().map(LeaderCard::getID).collect(Collectors.toList())));
+        FileUtilities.writeJsonElementInFile(jsonObject,FileUtilities.getSavedLeaderCardDataPath());
     }
 
     /**
@@ -72,20 +66,13 @@ public class DeckLeader {
         File input = new File(SAVED_CARD_DATA_PATH);
         JsonObject fileObject;
         leaders.clear();
-        try {
-            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
-            fileObject = fileElement.getAsJsonObject();
-            JsonArray jsonArrayOfLeaderIds = fileObject.get("leaders").getAsJsonArray();
-            for(JsonElement el:jsonArrayOfLeaderIds){
-                String cardId = el.getAsString();
-                leaders.add(generator.generateLeaderCardFromId(cardId));
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("file not found");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("error in the json file format");
-            e.printStackTrace();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedLeaderCardDataPath());
+        assert fileElement != null;
+        fileObject = fileElement.getAsJsonObject();
+        JsonArray jsonArrayOfLeaderIds = fileObject.get("leaders").getAsJsonArray();
+        for (JsonElement el : jsonArrayOfLeaderIds) {
+            String cardId = el.getAsString();
+            leaders.add(generator.generateLeaderCardFromId(cardId));
         }
     }
 }

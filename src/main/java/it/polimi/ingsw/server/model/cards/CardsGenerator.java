@@ -3,16 +3,13 @@ package it.polimi.ingsw.server.model.cards;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
+import it.polimi.ingsw.server.utils.FileUtilities;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +17,6 @@ import java.util.stream.Collectors;
 
 
 public class CardsGenerator {
-    private final static String developmentCardsFileName = "src/main/resources/developmentCards.json";
-    private final static String leaderCardsFileName = "src/main/resources/leaderCards.json";
     private final static String mainDevJsonArrayName = "cards";
     private final static String mainLeaderJsonArrayName = "leaders";
     private final static String resAndDevColorNameInJson = "color";
@@ -34,7 +29,6 @@ public class CardsGenerator {
     private final static String priceNameInJson = "price";
     private final static String inResourcesNameInJson = "inResources";
     private final static String outResourcesNameInJson = "outResources";
-    private final static String typeNameInJson = "type";
     private final static String marketTypeNameInJson = "market";
     private final static String discountTypeNameInJson = "discount";
     private final static String productionTypeNameInJson = "production";
@@ -48,23 +42,15 @@ public class CardsGenerator {
      * @return generated developmentCards
      */
     public List<DevelopmentCard> generateDevelopmentCards() {
-        File input = new File(developmentCardsFileName);
-        try {
-            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
-            JsonObject fileObject = fileElement.getAsJsonObject();
-            JsonArray jsonArrayOfCards = fileObject.get(mainDevJsonArrayName).getAsJsonArray();
-            int cardID = 1;
-            for (JsonElement cardElement : jsonArrayOfCards) {
-                JsonObject cardJsonObject = cardElement.getAsJsonObject();
-                developmentCards.add(generateSingleDevCardFromJsonObject(cardJsonObject, cardID));
-                cardID++;
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("file not found");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("error in the json file format");
-            e.printStackTrace();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableDevelopmentCardsFileName());
+        assert fileElement != null;
+        JsonObject fileObject = fileElement.getAsJsonObject();
+        JsonArray jsonArrayOfCards = fileObject.get(mainDevJsonArrayName).getAsJsonArray();
+        int cardID = 1;
+        for (JsonElement cardElement : jsonArrayOfCards) {
+            JsonObject cardJsonObject = cardElement.getAsJsonObject();
+            developmentCards.add(generateSingleDevCardFromJsonObject(cardJsonObject, cardID));
+            cardID++;
         }
         return developmentCards;
     }
@@ -178,21 +164,13 @@ public class CardsGenerator {
      * @return generated leaderCards
      */
     public List<LeaderCard> generateLeaderCards() {
-        File input = new File(leaderCardsFileName);
-        try {
-            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
-            JsonObject fileObject = fileElement.getAsJsonObject();
-            JsonArray jsonArrayOfLeaders = fileObject.get(mainLeaderJsonArrayName).getAsJsonArray();
-            for (JsonElement leaderElement : jsonArrayOfLeaders) {//Cycle through all leaders element in the file
-                JsonObject leaderJsonObject = leaderElement.getAsJsonObject();
-                leaderCards.add(generateLeaderCardFromJsonObject(leaderJsonObject));
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("file not found");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("error in the json file format");
-            e.printStackTrace();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableLeaderCardsFileName());
+        assert fileElement != null;
+        JsonObject fileObject = fileElement.getAsJsonObject();
+        JsonArray jsonArrayOfLeaders = fileObject.get(mainLeaderJsonArrayName).getAsJsonArray();
+        for (JsonElement leaderElement : jsonArrayOfLeaders) {//Cycle through all leaders element in the file
+            JsonObject leaderJsonObject = leaderElement.getAsJsonObject();
+            leaderCards.add(generateLeaderCardFromJsonObject(leaderJsonObject));
         }
         return leaderCards;
     }
@@ -212,9 +190,8 @@ public class CardsGenerator {
         //extract common data to all leaderCards
         String id = leaderJsonObject.get(idNameInJson).getAsString();
         int points = leaderJsonObject.get(pointsNameInJson).getAsInt();
-        String type = leaderJsonObject.get(typeNameInJson).getAsString();
+        String type = FileUtilities.getTypeFieldAsString(leaderJsonObject);
         LeaderCard card;
-
         //Create specific type of leaderCard asking the file for the specific parameters
         switch (type) {
             case productionTypeNameInJson:
@@ -297,22 +274,13 @@ public class CardsGenerator {
      * @return the Development Card generated
      */
     public DevelopmentCard generateDevelopmentCardFromId(String cardId) {
-        File input = new File(developmentCardsFileName);
-        try {
-            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
-            JsonObject fileObject = fileElement.getAsJsonObject();
-            JsonArray jsonArrayOfCards = fileObject.get(mainDevJsonArrayName).getAsJsonArray();
-            int cardIDNumber = getNumberOfCard(cardId);
-            JsonObject cardJsonObject = jsonArrayOfCards.get(cardIDNumber).getAsJsonObject();
-            return generateSingleDevCardFromJsonObject(cardJsonObject, cardIDNumber + 1);
-        } catch (FileNotFoundException e) {
-            System.err.println("file not found");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("error in the json file format");
-            e.printStackTrace();
-        }
-        return null;
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableDevelopmentCardsFileName());
+        assert fileElement != null;
+        JsonObject fileObject = fileElement.getAsJsonObject();
+        JsonArray jsonArrayOfCards = fileObject.get(mainDevJsonArrayName).getAsJsonArray();
+        int cardIDNumber = getNumberOfCard(cardId);
+        JsonObject cardJsonObject = jsonArrayOfCards.get(cardIDNumber).getAsJsonObject();
+        return generateSingleDevCardFromJsonObject(cardJsonObject, cardIDNumber + 1);
     }
 
 
@@ -336,23 +304,15 @@ public class CardsGenerator {
      * @return the Leader Card
      */
     public LeaderCard generateLeaderCardFromId(String cardId) {
-        File input = new File(leaderCardsFileName);
-        try {
-            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
-            JsonObject fileObject = fileElement.getAsJsonObject();
-            JsonArray jsonArrayOfCards = fileObject.get(mainLeaderJsonArrayName).getAsJsonArray();
-            for (JsonElement el : jsonArrayOfCards) {
-                JsonObject cardJsonObject = el.getAsJsonObject();
-                if (cardJsonObject.get("id").getAsString().equals(cardId)) {
-                    return generateLeaderCardFromJsonObject(cardJsonObject);
-                }
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableLeaderCardsFileName());
+        assert fileElement != null;
+        JsonObject fileObject = fileElement.getAsJsonObject();
+        JsonArray jsonArrayOfCards = fileObject.get(mainLeaderJsonArrayName).getAsJsonArray();
+        for (JsonElement el : jsonArrayOfCards) {
+            JsonObject cardJsonObject = el.getAsJsonObject();
+            if (cardJsonObject.get("id").getAsString().equals(cardId)) {
+                return generateLeaderCardFromJsonObject(cardJsonObject);
             }
-        } catch (FileNotFoundException e) {
-            System.err.println("file not found");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("error in the json file format");
-            e.printStackTrace();
         }
         return null;
     }

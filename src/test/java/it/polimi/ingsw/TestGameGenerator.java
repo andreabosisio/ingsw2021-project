@@ -1,9 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.exceptions.EmptySlotException;
 import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.exceptions.InvalidIndexException;
-import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
@@ -51,7 +49,7 @@ public class TestGameGenerator {
 
         if (auto) {
             setLeaderInHandAuto(modelInterface);
-            setMarketTrayAuto(modelInterface);
+            setMarketTrayAuto();
             setDevelopmentCardsGrid(modelInterface);
         }
         modelInterface.getTurnLogic().setNextPlayer();
@@ -164,16 +162,16 @@ public class TestGameGenerator {
 
     /**
      * set MarketTray like this
+     * EXTRA: WHITE
      * BLUE   - BLUE   - GRAY   - GRAY
      * YELLOW - YELLOW - PURPLE - PURPLE
      * RED    - WHITE  - WHITE  - WHITE
-     * EXTRA: WHITE
      *
-     * @param modelInterface model to modify
      */
 
-    public void setMarketTrayAuto(ModelInterface modelInterface) {
+    public void setMarketTrayAuto() {
         List<Resource> initResources = new ArrayList<>() {{
+            add(new WhiteResource());
             add(new StorableResource(ResourceEnum.BLUE));
             add(new StorableResource(ResourceEnum.BLUE));
             add(new StorableResource(ResourceEnum.GRAY));
@@ -183,7 +181,6 @@ public class TestGameGenerator {
             add(new StorableResource(ResourceEnum.PURPLE));
             add(new StorableResource(ResourceEnum.PURPLE));
             add(new RedResource());
-            add(new WhiteResource());
             add(new WhiteResource());
             add(new WhiteResource());
             add(new WhiteResource());

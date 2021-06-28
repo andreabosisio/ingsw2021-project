@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.model.turn;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.events.send.EndGameEvent;
 import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
@@ -9,6 +12,11 @@ import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.utils.FileUtilities;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class EndTurnState extends State {
     public EndTurnState(TurnLogic turnLogic) {
@@ -98,9 +106,21 @@ public class EndTurnState extends State {
      * It also set the turnLogic in the endGame state
      */
     private void sendGraphicForEndGame(){
+        resetSavedData();
         PlayerInterface winner = turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
         turnLogic.setCurrentState(turnLogic.getEndGame());
         EndGameEvent endGameEvent = new EndGameEvent(winner,turnLogic.getPlayers());
         turnLogic.getModelInterface().notifyObservers(endGameEvent);
+    }
+
+    /**
+     * This method is used to reset the saveData file as this game is no longer worthy of reload
+     */
+    private void resetSavedData(){
+        Gson gson = new Gson();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add("players", gson.toJsonTree(new ArrayList<>()));
+        jsonObject.add("actions", new JsonArray());
+        FileUtilities.writeJsonElementInFile(jsonObject,FileUtilities.getSavedGamePath());
     }
 }
