@@ -26,27 +26,10 @@ public class App {
      * @param args args to start app(server/cli/gui)
      */
     public static void main(String[] args) {
-        //todo to remove
-        //create();
         if (args[0].equals("-server"))
             ServerApp.main(args);
         else
             ClientApp.main(args);
-    }
-
-    private static void create(){
-        GameBoard gm = GameBoard.getGameBoard();
-        DevelopmentCardsGrid dGrid = gm.getDevelopmentCardsGrid();
-        DeckLeader dk = gm.getDeckLeader();
-
-        /*
-        dGrid.saveData();
-        dGrid.loadSavedData();
-
-         */
-
-        dk.saveData();
-        dk.loadSavedData();
     }
 }
 

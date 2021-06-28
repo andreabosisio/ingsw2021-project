@@ -60,7 +60,6 @@ public class Controller implements ReceiveObserver {
             //use reconnect event to send every graphic information to every player
             for (String nickname : nicknames) {
                 modelInterface.reconnectPlayer(nickname);
-                //todo test a game where 3 players start one disconnect the game crashes all 3 reconnect and play and the game crashes again with all 3 connected
                 updateSavedGame(new ReconnectEvent(nickname));
             }
             try {
@@ -68,7 +67,8 @@ public class Controller implements ReceiveObserver {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            modelInterface.reSendLastEvent();
+            modelInterface.sendNecessaryEvents();
+            //modelInterface.reSendLastEvent();
 
         } else {
             Collections.shuffle(nicknames);

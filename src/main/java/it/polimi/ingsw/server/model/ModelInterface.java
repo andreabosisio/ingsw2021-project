@@ -253,6 +253,16 @@ public class ModelInterface implements SendObservable {
     }
 
     /**
+     * This method is used to resent all unfinished setupEvent in case of a reload of a crashed game
+     *
+     */
+    public void reSendSetup() {
+        for (SetupChoiceEvent event : setupManager.getSetupSendEvents()) {
+            notifyObservers(event);
+        }
+    }
+
+    /**
      * This method set a player in the model as offline
      *
      * @param nickname of the player offline
@@ -272,10 +282,11 @@ public class ModelInterface implements SendObservable {
      * @return true
      */
     public boolean reconnectPlayer(String nickname) {
-        if(turnLogic.getCurrentState().equals(turnLogic.getIdle())){
+        if(turnLogic.isIdle()){
             setupManager.reconnectPlayer(nickname);
         }
-        turnLogic.reconnectPlayer(nickname);
+        else
+            turnLogic.reconnectPlayer(nickname);
         return true;
     }
 
@@ -317,5 +328,15 @@ public class ModelInterface implements SendObservable {
         GameBoard.getGameBoard().getDevelopmentCardsGrid().saveData();
         GameBoard.getGameBoard().getDeckLeader().saveData();
         GameBoard.getGameBoard().getMarketTray().saveData();
+    }
+
+    /**
+     * This method send the necessary events to the client in order for them to restart they game where they left it
+     */
+    public void sendNecessaryEvents() {
+        if (turnLogic.isIdle()){
+            reSendSetup();
+        }
+        reSendLastEvent();
     }
 }

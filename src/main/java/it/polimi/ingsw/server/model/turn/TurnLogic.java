@@ -451,4 +451,8 @@ public class TurnLogic {
         assert reconnected != null;
         reconnected.setOnline(true);
     }
+
+    public boolean isIdle() {
+        return currentState.equals(idle);
+    }
 }

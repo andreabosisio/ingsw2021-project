@@ -10,10 +10,8 @@ import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.ResourceFactory;
 import it.polimi.ingsw.server.model.resources.Resource;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -127,12 +125,10 @@ public class SetupManager {
         }
         players.stream().filter(p->p.getNickname().equals(nickname)).forEach(p->p.setOnline(false));
         List<LeaderCard> chosenLeaderCards = event.getLeaderCards().subList(0,2);
-        Random random = new Random();
-        int number = random.nextInt(3);
         List<Resource> chosenResources = new ArrayList<>();
         for(int i = 0;i<event.getNumberOfResources();i++){
             try {
-                chosenResources.add(ResourceFactory.produceResource(ResourceEnum.values()[number]));
+                chosenResources.add(ResourceFactory.produceResource(ResourceEnum.values()[1]));
             } catch (NonStorableResourceException ignored){}
         }
         try {
