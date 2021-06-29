@@ -36,6 +36,7 @@ public class Controller implements ReceiveObserver {
         put("transformationAction", TransformationEvent.class);
         put("reconnect", ReconnectEvent.class);
         put("disconnect", DisconnectEvent.class);
+        put("cheat",CheatEvent.class);
     }};
     private final ModelInterface modelInterface;
     private List<String> nicknames;
@@ -131,7 +132,6 @@ public class Controller implements ReceiveObserver {
             //do the actions
             try {
                 event.doAction(modelInterface);
-                System.out.println("redone action: "+event);
             } catch (InvalidSetupException | InvalidIndexException | NonStorableResourceException | EmptySlotException | NonAccessibleSlotException | InvalidEventException ignored) {
             }
         }
@@ -220,6 +220,7 @@ public class Controller implements ReceiveObserver {
      */
     public void cheat() {
         modelInterface.cheat();
+        updateSavedGame(new CheatEvent("admin"));
     }
 
     /**

@@ -88,8 +88,8 @@ public class ConnectionToClient implements Connection{
         while (true) {
             try {
                 if (!in.ready()) break;
+                //used to empty the buffer
                 str = in.readLine();
-                System.out.println(str + " was ignored during synchronization");
             } catch (IOException e) {
                 e.printStackTrace();
             }
