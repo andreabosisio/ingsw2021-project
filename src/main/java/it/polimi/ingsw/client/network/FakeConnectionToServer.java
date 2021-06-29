@@ -6,26 +6,16 @@ import it.polimi.ingsw.server.network.personal.FakeConnectionToClient;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class FakeConnection implements Connection{
-    private final BlockingQueue<String> messagesFromServer = new LinkedBlockingQueue<>();
+public class FakeConnectionToServer extends ClientConnection {
     private FakeConnectionToClient fakeServerConnection;
-
-    @Override
-    public String getMessage() {
-        String message = null;
-        try {
-            message = messagesFromServer.take();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            close(false);
-        }
-        return message;
-    }
 
     @Override
     public void sendMessage(String message) {
         fakeServerConnection.addMessageToQueue(message);
     }
+
+    @Override
+    public void sendStillAliveMsg() {}
 
     @Override
     public void close(boolean inform) {
@@ -35,12 +25,8 @@ public class FakeConnection implements Connection{
     @Override
     public void run() {
         Lobby.getLobby().setNumberOfPlayers(1,null);
-        ClientHandler c = new ClientHandler(this);
-        c.run();
-    }
-
-    public void addMessageToQueue(String message){
-        messagesFromServer.add(message);
+        ClientHandler clientHandler = new ClientHandler(this);
+        clientHandler.run();
     }
 
     public void setFakeConnectionToClient(FakeConnectionToClient fakeConnectionToClient){

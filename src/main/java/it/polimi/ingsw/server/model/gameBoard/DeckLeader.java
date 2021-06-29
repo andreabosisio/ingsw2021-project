@@ -9,6 +9,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implements the Deck of the Leader Cards.
+ */
 public class DeckLeader {
     private final List<LeaderCard> leaders;
     private final CardsGenerator generator = new CardsGenerator();

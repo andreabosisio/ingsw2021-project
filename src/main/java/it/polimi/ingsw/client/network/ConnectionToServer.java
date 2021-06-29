@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.network;
 
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.client.view.View;
+import it.polimi.ingsw.commons.Connection;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,20 +17,21 @@ import java.util.concurrent.LinkedBlockingQueue;
  * all the messages received from the Server are added in a Queue.
  * It's aim is also to manage all of that concern the Socket.
  */
-public class ConnectionToServer implements Connection {
-    private final static String PONG_MESSAGE = "pong";
-    private final static String QUIT_TYPE = "quit";
+public class ConnectionToServer extends ClientConnection {
     private final Socket socket;
     private BufferedReader in;
     private PrintWriter out;
-    private final BlockingQueue<String> messagesFromServer = new LinkedBlockingQueue<>();
     private boolean receivedPing;
     private final Timer timer;
     //must be higher than the ping period
     private final static int TIMER_DELAY = 8000;//in milliseconds
-    private final static String PING_MESSAGE = "ping";
     private boolean run = true;
 
+    /**
+     * Instantiates a connection through the Socket.
+     *
+     * @param socket The Socket connected with the Server
+     */
     public ConnectionToServer(Socket socket) {
         this.socket = socket;
         startConnection();
@@ -54,29 +55,12 @@ public class ConnectionToServer implements Connection {
     }
 
     /**
-     * This method is used to send a plain text message through the socket
+     * This method is used to send a plain text message through the Socket.
      *
      * @param message message to send
      */
     public void sendMessage(String message) {
         out.println(message);
-    }
-
-    /**
-     * This method is used to return the plain text messages received from the Server:
-     * it retrieves and removes the head of the queue, waiting if necessary until an element becomes available.
-     *
-     * @return the head of the queue
-     */
-    public String getMessage() {
-        String message = null;
-        try {
-            message = messagesFromServer.take();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            close(false);
-        }
-        return message;
     }
 
     /**
@@ -89,7 +73,7 @@ public class ConnectionToServer implements Connection {
         try {
             if(inform) {
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("type", QUIT_TYPE);
+                jsonObject.addProperty("type", Connection.QUIT_MSG);
                 sendMessage(jsonObject.toString());
                 return;
             }
@@ -106,10 +90,11 @@ public class ConnectionToServer implements Connection {
     }
 
     /**
-     * This method send the pong message to answer to a ping message from the Server
+     * Sends a message that inform the Server that the Client is still alive.
      */
-    private void sendPong() {
-        out.println(PONG_MESSAGE);
+    @Override
+    public void sendStillAliveMsg() {
+        out.println(Connection.PONG_MSG);
     }
 
     /**
@@ -122,15 +107,15 @@ public class ConnectionToServer implements Connection {
         while (run) {
             try {
                 message = in.readLine();
-                if (message.equals(PING_MESSAGE)) {
+                if (message.equals(Connection.PING_MSG)) {
                     handlePing();
-                } else if(message.equals(QUIT_TYPE)){
+                } else if(message.equals(Connection.QUIT_MSG)){
                     close(false);
                 }else {
-                    messagesFromServer.add(message);
+                    addMessageToQueue(message);
                 }
             } catch (IOException e) {
-                System.err.println("Connection with server failed");
+                System.err.println("ClientConnection with server failed");
                 //e.printStackTrace();
                 close(false);
             }
@@ -144,14 +129,14 @@ public class ConnectionToServer implements Connection {
      */
     private void handlePing() {
         receivedPing = true;
-        this.sendPong();
+        this.sendStillAliveMsg();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 if (receivedPing) {
                     receivedPing = false;
                 } else {
-                    System.err.println("No Ping received from Server\nClosing...");
+                    System.err.println("No Ping received from Server.\nClosing...");
                     close(false);
                 }
             }

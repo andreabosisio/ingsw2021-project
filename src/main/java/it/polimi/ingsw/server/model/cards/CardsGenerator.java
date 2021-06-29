@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
+/**
+ * Generates the Cards by reading data from a file.
+ */
 public class CardsGenerator {
     private final static String mainDevJsonArrayName = "cards";
     private final static String mainLeaderJsonArrayName = "leaders";

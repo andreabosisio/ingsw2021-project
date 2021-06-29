@@ -327,7 +327,13 @@ public class Warehouse {
      * @return a list containing a copy of the chosen resources
      */
     public List<Resource> getResources(List<Integer> positions){
-        return positions.stream().map(p -> positionMap.get(p).getResource()) //forall given positions get the correct resource
+        return positions.stream().map(p -> {
+            try {
+                return positionMap.getOrDefault(p, getTranslatedPosition(p)).getResource();
+            } catch (InvalidIndexException | NonAccessibleSlotException e) {
+                return null;
+            }
+        }) //forall given positions get the correct resource
                 .filter(Objects::nonNull).collect(Collectors.toList());
     }
 

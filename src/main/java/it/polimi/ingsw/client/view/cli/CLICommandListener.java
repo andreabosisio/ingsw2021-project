@@ -25,6 +25,11 @@ public class CLICommandListener implements CommandListener {
     private static final int MIN_CARD_LEVEL = 1;
     private static final String INVALID = "Invalid input";
 
+    /**
+     * Asks to the Player the desired game mode: online or local.
+     *
+     * @return the answer of the Player
+     */
     protected String askGameMode() {
         String answer;
         do {
@@ -34,11 +39,21 @@ public class CLICommandListener implements CommandListener {
         return answer;
     }
 
+    /**
+     * Asks to the Player the desired IP address of the remote server.
+     *
+     * @return the answer of the Player
+     */
     protected String askIP () {
         CLI.render("Insert a valid IP:");
         return scanner.nextLine();
     }
 
+    /**
+     * Asks to the Player the desired port of the remote server.
+     *
+     * @return the answer of the Player
+     */
     protected int askPort () {
         int port = -1;
         CLI.render("Insert a valid port: ");
@@ -52,6 +67,11 @@ public class CLICommandListener implements CommandListener {
         return port;
     }
 
+    /**
+     * Asks to the Player if it wants to change network settings (IP and port of the server).
+     *
+     * @return the answer of the Player
+     */
     protected String askForNetworkSettingsChanges() {
         CLI.render("Default IP address is " + ClientApp.getDefaultIP() + " and Default port is " + ClientApp.getDefaultPort() + ". \nType CHANGE if you want to change network settings, else type OK: ");
         return scanner.nextLine().toUpperCase(Locale.ROOT);

@@ -1,7 +1,8 @@
 package it.polimi.ingsw.server.network.personal;
 
 import com.google.gson.*;
-import it.polimi.ingsw.client.network.FakeConnection;
+import it.polimi.ingsw.client.network.FakeConnectionToServer;
+import it.polimi.ingsw.commons.Connection;
 import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.commons.FileUtilities;
@@ -19,10 +20,9 @@ import java.util.regex.Pattern;
 public class ClientHandler implements Runnable {
     private String nickname, password;
     private StatusEnum status;
-    private final Connection connectionToClient;
+    private final ServerConnection connectionToClient;
     private final Gson gson = new Gson();
     private VirtualView virtualView;
-    private static final String TYPE_QUIT = "quit";
     private static final String TYPE_LOBBY_NUMBER_CHOICE = "lobbyChoice";
     private static final String TYPE_MATCHMAKING = "matchmaking";
     private static final String TYPE_LOGIN = "login";
@@ -41,16 +41,29 @@ public class ClientHandler implements Runnable {
         put("transformationAction", TransformationEvent.class);
     }};
 
+    /**
+     * Creates a new ClientHandler for a remote Client.
+     *
+     * @param socket The Socket connected with the remote Client
+     */
     public ClientHandler(Socket socket) {
         this.connectionToClient = new ConnectionToClient(socket);
     }
 
-    public ClientHandler(FakeConnection fakeConnection){
-        FakeConnectionToClient fakeConnectionToClient = new FakeConnectionToClient(fakeConnection);
-        fakeConnection.setFakeConnectionToClient(fakeConnectionToClient);
+    /**
+     * Creates a new ClientHandler for a local Client.
+     *
+     * @param fakeConnectionToServer The FakeConnectionToServer of the local Client
+     */
+    public ClientHandler(FakeConnectionToServer fakeConnectionToServer){
+        FakeConnectionToClient fakeConnectionToClient = new FakeConnectionToClient(fakeConnectionToServer);
+        fakeConnectionToServer.setFakeConnectionToClient(fakeConnectionToClient);
         this.connectionToClient = fakeConnectionToClient;
     }
 
+    /**
+     * Main loop of the Server.
+     */
     @Override
     public void run() {
         status = StatusEnum.LOGIN;
@@ -75,7 +88,7 @@ public class ClientHandler implements Runnable {
                 continue;
             }
             String type = jsonObject.get(FileUtilities.getMsgTypeID()).getAsString();
-            if (type.equals(TYPE_QUIT)) {
+            if (type.equals(Connection.QUIT_MSG)) {
                 kill(true);
                 return;
             }
@@ -200,7 +213,7 @@ public class ClientHandler implements Runnable {
                 continue;
             }
             String answerType = jsonAnswerObject.get(FileUtilities.getMsgTypeID()).getAsString();
-            if (answerType.equals(TYPE_QUIT)) {
+            if (answerType.equals(Connection.QUIT_MSG)) {
                 kill(true);
                 return false;
             }
@@ -254,7 +267,7 @@ public class ClientHandler implements Runnable {
                 }
                 String type = jsonObject.get(FileUtilities.getMsgTypeID()).getAsString();
                 Type eventType = (Type) receiveEventByJsonType.get(type);
-                if (type.equals(TYPE_QUIT)) {
+                if (type.equals(Connection.QUIT_MSG)) {
                     //sendInfoMessage("quitting");
                     virtualView.disconnect();
                 } else if (virtualView == null) {
@@ -355,7 +368,7 @@ public class ClientHandler implements Runnable {
             }
         }
         status = StatusEnum.EXIT;
-        connectionToClient.close();
+        connectionToClient.close(true);
         Thread.currentThread().interrupt();
     }
 
@@ -409,7 +422,7 @@ public class ClientHandler implements Runnable {
      * This method is used to send a plain text ping to the client
      */
     public void sendPing() {
-        connectionToClient.sendPing();
+        connectionToClient.sendStillAliveMsg();
     }
 
     /**
@@ -417,7 +430,7 @@ public class ClientHandler implements Runnable {
      *
      * @return true if the connection is up and running
      */
-    public Connection getConnection() {
+    public ServerConnection getConnection() {
         return connectionToClient;
     }
 

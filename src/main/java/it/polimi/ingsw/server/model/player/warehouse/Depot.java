@@ -12,14 +12,11 @@ import java.util.Objects;
  */
 public class Depot implements ResourcesContainer {
 
-    private int numberOfSlots;
-
     private Resource resourceType;
 
     private List<Resource> slots;
 
     public Depot(int numberOfSlots) {
-        this.numberOfSlots = numberOfSlots;
         this.slots = Arrays.asList(new Resource[numberOfSlots]);
     }
 

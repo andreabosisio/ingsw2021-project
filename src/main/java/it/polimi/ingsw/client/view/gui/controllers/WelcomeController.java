@@ -78,7 +78,7 @@ public class WelcomeController extends GUICommandListener {
      */
     private void startAction() {
         if(connectionSelector.getValue().equals(localMode)){
-            gui.setGui();
+            gui.setGUI();
             return;
         }
         String ip;

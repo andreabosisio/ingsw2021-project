@@ -11,6 +11,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * This class implements the Command Line Interface.
+ */
 public class CLI implements View {
 
     private String nickname;

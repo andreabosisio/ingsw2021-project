@@ -1,18 +1,17 @@
 package it.polimi.ingsw.server.network.personal;
 
-import it.polimi.ingsw.client.network.FakeConnection;
+import it.polimi.ingsw.client.network.FakeConnectionToServer;
 import it.polimi.ingsw.server.network.PongObserver;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class FakeConnectionToClient implements Connection{
+public class FakeConnectionToClient extends ServerConnection {
 
-    private final FakeConnection fakeClientConnection;
+    private final FakeConnectionToServer fakeClientConnection;
     private PongObserver pongObserver;
-    private final BlockingQueue<String> messagesFromClient = new LinkedBlockingQueue<>();
 
-    public FakeConnectionToClient(FakeConnection fakeClientConnection) {
+    public FakeConnectionToClient(FakeConnectionToServer fakeClientConnection) {
         this.fakeClientConnection = fakeClientConnection;
     }
 
@@ -22,37 +21,16 @@ public class FakeConnectionToClient implements Connection{
     }
 
     @Override
-    public String getMessage() {
-        String message = null;
-        try {
-            message = messagesFromClient.take();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            close();
-        }
-        return message;
-    }
-
-    @Override
-    public void clearStack() {
-
-    }
-
-    @Override
     public void setPongObserver(PongObserver pongObserver) {
         this.pongObserver = pongObserver;
     }
 
     @Override
-    public void close() {
-    }
+    public void close(boolean inform) { }
 
     @Override
-    public void sendPing() {
+    public void sendStillAliveMsg() {
         pongObserver.disablePingPong();
     }
 
-    public void addMessageToQueue(String message){
-        messagesFromClient.add(message);
-    }
 }

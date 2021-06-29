@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.network.personal;
 
+import it.polimi.ingsw.commons.Connection;
 import it.polimi.ingsw.server.network.PongObserver;
 
 import java.io.*;
@@ -10,12 +11,17 @@ import java.net.Socket;
  * to send messages via Socket.
  * It's aim is also to manage all of that concerne the Socket.
  */
-public class ConnectionToClient implements Connection{
+public class ConnectionToClient extends ServerConnection {
     private BufferedReader in;
     private PrintWriter out;
     private final Socket socket;
     private PongObserver pongObserver;
 
+    /**
+     * Instantiates and starts a new Connection with the Client.
+     *
+     * @param socket The Socket that connects this Server to the Client
+     */
     public ConnectionToClient(Socket socket) {
         this.socket = socket;
         startConnection();
@@ -42,7 +48,15 @@ public class ConnectionToClient implements Connection{
     public void sendMessage(String message) {
         out.println(message);
     }
-    public void sendPing(){out.println("ping");}
+
+    /**
+     * Sends a message that inform that this ServerConnection is still alive.
+     */
+    @Override
+    public void sendStillAliveMsg() {
+        out.println(Connection.PING_MSG);
+    }
+
     /**
      * This method is used to return the plain text messages received from the client through the socket
      * If the message is a pong message it also notifies a pongObserver of the received message
@@ -54,7 +68,7 @@ public class ConnectionToClient implements Connection{
         try {
             message = in.readLine();
             //start of PingPong code
-            if (message.equals("pong")) {
+            if (message.equals(Connection.PONG_MSG)) {
                 pongObserver.pongUpdate();
             }
         } catch (IOException e) {
@@ -64,13 +78,14 @@ public class ConnectionToClient implements Connection{
     }
 
     /**
-     * This method is used to safely close the connection with the client
+     * This method is used to safely close the connection with the Client.
      * Before closing the socket a plain text message is sent to inform the client of the decision
      */
-    public void close() {
+    @Override
+    public void close(boolean inform) {
         try {
-            System.out.println("closing socket connection with one player");
-            out.println("quit");
+            System.out.println("Closing socket connection with one player");
+            out.println(Connection.QUIT_MSG);
             socket.close();
             in.close();
             out.close();

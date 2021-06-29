@@ -59,10 +59,10 @@ public class FileUtilities {
     }
 
     /**
-     * Extract
+     * Extract the content of the field MSG_TYPE_ID from a JsonObject message.
      *
-     * @param jsonObject
-     * @return
+     * @param jsonObject The JsonObject containing the message
+     * @return the extracted content of the field MSG_TYPE_ID
      */
     public static String getTypeFieldAsString(JsonObject jsonObject) {
         return jsonObject.get(MSG_TYPE_ID).getAsString();
@@ -141,6 +141,12 @@ public class FileUtilities {
         return TOKEN_FILE_NAME;
     }
 
+    /**
+     * Write to file a JsonElement.
+     *
+     * @param jsonElement to write
+     * @param path of the file to write
+     */
     public static void writeJsonElementInFile(JsonElement jsonElement, String path) {
         try (FileWriter file = new FileWriter(path)) {
             //We can write any JSONArray or JSONObject instance to the file

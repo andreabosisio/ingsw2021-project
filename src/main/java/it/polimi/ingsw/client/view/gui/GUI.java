@@ -44,7 +44,7 @@ public class GUI extends Application implements View {
         }
     }
 
-    public void setGui(){
+    public void setGUI(){
         this.networkHandler = new NetworkHandler(this);
         guiCommandListeners.values().forEach(guiCommandListener -> guiCommandListener.registerObservers(networkHandler));
         personalController.registerObservers(networkHandler);
