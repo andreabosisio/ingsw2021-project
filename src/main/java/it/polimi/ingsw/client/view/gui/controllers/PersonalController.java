@@ -107,18 +107,18 @@ public class PersonalController extends GUICommandListener {
      */
     @FXML
     private void initialize() {
-        populateAll();
         prepareLegend();
         prepareActions();
         preparePopupsControllers();
         prepareDepots();
         prepareProductions();
+        populateAll();
     }
 
     /**
      * This method is used to setup every popup controller and sets the commandListenerObserver as observer if needed
      */
-    private void preparePopupsControllers(){
+    private void preparePopupsControllers() {
         //setup popup scene controllers
         handController = new HandController(nickname);
         handController.registerObservers(getCommandListenerObserver());
@@ -133,7 +133,7 @@ public class PersonalController extends GUICommandListener {
     /**
      * This method is used to pair every button with its respective action
      */
-    private void prepareActions(){
+    private void prepareActions() {
         //Prepare actions for grid buttons
         for (Node n : devGrid.getChildren()) {
             n.setOnMousePressed(event -> handleBuyRequest(n));
@@ -153,7 +153,7 @@ public class PersonalController extends GUICommandListener {
     /**
      * This method is used to load the graphic elements in every element of the gameBoard
      */
-    private void populateAll(){
+    private void populateAll() {
         GraphicUtilities.populateMarket(marketGrid, extraRes);
         GraphicUtilities.populateDevGrid(devGrid);
         GraphicUtilities.populateHandLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(nickname).getActiveLeaders());
@@ -170,7 +170,7 @@ public class PersonalController extends GUICommandListener {
     /**
      * This method is used to prepare every production button id and its action on mousePressed
      */
-    private void prepareProductions(){
+    private void prepareProductions() {
         //set all normal productionBoard indexes
         int i = 1;
         for (Node n : productionPane.getChildren()) {
@@ -199,7 +199,7 @@ public class PersonalController extends GUICommandListener {
     /**
      * This method is used to load each player name and color in the legend
      */
-    private void prepareLegend(){
+    private void prepareLegend() {
         //Prepare action for legend buttons
         for (Node n : legendPane.getChildren()) {
             Button button = (Button) n;
@@ -213,7 +213,7 @@ public class PersonalController extends GUICommandListener {
     /**
      * This method is used to prepare each resource button id and sets its mousePressed action
      */
-    private void prepareDepots(){
+    private void prepareDepots() {
         //set all resources buttons ID as their indexes
         int i = 0;
         //set from Market(0-3)
@@ -270,7 +270,7 @@ public class PersonalController extends GUICommandListener {
      * @param numberOfTransformation The number of White Resource Transformations to apply
      * @param possibleTransformation A List containing Resource's colors of a possible transformation
      */
-    public void showTransformationPopup(int numberOfTransformation, List<String> possibleTransformation,Scene scene) {
+    public void showTransformationPopup(int numberOfTransformation, List<String> possibleTransformation, Scene scene) {
         Platform.runLater(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/whiteTransformation.fxml"));
             fxmlLoader.setController(transformationController);
@@ -336,7 +336,7 @@ public class PersonalController extends GUICommandListener {
      */
     private void resourceClick(Node n) {
         if (canSwap) {
-            if(Integer.parseInt(n.getId())>=firstStrongBoxIndex){
+            if (Integer.parseInt(n.getId()) >= firstStrongBoxIndex) {
                 return;
             }
             if (lastSwap == null) {
@@ -554,7 +554,7 @@ public class PersonalController extends GUICommandListener {
     /**
      * This method is used to activate the end turn button in the GUI
      */
-    public void activateEndButton(){
+    public void activateEndButton() {
         endTurn.setVisible(true);
     }
 }

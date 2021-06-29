@@ -421,9 +421,9 @@ public class TurnLogic {
     public boolean disconnectPlayer(String nickname) {
         Player disconnected = players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst().orElse(null);
         assert disconnected != null;
+        disconnected.setOnline(false);
         if (currentPlayer.equals(disconnected)) {
             currentPlayer.setDisconnectedData(currentState, whiteResourcesFromMarket, chosenDevCard, lastEventSent);
-            disconnected.setOnline(false);
             if (players.stream().noneMatch(Player::isOnline)) {
                 return true;
             } else {

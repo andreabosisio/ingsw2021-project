@@ -27,7 +27,7 @@ public class ConnectionToServer implements Connection {
     private boolean receivedPing;
     private final Timer timer;
     //must be higher than the ping period
-    private final static int TIMER_DELAY = 6000;//in milliseconds
+    private final static int TIMER_DELAY = 8000;//in milliseconds
     private final static String PING_MESSAGE = "ping";
     private boolean run = true;
 
