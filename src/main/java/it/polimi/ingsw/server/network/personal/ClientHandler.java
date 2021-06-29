@@ -4,7 +4,7 @@ import com.google.gson.*;
 import it.polimi.ingsw.client.network.FakeConnection;
 import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.network.Lobby;
-import it.polimi.ingsw.server.utils.FileUtilities;
+import it.polimi.ingsw.commons.FileUtilities;
 
 import java.lang.reflect.Type;
 import java.net.Socket;
@@ -74,7 +74,7 @@ public class ClientHandler implements Runnable {
             if (jsonObject == null) {
                 continue;
             }
-            String type = jsonObject.get(it.polimi.ingsw.server.utils.FileUtilities.getMsgTypeID()).getAsString();
+            String type = jsonObject.get(FileUtilities.getMsgTypeID()).getAsString();
             if (type.equals(TYPE_QUIT)) {
                 kill(true);
                 return;

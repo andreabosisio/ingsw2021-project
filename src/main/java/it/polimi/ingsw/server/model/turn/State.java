@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.turn;
 
-import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.exceptions.*;
 
 import java.util.List;
 import java.util.Map;

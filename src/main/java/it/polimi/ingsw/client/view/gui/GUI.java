@@ -43,6 +43,7 @@ public class GUI extends Application implements View {
             throw new IOException();
         }
     }
+
     public void setGui(){
         this.networkHandler = new NetworkHandler(this);
         guiCommandListeners.values().forEach(guiCommandListener -> guiCommandListener.registerObservers(networkHandler));
@@ -251,6 +252,11 @@ public class GUI extends Application implements View {
         stage.setOnCloseRequest(e -> {
             if (networkHandler != null) {
                 networkHandler.close();
+            }
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
             }
             Platform.exit();
         });

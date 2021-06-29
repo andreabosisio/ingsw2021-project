@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.turn;
 
-import it.polimi.ingsw.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.events.send.choice.EndTurnChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;

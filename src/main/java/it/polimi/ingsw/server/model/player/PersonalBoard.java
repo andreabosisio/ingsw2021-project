@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
-import it.polimi.ingsw.exceptions.InvalidIndexException;
+import it.polimi.ingsw.server.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.model.cards.BasicPowerCard;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;

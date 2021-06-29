@@ -4,8 +4,8 @@ import com.google.gson.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
-import it.polimi.ingsw.server.utils.FileUtilities;
-import java.io.*;
+import it.polimi.ingsw.commons.FileUtilities;
+
 import java.util.*;
 import java.util.stream.Collectors;
 

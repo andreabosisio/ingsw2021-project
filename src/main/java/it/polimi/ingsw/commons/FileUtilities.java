@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.utils;
+package it.polimi.ingsw.commons;
 
 import com.google.gson.*;
 

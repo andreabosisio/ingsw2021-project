@@ -1,13 +1,12 @@
-package it.polimi.ingsw.exceptions;
+package it.polimi.ingsw.server.exceptions;
 
-public class EmptySlotException extends Exception{
-
+public class NonStorableResourceException extends Exception{
     /**
      * Constructs a new exception with {@code null} as its detail message.
      * The cause is not initialized, and may subsequently be initialized by a
      * call to {@link #initCause}.
      */
-    public EmptySlotException() {
+    public NonStorableResourceException() {
     }
 
     /**
@@ -18,7 +17,7 @@ public class EmptySlotException extends Exception{
      * @param message the detail message. The detail message is saved for
      *                later retrieval by the {@link #getMessage()} method.
      */
-    public EmptySlotException(String message) {
+    public NonStorableResourceException(String message) {
         super(message);
     }
 }

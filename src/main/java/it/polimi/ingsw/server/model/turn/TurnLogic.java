@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.turn;
 
-import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.events.send.ReconnectEvent;
 import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.events.send.StartTurnEvent;

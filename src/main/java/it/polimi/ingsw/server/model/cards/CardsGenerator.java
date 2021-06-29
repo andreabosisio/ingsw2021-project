@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
-import it.polimi.ingsw.server.utils.FileUtilities;
+import it.polimi.ingsw.commons.FileUtilities;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -23,6 +23,7 @@ public class App {
      * -server to start in server mode
      * -cli to start in client mode with CLI
      * -gui to start in client mode with GUI
+     *
      * @param args args to start app(server/cli/gui)
      */
     public static void main(String[] args) {

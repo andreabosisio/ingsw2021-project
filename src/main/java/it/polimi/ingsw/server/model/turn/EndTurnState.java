@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.turn;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.events.send.EndGameEvent;
 import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
@@ -12,10 +12,8 @@ import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.utils.FileUtilities;
+import it.polimi.ingsw.commons.FileUtilities;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class EndTurnState extends State {

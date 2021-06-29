@@ -460,8 +460,6 @@ public class PersonalController extends GUICommandListener {
      */
     public void disableBoard() {
         board.setVisible(false);
-        faithTrack.setVisible(false);
-        popeTiles.setVisible(false);
     }
 
     /**
@@ -470,8 +468,6 @@ public class PersonalController extends GUICommandListener {
      */
     public void activateBoard() {
         board.setVisible(true);
-        faithTrack.setVisible(true);
-        popeTiles.setVisible(true);
     }
 
     /**

@@ -1,7 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.exceptions.InvalidEventException;
-import it.polimi.ingsw.exceptions.InvalidIndexException;
+import it.polimi.ingsw.server.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;

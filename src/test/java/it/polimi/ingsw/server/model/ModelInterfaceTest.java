@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.TestGameGenerator;
-import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;

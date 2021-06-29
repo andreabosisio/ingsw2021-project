@@ -5,56 +5,45 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainPane" prefHeight="597.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/16"
-            xmlns:fx="http://javafx.com/fxml/1">
-    <ImageView fitHeight="526.0" fitWidth="701.0" layoutX="-15.0" layoutY="221.0" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@../images/boards/productionSlots.png"/>
+<AnchorPane fx:id="mainPane" prefHeight="786.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+    <ImageView fitHeight="526.0" fitWidth="701.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../images/boards/productionSlots.png" />
+      </image>
     </ImageView>
-    <ImageView id="newCard" fx:id="newCard" fitHeight="246.0" fitWidth="185.0" layoutX="260.0" layoutY="14.0"
-               pickOnBounds="true" preserveRatio="true">
-        <Image url="@../images/devCards/BLUE_1_24.png"/>
+    <ImageView id="newCard" fx:id="newCard" fitHeight="246.0" fitWidth="185.0" layoutX="260.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../images/devCards/BLUE_1_24.png" />
     </ImageView>
-    <AnchorPane fx:id="productionPane" layoutX="-26.0" layoutY="260.0" prefHeight="387.0" prefWidth="694.0"
-                scaleShape="false">
-        <AnchorPane layoutX="20.0" layoutY="126.0" prefHeight="200.0" prefWidth="200.0">
-            <ImageView fitHeight="246.0" fitWidth="154.0" layoutX="6.0" layoutY="-150.0" pickOnBounds="true"
-                       preserveRatio="true"/>
-            <ImageView fitHeight="273.0" fitWidth="163.0" layoutX="2.0" layoutY="-78.0" pickOnBounds="true"
-                       preserveRatio="true"/>
+    <AnchorPane fx:id="productionPane" layoutX="-24.0" layoutY="315.0" prefHeight="387.0" prefWidth="694.0" scaleShape="false">
+        <AnchorPane layoutX="54.0" layoutY="136.0" prefHeight="200.0" prefWidth="200.0">
+            <ImageView fitHeight="246.0" fitWidth="154.0" layoutX="6.0" layoutY="-150.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="273.0" fitWidth="163.0" layoutX="2.0" layoutY="-78.0" pickOnBounds="true" preserveRatio="true" />
             <Button id="1" mnemonicParsing="false" prefHeight="239.0" prefWidth="153.0">
                 <graphic>
-                    <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0"
-                               pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/devCards/BLUE_3_25.png"/>
+                    <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
                     </ImageView>
                 </graphic>
             </Button>
         </AnchorPane>
-        <AnchorPane layoutX="258.0" layoutY="126.0" prefHeight="200.0" prefWidth="200.0">
-            <ImageView fitHeight="246.0" fitWidth="154.0" layoutX="5.0" layoutY="-151.0" pickOnBounds="true"
-                       preserveRatio="true"/>
-            <ImageView fitHeight="273.0" fitWidth="163.0" layoutX="1.0" layoutY="-79.0" pickOnBounds="true"
-                       preserveRatio="true"/>
+        <AnchorPane layoutX="268.0" layoutY="136.0" prefHeight="200.0" prefWidth="200.0">
+            <ImageView fitHeight="246.0" fitWidth="154.0" layoutX="5.0" layoutY="-151.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="273.0" fitWidth="163.0" layoutX="1.0" layoutY="-79.0" pickOnBounds="true" preserveRatio="true" />
             <Button id="2" mnemonicParsing="false" prefHeight="239.0" prefWidth="153.0">
                 <graphic>
-                    <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0"
-                               pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/devCards/BLUE_3_25.png"/>
+                    <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
                     </ImageView>
                 </graphic>
             </Button>
         </AnchorPane>
-        <AnchorPane layoutX="487.0" layoutY="126.0" prefHeight="200.0" prefWidth="200.0">
-            <ImageView fitHeight="246.0" fitWidth="154.0" layoutY="-154.0" pickOnBounds="true"
-                       preserveRatio="true"/>
-            <ImageView fitHeight="273.0" fitWidth="163.0" layoutY="-81.0" pickOnBounds="true"
-                       preserveRatio="true"/>
+        <AnchorPane layoutX="495.0" layoutY="136.0" prefHeight="200.0" prefWidth="200.0">
+            <ImageView fitHeight="246.0" fitWidth="154.0" layoutY="-154.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="273.0" fitWidth="163.0" layoutY="-81.0" pickOnBounds="true" preserveRatio="true" />
             <Button id="3" layoutX="-7.0" mnemonicParsing="false" prefHeight="239.0" prefWidth="153.0">
                 <graphic>
-                    <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0"
-                               pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/devCards/BLUE_3_25.png"/>
+                    <ImageView fitHeight="337.0" fitWidth="160.0" layoutX="270.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/devCards/BLUE_3_25.png" />
                     </ImageView>
                 </graphic>
             </Button>

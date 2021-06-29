@@ -1,9 +1,8 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.TestGameGenerator;
-import it.polimi.ingsw.exceptions.InvalidEventException;
-import it.polimi.ingsw.exceptions.InvalidSetupException;
-import it.polimi.ingsw.exceptions.NonStorableResourceException;
+import it.polimi.ingsw.server.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.exceptions.InvalidSetupException;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.resources.Resource;

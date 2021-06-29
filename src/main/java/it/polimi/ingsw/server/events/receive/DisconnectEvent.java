@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.events.receive;
 
-import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 
 public class DisconnectEvent extends ReceiveEvent{

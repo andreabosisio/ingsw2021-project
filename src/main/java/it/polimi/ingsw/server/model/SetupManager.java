@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.events.send.GameStartedEvent;
 import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.*;

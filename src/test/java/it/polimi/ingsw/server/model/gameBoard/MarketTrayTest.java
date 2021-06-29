@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.gameBoard;
 
-import it.polimi.ingsw.exceptions.InvalidIndexException;
+import it.polimi.ingsw.server.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.resources.NonStorableResources;
 import it.polimi.ingsw.server.model.resources.Resource;

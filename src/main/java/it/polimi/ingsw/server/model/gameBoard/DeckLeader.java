@@ -2,9 +2,8 @@ package it.polimi.ingsw.server.model.gameBoard;
 
 import com.google.gson.*;
 import it.polimi.ingsw.server.model.cards.*;
-import it.polimi.ingsw.server.utils.FileUtilities;
+import it.polimi.ingsw.commons.FileUtilities;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

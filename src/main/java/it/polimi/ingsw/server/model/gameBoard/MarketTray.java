@@ -1,12 +1,11 @@
 package it.polimi.ingsw.server.model.gameBoard;
 
 import com.google.gson.*;
-import it.polimi.ingsw.exceptions.InvalidIndexException;
+import it.polimi.ingsw.server.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.model.resources.*;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
-import it.polimi.ingsw.server.utils.FileUtilities;
+import it.polimi.ingsw.commons.FileUtilities;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

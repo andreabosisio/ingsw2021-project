@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.player.warehouse;
 
-import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.Resource;
 

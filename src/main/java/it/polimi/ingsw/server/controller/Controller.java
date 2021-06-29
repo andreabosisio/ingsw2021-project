@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import com.google.gson.*;
-import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.events.receive.ReceiveEvent;
 import it.polimi.ingsw.server.events.receive.ReconnectEvent;
@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.personal.VirtualView;
-import it.polimi.ingsw.server.utils.FileUtilities;
+import it.polimi.ingsw.commons.FileUtilities;
 import it.polimi.ingsw.server.utils.ReceiveObserver;
 
 import java.lang.reflect.Type;
@@ -36,7 +36,7 @@ public class Controller implements ReceiveObserver {
         put("transformationAction", TransformationEvent.class);
         put("reconnect", ReconnectEvent.class);
         put("disconnect", DisconnectEvent.class);
-        put("cheat",CheatEvent.class);
+        put("cheat", CheatEvent.class);
     }};
     private final ModelInterface modelInterface;
     private List<String> nicknames;

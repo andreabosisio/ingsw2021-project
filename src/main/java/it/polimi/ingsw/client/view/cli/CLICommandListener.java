@@ -212,15 +212,15 @@ public class CLICommandListener implements CommandListener {
         List<String> transformations = new ArrayList<>();
         CLI.render("UH OH...Looks like your white marbles are evolving\nChoose the color you prefer for this " + numberOfTransformation + " marbles");
         for (int i = 0; i < numberOfTransformation; i++) {
-            System.out.print("Resource in slot n°" + (i + 1) + " can be: ");
+            CLI.render("Resource in slot n°" + (i + 1) + " can be: ");
             for (int j = 0; j < possibleTransformations.size(); j++) {
                 String color = possibleTransformations.get(j);
-                System.out.print((j + 1) + Marble.getPrintable(color.toUpperCase(Locale.ROOT)) + " ");
+                System.out.print("["+(j + 1)+"]" + Marble.getPrintable(color.toUpperCase(Locale.ROOT)) + " \t\t");
             }
-            System.out.print("\n");
+            CLI.render("");
             int choice = -1;
             while (choice < 1 || choice > possibleTransformations.size()) {
-                CLI.render("Select between 1 and 2");
+                CLI.render("Select between 1 and 2:");
                 try {
                     choice = Integer.parseInt(scanner.nextLine());
                 } catch (NumberFormatException e) {

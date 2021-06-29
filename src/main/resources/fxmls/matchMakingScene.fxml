@@ -9,16 +9,28 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="800.0" fitWidth="723.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/loginImage.jpg" />
          </image>
       </ImageView>
-      <TextArea fx:id="messageBox" editable="false" layoutX="190.0" layoutY="40.0" prefHeight="9.0" prefWidth="221.0" />
-      <Label alignment="CENTER" layoutX="22.0" layoutY="233.0" prefHeight="78.0" prefWidth="557.0" text="Please be patient your game will begin shortly" textAlignment="CENTER">
+      <TextArea fx:id="messageBox" blendMode="MULTIPLY" editable="false" layoutX="124.0" layoutY="324.0" prefHeight="248.0" prefWidth="355.0" />
+      <Label alignment="CENTER" layoutX="34.0" layoutY="225.0" prefHeight="76.0" prefWidth="532.0" text="your game will begin shortly" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="24.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0" startX="1.0">
+               <stops>
+                  <Stop color="#006cff" />
+                  <Stop color="BLACK" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label alignment="CENTER" layoutX="35.0" layoutY="187.0" prefHeight="76.0" prefWidth="532.0" text="Please be patient" textAlignment="CENTER">
          <font>
             <Font name="Arial Rounded MT Bold" size="24.0" />
          </font>

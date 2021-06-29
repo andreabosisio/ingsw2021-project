@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model.turn;
 
-import it.polimi.ingsw.exceptions.EmptySlotException;
-import it.polimi.ingsw.exceptions.InvalidEventException;
-import it.polimi.ingsw.exceptions.InvalidIndexException;
-import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
+import it.polimi.ingsw.server.exceptions.EmptySlotException;
+import it.polimi.ingsw.server.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.exceptions.InvalidIndexException;
+import it.polimi.ingsw.server.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.events.send.choice.EndTurnChoiceEvent;
 import it.polimi.ingsw.server.events.send.choice.PlaceResourcesChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;

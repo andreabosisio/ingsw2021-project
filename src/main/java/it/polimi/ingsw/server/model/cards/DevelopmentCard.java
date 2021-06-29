@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.exceptions.EmptySlotException;
-import it.polimi.ingsw.exceptions.InvalidIndexException;
-import it.polimi.ingsw.exceptions.NonAccessibleSlotException;
+import it.polimi.ingsw.server.exceptions.EmptySlotException;
+import it.polimi.ingsw.server.exceptions.InvalidIndexException;
+import it.polimi.ingsw.server.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;

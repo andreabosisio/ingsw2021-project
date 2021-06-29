@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.turn;
 
-import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.events.send.choice.*;
 import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
