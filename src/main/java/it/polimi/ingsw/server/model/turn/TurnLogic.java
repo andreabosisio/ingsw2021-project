@@ -83,7 +83,7 @@ public class TurnLogic {
     public boolean isLastPlayerTurn() {
         //todo bug if last player disconnect!!!!!!
         //because disconnected player is offline
-        List<Player> onlinePlayers = players.stream().filter(Player::isOnline).collect(Collectors.toList());
+        List<Player> onlinePlayers = players.stream().filter(p->(p.isOnline() || currentPlayer.equals(p))).collect(Collectors.toList());
         return onlinePlayers.indexOf(currentPlayer) == onlinePlayers.size() - 1;
     }
 
@@ -423,11 +423,11 @@ public class TurnLogic {
         assert disconnected != null;
         if (currentPlayer.equals(disconnected)) {
             currentPlayer.setDisconnectedData(currentState, whiteResourcesFromMarket, chosenDevCard, lastEventSent);
+            disconnected.setOnline(false);
             if (players.stream().noneMatch(Player::isOnline)) {
                 return true;
             } else {
                 setNextPlayer();
-                disconnected.setOnline(false);
                 setCurrentState(startTurn);
                 setLastEventSent(new StartTurnEvent(currentPlayer.getNickname(), currentPlayer.getNickname()));
             }
