@@ -186,7 +186,6 @@ public class GUI extends Application implements View {
 
     @Override
     public void setOnEndTurn() {
-        Platform.runLater(personalController::activateBoard);
         Platform.runLater(()->{
             personalController.activateBoard();
             personalController.activateEndButton();
