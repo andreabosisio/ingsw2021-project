@@ -11,6 +11,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -269,12 +270,12 @@ public class PersonalController extends GUICommandListener {
      * @param numberOfTransformation The number of White Resource Transformations to apply
      * @param possibleTransformation A List containing Resource's colors of a possible transformation
      */
-    public void showTransformationPopup(int numberOfTransformation, List<String> possibleTransformation) {
+    public void showTransformationPopup(int numberOfTransformation, List<String> possibleTransformation,Scene scene) {
         Platform.runLater(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/whiteTransformation.fxml"));
             fxmlLoader.setController(transformationController);
             transformationController.setTransformation(numberOfTransformation, possibleTransformation);
-            transformationWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, transformationWindow, Modality.WINDOW_MODAL);
+            transformationWindow = GraphicUtilities.populatePopupWindow(scene.getWindow(), fxmlLoader, transformationWindow, Modality.WINDOW_MODAL);
             transformationWindow.show();
         });
     }
@@ -285,13 +286,13 @@ public class PersonalController extends GUICommandListener {
      *
      * @param newCardID is the CardID of the Card to place
      */
-    public void showCardPlacementPopup(String newCardID) {
+    public void showCardPlacementPopup(String newCardID, Scene scene) {
         //endTurn.setVisible(true);
         Platform.runLater(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/cardPlacement.fxml"));
             fxmlLoader.setController(cardPlacementController);
             cardPlacementController.setNewCardID(newCardID);
-            cardPlacementWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, cardPlacementWindow, Modality.WINDOW_MODAL);
+            cardPlacementWindow = GraphicUtilities.populatePopupWindow(scene.getWindow(), fxmlLoader, cardPlacementWindow, Modality.WINDOW_MODAL);
             cardPlacementWindow.show();
         });
     }

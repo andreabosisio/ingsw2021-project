@@ -163,7 +163,7 @@ public class GUI extends Application implements View {
     @Override
     public void setOnDevelopmentCardPlacement(String newCardID) {
         Platform.runLater(() -> {
-            personalController.showCardPlacementPopup(newCardID);
+            personalController.showCardPlacementPopup(newCardID,scene);
             personalController.activateBoard();
         });
     }
@@ -179,7 +179,7 @@ public class GUI extends Application implements View {
     @Override
     public void setOnTransformation(int numberOfTransformation, List<String> possibleTransformations) {
         Platform.runLater(() -> {
-            personalController.showTransformationPopup(numberOfTransformation, possibleTransformations);
+            personalController.showTransformationPopup(numberOfTransformation, possibleTransformations,scene);
             personalController.activateBoard();
         });
     }
