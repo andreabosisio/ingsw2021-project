@@ -585,7 +585,7 @@ class ModelInterfaceTest {
         inResourcesForEachProductions.put(1, positionOfResForProdSlot1);
         outResourcesForEachProductions.put(0, "purple");
 
-        assertThrows(NullPointerException.class,
+        assertThrows(InvalidEventException.class,
                 () -> modelInterface.productionAction(inResourcesForEachProductions, outResourcesForEachProductions));
 
         // The Player can not do the Basic Production with two resources of the same color
