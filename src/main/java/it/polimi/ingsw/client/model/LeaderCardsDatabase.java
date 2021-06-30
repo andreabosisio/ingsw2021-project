@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import it.polimi.ingsw.commons.FileUtilities;
+import it.polimi.ingsw.commons.FileUtilities;
 import it.polimi.ingsw.commons.Parser;
 
 import java.io.File;
@@ -138,25 +139,16 @@ public class LeaderCardsDatabase {
      * It reads the information containing into the Json file and add that into the local variables
      */
     private void firstSetup() {
-        File input = new File(FileUtilities.UNMODIFIABLE_LEADER_CARDS_PATH);
-        //TODO FILE WRITER
-        try {
-            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
-            JsonObject fileObject = fileElement.getAsJsonObject();
-            JsonArray jsonArrayOfLeaders = fileObject.get("leaders").getAsJsonArray();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableLeaderCardsPath());
+        assert fileElement != null;
+        JsonObject fileObject = fileElement.getAsJsonObject();
+        JsonArray jsonArrayOfLeaders = fileObject.get("leaders").getAsJsonArray();
 
-            //Cycle through all leaders element in the file
-            for (JsonElement leaderElement : jsonArrayOfLeaders) {
-                //Get Json object
-                JsonObject leaderJsonObject = leaderElement.getAsJsonObject();
-                takeInformationForALeaderCard(leaderJsonObject);
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("file not found");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("error nel file json");
-            e.printStackTrace();
+        //Cycle through all leaders element in the file
+        for (JsonElement leaderElement : jsonArrayOfLeaders) {
+            //Get Json object
+            JsonObject leaderJsonObject = leaderElement.getAsJsonObject();
+            takeInformationForALeaderCard(leaderJsonObject);
         }
     }
 
@@ -246,4 +238,5 @@ public class LeaderCardsDatabase {
 
         return devRequirementsToPopulate.toString();
     }
+
 }

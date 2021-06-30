@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import it.polimi.ingsw.commons.FileUtilities;
+import it.polimi.ingsw.commons.Parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -208,26 +209,16 @@ public class DevelopmentCardsDatabase {
      * It reads the information containing into the Json file and add that into the local variables
      */
     private void firstSetup() {
-        //todo move to file writer
-        File input = new File(FileUtilities.UNMODIFIABLE_DEVELOPMENT_CARDS_PATH);
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableDevelopmentCardsPath());
+        assert fileElement != null;
+        JsonObject fileObject = fileElement.getAsJsonObject();
+        JsonArray jsonArrayOfCards = fileObject.get("cards").getAsJsonArray();
 
-        try {
-            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
-            JsonObject fileObject = fileElement.getAsJsonObject();
-            JsonArray jsonArrayOfCards = fileObject.get("cards").getAsJsonArray();
-
-            //Cycle through all cards element in the file
-            for (JsonElement cardElement : jsonArrayOfCards) {
-                //Get Json object
-                JsonObject cardJsonObject = cardElement.getAsJsonObject();
-                takeInformationForADevelopmentCard(cardJsonObject);
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("file not found");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("error in the json file format");
-            e.printStackTrace();
+        //Cycle through all cards element in the file
+        for (JsonElement cardElement : jsonArrayOfCards) {
+            //Get Json object
+            JsonObject cardJsonObject = cardElement.getAsJsonObject();
+            takeInformationForADevelopmentCard(cardJsonObject);
         }
     }
 
@@ -238,9 +229,9 @@ public class DevelopmentCardsDatabase {
      * @param cardJsonObject JsonObject containing the Card data
      */
     private void takeInformationForADevelopmentCard(JsonObject cardJsonObject) {
-        devCardsLevel.add(extractStringValueFromJson(cardJsonObject, "level"));
-        devCardsColor.add(extractStringValueFromJson(cardJsonObject, "color"));
-        devCardsVictoryPoints.add(extractStringValueFromJson(cardJsonObject, "points"));
+        devCardsLevel.add(Parser.extractFromField(cardJsonObject, "level").getAsString());
+        devCardsColor.add(Parser.extractFromField(cardJsonObject, "color").getAsString());
+        devCardsVictoryPoints.add(Parser.extractFromField(cardJsonObject, "points").getAsString());
         devCardsPrice.add(extractResourcesFromJson(cardJsonObject, "price"));
         devCardsInResources.add(extractResourcesFromJson(cardJsonObject, "inResources"));
         devCardsOutResources.add(extractResourcesFromJson(cardJsonObject, "outResources"));
@@ -266,18 +257,6 @@ public class DevelopmentCardsDatabase {
         }
 
         return resourcesToPopulate.toString();
-    }
-
-    /**
-     * This method is used to extract a String value from the jsonObject
-     *
-     * @param cardJsonObject  JsonObject containing the Card data
-     * @param nameValueInJson name of the value in the JsonObject
-     * @return the String value extracted
-     */
-    //todo maybe in parser
-    private String extractStringValueFromJson(JsonObject cardJsonObject, String nameValueInJson) {
-        return cardJsonObject.get(nameValueInJson).getAsString();
     }
 
     /**
