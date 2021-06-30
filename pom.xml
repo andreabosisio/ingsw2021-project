@@ -38,7 +38,7 @@
       <version>2.8.6</version>
     </dependency>
 
-    <!-- JavaFX dependencies below:safe to delete for now -->
+    <!-- JavaFX dependencies below-->
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
@@ -69,7 +69,22 @@
       <version>16</version>
       <classifier>mac</classifier>
     </dependency>
-    <!-- JavaFX dependencies above:safe to delete for now -->
+    <!-- JavaFX dependencies above-->
+
+    <!-- Mockito dependencies below-->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-inline</artifactId>
+      <version>3.7.7</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>3.7.7</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- mockito dependencies above-->
 
   </dependencies>
 

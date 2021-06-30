@@ -28,6 +28,7 @@ public class DisconnectEvent extends ReceiveEvent{
      */
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
-        return modelInterface.disconnectPlayer(getNickname());
+        modelInterface.disconnectPlayer(getNickname());
+        return super.doAction(modelInterface);
     }
 }

@@ -12,6 +12,6 @@ public class CheatEvent extends  ReceiveEvent{
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
         modelInterface.cheat();
-        return true;
+        return super.doAction(modelInterface);
     }
 }

@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.events.send.SendEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GraphicUpdateEvent implements SendEvent {
+public class GraphicUpdateEvent extends SendEvent {
     private final String type = "graphicUpdate";
     private MarketUpdate marketUpdate = null;
     private GridUpdate gridUpdate = null;
@@ -35,13 +35,4 @@ public class GraphicUpdateEvent implements SendEvent {
 
     public void addUpdate(String messageUpdate) {this.messageUpdate = messageUpdate;}
 
-    @Override
-    public boolean isForYou(String nickname) {
-        return true;
-    }
-
-    @Override
-    public String toJson() {
-        return new Gson().toJson(this);
-    }
 }

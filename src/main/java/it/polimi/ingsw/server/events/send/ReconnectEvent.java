@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 
 import java.util.List;
 
-public class ReconnectEvent implements SendEvent {
+public class ReconnectEvent extends SendEvent {
     private final String type = "reconnect";
     private final String reconnectingPlayer;
     private final String currentPlayer;
@@ -22,10 +22,5 @@ public class ReconnectEvent implements SendEvent {
     @Override
     public boolean isForYou(String nickname) {
         return nickname.equals(reconnectingPlayer);
-    }
-
-    @Override
-    public String toJson() {
-        return new Gson().toJson(this);
     }
 }

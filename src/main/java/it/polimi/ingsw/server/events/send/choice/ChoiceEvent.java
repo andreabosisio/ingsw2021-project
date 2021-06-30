@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.events.send.SendEvent;
 /**
  * This class is the implementation of the request messages of a game choice sent from the Server.
  */
-public abstract class ChoiceEvent implements SendEvent {
+public abstract class ChoiceEvent extends SendEvent {
     private final String nickname;
     private final String type;
 
@@ -26,16 +26,6 @@ public abstract class ChoiceEvent implements SendEvent {
      */
     public String getNickname() {
         return nickname;
-    }
-
-    /**
-     * Traduces this message in a JSON format.
-     *
-     * @return the String containing the JSON message
-     */
-    @Override
-    public String toJson(){
-        return new Gson().toJson(this);
     }
 
     /**

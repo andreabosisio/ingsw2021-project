@@ -10,7 +10,6 @@ public class ProductionSlotsUpdate implements PersonalUpdate{
     @Override
     public void addUpdateTo(PersonalBoardUpdate personalBoardUpdate, Player player) {
         personalBoardUpdate.setNickname(player.getNickname());
-
         List<List<String>> slots = player.getPersonalBoard().getVisibleDevelopmentCardsIDs().stream().map(slot -> new ArrayList<String>() {{
             add(slot);
         }}).collect(Collectors.toList());

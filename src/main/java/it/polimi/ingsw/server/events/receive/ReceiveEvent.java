@@ -50,7 +50,7 @@ public abstract class ReceiveEvent {
      * @throws NonStorableResourceException if a Non Storable Resource has been requested
      */
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
-        return false;
+        return true;
     }
 
     /**

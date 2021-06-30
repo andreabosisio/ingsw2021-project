@@ -8,7 +8,6 @@ public class WarehouseUpdate implements PersonalUpdate{
     public void addUpdateTo(PersonalBoardUpdate personalBoardUpdate, Player player) {
         Warehouse warehouse = player.getPersonalBoard().getWarehouse();
         warehouse.reorderStrongBox();
-
         personalBoardUpdate.setWarehouse(warehouse.getAllPositionsAndResources());
         personalBoardUpdate.setNickname(player.getNickname());
     }

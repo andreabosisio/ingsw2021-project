@@ -28,6 +28,7 @@ public class ReconnectEvent extends ReceiveEvent{
      */
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
-        return modelInterface.reconnectPlayer(getNickname());
+        modelInterface.reconnectPlayer(getNickname());
+        return super.doAction(modelInterface);
     }
 }
