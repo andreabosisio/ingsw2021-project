@@ -3,9 +3,20 @@ package it.polimi.ingsw.client.events.send;
 import java.util.List;
 import java.util.Map;
 
-public class ProductionActionEvent extends SendEvent{
+/**
+ * Represent the request of a Production Action by a Player
+ */
+public class ProductionActionEvent extends SendEvent {
     private final Map<Integer, List<Integer>> inResourcesForEachProductions;
     private final Map<Integer, String> outResourcesForEachProductions;
+
+    /**
+     * This event is sent when a Player chooses the input resources and the eventually output resources
+     * for every Development Card to use to do the Production
+     *
+     * @param inResourcesForEachProductions  are the resources in input to do the Production
+     * @param outResourcesForEachProductions are the resources in output to do the Production
+     */
     public ProductionActionEvent(Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) {
         super("productionAction");
         this.inResourcesForEachProductions = inResourcesForEachProductions;

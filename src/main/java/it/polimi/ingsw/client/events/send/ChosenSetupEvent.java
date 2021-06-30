@@ -2,6 +2,9 @@ package it.polimi.ingsw.client.events.send;
 
 import java.util.List;
 
+/**
+ * Represent the request of the Setup of a Player.
+ */
 public class ChosenSetupEvent extends SendEvent{
 
     private final List<Integer> chosenLeaderCardIndexes;

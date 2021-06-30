@@ -1,11 +1,13 @@
 package it.polimi.ingsw.server.model.turn;
 
+import it.polimi.ingsw.server.events.send.EndGameEvent;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.events.send.ReconnectEvent;
 import it.polimi.ingsw.server.events.send.SendEvent;
 import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.gameMode.GameMode;
@@ -422,11 +424,13 @@ public class TurnLogic {
         Player disconnected = players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst().orElse(null);
         assert disconnected != null;
         disconnected.setOnline(false);
+
+        if (players.stream().noneMatch(Player::isOnline))
+            return true;
+
         if (currentPlayer.equals(disconnected)) {
             currentPlayer.setDisconnectedData(currentState, whiteResourcesFromMarket, chosenDevCard, lastEventSent);
-            if (players.stream().noneMatch(Player::isOnline)) {
-                return true;
-            } else {
+            if (!currentState.equals(getEndGame())){
                 setNextPlayer();
                 setCurrentState(startTurn);
                 setLastEventSent(new StartTurnEvent(currentPlayer.getNickname(), currentPlayer.getNickname()));
@@ -441,13 +445,20 @@ public class TurnLogic {
      * @param nickname nickname of the player to reconnect
      */
     public void reconnectPlayer(String nickname) {
+        if (getCurrentState().equals(getEndGame())) {
+            PlayerInterface winner = getGameMode().getICheckWinner().getWinner();//method return winner
+            EndGameEvent endGameEvent = new EndGameEvent(winner,getPlayers());
+            getModelInterface().notifyObservers(endGameEvent);
+        }
+        else {
+            GraphicUpdateEvent graphicsForReconnection = new GraphicUpdateEvent();
+            graphicsForReconnection.addUpdate(new MarketUpdate());
+            graphicsForReconnection.addUpdate(new GridUpdate());
+            graphicsForReconnection.addUpdate(new FaithTracksUpdate());
+            players.forEach(player -> graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player, new FullProductionSlotsUpdate(), new LeaderCardSlotsUpdate(), new WarehouseUpdate())));
+            modelInterface.notifyObservers(new ReconnectEvent(nickname, currentPlayer.getNickname(), players.stream().map(Player::getNickname).collect(Collectors.toList()), graphicsForReconnection));
+        }
         Player reconnected = players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst().orElse(null);
-        GraphicUpdateEvent graphicsForReconnection = new GraphicUpdateEvent();
-        graphicsForReconnection.addUpdate(new MarketUpdate());
-        graphicsForReconnection.addUpdate(new GridUpdate());
-        graphicsForReconnection.addUpdate(new FaithTracksUpdate());
-        players.forEach(player -> graphicsForReconnection.addUpdate(new PersonalBoardUpdate(player, new FullProductionSlotsUpdate(), new LeaderCardSlotsUpdate(), new WarehouseUpdate())));
-        modelInterface.notifyObservers(new ReconnectEvent(nickname, currentPlayer.getNickname(), players.stream().map(Player::getNickname).collect(Collectors.toList()), graphicsForReconnection));
         assert reconnected != null;
         reconnected.setOnline(true);
     }
