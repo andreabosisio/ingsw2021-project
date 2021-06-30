@@ -50,6 +50,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
         return toReturn;
     }
 
+
     public List<String> getFullGrid() {
         List<String> toReturn = new ArrayList<>();
         mapByLevel.forEach((level) -> level.forEach((key, value) -> {

@@ -2,6 +2,9 @@ package it.polimi.ingsw.client.events.receive;
 
 import it.polimi.ingsw.client.view.View;
 
+/**
+ * Represent and Error message
+ */
 public class ErrorMessageEvent implements EventFromServer {
     private final String payload;
 

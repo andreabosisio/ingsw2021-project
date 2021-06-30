@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.events.send;
 
 /**
- * Represent the request of a Leader Action of a Player.
+ * Represent the request of a Leader Action by a Player.
  */
 public class LeaderActionEvent extends EventToServer {
     private final String leaderCardID;

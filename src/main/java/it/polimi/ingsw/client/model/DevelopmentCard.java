@@ -18,6 +18,11 @@ public class DevelopmentCard extends Printable {
         this.iD = iD;
     }
 
+    /**
+     * Get method that return the ID of the Empty Card
+     *
+     * @return the ID of the Empty Card
+     */
     public static String getEmptyCardID() {
         return EMPTY_CARD_ID;
     }
@@ -58,11 +63,11 @@ public class DevelopmentCard extends Printable {
     /**
      * Create a Printable object that represents this card on top of other cards letting visible only the old cards' level and color.
      *
-     * @param oldCards      The Printable object representing the cards on which this card is going to be placed
+     * @param oldCards The Printable object representing the cards on which this card is going to be placed
      * @return a new Printable object that represents this card on top of other cards letting visible only the old cards' level and color
      */
-    public Printable placeOnOtherCards(Printable oldCards){
-        if(oldCards.getPrintable().size() == 0)
+    public Printable placeOnOtherCards(Printable oldCards) {
+        if (oldCards.getPrintable().size() == 0)
             return this;
         Printable cutCards = new PrintableScene(oldCards.getPrintable().subList(0, oldCards.getPrintable().size() - this.getPrintable().size() + 2));
         return PrintableScene.addPrintablesToTop(this, cutCards);

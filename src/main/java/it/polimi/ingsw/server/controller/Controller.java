@@ -107,7 +107,7 @@ public class Controller implements ReceiveObserver {
      */
     private void reDoSavedActions() {
         JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.SAVED_GAME_PATH);
-        if(fileElement != null) {
+        if (fileElement != null) {
             JsonArray jsonArrayOfActions = Parser.extractFromField(fileElement, "actions").getAsJsonArray();
             for (JsonElement element : jsonArrayOfActions) {
                 try {
@@ -125,7 +125,7 @@ public class Controller implements ReceiveObserver {
      */
     private boolean nicknamesMatchSavedGame() {
         JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.SAVED_GAME_PATH);
-        if(fileElement != null) {
+        if (fileElement != null) {
             JsonArray jsonArrayOfNicknames = Parser.extractFromField(fileElement, "players").getAsJsonArray();
             List<String> savedNicks = new ArrayList<>();
             jsonArrayOfNicknames.forEach(jEl -> savedNicks.add(jEl.getAsString()));
@@ -209,14 +209,19 @@ public class Controller implements ReceiveObserver {
      */
     private void updateSavedGame(EventFromClient eventFromClient) {
         JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedGamePath());
-        if(fileElement != null) {
+        if (fileElement != null) {
             JsonArray jsonArrayOfInstructions = Parser.extractFromField(fileElement, "actions").getAsJsonArray();
             jsonArrayOfInstructions.add(Parser.toJsonTree(eventFromClient));
             FileUtilities.writeJsonElementInFile(fileElement, FileUtilities.getSavedGamePath());
         }
     }
 
-    public ModelInterface getModelInterfaceForTesting(){
+    /**
+     * This method return the Model Interface
+     *
+     * @return the Model Interface
+     */
+    public ModelInterface getModelInterfaceForTesting() {
         return modelInterface;
     }
 }
