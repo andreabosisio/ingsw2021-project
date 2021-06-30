@@ -14,21 +14,21 @@ import java.util.Map;
 public class ClientParser extends Parser {
 
     private static final Map<String, Object> eventFromServerTypes = new HashMap<String,Object>() {{
-        put("info", InfoMessageEvent.class);
-        put("error", ErrorMessageEvent.class);
-        put("login", LoginEvent.class);
-        put("matchmaking", MatchMakingEvent.class);
-        put("setup", ChooseSetupEvent.class);
-        put("lobbyChoice", ChooseNumberPlayersEvent.class);
-        put("graphicUpdate", GraphicUpdateEvent.class);
-        put("placeDevCard", PlaceDevCardReceiveEvent.class);
-        put("transformation", TransformationReceiveEvent.class);
-        put("startTurn", StartTurnUpdateEvent.class);
-        put("placeResources", PlaceResourcesReceiveEvent.class);
-        put("endTurnChoice", EndTurnReceiveEvent.class);
-        put("gameStarted", GameStartedEvent.class);
-        put("endGame", EndGameEvent.class);
-        put("reconnect", ReconnectEvent.class);
+        put(infoType, InfoMessageEvent.class);
+        put(errorType, ErrorMessageEvent.class);
+        put(loginType, LoginEvent.class);
+        put(matchmakingType, MatchMakingEvent.class);
+        put(setupType, ChooseSetupEvent.class);
+        put(lobbyChoiceType, ChooseNumberPlayersEvent.class);
+        put(graphicUpdateType, GraphicUpdateEvent.class);
+        put(placeDevCardType, PlaceDevCardReceiveEvent.class);
+        put(transformationType, TransformationReceiveEvent.class);
+        put(startTurnType, StartTurnUpdateEvent.class);
+        put(placeResourcesType, PlaceResourcesReceiveEvent.class);
+        put(endTurnChoiceType, EndTurnReceiveEvent.class);
+        put(gameStartedType, GameStartedEvent.class);
+        put(endGameType, EndGameEvent.class);
+        put(reconnectType, ReconnectEvent.class);
     }};
 
     public static EventFromServer getEventFromServer(String message) {

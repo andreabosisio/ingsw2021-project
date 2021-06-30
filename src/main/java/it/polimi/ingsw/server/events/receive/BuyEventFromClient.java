@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.events.receive;
 
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class BuyEventFromClient extends EventFromClient {
      * @param resourcePositions Positions of the resources used to buy the desired card
      */
     public BuyEventFromClient(String sender, String cardColor, int cardLevel, List<Integer> resourcePositions) {
-        super(sender);
+        super(sender, ServerParser.buyActionType);
         this.cardColor = cardColor;
         this.cardLevel = cardLevel;
         this.resourcePositions = resourcePositions;

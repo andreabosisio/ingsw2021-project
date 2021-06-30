@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.events.send.choice;
 
 import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
 import it.polimi.ingsw.server.model.resources.WhiteResource;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ public class TransformationChoiceEvent extends ChoiceEvent {
     private final List<String> possibleTransformations = new ArrayList<>();
 
     public TransformationChoiceEvent(String nickname, List<WhiteResource> whiteResources) {
-        super(nickname, "transformation");
+        super(nickname, ServerParser.transformationType);
         numberOfTransformation = whiteResources.size();
 
         //every white resource has the same possible transformations

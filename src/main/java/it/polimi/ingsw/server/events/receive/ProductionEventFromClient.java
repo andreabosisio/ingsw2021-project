@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.events.receive;
 
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class ProductionEventFromClient extends EventFromClient {
      * @param outResourcesForEachProductions A map containing the colors of the desired Resources as result of the Production of the chosen Production Slot index which is the key.
      */
     public ProductionEventFromClient(String nickname, Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) {
-        super(nickname);
+        super(nickname, ServerParser.productionActionType);
         this.inResourcesForEachProductions = inResourcesForEachProductions;
         this.outResourcesForEachProductions = outResourcesForEachProductions;
     }

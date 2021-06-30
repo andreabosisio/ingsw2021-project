@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.events.receive;
 
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 /**
  * Represent the request of a new Card Placement by a Player (from the Client).
@@ -16,7 +17,7 @@ public class PlaceDevelopmentCardEventFromClient extends EventFromClient {
      * @param slotPosition The index of the chosen Production Slot
      */
     public PlaceDevelopmentCardEventFromClient(String nickname, int slotPosition) {
-        super(nickname);
+        super(nickname, ServerParser.cardPlacementActionType);
         this.slotPosition = slotPosition;
     }
 

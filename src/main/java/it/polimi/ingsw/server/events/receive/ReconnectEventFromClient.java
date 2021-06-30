@@ -2,16 +2,16 @@ package it.polimi.ingsw.server.events.receive;
 
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 public class ReconnectEventFromClient extends EventFromClient {
-    private static final String RECONNECTION_TYPE = "reconnect";
     /**
      * Create a new Event by giving the sender of the action request.
      *
      * @param sender The nickname of the Player who wants to perform an action
      */
     public ReconnectEventFromClient(String sender) {
-        super(sender,RECONNECTION_TYPE);
+        super(sender,ServerParser.reconnectType);
     }
 
     /**

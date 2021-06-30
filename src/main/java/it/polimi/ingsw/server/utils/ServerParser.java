@@ -12,18 +12,18 @@ import java.util.Map;
 public class ServerParser extends Parser {
 
     private static final Map<String, Object> eventFromClientTypes = new HashMap<String,Object>() {{
-        put("buyAction", BuyEventFromClient.class);
-        put("cardPlacementAction", PlaceDevelopmentCardEventFromClient.class);
-        put("setupAction", SetupEventFromClient.class);
-        put("endTurnAction", EndTurnEventFromClient.class);
-        put("leaderAction", LeaderHandEventFromClient.class);
-        put("marketAction", MarketEventFromClient.class);
-        put("productionAction", ProductionEventFromClient.class);
-        put("resourcesPlacementAction", PlaceResourcesEventFromClient.class);
-        put("transformationAction", TransformationEventFromClient.class);
-        put("reconnect", ReconnectEventFromClient.class);
-        put("disconnect", DisconnectEventFromClient.class);
-        put("cheat", CheatEventFromClient.class);
+        put(buyActionType, BuyEventFromClient.class);
+        put(cardPlacementActionType, PlaceDevelopmentCardEventFromClient.class);
+        put(setupActionType, SetupEventFromClient.class);
+        put(endTurnActionType, EndTurnEventFromClient.class);
+        put(leaderActionType, LeaderHandEventFromClient.class);
+        put(marketActionType, MarketEventFromClient.class);
+        put(productionActionType, ProductionEventFromClient.class);
+        put(resourcesPlacementActionType, PlaceResourcesEventFromClient.class);
+        put(transformationActionType, TransformationEventFromClient.class);
+        put(reconnectType, ReconnectEventFromClient.class);
+        put(disconnectType, DisconnectEventFromClient.class);
+        put(cheatType, CheatEventFromClient.class);
     }};
 
     public static EventFromClient getEventFromClient(JsonElement message) {

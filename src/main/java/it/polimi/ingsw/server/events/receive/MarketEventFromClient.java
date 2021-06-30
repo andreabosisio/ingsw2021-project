@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.events.receive;
 
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 /**
  * Represent the request of a Market Action by a Player (from the Client).
@@ -16,7 +17,7 @@ public class MarketEventFromClient extends EventFromClient {
      * @param arrowID The arrow's ID of the selected Market line
      */
     public MarketEventFromClient(String nickname, int arrowID) {
-        super(nickname);
+        super(nickname, ServerParser.marketActionType);
         this.arrowID = arrowID;
     }
 

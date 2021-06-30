@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.events.receive;
 
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class PlaceResourcesEventFromClient extends EventFromClient {
      * @param isFinal true if it's the final Warehouse reordering configuration
      */
     public PlaceResourcesEventFromClient(String nickname, List<Integer> placementChoices, boolean isFinal) {
-        super(nickname);
+        super(nickname, ServerParser.resourcesPlacementActionType);
         this.placementChoices = placementChoices;
         this.isFinal = isFinal;
     }

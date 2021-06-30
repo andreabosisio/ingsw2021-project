@@ -87,7 +87,7 @@ public class SetupManager {
                     throw new InvalidSetupException("Non permitted resource type"); //non existing resource type
                 }
             }
-            for(Integer chosenIndex : leaderCardIndexes){
+            for(Integer chosenIndex : chosenIndexes){
                 chosenLeaderCards.add(setupSendEvent.getLeaderCards().get(chosenIndex));
             }
 

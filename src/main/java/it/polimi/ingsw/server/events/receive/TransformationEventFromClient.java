@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.events.receive;
 
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class TransformationEventFromClient extends EventFromClient {
      * @param chosenResources The color of the chosen Resources as result of the Transformation
      */
     public TransformationEventFromClient(String nickname, List<String> chosenResources) {
-        super(nickname);
+        super(nickname, ServerParser.transformationActionType);
         this.chosenResources = chosenResources;
     }
 

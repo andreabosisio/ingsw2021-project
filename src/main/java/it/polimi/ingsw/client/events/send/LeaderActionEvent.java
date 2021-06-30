@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.events.send;
 
+import it.polimi.ingsw.client.utils.ClientParser;
+
 /**
  * Represent the request of a Leader Action by a Player.
  */
@@ -14,7 +16,7 @@ public class LeaderActionEvent extends EventToServer {
      * @param discardCard  is true if the card is discarded
      */
     public LeaderActionEvent(String leaderCardID, boolean discardCard) {
-        super("leaderAction");
+        super(ClientParser.leaderActionType);
         this.discardCard = discardCard;
         this.leaderCardID = leaderCardID;
     }

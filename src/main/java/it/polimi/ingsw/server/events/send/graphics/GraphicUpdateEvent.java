@@ -1,12 +1,13 @@
 package it.polimi.ingsw.server.events.send.graphics;
 
 import it.polimi.ingsw.server.events.send.EventToClient;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GraphicUpdateEvent extends EventToClient {
-    private final String type = "graphicUpdate";
+    private final String type = ServerParser.graphicUpdateType;
     private MarketUpdate marketUpdate = null;
     private GridUpdate gridUpdate = null;
     private List<PersonalBoardUpdate> personalBoardUpdateList = null;

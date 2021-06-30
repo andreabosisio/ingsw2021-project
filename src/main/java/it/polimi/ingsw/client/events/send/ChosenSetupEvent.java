@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.events.send;
 
+import it.polimi.ingsw.client.utils.ClientParser;
+
 import java.util.List;
 
 /**
@@ -17,7 +19,7 @@ public class ChosenSetupEvent extends EventToServer {
      * @param chosenResources starting resources chosen
      */
     public ChosenSetupEvent(List<Integer> chosenLeaderCardIndexes, List<String> chosenResources) {
-        super( "setupAction");
+        super(ClientParser.setupActionType);
         this.chosenLeaderCardIndexes = chosenLeaderCardIndexes;
         this.chosenResources = chosenResources;
     }

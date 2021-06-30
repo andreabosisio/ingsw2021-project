@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.events.receive;
 
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 /**
  * Represent the request of an End Turn Action by a Player (from the Client).
@@ -14,7 +15,7 @@ public class EndTurnEventFromClient extends EventFromClient {
      * @param nickname of the Player who wants to end the turn
      */
     public EndTurnEventFromClient(String nickname) {
-        super(nickname);
+        super(nickname, ServerParser.endTurnActionType);
     }
 
     /**

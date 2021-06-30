@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.events.send;
 
+import it.polimi.ingsw.client.utils.ClientParser;
+
 /**
  * Represent the request of the Placement of a new card by a Player.
  */
@@ -12,7 +14,7 @@ public class CardPlacementActionEvent extends EventToServer {
      * @param slotPosition The index of the Production Slot where the card should be placed
      */
     public CardPlacementActionEvent(int slotPosition) {
-        super("cardPlacementAction");
+        super(ClientParser.cardPlacementActionType);
         this.slotPosition = slotPosition;
     }
 }

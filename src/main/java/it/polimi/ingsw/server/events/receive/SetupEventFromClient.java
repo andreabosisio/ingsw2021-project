@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.events.receive;
 
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class SetupEventFromClient extends EventFromClient {
      * @param chosenResources The color of the Chosen Resources
      */
     public SetupEventFromClient(String sender, List<Integer> chosenLeaderCardIndexes, List<String> chosenResources) {
-        super(sender);
+        super(sender, ServerParser.setupActionType);
         this.chosenLeaderCardIndexes = chosenLeaderCardIndexes;
         this.chosenResources = chosenResources;
     }

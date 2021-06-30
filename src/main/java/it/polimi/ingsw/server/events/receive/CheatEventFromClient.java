@@ -2,11 +2,11 @@ package it.polimi.ingsw.server.events.receive;
 
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 public class CheatEventFromClient extends EventFromClient {
-    private static final String CHEAT_TYPE = "cheat";
     public CheatEventFromClient(String sender) {
-        super(sender,CHEAT_TYPE);
+        super(sender, ServerParser.cheatType);
     }
 
     @Override

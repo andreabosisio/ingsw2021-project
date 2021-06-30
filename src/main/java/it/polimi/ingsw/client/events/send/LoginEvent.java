@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.events.send;
 
+import it.polimi.ingsw.client.utils.ClientParser;
+
 /**
  * Represent the request of a Login in the Game by a Player.
  */
@@ -14,7 +16,7 @@ public class LoginEvent extends EventToServer {
      * @param password is the password of the Player
      */
     public LoginEvent(String nickname, String password) {
-        super("login");
+        super(ClientParser.loginType);
         this.nickname = nickname;
         this.password = String.valueOf(password.hashCode());
     }

@@ -1,10 +1,12 @@
 package it.polimi.ingsw.server.events.send;
 
+import it.polimi.ingsw.server.utils.ServerParser;
+
 import java.util.Arrays;
 
 
 public class StartTurnEvent extends EventToClient {
-    private final String type = "startTurn";
+    private final String type = ServerParser.startTurnType;
     private final String[] receivers;
     private final String nextPlayer;
 

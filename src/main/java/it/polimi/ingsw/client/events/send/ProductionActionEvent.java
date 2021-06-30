@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.events.send;
 
+import it.polimi.ingsw.client.utils.ClientParser;
+
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +20,7 @@ public class ProductionActionEvent extends EventToServer {
      * @param outResourcesForEachProductions are the resources in output to do the Production
      */
     public ProductionActionEvent(Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) {
-        super("productionAction");
+        super(ClientParser.productionActionType);
         this.inResourcesForEachProductions = inResourcesForEachProductions;
         this.outResourcesForEachProductions = outResourcesForEachProductions;
     }

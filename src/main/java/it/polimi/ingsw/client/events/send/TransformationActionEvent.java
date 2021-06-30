@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.events.send;
 
+import it.polimi.ingsw.client.utils.ClientParser;
+
 import java.util.List;
 
 /**
@@ -13,7 +15,7 @@ public class TransformationActionEvent extends EventToServer {
      * @param chosenResources The color of the chosen Resources as result of the Transformation
      */
     public TransformationActionEvent(List<String> chosenResources) {
-        super("transformationAction");
+        super(ClientParser.transformationActionType);
         this.chosenResources = chosenResources;
     }
 }

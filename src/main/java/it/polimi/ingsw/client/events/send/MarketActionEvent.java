@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.events.send;
 
+import it.polimi.ingsw.client.utils.ClientParser;
+
 /**
  * Represent the request of a Market Action by a Player.
  */
@@ -12,7 +14,7 @@ public class MarketActionEvent extends EventToServer {
      * @param arrowID is the ID of the arrow chosen
      */
     public MarketActionEvent(int arrowID) {
-        super("marketAction");
+        super(ClientParser.marketActionType);
         this.arrowID = arrowID;
     }
 

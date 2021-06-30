@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.events.send;
 
+import it.polimi.ingsw.client.utils.ClientParser;
+
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ public class BuyActionEvent extends EventToServer {
      * @param resourcePositions Positions of the resources used to buy the desired card
      */
     public BuyActionEvent(String cardColor, int cardLevel, List<Integer> resourcePositions) {
-        super("buyAction");
+        super(ClientParser.buyActionType);
         this.cardColor = cardColor;
         this.cardLevel = cardLevel;
         this.resourcePositions = resourcePositions;

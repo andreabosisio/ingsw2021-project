@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.events.send.choice;
 
 import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
+import it.polimi.ingsw.server.utils.ServerParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ public class SetupChoiceEvent extends ChoiceEvent {
 
 
     public SetupChoiceEvent(String nickname, List<LeaderCard> leaderCards, int numberOfResources) {
-        super(nickname, "setup");
+        super(nickname, ServerParser.setupType);
         this.numberOfResources = numberOfResources;
         this.leaderCards.addAll(leaderCards);
         this.leaderCardsIDs.addAll(leaderCards.stream().map(LeaderCard::getID).collect(Collectors.toList()));
