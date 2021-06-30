@@ -41,7 +41,6 @@ public class DiscardDevCardsToken implements SoloActionToken {
                 graphicUpdateEvent.addUpdate(lorenzo.getNickname() + " destroyed one " + this.color + " card of level " + removedCard.getLevel());
 
                 currentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(removedCard.getColor(), removedCard.getLevel());
-                //todo check if it's necessary
 
                 if(currentCard.isTheEmptyCard()) {
                     currentCard = removedCard;

@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 public class Lobby {
     private boolean gameStarted;
     private static final int NOT_DECIDED = -1;
-    private static final int MIN_PLAYERS = 1;
-    private static final int MAX_PLAYERS = 4;
+    public static final int MIN_PLAYERS = 1;
+    public static final int MAX_PLAYERS = 4;
     private static Lobby instance = null;
     private int numberOfPlayers = NOT_DECIDED;
     private final List<VirtualView> virtualViews;
@@ -28,13 +28,6 @@ public class Lobby {
         gameStarted = false;
     }
 
-    public synchronized static int getMinPlayers() {
-        return MIN_PLAYERS;
-    }
-
-    public synchronized static int getMaxPlayers() {
-        return MAX_PLAYERS;
-    }
     //todo synchronize all the necessary methods (maybe done)
 
     /**
@@ -267,7 +260,7 @@ public class Lobby {
     }
 
     /**
-     * This method is used to cheat 5 resources to each player during the game demo
+     * This method is used to cheat 6 resources to each player during the game demo
      */
     public void cheat() {
         controller.cheat();

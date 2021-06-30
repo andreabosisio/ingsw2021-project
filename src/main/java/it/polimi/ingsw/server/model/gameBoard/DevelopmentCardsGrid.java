@@ -161,7 +161,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
     public void setNonRandom() {
         developmentCards.clear();
         developmentCards.addAll(generator.generateDevelopmentCards());
-        mapByLevel.clear();//todo non era clear ma new
+        mapByLevel.clear();
         for (int i = 1; i <= numOfLevels; i++) {
             mapByLevel.add(generator.getDevCardsAsGrid(developmentCards, i));
         }

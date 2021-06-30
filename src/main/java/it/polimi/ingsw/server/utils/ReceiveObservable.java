@@ -15,5 +15,5 @@ public interface ReceiveObservable {
      *
      * @param observer object to set
      */
-    void registerObserver(ReceiveObserver observer);
+    void registerObserver(EventsForClientObserver observer);
 }

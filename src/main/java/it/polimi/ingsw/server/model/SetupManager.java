@@ -102,15 +102,6 @@ public class SetupManager {
     }
 
     /**
-     * This method return the list of setup events sent to every player
-     *
-     * @return a list containing the SetupChoiceEvents
-     */
-    public List<SetupChoiceEvent> getSetupSendEvents() {
-        return setupSendEvents;
-    }
-
-    /**
      * This method is used to disconnect a player while the game is in the setup phase
      * If the server was waiting for this player setup the setup is carried out randomly
      *
@@ -200,5 +191,19 @@ public class SetupManager {
         graphicUpdateEvent.addUpdate(new GridUpdate());
         modelInterface.notifyObservers(graphicUpdateEvent);
 
+    }
+
+    public void reSendAllPendingSetupEvents() {
+        for (SetupChoiceEvent event : setupSendEvents) {
+            modelInterface.notifyObservers(event);
+        }
+    }
+
+    public void resendSetupEventFor(String nickname) {
+        for (SetupChoiceEvent event : setupSendEvents) {
+            if (event.getNickname().equals(nickname)) {
+                modelInterface.notifyObservers(event);
+            }
+        }
     }
 }

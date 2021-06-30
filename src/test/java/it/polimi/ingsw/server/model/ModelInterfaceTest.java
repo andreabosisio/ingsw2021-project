@@ -253,7 +253,7 @@ class ModelInterfaceTest {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(false);
         game.setMarketTrayAuto();
-        game.setDevelopmentCardsGrid(modelInterface);
+        game.setDevelopmentCardsGrid();
         List<Integer> marketLeaderIndexes = new ArrayList<>() {{
             add(4);//market leaders:requires 2 yellow and 1 blue dev of any level----transform white to purple
             add(5);//market leaders:requires 2 green and 1 purple dev of any level----transform white to blue
@@ -684,7 +684,7 @@ class ModelInterfaceTest {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(false);
         game.setMarketTrayAuto();
-        game.setDevelopmentCardsGrid(modelInterface);
+        game.setDevelopmentCardsGrid();
         List<Integer> marketLeaderIndexes = new ArrayList<>() {{
             add(12);//discount leaders:requires 1 green and 1 blue dev of any level----dicount gray
             add(13);//market leaders:requires 1 blue lv 1 and 1 purple dev of any level----discount blue

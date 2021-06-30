@@ -50,6 +50,8 @@ public class ModelInterface implements SendObservable {
         turnLogic = new TurnLogic(players, this);
 
         setupManager = new SetupManager(players, this);
+
+        turnLogic.setSetupManager(setupManager);
     }
 
     /**
@@ -62,12 +64,21 @@ public class ModelInterface implements SendObservable {
     }
 
     /**
-     * Get information of the current turn
+     * Get the turn manager of the current turn
      *
      * @return turnLogic
      */
     public TurnLogic getTurnLogic() {
         return turnLogic;
+    }
+
+    /**
+     * Get the setup phase manager
+     *
+     * @return the Setup Manager
+     */
+    public SetupManager getSetupManager() {
+        return setupManager;
     }
 
      /**
@@ -245,21 +256,7 @@ public class ModelInterface implements SendObservable {
      * @param nickname player that will receive the setupEvent again
      */
     public void reSendSetup(String nickname) {
-        for (SetupChoiceEvent event : setupManager.getSetupSendEvents()) {
-            if (event.getNickname().equals(nickname)) {
-                notifyObservers(event);
-            }
-        }
-    }
-
-    /**
-     * This method is used to resent all unfinished setupEvent in case of a reload of a crashed game
-     *
-     */
-    public void reSendSetup() {
-        for (SetupChoiceEvent event : setupManager.getSetupSendEvents()) {
-            notifyObservers(event);
-        }
+        setupManager.resendSetupEventFor(nickname);
     }
 
     /**
@@ -269,11 +266,7 @@ public class ModelInterface implements SendObservable {
      * @return true if the player was the last one online
      */
     public boolean disconnectPlayer(String nickname) {
-        //todo maybe TL and SM should shares methods
-        if(turnLogic.getCurrentState().equals(turnLogic.getIdle())){
-            return setupManager.disconnectPlayer(nickname);
-        }
-        return turnLogic.disconnectPlayer(nickname);
+        return turnLogic.disconnectAction(nickname);
     }
 
     /**
@@ -283,11 +276,7 @@ public class ModelInterface implements SendObservable {
      * @return true
      */
     public boolean reconnectPlayer(String nickname) {
-        if(turnLogic.isIdle()){
-            setupManager.reconnectPlayer(nickname);
-        }
-        else
-            turnLogic.reconnectPlayer(nickname);
+        turnLogic.reconnectAction(nickname);
         return true;
     }
 
@@ -335,9 +324,6 @@ public class ModelInterface implements SendObservable {
      * This method send the necessary events to the client in order for them to restart they game where they left it
      */
     public void sendNecessaryEvents() {
-        if (turnLogic.isIdle()){
-            reSendSetup();
-        }
-        reSendLastEvent();
+        turnLogic.sendNecessaryEvents();
     }
 }

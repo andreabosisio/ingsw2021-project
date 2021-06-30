@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.PlayerInterface;
+import it.polimi.ingsw.server.model.SetupManager;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.gameMode.GameMode;
@@ -83,8 +84,6 @@ public class TurnLogic {
      * @return true if it's the turn of the last player
      */
     public boolean isLastPlayerTurn() {
-        //todo bug if last player disconnect!!!!!!
-        //because disconnected player is offline
         List<Player> onlinePlayers = players.stream().filter(p->(p.isOnline() || currentPlayer.equals(p))).collect(Collectors.toList());
         return onlinePlayers.indexOf(currentPlayer) == onlinePlayers.size() - 1;
     }
@@ -462,8 +461,21 @@ public class TurnLogic {
         assert reconnected != null;
         reconnected.setOnline(true);
     }
+    
+    public void sendNecessaryEvents() {
+        currentState.sendNecessaryEvents();
+    }
 
-    public boolean isIdle() {
-        return currentState.equals(idle);
+    public void reconnectAction(String nickname) {
+        currentState.reconnectAction(nickname);
+    }
+
+
+    public boolean disconnectAction(String nickname) {
+        return currentState.disconnectAction(nickname);
+    }
+
+    public void setSetupManager(SetupManager setupManager) {
+        ((IdleState) idle).setSetupManager(setupManager);
     }
 }

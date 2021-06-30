@@ -200,7 +200,7 @@ public class ClientHandler implements Runnable {
     private boolean decidingSizeLoop(){
         boolean stillDeciding = true;
         while (stillDeciding) {
-            sendSpecificTypeMessage(TYPE_LOBBY_NUMBER_CHOICE, "between " + Lobby.getMinPlayers() + " and " + Lobby.getMaxPlayers());
+            sendSpecificTypeMessage(TYPE_LOBBY_NUMBER_CHOICE, "between " + Lobby.MIN_PLAYERS + " and " + Lobby.MAX_PLAYERS);
             String answer = connectionToClient.getMessage();
             JsonObject jsonAnswerObject = getAsJsonObject(answer);
             if (jsonAnswerObject == null) {

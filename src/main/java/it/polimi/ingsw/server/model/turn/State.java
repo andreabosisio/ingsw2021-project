@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.server.exceptions.*;
+import it.polimi.ingsw.server.model.SetupManager;
 
 import java.util.List;
 import java.util.Map;
@@ -17,4 +18,15 @@ public abstract class State {
     public boolean transformationAction(List<String> chosenColors) throws InvalidEventException, NonStorableResourceException {throw new InvalidEventException("Invalid action right now");}
     public boolean placeDevelopmentCardAction(int slotPosition) throws InvalidEventException {throw new InvalidEventException("Invalid action right now");}
     public boolean endTurn() throws InvalidEventException {throw new InvalidEventException("Invalid action right now");}
+    public boolean disconnectAction(String nickname) {
+        return turnLogic.disconnectPlayer(nickname);
+    }
+    public void reconnectAction(String nickname) {
+        turnLogic.reconnectPlayer(nickname);
+    }
+
+    public void sendNecessaryEvents() {
+        turnLogic.reSendLastEvent();
+    }
+
 }

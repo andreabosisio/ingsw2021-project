@@ -27,8 +27,6 @@ public class EndTurnState extends State {
     @Override
     public boolean endTurn() {
 
-        //todo resetLobby if game is over?
-
         //check if the current player is the last player and check if it's the winner
         if(turnLogic.isLastPlayerTurn() && turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
             sendGraphicForEndGame();

@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.events.send.EventToClient;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.PongObserver;
 import it.polimi.ingsw.server.utils.ReceiveObservable;
-import it.polimi.ingsw.server.utils.ReceiveObserver;
+import it.polimi.ingsw.server.utils.EventsForClientObserver;
 import it.polimi.ingsw.server.utils.SendObserver;
 
 import java.util.Timer;
@@ -22,7 +22,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
     //ping period variables in milliseconds
     private final static int PING_DELAY = 0;
     private final static int PING_PERIOD = 5000;
-    private ReceiveObserver controllerObserver;
+    private EventsForClientObserver controllerObserver;
     private boolean online;
     private final String nickname;
     private final String password;
@@ -192,7 +192,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      * @param observer controller of the MVC pattern
      */
     @Override
-    public void registerObserver(ReceiveObserver observer) {
+    public void registerObserver(EventsForClientObserver observer) {
         this.controllerObserver = observer;
     }
 

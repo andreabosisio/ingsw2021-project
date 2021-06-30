@@ -6,10 +6,11 @@ import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.events.send.GameStartedEvent;
 import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.personal.VirtualView;
 import it.polimi.ingsw.commons.FileUtilities;
-import it.polimi.ingsw.server.utils.ReceiveObserver;
+import it.polimi.ingsw.server.utils.EventsForClientObserver;
 import it.polimi.ingsw.server.utils.ServerParser;
 
 import java.util.*;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * it's purpose is to receive the actions of the Players and changes the State of the Model.
  * It is Observer of the Events send by the Virtual Views.
  */
-public class Controller implements ReceiveObserver {
+public class Controller implements EventsForClientObserver {
 
     private final ModelInterface modelInterface;
     private List<String> nicknames;
@@ -48,14 +49,8 @@ public class Controller implements ReceiveObserver {
                 modelInterface.reconnectPlayer(nickname);
                 updateSavedGame(new ReconnectEventFromClient(nickname));
             }
-            //todo maybe add a scene or msg to notify the reloading of the game
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Lobby.getLobby().broadcastMessage("Loaded an existing game");
             modelInterface.sendNecessaryEvents();
-            //modelInterface.reSendLastEvent();
 
         } else {
             Collections.shuffle(nicknames);

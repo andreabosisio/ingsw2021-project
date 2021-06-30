@@ -50,7 +50,7 @@ public class TestGameGenerator {
         if (auto) {
             setLeaderInHandAuto(modelInterface);
             setMarketTrayAuto();
-            setDevelopmentCardsGrid(modelInterface);
+            setDevelopmentCardsGrid();
         }
         modelInterface.getTurnLogic().setNextPlayer();
         return modelInterface;
@@ -189,27 +189,9 @@ public class TestGameGenerator {
     }
 
     /**
-     * set marketTray res as intended (from left to right and from top to bottom),
-     * must contains 4 white, 2 yellow, 3 gray, 2 blue, 2 purple, 1 red
-     * 1,2,3,4
-     * 5,6,7,8
-     * 9,7,11,12
-     * extra=13
-     *
-     * @param modelInterface model to modify
-     * @param resources      resources you want
+     * set devCardsGrid following json file order.
      */
-    // todo delete?
-    public void setMarketTray(ModelInterface modelInterface, List<Resource> resources) {
-        GameBoard.getGameBoard().getMarketTray().setNonRandom(resources);
-    }
-
-    /**
-     * set devCardsGrid following jsonOrder:
-     *
-     * @param modelInterface model to modify
-     */
-    public void setDevelopmentCardsGrid(ModelInterface modelInterface) {
+    public void setDevelopmentCardsGrid() {
         GameBoard.getGameBoard().getDevelopmentCardsGrid().setNonRandom();
     }
 
