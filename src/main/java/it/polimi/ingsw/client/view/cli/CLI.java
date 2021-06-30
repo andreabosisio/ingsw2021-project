@@ -7,9 +7,7 @@ import it.polimi.ingsw.client.view.View;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  * This class implements the Command Line Interface.

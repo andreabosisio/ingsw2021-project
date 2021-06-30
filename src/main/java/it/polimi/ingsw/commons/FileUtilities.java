@@ -8,18 +8,16 @@ import java.util.List;
 /**
  * This class contains the path of the various Json File and the necessary method to work with these one
  */
-public class FileUtilities {
+public abstract class FileUtilities {
     private static final Gson gson = new Gson();
 
-    private static final String MSG_TYPE_ID = "type";
-    private static final String SAVED_GAME_PATH = "src/main/resources/gameSaved.json";
-    private static final String SAVED_MARKET_INIT_RES_PATH = "src/main/resources/initialMarketState.json";
-    private static final String SAVED_DEV_CARD_DATA_PATH = "src/main/resources/initialGridState.json";
-    private static final String SAVED_LEADER_CARD_DATA_PATH = "src/main/resources/initialDeckLeaderState.json";
-    private final static String UNMODIFIABLE_DEVELOPMENT_CARDS_FILE_NAME = "src/main/resources/developmentCards.json";
-    private final static String UNMODIFIABLE_LEADER_CARDS_FILE_NAME = "src/main/resources/leaderCards.json";
-    private static final String TOKEN_FILE_NAME = "src/main/resources/soloActionTokens.json";
-
+    public static final String SAVED_GAME_PATH = "src/main/resources/gameSaved.json";
+    public static final String SAVED_MARKET_INIT_RES_PATH = "src/main/resources/initialMarketState.json";
+    public static final String SAVED_DEV_CARD_DATA_PATH = "src/main/resources/initialGridState.json";
+    public static final String SAVED_LEADER_CARD_DATA_PATH = "src/main/resources/initialDeckLeaderState.json";
+    public static final String UNMODIFIABLE_DEVELOPMENT_CARDS_PATH = "src/main/resources/developmentCards.json";
+    public static final String UNMODIFIABLE_LEADER_CARDS_PATH = "src/main/resources/leaderCards.json";
+    public static final String TOKEN_FILE_NAME = "src/main/resources/soloActionTokens.json";
 
     /**
      * Reset the Game Data saved in the SaveGame file.
@@ -58,25 +56,8 @@ public class FileUtilities {
         return null;
     }
 
-    /**
-     * Extract the content of the field MSG_TYPE_ID from a JsonObject message.
-     *
-     * @param jsonObject The JsonObject containing the message
-     * @return the extracted content of the field MSG_TYPE_ID
-     */
-    public static String getTypeFieldAsString(JsonObject jsonObject) {
-        return jsonObject.get(MSG_TYPE_ID).getAsString();
-    }
 
-    /**
-     * Get method that return the ID of the JSON message field that contains the type of the message.
-     *
-     * @return the String containing the ID of the type field
-     */
-    public static String getMsgTypeID() {
-        return MSG_TYPE_ID;
-    }
-
+    //Todo maybe remove those getter
     /**
      * Get method that return the Path of the Json File where it are saved the nicknames of the Players
      * and the actions performed.
@@ -119,8 +100,8 @@ public class FileUtilities {
      *
      * @return the Path
      */
-    public static String getUnmodifiableDevelopmentCardsFileName() {
-        return UNMODIFIABLE_DEVELOPMENT_CARDS_FILE_NAME;
+    public static String getUnmodifiableDevelopmentCardsPath() {
+        return UNMODIFIABLE_DEVELOPMENT_CARDS_PATH;
     }
 
     /**
@@ -128,8 +109,8 @@ public class FileUtilities {
      *
      * @return the Path
      */
-    public static String getUnmodifiableLeaderCardsFileName() {
-        return UNMODIFIABLE_LEADER_CARDS_FILE_NAME;
+    public static String getUnmodifiableLeaderCardsPath() {
+        return UNMODIFIABLE_LEADER_CARDS_PATH;
     }
 
     /**

@@ -4,7 +4,7 @@ import com.google.gson.*;
 import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.client.view.View;
 
-public class GraphicUpdateEvent implements ReceiveEvent {
+public class GraphicUpdateEvent implements EventFromServer {
 
     //they are null if not present in json
     private JsonObject gridUpdate;

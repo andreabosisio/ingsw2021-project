@@ -27,7 +27,7 @@ public class PersonalBoard extends Printable {
     private final static int ACTIVE_HAND_LEADERS_OFFSET = 1;
     private final View view;
 
-    public PersonalBoard(String nickname,View view) {
+    public PersonalBoard(String nickname, View view) {
         this.view = view;
         this.nickname = nickname;
         this.handLeaders = Arrays.asList(LeaderCard.getEmptyCardID(), LeaderCard.getEmptyCardID());
@@ -104,6 +104,7 @@ public class PersonalBoard extends Printable {
         personalBoard.setWarehouse(warehouse);
         personalBoard.setProductionBoard(productionBoard);
         personalBoard.setHandLeaders(handLeaders, thisClientNickname);
+        //fixme why cli methods for gui?
         personalBoard.setHandScene();
         personalBoard.setActiveLeadersScene();
         personalBoard.setProductionSlotsScene();

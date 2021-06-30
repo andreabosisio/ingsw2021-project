@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.events.receive;
 
 import it.polimi.ingsw.client.view.View;
 
-public class InfoMessageEvent implements ReceiveEvent {
+public class InfoMessageEvent implements EventFromServer {
     private final String payload;
 
     public InfoMessageEvent(String payload) {

@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.events.receive;
 
 import it.polimi.ingsw.client.view.View;
 
-public class StartTurnUpdateEvent implements ReceiveEvent{
+public class StartTurnUpdateEvent implements EventFromServer {
     private String nextPlayer;
     @Override
     public void updateView(View view) {

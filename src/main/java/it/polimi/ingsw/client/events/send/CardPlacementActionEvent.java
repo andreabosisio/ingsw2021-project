@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.events.send;
 /**
  * Represent the request of the Placement of a new card by a Player.
  */
-public class CardPlacementActionEvent extends SendEvent{
+public class CardPlacementActionEvent extends EventToServer {
     private final int slotPosition;
 
     /**

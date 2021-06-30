@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import it.polimi.ingsw.client.view.cli.Printable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -165,8 +166,7 @@ public class MarketTray extends Printable {
         List<String> toReturn = new ArrayList<>();
         toReturn.add(extraSlot);
         for (int i = 0; i < NUM_R; i++)
-            for (int j = 0; j < NUM_C; j++)
-                toReturn.add(marketBoard[i][j]);
+            toReturn.addAll(Arrays.asList(marketBoard[i]).subList(0, NUM_C));
 
         return toReturn;
     }

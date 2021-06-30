@@ -227,6 +227,15 @@ public class StartTurnState extends State {
         LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
                 .filter(card -> card.getID().equals(ID)).findFirst()
                 .orElseThrow(() -> new InvalidEventException("leaderCard is not owned"));
+
+        executeLeaderAction(currentPlayer, chosenLeaderCard, discard);
+
+        hasAlreadyDoneLeaderAction = true;
+        turnLogic.getModelInterface().reSendLastEvent();
+        return true;
+    }
+
+    protected void executeLeaderAction(Player currentPlayer, LeaderCard chosenLeaderCard, boolean discard) throws InvalidEventException {
         //if the card has to be discarded
         if (discard) {
             if (!currentPlayer.discardLeader(chosenLeaderCard))
@@ -252,8 +261,5 @@ public class StartTurnState extends State {
                 turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             }
         }
-        hasAlreadyDoneLeaderAction = true;
-        turnLogic.getModelInterface().reSendLastEvent();
-        return true;
     }
 }

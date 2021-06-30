@@ -1,11 +1,10 @@
 package it.polimi.ingsw.server.events.send;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 
 import java.util.List;
 
-public class ReconnectEvent extends SendEvent {
+public class ReconnectEvent extends EventToClient {
     private final String type = "reconnect";
     private final String reconnectingPlayer;
     private final String currentPlayer;

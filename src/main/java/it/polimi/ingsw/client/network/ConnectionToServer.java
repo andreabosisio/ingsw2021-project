@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.network;
 
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.commons.Connection;
+import it.polimi.ingsw.commons.Parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,8 +10,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * This class is used by the NetworkHandler to read the messages from the Server and to send messages via Socket:
@@ -73,7 +72,7 @@ public class ConnectionToServer extends ClientConnection {
         try {
             if(inform) {
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("type", Connection.QUIT_MSG);
+                jsonObject.addProperty(Parser.MSG_TYPE_ID, Connection.QUIT_MSG);
                 sendMessage(jsonObject.toString());
                 return;
             }

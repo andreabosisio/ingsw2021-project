@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Represent the request of a Placement of the Resources into the Warehouse by a Player
  */
-public class ResourcesPlacementActionEvent extends SendEvent {
+public class ResourcesPlacementActionEvent extends EventToServer {
     private final List<Integer> placementChoices;
     private final boolean isFinal;
 

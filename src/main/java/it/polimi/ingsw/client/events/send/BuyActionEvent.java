@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Represent the request of a Buy Action by a Player.
  */
-public class BuyActionEvent extends SendEvent{
+public class BuyActionEvent extends EventToServer {
     private final String cardColor;
     private final int cardLevel;
     private final List<Integer> resourcePositions;

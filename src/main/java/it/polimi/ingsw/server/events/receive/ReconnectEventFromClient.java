@@ -3,18 +3,15 @@ package it.polimi.ingsw.server.events.receive;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 
-/**
- * Represent the request of an End Turn Action by a Player (from the Client).
- */
-public class EndTurnEvent extends ReceiveEvent{
-
+public class ReconnectEventFromClient extends EventFromClient {
+    private static final String RECONNECTION_TYPE = "reconnect";
     /**
-     * Create a new End Turn Action request by specifying the Player who wants to end the turn.
+     * Create a new Event by giving the sender of the action request.
      *
-     * @param nickname of the Player who wants to end the turn
+     * @param sender The nickname of the Player who wants to perform an action
      */
-    public EndTurnEvent(String nickname) {
-        super(nickname);
+    public ReconnectEventFromClient(String sender) {
+        super(sender,RECONNECTION_TYPE);
     }
 
     /**
@@ -31,6 +28,7 @@ public class EndTurnEvent extends ReceiveEvent{
      */
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
-        return modelInterface.endTurn();
+        modelInterface.reconnectPlayer(getNickname());
+        return super.doAction(modelInterface);
     }
 }

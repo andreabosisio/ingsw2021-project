@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Represent the request of a Production Action by a Player (from the Client).
  */
-public class ProductionEvent extends ReceiveEvent {
+public class ProductionEventFromClient extends EventFromClient {
     private final Map<Integer, List<Integer>> inResourcesForEachProductions;
     private final Map<Integer, String> outResourcesForEachProductions;
 
@@ -20,7 +20,7 @@ public class ProductionEvent extends ReceiveEvent {
      * @param inResourcesForEachProductions A map containing the indexes of the chosen Resources to perform the Production of the chosen Production Slot index which is the key.
      * @param outResourcesForEachProductions A map containing the colors of the desired Resources as result of the Production of the chosen Production Slot index which is the key.
      */
-    public ProductionEvent(String nickname, Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) {
+    public ProductionEventFromClient(String nickname, Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) {
         super(nickname);
         this.inResourcesForEachProductions = inResourcesForEachProductions;
         this.outResourcesForEachProductions = outResourcesForEachProductions;

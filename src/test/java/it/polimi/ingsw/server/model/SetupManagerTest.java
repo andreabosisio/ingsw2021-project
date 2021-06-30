@@ -1,9 +1,8 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.TestGameGenerator;
-import it.polimi.ingsw.server.events.receive.BuyEvent;
-import it.polimi.ingsw.server.events.receive.ReceiveEvent;
-import it.polimi.ingsw.server.events.receive.SetupEvent;
+import it.polimi.ingsw.server.events.receive.EventFromClient;
+import it.polimi.ingsw.server.events.receive.SetupEventFromClient;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
@@ -35,7 +34,7 @@ class SetupManagerTest {
         chosenLeaderCardIndexes.add(1);
         chosenLeaderCardIndexes.add(3);
         assertThrows(InvalidEventException.class, () -> modelInterface.setupAction("NonExistingPlayer", chosenLeaderCardIndexes, chosenResources));
-        assertThrows(InvalidEventException.class,()->new SetupEvent("NonExistingPlayer",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertThrows(InvalidEventException.class,()->new SetupEventFromClient("NonExistingPlayer",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
 
         //invalid chosenLeaderCardIndexes
@@ -43,17 +42,17 @@ class SetupManagerTest {
         chosenLeaderCardIndexes.add(1);
         chosenLeaderCardIndexes.add(invalidIndex);
         assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
-        assertThrows(InvalidSetupException.class,()->new SetupEvent("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertThrows(InvalidSetupException.class,()->new SetupEventFromClient("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
         chosenLeaderCardIndexes.add(negativeIndex);
         assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
-        assertThrows(InvalidSetupException.class,()->new SetupEvent("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertThrows(InvalidSetupException.class,()->new SetupEventFromClient("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
         //too many chosen indexes (max 2)
         chosenLeaderCardIndexes.add(3);
         chosenLeaderCardIndexes.add(0);
         assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
-        assertThrows(InvalidSetupException.class,()->new SetupEvent("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertThrows(InvalidSetupException.class,()->new SetupEventFromClient("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
         //invalid chosenResources number: first player cannot choose any resources
         chosenLeaderCardIndexes.clear();
@@ -61,23 +60,23 @@ class SetupManagerTest {
         chosenLeaderCardIndexes.add(0);
         chosenResources.add("blue");
         assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
-        assertThrows(InvalidSetupException.class,()->new SetupEvent("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertThrows(InvalidSetupException.class,()->new SetupEventFromClient("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
         //cannot choose NonStorableResources (WHITE or RED)
         chosenResources.clear();
         chosenResources.add("red");
         assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("second", chosenLeaderCardIndexes, chosenResources));
-        assertThrows(InvalidSetupException.class,()->new SetupEvent("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertThrows(InvalidSetupException.class,()->new SetupEventFromClient("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
         //cannot choose a not existing resource's type
         chosenResources.clear();
         chosenResources.add("gold"); //not existing resource's type
         assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("second", chosenLeaderCardIndexes, chosenResources));
-        assertThrows(InvalidSetupException.class,()->new SetupEvent("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertThrows(InvalidSetupException.class,()->new SetupEventFromClient("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
         //correct setup for the first player: 2 LeaderCards and 0 resources
         chosenResources.clear();
-        ReceiveEvent rightSetup = new SetupEvent("first",chosenLeaderCardIndexes,chosenResources);
+        EventFromClient rightSetup = new SetupEventFromClient("first",chosenLeaderCardIndexes,chosenResources);
         assertTrue(rightSetup.canBeExecutedFor(modelInterface.getCurrentPlayerNickname()));
 
         assertTrue(rightSetup.doAction(modelInterface));
@@ -88,8 +87,8 @@ class SetupManagerTest {
 
         //correct setup for second and third players: 2 LeaderCards and 1 resources
         chosenResources.add("yellow");
-        assertTrue(new SetupEvent("second",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
-        assertTrue(new SetupEvent("third",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertTrue(new SetupEventFromClient("second",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertTrue(new SetupEventFromClient("third",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
         //second and third players should now have 2 LeaderCards and 1 resources (YELLOW)
         correctResources.add(new StorableResource(ResourceEnum.YELLOW));
@@ -103,11 +102,11 @@ class SetupManagerTest {
 
         //first player cannot do another setup action
         assertThrows(InvalidEventException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
-        assertThrows(InvalidEventException.class,()->new SetupEvent("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertThrows(InvalidEventException.class,()->new SetupEventFromClient("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
         //correct setup for fourth player: 2 LeaderCards and 1 resources and 1 FaithPoint
         chosenResources.add("purple");
-        assertTrue(new SetupEvent("fourth",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertTrue(new SetupEventFromClient("fourth",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
         correctResources.add(new StorableResource(ResourceEnum.PURPLE));
         assertEquals(2, modelInterface.getPlayerByNickname("fourth").getLeaderHand().size());
@@ -115,10 +114,10 @@ class SetupManagerTest {
         assertEquals(1, GameBoard.getGameBoard().getFaithTrackOfPlayer(modelInterface.getPlayerByNickname("fourth")).getFaithMarker());
 
         //now no player have to do the setup action
-        assertThrows(InvalidEventException.class,()->new SetupEvent("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
-        assertThrows(InvalidEventException.class,()->new SetupEvent("second",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
-        assertThrows(InvalidEventException.class,()->new SetupEvent("third",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
-        assertThrows(InvalidEventException.class,()->new SetupEvent("fourth",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertThrows(InvalidEventException.class,()->new SetupEventFromClient("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertThrows(InvalidEventException.class,()->new SetupEventFromClient("second",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertThrows(InvalidEventException.class,()->new SetupEventFromClient("third",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
+        assertThrows(InvalidEventException.class,()->new SetupEventFromClient("fourth",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
     }
 }

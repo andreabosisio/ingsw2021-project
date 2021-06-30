@@ -3,21 +3,26 @@ package it.polimi.ingsw.server.events.receive;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 
+import java.util.List;
+
 /**
- * Represent the request of a Market Action by a Player (from the Client).
+ * Represent the request of a Warehouse reordering by a Player (from the Client).
  */
-public class MarketEvent extends ReceiveEvent {
-    private final int arrowID;
+public class PlaceResourcesEventFromClient extends EventFromClient {
+    private final List<Integer> placementChoices;
+    private final boolean isFinal;
 
     /**
-     * Create a new Market Action request by specifying the arrow's ID of the selected Market line.
+     * Create a new Resource Placement request.
      *
-     * @param nickname of the Player who wants to perform aa Market Action
-     * @param arrowID The arrow's ID of the selected Market line
+     * @param nickname of the Player who wants to reorder the Warehouse
+     * @param placementChoices A List containing all the Resource's position swaps
+     * @param isFinal true if it's the final Warehouse reordering configuration
      */
-    public MarketEvent(String nickname, int arrowID) {
+    public PlaceResourcesEventFromClient(String nickname, List<Integer> placementChoices, boolean isFinal) {
         super(nickname);
-        this.arrowID = arrowID;
+        this.placementChoices = placementChoices;
+        this.isFinal = isFinal;
     }
 
     /**
@@ -34,6 +39,6 @@ public class MarketEvent extends ReceiveEvent {
      */
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
-        return modelInterface.marketAction(arrowID);
+        return modelInterface.placeResourceAction(placementChoices, isFinal);
     }
 }

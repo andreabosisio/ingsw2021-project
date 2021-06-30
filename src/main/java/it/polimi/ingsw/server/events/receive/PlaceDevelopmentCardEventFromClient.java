@@ -3,29 +3,21 @@ package it.polimi.ingsw.server.events.receive;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 
-import java.util.List;
-
 /**
- * Represent the request of a Buy Action by a Player (from the Client).
+ * Represent the request of a new Card Placement by a Player (from the Client).
  */
-public class BuyEvent extends ReceiveEvent {
-    private final String cardColor;
-    private final int cardLevel;
-    private final List<Integer> resourcePositions;
+public class PlaceDevelopmentCardEventFromClient extends EventFromClient {
+    private final int slotPosition;
 
     /**
-     * Set the needed data to buy a card.
+     * Create a new Card Placement request by specifying the Production Slot position.
      *
-     * @param sender The nickname of the buyer
-     * @param cardColor Color of the desired card
-     * @param cardLevel Level of the desired card
-     * @param resourcePositions Positions of the resources used to buy the desired card
+     * @param nickname of the Player who wants to place a new card
+     * @param slotPosition The index of the chosen Production Slot
      */
-    public BuyEvent(String sender, String cardColor, int cardLevel, List<Integer> resourcePositions) {
-        super(sender);
-        this.cardColor = cardColor;
-        this.cardLevel = cardLevel;
-        this.resourcePositions = resourcePositions;
+    public PlaceDevelopmentCardEventFromClient(String nickname, int slotPosition) {
+        super(nickname);
+        this.slotPosition = slotPosition;
     }
 
     /**
@@ -42,6 +34,6 @@ public class BuyEvent extends ReceiveEvent {
      */
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
-        return modelInterface.buyAction(cardColor, cardLevel, resourcePositions);
+        return modelInterface.placeDevelopmentCardAction(slotPosition);
     }
 }

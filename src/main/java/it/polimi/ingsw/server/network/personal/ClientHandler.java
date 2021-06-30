@@ -3,14 +3,12 @@ package it.polimi.ingsw.server.network.personal;
 import com.google.gson.*;
 import it.polimi.ingsw.client.network.FakeConnectionToServer;
 import it.polimi.ingsw.commons.Connection;
+import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.network.Lobby;
-import it.polimi.ingsw.commons.FileUtilities;
+import it.polimi.ingsw.server.utils.ServerParser;
 
-import java.lang.reflect.Type;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -21,25 +19,12 @@ public class ClientHandler implements Runnable {
     private String nickname, password;
     private StatusEnum status;
     private final ServerConnection connectionToClient;
-    private final Gson gson = new Gson();
     private VirtualView virtualView;
     private static final String TYPE_LOBBY_NUMBER_CHOICE = "lobbyChoice";
     private static final String TYPE_MATCHMAKING = "matchmaking";
     private static final String TYPE_LOGIN = "login";
     private static final String CREDENTIALS_REGEXP = "^[a-zA-Z0-9_-]{3,15}$";
     private static final Pattern CREDENTIALS_PATTERN = Pattern.compile(CREDENTIALS_REGEXP);
-
-    private final Map<String, Object> receiveEventByJsonType = new HashMap<String,Object>() {{
-        put("buyAction", BuyEvent.class);
-        put("cardPlacementAction", PlaceDevelopmentCardEvent.class);
-        put("setupAction", SetupEvent.class);
-        put("endTurnAction", EndTurnEvent.class);
-        put("leaderAction", LeaderHandEvent.class);
-        put("marketAction", MarketEvent.class);
-        put("productionAction", ProductionEvent.class);
-        put("resourcesPlacementAction", PlaceResourcesEvent.class);
-        put("transformationAction", TransformationEvent.class);
-    }};
 
     /**
      * Creates a new ClientHandler for a remote Client.
@@ -82,43 +67,53 @@ public class ClientHandler implements Runnable {
     private void login() {
         while (status == StatusEnum.LOGIN) {
             sendSpecificTypeMessage(TYPE_LOGIN);
+
             String message = connectionToClient.getMessage();
+
             JsonObject jsonObject = getAsJsonObject(message);
+
             if (jsonObject == null) {
                 continue;
             }
-            String type = jsonObject.get(FileUtilities.getMsgTypeID()).getAsString();
+
+            String type = Parser.getTypeFieldAsString(jsonObject);
+
             if (type.equals(Connection.QUIT_MSG)) {
                 kill(true);
                 return;
             }
+
             //check if message is not a login valid json
             if (!type.equals(TYPE_LOGIN) || !jsonObject.has("nickname") || !jsonObject.has("password")) {
-                sendErrorMessage("Invalid login json");
+                sendErrorMessage("Invalid Login");
                 continue;//go back to reading a new message
             }
+
             this.nickname = jsonObject.get("nickname").getAsString();
             this.password = jsonObject.get("password").getAsString();
+
             //check if username and password are acceptable
             if (!checkCredentials(nickname, password)) {
-                sendErrorMessage("nickname/password not permitted");
+                sendErrorMessage("Nickname/Password not permitted");
                 continue;
             }
+
             virtualView = Lobby.getLobby().getVirtualViewByNickname(nickname);
-            if(handleLoginType()){
+
+            if(handleLogin()){
                 return;
             }
         }
     }
 
     /**
-     * This method is used to handle the 2 different types of login a player can attempt
-     * 1 first time login
-     * 2 reconnection to an ongoing game
+     * This method is used to handle the 2 different types of login a player can attempt:
+     * 1) first time login
+     * 2) reconnection to an ongoing game
      *
      * @return true if the player was unable to join/rejoin
      */
-    private boolean handleLoginType(){
+    private boolean handleLogin(){
         if (virtualView == null) {
             return firstTimeConnection();
         }
@@ -197,7 +192,6 @@ public class ClientHandler implements Runnable {
         }
     }
 
-
     /**
      * This method is used to ask the player the size of the lobby he wants
      *
@@ -212,7 +206,7 @@ public class ClientHandler implements Runnable {
             if (jsonAnswerObject == null) {
                 continue;
             }
-            String answerType = jsonAnswerObject.get(FileUtilities.getMsgTypeID()).getAsString();
+            String answerType = jsonAnswerObject.get(Parser.MSG_TYPE_ID).getAsString();
             if (answerType.equals(Connection.QUIT_MSG)) {
                 kill(true);
                 return false;
@@ -257,34 +251,38 @@ public class ClientHandler implements Runnable {
         while (status == StatusEnum.GAME) {
             message = connectionToClient.getMessage();
 
-            if (message.equals("pong")) {
+            if (message.equals(Connection.PONG_MSG)) {
                 continue;
             }
             try {
                 JsonObject jsonObject = getAsJsonObject(message);
+
                 if (jsonObject == null) {
                     continue;
                 }
-                String type = jsonObject.get(FileUtilities.getMsgTypeID()).getAsString();
-                Type eventType = (Type) receiveEventByJsonType.get(type);
+
+                String type = Parser.getTypeFieldAsString(jsonObject);
+
                 if (type.equals(Connection.QUIT_MSG)) {
                     //sendInfoMessage("quitting");
                     virtualView.disconnect();
                 } else if (virtualView == null) {
                     sendErrorMessage("waitForGameToStart");
-                } else if (eventType != null) {
-                    ReceiveEvent event = gson.fromJson(message, eventType);
-                    if (event.getNickname() == null) {
-                        sendErrorMessage("You can't play with a null nickname");
-                        continue;
-                    }
-                    if (event.getNickname().equals(nickname)) {
-                        virtualView.notifyObservers(event);
-                    } else {
-                        sendErrorMessage("You can't play for another player");
-                    }
                 } else {
-                    sendErrorMessage("' " + type + " '" + " isn't an existing action");
+                    EventFromClient event = ServerParser.getEventFromClient(jsonObject);
+                    if(event != null) {
+                        if (event.getNickname() == null) {
+                            sendErrorMessage("You can't play with a null nickname");
+                            continue;
+                        }
+                        if (event.getNickname().equals(nickname)) {
+                            virtualView.notifyObservers(event);
+                        } else {
+                            sendErrorMessage("You can't play for another player");
+                        }
+                    } else {
+                        sendErrorMessage("' " + type + " '" + " isn't an existing action");
+                    }
                 }
             } catch (JsonSyntaxException e) {
                 sendErrorMessage("invalid message");
@@ -308,7 +306,7 @@ public class ClientHandler implements Runnable {
      */
     public void sendInfoMessage(String message) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(FileUtilities.getMsgTypeID(), "info");
+        jsonObject.addProperty(Parser.MSG_TYPE_ID, "info");
         jsonObject.addProperty("payload", message);
         sendJsonMessage(jsonObject.toString());
     }
@@ -320,7 +318,7 @@ public class ClientHandler implements Runnable {
      */
     public void sendErrorMessage(String message) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(FileUtilities.getMsgTypeID(), "error");
+        jsonObject.addProperty(Parser.MSG_TYPE_ID, "error");
         jsonObject.addProperty("payload", message);
         sendJsonMessage(jsonObject.toString());
     }
@@ -332,7 +330,7 @@ public class ClientHandler implements Runnable {
      */
     public void sendSpecificTypeMessage(String type) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(FileUtilities.getMsgTypeID(), type);
+        jsonObject.addProperty(Parser.MSG_TYPE_ID, type);
         sendJsonMessage(jsonObject.toString());
     }
 
@@ -344,7 +342,7 @@ public class ClientHandler implements Runnable {
      */
     public void sendSpecificTypeMessage(String type, String message) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(FileUtilities.getMsgTypeID(), type);
+        jsonObject.addProperty(Parser.MSG_TYPE_ID, type);
         jsonObject.addProperty("payload", message);
         sendJsonMessage(jsonObject.toString());
     }
@@ -387,7 +385,7 @@ public class ClientHandler implements Runnable {
                 return null;//go back to reading a new message
             }
             JsonObject jsonObject = jsonElement.getAsJsonObject();
-            if (!jsonObject.has(FileUtilities.getMsgTypeID())) {
+            if (!jsonObject.has(Parser.MSG_TYPE_ID)) {
                 sendErrorMessage("Not a valid message");
                 return null;//go back to reading a new message
             }

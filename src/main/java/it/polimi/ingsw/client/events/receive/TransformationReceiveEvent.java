@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.view.View;
 
 import java.util.List;
 
-public class TransformationReceiveEvent implements ReceiveEvent{
+public class TransformationReceiveEvent implements EventFromServer {
     private final int numberOfTransformation;
     private final List<String> possibleTransformations;
 

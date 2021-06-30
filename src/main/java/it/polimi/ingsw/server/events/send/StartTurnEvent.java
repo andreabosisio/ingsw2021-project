@@ -1,10 +1,9 @@
 package it.polimi.ingsw.server.events.send;
 
-import com.google.gson.Gson;
 import java.util.Arrays;
 
 
-public class StartTurnEvent extends SendEvent{
+public class StartTurnEvent extends EventToClient {
     private final String type = "startTurn";
     private final String[] receivers;
     private final String nextPlayer;

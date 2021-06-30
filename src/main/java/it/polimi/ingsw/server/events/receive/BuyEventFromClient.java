@@ -6,20 +6,26 @@ import it.polimi.ingsw.server.model.ModelInterface;
 import java.util.List;
 
 /**
- * Represent the choice of a White Resource Transformation by a Player (from the Client).
+ * Represent the request of a Buy Action by a Player (from the Client).
  */
-public class TransformationEvent extends ReceiveEvent {
-    private final List<String> chosenResources;
+public class BuyEventFromClient extends EventFromClient {
+    private final String cardColor;
+    private final int cardLevel;
+    private final List<Integer> resourcePositions;
 
     /**
-     * Set the White Resource Transformation information.
+     * Set the needed data to buy a card.
      *
-     * @param nickname of the Player who did the White Resource Transformation
-     * @param chosenResources The color of the chosen Resources as result of the Transformation
+     * @param sender The nickname of the buyer
+     * @param cardColor Color of the desired card
+     * @param cardLevel Level of the desired card
+     * @param resourcePositions Positions of the resources used to buy the desired card
      */
-    public TransformationEvent(String nickname, List<String> chosenResources) {
-        super(nickname);
-        this.chosenResources = chosenResources;
+    public BuyEventFromClient(String sender, String cardColor, int cardLevel, List<Integer> resourcePositions) {
+        super(sender);
+        this.cardColor = cardColor;
+        this.cardLevel = cardLevel;
+        this.resourcePositions = resourcePositions;
     }
 
     /**
@@ -36,6 +42,6 @@ public class TransformationEvent extends ReceiveEvent {
      */
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
-        return modelInterface.transformationAction(chosenResources);
+        return modelInterface.buyAction(cardColor, cardLevel, resourcePositions);
     }
 }

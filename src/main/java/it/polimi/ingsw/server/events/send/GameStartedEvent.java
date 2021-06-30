@@ -1,10 +1,8 @@
 package it.polimi.ingsw.server.events.send;
 
-import com.google.gson.Gson;
-
 import java.util.List;
 
-public class GameStartedEvent extends SendEvent{
+public class GameStartedEvent extends EventToClient {
     private final String type = "gameStarted";
     private final List<String> nicknames;
 

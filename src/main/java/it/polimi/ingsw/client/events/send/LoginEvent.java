@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.events.send;
 /**
  * Represent the request of a Login in the Game by a Player.
  */
-public class LoginEvent extends SendEvent {
+public class LoginEvent extends EventToServer {
     private final String nickname;
     private final String password;
 

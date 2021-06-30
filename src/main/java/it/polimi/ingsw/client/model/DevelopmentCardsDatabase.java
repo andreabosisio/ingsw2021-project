@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.client.view.cli.AnsiEnum;
+import it.polimi.ingsw.commons.FileUtilities;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,7 +19,6 @@ import java.util.List;
 public class DevelopmentCardsDatabase {
     private static DevelopmentCardsDatabase instance = null;
 
-    private final String developmentCardsFileName = "src/main/resources/developmentCards.json";
     private final List<String> devCardsLevel = new ArrayList<>();
     private final List<String> devCardsColor = new ArrayList<>();
     private final List<String> devCardsPrice = new ArrayList<>();
@@ -208,7 +208,8 @@ public class DevelopmentCardsDatabase {
      * It reads the information containing into the Json file and add that into the local variables
      */
     private void firstSetup() {
-        File input = new File(developmentCardsFileName);
+        //todo move to file writer
+        File input = new File(FileUtilities.UNMODIFIABLE_DEVELOPMENT_CARDS_PATH);
 
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
@@ -274,6 +275,7 @@ public class DevelopmentCardsDatabase {
      * @param nameValueInJson name of the value in the JsonObject
      * @return the String value extracted
      */
+    //todo maybe in parser
     private String extractStringValueFromJson(JsonObject cardJsonObject, String nameValueInJson) {
         return cardJsonObject.get(nameValueInJson).getAsString();
     }

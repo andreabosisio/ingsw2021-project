@@ -38,40 +38,40 @@ class ModelInterfaceTest {
         }
         //check that trying to buy a non existing card generate an exception
         assertThrows(InvalidEventException.class, () -> modelInterface.buyAction("ball", 1, resourcePositions));
-        assertThrows(InvalidEventException.class, () -> new BuyEvent("first","ball",1,resourcePositions).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new BuyEventFromClient("first","ball",1,resourcePositions).doAction(modelInterface));
         game.preparePlayerForDevCard(modelInterface, 0, card);
         //check that player is in start turn state
         assertEquals(modelInterface.getTurnLogic().getStartTurn(), modelInterface.getTurnLogic().getCurrentState());
         //check that trying to buy a card you can't place generate an exception
         assertThrows(InvalidEventException.class, () -> modelInterface.buyAction("green", 2, resourcePositions));
-        assertThrows(InvalidEventException.class, () -> new BuyEvent("first","green",2,resourcePositions).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new BuyEventFromClient("first","green",2,resourcePositions).doAction(modelInterface));
         //check that trying to buy a card you can't afford generate an exception
         assertThrows(InvalidEventException.class, () -> modelInterface.buyAction("blue", 1, resourcePositions));
-        assertThrows(InvalidEventException.class, () -> new BuyEvent("first","blue",1,resourcePositions).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new BuyEventFromClient("first","blue",1,resourcePositions).doAction(modelInterface));
         //perform buy action
-        assertTrue(new BuyEvent("first","green",1,resourcePositions).doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","green",1,resourcePositions).doAction(modelInterface));
         //check that you can't perform another buy action
         assertThrows(InvalidEventException.class, () -> modelInterface.buyAction("green", 1, resourcePositions));
-        assertThrows(InvalidEventException.class, () -> new BuyEvent("first","green",1,resourcePositions).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new BuyEventFromClient("first","green",1,resourcePositions).doAction(modelInterface));
         //check that player is now in waitDevCardPlacement state
         assertEquals(modelInterface.getTurnLogic().getWaitDevCardPlacement(), modelInterface.getTurnLogic().getCurrentState());
         //check that you can't perform a leader action in this State
         assertThrows(InvalidEventException.class, () -> modelInterface.leaderAction("m1", true));
-        assertThrows(InvalidEventException.class, () -> new LeaderHandEvent("first","m1",true).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new LeaderHandEventFromClient("first","m1",true).doAction(modelInterface));
         //check that a placement in an invalid position generate an exception(0 is only for basic)
         assertThrows(InvalidEventException.class, () -> modelInterface.placeDevelopmentCardAction(0));
-        assertThrows(InvalidEventException.class, () -> new PlaceDevelopmentCardEvent("first",0).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new PlaceDevelopmentCardEventFromClient("first",0).doAction(modelInterface));
         //perform the placement action
-        assertTrue(new PlaceDevelopmentCardEvent("first",1).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",1).doAction(modelInterface));
         //check that you can't place 2 times in a row
         assertThrows(InvalidEventException.class, () -> modelInterface.placeDevelopmentCardAction(1));
-        assertThrows(InvalidEventException.class, () -> new PlaceDevelopmentCardEvent("first",1).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new PlaceDevelopmentCardEventFromClient("first",1).doAction(modelInterface));
         //check that player is now in endTurn state
         assertEquals(modelInterface.getTurnLogic().getEndTurn(), modelInterface.getTurnLogic().getCurrentState());
         //check that first player has devCard in his PersonalBoard
         assertEquals(card, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getProductionCard(1));
         //end first player turn
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         //check that current player is now second in both modelInterface and turnLogic
         assertEquals("second", modelInterface.getCurrentPlayerNickname());
         assertEquals("second", modelInterface.getTurnLogic().getCurrentPlayer().getNickname());
@@ -79,7 +79,7 @@ class ModelInterfaceTest {
         assertEquals(modelInterface.getTurnLogic().getStartTurn(), modelInterface.getTurnLogic().getCurrentState());
         //check that endTurn is not allowed in startTurn
         assertThrows(InvalidEventException.class, modelInterface::endTurn);
-        assertThrows(InvalidEventException.class, () -> new EndTurnEvent("second").doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new EndTurnEventFromClient("second").doAction(modelInterface));
     }
 
     @Test
@@ -93,7 +93,7 @@ class ModelInterfaceTest {
         assertEquals(modelInterface.getTurnLogic().getStartTurn(), modelInterface.getTurnLogic().getCurrentState());
         //player cannot satisfy requirements
         assertThrows(InvalidEventException.class, () -> modelInterface.leaderAction("p1", false));
-        assertThrows(InvalidEventException.class, () -> new LeaderHandEvent("first","p1",false).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new LeaderHandEventFromClient("first","p1",false).doAction(modelInterface));
         //check that player is in start turn state
         assertEquals(modelInterface.getTurnLogic().getStartTurn(), modelInterface.getTurnLogic().getCurrentState());
         //prepare player for the required dev card
@@ -104,15 +104,15 @@ class ModelInterfaceTest {
             resourcePositions.add(i + strongBoxPositionsOffset);
         }
         //buy the card
-        assertTrue(new BuyEvent("first","green",2,resourcePositions).doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","green",2,resourcePositions).doAction(modelInterface));
         //check that player is now in waitDevCardPlacement state
         assertEquals(modelInterface.getTurnLogic().getWaitDevCardPlacement(), modelInterface.getTurnLogic().getCurrentState());
         //perform the placement action
-        assertTrue(new PlaceDevelopmentCardEvent("first",2).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",2).doAction(modelInterface));
         //check that player is now in endTurn state
         assertEquals(modelInterface.getTurnLogic().getEndTurn(), modelInterface.getTurnLogic().getCurrentState());
         //now player has requirements. He's in endTurn state so he can make a leader action
-        assertTrue(new LeaderHandEvent("first","p1",false).doAction(modelInterface));
+        assertTrue(new LeaderHandEventFromClient("first","p1",false).doAction(modelInterface));
         //check if now the LeaderCard is activated
         assertEquals(currentPlayer.getPersonalBoard().getActiveLeaderCards().get(0).getID(), "p1");
         assertEquals(currentPlayer.getLeaderHand().stream().filter(card -> card.getID().equals("p1")).count(), 0);
@@ -130,44 +130,44 @@ class ModelInterfaceTest {
 
         //cannot discard a LeaderCard which is not in the hand of the player
         assertThrows(InvalidEventException.class, () -> modelInterface.leaderAction("d1", true));
-        assertThrows(InvalidEventException.class, () -> new LeaderHandEvent("first","d1",true).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new LeaderHandEventFromClient("first","d1",true).doAction(modelInterface));
 
 
         //discard first leader card by currentPlayer's hand
-        assertTrue(new LeaderHandEvent("first","p1",true).doAction(modelInterface));
+        assertTrue(new LeaderHandEventFromClient("first","p1",true).doAction(modelInterface));
 
         //check FaithProgress
         assertEquals(1, GameBoard.getGameBoard().getFaithTrackOfPlayer(currentPlayer).getFaithMarker());
         //cannot do another leaderAction
         assertThrows(InvalidEventException.class, () -> modelInterface.leaderAction("m1", true));
-        assertThrows(InvalidEventException.class, () -> new LeaderHandEvent("first","m1",true).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new LeaderHandEventFromClient("first","m1",true).doAction(modelInterface));
 
         //check that current state is startTurn because Player has to do an action
         assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getStartTurn());
 
         //market action
-        assertTrue(new MarketEvent("first",0).doAction(modelInterface));
+        assertTrue(new MarketEventFromClient("first",0).doAction(modelInterface));
         //check that turnLogic is waiting for the resources placement
         assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getWaitResourcePlacement());
         //modelInterface.placeResourceAction(new ArrayList<>(),true);
-        assertTrue(new PlaceResourcesEvent("first",new ArrayList<>(),true).doAction(modelInterface));
+        assertTrue(new PlaceResourcesEventFromClient("first",new ArrayList<>(),true).doAction(modelInterface));
 
         //currentState: EndTurnState. Player can do another leaderAction
         assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getEndTurn());
         //cannot discard a LeaderCard which is not in the hand of the player
         assertThrows(InvalidEventException.class, () -> modelInterface.leaderAction("w1", true));
-        assertThrows(InvalidEventException.class, () -> new LeaderHandEvent("first","w1",true).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new LeaderHandEventFromClient("first","w1",true).doAction(modelInterface));
 
         //cannot satisfy requirements to activate "m1"
         assertThrows(InvalidEventException.class, () -> modelInterface.leaderAction("m1", false));
-        assertThrows(InvalidEventException.class, () -> new LeaderHandEvent("first","m1",false).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new LeaderHandEventFromClient("first","m1",false).doAction(modelInterface));
 
         //cannot do other action but leaderAction
         assertThrows(InvalidEventException.class, () -> modelInterface.marketAction(2));
-        assertThrows(InvalidEventException.class, () -> new MarketEvent("first",2).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new MarketEventFromClient("first",2).doAction(modelInterface));
 
         //discard "m1"
-        assertTrue(new LeaderHandEvent("first","m1",true).doAction(modelInterface));
+        assertTrue(new LeaderHandEventFromClient("first","m1",true).doAction(modelInterface));
 
         //currentState: StartTurnState.
         assertEquals(modelInterface.getTurnLogic().getCurrentState(), modelInterface.getTurnLogic().getStartTurn());
@@ -179,10 +179,10 @@ class ModelInterfaceTest {
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
         //check that market action with an invalid arrowId generate an exception
         assertThrows(InvalidIndexException.class, () -> modelInterface.marketAction(12));
-        assertThrows(InvalidIndexException.class, () -> new MarketEvent("first",12).doAction(modelInterface));
+        assertThrows(InvalidIndexException.class, () -> new MarketEventFromClient("first",12).doAction(modelInterface));
 
         //perform a market action
-        assertTrue(new MarketEvent("first",2).doAction(modelInterface));
+        assertTrue(new MarketEventFromClient("first",2).doAction(modelInterface));
 
         //check that invalid swap generate an exception
         List<Integer> swapPairs = new ArrayList<>() {{
@@ -190,14 +190,14 @@ class ModelInterfaceTest {
             add(5);
         }};
         assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs,true));
-        assertThrows(InvalidEventException.class, () -> new PlaceResourcesEvent("first",swapPairs,true).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new PlaceResourcesEventFromClient("first",swapPairs,true).doAction(modelInterface));
 
         //expected res are white/white/white/red so a legal swap pair is an empty one
-        assertTrue(new PlaceResourcesEvent("first",new ArrayList<>(),true).doAction(modelInterface));
+        assertTrue(new PlaceResourcesEventFromClient("first",new ArrayList<>(),true).doAction(modelInterface));
 
         //check that the red resource has increased the player's faith by one
         assertEquals(1, GameBoard.getGameBoard().getFaithTrackOfPlayer(modelInterface.getTurnLogic().getPlayers().get(0)).getFaithMarker());
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
     }
 
     @Test
@@ -205,7 +205,7 @@ class ModelInterfaceTest {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
         //perform a market action
-        assertTrue(new MarketEvent("first",1).doAction(modelInterface));//generate yellow/yellow/purple/purple
+        assertTrue(new MarketEventFromClient("first",1).doAction(modelInterface));//generate yellow/yellow/purple/purple
 
         //check that invalid swap generate an exception
         List<Integer> swapPairs = new ArrayList<>() {{
@@ -213,7 +213,7 @@ class ModelInterfaceTest {
             add(32);
         }};
         assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs,true));
-        assertThrows(InvalidEventException.class, () -> new PlaceResourcesEvent("first",swapPairs,true).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new PlaceResourcesEventFromClient("first",swapPairs,true).doAction(modelInterface));
 
         //check that giving odd number of swap generate an exception
         List<Integer> swapPairs2 = new ArrayList<>() {{
@@ -226,19 +226,19 @@ class ModelInterfaceTest {
             add(8);
         }};
         assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs2,true));
-        assertThrows(InvalidEventException.class, () -> new PlaceResourcesEvent("first",swapPairs2,true).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new PlaceResourcesEventFromClient("first",swapPairs2,true).doAction(modelInterface));
 
         //check that ending swap in an illegal configuration remains in waitResourcePlacement state
         swapPairs2.remove(6);
         assertThrows(InvalidEventException.class, () -> modelInterface.placeResourceAction(swapPairs2,true));
-        assertThrows(InvalidEventException.class, () -> new PlaceResourcesEvent("first",swapPairs2,true).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new PlaceResourcesEventFromClient("first",swapPairs2,true).doAction(modelInterface));
 
         assertEquals(modelInterface.getTurnLogic().getWaitResourcePlacement(), modelInterface.getTurnLogic().getCurrentState());
         //check that a series of swap that ends in a legal position moves state to endTurn
         swapPairs2.clear();
         swapPairs2.add(4);
         swapPairs2.add(5);
-        assertTrue(new PlaceResourcesEvent("first",swapPairs2,true).doAction(modelInterface));
+        assertTrue(new PlaceResourcesEventFromClient("first",swapPairs2,true).doAction(modelInterface));
 
         assertEquals(modelInterface.getTurnLogic().getEndTurn(), modelInterface.getTurnLogic().getCurrentState());
         //check that discarding one of the resources from market increased all other player's faith by 1
@@ -274,9 +274,9 @@ class ModelInterfaceTest {
             resourcePositions.add(i + strongBoxPositionsOffset);
         }
         //place yellow lv1 in pos 1
-        assertTrue(new BuyEvent("first","yellow",1,resourcePositions).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("first",1).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","yellow",1,resourcePositions).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",1).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         //prepare for second devCard
@@ -287,9 +287,9 @@ class ModelInterfaceTest {
             resourcePositions2.add(i + strongBoxPositionsOffset);
         }
         //place yellow lv2 in pos 1
-        assertTrue(new BuyEvent("first","yellow",2,resourcePositions2).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("first",1).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","yellow",2,resourcePositions2).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",1).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         //prepare for third devCard
@@ -300,16 +300,16 @@ class ModelInterfaceTest {
             resourcePositions3.add(i + strongBoxPositionsOffset);
         }
         //place blue lv1 in pos 2
-        assertTrue(new BuyEvent("first","blue",1,resourcePositions3).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("first",2).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","blue",1,resourcePositions3).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",2).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         //activate first Leader
-        assertTrue(new LeaderHandEvent("first","m1",false).doAction(modelInterface));
+        assertTrue(new LeaderHandEventFromClient("first","m1",false).doAction(modelInterface));
 
         //test transformation with one leader
-        assertTrue(new MarketEvent("first",2).doAction(modelInterface));//expected res are(3white and 1 red)
+        assertTrue(new MarketEventFromClient("first",2).doAction(modelInterface));//expected res are(3white and 1 red)
 
         //market action has produced 3 purple res because there is only one active marketLeader
         List<Integer> swap = new ArrayList<>() {{
@@ -320,14 +320,14 @@ class ModelInterfaceTest {
             add(2);
             add(9);
         }};
-        assertTrue(new PlaceResourcesEvent("first",swap,true).doAction(modelInterface));
+        assertTrue(new PlaceResourcesEventFromClient("first",swap,true).doAction(modelInterface));
 
         //check that player has 3 resources and they are all purple
         assertEquals(3, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().size());
         assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(0).getColor());
         assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(1).getColor());
         assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(2).getColor());
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         //prepare fourth devCard
@@ -338,9 +338,9 @@ class ModelInterfaceTest {
             resourcePositions4.add(i + strongBoxPositionsOffset);
         }
         //place green lv2 in pos 2
-        assertTrue(new BuyEvent("first","green",2,resourcePositions4).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("first",2).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","green",2,resourcePositions4).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",2).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         //prepare for fifth devCard
@@ -351,9 +351,9 @@ class ModelInterfaceTest {
             resourcePositions5.add(i + strongBoxPositionsOffset);
         }
         //place green lv1 in pos 3
-        assertTrue(new BuyEvent("first","green",1,resourcePositions5).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("first",3).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","green",1,resourcePositions5).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",3).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         //prepare for sixth devCard
@@ -364,16 +364,16 @@ class ModelInterfaceTest {
             resourcePositions6.add(i + strongBoxPositionsOffset);
         }
         //place purple lv2 in pos 3
-        assertTrue(new BuyEvent("first","purple",2,resourcePositions6).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("first",3).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","purple",2,resourcePositions6).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",3).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         //activate second leader
-        assertTrue(new LeaderHandEvent("first","m2",false).doAction(modelInterface));
+        assertTrue(new LeaderHandEventFromClient("first","m2",false).doAction(modelInterface));
 
         //try market action with 2 leaderCards
-        assertTrue(new MarketEvent("first",2).doAction(modelInterface));
+        assertTrue(new MarketEventFromClient("first",2).doAction(modelInterface));
 
         //check that giving less chosen color than needed (needed 3:given 2) throws and exception
         List<String> chosenColors = new ArrayList<>() {{
@@ -381,23 +381,23 @@ class ModelInterfaceTest {
             add("blue");
         }};
         assertThrows(InvalidEventException.class, () -> modelInterface.transformationAction(chosenColors));
-        assertThrows(InvalidEventException.class, () -> new TransformationEvent("first",chosenColors).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new TransformationEventFromClient("first",chosenColors).doAction(modelInterface));
 
         //check that giving a wrong color generate an exception
         chosenColors.add("yellow");
         assertThrows(InvalidEventException.class, () -> modelInterface.transformationAction(chosenColors));
-        assertThrows(InvalidEventException.class, () -> new TransformationEvent("first",chosenColors).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new TransformationEventFromClient("first",chosenColors).doAction(modelInterface));
 
         //check that giving a non existing color generate an exception
         chosenColors.remove(2);
         chosenColors.add("blu");
         assertThrows(InvalidEventException.class, () -> modelInterface.transformationAction(chosenColors));
-        assertThrows(InvalidEventException.class, () -> new TransformationEvent("first",chosenColors).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new TransformationEventFromClient("first",chosenColors).doAction(modelInterface));
 
         //check with right input
         chosenColors.remove(2);
         chosenColors.add("blue");
-        assertTrue(new TransformationEvent("first",chosenColors).doAction(modelInterface));
+        assertTrue(new TransformationEventFromClient("first",chosenColors).doAction(modelInterface));
 
         swap = new ArrayList<>() {{
             add(1);
@@ -405,7 +405,7 @@ class ModelInterfaceTest {
             add(2);
             add(6);
         }};
-        assertTrue(new PlaceResourcesEvent("first",swap,true).doAction(modelInterface));
+        assertTrue(new PlaceResourcesEventFromClient("first",swap,true).doAction(modelInterface));
 
 
         //check that player has 5 resources and they are 3 purple and 2 blue
@@ -415,19 +415,19 @@ class ModelInterfaceTest {
         assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(2).getColor());
         assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(3).getColor());
         assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(4).getColor());
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
 
         game.roundOfNothing(modelInterface);
-        assertTrue(new MarketEvent("first",3).doAction(modelInterface));
+        assertTrue(new MarketEventFromClient("first",3).doAction(modelInterface));
 
         chosenColors.clear();
         chosenColors.add("purple");
-        assertTrue(new TransformationEvent("first",chosenColors).doAction(modelInterface));
+        assertTrue(new TransformationEventFromClient("first",chosenColors).doAction(modelInterface));
 
         swap.clear();
         swap.add(0);
         swap.add(4);
-        assertTrue(new PlaceResourcesEvent("first",swap,true).doAction(modelInterface));
+        assertTrue(new PlaceResourcesEventFromClient("first",swap,true).doAction(modelInterface));
 
         //check that player has 6 resources
         assertEquals(6, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().size());
@@ -523,10 +523,10 @@ class ModelInterfaceTest {
         outResourcesForEachProductions.put(4, "PURPLE");
 
         // Perform production action
-        assertTrue(new ProductionEvent("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
+        assertTrue(new ProductionEventFromClient("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
 
         // Check that you can't perform another production action
-        assertThrows(InvalidEventException.class, () -> new ProductionEvent("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new ProductionEventFromClient("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
 
         // Check that the Player has the correct resources and the correct progress of the Faith Track
         List<Resource> newRes = new ArrayList<>();
@@ -552,7 +552,7 @@ class ModelInterfaceTest {
         assertEquals(modelInterface.getTurnLogic().getEndTurn(), modelInterface.getTurnLogic().getCurrentState());
 
         // End first player turn
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
 
         // Check that current player is now second in both modelInterface and turnLogic
         assertEquals("second", modelInterface.getCurrentPlayerNickname());
@@ -567,10 +567,10 @@ class ModelInterfaceTest {
                 getCardByColorAndLevel(CardColorEnum.PURPLE, 1).getPrice().size(); i++) {
             positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
         }
-        assertTrue(new BuyEvent("second","purple",1,positionOfResForProdSlot1).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("second",1).doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("second","purple",1,positionOfResForProdSlot1).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("second",1).doAction(modelInterface));
 
-        assertTrue(new EndTurnEvent("second").doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("second").doAction(modelInterface));
 
         // The third player do his turn
         game.preparePlayerForDevCard(modelInterface, 2, GameBoard.getGameBoard().
@@ -580,9 +580,9 @@ class ModelInterfaceTest {
                 getCardByColorAndLevel(CardColorEnum.PURPLE, 1).getPrice().size(); i++) {
             positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
         }
-        assertTrue(new BuyEvent("third","purple",1,positionOfResForProdSlot1).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("third",1).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("third").doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("third","purple",1,positionOfResForProdSlot1).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("third",1).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("third").doAction(modelInterface));
 
         // The fourth player do his turn
         game.preparePlayerForDevCard(modelInterface, 3, GameBoard.getGameBoard().
@@ -592,9 +592,9 @@ class ModelInterfaceTest {
                 getCardByColorAndLevel(CardColorEnum.PURPLE, 1).getPrice().size(); i++) {
             positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
         }
-        assertTrue(new BuyEvent("fourth","purple",1,positionOfResForProdSlot1).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("fourth",1).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("fourth").doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("fourth","purple",1,positionOfResForProdSlot1).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("fourth",1).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("fourth").doAction(modelInterface));
 
         // The first Player has seven Development Card and the last Player do his turn, so the game is over
         assertEquals(modelInterface.getTurnLogic().getEndGame(), modelInterface.getTurnLogic().getCurrentState());
@@ -640,13 +640,13 @@ class ModelInterfaceTest {
         inResourcesForEachProductions.put(1, positionOfResForProdSlot1);
         outResourcesForEachProductions.put(0, "purple");
 
-        assertThrows(InvalidEventException.class, () -> new ProductionEvent("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new ProductionEventFromClient("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
 
         // The Player can not do the Basic Production with two resources of the same color
         firstPlayer.getPersonalBoard().
                 getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.PURPLE));
 
-        assertThrows(InvalidEventException.class, () -> new ProductionEvent("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new ProductionEventFromClient("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
 
         inResourcesForEachProductions.remove(0);
         outResourcesForEachProductions.remove(0);
@@ -655,14 +655,14 @@ class ModelInterfaceTest {
         inResourcesForEachProductions.put(0, positionOfResForProdSlot1);
         outResourcesForEachProductions.put(0, "white");
 
-        assertThrows(InvalidEventException.class, () -> new ProductionEvent("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
+        assertThrows(InvalidEventException.class, () -> new ProductionEventFromClient("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
 
         inResourcesForEachProductions.remove(0);
         outResourcesForEachProductions.remove(0);
 
         // The Player can not do a Production Action of a Development Card that is not placed
         inResourcesForEachProductions.put(2, positionOfResForProdSlot1);
-        assertThrows(InvalidIndexException.class, () -> new ProductionEvent("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
+        assertThrows(InvalidIndexException.class, () -> new ProductionEventFromClient("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
 
     }
 
@@ -706,9 +706,9 @@ class ModelInterfaceTest {
             resourcePositions1.add(i + strongBoxPositionsOffset);
         }
         //place blue lv1 in pos 1
-        assertTrue(new BuyEvent("first","blue",1,resourcePositions1).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("first",1).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","blue",1,resourcePositions1).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",1).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         //prepare for second devCard
@@ -719,9 +719,9 @@ class ModelInterfaceTest {
             resourcePositions2.add(i + strongBoxPositionsOffset);
         }
         //place green lv1 in pos 2
-        assertTrue(new BuyEvent("first","green",1,resourcePositions2).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("first",2).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","green",1,resourcePositions2).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",2).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         //prepare for third devCard
@@ -732,16 +732,16 @@ class ModelInterfaceTest {
             resourcePositions3.add(i + strongBoxPositionsOffset);
         }
         //place purple lv1 in pos 3
-        assertTrue(new BuyEvent("first","purple",1,resourcePositions3).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("first",3).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","purple",1,resourcePositions3).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",3).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         //activate leaders
-        assertTrue(new LeaderHandEvent("first","d1",false).doAction(modelInterface));
-        assertTrue(new MarketEvent("first",2).doAction(modelInterface));
-        assertTrue(new PlaceResourcesEvent("first",new ArrayList<>(),true).doAction(modelInterface));
-        assertTrue(new LeaderHandEvent("first","d2",false).doAction(modelInterface));
+        assertTrue(new LeaderHandEventFromClient("first","d1",false).doAction(modelInterface));
+        assertTrue(new MarketEventFromClient("first",2).doAction(modelInterface));
+        assertTrue(new PlaceResourcesEventFromClient("first",new ArrayList<>(),true).doAction(modelInterface));
+        assertTrue(new LeaderHandEventFromClient("first","d2",false).doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         //prepare for discounted buy but with a card not discountable by this leaders
@@ -752,9 +752,9 @@ class ModelInterfaceTest {
             resourcePositions4.add(i + strongBoxPositionsOffset);
         }
         //place purple lv2 in pos 3
-        assertTrue(new BuyEvent("first","purple",2,resourcePositions4).doAction(modelInterface));
-        assertTrue(new PlaceDevelopmentCardEvent("first",3).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","purple",2,resourcePositions4).doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",3).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         DevelopmentCardsGrid dev = GameBoard.getGameBoard().getDevelopmentCardsGrid();
@@ -767,28 +767,28 @@ class ModelInterfaceTest {
             resourcePositions5.add(i + strongBoxPositionsOffset);
         }
         //trying buying expecting no discount
-        assertThrows(InvalidEventException.class,()->new BuyEvent("first","yellow",3,resourcePositions5).doAction(modelInterface));
+        assertThrows(InvalidEventException.class,()->new BuyEventFromClient("first","yellow",3,resourcePositions5).doAction(modelInterface));
 
         //try to buy expecting too much discount
         resourcePositions5.remove(0);
         resourcePositions5.remove(0);
-        assertThrows(InvalidEventException.class,()->new BuyEvent("first","yellow",3,resourcePositions5).doAction(modelInterface));
+        assertThrows(InvalidEventException.class,()->new BuyEventFromClient("first","yellow",3,resourcePositions5).doAction(modelInterface));
 
         //buy with the right amount of discounted resources
         resourcePositions5.add(strongBoxPositionsOffset);
-        assertTrue(new BuyEvent("first","yellow",3,resourcePositions5).doAction(modelInterface));
+        assertTrue(new BuyEventFromClient("first","yellow",3,resourcePositions5).doAction(modelInterface));
 
-        assertTrue(new PlaceDevelopmentCardEvent("first",3).doAction(modelInterface));
-        assertTrue(new EndTurnEvent("first").doAction(modelInterface));
+        assertTrue(new PlaceDevelopmentCardEventFromClient("first",3).doAction(modelInterface));
+        assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
 
     }
     @Test
     void disconnectionTest() throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException, NonStorableResourceException {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
-        assertTrue(new MarketEvent("first",5).canBeExecutedFor(modelInterface.getCurrentPlayerNickname()));
-        assertFalse(new MarketEvent("second",5).canBeExecutedFor(modelInterface.getCurrentPlayerNickname()));
-        assertTrue(new MarketEvent("first",5).doAction(modelInterface));
+        assertTrue(new MarketEventFromClient("first",5).canBeExecutedFor(modelInterface.getCurrentPlayerNickname()));
+        assertFalse(new MarketEventFromClient("second",5).canBeExecutedFor(modelInterface.getCurrentPlayerNickname()));
+        assertTrue(new MarketEventFromClient("first",5).doAction(modelInterface));
         //disconnect first in the middle of placing his resources
         modelInterface.disconnectPlayer("first");
         //check that the first player turn has been skipped
@@ -810,16 +810,16 @@ class ModelInterfaceTest {
     void disconnectionTestWithEvents() throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException, NonStorableResourceException {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
-        assertTrue(new MarketEvent("first",5).doAction(modelInterface));
+        assertTrue(new MarketEventFromClient("first",5).doAction(modelInterface));
         //disconnect first in the middle of placing his resources
-        assertTrue(new DisconnectEvent("first").doAction(modelInterface));//return false as he is not the last one
+        assertTrue(new DisconnectEventFromClient("first").doAction(modelInterface));//return false as he is not the last one
         //check that the first player turn has been skipped
         assertEquals("second",modelInterface.getCurrentPlayerNickname());
-        assertTrue(new DisconnectEvent("second").doAction(modelInterface));
-        assertTrue(new DisconnectEvent("third").doAction(modelInterface));
+        assertTrue(new DisconnectEventFromClient("second").doAction(modelInterface));
+        assertTrue(new DisconnectEventFromClient("third").doAction(modelInterface));
         assertEquals("fourth",modelInterface.getCurrentPlayerNickname());
         //reconnect first and finish fourth turn
-        assertTrue(new ReconnectEvent("first").doAction(modelInterface));
+        assertTrue(new ReconnectEventFromClient("first").doAction(modelInterface));
         modelInterface.marketAction(2);
         modelInterface.placeResourceAction(new ArrayList<>(),true);
         modelInterface.endTurn();
@@ -833,7 +833,7 @@ class ModelInterfaceTest {
     void cheatTest() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException, InvalidEventException, NonStorableResourceException {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
-        assertTrue(new CheatEvent("admin").doAction(modelInterface));
+        assertTrue(new CheatEventFromClient("admin").doAction(modelInterface));
         for(Player player:modelInterface.getTurnLogic().getPlayers()){
             //check that every player now has 24 resources 6 of each storable color
             assertEquals(24,player.getPersonalBoard().getWarehouse().getAllResources().size());

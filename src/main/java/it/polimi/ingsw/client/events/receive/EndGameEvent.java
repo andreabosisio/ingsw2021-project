@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.view.View;
 
 import java.util.Map;
 
-public class EndGameEvent implements ReceiveEvent{
+public class EndGameEvent implements EventFromServer {
     private final Map<String, Integer> playersPoints;
     private final String winner;
     public EndGameEvent(Map<String, Integer> playersPoints, String winner) {

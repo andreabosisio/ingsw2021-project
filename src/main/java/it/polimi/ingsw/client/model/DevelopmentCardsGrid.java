@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.cli.Printable;
-import it.polimi.ingsw.client.view.gui.GraphicUtilities;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 
 import java.util.*;

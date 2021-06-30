@@ -6,23 +6,19 @@ import it.polimi.ingsw.server.model.ModelInterface;
 import java.util.List;
 
 /**
- * Implementation of the first setup choice of the game when the Player should choose between 2 Leader Cards and
- * 0 or 1 or 2 Resources.
+ * Represent the choice of a White Resource Transformation by a Player (from the Client).
  */
-public class SetupEvent extends ReceiveEvent{
-    private final List<Integer> chosenLeaderCardIndexes;
+public class TransformationEventFromClient extends EventFromClient {
     private final List<String> chosenResources;
 
     /**
-     * Create a Setup Event by specifying the choices.
+     * Set the White Resource Transformation information.
      *
-     * @param sender The nickname of the Player who performed the Setup Choice
-     * @param chosenLeaderCardIndexes The indexes of the Chosen Leader Cards
-     * @param chosenResources The color of the Chosen Resources
+     * @param nickname of the Player who did the White Resource Transformation
+     * @param chosenResources The color of the chosen Resources as result of the Transformation
      */
-    public SetupEvent(String sender, List<Integer> chosenLeaderCardIndexes, List<String> chosenResources) {
-        super(sender);
-        this.chosenLeaderCardIndexes = chosenLeaderCardIndexes;
+    public TransformationEventFromClient(String nickname, List<String> chosenResources) {
+        super(nickname);
         this.chosenResources = chosenResources;
     }
 
@@ -40,17 +36,6 @@ public class SetupEvent extends ReceiveEvent{
      */
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
-        return modelInterface.setupAction(getNickname(), chosenLeaderCardIndexes, chosenResources);
-    }
-
-    /**
-     * A setup event can always be executed.
-     *
-     * @param currentPlayerNickname The nickname of the current Player
-     * @return true
-     */
-    @Override
-    public boolean canBeExecutedFor(String currentPlayerNickname) {
-        return true;
+        return modelInterface.transformationAction(chosenResources);
     }
 }

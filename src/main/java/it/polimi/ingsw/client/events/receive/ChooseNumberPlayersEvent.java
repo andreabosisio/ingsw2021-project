@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.events.receive;
 
 import it.polimi.ingsw.client.view.View;
 
-public class ChooseNumberPlayersEvent implements ReceiveEvent {
+public class ChooseNumberPlayersEvent implements EventFromServer {
 
     private final String payload;
 

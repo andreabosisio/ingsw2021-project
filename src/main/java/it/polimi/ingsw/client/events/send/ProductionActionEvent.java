@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Represent the request of a Production Action by a Player
  */
-public class ProductionActionEvent extends SendEvent {
+public class ProductionActionEvent extends EventToServer {
     private final Map<Integer, List<Integer>> inResourcesForEachProductions;
     private final Map<Integer, String> outResourcesForEachProductions;
 

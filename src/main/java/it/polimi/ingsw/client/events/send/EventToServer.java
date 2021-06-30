@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 /**
  * This class is the implementation of the messages from the Client to the Server.
  */
-public abstract class SendEvent {
+public abstract class EventToServer {
     private String sender;
     private final String type;
 
@@ -14,7 +14,7 @@ public abstract class SendEvent {
      *
      * @param type The type of the message.
      */
-    public SendEvent (String type) {
+    public EventToServer(String type) {
         this.type = type;
     }
 

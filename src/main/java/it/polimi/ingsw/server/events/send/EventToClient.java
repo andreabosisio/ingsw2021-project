@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.events.send;
 
-import com.google.gson.Gson;
+import it.polimi.ingsw.commons.Parser;
 
-public abstract class SendEvent {
+public abstract class EventToClient {
     /**
      * Check if this event should be received by the nickname with this player.
      *
@@ -14,11 +14,11 @@ public abstract class SendEvent {
     }
 
     /**
-     * Transform this SendEvent to a String containing a JSON message.
+     * Transform this EventToServer to a String containing a JSON message.
      *
      * @return the produced String
      */
     public String toJson(){
-        return new Gson().toJson(this);
+        return Parser.toJson(this);
     }
 }

@@ -1,12 +1,11 @@
 package it.polimi.ingsw.server.events.send.choice;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.server.events.send.SendEvent;
+import it.polimi.ingsw.server.events.send.EventToClient;
 
 /**
  * This class is the implementation of the request messages of a game choice sent from the Server.
  */
-public abstract class ChoiceEvent extends SendEvent {
+public abstract class ChoiceEvent extends EventToClient {
     private final String nickname;
     private final String type;
 

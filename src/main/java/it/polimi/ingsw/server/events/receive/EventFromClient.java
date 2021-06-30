@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.ModelInterface;
 /**
  * It's the implementation of an action request by a Player.
  */
-public abstract class ReceiveEvent {
+public abstract class EventFromClient {
     private final String sender;
     private String type;
 
@@ -15,7 +15,7 @@ public abstract class ReceiveEvent {
      *
      * @param sender The nickname of the Player who wants to perform an action
      */
-    public ReceiveEvent(String sender) {
+    public EventFromClient(String sender) {
         this.sender = sender;
     }
 
@@ -25,7 +25,7 @@ public abstract class ReceiveEvent {
      * @param sender The nickname of the Player who wants to perform an action
      * @param type The type of the action
      */
-    public ReceiveEvent(String sender,String type){
+    public EventFromClient(String sender, String type){
         this.sender = sender;
         this.type = type;
     }

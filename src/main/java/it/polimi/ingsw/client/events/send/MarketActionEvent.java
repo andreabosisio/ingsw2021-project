@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.events.send;
 /**
  * Represent the request of a Market Action by a Player.
  */
-public class MarketActionEvent extends SendEvent {
+public class MarketActionEvent extends EventToServer {
     private final int arrowID;
 
     /**

@@ -1,12 +1,11 @@
 package it.polimi.ingsw.server.events.send.graphics;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.server.events.send.SendEvent;
+import it.polimi.ingsw.server.events.send.EventToClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GraphicUpdateEvent extends SendEvent {
+public class GraphicUpdateEvent extends EventToClient {
     private final String type = "graphicUpdate";
     private MarketUpdate marketUpdate = null;
     private GridUpdate gridUpdate = null;

@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.turn;
 import it.polimi.ingsw.server.events.send.EndGameEvent;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.events.send.ReconnectEvent;
-import it.polimi.ingsw.server.events.send.SendEvent;
+import it.polimi.ingsw.server.events.send.EventToClient;
 import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.ModelInterface;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * Contains all the information of the current turn
  */
 public class TurnLogic {
-    private SendEvent lastEventSent;
+    private EventToClient lastEventSent;
 
     private final GameMode gameMode;
     private final List<Player> players;
@@ -398,7 +398,7 @@ public class TurnLogic {
      *
      * @param lastEventSent event to save
      */
-    public void setLastEventSent(SendEvent lastEventSent) {
+    public void setLastEventSent(EventToClient lastEventSent) {
         this.lastEventSent = lastEventSent;
     }
 

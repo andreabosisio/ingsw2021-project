@@ -3,8 +3,6 @@ package it.polimi.ingsw.client.network;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.personal.FakeConnectionToClient;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class FakeConnectionToServer extends ClientConnection {
     private FakeConnectionToClient fakeServerConnection;

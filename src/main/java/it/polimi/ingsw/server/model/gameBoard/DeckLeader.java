@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.gameBoard;
 
 import com.google.gson.*;
+import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.commons.FileUtilities;
 
@@ -38,8 +39,6 @@ public class DeckLeader {
      */
     public List<LeaderCard> draw4() {
 
-        //shuffle();
-
         if (leaders.size() < 4) {
             throw new IndexOutOfBoundsException();
         }
@@ -55,22 +54,19 @@ public class DeckLeader {
      * This method writes in a Json file the ID of the Card of the Leader Cards
      */
     public void saveData() {
-        Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
-        jsonObject.add("leaders",gson.toJsonTree(leaders.stream().map(LeaderCard::getID).collect(Collectors.toList())));
-        FileUtilities.writeJsonElementInFile(jsonObject,FileUtilities.getSavedLeaderCardDataPath());
+        jsonObject.add("leaders", Parser.toJsonTree(leaders.stream().map(LeaderCard::getID).collect(Collectors.toList())));
+        FileUtilities.writeJsonElementInFile(jsonObject, FileUtilities.SAVED_LEADER_CARD_DATA_PATH);
     }
 
     /**
      * This method loads from a Json file the ID of the Cards of the Leaders Cards
      */
     public void loadSavedData() {
-        JsonObject fileObject;
         leaders.clear();
         JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedLeaderCardDataPath());
         assert fileElement != null;
-        fileObject = fileElement.getAsJsonObject();
-        JsonArray jsonArrayOfLeaderIds = fileObject.get("leaders").getAsJsonArray();
+        JsonArray jsonArrayOfLeaderIds = Parser.extractFromField(fileElement, "leaders").getAsJsonArray();
         for (JsonElement el : jsonArrayOfLeaderIds) {
             String cardId = el.getAsString();
             leaders.add(generator.generateLeaderCardFromId(cardId));

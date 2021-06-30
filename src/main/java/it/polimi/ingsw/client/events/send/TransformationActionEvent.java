@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Represents the request of the choice of the White Resources Transformation by a Player
  */
-public class TransformationActionEvent extends SendEvent{
+public class TransformationActionEvent extends EventToServer {
     private final List<String> chosenResources;
 
     /**

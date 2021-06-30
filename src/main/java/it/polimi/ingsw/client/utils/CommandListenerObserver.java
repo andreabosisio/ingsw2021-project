@@ -1,9 +1,9 @@
 package it.polimi.ingsw.client.utils;
 
-import it.polimi.ingsw.client.events.send.SendEvent;
+import it.polimi.ingsw.client.events.send.EventToServer;
 
 public interface CommandListenerObserver {
-    void update(SendEvent sendEvent);
+    void update(EventToServer eventToServer);
 
     void setNickname(String nickname);
 }

@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.view.View;
 
 import java.util.List;
 
-public class ChooseSetupEvent implements ReceiveEvent {
+public class ChooseSetupEvent implements EventFromServer {
     private List<String> leaderCardsIDs;
     private int numberOfResources;
 

@@ -3,15 +3,24 @@ package it.polimi.ingsw.server.events.receive;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 
-public class ReconnectEvent extends ReceiveEvent{
-    private static final String RECONNECTION_TYPE = "reconnect";
+/**
+ * Represent the request of a Leader Action by a Player (from the Client).
+ */
+public class LeaderHandEventFromClient extends EventFromClient {
+    private final String leaderCardID;
+    private final boolean discardCard;
+
     /**
-     * Create a new Event by giving the sender of the action request.
+     * Create a new Leader Action request by specifying the Leader Card's ID and the action.
      *
-     * @param sender The nickname of the Player who wants to perform an action
+     * @param nickname of the Player who wants to perform aa Leader Action
+     * @param leaderCardID The chosen Leader Card's ID
+     * @param discardCard true to discard the chosen Leader Card or false to activate it
      */
-    public ReconnectEvent(String sender) {
-        super(sender,RECONNECTION_TYPE);
+    public LeaderHandEventFromClient(String nickname, String leaderCardID, boolean discardCard) {
+        super(nickname);
+        this.leaderCardID = leaderCardID;
+        this.discardCard = discardCard;
     }
 
     /**
@@ -28,7 +37,6 @@ public class ReconnectEvent extends ReceiveEvent{
      */
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
-        modelInterface.reconnectPlayer(getNickname());
-        return super.doAction(modelInterface);
+        return modelInterface.leaderAction(leaderCardID,discardCard);
     }
 }

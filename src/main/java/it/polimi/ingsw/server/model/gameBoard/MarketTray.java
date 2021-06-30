@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.gameBoard;
 
 import com.google.gson.*;
+import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.server.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.model.resources.*;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
@@ -62,10 +63,9 @@ public class MarketTray {
      * Save the initial state in the in the file MARKET_INIT_RES_PATH.
      */
     public void saveData() {
-        Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
-        jsonObject.add("resources", gson.toJsonTree(toStringList()));
-        FileUtilities.writeJsonElementInFile(jsonObject,FileUtilities.getSavedMarketInitResPath());
+        jsonObject.add("resources", Parser.toJsonTree(toStringList()));
+        FileUtilities.writeJsonElementInFile(jsonObject,FileUtilities.SAVED_MARKET_INIT_RES_PATH);
     }
 
     /**

@@ -3,9 +3,9 @@ package it.polimi.ingsw.server.events.receive;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 
-public class CheatEvent extends  ReceiveEvent{
+public class CheatEventFromClient extends EventFromClient {
     private static final String CHEAT_TYPE = "cheat";
-    public CheatEvent(String sender) {
+    public CheatEventFromClient(String sender) {
         super(sender,CHEAT_TYPE);
     }
 

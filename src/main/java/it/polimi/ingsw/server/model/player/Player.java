@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
-import it.polimi.ingsw.server.events.send.SendEvent;
+import it.polimi.ingsw.server.events.send.EventToClient;
 import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
@@ -17,7 +17,7 @@ public class Player implements PlayerInterface {
     private State disconnectedState;
     private List<WhiteResource> whiteResourcesFromMarket;
     private DevelopmentCard chosenDevCard;
-    private SendEvent lastReceivedEvent;
+    private EventToClient lastReceivedEvent;
 
     private boolean isOnline;
     private final String nickname;
@@ -162,7 +162,7 @@ public class Player implements PlayerInterface {
      * @param chosenDevCard devCard the player needed to place
      * @param lastReceivedEvent last event sent to the player before he disconnected
      */
-    public void setDisconnectedData(State currentState, List<WhiteResource> whiteResourcesFromMarket, DevelopmentCard chosenDevCard,SendEvent lastReceivedEvent) {
+    public void setDisconnectedData(State currentState, List<WhiteResource> whiteResourcesFromMarket, DevelopmentCard chosenDevCard, EventToClient lastReceivedEvent) {
         this.disconnectedState = currentState;
         this.whiteResourcesFromMarket = new ArrayList<>(whiteResourcesFromMarket);
         this.chosenDevCard = chosenDevCard;

@@ -3,9 +3,6 @@ package it.polimi.ingsw.server.network.personal;
 import it.polimi.ingsw.client.network.FakeConnectionToServer;
 import it.polimi.ingsw.server.network.PongObserver;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 public class FakeConnectionToClient extends ServerConnection {
 
     private final FakeConnectionToServer fakeClientConnection;

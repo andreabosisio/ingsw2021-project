@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.network.NetworkHandler;
 import it.polimi.ingsw.client.view.View;
-import it.polimi.ingsw.client.view.cli.AnsiEnum;
 import it.polimi.ingsw.client.view.gui.controllers.*;
 import javafx.application.Application;
 import javafx.application.Platform;

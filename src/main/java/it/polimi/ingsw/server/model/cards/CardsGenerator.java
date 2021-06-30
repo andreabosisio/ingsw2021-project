@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.cards;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.StorableResource;
@@ -44,7 +45,7 @@ public class CardsGenerator {
      * @return generated developmentCards
      */
     public List<DevelopmentCard> generateDevelopmentCards() {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableDevelopmentCardsFileName());
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableDevelopmentCardsPath());
         assert fileElement != null;
         JsonObject fileObject = fileElement.getAsJsonObject();
         JsonArray jsonArrayOfCards = fileObject.get(mainDevJsonArrayName).getAsJsonArray();
@@ -166,7 +167,7 @@ public class CardsGenerator {
      * @return generated leaderCards
      */
     public List<LeaderCard> generateLeaderCards() {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableLeaderCardsFileName());
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableLeaderCardsPath());
         assert fileElement != null;
         JsonObject fileObject = fileElement.getAsJsonObject();
         JsonArray jsonArrayOfLeaders = fileObject.get(mainLeaderJsonArrayName).getAsJsonArray();
@@ -192,7 +193,7 @@ public class CardsGenerator {
         //extract common data to all leaderCards
         String id = leaderJsonObject.get(idNameInJson).getAsString();
         int points = leaderJsonObject.get(pointsNameInJson).getAsInt();
-        String type = FileUtilities.getTypeFieldAsString(leaderJsonObject);
+        String type = Parser.getTypeFieldAsString(leaderJsonObject);
         LeaderCard card;
         //Create specific type of leaderCard asking the file for the specific parameters
         switch (type) {
@@ -276,7 +277,7 @@ public class CardsGenerator {
      * @return the Development Card generated
      */
     public DevelopmentCard generateDevelopmentCardFromId(String cardId) {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableDevelopmentCardsFileName());
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableDevelopmentCardsPath());
         assert fileElement != null;
         JsonObject fileObject = fileElement.getAsJsonObject();
         JsonArray jsonArrayOfCards = fileObject.get(mainDevJsonArrayName).getAsJsonArray();
@@ -306,7 +307,7 @@ public class CardsGenerator {
      * @return the Leader Card
      */
     public LeaderCard generateLeaderCardFromId(String cardId) {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableLeaderCardsFileName());
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableLeaderCardsPath());
         assert fileElement != null;
         JsonObject fileObject = fileElement.getAsJsonObject();
         JsonArray jsonArrayOfCards = fileObject.get(mainLeaderJsonArrayName).getAsJsonArray();

@@ -8,7 +8,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class ServerConnection implements Connection {
 
-    //todo
+    //todo correct implementation?
     private final BlockingQueue<String> messagesFromClient = new LinkedBlockingQueue<>();
 
     @Override
@@ -32,8 +32,8 @@ public abstract class ServerConnection implements Connection {
         messagesFromClient.add(message);
     }
 
-    public void clearStack() {};
+    public void clearStack(){}
 
-    void setPongObserver(PongObserver pongObserver){};
+    void setPongObserver(PongObserver pongObserver){}
 
 }

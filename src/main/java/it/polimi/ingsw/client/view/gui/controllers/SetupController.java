@@ -10,15 +10,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * This class is used as the controller for the fxml scene:setupScene.fxml
@@ -132,19 +129,6 @@ public class SetupController extends GUICommandListener {
 
     private void changeResourceAction(Button button){
         GraphicUtilities.loopResources(button);
-        /*
-        int number = Integer.parseInt(button.getId());
-        number++;
-        if(number >= StorableResourceEnum.values().length){
-            number = 0;
-        }
-        button.setId(String.valueOf(number));
-        File file = new File("src/main/resources/images/resources/" + StorableResourceEnum.values()[number].toString().toLowerCase(Locale.ROOT)+".png");
-        ImageView imageView = (ImageView) button.getGraphic();
-        imageView.setImage(new Image(file.toURI().toString()));
-        button.setGraphic(imageView);
-
-         */
     }
 
     private void seeMarket(){

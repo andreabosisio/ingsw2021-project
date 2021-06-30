@@ -1,14 +1,10 @@
 package it.polimi.ingsw.server.model.turn;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.server.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.events.send.EndGameEvent;
-import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
-import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
-import it.polimi.ingsw.server.events.send.graphics.LeaderCardSlotsUpdate;
-import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.player.Player;
@@ -69,33 +65,9 @@ public class EndTurnState extends State {
         LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
                 .filter(card -> card.getID().equals(ID)).findFirst()
                 .orElseThrow(() -> new InvalidEventException("LeaderCard is not owned"));
-        //if the card has to be discarded
-        //todo duplicated code
-        if(discard){
-            if(!currentPlayer.discardLeader(chosenLeaderCard))
-                throw new InvalidEventException("You cannot discard this card right now");
-            else {
 
-                //graphic update of faithTracks and player's owned leaderCards
-                GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new LeaderCardSlotsUpdate()));
-                graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
-                graphicUpdateEvent.addUpdate( turnLogic.getCurrentPlayer().getNickname() + " discarded a Leader Card!");
-                turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
-            }
-        }else
-        //if the card has to be activated
-        {
-            if(!currentPlayer.activateLeaderCard(chosenLeaderCard))
-                throw new InvalidEventException("You cannot activate this card right now");
-            else {
-                //graphic update of leaderCards owned by the player
-                GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-                graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new LeaderCardSlotsUpdate()));
-                graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " activated a Leader Card!");
-                turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
-            }
-        }
+        ((StartTurnState)turnLogic.getStartTurn()).executeLeaderAction(currentPlayer, chosenLeaderCard, discard);
+
         return endTurn();
     }
 
@@ -115,10 +87,9 @@ public class EndTurnState extends State {
      * This method is used to reset the saveData file as this game is no longer worthy of reload
      */
     private void resetSavedData(){
-        Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
-        jsonObject.add("players", gson.toJsonTree(new ArrayList<>()));
+        jsonObject.add("players", Parser.toJsonTree(new ArrayList<>()));
         jsonObject.add("actions", new JsonArray());
-        FileUtilities.writeJsonElementInFile(jsonObject,FileUtilities.getSavedGamePath());
+        FileUtilities.writeJsonElementInFile(jsonObject, FileUtilities.SAVED_GAME_PATH);
     }
 }

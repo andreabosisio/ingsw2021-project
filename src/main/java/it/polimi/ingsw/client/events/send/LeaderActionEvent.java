@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.events.send;
 /**
  * Represent the request of a Leader Action of a Player.
  */
-public class LeaderActionEvent extends SendEvent {
+public class LeaderActionEvent extends EventToServer {
     private final String leaderCardID;
     private final boolean discardCard;
 

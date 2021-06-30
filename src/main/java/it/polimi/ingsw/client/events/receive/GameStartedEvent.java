@@ -7,7 +7,7 @@ import it.polimi.ingsw.client.view.View;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GameStartedEvent implements ReceiveEvent{
+public class GameStartedEvent implements EventFromServer {
 
     private final List<String> nicknames;
 

@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.events.receive.ReceiveEvent;
-import it.polimi.ingsw.server.events.receive.SetupEvent;
-import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.events.receive.SetupEventFromClient;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.personal.VirtualView;
 import org.junit.jupiter.api.Test;
@@ -38,10 +36,11 @@ class ControllerTest {
 
         List<Integer> chosenLeaderCardIndexes = new ArrayList<>(){{add(0);add(1);}};
         List<String> chosenResources = new ArrayList<>();
-        controller.update(new SetupEvent("first",chosenLeaderCardIndexes,chosenResources));
+        controller.update(new SetupEventFromClient("first",chosenLeaderCardIndexes,chosenResources));
         chosenResources.add("YELLOW");
-        controller.update(new SetupEvent("second",chosenLeaderCardIndexes,chosenResources));
+        controller.update(new SetupEventFromClient("second",chosenLeaderCardIndexes,chosenResources));
         //setup done successfully
-        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getStartTurn(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getStartTurn(), controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+
     }
 }

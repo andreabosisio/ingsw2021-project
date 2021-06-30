@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Represent the request of the Setup of a Player.
  */
-public class ChosenSetupEvent extends SendEvent{
+public class ChosenSetupEvent extends EventToServer {
 
     private final List<Integer> chosenLeaderCardIndexes;
     private final List<String> chosenResources;

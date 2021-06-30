@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.client.view.cli.AnsiEnum;
+import it.polimi.ingsw.commons.FileUtilities;
+import it.polimi.ingsw.commons.Parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,8 +20,7 @@ import java.util.List;
 public class LeaderCardsDatabase {
     private static LeaderCardsDatabase instance = null;
 
-    private final String leaderCardsFileName = "src/main/resources/leaderCards.json";
-    private final List<String> leaderCardsID = new ArrayList<>();
+    private final List<String> leaderCardIDs = new ArrayList<>();
     private final List<String> leaderCardsVictoryPoints = new ArrayList<>();
     private final List<String> leaderCardsRequirements = new ArrayList<>();
 
@@ -53,7 +54,7 @@ public class LeaderCardsDatabase {
      * @return the number of the card into the Json file
      */
     private int getNumberOfCard(String cardIndex) {
-        return leaderCardsID.indexOf(cardIndex);
+        return leaderCardIDs.indexOf(cardIndex);
     }
 
     /**
@@ -137,7 +138,8 @@ public class LeaderCardsDatabase {
      * It reads the information containing into the Json file and add that into the local variables
      */
     private void firstSetup() {
-        File input = new File(leaderCardsFileName);
+        File input = new File(FileUtilities.UNMODIFIABLE_LEADER_CARDS_PATH);
+        //TODO FILE WRITER
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
             JsonObject fileObject = fileElement.getAsJsonObject();
@@ -153,7 +155,7 @@ public class LeaderCardsDatabase {
             System.err.println("file not found");
             e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("errore nel file json");
+            System.err.println("error nel file json");
             e.printStackTrace();
         }
     }
@@ -173,9 +175,9 @@ public class LeaderCardsDatabase {
             requirements = extractResRequirementsFromJson(leaderJsonObject);
 
         //extract common data to all leaderCards
-        leaderCardsID.add(extractStringValueFromJson(leaderJsonObject, "id"));
-        leaderCardsVictoryPoints.add(extractStringValueFromJson(leaderJsonObject, "points"));
-        String type = extractStringValueFromJson(leaderJsonObject, "type");
+        leaderCardIDs.add(Parser.extractFromField(leaderJsonObject, "id").getAsString());
+        leaderCardsVictoryPoints.add(Parser.extractFromField(leaderJsonObject, "points").getAsString());
+        String type = Parser.extractFromField(leaderJsonObject, "type").getAsString();
 
         switch (type) {
             case "production":
@@ -243,16 +245,5 @@ public class LeaderCardsDatabase {
         }
 
         return devRequirementsToPopulate.toString();
-    }
-
-    /**
-     * This method is used to extract a String value from the jsonObject
-     *
-     * @param cardJsonObject  JsonObject containing the Card data
-     * @param nameValueInJson name of the value in the JsonObject
-     * @return the String value extracted
-     */
-    private String extractStringValueFromJson(JsonObject cardJsonObject, String nameValueInJson) {
-        return cardJsonObject.get(nameValueInJson).getAsString();
     }
 }

@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.events.send;
 /**
  * Represent the request of the choice of the Number of the Players of the Game by a Player
  */
-public class SelectNumberPlayersEvent extends SendEvent {
+public class SelectNumberPlayersEvent extends EventToServer {
 
     private final Integer size;
 

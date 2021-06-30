@@ -25,8 +25,8 @@ public class WelcomeController extends GUICommandListener {
     private static final String IP_REGEXP = "^(" + zeroTo255 + "\\." + zeroTo255 + "\\."
             + zeroTo255 + "\\." + zeroTo255 + ")$";
     private static final Pattern IP_PATTERN = Pattern.compile(IP_REGEXP);
-    private final static String localMode = "localGame";
-    private final static String onlineMode = "onlineGame";
+    private final static String localMode = "Local Game";
+    private final static String onlineMode = "Online Game";
     ObservableList<String> connectionModes = FXCollections.observableArrayList(onlineMode,localMode);
 
     @FXML
@@ -83,14 +83,6 @@ public class WelcomeController extends GUICommandListener {
         }
         String ip;
         int port;
-        /*
-        if (!IP_PATTERN.matcher(serverIP.getText()).matches()) {
-            printErrorMessage("Not an IPv4");
-            serverIP.setText(defaultIP);
-            return;
-        }
-
-         */
         ip = serverIP.getText();
         try {
             port = Integer.parseInt(serverPort.getText());

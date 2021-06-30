@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.gameMode;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.commons.FileUtilities;
 
@@ -40,7 +41,7 @@ public class TokensGenerator {
      * @param tokenElementAsJsonObject JsonObject containing the jsonArray with the Tokens data
      */
     private void extractTokensFromJson(JsonObject tokenElementAsJsonObject) {
-        String typeOfToken = FileUtilities.getTypeFieldAsString(tokenElementAsJsonObject);
+        String typeOfToken = Parser.getTypeFieldAsString(tokenElementAsJsonObject);
         switch (typeOfToken) {
             case "DiscardDevCardsToken":
                 CardColorEnum colorOfToken = CardColorEnum.valueOf(tokenElementAsJsonObject.get(colorNameInJson).getAsString());

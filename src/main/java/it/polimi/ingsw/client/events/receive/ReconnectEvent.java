@@ -9,7 +9,7 @@ import it.polimi.ingsw.client.view.View;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ReconnectEvent implements ReceiveEvent {
+public class ReconnectEvent implements EventFromServer {
     private List<String> nicknames;
     private String currentPlayer;
     private String reconnectingPlayer;

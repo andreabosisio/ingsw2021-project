@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.gameBoard;
 
 import com.google.gson.*;
+import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.enums.CardColorEnum;
@@ -170,10 +171,9 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      * This method writes in a Json file the ID of the Card of the Development Cards Grid
      */
     public void saveData() {
-        Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
-        jsonObject.add("cards", gson.toJsonTree(developmentCards.stream().map(DevelopmentCard::getID).collect(Collectors.toList())));
-        FileUtilities.writeJsonElementInFile(jsonObject,FileUtilities.getSavedDevCardDataPath());
+        jsonObject.add("cards", Parser.toJsonTree(developmentCards.stream().map(DevelopmentCard::getID).collect(Collectors.toList())));
+        FileUtilities.writeJsonElementInFile(jsonObject, FileUtilities.SAVED_DEV_CARD_DATA_PATH);
     }
 
     /**

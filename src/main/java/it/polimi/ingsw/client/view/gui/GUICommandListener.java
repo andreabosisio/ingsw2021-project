@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.gui;
 
-import it.polimi.ingsw.client.events.send.SendEvent;
+import it.polimi.ingsw.client.events.send.EventToServer;
 import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
 import javafx.fxml.FXML;
@@ -17,8 +17,8 @@ public abstract class GUICommandListener implements CommandListener {
     private final int MAX_NUMBER_OF_MESSAGES = 10;
 
     @Override
-    public void notifyObservers(SendEvent sendEvent) {
-        commandListenerObserver.update(sendEvent);
+    public void notifyObservers(EventToServer eventToServer) {
+        commandListenerObserver.update(eventToServer);
     }
 
     @Override

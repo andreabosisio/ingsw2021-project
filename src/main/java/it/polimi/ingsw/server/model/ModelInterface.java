@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.exceptions.*;
-import it.polimi.ingsw.server.events.send.SendEvent;
+import it.polimi.ingsw.server.events.send.EventToClient;
 import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
@@ -207,11 +207,11 @@ public class ModelInterface implements SendObservable {
     /**
      * This method notify the Virtual Views of an amendment of the Model
      *
-     * @param sendEvent the Event from the Model
+     * @param eventToClient the Event from the Model
      */
     @Override
-    public void notifyObservers(SendEvent sendEvent) {
-        virtualViews.forEach(view -> view.update(sendEvent));
+    public void notifyObservers(EventToClient eventToClient) {
+        virtualViews.forEach(view -> view.update(eventToClient));
     }
 
     /**
@@ -269,6 +269,7 @@ public class ModelInterface implements SendObservable {
      * @return true if the player was the last one online
      */
     public boolean disconnectPlayer(String nickname) {
+        //todo maybe TL and SM should shares methods
         if(turnLogic.getCurrentState().equals(turnLogic.getIdle())){
             return setupManager.disconnectPlayer(nickname);
         }

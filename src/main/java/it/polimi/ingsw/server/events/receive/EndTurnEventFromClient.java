@@ -4,23 +4,17 @@ import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 
 /**
- * Represent the request of a Leader Action by a Player (from the Client).
+ * Represent the request of an End Turn Action by a Player (from the Client).
  */
-public class LeaderHandEvent extends ReceiveEvent {
-    private final String leaderCardID;
-    private final boolean discardCard;
+public class EndTurnEventFromClient extends EventFromClient {
 
     /**
-     * Create a new Leader Action request by specifying the Leader Card's ID and the action.
+     * Create a new End Turn Action request by specifying the Player who wants to end the turn.
      *
-     * @param nickname of the Player who wants to perform aa Leader Action
-     * @param leaderCardID The chosen Leader Card's ID
-     * @param discardCard true to discard the chosen Leader Card or false to activate it
+     * @param nickname of the Player who wants to end the turn
      */
-    public LeaderHandEvent(String nickname, String leaderCardID, boolean discardCard) {
+    public EndTurnEventFromClient(String nickname) {
         super(nickname);
-        this.leaderCardID = leaderCardID;
-        this.discardCard = discardCard;
     }
 
     /**
@@ -37,6 +31,6 @@ public class LeaderHandEvent extends ReceiveEvent {
      */
     @Override
     public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
-        return modelInterface.leaderAction(leaderCardID,discardCard);
+        return modelInterface.endTurn();
     }
 }

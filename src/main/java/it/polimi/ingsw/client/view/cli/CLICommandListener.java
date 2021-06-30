@@ -514,11 +514,11 @@ public class CLICommandListener implements CommandListener {
     /**
      * This method is used to notify the commandListenerObserver of the player choices
      *
-     * @param sendEvent event containing the player choices data
+     * @param eventToServer event containing the player choices data
      */
     @Override
-    public void notifyObservers(SendEvent sendEvent) {
-        commandListenerObserver.update(sendEvent);
+    public void notifyObservers(EventToServer eventToServer) {
+        commandListenerObserver.update(eventToServer);
     }
 
     /**

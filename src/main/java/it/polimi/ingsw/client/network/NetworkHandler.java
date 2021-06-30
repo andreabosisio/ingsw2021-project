@@ -1,17 +1,13 @@
 package it.polimi.ingsw.client.network;
 
-import com.google.gson.*;
-import it.polimi.ingsw.client.events.receive.*;
-import it.polimi.ingsw.client.events.send.SendEvent;
+import it.polimi.ingsw.client.events.send.EventToServer;
+import it.polimi.ingsw.client.utils.ClientParser;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
 import it.polimi.ingsw.client.view.View;
-import it.polimi.ingsw.commons.Connection;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,24 +22,6 @@ public class NetworkHandler implements CommandListenerObserver {
     private final ClientConnection connection;
     private final View view;
     private String nickname;
-
-    private final Map<String, Object> messageTypeMap = new HashMap<String,Object>() {{
-        put("info", InfoMessageEvent.class);
-        put("error", ErrorMessageEvent.class);
-        put("login", LoginEvent.class);
-        put("matchmaking", MatchMakingEvent.class);
-        put("setup", ChooseSetupEvent.class);
-        put("lobbyChoice", ChooseNumberPlayersEvent.class);
-        put("graphicUpdate", GraphicUpdateEvent.class);
-        put("placeDevCard", PlaceDevCardReceiveEvent.class);
-        put("transformation", TransformationReceiveEvent.class);
-        put("startTurn", StartTurnUpdateEvent.class);
-        put("placeResources", PlaceResourcesReceiveEvent.class);
-        put("endTurnChoice", EndTurnReceiveEvent.class);
-        put("gameStarted", GameStartedEvent.class);
-        put("endGame", EndGameEvent.class);
-        put("reconnect", ReconnectEvent.class);
-    }};
 
     /**
      * Create a new NetworkHandler for a remote Server.
@@ -108,37 +86,18 @@ public class NetworkHandler implements CommandListenerObserver {
      * @param message is the String message received from the Server
      */
     private void handleAction(String message) {
-        Gson gson = new Gson();
-        try {
-            JsonElement jsonElement = JsonParser.parseString(message);
-            if (jsonElement.isJsonObject()) {
-                JsonObject jsonObject = jsonElement.getAsJsonObject();
-                ReceiveEvent event;
-                try {
-                    event = gson.fromJson(message, (Type) messageTypeMap.get(jsonObject.get("type").getAsString()));
-                    event.updateView(view);
-                } catch (NullPointerException e) {
-                    //malformed message
-                    System.out.println("FAILED: " + message);
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println("Malformed json from Server");
-            }
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }
+        Objects.requireNonNull(ClientParser.getEventFromServer(message)).updateView(view);
     }
 
     /**
-     * This method creates the Json File from an Object of type SendEvent and
+     * This method creates the Json File from an Object of type EventToServer and
      * it sends the message through the class ClientConnection.
      *
-     * @param sendEvent Event to send to the Server
+     * @param eventToServer Event to send to the Server
      */
     @Override
-    public void update(SendEvent sendEvent) {
-        connection.sendMessage(sendEvent.toJson(nickname));
+    public void update(EventToServer eventToServer) {
+        connection.sendMessage(eventToServer.toJson(nickname));
     }
 
     /**

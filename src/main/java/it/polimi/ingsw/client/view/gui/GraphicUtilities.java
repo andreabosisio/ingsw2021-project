@@ -216,6 +216,7 @@ public class GraphicUtilities {
                 button = (Button) card;
                 cardSlot = (ImageView) button.getGraphic();
 
+                //fixme maybe remove
                 Bloom bloom = new Bloom();
                 for(int threshold = 100000; threshold >= 0; threshold--) {
                     cardSlot.setEffect(bloom);

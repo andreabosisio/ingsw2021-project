@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server.events.send.graphics;
 
-import it.polimi.ingsw.server.model.player.PersonalBoard;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 
 import java.util.*;
 

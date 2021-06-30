@@ -6,8 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
-import java.util.List;
-
 /**
  * This class is used as the controller of the market popup
  * It doesn't allow for any action on it

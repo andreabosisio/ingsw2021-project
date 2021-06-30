@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.network.personal;
 
-import it.polimi.ingsw.server.events.receive.ReceiveEvent;
-import it.polimi.ingsw.server.events.send.SendEvent;
+import it.polimi.ingsw.server.events.receive.EventFromClient;
+import it.polimi.ingsw.server.events.send.EventToClient;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.PongObserver;
 import it.polimi.ingsw.server.utils.ReceiveObservable;
@@ -112,7 +112,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      */
     public void startPingPong() {
         //fixme activate below for ping system
-        //sendPing();
+        sendPing();
     }
 
     /**
@@ -199,11 +199,11 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
     /**
      * This method notify the Controller when an event is received from the client
      *
-     * @param receiveEventFromClient the Event received from the Client
+     * @param eventFromClientFromClient the Event received from the Client
      */
     @Override
-    public void notifyObservers(ReceiveEvent receiveEventFromClient) {
-        controllerObserver.update(receiveEventFromClient);
+    public void notifyObservers(EventFromClient eventFromClientFromClient) {
+        controllerObserver.update(eventFromClientFromClient);
     }
 
     /**
@@ -211,12 +211,12 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      * If the change is meant to be seen by this virtualView's client it is serialized as a Json message
      * The message is then sent to the client via clientHandler
      *
-     * @param sendEvent the Event from the Model
+     * @param eventToClient the Event from the Model
      */
     @Override
-    public void update(SendEvent sendEvent) {
-        if (sendEvent.isForYou(nickname) && isOnline()) {
-            clientHandler.sendJsonMessage(sendEvent.toJson());
+    public void update(EventToClient eventToClient) {
+        if (eventToClient.isForYou(nickname) && isOnline()) {
+            clientHandler.sendJsonMessage(eventToClient.toJson());
         }
     }
 }
