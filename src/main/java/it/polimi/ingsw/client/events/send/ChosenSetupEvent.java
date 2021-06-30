@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.events.send;
 import java.util.List;
 
 /**
- * Represent the request of the Setup of a Player.
+ * Represent the request of a first Setup Action by a Player.
  */
 public class ChosenSetupEvent extends EventToServer {
 

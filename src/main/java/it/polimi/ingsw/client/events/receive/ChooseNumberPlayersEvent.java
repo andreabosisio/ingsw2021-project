@@ -2,6 +2,9 @@ package it.polimi.ingsw.client.events.receive;
 
 import it.polimi.ingsw.client.view.View;
 
+/**
+ * Represent the request of the number of Players of the Game
+ */
 public class ChooseNumberPlayersEvent implements EventFromServer {
 
     private final String payload;

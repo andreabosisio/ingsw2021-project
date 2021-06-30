@@ -4,6 +4,9 @@ import it.polimi.ingsw.client.ClientApp;
 
 import it.polimi.ingsw.server.ServerApp;
 
+/**
+ * Run the App to launch the Server and the Client Application
+ */
 public class App {
 
     /**

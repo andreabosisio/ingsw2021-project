@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.events.send;
 import java.util.List;
 
 /**
- * Represents the request of the choice of the White Resources Transformation by a Player
+ * Represent the request of the choice of the White Resources Transformation by a Player
  */
 public class TransformationActionEvent extends EventToServer {
     private final List<String> chosenResources;

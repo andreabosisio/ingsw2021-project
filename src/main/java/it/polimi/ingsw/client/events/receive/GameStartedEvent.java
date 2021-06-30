@@ -7,6 +7,9 @@ import it.polimi.ingsw.client.view.View;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Represent the Event of Start Game that contains the nickname of all the Players
+ */
 public class GameStartedEvent implements EventFromServer {
 
     private final List<String> nicknames;
