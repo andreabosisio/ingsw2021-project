@@ -40,6 +40,7 @@ public class Controller implements ReceiveObserver {
     }};
     private final ModelInterface modelInterface;
     private List<String> nicknames;
+    private final List<VirtualView> virtualViews;
     private final Gson gson = new Gson();
 
     /**
@@ -51,6 +52,7 @@ public class Controller implements ReceiveObserver {
      * @param virtualViews the list of the Virtual Views of the Players
      */
     public Controller(List<VirtualView> virtualViews) {
+        this.virtualViews = virtualViews;
         this.nicknames = virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList());
         if (nicknamesMatchSavedGame()) {
             this.modelInterface = new ModelInterface(nicknames);
@@ -169,9 +171,7 @@ public class Controller implements ReceiveObserver {
      */
     @Override
     public synchronized void update(ReceiveEvent receiveEvent) {
-
-        ClientHandler currentClientHandler = Lobby.getLobby().getVirtualViewByNickname(receiveEvent.getNickname()).getClientHandler();
-
+        ClientHandler currentClientHandler = Objects.requireNonNull(virtualViews.stream().filter(v -> v.getNickname().equals(receiveEvent.getNickname())).findFirst().orElse(null)).getClientHandler();
         if (receiveEvent.canBeExecutedFor(modelInterface.getCurrentPlayerNickname())) {
             try {
                 updateSavedGame(receiveEvent);
@@ -237,5 +237,9 @@ public class Controller implements ReceiveObserver {
         //System.out.println(jsonArrayOfInstructions);
         jsonArrayOfInstructions.add(gson.toJsonTree(receiveEvent));
         FileUtilities.writeJsonElementInFile(fileObject,FileUtilities.getSavedGamePath());
+    }
+
+    public ModelInterface getModelInterfaceForTesting(){
+        return modelInterface;
     }
 }
