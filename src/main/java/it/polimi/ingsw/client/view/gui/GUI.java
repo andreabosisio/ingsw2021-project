@@ -257,6 +257,7 @@ public class GUI extends Application implements View {
                 networkHandler.close();
             }
             try {
+                //todo why?
                 Thread.sleep(5000);
             } catch (InterruptedException interruptedException) {
                 interruptedException.printStackTrace();

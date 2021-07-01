@@ -104,12 +104,12 @@ public class PersonalController extends GUICommandListener {
      */
     @FXML
     private void initialize() {
+        prepareProductions();
+        prepareDepots();
+        populateAll();
         prepareLegend();
         prepareActions();
         preparePopupsControllers();
-        prepareDepots();
-        prepareProductions();
-        populateAll();
     }
 
     /**

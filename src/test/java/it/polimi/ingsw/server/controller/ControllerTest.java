@@ -4,9 +4,13 @@ import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.personal.VirtualView;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -15,27 +19,32 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-class ControllerTest {
-    //this names contains characters the server won't accept as a valid name therefore it can be used to create a brand new saved data
-    private static final String nameForReset = "??#?";
 
-    @Mock
-    VirtualView virtualView1,virtualView2,virtualView3;
-    @Mock
-    ClientHandler clientHandler;
+class ControllerTest {
+    private static final String nameForReset = "??#??";//this names contains characters the server won't accept as a valid name therefore it can be used to create a brand new saved data
+    private VirtualView virtualView1,virtualView2,virtualView3;
+    private  List<VirtualView> virtualViews;
+    private ClientHandler clientHandler;
+    @BeforeEach
+    void setUp() {
+        virtualView1 = Mockito.mock(VirtualView.class);
+        virtualView2 = Mockito.mock(VirtualView.class);
+        virtualView3 = Mockito.mock(VirtualView.class);
+        clientHandler = Mockito.mock(ClientHandler.class);
+        when(virtualView3.getNickname()).thenReturn(nameForReset);
+        //reset savedData
+        new Controller(new ArrayList<>(){{add(virtualView3);}});
+        virtualViews = new ArrayList<>(){{add(virtualView1);add(virtualView2);}};
+    }
 
     @Test
-    public void testWithMockito()  {
+    public void persistenceTest()  {
         when(virtualView1.getNickname()).thenReturn("Forza");
         when(virtualView2.getNickname()).thenReturn("Atalanta");
-        when(virtualView3.getNickname()).thenReturn(nameForReset);
         when(virtualView1.getClientHandler()).thenReturn(clientHandler);
         when(virtualView2.getClientHandler()).thenReturn(clientHandler);
-        //used so test won't failed with a saved data equals to first second
-        Controller controller = new Controller(new ArrayList<>(){{add(virtualView3);}});
-        List<VirtualView> virtualViews = new ArrayList<VirtualView>(){{add(virtualView1);add(virtualView2);}};
-        controller = new Controller(virtualViews);
+        //Create a game for the 2 players
+        Controller controller = new Controller(virtualViews);
         String firstNickname = controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().get(0).getNickname();
         String secondNickname = controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().get(1).getNickname();
 
@@ -76,11 +85,12 @@ class ControllerTest {
         //simulate a server shutdown and reconnection of the same players
         controller = new Controller(virtualViews);
         //check that player one must place the resources he was placing before the shutdown
+        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getWaitResourcePlacement(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
         controller.update(new PlaceResourcesEventFromClient(firstNickname,new ArrayList<>(),true));
     }
 
     private void roundOfNothingFor(Controller controller,String player){
-        controller.update(new MarketEventFromClient(player,1));
+        controller.update(new MarketEventFromClient(player,6));
         controller.update(new PlaceResourcesEventFromClient(player,new ArrayList<>(),true));
         controller.update(new EndTurnEventFromClient(player));
     }
@@ -88,14 +98,11 @@ class ControllerTest {
     @Test
     public void disconnectionOfOnePlayerTests()  {
         when(virtualView1.getNickname()).thenReturn("Zapata");
-        when(virtualView3.getNickname()).thenReturn(nameForReset);
         when(virtualView1.getClientHandler()).thenReturn(clientHandler);
         List<Integer> chosenLeaderCardIndexes = new ArrayList<>(){{add(0);add(1);}};
         List<String> chosenResources = new ArrayList<>();
-        //used so test won't failed with a saved data equals to first second
-        Controller controller = new Controller(new ArrayList<>(){{add(virtualView1);add(virtualView3);}});
-        List<VirtualView> virtualViews = new ArrayList<VirtualView>(){{add(virtualView1);add(virtualView2);}};
-        controller = new Controller(virtualViews.subList(0,1));
+        //Create a game for the player
+        Controller controller = new Controller(virtualViews.subList(0,1));
         controller.update(new SetupEventFromClient(virtualView1.getNickname(),chosenLeaderCardIndexes,chosenResources));
         roundOfNothingFor(controller,virtualView1.getNickname());
         controller.disconnectPlayer(virtualView1.getNickname());
@@ -106,17 +113,26 @@ class ControllerTest {
         controller.update(new SetupEventFromClient(virtualView1.getNickname(),chosenLeaderCardIndexes,chosenResources));
     }
     @Test
+    public void disconnectDuringSetupTest(){
+        when(virtualView1.getNickname()).thenReturn("Muriel");
+        when(virtualView1.getClientHandler()).thenReturn(clientHandler);
+        List<Integer> chosenLeaderCardIndexes = new ArrayList<>(){{add(0);add(1);}};
+        List<String> chosenResources = new ArrayList<>();
+        //Create a game for the player
+        Controller controller = new Controller(virtualViews.subList(0,1));
+        controller.disconnectPlayer(virtualView1.getNickname());
+        controller = new Controller(virtualViews.subList(1,2));
+        controller.update(new SetupEventFromClient(virtualView1.getNickname(),chosenLeaderCardIndexes,chosenResources));
+        assertEquals(virtualView2.getNickname(),controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+    }
+    @Test
     public void disconnectionOfTwoPlayersTests()  {
         when(virtualView1.getNickname()).thenReturn("Pepe");
         when(virtualView2.getNickname()).thenReturn("TheFrog");
-        when(virtualView3.getNickname()).thenReturn(nameForReset);
         when(virtualView1.getClientHandler()).thenReturn(clientHandler);
         when(virtualView2.getClientHandler()).thenReturn(clientHandler);
-        //used so test won't failed with a saved data equals to first second
-        Controller controller = new Controller(new ArrayList<>(){{add(virtualView3);}});
         //Prepare a game with a setup done for 2 players
-        List<VirtualView> virtualViews = new ArrayList<VirtualView>(){{add(virtualView1);add(virtualView2);}};
-        controller = new Controller(virtualViews);
+        Controller controller = new Controller(virtualViews);
         String firstNickname = controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().get(0).getNickname();
         String secondNickname = controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().get(1).getNickname();
         List<Integer> chosenLeaderCardIndexes = new ArrayList<>(){{add(0);add(1);}};

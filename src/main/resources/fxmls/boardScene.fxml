@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane prefHeight="932.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane prefHeight="932.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <AnchorPane fx:id="mainPane" prefHeight="864.0" prefWidth="1791.0" translateY="70.0">
       <ImageView fitHeight="852.0" fitWidth="1802.0" layoutX="607.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@../images/boards/blackWhiteBoard.png" />
@@ -176,7 +176,7 @@
          <Image url="@../images/boards/modifiedMarket.png" />
       </ImageView>
       <Button fx:id="handButton" layoutX="390.0" layoutY="819.0" mnemonicParsing="false" prefHeight="13.0" prefWidth="100.0" text="Your Hand" />
-      <HBox fx:id="HActiveLeaders" layoutX="296.0" layoutY="568.0" prefHeight="100.0" prefWidth="200.0">
+      <HBox fx:id="HActiveLeaders" layoutX="296.0" layoutY="574.0" prefHeight="206.0" prefWidth="304.0" spacing="16.0">
          <ImageView fitHeight="248.0" fitWidth="144.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../images/leaders/empty.png" />
          </ImageView>
@@ -630,7 +630,7 @@
       <Button fx:id="endSwap" layoutX="793.0" layoutY="299.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="91.0" text="End Swap" />
       <Button fx:id="endTurn" layoutX="933.0" layoutY="471.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="95.0" text="End Turn" />
       <Button fx:id="endProduction" layoutX="930.0" layoutY="413.0" mnemonicParsing="false" text="End Production" />
-      <HBox fx:id="HActiveProductionLeaders" layoutX="296.0" layoutY="568.0" prefHeight="100.0" prefWidth="200.0">
+      <HBox fx:id="HActiveProductionLeaders" layoutX="288.0" layoutY="570.0" prefHeight="221.0" prefWidth="323.0">
          <Button mnemonicParsing="false">
             <graphic>
                <ImageView fitHeight="248.0" fitWidth="144.0" pickOnBounds="true" preserveRatio="true">

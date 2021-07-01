@@ -268,6 +268,7 @@ public abstract class GraphicUtilities {
             }
             if (leaderID.charAt(0) == LeaderCard.PRODUCTION_LEADER_CARD_ID_PREFIX) {
                 productionLeaderBox.getChildren().get(i).setVisible(true);
+                leadersBox.getChildren().get(i).setVisible(false);
                 Button leaderProductionButton = (Button) productionLeaderBox.getChildren().get(i);
                 leaderProductionButton.setId(String.valueOf(pCount.getAndIncrement()));
                 temp = (ImageView) leaderProductionButton.getGraphic();

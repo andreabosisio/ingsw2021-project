@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 public class Controller implements EventsForClientObserver {
 
-    private final ModelInterface modelInterface;
+    private ModelInterface modelInterface;
     private List<String> nicknames;
     private final List<VirtualView> virtualViews;
 
@@ -39,27 +39,44 @@ public class Controller implements EventsForClientObserver {
         this.virtualViews = virtualViews;
         this.nicknames = virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList());
         if (nicknamesMatchSavedGame()) {
-            this.modelInterface = new ModelInterface(nicknames);
-            reloadGame();
+            if(isLoadedSuccessfully()){
+                return;
+            }
+        }
+        Collections.shuffle(nicknames);
+        this.modelInterface = new ModelInterface(nicknames);
+        resetGameDataFile();
+        setupObservers(virtualViews);
+        startSetup();
+    }
+
+    /**
+     * This method tries to load a game from the files containing the necessary data
+     * If successful it also send to every player the data to load the current game state and continue from where the server crashed
+     * @return true if successful
+     */
+    private boolean isLoadedSuccessfully(){
+        this.modelInterface = new ModelInterface(nicknames);
+        try {
+            reloadGameBoardElements();
             startSetup();
             reDoSavedActions();
-            setupObservers(virtualViews);
-            //use reconnect event to send every graphic information to every player
-            for (String nickname : nicknames) {
-                modelInterface.reconnectPlayer(nickname);
-                updateSavedGame(new ReconnectEventFromClient(nickname));
-            }
-            Lobby.getLobby().broadcastMessage("Loaded an existing game");
-            modelInterface.sendNecessaryEvents();
-
-        } else {
-            Collections.shuffle(nicknames);
-            this.modelInterface = new ModelInterface(nicknames);
-            resetGameDataFile();
-            setupObservers(virtualViews);
-            startSetup();
+        }catch (Exception e){
+            //if a saveData file is corrupted the game must be created brand new
+            System.err.println("Saved data was corrupted: Starting a new game");
+            return false;
         }
+        setupObservers(virtualViews);
+        //use reconnect event to send every graphic information to every player
+        for (String nickname : nicknames) {
+            modelInterface.reconnectPlayer(nickname);
+            updateSavedGame(new ReconnectEventFromClient(nickname));
+        }
+        Lobby.getLobby().broadcastMessage("Loaded an existing game");
+        modelInterface.sendNecessaryEvents();
+        return true;
     }
+
 
     /**
      * This function is used to register all the virtualViews as observers of the model
@@ -87,14 +104,14 @@ public class Controller implements EventsForClientObserver {
      */
     private void resetGameDataFile() {
         FileUtilities.resetGameData(nicknames);
-        modelInterface.saveMarketAndGridData();
+        modelInterface.saveInitialGameBoardData();
     }
 
     /**
-     * This method loads the state of the Market Tray and the state of the Development Cards Grid from the Json Files
+     * This method loads the Market Tray,Development Cards Grid and DeckLeaders initial saved state from the Json Files created in previous games
      */
-    private void reloadGame() {
-        modelInterface.loadMarketAndGridAndDeckLeaderData();
+    private void reloadGameBoardElements() {
+        modelInterface.loadInitialGameBoardData();
     }
 
     /**
