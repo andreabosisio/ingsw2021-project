@@ -5,11 +5,21 @@ import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.List;
 
+/**
+ * Implementation of a Leader Card.
+ */
 public abstract class LeaderCard {
     private final List<Requirement> requirements;
     private final String iD;
     private final int points;
 
+    /**
+     * Create a Leader Card by specifying all the needed parameters.
+     *
+     * @param iD ID of the Card
+     * @param points Victory Points of the Card
+     * @param requirements Requirements to activate the Card
+     */
     LeaderCard(String iD, int points, List<Requirement> requirements) {
         this.iD = iD;
         this.points = points;
@@ -35,8 +45,9 @@ public abstract class LeaderCard {
     }
 
     /**
-     * Check if the white resource transformation can be performed by the card.
+     * Check if the White Resource transformation can be performed by the card.
      *
+     * @param resource The White Resource to transform
      * @return true if it is acceptable
      */
     public boolean doTransformation(Resource resource) {

@@ -29,7 +29,7 @@ public class NetworkHandler implements CommandListenerObserver {
      * @param ip   IP Address of the remote Server
      * @param port Port of of the remote Server
      * @param view The current UI
-     * @throws IOException if Socket creation fails
+     * @throws IOException if Socket creation failed
      */
     public NetworkHandler(String ip, int port, View view) throws IOException {
         Socket socket = new Socket(ip, port);
