@@ -2,7 +2,10 @@ package it.polimi.ingsw.server.utils;
 
 import it.polimi.ingsw.server.events.send.EventToClient;
 
-public interface SendObservable {
+/**
+ * Should be implemented by all the Classes that sends Events to the Client.
+ */
+public interface EventToClientObservable {
     /**
      * This method is used to notify all the Observers of an Event from the Model
      *
@@ -15,5 +18,5 @@ public interface SendObservable {
      *
      * @param virtualView object to set
      */
-    void registerObserver(SendObserver virtualView);
+    void registerObserver(EventToClientObserver virtualView);
 }

@@ -58,6 +58,24 @@ public class FaithTrack extends Printable {
     }
 
     /**
+     * Get all the couples (playerNick, lastPoistion)
+     *
+     * @return all the couples (playerNick, lastPoistion)
+     */
+    public HashMap<String, Integer> getIndexes() {
+        return new HashMap<>(indexes);
+    }
+
+    /**
+     * Get all the couples (playerNick, activePopeTiles)
+     *
+     * @return all the couples (playerNick, activePopeTiles)
+     */
+    public HashMap<String, Boolean[]> getReports() {
+        return new HashMap<>(reports);
+    }
+
+    /**
      * Return a printable representation of the FaithTrack containing all the Players' markers.
      *
      * @return a List<String> containing the representation of the FaithTrack row by row.
@@ -114,7 +132,12 @@ public class FaithTrack extends Printable {
         return faithTrack;
     }
 
-    PrintableScene getFaithTrackWithLegendScene() {
+    /**
+     * Create a Scene containing the Faith Track with the legend of all the players.
+     *
+     * @return the generated Scene
+     */
+    public PrintableScene getFaithTrackWithLegendScene() {
         List<String> legend = new ArrayList<>();
         markerByNick.forEach((nick, marker) -> legend.add(AnsiUtilities.WHITE_BRIGHT + nick + AnsiUtilities.RESET + ": " + marker));
 
@@ -131,11 +154,4 @@ public class FaithTrack extends Printable {
         view.faithTracksUpdate();
     }
 
-    public HashMap<String, Integer> getIndexes() {
-        return new HashMap<>(indexes);
-    }
-
-    public HashMap<String, Boolean[]> getReports() {
-        return new HashMap<>(reports);
-    }
 }

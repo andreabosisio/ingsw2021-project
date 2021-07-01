@@ -341,7 +341,7 @@ public class PersonalController extends GUICommandListener {
         if (canSwap) {
             if (lastSwap == null) {
                 lastSwap = n;
-                Image nodeImage = n.snapshot(new SnapshotParameters(), null);
+                Image nodeImage = ((Button)n).getGraphic().snapshot(new SnapshotParameters(), null);
                 mainPane.getScene().setCursor(new ImageCursor(nodeImage));
             } else {
                 mainPane.getScene().setCursor(null);

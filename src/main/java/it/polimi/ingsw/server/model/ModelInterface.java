@@ -11,8 +11,8 @@ import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.ResourceFactory;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
-import it.polimi.ingsw.server.utils.SendObservable;
-import it.polimi.ingsw.server.utils.SendObserver;
+import it.polimi.ingsw.server.utils.EventToClientObservable;
+import it.polimi.ingsw.server.utils.EventToClientObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +24,12 @@ import java.util.Map;
  * It is Observable by all the Virtual Views, it's purpose is to notify them when
  * there was a modify of the internal structure.
  */
-public class ModelInterface implements SendObservable {
+public class ModelInterface implements EventToClientObservable {
 
     private final List<Player> players = new ArrayList<>();
     private final TurnLogic turnLogic;
     private final SetupManager setupManager;
-    private final List<SendObserver> virtualViews;
+    private final List<EventToClientObserver> virtualViews;
 
     /**
      * This class contains all the methods visible to the controller in the MVC pattern
@@ -210,7 +210,7 @@ public class ModelInterface implements SendObservable {
      * @param virtualView object to add
      */
     @Override
-    public void registerObserver(SendObserver virtualView) {
+    public void registerObserver(EventToClientObserver virtualView) {
         virtualViews.add(virtualView);
     }
 

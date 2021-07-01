@@ -103,17 +103,6 @@ public class PersonalBoard extends Printable {
 
         view.personalBoardUpdate(personalBoard);
 
-        //fixme why cli methods for gui?
-        /*
-        personalBoard.setHandScene();
-        personalBoard.setActiveLeadersScene();
-         */
-        //personalBoard.setProductionSlotsScene();
-        //personalBoard.setWarehouseScene();
-        /*
-        personalBoard.setActiveCardsScene();
-        personalBoard.setCardsScene();
-         */
     }
 
     public void updateCliScenes() {

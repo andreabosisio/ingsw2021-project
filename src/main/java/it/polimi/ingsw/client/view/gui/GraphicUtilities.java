@@ -224,16 +224,6 @@ public abstract class GraphicUtilities {
             if (counter == indexNewCard) {
                 button = (Button) card;
                 cardSlot = (ImageView) button.getGraphic();
-
-                //fixme maybe remove
-                /*
-                Bloom bloom = new Bloom();
-                for(int threshold = 100000; threshold >= 0; threshold--) {
-                    cardSlot.setEffect(bloom);
-                    bloom.setThreshold(threshold*0.00001);
-                }
-                */
-
                 file = new File(devCardsPath + iD.toLowerCase(Locale.ROOT) + endOfPath);
                 cardSlot.setImage(new Image(file.toURI().toString()));
                 cardSlot.setEffect(null);

@@ -14,7 +14,7 @@ import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.personal.VirtualView;
-import it.polimi.ingsw.server.utils.EventsForClientObserver;
+import it.polimi.ingsw.server.utils.EventsFromClientObserver;
 import it.polimi.ingsw.server.utils.ServerParser;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * it's purpose is to receive the actions of the Players and changes the State of the Model.
  * It is Observer of the Events send by the Virtual Views.
  */
-public class Controller implements EventsForClientObserver {
+public class Controller implements EventsFromClientObserver {
 
     private ModelInterface modelInterface;
     private List<String> nicknames;

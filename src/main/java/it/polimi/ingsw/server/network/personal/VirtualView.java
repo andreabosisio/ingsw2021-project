@@ -4,9 +4,9 @@ import it.polimi.ingsw.server.events.receive.EventFromClient;
 import it.polimi.ingsw.server.events.send.EventToClient;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.PongObserver;
-import it.polimi.ingsw.server.utils.EventsForClientObserver;
-import it.polimi.ingsw.server.utils.ReceiveObservable;
-import it.polimi.ingsw.server.utils.SendObserver;
+import it.polimi.ingsw.server.utils.EventsFromClientObserver;
+import it.polimi.ingsw.server.utils.EventFromClientObservable;
+import it.polimi.ingsw.server.utils.EventToClientObserver;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,11 +18,11 @@ import java.util.TimerTask;
  * Every Player have an instance of this class and it permits to communicate with the Model
  * with Object of type Event, the most abstract messages.
  */
-public class VirtualView implements PongObserver, SendObserver, ReceiveObservable {
+public class VirtualView implements PongObserver, EventToClientObserver, EventFromClientObservable {
     //ping period variables in milliseconds
     private final static int PING_DELAY = 0;
     private final static int PING_PERIOD = 5000;
-    private EventsForClientObserver controllerObserver;
+    private EventsFromClientObserver controllerObserver;
     private boolean online;
     private final String nickname;
     private final String password;
@@ -192,18 +192,18 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      * @param observer controller of the MVC pattern
      */
     @Override
-    public void registerObserver(EventsForClientObserver observer) {
+    public void registerObserver(EventsFromClientObserver observer) {
         this.controllerObserver = observer;
     }
 
     /**
      * This method notify the Controller when an event is received from the client
      *
-     * @param eventFromClientFromClient the Event received from the Client
+     * @param eventFromClient the Event received from the Client
      */
     @Override
-    public void notifyObservers(EventFromClient eventFromClientFromClient) {
-        controllerObserver.update(eventFromClientFromClient);
+    public void notifyObservers(EventFromClient eventFromClient) {
+        controllerObserver.update(eventFromClient);
     }
 
     /**

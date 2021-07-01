@@ -10,7 +10,6 @@ import java.util.List;
  * Contains all the needed data to update the Client Light Model state.
  */
 public class GraphicUpdateEvent extends EventToClient {
-
     private final String type = ServerParser.GRAPHIC_UPDATE_TYPE;
     private MarketUpdate marketUpdate = null;
     private GridUpdate gridUpdate = null;
