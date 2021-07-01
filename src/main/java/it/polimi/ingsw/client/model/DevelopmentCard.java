@@ -16,6 +16,11 @@ public class DevelopmentCard extends Printable {
 
     public static final String EMPTY_CARD_ID = "empty";
 
+    /**
+     * Create a new Development Card by specifying the ID.
+     *
+     * @param iD The ID of the Card
+     */
     public DevelopmentCard(String iD) {
         this.iD = iD;
     }

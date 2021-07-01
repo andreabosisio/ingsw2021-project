@@ -19,7 +19,7 @@ public class TransformationEventFromClient extends EventFromClient {
      * @param chosenResources The color of the chosen Resources as result of the Transformation
      */
     public TransformationEventFromClient(String nickname, List<String> chosenResources) {
-        super(nickname, ServerParser.transformationActionType);
+        super(nickname, ServerParser.TRANSFORMATION_ACTION_TYPE);
         this.chosenResources = chosenResources;
     }
 

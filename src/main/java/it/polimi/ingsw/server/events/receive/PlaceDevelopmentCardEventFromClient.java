@@ -17,7 +17,7 @@ public class PlaceDevelopmentCardEventFromClient extends EventFromClient {
      * @param slotPosition The index of the chosen Production Slot
      */
     public PlaceDevelopmentCardEventFromClient(String nickname, int slotPosition) {
-        super(nickname, ServerParser.cardPlacementActionType);
+        super(nickname, ServerParser.CARD_PLACEMENT_ACTION_TYPE);
         this.slotPosition = slotPosition;
     }
 

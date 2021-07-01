@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 
 public class WarehouseUpdate implements PersonalUpdate {
     @Override
-    public void addUpdateTo(PersonalBoardUpdate personalBoardUpdate, Player player) {
+    public void addUpdate(PersonalBoardUpdate personalBoardUpdate, Player player) {
         Warehouse warehouse = player.getPersonalBoard().getWarehouse();
         warehouse.reorderStrongBox();
         personalBoardUpdate.setWarehouse(warehouse.getAllPositionsAndResources());

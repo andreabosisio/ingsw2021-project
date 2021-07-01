@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Contains all the data of the latest owned Production Cards.
+ */
 public class ProductionSlotsUpdate implements PersonalUpdate {
     @Override
-    public void addUpdateTo(PersonalBoardUpdate personalBoardUpdate, Player player) {
+    public void addUpdate(PersonalBoardUpdate personalBoardUpdate, Player player) {
         personalBoardUpdate.setNickname(player.getNickname());
         List<List<String>> slots = player.getPersonalBoard().getVisibleDevelopmentCardsIDs().stream().map(slot -> new ArrayList<String>() {{
             add(slot);

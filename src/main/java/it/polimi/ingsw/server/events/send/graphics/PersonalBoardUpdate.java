@@ -34,7 +34,7 @@ public class PersonalBoardUpdate {
 
     public PersonalBoardUpdate(Player player, PersonalUpdate... personalUpdates) {
         for (PersonalUpdate personalUpdate : personalUpdates) {
-            personalUpdate.addUpdateTo(this, player);
+            personalUpdate.addUpdate(this, player);
         }
     }
 

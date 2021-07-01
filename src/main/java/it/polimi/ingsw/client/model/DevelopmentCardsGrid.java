@@ -26,6 +26,11 @@ public class DevelopmentCardsGrid extends Printable {
     private static final int CARD_LINES = 9;
     private static final int CARD_PER_LEVEL = 4;
 
+    /**
+     * Create a new Development Cards Grid by specifying its content.
+     *
+     * @param fullGrid A list containing all the Cards to put in the Grid in a specific order
+     */
     public DevelopmentCardsGrid(List<String> fullGrid) {
         this.fullGrid = fullGrid;
     }

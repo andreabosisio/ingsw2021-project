@@ -5,11 +5,21 @@ import it.polimi.ingsw.server.model.player.Player;
 
 import java.util.List;
 
+/**
+ * Represents the requirements to Activate a Leader Card in terms of owned Development Cards.
+ */
 public class DevelopmentRequirement implements Requirement {
     private final int level;
     private final CardColorsEnum color;
     private final int quantity;
 
+    /**
+     * Create a new Development Requirement by setting the needed parameters.
+     *
+     * @param level Minimum level of the owned Development Cards
+     * @param color Color of the owned Development Cards
+     * @param quantity Quantity of the owned Development Cards that must respect this Requirement
+     */
     public DevelopmentRequirement(int level, CardColorsEnum color, int quantity) {
         this.level = level;
         this.color = color;

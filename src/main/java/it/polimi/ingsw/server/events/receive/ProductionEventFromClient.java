@@ -22,7 +22,7 @@ public class ProductionEventFromClient extends EventFromClient {
      * @param outResourcesForEachProductions A map containing the colors of the desired Resources as result of the Production of the chosen Production Slot index which is the key.
      */
     public ProductionEventFromClient(String nickname, Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) {
-        super(nickname, ServerParser.productionActionType);
+        super(nickname, ServerParser.PRODUCTION_ACTION_TYPE);
         this.inResourcesForEachProductions = inResourcesForEachProductions;
         this.outResourcesForEachProductions = outResourcesForEachProductions;
     }

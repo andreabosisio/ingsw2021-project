@@ -16,7 +16,7 @@ public class LoginEvent extends EventToServer {
      * @param password is the password of the Player
      */
     public LoginEvent(String nickname, String password) {
-        super(ClientParser.loginType);
+        super(ClientParser.LOGIN_TYPE);
         this.nickname = nickname;
         this.password = String.valueOf(password.hashCode());
     }

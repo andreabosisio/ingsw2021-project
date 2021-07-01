@@ -4,6 +4,6 @@ import it.polimi.ingsw.server.utils.ServerParser;
 
 public class PlaceResourcesChoiceEvent extends ChoiceEvent {
     public PlaceResourcesChoiceEvent(String nickname) {
-        super(nickname, ServerParser.placeResourcesType);
+        super(nickname, ServerParser.PLACE_RESOURCES_TYPE);
     }
 }

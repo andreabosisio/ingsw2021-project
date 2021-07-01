@@ -20,7 +20,7 @@ public class ProductionActionEvent extends EventToServer {
      * @param outResourcesForEachProductions are the resources in output to do the Production
      */
     public ProductionActionEvent(Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) {
-        super(ClientParser.productionActionType);
+        super(ClientParser.PRODUCTION_ACTION_TYPE);
         this.inResourcesForEachProductions = inResourcesForEachProductions;
         this.outResourcesForEachProductions = outResourcesForEachProductions;
     }

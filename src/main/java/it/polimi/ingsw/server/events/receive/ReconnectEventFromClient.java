@@ -11,7 +11,7 @@ public class ReconnectEventFromClient extends EventFromClient {
      * @param sender The nickname of the Player who wants to perform an action
      */
     public ReconnectEventFromClient(String sender) {
-        super(sender, ServerParser.reconnectType);
+        super(sender, ServerParser.RECONNECT_TYPE);
     }
 
     /**

@@ -4,37 +4,40 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+/**
+ * Messages Parser.
+ */
 public abstract class Parser {
 
     //client to server
-    public static final String buyActionType = "buyAction";
-    public static final String cardPlacementActionType = "cardPlacementAction";
-    public static final String setupActionType = "setupAction";
-    public static final String endTurnActionType = "endTurnAction";
-    public static final String leaderActionType = "leaderAction";
-    public static final String marketActionType = "marketAction";
-    public static final String productionActionType = "productionAction";
-    public static final String resourcesPlacementActionType = "resourcesPlacementAction";
-    public static final String transformationActionType = "transformationAction";
-    public static final String disconnectType = "disconnectAction";
-    public static final String cheatType = "cheatAction";
+    public static final String BUY_ACTION_TYPE = "buyAction";
+    public static final String CARD_PLACEMENT_ACTION_TYPE = "cardPlacementAction";
+    public static final String SETUP_ACTION_TYPE = "setupAction";
+    public static final String END_TURN_ACTION_TYPE = "endTurnAction";
+    public static final String LEADER_ACTION_TYPE = "leaderAction";
+    public static final String MARKET_ACTION_TYPE = "marketAction";
+    public static final String PRODUCTION_ACTION_TYPE = "productionAction";
+    public static final String RESOURCES_PLACEMENT_ACTION_TYPE = "resourcesPlacementAction";
+    public static final String TRANSFORMATION_ACTION_TYPE = "transformationAction";
+    public static final String DISCONNECT_TYPE = "disconnectAction";
+    public static final String CHEAT_TYPE = "cheatAction";
     //server to client
-    public static final String infoType = "info";
-    public static final String errorType = "error";
-    public static final String loginType = "login";
-    public static final String matchmakingType = "matchmaking";
-    public static final String setupType = "setup";
-    public static final String lobbyChoiceType = "lobbyChoice";
-    public static final String graphicUpdateType = "graphicUpdate";
-    public static final String placeDevCardType = "placeDevCard";
-    public static final String transformationType = "transformation";
-    public static final String startTurnType = "startTurn";
-    public static final String placeResourcesType = "placeResources";
-    public static final String endTurnChoiceType = "endTurnChoice";
-    public static final String gameStartedType = "gameStarted";
-    public static final String endGameType = "endGame";
+    public static final String INFO_TYPE = "info";
+    public static final String ERROR_TYPE = "error";
+    public static final String LOGIN_TYPE = "login";
+    public static final String MATCHMAKING_TYPE = "matchmaking";
+    public static final String SETUP_TYPE = "setup";
+    public static final String LOBBY_CHOICE_TYPE = "lobbyChoice";
+    public static final String GRAPHIC_UPDATE_TYPE = "graphicUpdate";
+    public static final String PLACE_DEV_CARD_TYPE = "placeDevCard";
+    public static final String TRANSFORMATION_TYPE = "transformation";
+    public static final String START_TURN_TYPE = "startTurn";
+    public static final String PLACE_RESOURCES_TYPE = "placeResources";
+    public static final String END_TURN_CHOICE_TYPE = "endTurnChoice";
+    public static final String GAME_STARTED_TYPE = "gameStarted";
+    public static final String END_GAME_TYPE = "endGame";
     //both ways
-    public static final String reconnectType = "reconnect";
+    public static final String RECONNECT_TYPE = "reconnect";
 
     public static final Gson gson = new Gson();
 
@@ -58,6 +61,13 @@ public abstract class Parser {
         return jsonObject.get(MSG_TYPE_ID).getAsString();
     }
 
+    /**
+     * Extract the content of the specified field from a JsonObject message.
+     *
+     * @param jsonElement The JsonObject containing the message
+     * @param type The field to extract
+     * @return the extracted content
+     */
     public static JsonElement extractFromField(JsonElement jsonElement, String type) {
         return jsonElement.getAsJsonObject().get(type);
     }

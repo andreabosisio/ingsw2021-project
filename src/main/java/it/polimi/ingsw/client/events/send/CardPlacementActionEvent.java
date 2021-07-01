@@ -14,7 +14,7 @@ public class CardPlacementActionEvent extends EventToServer {
      * @param slotPosition The index of the Production Slot where the card should be placed
      */
     public CardPlacementActionEvent(int slotPosition) {
-        super(ClientParser.cardPlacementActionType);
+        super(ClientParser.CARD_PLACEMENT_ACTION_TYPE);
         this.slotPosition = slotPosition;
     }
 }

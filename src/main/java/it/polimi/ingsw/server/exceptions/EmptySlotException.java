@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.exceptions;
 
+/**
+ * Threw if a Resource Slot with no Resource in it is accessed.
+ */
 public class EmptySlotException extends Exception {
 
     /**

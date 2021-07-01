@@ -7,6 +7,6 @@ import it.polimi.ingsw.client.utils.ClientParser;
  */
 public class EndTurnActionEvent extends EventToServer {
     public EndTurnActionEvent() {
-        super(ClientParser.endTurnActionType);
+        super(ClientParser.END_TURN_ACTION_TYPE);
     }
 }

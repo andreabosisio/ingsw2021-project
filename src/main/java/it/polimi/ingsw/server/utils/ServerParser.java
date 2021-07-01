@@ -12,18 +12,18 @@ import java.util.Map;
 public abstract class ServerParser extends Parser {
 
     private static final Map<String, Object> eventFromClientTypes = new HashMap<String, Object>() {{
-        put(buyActionType, BuyEventFromClient.class);
-        put(cardPlacementActionType, PlaceDevelopmentCardEventFromClient.class);
-        put(setupActionType, SetupEventFromClient.class);
-        put(endTurnActionType, EndTurnEventFromClient.class);
-        put(leaderActionType, LeaderHandEventFromClient.class);
-        put(marketActionType, MarketEventFromClient.class);
-        put(productionActionType, ProductionEventFromClient.class);
-        put(resourcesPlacementActionType, PlaceResourcesEventFromClient.class);
-        put(transformationActionType, TransformationEventFromClient.class);
-        put(reconnectType, ReconnectEventFromClient.class);
-        put(disconnectType, DisconnectEventFromClient.class);
-        put(cheatType, CheatEventFromClient.class);
+        put(BUY_ACTION_TYPE, BuyEventFromClient.class);
+        put(CARD_PLACEMENT_ACTION_TYPE, PlaceDevelopmentCardEventFromClient.class);
+        put(SETUP_ACTION_TYPE, SetupEventFromClient.class);
+        put(END_TURN_ACTION_TYPE, EndTurnEventFromClient.class);
+        put(LEADER_ACTION_TYPE, LeaderHandEventFromClient.class);
+        put(MARKET_ACTION_TYPE, MarketEventFromClient.class);
+        put(PRODUCTION_ACTION_TYPE, ProductionEventFromClient.class);
+        put(RESOURCES_PLACEMENT_ACTION_TYPE, PlaceResourcesEventFromClient.class);
+        put(TRANSFORMATION_ACTION_TYPE, TransformationEventFromClient.class);
+        put(RECONNECT_TYPE, ReconnectEventFromClient.class);
+        put(DISCONNECT_TYPE, DisconnectEventFromClient.class);
+        put(CHEAT_TYPE, CheatEventFromClient.class);
     }};
 
     public static EventFromClient getEventFromClient(JsonElement message) {

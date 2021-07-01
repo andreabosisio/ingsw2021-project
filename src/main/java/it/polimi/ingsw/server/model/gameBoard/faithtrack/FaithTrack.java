@@ -11,15 +11,21 @@ import java.util.Arrays;
  */
 public class FaithTrack implements FaithObserver {
     public static final int DIM_POPE_REPORTS = 3;
-    private static final int startSection3 = 19;
-    private static final int startSection2 = 12;
-    private static final int startSection1 = 5;
+    private static final int START_SECTION_3 = 19;
+    private static final int START_SECTION_2 = 12;
+    private static final int START_SECTION_1 = 5;
+    private final int END_OF_FAITH_TRACK = 24;
     private final PlayerInterface owner;
     private int faithMarker;
     private final FirstOfFaithTrack firstOfFaithTrack;
-    private final int endOfTheFaithTrack = 24;
     private final Boolean[] popeReports = new Boolean[DIM_POPE_REPORTS];
 
+    /**
+     * Create a new Faith Track by specifying the owner Player and the current First Player of the Faith Tracks.
+     *
+     * @param owner Owner Player of the Faith Track
+     * @param firstOfFaithTrack First Player of the Faith Tracks
+     */
     public FaithTrack(PlayerInterface owner, FirstOfFaithTrack firstOfFaithTrack) {
         this.owner = owner;
         this.faithMarker = 0;
@@ -35,8 +41,8 @@ public class FaithTrack implements FaithObserver {
      */
     public void faithTrackProgress(int progressValue) {
         faithMarker = faithMarker + progressValue;
-        if (faithMarker > endOfTheFaithTrack)
-            faithMarker = endOfTheFaithTrack;
+        if (faithMarker > END_OF_FAITH_TRACK)
+            faithMarker = END_OF_FAITH_TRACK;
 
         if (faithMarker > firstOfFaithTrack.getFirstPosition())
             firstOfFaithTrack.updateFirstPosition(this.owner, this.faithMarker);
@@ -54,19 +60,19 @@ public class FaithTrack implements FaithObserver {
     public boolean update(int indexOfTheVaticanReportSection) {
         switch (indexOfTheVaticanReportSection) {
             case 1:
-                if (faithMarker >= startSection1)
+                if (faithMarker >= START_SECTION_1)
                     popeReports[0] = true;
                 else
                     return false;
                 break;
             case 2:
-                if (faithMarker >= startSection2)
+                if (faithMarker >= START_SECTION_2)
                     popeReports[1] = true;
                 else
                     return false;
                 break;
             case 3:
-                if (faithMarker >= startSection3)
+                if (faithMarker >= START_SECTION_3)
                     popeReports[2] = true;
                 else
                     return false;
@@ -92,7 +98,7 @@ public class FaithTrack implements FaithObserver {
     public int getVictoryPoints() {
         int victoryPoints = 0;
 
-        if (faithMarker == endOfTheFaithTrack)
+        if (faithMarker == END_OF_FAITH_TRACK)
             victoryPoints = 20;
         else if (faithMarker >= 21)
             victoryPoints = 16;

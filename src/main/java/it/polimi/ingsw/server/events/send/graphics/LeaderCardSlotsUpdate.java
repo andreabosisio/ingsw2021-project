@@ -7,7 +7,7 @@ import java.util.List;
 
 public class LeaderCardSlotsUpdate implements PersonalUpdate {
     @Override
-    public void addUpdateTo(PersonalBoardUpdate personalBoardUpdate, Player player) {
+    public void addUpdate(PersonalBoardUpdate personalBoardUpdate, Player player) {
         List<String> handLeaders = new ArrayList<>();
         List<String> activeLeaders = new ArrayList<>();
         player.getLeaderHand().forEach(leaderCard -> handLeaders.add(leaderCard.getID()));

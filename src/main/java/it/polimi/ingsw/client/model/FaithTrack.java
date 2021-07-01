@@ -8,7 +8,7 @@ import it.polimi.ingsw.client.view.cli.PrintableScene;
 import java.util.*;
 
 /**
- * Class that has the capacity to print the Faith Track
+ * Faith Track implementation for the Client
  */
 public class FaithTrack extends Printable {
     private final static int DIM_FAITH_TRACK = 25;
@@ -39,6 +39,12 @@ public class FaithTrack extends Printable {
     private static final Map<String, String[]> trackByNick = new HashMap<>();
     private static final Map<String, String[]> tilesByNick = new HashMap<>();
 
+    /**
+     * Create a Faith Track by specifying all the needed parameters.
+     *
+     * @param indexes Map containing all the couples (Nickname, Last Position)
+     * @param reports Map containing all the couples (Nickname, Activated Pope Tiles)
+     */
     public FaithTrack(HashMap<String, Integer> indexes, HashMap<String, Boolean[]> reports) {
         this.indexes = indexes;
         this.reports = reports;
@@ -115,6 +121,11 @@ public class FaithTrack extends Printable {
         return new PrintableScene(PrintableScene.concatenatePrintables(" ", new PrintableScene(legend), new PrintableScene(getPrintable())));
     }
 
+    /**
+     * Update the View with this object data and update the Board.
+     *
+     * @param view The current UI
+     */
     public void update(View view) {
         Board.getBoard().setFaithTrack(this);
         view.faithTracksUpdate();

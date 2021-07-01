@@ -7,7 +7,7 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
  */
 public class LorenzoDoingNothing implements Lorenzo {
     /**
-     * This method do nothing
+     * This method does nothing.
      *
      * @param turnLogic is the TurnLogic reference
      * @return false

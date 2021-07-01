@@ -19,14 +19,14 @@ public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
     private int currentPosition;
     private PlayerInterface currentFirstPlayer;
     private int nextPopeSpace;
-    private final int popeSpace1 = 8;
-    private final int popeSpace2 = 16;
-    private final int popeSpace3 = 24;
+    private final int FIRST_POPE_SPACE = 8;
+    private final int SECOND_POPE_SPACE = 16;
+    private final int THIRD_POPE_SPACE = 24;
 
     public FirstOfFaithTrack() {
         this.faithTrackObservers = new ArrayList<>();
         this.currentPosition = 0;
-        this.nextPopeSpace = popeSpace1;
+        this.nextPopeSpace = FIRST_POPE_SPACE;
     }
 
     /**
@@ -69,11 +69,11 @@ public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
                 if (faithObserver.update(checkIndexOfTheVaticanReportSection()))
                     checkFlip = true;
             if (checkIndexOfTheVaticanReportSection() == 1)
-                nextPopeSpace = popeSpace2;
+                nextPopeSpace = SECOND_POPE_SPACE;
             else if (checkIndexOfTheVaticanReportSection() == 2)
-                nextPopeSpace = popeSpace3;
+                nextPopeSpace = THIRD_POPE_SPACE;
             else if (checkIndexOfTheVaticanReportSection() == 3)
-                nextPopeSpace = popeSpace3 + 1;
+                nextPopeSpace = THIRD_POPE_SPACE + 1;
         }
         return checkFlip;
     }
@@ -87,11 +87,11 @@ public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
      */
     private int checkIndexOfTheVaticanReportSection() {
         if (currentPosition >= nextPopeSpace) {
-            if (nextPopeSpace == popeSpace1)
+            if (nextPopeSpace == FIRST_POPE_SPACE)
                 return 1;
-            else if (nextPopeSpace == popeSpace2)
+            else if (nextPopeSpace == SECOND_POPE_SPACE)
                 return 2;
-            else if (nextPopeSpace == popeSpace3)
+            else if (nextPopeSpace == THIRD_POPE_SPACE)
                 return 3;
         }
         return 0;
@@ -120,7 +120,7 @@ public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
     public void updateFirstPosition(PlayerInterface observerPlayer, int observerCurrentPosition) {
         this.currentFirstPlayer = observerPlayer;
         this.currentPosition = observerCurrentPosition;
-        if (observerCurrentPosition == popeSpace3)
+        if (observerCurrentPosition == THIRD_POPE_SPACE)
             this.notifyEndGameObserver();
     }
 

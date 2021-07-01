@@ -8,6 +8,11 @@ import it.polimi.ingsw.client.view.View;
 public class ErrorMessageEvent implements EventFromServer {
     private final String payload;
 
+    /**
+     * Create a new Error Message by specifying the error.
+     *
+     * @param error String containing the error
+     */
     public ErrorMessageEvent(String error) {
         this.payload = error;
     }

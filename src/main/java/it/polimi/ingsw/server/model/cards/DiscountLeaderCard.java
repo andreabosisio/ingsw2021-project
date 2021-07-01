@@ -11,6 +11,14 @@ import java.util.List;
 public class DiscountLeaderCard extends LeaderCard {
     private final Resource discount;
 
+    /**
+     * Create a Discount Leader Card by specifying all needed parameters.
+     *
+     * @param ID The ID of the Card
+     * @param points The Victory Points of the Card
+     * @param requirements The Requirements to activate the Card
+     * @param discount The discount provided by the Card in terms of Resource
+     */
     public DiscountLeaderCard(String ID, int points, List<Requirement> requirements, Resource discount) {
         super(ID, points, requirements);
         this.discount = discount;

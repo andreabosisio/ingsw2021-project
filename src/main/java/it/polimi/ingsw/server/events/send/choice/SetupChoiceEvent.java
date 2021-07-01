@@ -14,7 +14,7 @@ public class SetupChoiceEvent extends ChoiceEvent {
 
 
     public SetupChoiceEvent(String nickname, List<LeaderCard> leaderCards, int numberOfResources) {
-        super(nickname, ServerParser.setupType);
+        super(nickname, ServerParser.SETUP_TYPE);
         this.numberOfResources = numberOfResources;
         this.leaderCards.addAll(leaderCards);
         this.leaderCardsIDs.addAll(leaderCards.stream().map(LeaderCard::getID).collect(Collectors.toList()));
