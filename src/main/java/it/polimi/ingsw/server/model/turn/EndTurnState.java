@@ -2,13 +2,11 @@ package it.polimi.ingsw.server.model.turn;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.commons.Parser;
-import it.polimi.ingsw.server.exceptions.InvalidEventException;
-import it.polimi.ingsw.server.events.send.EndGameEvent;
-import it.polimi.ingsw.server.model.PlayerInterface;
-import it.polimi.ingsw.server.model.cards.LeaderCard;
-import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.commons.FileUtilities;
+import it.polimi.ingsw.commons.Parser;
+import it.polimi.ingsw.server.events.send.EndGameEvent;
+import it.polimi.ingsw.server.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.model.PlayerInterface;
 
 import java.util.ArrayList;
 
@@ -28,15 +26,15 @@ public class EndTurnState extends State {
     public boolean endTurn() {
 
         //check if the current player is the last player and check if it's the winner
-        if(turnLogic.isLastPlayerTurn() && turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
+        if (turnLogic.isLastPlayerTurn() && turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
             sendGraphicForEndGame();
             return true;
         }
 
         //lorenzo turn
-        if(turnLogic.getGameMode().getLorenzo().play(turnLogic)) {
+        if (turnLogic.getGameMode().getLorenzo().play(turnLogic)) {
             //if lorenzo action ended the game
-            if(turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
+            if (turnLogic.getGameMode().getICheckWinner().isTheGameOver()) {
                 sendGraphicForEndGame();
                 return true;
             }
@@ -50,7 +48,7 @@ public class EndTurnState extends State {
     /**
      * Activate or Discard a LeaderCard. If done successfully call endTurn because another LeaderAction is not accepted.
      *
-     * @param cardID of the chosen LeaderCard
+     * @param cardID  of the chosen LeaderCard
      * @param discard true if the chosen LeaderCard has to be discarded, false if has to be activated
      * @return true if the leaderAction has been successfully applied
      * @throws InvalidEventException if the leaderAction can't be applied
@@ -58,7 +56,7 @@ public class EndTurnState extends State {
     @Override
     public boolean leaderAction(String cardID, boolean discard) throws InvalidEventException {
 
-        ((StartTurnState)turnLogic.getStartTurn()).executeLeaderAction(cardID, discard);
+        ((StartTurnState) turnLogic.getStartTurn()).executeLeaderAction(cardID, discard);
 
         return endTurn();
     }
@@ -67,18 +65,18 @@ public class EndTurnState extends State {
      * Send the graphicUpdate necessary to display an end game screen for the player
      * It also set the turnLogic in the endGame state
      */
-    private void sendGraphicForEndGame(){
+    private void sendGraphicForEndGame() {
         resetSavedData();
         PlayerInterface winner = turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
         turnLogic.setCurrentState(turnLogic.getEndGame());
-        EndGameEvent endGameEvent = new EndGameEvent(winner,turnLogic.getPlayers());
+        EndGameEvent endGameEvent = new EndGameEvent(winner, turnLogic.getPlayers());
         turnLogic.getModelInterface().notifyObservers(endGameEvent);
     }
 
     /**
      * This method is used to reset the saveData file as this game is no longer worthy of reload
      */
-    private void resetSavedData(){
+    private void resetSavedData() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("players", Parser.toJsonTree(new ArrayList<>()));
         jsonObject.add("actions", new JsonArray());

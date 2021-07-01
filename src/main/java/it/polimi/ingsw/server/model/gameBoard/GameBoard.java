@@ -7,7 +7,8 @@ import it.polimi.ingsw.server.model.gameBoard.faithtrack.FirstOfFaithTrack;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents the board used by the players to play the Game.
@@ -137,7 +138,7 @@ public class GameBoard {
      * except that belongs to player
      * and calls the method notifyObservers() of the FirstOfFaithTrack class.
      *
-     * @param currentPlayer        is the Player who has not an increase of the Faith Track
+     * @param currentPlayer is the Player who has not an increase of the Faith Track
      * @param progressValue is the increment value
      * @return true if a tile is flipped up
      */

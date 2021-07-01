@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model.gameMode;
 
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.GridUpdate;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
@@ -42,7 +42,7 @@ public class DiscardDevCardsToken implements SoloActionToken {
 
                 currentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(removedCard.getColor(), removedCard.getLevel());
 
-                if(currentCard.isTheEmptyCard()) {
+                if (currentCard.isTheEmptyCard()) {
                     currentCard = removedCard;
                 }
 

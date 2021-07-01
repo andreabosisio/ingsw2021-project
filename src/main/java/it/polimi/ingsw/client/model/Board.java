@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.cli.PrintableScene;
 import it.polimi.ingsw.client.view.cli.Printable;
+import it.polimi.ingsw.client.view.cli.PrintableScene;
 
 import java.util.Set;
 
@@ -104,7 +104,7 @@ public class Board extends Printable {
      */
     public Printable getPrintableMarketAndGrid() {
         Printable marketWithVerticalOffset = marketTray;
-        for (int i = 0; i < developmentCardsGrid.getPrintable().size()/2; i++)
+        for (int i = 0; i < developmentCardsGrid.getPrintable().size() / 2; i++)
             marketWithVerticalOffset = PrintableScene.addStringToTop(marketWithVerticalOffset, "");
         return PrintableScene.concatenatePrintables(MARKET_GRID_SEPARATOR, marketWithVerticalOffset, developmentCardsGrid);
     }
@@ -116,7 +116,7 @@ public class Board extends Printable {
      * @return the Printable Scene containing the Personal Board of the desired Player
      */
     public PrintableScene getPrintablePersonalBoardOf(String nickname) {
-        return new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname),1,  Board.getBoard().getFaithTrack().getFaithTrackWithLegendScene()));
+        return new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname), 1, Board.getBoard().getFaithTrack().getFaithTrackWithLegendScene()));
     }
 
     /**
@@ -126,14 +126,14 @@ public class Board extends Printable {
      * @return the Printable Scene containing the Development Cards Grid, the Warehouse and the owned cards of the desired Player.
      */
     public PrintableScene getPrintableBuySceneOf(String nickname) {
-        Printable warehouseAndCards = new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname).getWarehouseScene(), 1 ,getPersonalBoardOf(nickname).getActiveCardsScene()));
+        Printable warehouseAndCards = new PrintableScene(PrintableScene.addPrintablesToTop(getPersonalBoardOf(nickname).getWarehouseScene(), 1, getPersonalBoardOf(nickname).getActiveCardsScene()));
         return new PrintableScene(PrintableScene.concatenatePrintables(GRID_BOARD_SEPARATOR, developmentCardsGrid, warehouseAndCards));
     }
 
     /**
      * Generates the Printable Scene for the placement of a new Card.
      *
-     * @param nickname of the owner of the new Card
+     * @param nickname      of the owner of the new Card
      * @param cardToPlaceID the Card to place
      * @return the Printable Scene  for the placement of a new Card.
      */
@@ -147,7 +147,7 @@ public class Board extends Printable {
      * @param nickname of the desired Player
      * @return the Personal Board of the desired Player if exists, else return null.
      */
-    public PersonalBoard getPersonalBoardOf(String nickname){
+    public PersonalBoard getPersonalBoardOf(String nickname) {
         return personalBoards.stream().filter(p -> p.getNickname().equals(nickname)).findFirst().orElse(null);
     }
 }

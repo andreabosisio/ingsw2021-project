@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProductionSlotsUpdate implements PersonalUpdate{
+public class ProductionSlotsUpdate implements PersonalUpdate {
     @Override
     public void addUpdateTo(PersonalBoardUpdate personalBoardUpdate, Player player) {
         personalBoardUpdate.setNickname(player.getNickname());

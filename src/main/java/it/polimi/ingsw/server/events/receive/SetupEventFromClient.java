@@ -17,9 +17,9 @@ public class SetupEventFromClient extends EventFromClient {
     /**
      * Create a Setup Event by specifying the choices.
      *
-     * @param sender The nickname of the Player who performed the Setup Choice
+     * @param sender                  The nickname of the Player who performed the Setup Choice
      * @param chosenLeaderCardIndexes The indexes of the Chosen Leader Cards
-     * @param chosenResources The color of the Chosen Resources
+     * @param chosenResources         The color of the Chosen Resources
      */
     public SetupEventFromClient(String sender, List<Integer> chosenLeaderCardIndexes, List<String> chosenResources) {
         super(sender, ServerParser.setupActionType);

@@ -5,7 +5,10 @@ import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.cli.Printable;
 import it.polimi.ingsw.commons.enums.CardColorsEnum;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -31,6 +34,7 @@ public class DevelopmentCardsGrid extends Printable {
      * Update method that checks if there is a first implementation of this class,
      * if yes it sets the map that represents the Grid and it saves his self in the Board,
      * otherwise it just update the map with the new Card.
+     *
      * @param view The UI
      */
     public void update(View view) {

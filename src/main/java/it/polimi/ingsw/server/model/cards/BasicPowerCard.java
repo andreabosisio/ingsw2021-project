@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.server.model.resources.*;
+import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class BasicPowerCard implements ProductionCard {
     /**
      * Setter of the desired outResources to be produced by the production of the card.
      *
-     * @param desiredResources      list of the desired Resources
+     * @param desiredResources list of the desired Resources
      * @return true if the outResources has been set correctly
      */
     public boolean setOutResources(List<Resource> desiredResources) {
@@ -33,13 +33,13 @@ public class BasicPowerCard implements ProductionCard {
     /**
      * Produce the desiredResource saved in outResources.
      *
-     * @return true if the production has been applied correctly
      * @param turnLogic turn
+     * @return true if the production has been applied correctly
      */
     @Override
     public boolean usePower(TurnLogic turnLogic) {
-        for(Resource outResource : outResources)
-            if(!outResource.productionAbility(turnLogic))
+        for (Resource outResource : outResources)
+            if (!outResource.productionAbility(turnLogic))
                 return false;
         return true;
     }
@@ -75,7 +75,7 @@ public class BasicPowerCard implements ProductionCard {
     public boolean canDoProduction(List<Resource> givenResources) {
         this.outResources.clear();
         givenResources = givenResources.stream().filter(Objects::nonNull).collect(Collectors.toList());
-        if(givenResources.size() != choosableInResourcesSlots + choosableOutResourcesSlots)
+        if (givenResources.size() != choosableInResourcesSlots + choosableOutResourcesSlots)
             return false;
         return setOutResources(givenResources);
     }

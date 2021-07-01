@@ -28,12 +28,14 @@ public abstract class ServerConnection implements Connection {
      *
      * @param message to add
      */
-    public void addMessageToQueue(String message){
+    public void addMessageToQueue(String message) {
         messagesFromClient.add(message);
     }
 
-    public void clearStack(){}
+    public void clearStack() {
+    }
 
-    void setPongObserver(PongObserver pongObserver){}
+    void setPongObserver(PongObserver pongObserver) {
+    }
 
 }

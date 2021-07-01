@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server.model.player.warehouse;
 
-import it.polimi.ingsw.server.model.player.warehouse.Depot;
-import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,11 +22,11 @@ public class ExtraSlots extends Depot {
 
     private boolean isActivated;
 
-    public ExtraSlots(){
+    public ExtraSlots() {
         this.isActivated = false;
     }
 
-    public boolean isActivated(){
+    public boolean isActivated() {
         return this.isActivated;
     }
 
@@ -36,7 +35,7 @@ public class ExtraSlots extends Depot {
      *
      * @param typeOfResource that will contain this extra slots
      */
-    public void activateExtraSlots(Resource typeOfResource){
+    public void activateExtraSlots(Resource typeOfResource) {
         this.isActivated = true;
         this.resourceType = typeOfResource;
         this.slots = Arrays.asList(new Resource[capability]);
@@ -46,11 +45,11 @@ public class ExtraSlots extends Depot {
      * Add the resource toStock into the slot defined by the given position.
      *
      * @param position of the chosen slot (0 <= position <= slots.size())
-     * @param toStock           Resource to stock
+     * @param toStock  Resource to stock
      * @return true if the Resource has been correctly stocked
      */
     @Override
-    public boolean setResource(int position, Resource toStock){
+    public boolean setResource(int position, Resource toStock) {
         this.slots.set(position, toStock);
         return true;
     }
@@ -82,7 +81,7 @@ public class ExtraSlots extends Depot {
     @Override
     public Resource getResource(int position) {
         Resource chosenResource = this.slots.get(position);
-        if(chosenResource != null)
+        if (chosenResource != null)
             return new StorableResource(chosenResource.getColor());
         return null;
     }
@@ -95,7 +94,7 @@ public class ExtraSlots extends Depot {
     @Override
     public boolean isLegal() {
         for (Resource extraResource : slots)
-            if(extraResource != null && !extraResource.equals(resourceType))
+            if (extraResource != null && !extraResource.equals(resourceType))
                 return false;
         return true;
     }

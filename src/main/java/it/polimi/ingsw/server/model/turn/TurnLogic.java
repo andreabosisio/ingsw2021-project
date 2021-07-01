@@ -1,11 +1,11 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.server.events.send.EndGameEvent;
-import it.polimi.ingsw.server.exceptions.*;
-import it.polimi.ingsw.server.events.send.ReconnectEvent;
 import it.polimi.ingsw.server.events.send.EventToClient;
+import it.polimi.ingsw.server.events.send.ReconnectEvent;
 import it.polimi.ingsw.server.events.send.StartTurnEvent;
 import it.polimi.ingsw.server.events.send.graphics.*;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.SetupManager;
@@ -40,14 +40,14 @@ public class TurnLogic {
     /**
      * Used to construct a new turnLogic and everything needed for the model to work
      *
-     * @param players players in the game
+     * @param players        players in the game
      * @param modelInterface modelInterface accessible from the controller
      */
     public TurnLogic(List<Player> players, ModelInterface modelInterface) {
         this.lastEventSent = null;
         this.modelInterface = modelInterface;
         this.players = players;
-        this.currentPlayer = players.get(players.size()-1);
+        this.currentPlayer = players.get(players.size() - 1);
         GameBoard.getGameBoard().createFaithTracks(players);
         GameBoard.getGameBoard().setTurnLogicOfMarketTray(this);
         this.gameMode = new GameMode(players);
@@ -84,7 +84,7 @@ public class TurnLogic {
      * @return true if it's the turn of the last player
      */
     public boolean isLastPlayerTurn() {
-        List<Player> onlinePlayers = players.stream().filter(p->(p.isOnline() || currentPlayer.equals(p))).collect(Collectors.toList());
+        List<Player> onlinePlayers = players.stream().filter(p -> (p.isOnline() || currentPlayer.equals(p))).collect(Collectors.toList());
         return onlinePlayers.indexOf(currentPlayer) == onlinePlayers.size() - 1;
     }
 
@@ -97,18 +97,20 @@ public class TurnLogic {
             currentPlayer = players.get(0);
         else
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+
         if (!currentPlayer.isOnline()) {
             setNextPlayer();
             return;
         }
+
         setCurrentState(getStartTurn());
+
         if (!currentPlayer.prepareTurn(this)) {
             modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname()));
             setLastEventSent(new StartTurnEvent(getCurrentPlayer().getNickname(), getCurrentPlayer().getNickname()));
             reset();
-        }
-        else{
-            modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname(),players.stream().map(Player::getNickname).filter(n->!n.equals(currentPlayer.getNickname())).toArray(String[]::new)));
+        } else {
+            modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname(), players.stream().map(Player::getNickname).filter(n -> !n.equals(currentPlayer.getNickname())).toArray(String[]::new)));
         }
     }
 
@@ -329,11 +331,11 @@ public class TurnLogic {
      * to store increases the FaithProgress of the other players.
      *
      * @param hasCompletedPlacementAction true if the player wishes for this place action to be final
-     * @param swapPairs List of all the swaps to be applied
+     * @param swapPairs                   List of all the swaps to be applied
      * @return true if the warehouse reordering is legal
      * @throws InvalidEventException if the swaps cannot be applied
      */
-    public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedPlacementAction) throws InvalidEventException{
+    public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedPlacementAction) throws InvalidEventException {
         return currentState.placeResourceAction(swapPairs, hasCompletedPlacementAction);
     }
 
@@ -416,7 +418,6 @@ public class TurnLogic {
      * If it was this player turn his turnState is saved for a later reconnection and the next player in line starts his turn
      *
      * @param nickname nickname of the player to disconnect
-     *
      * @return if the player was the last one online
      */
     protected boolean disconnectPlayer(String nickname) {
@@ -427,7 +428,7 @@ public class TurnLogic {
             return true;
         if (currentPlayer.equals(disconnected)) {
             currentPlayer.setDisconnectedData(currentState, whiteResourcesFromMarket, chosenDevCard, lastEventSent);
-            if (!currentState.equals(getEndGame())){
+            if (!currentState.equals(getEndGame())) {
                 setNextPlayer();
                 setCurrentState(startTurn);
                 setLastEventSent(new StartTurnEvent(currentPlayer.getNickname(), currentPlayer.getNickname()));
@@ -445,10 +446,9 @@ public class TurnLogic {
         //todo state logic
         if (getCurrentState().equals(getEndGame())) {
             PlayerInterface winner = getGameMode().getICheckWinner().getWinner();//method return winner
-            EndGameEvent endGameEvent = new EndGameEvent(winner,getPlayers());
+            EndGameEvent endGameEvent = new EndGameEvent(winner, getPlayers());
             getModelInterface().notifyObservers(endGameEvent);
-        }
-        else {
+        } else {
             GraphicUpdateEvent graphicsForReconnection = new GraphicUpdateEvent();
             graphicsForReconnection.addUpdate(new MarketUpdate());
             graphicsForReconnection.addUpdate(new GridUpdate());
@@ -460,7 +460,7 @@ public class TurnLogic {
         assert reconnected != null;
         reconnected.setOnline(true);
     }
-    
+
     public void sendNecessaryEvents() {
         currentState.sendNecessaryEvents();
     }

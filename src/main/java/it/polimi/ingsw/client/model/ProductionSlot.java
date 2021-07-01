@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Class that has the capacity to return a printable version of an empty Production slot
  */
-public class ProductionSlot extends DevelopmentCard{
+public class ProductionSlot extends DevelopmentCard {
 
     public ProductionSlot(String iD) {
         super(iD);

@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.player.warehouse;
 import it.polimi.ingsw.server.exceptions.EmptySlotException;
 import it.polimi.ingsw.server.model.resources.Resource;
 
-public class TranslatedPosition{
+public class TranslatedPosition {
     private final int shiftedPosition;
     private final ResourcesContainer container;
 
@@ -24,10 +24,10 @@ public class TranslatedPosition{
     /**
      * Add the resource toStock into the slot of the translated position.
      *
-     * @param toStock           Resource to stock
+     * @param toStock Resource to stock
      * @return true if the Resource has been correctly stocked
      */
-    public boolean setResource(Resource toStock){
+    public boolean setResource(Resource toStock) {
         return container.setResource(shiftedPosition, toStock);
     }
 
@@ -36,7 +36,7 @@ public class TranslatedPosition{
      *
      * @return a copy of the chosen Resource
      */
-    public Resource getResource(){
+    public Resource getResource() {
         return container.getResource(shiftedPosition);
     }
 

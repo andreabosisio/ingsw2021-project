@@ -63,7 +63,7 @@ public class MarketTray extends Printable {
         printable.append("┌────────");
 
         for (int i = 1; i < NUM_C; i++) {
-            if (i == NUM_C - 1 )
+            if (i == NUM_C - 1)
                 printable.append("─").append(Marble.getPrintable(extraSlot)).append("─");
             else
                 printable.append("────");
@@ -86,7 +86,7 @@ public class MarketTray extends Printable {
             toReturn.add(printable.toString());
             toReturn.add(getNUMCBottomSlots().toString());
 
-            if(i != NUM_R - 1) {
+            if (i != NUM_R - 1) {
                 toReturn.add(getNUMCTopSlots().toString());
             }
         }

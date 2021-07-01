@@ -12,6 +12,7 @@ public class TransformationActionEvent extends EventToServer {
 
     /**
      * This event is sent when a Player chooses the transformation of the White Resources
+     *
      * @param chosenResources The color of the chosen Resources as result of the Transformation
      */
     public TransformationActionEvent(List<String> chosenResources) {

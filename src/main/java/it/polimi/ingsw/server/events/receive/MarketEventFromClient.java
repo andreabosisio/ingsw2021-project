@@ -14,7 +14,7 @@ public class MarketEventFromClient extends EventFromClient {
      * Create a new Market Action request by specifying the arrow's ID of the selected Market line.
      *
      * @param nickname of the Player who wants to perform aa Market Action
-     * @param arrowID The arrow's ID of the selected Market line
+     * @param arrowID  The arrow's ID of the selected Market line
      */
     public MarketEventFromClient(String nickname, int arrowID) {
         super(nickname, ServerParser.marketActionType);

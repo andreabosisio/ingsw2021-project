@@ -11,6 +11,9 @@ public enum NonStorableResourcesEnum {
     WHITE;
 
     public static List<ResourcesEnum> getAsList() {
-        return new ArrayList<>(){{add(ResourcesEnum.RED); add(ResourcesEnum.WHITE);}};
+        return new ArrayList<>() {{
+            add(ResourcesEnum.RED);
+            add(ResourcesEnum.WHITE);
+        }};
     }
 }

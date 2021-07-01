@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model.player.warehouse;
 
 import it.polimi.ingsw.server.exceptions.EmptySlotException;
-import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +46,10 @@ public class StrongBox implements ResourcesContainer {
         Resource chosenResource;
         try {
             chosenResource = this.slots.get(position);
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             throw new EmptySlotException("a non valid slot was selected");
         }
-        if(chosenResource == null)
+        if (chosenResource == null)
             throw new EmptySlotException("no resource in a selected slot");
         this.slots.set(position, null);
         return chosenResource;
@@ -66,10 +66,10 @@ public class StrongBox implements ResourcesContainer {
         Resource chosenResource;
         try {
             chosenResource = this.slots.get(position);
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             return null;
         }
-        if(chosenResource != null)
+        if (chosenResource != null)
             return new StorableResource(chosenResource.getColor());
         return null;
     }
@@ -77,7 +77,7 @@ public class StrongBox implements ResourcesContainer {
     /**
      * Reorder the StrongBox removing empty slots.
      */
-    protected void reorder(){
+    protected void reorder() {
         slots = slots.stream().filter(Objects::nonNull).collect(Collectors.toList());
     }
 }

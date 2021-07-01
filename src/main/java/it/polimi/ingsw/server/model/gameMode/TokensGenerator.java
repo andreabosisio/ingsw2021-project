@@ -3,9 +3,9 @@ package it.polimi.ingsw.server.model.gameMode;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.commons.FileUtilities;
 import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.commons.enums.CardColorsEnum;
-import it.polimi.ingsw.commons.FileUtilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class TokensGenerator {
      * @return generated Solo Action Tokens
      */
     public List<SoloActionToken> generateSoloActionTokens() {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getTokenFileName());
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSoloTokenPath());
         assert fileElement != null;
         JsonObject fileObject = fileElement.getAsJsonObject();
         JsonArray jsonArrayOfTokens = fileObject.get(tokensNameInJson).getAsJsonArray();

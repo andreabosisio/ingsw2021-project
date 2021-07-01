@@ -36,7 +36,7 @@ public abstract class ClientConnection implements Connection, Runnable {
      * @param message to add
      */
     @Override
-    public void addMessageToQueue(String message){
+    public void addMessageToQueue(String message) {
         messagesFromServer.add(message);
     }
 

@@ -1,11 +1,14 @@
 package it.polimi.ingsw.server.model.gameBoard;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import it.polimi.ingsw.commons.FileUtilities;
 import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.server.exceptions.InvalidIndexException;
-import it.polimi.ingsw.server.model.resources.*;
+import it.polimi.ingsw.server.model.resources.Resource;
+import it.polimi.ingsw.server.model.resources.ResourceFactory;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
-import it.polimi.ingsw.commons.FileUtilities;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,12 +28,12 @@ public class MarketTray {
     /**
      * Number of columns of the MarketBoard
      */
-    private static final int NUM_C = 4;
+    public static final int NUM_C = 4;
 
     /**
      * Number of rows of the MarketBoard
      */
-    private static final int NUM_R = 3;
+    public static final int NUM_R = 3;
 
     /**
      * Implementation of the MarketBoard
@@ -54,18 +57,18 @@ public class MarketTray {
      * Create a Market Tray reading the initial Resources configuration contained in the file MARKET_INIT_RES_PATH.
      */
     public MarketTray() {
-        loadResources();
+        loadResources(true);
         Collections.shuffle(initResources);
         populateMarket();
     }
 
     /**
-     * Save the initial state in the in the file MARKET_INIT_RES_PATH.
+     * Save the initial state in a file.
      */
     public void saveData() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("resources", Parser.toJsonTree(toStringList()));
-        FileUtilities.writeJsonElementInFile(jsonObject,FileUtilities.SAVED_MARKET_INIT_RES_PATH);
+        FileUtilities.writeJsonElementInFile(jsonObject, FileUtilities.SAVED_MARKET_DATA_PATH);
     }
 
     /**
@@ -91,14 +94,21 @@ public class MarketTray {
     }
 
     /**
-     * Read the Resources configuration saved in the file MARKET_INIT_RES_PATH.
+     * Set the Market Resources reading a configuration file.
+     *
+     * @param reset true to load the initial configuration, false to re-load the saved configuration
      */
-    private void loadResources() {
+    private void loadResources(boolean reset) {
+        JsonElement fileElement;
         initResources.clear();
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedMarketInitResPath());
+
+        if(reset)
+            fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.MARKET_DEFAULT_CONFIG_PATH);
+        else
+            fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.SAVED_MARKET_DATA_PATH);
+
         assert fileElement != null;
-        JsonObject fileObject = fileElement.getAsJsonObject();
-        JsonArray jsonArrayOfResources = fileObject.get("resources").getAsJsonArray();
+        JsonArray jsonArrayOfResources = Parser.extractFromField(fileElement,"resources").getAsJsonArray();
         for (JsonElement resource : jsonArrayOfResources) {//cycle through all resources
             initResources.add(ResourceFactory.produceInitialResource(resource.getAsString()));
         }
@@ -179,14 +189,6 @@ public class MarketTray {
         return extraSlot;
     }
 
-    protected int getNUM_C() {
-        return NUM_C;
-    }
-
-    protected int getNUM_R() {
-        return NUM_R;
-    }
-
     public void setTurn(TurnLogic turn) {
         this.turn = turn;
     }
@@ -219,7 +221,7 @@ public class MarketTray {
      * Reset the Market to its initial state of the Game.
      */
     public void loadSavedData() {
-        loadResources();
+        loadResources(false);
         populateMarket();
     }
 }

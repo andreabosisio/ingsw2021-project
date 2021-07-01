@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
-import it.polimi.ingsw.commons.enums.StorableResourceEnum;
 import it.polimi.ingsw.client.view.gui.GraphicUtilities;
+import it.polimi.ingsw.commons.enums.StorableResourceEnum;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -13,10 +13,14 @@ import javafx.stage.Stage;
  */
 public class ProductionChoiceController {
     private final PersonalController personalController;
-    @FXML Button resource;
-    @FXML Button done;
-    @FXML AnchorPane mainPane;
-    @FXML Node production;
+    @FXML
+    Button resource;
+    @FXML
+    Button done;
+    @FXML
+    AnchorPane mainPane;
+    @FXML
+    Node production;
 
     public ProductionChoiceController(PersonalController personalController) {
         this.personalController = personalController;
@@ -43,7 +47,7 @@ public class ProductionChoiceController {
      */
     private void doneAction() {
         String chosenResource = StorableResourceEnum.values()[Integer.parseInt(resource.getId())].toString();
-        personalController.setChosenResource(chosenResource,production);
+        personalController.setChosenResource(chosenResource, production);
         Stage stage = (Stage) mainPane.getScene().getWindow();
         stage.close();
     }
@@ -53,7 +57,7 @@ public class ProductionChoiceController {
      *
      * @param n node doing the production
      */
-    public void setProduction(Node n){
+    public void setProduction(Node n) {
         production = n;
     }
 
@@ -63,7 +67,7 @@ public class ProductionChoiceController {
      *
      * @param button button containing the imageView to change
      */
-    private void changeResourceAction(Button button){
+    private void changeResourceAction(Button button) {
         GraphicUtilities.loopResources(button);
     }
 }

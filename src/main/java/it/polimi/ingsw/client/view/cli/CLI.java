@@ -35,7 +35,7 @@ public class CLI implements View {
         askSettings();
 
         if (onlineGame) {
-            while(!correctSettings) {
+            while (!correctSettings) {
                 try {
                     this.networkHandler = new NetworkHandler(ip, port, this);
                     correctSettings = true;
@@ -56,9 +56,9 @@ public class CLI implements View {
      * If online it also asks for an ip and port to use
      */
     private void askSettings() {
-        if(cliCommandListener.askGameMode().equals("ONLINE")) {
+        if (cliCommandListener.askGameMode().equals("ONLINE")) {
             onlineGame = true;
-            if(cliCommandListener.askForNetworkSettingsChanges().equals("CHANGE")) {
+            if (cliCommandListener.askForNetworkSettingsChanges().equals("CHANGE")) {
                 askIPAndPort();
             } else {
                 ip = ClientApp.getDefaultIP();
@@ -243,7 +243,7 @@ public class CLI implements View {
     /**
      * This method is used to set the view on the setup phase
      *
-     * @param leaderCardsID IDs the player can chose from as his leaderCards
+     * @param leaderCardsID    IDs the player can chose from as his leaderCards
      * @param numberOfResource number of resources the player can chose
      */
     @Override
@@ -377,7 +377,7 @@ public class CLI implements View {
     /**
      * This method is used to set the view on the transformation phase
      *
-     * @param numberOfTransformation number of resources the player needs to transform
+     * @param numberOfTransformation  number of resources the player needs to transform
      * @param possibleTransformations possible colors he can chose from
      */
     @Override
@@ -404,7 +404,7 @@ public class CLI implements View {
     /**
      * This method is used to set the view on the end game view
      *
-     * @param winner winner of the game
+     * @param winner        winner of the game
      * @param playersPoints points of each player
      */
     @Override
@@ -415,11 +415,17 @@ public class CLI implements View {
     }
 
     @Override
-    public void marketUpdate() {}
+    public void marketUpdate() {
+    }
+
     @Override
-    public void gridUpdate(String iD) {}
+    public void gridUpdate(String iD) {
+    }
+
     @Override
-    public void faithTracksUpdate() {}
+    public void faithTracksUpdate() {
+    }
+
     @Override
     public void personalBoardUpdate(PersonalBoard updatingPersonalBoard) {
         updatingPersonalBoard.updateCliScenes();

@@ -13,6 +13,11 @@ public enum StorableResourceEnum {
     BLUE;
 
     public static List<ResourcesEnum> getAsList() {
-        return new ArrayList<>(){{add(ResourcesEnum.YELLOW); add(ResourcesEnum.GRAY); add(ResourcesEnum.PURPLE); add(ResourcesEnum.BLUE);}};
+        return new ArrayList<>() {{
+            add(ResourcesEnum.YELLOW);
+            add(ResourcesEnum.GRAY);
+            add(ResourcesEnum.PURPLE);
+            add(ResourcesEnum.BLUE);
+        }};
     }
 }

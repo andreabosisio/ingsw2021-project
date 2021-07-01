@@ -17,9 +17,9 @@ public class BuyEventFromClient extends EventFromClient {
     /**
      * Set the needed data to buy a card.
      *
-     * @param sender The nickname of the buyer
-     * @param cardColor Color of the desired card
-     * @param cardLevel Level of the desired card
+     * @param sender            The nickname of the buyer
+     * @param cardColor         Color of the desired card
+     * @param cardLevel         Level of the desired card
      * @param resourcePositions Positions of the resources used to buy the desired card
      */
     public BuyEventFromClient(String sender, String cardColor, int cardLevel, List<Integer> resourcePositions) {

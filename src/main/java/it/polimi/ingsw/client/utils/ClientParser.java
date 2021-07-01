@@ -13,7 +13,7 @@ import java.util.Map;
 
 public abstract class ClientParser extends Parser {
 
-    private static final Map<String, Object> eventFromServerTypes = new HashMap<String,Object>() {{
+    private static final Map<String, Object> eventFromServerTypes = new HashMap<String, Object>() {{
         put(infoType, InfoMessageEvent.class);
         put(errorType, ErrorMessageEvent.class);
         put(loginType, LoginEvent.class);
@@ -47,7 +47,7 @@ public abstract class ClientParser extends Parser {
     }
 
     public static EventFromServer getEventFromServer(JsonObject jsonObject) {
-        if(jsonObject != null) {
+        if (jsonObject != null) {
             try {
                 return gson.fromJson(jsonObject, (Type) eventFromServerTypes.get(jsonObject.get(MSG_TYPE_ID).getAsString()));
             } catch (NullPointerException e) {

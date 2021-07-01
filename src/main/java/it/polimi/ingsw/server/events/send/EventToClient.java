@@ -9,7 +9,7 @@ public abstract class EventToClient {
      * @param nickname to check
      * @return true if the receiver's nickname of this Event is the same of the given nickname
      */
-    public boolean isForYou(String nickname){
+    public boolean isForYou(String nickname) {
         return true;
     }
 
@@ -18,7 +18,7 @@ public abstract class EventToClient {
      *
      * @return the produced String
      */
-    public String toJson(){
+    public String toJson() {
         return Parser.toJson(this);
     }
 }

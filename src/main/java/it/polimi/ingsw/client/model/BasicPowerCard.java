@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Class that has the capacity to return a printable version of a Basic Power Card
  */
-public class BasicPowerCard extends DevelopmentCard{
+public class BasicPowerCard extends DevelopmentCard {
 
     /**
      * Create a new Basic Power Card by the ID.
@@ -33,8 +33,8 @@ public class BasicPowerCard extends DevelopmentCard{
         String power = AnsiUtilities.YELLOW_BOLD + "Power" + AnsiUtilities.RESET;
 
         developmentCardToPrint.add("╔══════════╗");
-        developmentCardToPrint.add("║  "+basic+"   ║");
-        developmentCardToPrint.add("║  "+power+"   ║");
+        developmentCardToPrint.add("║  " + basic + "   ║");
+        developmentCardToPrint.add("║  " + power + "   ║");
         developmentCardToPrint.add("║──────────║");
         developmentCardToPrint.add("║  ? │     ║");
         developmentCardToPrint.add("║    } ?   ║");

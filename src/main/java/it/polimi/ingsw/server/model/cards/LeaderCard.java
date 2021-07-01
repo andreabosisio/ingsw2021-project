@@ -10,7 +10,7 @@ public abstract class LeaderCard {
     private final String iD;
     private final int points;
 
-    LeaderCard(String iD, int points, List<Requirement> requirements){
+    LeaderCard(String iD, int points, List<Requirement> requirements) {
         this.iD = iD;
         this.points = points;
         this.requirements = requirements;
@@ -35,7 +35,7 @@ public abstract class LeaderCard {
     }
 
     /**
-     *Check if the white resource transformation can be performed by the card.
+     * Check if the white resource transformation can be performed by the card.
      *
      * @return true if it is acceptable
      */
@@ -49,7 +49,7 @@ public abstract class LeaderCard {
      * @param currentDiscounts list where this card discount will be added
      * @return true if discount was added successfully
      */
-    public boolean applyDiscount(List<Resource> currentDiscounts){
+    public boolean applyDiscount(List<Resource> currentDiscounts) {
         return false;
     }
 
@@ -59,9 +59,9 @@ public abstract class LeaderCard {
      * @param player player activating the card
      * @return true if it can be activated
      */
-    public boolean canBeActivatedBy(Player player){
-        for(Requirement requirement : requirements){
-            if(!requirement.isSatisfied(player)) {
+    public boolean canBeActivatedBy(Player player) {
+        for (Requirement requirement : requirements) {
+            if (!requirement.isSatisfied(player)) {
                 return false;
             }
         }
@@ -74,7 +74,7 @@ public abstract class LeaderCard {
      * @param player player owner of the card
      * @return true if activated successfully
      */
-    public boolean activate(Player player){
+    public boolean activate(Player player) {
         return player.getPersonalBoard().addToActiveLeaders(this);
     }
 }

@@ -26,7 +26,7 @@ public class NetworkHandler implements CommandListenerObserver {
     /**
      * Create a new NetworkHandler for a remote Server.
      *
-     * @param ip IP Address of the remote Server
+     * @param ip   IP Address of the remote Server
      * @param port Port of of the remote Server
      * @param view The current UI
      * @throws IOException if Socket creation fails

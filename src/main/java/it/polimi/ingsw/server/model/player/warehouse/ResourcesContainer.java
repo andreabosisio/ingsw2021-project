@@ -10,7 +10,7 @@ public interface ResourcesContainer {
      * Add the resource toStock into the slot defined by the given position.
      *
      * @param position of the chosen slot
-     * @param toStock           Resource to stock
+     * @param toStock  Resource to stock
      * @return true if the Resource has been correctly stocked
      */
     boolean setResource(int position, Resource toStock);

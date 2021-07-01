@@ -117,17 +117,17 @@ public enum AnsiUtilities {
     public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";  // CYAN
     public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
 
-    public static final String	SANE				= "\u001B[0m";
+    public static final String SANE = "\u001B[0m";
 
-    public static final String	HIGH_INTENSITY		= "\u001B[1m";
-    public static final String	LOW_INTENSITY		= "\u001B[2m";
+    public static final String HIGH_INTENSITY = "\u001B[1m";
+    public static final String LOW_INTENSITY = "\u001B[2m";
 
-    public static final String	ITALIC				= "\u001B[3m";
-    public static final String	UNDERLINE			= "\u001B[4m";
-    public static final String	BLINK				= "\u001B[5m";
-    public static final String	RAPID_BLINK			= "\u001B[6m";
-    public static final String	REVERSE_VIDEO		= "\u001B[7m";
-    public static final String	INVISIBLE_TEXT		= "\u001B[8m";
+    public static final String ITALIC = "\u001B[3m";
+    public static final String UNDERLINE = "\u001B[4m";
+    public static final String BLINK = "\u001B[5m";
+    public static final String RAPID_BLINK = "\u001B[6m";
+    public static final String REVERSE_VIDEO = "\u001B[7m";
+    public static final String INVISIBLE_TEXT = "\u001B[8m";
 
     public static final String EMPTY_RES = "   ";
     public static final String WHITE_MARBLE = WHITE_BRIGHT + MARBLE.getAsciiArt() + RESET;
@@ -150,7 +150,7 @@ public enum AnsiUtilities {
      * Used to color String with Ansi Encodes.
      *
      * @param toColor the String to color
-     * @param color Name of the color
+     * @param color   Name of the color
      * @return the colored String
      */
     public static String colorString(String toColor, String color) {

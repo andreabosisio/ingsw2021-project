@@ -42,25 +42,21 @@ class MarketTrayTest {
     @Test
     void takeColumnTest() throws InvalidIndexException {
 
-        //market = GameBoard.getGameBoard().getMarketTray();
-        //modelInterface = new ModelInterface();
-
-
-        Resource[][] correctMarket = new Resource[market.getNUM_R()][market.getNUM_C()];
+        Resource[][] correctMarket = new Resource[MarketTray.NUM_R][MarketTray.NUM_C];
         Resource correctExtraSlot = null;
         List<Resource> correctTakeResources = new ArrayList<>();
         //market.printMarket();
 
         int arrow = getRandomInt(3, 7);
 
-        for (int i = 0; i < market.getNUM_R(); i++) {
-            for (int j = 0; j < market.getNUM_C(); j++) {
+        for (int i = 0; i < MarketTray.NUM_R; i++) {
+            for (int j = 0; j < MarketTray.NUM_C; j++) {
                 if (j != 6 - arrow)
                     correctMarket[i][j] = market.getMarketBoard()[i][j];
                 else {
                     if(!NonStorableResourcesEnum.getAsList().contains(market.getMarketBoard()[i][j].getColor()))
                         correctTakeResources.add(market.getMarketBoard()[i][j]);
-                    if (i < market.getNUM_R() - 1)
+                    if (i < MarketTray.NUM_R - 1)
                         correctMarket[i][j] = market.getMarketBoard()[i + 1][j];
                     else
                         correctMarket[i][j] = market.getExtraSlot();
@@ -69,46 +65,39 @@ class MarketTrayTest {
             correctExtraSlot = market.getMarketBoard()[0][6 - arrow];
         }
         assertEquals(market.takeResources(arrow), correctTakeResources);
-        //market.printMarket(correctMarket, correctExtraSlot);
-        //market.printMarket();
 
         List<String> resultToStringList = market.toStringList();
 
         assertEquals(correctExtraSlot , market.getExtraSlot());
         assertNotNull(correctExtraSlot);
         assertEquals(resultToStringList.get(0), correctExtraSlot.getColor().toString());
-        for (int i = 0; i < market.getNUM_R(); i++)
-            for (int j = 0; j < market.getNUM_C(); j++){
+        for (int i = 0; i < MarketTray.NUM_R; i++)
+            for (int j = 0; j < MarketTray.NUM_C; j++){
                 assertEquals(correctMarket[i][j] , market.getMarketBoard()[i][j]);
                 assertEquals(correctMarket[i][j].getColor().toString() , market.getMarketBoard()[i][j].getColor().toString());
             }
 
         correctTakeResources.clear();
         market.setTempNewResources(new ArrayList<>());
-        //GameBoard.getGameBoard().reset();
     }
 
     @Test
     void takeRowTest() throws InvalidIndexException {
 
-
-        //modelInterface = new ModelInterface();
-        //market = GameBoard.getGameBoard().getMarketTray();
-        Resource[][] correctMarket = new Resource[market.getNUM_R()][market.getNUM_C()];
+        Resource[][] correctMarket = new Resource[MarketTray.NUM_R][MarketTray.NUM_C];
         Resource correctExtraSlot = null;
         List<Resource> correctTakeResources = new ArrayList<>();
-        //market.printMarket();
 
         int arrow = getRandomInt(0, 3);
 
-        for (int i = 0; i < market.getNUM_R(); i++) {
-            for (int j = 0; j < market.getNUM_C(); j++) {
+        for (int i = 0; i < MarketTray.NUM_R; i++) {
+            for (int j = 0; j < MarketTray.NUM_C; j++) {
                 if (i != arrow)
                     correctMarket[i][j] = market.getMarketBoard()[i][j];
                 else {
                     if(!NonStorableResourcesEnum.getAsList().contains(market.getMarketBoard()[i][j].getColor()))
                         correctTakeResources.add(market.getMarketBoard()[i][j]);
-                    if (j < market.getNUM_C() - 1)
+                    if (j < MarketTray .NUM_C- 1)
                         correctMarket[i][j] = market.getMarketBoard()[i][j+1];
                     else
                         correctMarket[i][j] = market.getExtraSlot();
@@ -117,18 +106,14 @@ class MarketTrayTest {
             correctExtraSlot = market.getMarketBoard()[arrow][0];
         }
         assertEquals(market.takeResources(arrow), correctTakeResources);
-        //market.printMarket(correctMarket, correctExtraSlot);
-        //market.printMarket();
 
         assertEquals(market.getExtraSlot(), correctExtraSlot);
-        for (int i = 0; i < market.getNUM_R(); i++)
-            for (int j = 0; j < market.getNUM_C(); j++)
+        for (int i = 0; i < MarketTray.NUM_R; i++)
+            for (int j = 0; j < MarketTray.NUM_C; j++)
                 assertEquals(market.getMarketBoard()[i][j], correctMarket[i][j]);
 
         correctTakeResources.clear();
         market.setTempNewResources(new ArrayList<>());
-        //GameBoard.getGameBoard().reset();
-
 
     }
 

@@ -4,7 +4,8 @@ import it.polimi.ingsw.client.view.cli.AnsiUtilities;
 import it.polimi.ingsw.client.view.cli.Printable;
 import it.polimi.ingsw.client.view.cli.PrintableScene;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that has the capacity to return a printable version of a specific Development Card

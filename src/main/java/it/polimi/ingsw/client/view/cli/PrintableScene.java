@@ -67,7 +67,7 @@ public class PrintableScene extends Printable {
      * Concatenates multiple Printables.
      *
      * @param printables Multiple Printables to concatenate
-     * @param separator String to added between each Printable to concatenate
+     * @param separator  String to added between each Printable to concatenate
      * @return a Printable containing all the concatenated Printables
      */
     public static Printable concatenatePrintables(List<Printable> printables, String separator) {
@@ -77,18 +77,18 @@ public class PrintableScene extends Printable {
     /**
      * Concatenates multiple Printables.
      *
-     * @param args Multiple Printables to concatenate
+     * @param args      Multiple Printables to concatenate
      * @param separator String to added between each Printable to concatenate
      * @return a Printable containing all the concatenated Printables
      */
     public static Printable concatenatePrintables(String separator, Printable... args) {
-        List<String> rows  = new ArrayList<>();
+        List<String> rows = new ArrayList<>();
         String row = "";
 
         int maxHeight = 0;
-        for(Printable printable : args) {
+        for (Printable printable : args) {
             int printableSize = printable.getPrintable().size();
-            if(printableSize > maxHeight)
+            if (printableSize > maxHeight)
                 maxHeight = printableSize;
         }
 
@@ -123,15 +123,15 @@ public class PrintableScene extends Printable {
     /**
      * Adds Multiple Printables to another Printable.
      *
-     * @param base the base Printable
+     * @param base   the base Printable
      * @param offset the space between the Printables
-     * @param tops the Printables to add at the top
+     * @param tops   the Printables to add at the top
      * @return a Printable containing all the concatenated Printables
      */
-    public static Printable addPrintablesToTop(Printable base, int offset, Printable ... tops) {
+    public static Printable addPrintablesToTop(Printable base, int offset, Printable... tops) {
         Printable builder = new PrintableScene(base.getPrintable());
         for (Printable top : tops) {
-            for(int i = 0; i < offset; i++)
+            for (int i = 0; i < offset; i++)
                 builder = addStringToTop(builder, "");
             List<String> reversed = new ArrayList<>(top.getPrintable());
             Collections.reverse(reversed);
@@ -149,14 +149,14 @@ public class PrintableScene extends Printable {
      * @param tops the Printables to add at the top
      * @return a Printable containing all the concatenated Printables
      */
-    public static Printable addPrintablesToTop(Printable base, Printable ... tops) {
+    public static Printable addPrintablesToTop(Printable base, Printable... tops) {
         return addPrintablesToTop(base, 0, tops);
     }
 
     /**
      * Adds a String to the top of a Printable.
      *
-     * @param base the base Printable
+     * @param base  the base Printable
      * @param toAdd the String to add
      * @return a Printable containing the concatenated Printable
      */
@@ -167,8 +167,8 @@ public class PrintableScene extends Printable {
     /**
      * Adds a String to the top of a Printable.
      *
-     * @param base the base Printable
-     * @param toAdd the String to add
+     * @param base   the base Printable
+     * @param toAdd  the String to add
      * @param offset the space between the Printable and the String
      * @return a Printable containing the concatenated Printable
      */
@@ -179,36 +179,36 @@ public class PrintableScene extends Printable {
     /**
      * Adds a String to the bottom of a Printable.
      *
-     * @param base the base Printable
+     * @param base  the base Printable
      * @param toAdd the String to add
      * @return a Printable containing the concatenated Printable
      */
-    public static Printable addBottomString (Printable base, String toAdd) {
+    public static Printable addBottomString(Printable base, String toAdd) {
         return addStringAtRow(base, toAdd, base.getPrintable().size(), 0);
     }
 
     /**
      * Adds a String to the bottom of a Printable.
      *
-     * @param base the base Printable
-     * @param toAdd the String to add
+     * @param base   the base Printable
+     * @param toAdd  the String to add
      * @param offset the space between the Printable and the String
      * @return a Printable containing the concatenated Printable
      */
-    public static Printable addBottomString (Printable base, String toAdd, int offset) {
+    public static Printable addBottomString(Printable base, String toAdd, int offset) {
         return addStringAtRow(base, toAdd, base.getPrintable().size(), offset);
     }
 
     /**
      * Adds a String at a specific row of a Printable.
      *
-     * @param base the base Printable
-     * @param toAdd the String to add
-     * @param row where to add the String
+     * @param base      the base Printable
+     * @param toAdd     the String to add
+     * @param row       where to add the String
      * @param separator the space between the Printable and the String
      * @return a Printable containing the concatenated Printable
      */
-    public static Printable addStringAtRow (Printable base, String toAdd, int row, int separator) {
+    public static Printable addStringAtRow(Printable base, String toAdd, int row, int separator) {
         List<String> newPrintable = new ArrayList<>(base.getPrintable());
         newPrintable.add(row, base.fillWithEmptySpace(toAdd));
         return new PrintableScene(newPrintable);

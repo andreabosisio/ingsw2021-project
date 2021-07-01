@@ -1,10 +1,13 @@
 package it.polimi.ingsw.server.network.personal;
 
-import com.google.gson.*;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.client.network.FakeConnectionToServer;
 import it.polimi.ingsw.commons.Connection;
 import it.polimi.ingsw.commons.Parser;
-import it.polimi.ingsw.server.events.receive.*;
+import it.polimi.ingsw.server.events.receive.EventFromClient;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.utils.ServerParser;
 
@@ -40,7 +43,7 @@ public class ClientHandler implements Runnable {
      *
      * @param fakeConnectionToServer The FakeConnectionToServer of the local Client
      */
-    public ClientHandler(FakeConnectionToServer fakeConnectionToServer){
+    public ClientHandler(FakeConnectionToServer fakeConnectionToServer) {
         FakeConnectionToClient fakeConnectionToClient = new FakeConnectionToClient(fakeConnectionToServer);
         fakeConnectionToServer.setFakeConnectionToClient(fakeConnectionToClient);
         this.connectionToClient = fakeConnectionToClient;
@@ -100,7 +103,7 @@ public class ClientHandler implements Runnable {
 
             virtualView = Lobby.getLobby().getVirtualViewByNickname(nickname);
 
-            if(handleLogin()){
+            if (handleLogin()) {
                 return;
             }
         }
@@ -113,14 +116,12 @@ public class ClientHandler implements Runnable {
      *
      * @return true if the player was unable to join/rejoin
      */
-    private boolean handleLogin(){
+    private boolean handleLogin() {
         if (virtualView == null) {
             return firstTimeConnection();
-        }
-        else if (virtualView.isOnline()) {//try to start game
+        } else if (virtualView.isOnline()) {//try to start game
             sendErrorMessage("Nickname already in use");//nickname already in use
-        }
-        else {
+        } else {
             reConnect();
         }
         return false;
@@ -132,13 +133,13 @@ public class ClientHandler implements Runnable {
      *
      * @return true If the player couldn't be added to the lobby or if he wishes to leave
      */
-    private boolean firstTimeConnection(){
-        if(unableToJoin()){
+    private boolean firstTimeConnection() {
+        if (unableToJoin()) {
             return true;
         }
         virtualView = new VirtualView(nickname, password, this);
         if (!Lobby.getLobby().addVirtualView(virtualView)) {
-            sendErrorMessage("How unlucky! this nickname was taken a moment ago");
+            sendErrorMessage("How unlucky! This nickname was taken a moment ago");
             return false;//go back to reading message
         }
         sendInfoMessage("Joining lobby... ");
@@ -151,7 +152,7 @@ public class ClientHandler implements Runnable {
      *
      * @return true if the player couldn't be added to the lobby
      */
-    private boolean unableToJoin(){
+    private boolean unableToJoin() {
         if (Lobby.getLobby().isFull()) {
             sendErrorMessage("Cannot join: Server is full");
             kill(true);
@@ -173,11 +174,11 @@ public class ClientHandler implements Runnable {
      *
      * @return false if the player left in the middle of his connection
      */
-    private boolean firstInLobby(){
+    private boolean firstInLobby() {
         //todo pensarci bene
         synchronized (Lobby.getLobby()) {
             if (Lobby.getLobby().isFirstInLobby()) {
-                if(!decidingSizeLoop()){
+                if (!decidingSizeLoop()) {
                     return false;
                 }
             } else if (virtualView.isOnline()) {
@@ -197,7 +198,7 @@ public class ClientHandler implements Runnable {
      *
      * @return false if the player left before deciding the size
      */
-    private boolean decidingSizeLoop(){
+    private boolean decidingSizeLoop() {
         boolean stillDeciding = true;
         while (stillDeciding) {
             sendSpecificTypeMessage(TYPE_LOBBY_NUMBER_CHOICE, "between " + Lobby.MIN_PLAYERS + " and " + Lobby.MAX_PLAYERS);
@@ -228,7 +229,7 @@ public class ClientHandler implements Runnable {
      * If the nickname and password do not match an error message is sent to the client
      * Otherwise the player is reconnected to his game
      */
-    private void reConnect(){
+    private void reConnect() {
         if (password.equals(virtualView.getPassword())) {
             sendInfoMessage("You are now reconnected");
             virtualView.reconnect(this);
@@ -270,7 +271,7 @@ public class ClientHandler implements Runnable {
                     sendErrorMessage("waitForGameToStart");
                 } else {
                     EventFromClient event = ServerParser.getEventFromClient(jsonObject);
-                    if(event != null) {
+                    if (event != null) {
                         if (event.getNickname() == null) {
                             sendErrorMessage("You can't play with a null nickname");
                             continue;

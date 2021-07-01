@@ -8,15 +8,15 @@ import it.polimi.ingsw.client.view.View;
  */
 public class StartTurnUpdateEvent implements EventFromServer {
     private String nextPlayer;
+
     @Override
     public void updateView(View view) {
-        if(view.getNickname().equals(nextPlayer)){
+        if (view.getNickname().equals(nextPlayer)) {
             view.setIsPlaying(true);
             view.printInfoMessage("Your turn is starting ");
             view.showWaitAnimation();
             view.setOnYourTurn();
-        }
-        else {
+        } else {
             view.setIsPlaying(false);
             view.setOnWaitForYourTurn(nextPlayer);
         }

@@ -2,18 +2,19 @@ package it.polimi.ingsw.server.model.cards;
 
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.Resource;
+
 import java.util.List;
 
-public class WarehouseLeaderCard extends LeaderCard{
+public class WarehouseLeaderCard extends LeaderCard {
 
     private final Resource extraSlotsType;
 
     /**
      * Used to construct a LeaderCard of type warehouse
      *
-     * @param ID id of the leaderCard
-     * @param points points the card is worth
-     * @param requirements requirements to activate the card
+     * @param ID             id of the leaderCard
+     * @param points         points the card is worth
+     * @param requirements   requirements to activate the card
      * @param extraSlotsType color of the resource placeable on the card
      */
     public WarehouseLeaderCard(String ID, int points, List<Requirement> requirements, Resource extraSlotsType) {

@@ -1,15 +1,15 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.commons.enums.ResourcesEnum;
-import it.polimi.ingsw.server.exceptions.InvalidEventException;
-import it.polimi.ingsw.server.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
 import it.polimi.ingsw.server.events.send.choice.PlaceResourcesChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.events.send.graphics.WarehouseUpdate;
-import it.polimi.ingsw.server.model.resources.ResourceFactory;
+import it.polimi.ingsw.server.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.resources.Resource;
+import it.polimi.ingsw.server.model.resources.ResourceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class WaitTransformationState extends State {
      *
      * @param chosenColors of the chosen resources
      * @return true if the chosen resources has been correctly created
-     * @throws InvalidEventException if one of the chosen resource type doesn't exists
+     * @throws InvalidEventException        if one of the chosen resource type doesn't exists
      * @throws NonStorableResourceException if one of the chosen resource is a NonStorableResource
      */
     @Override
@@ -38,15 +38,15 @@ public class WaitTransformationState extends State {
 
         List<Resource> possibleTransformations = turnLogic.getWhiteResourcesFromMarket().get(0).getPossibleTransformations();
 
-        if(chosenColors.size() != turnLogic.getWhiteResourcesFromMarket().size()){
+        if (chosenColors.size() != turnLogic.getWhiteResourcesFromMarket().size()) {
             throw new InvalidEventException("Wrong number of chosen resources"); //wrong number of chosen resources
         }
         List<Resource> chosenResources = new ArrayList<>();
-        for(String chosenColor : chosenColors) {
+        for (String chosenColor : chosenColors) {
             try {
                 ResourcesEnum chosenEnum = ResourcesEnum.valueOf(chosenColor.toUpperCase());
                 //check that chosen color is one of the 2 expected
-                if(possibleTransformations.stream().noneMatch(r -> r.getColor() == chosenEnum))
+                if (possibleTransformations.stream().noneMatch(r -> r.getColor() == chosenEnum))
                     throw new InvalidEventException("Invalid resource type");
                 else
                     chosenResources.add(ResourceFactory.produceResource(chosenEnum));

@@ -5,14 +5,16 @@ import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.DevelopmentCard;
 import it.polimi.ingsw.client.model.DevelopmentCardsDatabase;
 import it.polimi.ingsw.client.model.Inventory;
-import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import it.polimi.ingsw.client.view.gui.GraphicUtilities;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.*;
+import javafx.scene.ImageCursor;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -301,7 +303,7 @@ public class PersonalController extends GUICommandListener {
      * @param arrowID is the ID of the Arrow
      */
     private void marketAction(String arrowID) {
-        for(Node resource : currentSelectedResources)
+        for (Node resource : currentSelectedResources)
             resource.setDisable(false);
         currentSelectedResources.clear();
         notifyObservers(new MarketActionEvent(Integer.parseInt(arrowID)));
@@ -323,7 +325,7 @@ public class PersonalController extends GUICommandListener {
             List<Integer> resPositions = currentSelectedResources.stream().map(node -> Integer.parseInt(node.getId())).collect(Collectors.toList());
             notifyObservers(new BuyActionEvent(color, level, resPositions));
         }
-        for(Node res : currentSelectedResources)
+        for (Node res : currentSelectedResources)
             res.setDisable(false);
         currentSelectedResources.clear();
     }
@@ -337,9 +339,6 @@ public class PersonalController extends GUICommandListener {
      */
     private void resourceClick(Node n) {
         if (canSwap) {
-            if (Integer.parseInt(n.getId()) >= Inventory.STRONGBOX_INIT_INDEX) {
-                return;
-            }
             if (lastSwap == null) {
                 lastSwap = n;
                 Image nodeImage = n.snapshot(new SnapshotParameters(), null);
@@ -425,6 +424,7 @@ public class PersonalController extends GUICommandListener {
      * it sets the player in canSwap mode and the endSwap Button as visible
      */
     public void activateSwaps() {
+        setNonSwapButtonsTo(true);
         currentSelectedResources.clear();
         endSwap.setVisible(true);
         canSwap = true;
@@ -437,6 +437,7 @@ public class PersonalController extends GUICommandListener {
      * it also sets the player as not in a swap phase and sets as invisible the endSwap button and as visible the End Turn Button
      */
     private void sendSwapAction() {
+        setNonSwapButtonsTo(false);
         List<Integer> swaps = new ArrayList<>();
         currentSelectedResources.forEach(node -> swaps.add(Integer.parseInt(node.getId())));
         notifyObservers(new ResourcesPlacementActionEvent(swaps, true));
@@ -444,6 +445,22 @@ public class PersonalController extends GUICommandListener {
         currentSelectedResources.clear();
         canSwap = false;
         //endTurn.setVisible(true);
+    }
+
+    /**
+     * Set all non swap related buttons disable property.
+     *
+     * @param disable true to disable them, false otherwise
+     */
+    private void setNonSwapButtonsTo(boolean disable){
+        handButton.setDisable(disable);
+        HActiveProductionLeaders.setDisable(disable);
+        productionPane.setDisable(disable);
+        basicPower.setDisable(disable);
+        HArrowButtons.setDisable(disable);
+        VArrowButtons.setDisable(disable);
+        devGrid.setDisable(disable);
+        strongboxGrid.setDisable(disable);
     }
 
     /**

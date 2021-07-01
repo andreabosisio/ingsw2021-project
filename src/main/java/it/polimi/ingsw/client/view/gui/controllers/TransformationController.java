@@ -37,7 +37,7 @@ public class TransformationController extends GUICommandListener {
     /**
      * This method is used to set the number and the possible colors of the transformations the player must perform
      *
-     * @param numberOfTransformation number of the resources to transform
+     * @param numberOfTransformation  number of the resources to transform
      * @param possibleTransformations colors in which the resources can transform
      */
     public void setTransformation(int numberOfTransformation, List<String> possibleTransformations) {
@@ -78,7 +78,7 @@ public class TransformationController extends GUICommandListener {
             Button transformer = (Button) transformation.getChildren().get(buttonIndex);
             if (transformer != null) {
                 transformer.setId(String.valueOf(0));
-                GraphicUtilities.loadResource(transformer,possibleTransformations.get(0));
+                GraphicUtilities.loadResource(transformer, possibleTransformations.get(0));
                 transformer.setOnMousePressed((event -> changeResourceAction(transformer)));
             }
         }
@@ -91,13 +91,13 @@ public class TransformationController extends GUICommandListener {
      *
      * @param transformer button pressed b the player
      */
-    private void changeResourceAction(Button transformer){
+    private void changeResourceAction(Button transformer) {
         int index = Integer.parseInt(transformer.getId());
         index++;
         if (index >= possibleTransformations.size())
             index = 0;
         transformer.setId(String.valueOf(index));
-        GraphicUtilities.loadResource(transformer,possibleTransformations.get(index));
+        GraphicUtilities.loadResource(transformer, possibleTransformations.get(index));
     }
 
     /**

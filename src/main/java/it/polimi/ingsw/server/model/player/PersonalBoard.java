@@ -51,7 +51,7 @@ public class PersonalBoard implements EndGameSubject {
     /**
      * Get all the currently active LeaderCards
      *
-     * @return List</LeaderCard> of active LeaderCards
+     * @return List</ LeaderCard> of active LeaderCards
      */
     public List<LeaderCard> getActiveLeaderCards() {
         return activeLeaderCards;
@@ -77,13 +77,13 @@ public class PersonalBoard implements EndGameSubject {
     /**
      * Get all the Production Cards' IDs in all the Production Slots (including the Basic Power Card).
      * All the cards in a slot are ordered by level and the lower level card is on the first position.
-     * 
+     *
      * @return a list containing a all the bought cards' IDs for each slot
      */
     public List<List<String>> getAllBoughtDevelopmentCardsIDs() {
         return productionDeck.stream().limit(lastDevSlotIndex).map(slot -> {
             List<String> newSlotIDs = slot.stream().map(ProductionCard::getID).collect(Collectors.toList());
-            if(newSlotIDs.size() == 0)
+            if (newSlotIDs.size() == 0)
                 newSlotIDs.add(DevelopmentCard.getEmptyCardID());
             Collections.reverse(newSlotIDs);
             return newSlotIDs;
@@ -191,7 +191,7 @@ public class PersonalBoard implements EndGameSubject {
     /**
      * Getter of all the DevelopmentCards currently on the board
      *
-     * @return List</DevelopmentCard> of cards on the board
+     * @return List</ DevelopmentCard> of cards on the board
      */
     public List<DevelopmentCard> getAllDevelopmentCards() {
         List<DevelopmentCard> toReturn = new ArrayList<>();

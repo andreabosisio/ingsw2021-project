@@ -11,7 +11,7 @@ import java.util.Map;
 
 public abstract class ServerParser extends Parser {
 
-    private static final Map<String, Object> eventFromClientTypes = new HashMap<String,Object>() {{
+    private static final Map<String, Object> eventFromClientTypes = new HashMap<String, Object>() {{
         put(buyActionType, BuyEventFromClient.class);
         put(cardPlacementActionType, PlaceDevelopmentCardEventFromClient.class);
         put(setupActionType, SetupEventFromClient.class);
@@ -31,7 +31,7 @@ public abstract class ServerParser extends Parser {
             JsonObject action = message.getAsJsonObject();
             Type eventType = (Type) eventFromClientTypes.get(action.get(MSG_TYPE_ID).getAsString());
             return gson.fromJson(action, eventType);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             e.printStackTrace();
         }
         return null;

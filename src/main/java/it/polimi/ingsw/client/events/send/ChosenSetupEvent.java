@@ -16,7 +16,7 @@ public class ChosenSetupEvent extends EventToServer {
      * This event is sent when the player has done his setup action
      *
      * @param chosenLeaderCardIndexes indexes of the leaderCard chosen
-     * @param chosenResources starting resources chosen
+     * @param chosenResources         starting resources chosen
      */
     public ChosenSetupEvent(List<Integer> chosenLeaderCardIndexes, List<String> chosenResources) {
         super(ClientParser.setupActionType);

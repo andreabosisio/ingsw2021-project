@@ -12,12 +12,13 @@ public abstract class FileUtilities {
     private static final Gson gson = new Gson();
 
     public static final String SAVED_GAME_PATH = "src/main/resources/gameSaved.json";
-    public static final String SAVED_MARKET_INIT_RES_PATH = "src/main/resources/initialMarketState.json";
+    public static final String MARKET_DEFAULT_CONFIG_PATH = "src/main/resources/defaultMarketConfig.json";
+    public static final String SAVED_MARKET_DATA_PATH = "src/main/resources/initialMarketState.json";
     public static final String SAVED_DEV_CARD_DATA_PATH = "src/main/resources/initialGridState.json";
     public static final String SAVED_LEADER_CARD_DATA_PATH = "src/main/resources/initialDeckLeaderState.json";
     public static final String UNMODIFIABLE_DEVELOPMENT_CARDS_PATH = "src/main/resources/developmentCards.json";
     public static final String UNMODIFIABLE_LEADER_CARDS_PATH = "src/main/resources/leaderCards.json";
-    public static final String TOKEN_FILE_NAME = "src/main/resources/soloActionTokens.json";
+    public static final String SOLO_TOKEN_PATH = "src/main/resources/soloActionTokens.json";
 
     /**
      * Reset the Game Data saved in the SaveGame file.
@@ -58,6 +59,7 @@ public abstract class FileUtilities {
 
 
     //Todo maybe remove those getter
+
     /**
      * Get method that return the Path of the Json File where it are saved the nicknames of the Players
      * and the actions performed.
@@ -73,8 +75,8 @@ public abstract class FileUtilities {
      *
      * @return the Path
      */
-    public static String getSavedMarketInitResPath() {
-        return SAVED_MARKET_INIT_RES_PATH;
+    public static String getSavedMarketDataPath() {
+        return SAVED_MARKET_DATA_PATH;
     }
 
     /**
@@ -118,15 +120,15 @@ public abstract class FileUtilities {
      *
      * @return the Path
      */
-    public static String getTokenFileName() {
-        return TOKEN_FILE_NAME;
+    public static String getSoloTokenPath() {
+        return SOLO_TOKEN_PATH;
     }
 
     /**
      * Write to file a JsonElement.
      *
      * @param jsonElement to write
-     * @param path of the file to write
+     * @param path        of the file to write
      */
     public static void writeJsonElementInFile(JsonElement jsonElement, String path) {
         try (FileWriter file = new FileWriter(path)) {

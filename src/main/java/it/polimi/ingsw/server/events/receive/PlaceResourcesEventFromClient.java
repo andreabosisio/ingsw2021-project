@@ -16,9 +16,9 @@ public class PlaceResourcesEventFromClient extends EventFromClient {
     /**
      * Create a new Resource Placement request.
      *
-     * @param nickname of the Player who wants to reorder the Warehouse
+     * @param nickname         of the Player who wants to reorder the Warehouse
      * @param placementChoices A List containing all the Resource's position swaps
-     * @param isFinal true if it's the final Warehouse reordering configuration
+     * @param isFinal          true if it's the final Warehouse reordering configuration
      */
     public PlaceResourcesEventFromClient(String nickname, List<Integer> placementChoices, boolean isFinal) {
         super(nickname, ServerParser.resourcesPlacementActionType);

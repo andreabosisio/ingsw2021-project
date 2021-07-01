@@ -13,6 +13,7 @@ public class MarketSlots implements ResourcesContainer {
     public MarketSlots() {
         this.slots = Arrays.asList(new Resource[availableResourcesFromMarketSlots]);
     }
+
     /**
      * Add the resources taken from the MarketTray to this container.
      *

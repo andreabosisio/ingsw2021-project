@@ -23,7 +23,7 @@ public class GraphicUpdateEvent extends EventToClient {
     }
 
     public void addUpdate(PersonalBoardUpdate personalBoardUpdate) {
-        if(personalBoardUpdateList == null){
+        if (personalBoardUpdateList == null) {
             personalBoardUpdateList = new ArrayList<>();
         }
         this.personalBoardUpdateList.add(personalBoardUpdate);
@@ -33,6 +33,8 @@ public class GraphicUpdateEvent extends EventToClient {
         this.faithTracksUpdate = faithTracksUpdate;
     }
 
-    public void addUpdate(String messageUpdate) {this.messageUpdate = messageUpdate;}
+    public void addUpdate(String messageUpdate) {
+        this.messageUpdate = messageUpdate;
+    }
 
 }

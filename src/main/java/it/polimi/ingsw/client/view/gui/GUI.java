@@ -14,7 +14,10 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class GUI extends Application implements View {
 
@@ -44,7 +47,7 @@ public class GUI extends Application implements View {
         }
     }
 
-    public void setGUI(){
+    public void setGUI() {
         this.networkHandler = new NetworkHandler(this);
         guiCommandListeners.values().forEach(guiCommandListener -> guiCommandListener.registerObservers(networkHandler));
         personalController.registerObservers(networkHandler);
@@ -163,14 +166,14 @@ public class GUI extends Application implements View {
     @Override
     public void setOnDevelopmentCardPlacement(String newCardID) {
         Platform.runLater(() -> {
-            personalController.showCardPlacementPopup(newCardID,scene);
+            personalController.showCardPlacementPopup(newCardID, scene);
             personalController.activateBoard();
         });
     }
 
     @Override
     public void setOnResourcesPlacement() {
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             personalController.activateSwaps();
             personalController.activateBoard();
         });
@@ -179,19 +182,18 @@ public class GUI extends Application implements View {
     @Override
     public void setOnTransformation(int numberOfTransformation, List<String> possibleTransformations) {
         Platform.runLater(() -> {
-            personalController.showTransformationPopup(numberOfTransformation, possibleTransformations,scene);
+            personalController.showTransformationPopup(numberOfTransformation, possibleTransformations, scene);
             personalController.activateBoard();
         });
     }
 
     @Override
     public void setOnEndTurn() {
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             personalController.activateBoard();
             personalController.activateEndButton();
         });
     }
-
 
 
     @Override

@@ -1,18 +1,20 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.events.send.ChosenSetupEvent;
-import it.polimi.ingsw.commons.enums.StorableResourceEnum;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import it.polimi.ingsw.client.view.gui.GraphicUtilities;
+import it.polimi.ingsw.commons.enums.StorableResourceEnum;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,14 +60,14 @@ public class SetupController extends GUICommandListener {
     public void initialize() {
         File file;
         int i = 0;
-        for(String leaderID : leaderCardsID){
-            ToggleButton toggleButton = (ToggleButton)HToggleLeaders.getChildren().get(i);
+        for (String leaderID : leaderCardsID) {
+            ToggleButton toggleButton = (ToggleButton) HToggleLeaders.getChildren().get(i);
             toggleButton.setId(String.valueOf(i));
-            GraphicUtilities.loadLeaderImage(toggleButton,leaderID);
+            GraphicUtilities.loadLeaderImage(toggleButton, leaderID);
             i++;
         }
-        for(i = 0; i < numberOfResources; i++){
-            Button button =(Button)HToggleResources.getChildren().get(i);
+        for (i = 0; i < numberOfResources; i++) {
+            Button button = (Button) HToggleResources.getChildren().get(i);
             button.setId("0");
             GraphicUtilities.loadResource(button);
             button.setDisable(false);
@@ -79,7 +81,7 @@ public class SetupController extends GUICommandListener {
     /**
      * This method is used to set from which leaderCard IDs the player can choose and how many resources he deserves
      *
-     * @param leaderCardsID list with the IDs of each leader card
+     * @param leaderCardsID    list with the IDs of each leader card
      * @param numberOfResource number of resources to choose
      */
     public void initializeData(List<String> leaderCardsID, int numberOfResource) {
@@ -95,51 +97,51 @@ public class SetupController extends GUICommandListener {
      */
     private void setupAction() {
         chosenLeadersIndexes = new ArrayList<>();
-        for(Node node:HToggleLeaders.getChildren()){
+        for (Node node : HToggleLeaders.getChildren()) {
             ToggleButton button = (ToggleButton) node;
-            if(button.isSelected()){
+            if (button.isSelected()) {
                 try {
                     chosenLeadersIndexes.add(Integer.parseInt(button.getId()));
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     printErrorMessage("Failed to extract index of chosen cards");
                 }
             }
         }
-        if(chosenLeadersIndexes.size()!=2){
+        if (chosenLeadersIndexes.size() != 2) {
             printErrorMessage("You must choose 2 Leaders");
             return;
         }
         chosenResources = new ArrayList<>();
-        for(int i = 0;i<numberOfResources;i++){
-            Button button =(Button)HToggleResources.getChildren().get(i);
-            if(!button.isDisable()){
+        for (int i = 0; i < numberOfResources; i++) {
+            Button button = (Button) HToggleResources.getChildren().get(i);
+            if (!button.isDisable()) {
                 chosenResources.add(StorableResourceEnum.values()[Integer.parseInt(button.getId())].toString());
             }
         }
-        if(marketWindow !=null) {
+        if (marketWindow != null) {
             marketWindow.close();
         }
-        if(gridWindow!=null){
+        if (gridWindow != null) {
             gridWindow.close();
         }
-        notifyObservers(new ChosenSetupEvent(chosenLeadersIndexes,chosenResources));
+        notifyObservers(new ChosenSetupEvent(chosenLeadersIndexes, chosenResources));
         printInfoMessage(waitMessage);
         done.setDisable(true);
     }
 
-    private void changeResourceAction(Button button){
+    private void changeResourceAction(Button button) {
         GraphicUtilities.loopResources(button);
     }
 
-    private void seeMarket(){
+    private void seeMarket() {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/marketPopup.fxml"));
-        marketWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader,marketWindow,Modality.NONE);
+        marketWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, marketWindow, Modality.NONE);
         marketWindow.show();
     }
 
-    private void seeGrid(){
+    private void seeGrid() {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/devGridPopupScene.fxml"));
-        gridWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader,gridWindow,Modality.NONE);
+        gridWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, gridWindow, Modality.NONE);
         gridWindow.show();
     }
 }

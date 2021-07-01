@@ -23,7 +23,8 @@ public class FakeConnectionToClient extends ServerConnection {
     }
 
     @Override
-    public void close(boolean inform) { }
+    public void close(boolean inform) {
+    }
 
     @Override
     public void sendStillAliveMsg() {

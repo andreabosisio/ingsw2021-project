@@ -1,12 +1,14 @@
 package it.polimi.ingsw.server.model.cards;
+
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.Resource;
+
 import java.util.List;
 
 /**
  * Implements the Leader Card with the ability to give a discount to buy a Development Card.
  */
-public class DiscountLeaderCard extends LeaderCard{
+public class DiscountLeaderCard extends LeaderCard {
     private final Resource discount;
 
     public DiscountLeaderCard(String ID, int points, List<Requirement> requirements, Resource discount) {

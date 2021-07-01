@@ -13,7 +13,7 @@ public abstract class ChoiceEvent extends EventToClient {
      * Create a new Choice Message.
      *
      * @param nickname of the Player who has to make a choice
-     * @param type of the choice
+     * @param type     of the choice
      */
     public ChoiceEvent(String nickname, String type) {
         this.nickname = nickname;

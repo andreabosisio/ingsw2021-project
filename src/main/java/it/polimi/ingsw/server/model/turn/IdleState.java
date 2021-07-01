@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.model.turn;
 
-import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
 import it.polimi.ingsw.server.model.SetupManager;
 
 public class IdleState extends State {
     private SetupManager setupManager;
+
     public IdleState(TurnLogic turnLogic) {
         super(turnLogic);
     }

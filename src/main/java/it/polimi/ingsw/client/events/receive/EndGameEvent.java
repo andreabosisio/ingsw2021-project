@@ -10,6 +10,7 @@ import java.util.Map;
 public class EndGameEvent implements EventFromServer {
     private final Map<String, Integer> playersPoints;
     private final String winner;
+
     public EndGameEvent(Map<String, Integer> playersPoints, String winner) {
         this.playersPoints = playersPoints;
         this.winner = winner;
@@ -17,6 +18,6 @@ public class EndGameEvent implements EventFromServer {
 
     @Override
     public void updateView(View view) {
-        view.setOnEndGame(winner,playersPoints);
+        view.setOnEndGame(winner, playersPoints);
     }
 }

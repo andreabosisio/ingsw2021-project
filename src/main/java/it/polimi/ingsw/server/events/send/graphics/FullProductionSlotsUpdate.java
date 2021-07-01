@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.events.send.graphics;
 
 import it.polimi.ingsw.server.model.player.Player;
 
-public class FullProductionSlotsUpdate extends ProductionSlotsUpdate{
+public class FullProductionSlotsUpdate extends ProductionSlotsUpdate {
 
     @Override
     public void addUpdateTo(PersonalBoardUpdate personalBoardUpdate, Player player) {

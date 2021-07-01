@@ -32,8 +32,8 @@ public class DevelopmentCard implements ProductionCard {
 
     public DevelopmentCard() {
         this.iD = EMPTY_CARD_ID;
-        this.inResources =  new ArrayList<>();
-        this.outResources =  new ArrayList<>();
+        this.inResources = new ArrayList<>();
+        this.outResources = new ArrayList<>();
         this.price = new ArrayList<>();
         this.color = null;
         this.points = -1;
@@ -110,13 +110,13 @@ public class DevelopmentCard implements ProductionCard {
      * @param resourcePosition Warehouse/Strongbox positions of the chosen resources
      * @param discount         Discount provided by the active TransformationLeaderCard cards
      * @return true if the buyer can buy the card
-     * @throws InvalidIndexException if one the given positions is negative
-     * @throws EmptySlotException if one of the chosen slots is empty
+     * @throws InvalidIndexException      if one the given positions is negative
+     * @throws EmptySlotException         if one of the chosen slots is empty
      * @throws NonAccessibleSlotException if one of the given position represent a slot that's not accessible
      */
     public boolean buyCard(Player buyer, List<Integer> resourcePosition, List<Resource> discount) throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         List<Resource> tempNeededResources = getPrice();
-        for (Resource res : discount){
+        for (Resource res : discount) {
             tempNeededResources.remove(res);
         }
         List<Resource> paymentResources = new ArrayList<>(buyer.getPersonalBoard().getWarehouse().getResources(resourcePosition));
@@ -140,13 +140,13 @@ public class DevelopmentCard implements ProductionCard {
     /**
      * Produce the desiredResource saved in outResources.
      *
-     * @return true if the production has been applied correctly
      * @param turnLogic turn
+     * @return true if the production has been applied correctly
      */
     @Override
     public boolean usePower(TurnLogic turnLogic) {
-        for(Resource outResource : outResources)
-            if(!outResource.productionAbility(turnLogic))
+        for (Resource outResource : outResources)
+            if (!outResource.productionAbility(turnLogic))
                 return false;
         return true;
     }

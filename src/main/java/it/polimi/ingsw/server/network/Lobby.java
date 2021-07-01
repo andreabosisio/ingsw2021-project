@@ -227,7 +227,7 @@ public class Lobby {
      */
     public synchronized void disconnectPlayer(String nickname) {
         if (gameStarted) {
-            if(controller.disconnectPlayer(nickname)){
+            if (controller.disconnectPlayer(nickname)) {
                 System.out.println("Last player left\nResetting server");
                 destroyLobby(nickname);
             }
@@ -240,7 +240,7 @@ public class Lobby {
      *
      * @param nickname nickname of the currently disconnecting player
      */
-    private void destroyLobby(String nickname){
+    private void destroyLobby(String nickname) {
         virtualViews.stream().filter(v -> !v.getNickname().equals(nickname) && v.isOnline()).forEach(VirtualView::disconnect);//if a player is waiting on the lock for a reconnection abort it
         numberOfPlayers = NOT_DECIDED;
         gameStarted = false;

@@ -1,19 +1,19 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.commons.enums.CardColorsEnum;
-import it.polimi.ingsw.server.exceptions.*;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.events.send.choice.*;
 import it.polimi.ingsw.server.events.send.graphics.*;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
+import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
-import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.PersonalBoard;
-import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
-import it.polimi.ingsw.server.model.resources.ResourceFactory;
-import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.cards.LeaderCard;
+import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
+import it.polimi.ingsw.server.model.resources.Resource;
+import it.polimi.ingsw.server.model.resources.ResourceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,7 +131,7 @@ public class StartTurnState extends State {
                 throw new InvalidEventException("production failed"); //impossible condition
             else {
                 GraphicUpdateEvent infoMsg = new GraphicUpdateEvent();
-                infoMsg.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " produced this resources: " + personalBoard.getProductionCard(currentKey).getOutResources().stream().map(r->r.getColor().toString()).collect(Collectors.toList())+"!");
+                infoMsg.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " produced this resources: " + personalBoard.getProductionCard(currentKey).getOutResources().stream().map(r -> r.getColor().toString()).collect(Collectors.toList()) + "!");
                 turnLogic.getModelInterface().notifyObservers(infoMsg);
             }
 
@@ -210,7 +210,7 @@ public class StartTurnState extends State {
     /**
      * Activate or Discard a LeaderCard if the player has not done it yet.
      *
-     * @param cardID      of the chosen LeaderCard
+     * @param cardID  of the chosen LeaderCard
      * @param discard true if the chosen LeaderCard has to be discarded, false if has to be activated
      * @return true if the leaderAction has been successfully applied
      * @throws InvalidEventException if the leaderAction can't be applied
@@ -246,7 +246,7 @@ public class StartTurnState extends State {
                 GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
                 graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new LeaderCardSlotsUpdate()));
                 graphicUpdateEvent.addUpdate(new FaithTracksUpdate());
-                graphicUpdateEvent.addUpdate( turnLogic.getCurrentPlayer().getNickname() + " discarded a Leader Card!");
+                graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " discarded a Leader Card!");
                 turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
             }
         } else

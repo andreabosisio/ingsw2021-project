@@ -11,7 +11,7 @@ public class TransformationLeaderCard extends LeaderCard {
 
     public TransformationLeaderCard(String ID, int points, List<Requirement> requirements, Resource transformation) {
         super(ID, points, requirements);
-        this.transformation=transformation;
+        this.transformation = transformation;
     }
 
     /**
@@ -33,6 +33,6 @@ public class TransformationLeaderCard extends LeaderCard {
      */
     @Override
     public boolean doTransformation(Resource resource) {
-       return resource.addPossibleTransformation(transformation);
+        return resource.addPossibleTransformation(transformation);
     }
 }

@@ -4,8 +4,8 @@ import it.polimi.ingsw.server.events.receive.EventFromClient;
 import it.polimi.ingsw.server.events.send.EventToClient;
 import it.polimi.ingsw.server.network.Lobby;
 import it.polimi.ingsw.server.network.PongObserver;
-import it.polimi.ingsw.server.utils.ReceiveObservable;
 import it.polimi.ingsw.server.utils.EventsForClientObserver;
+import it.polimi.ingsw.server.utils.ReceiveObservable;
 import it.polimi.ingsw.server.utils.SendObserver;
 
 import java.util.Timer;
@@ -34,8 +34,8 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      * This method is used to construct a new virtualView for a player
      * It also sets the virtualView as a pongObserver
      *
-     * @param nickname nickname of the player owner of the virtualView
-     * @param password password of the player owner of the virtualView
+     * @param nickname      nickname of the player owner of the virtualView
+     * @param password      password of the player owner of the virtualView
      * @param clientHandler clientHandler handling the connection with the player
      */
     public VirtualView(String nickname, String password, ClientHandler clientHandler) {
@@ -141,7 +141,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
                     clientHandler.sendPing();
                 }
             }
-        },PING_DELAY,PING_PERIOD);
+        }, PING_DELAY, PING_PERIOD);
     }
 
     /**
@@ -166,7 +166,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
      */
     public void reconnect(ClientHandler clientHandler) {
         this.setOnline(true);
-        Lobby.getLobby().broadcastToOthersInfoMessage(nickname + " has reconnected",nickname);
+        Lobby.getLobby().broadcastToOthersInfoMessage(nickname + " has reconnected", nickname);
         this.setClientConnectionHandler(clientHandler);
         clientHandler.getConnection().setPongObserver(this);
         this.timer = new Timer();

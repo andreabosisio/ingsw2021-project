@@ -9,11 +9,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -63,7 +67,7 @@ public abstract class GraphicUtilities {
      * It does so by asking the reduced model for data and loading appropriates images in the imageViews
      *
      * @param marketToPopulate The gridPane to populate
-     * @param extraRes the imageView representing the extra slot
+     * @param extraRes         the imageView representing the extra slot
      */
     public static void populateMarket(GridPane marketToPopulate, ImageView extraRes) {
         List<String> market = Board.getBoard().getMarketTray().toStringList();
@@ -144,7 +148,7 @@ public abstract class GraphicUtilities {
      * Method used to populate the popeTiles in the GUI:
      *
      * @param popeTiles anchorPane containing three imageViews
-     * @param nickname nickname of the player whose tiles must be populated
+     * @param nickname  nickname of the player whose tiles must be populated
      */
     public static void populatePopeTiles(AnchorPane popeTiles, String nickname) {
         ImageView temp;
@@ -194,7 +198,7 @@ public abstract class GraphicUtilities {
      * It does so by matching the modified ImageView with its new card and loading in it the new image.
      *
      * @param populatedDevelopmentGrid gridPane containing the developmentCardsGrid
-     * @param iD ID of the new placed card
+     * @param iD                       ID of the new placed card
      */
     public static void updateDevGrid(GridPane populatedDevelopmentGrid, String iD) {
         if (iD.equals(DevelopmentCard.EMPTY_CARD_ID)) {
@@ -243,9 +247,9 @@ public abstract class GraphicUtilities {
      * This method is used to populate the activeLeaders in the GUI:
      * It does so by activating the javafx elements associated with each leaderCard id power
      *
-     * @param population List of IDs representing the active leaderCards the player own
-     * @param leadersBox HBox containing the images of active leaders
-     * @param warehouseLeaderBox VBox containing the buttons for the extraSlots offered by some leaders
+     * @param population          List of IDs representing the active leaderCards the player own
+     * @param leadersBox          HBox containing the images of active leaders
+     * @param warehouseLeaderBox  VBox containing the buttons for the extraSlots offered by some leaders
      * @param productionLeaderBox VBox containing the buttons for the extraProductionSlots offered by some leaders
      */
     public static void populateActiveLeaders(List<String> population, HBox leadersBox, VBox warehouseLeaderBox, HBox productionLeaderBox) {
@@ -302,10 +306,10 @@ public abstract class GraphicUtilities {
      * This method is used to populate a new or given stage using a given fxmlLoader,
      * It is then given a specified modality with a given window as its parent
      *
-     * @param window parent of the new popup
-     * @param fxmlLoader fxmlLoader containing the fxml to use
+     * @param window          parent of the new popup
+     * @param fxmlLoader      fxmlLoader containing the fxml to use
      * @param stageToPopulate Stage where the scene will be loaded(null to create a new stage)
-     * @param modality relationship to set between the popup and its parent
+     * @param modality        relationship to set between the popup and its parent
      * @return the popup Stage created
      */
     public static Stage populatePopupWindow(Window window, FXMLLoader fxmlLoader, Stage stageToPopulate, Modality modality) {
@@ -336,7 +340,7 @@ public abstract class GraphicUtilities {
      * It does so by loading the appropriate images in a AnchorPane containing only buttons following the reduced model data
      *
      * @param productionPane Pane containing the buttons representing the productions basic and leaders not included
-     * @param nickname player owner of the productionBoard
+     * @param nickname       player owner of the productionBoard
      */
     public static void populateProductionBoard(AnchorPane productionPane, String nickname) {
         List<LinkedHashSet<String>> population = new ArrayList<>(Board.getBoard().getPersonalBoardOf(nickname).getDevelopmentCardsInSlots());
@@ -370,10 +374,10 @@ public abstract class GraphicUtilities {
      * It does so by using the reduced model data to load the appropriate images in a list of buttons contained in multiple panes
      *
      * @param fromMarket HBox containing the buttons for the resources form market
-     * @param warehouse AnchorPane containing the buttons for the resources in the warehouse
-     * @param leaders VBox containing the buttons for the resources in the leaders special slots
-     * @param strongbox GridPane containing the buttons for the resources in the strongBox
-     * @param nickname nickname of the player owner of the depots
+     * @param warehouse  AnchorPane containing the buttons for the resources in the warehouse
+     * @param leaders    VBox containing the buttons for the resources in the leaders special slots
+     * @param strongbox  GridPane containing the buttons for the resources in the strongBox
+     * @param nickname   nickname of the player owner of the depots
      */
     public static void populateDepots(HBox fromMarket, AnchorPane warehouse, VBox leaders, GridPane strongbox, String nickname) {
         List<Node> allDepotsAsNodes = new ArrayList<>();
@@ -403,7 +407,7 @@ public abstract class GraphicUtilities {
     public static void loopResources(Button button) {
         int number = Integer.parseInt(button.getId());
         number++;
-        if(number >= StorableResourceEnum.values().length){
+        if (number >= StorableResourceEnum.values().length) {
             number = 0;
         }
         button.setId(String.valueOf(number));
@@ -416,7 +420,7 @@ public abstract class GraphicUtilities {
      *
      * @param button button containing the imageView to change
      */
-    public static void loadResource(Button button){
+    public static void loadResource(Button button) {
         int number = Integer.parseInt(button.getId());
         loadResourceFromEnumIndex(button, number);
     }
@@ -424,12 +428,13 @@ public abstract class GraphicUtilities {
     /**
      * This method is used to load in a ImageView of a button the image of the resource
      * associated with the given color;
+     *
      * @param button The button containing the imageView to change
-     * @param color color of the resource to load in the imageView
+     * @param color  color of the resource to load in the imageView
      */
-    public static void loadResource(Button button, String color){
+    public static void loadResource(Button button, String color) {
         File file = new File(resourcesPath + color.toLowerCase(Locale.ROOT) + endOfPath);
-        loadFileInButtonImageView(button,file);
+        loadFileInButtonImageView(button, file);
     }
 
     /**
@@ -440,28 +445,28 @@ public abstract class GraphicUtilities {
      * @param number color enum index of the resource to load
      */
     private static void loadResourceFromEnumIndex(Button button, int number) {
-        File file = new File(resourcesPath + StorableResourceEnum.values()[number].toString().toLowerCase(Locale.ROOT)+endOfPath);
-        loadFileInButtonImageView(button,file);
+        File file = new File(resourcesPath + StorableResourceEnum.values()[number].toString().toLowerCase(Locale.ROOT) + endOfPath);
+        loadFileInButtonImageView(button, file);
     }
 
     /**
      * This method is used to load a leader image in a button imageView using the ID as path
      *
-     * @param button button where the image will be loaded
+     * @param button   button where the image will be loaded
      * @param leaderID ID of the leader to load
      */
-    public static void loadLeaderImage(ButtonBase button,String leaderID){
+    public static void loadLeaderImage(ButtonBase button, String leaderID) {
         File file = new File(leaderCardsPath + leaderID + endOfPath);
-        loadFileInButtonImageView(button,file);
+        loadFileInButtonImageView(button, file);
     }
 
     /**
      * This method is used to load a file into a button imageView
      *
      * @param button button where to load the file
-     * @param file file to load
+     * @param file   file to load
      */
-    private static void loadFileInButtonImageView(ButtonBase button,File file){
+    private static void loadFileInButtonImageView(ButtonBase button, File file) {
         ImageView imageView = (ImageView) button.getGraphic();
         imageView.setImage(new Image(file.toURI().toString()));
         button.setGraphic(imageView);

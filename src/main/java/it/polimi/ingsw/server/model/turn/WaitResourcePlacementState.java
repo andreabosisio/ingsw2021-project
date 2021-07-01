@@ -1,17 +1,18 @@
 package it.polimi.ingsw.server.model.turn;
 
-import it.polimi.ingsw.server.exceptions.EmptySlotException;
-import it.polimi.ingsw.server.exceptions.InvalidEventException;
-import it.polimi.ingsw.server.exceptions.InvalidIndexException;
-import it.polimi.ingsw.server.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.events.send.choice.EndTurnChoiceEvent;
 import it.polimi.ingsw.server.events.send.choice.PlaceResourcesChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.FaithTracksUpdate;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.events.send.graphics.WarehouseUpdate;
+import it.polimi.ingsw.server.exceptions.EmptySlotException;
+import it.polimi.ingsw.server.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.exceptions.InvalidIndexException;
+import it.polimi.ingsw.server.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
+
 import java.util.List;
 
 public class WaitResourcePlacementState extends State {
@@ -28,10 +29,10 @@ public class WaitResourcePlacementState extends State {
      * Reorder the warehouse and change the state of the game to EndTurnState. If the Player has some remaining resource
      * to store increases the FaithProgress of the other players.
      *
-     * @param swapPairs List of all the swaps to be applied
+     * @param swapPairs                   List of all the swaps to be applied
      * @param hasCompletedPlacementAction true if player wish for this reordering to be final
      * @return true if the warehouse reordering is legal
-     * @throws InvalidEventException      if the swaps cannot be applied
+     * @throws InvalidEventException if the swaps cannot be applied
      */
     @Override
     public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedPlacementAction) throws InvalidEventException {
@@ -44,14 +45,14 @@ public class WaitResourcePlacementState extends State {
         Warehouse warehouse = turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse();
 
         for (int i = 0; i < swapPairs.size(); i = i + 2) {
-            try{
+            try {
                 //if a swap is not legal invalidate decision to end swaps
-                if(!warehouse.swap(swapPairs.get(i), swapPairs.get(i + 1))){
+                if (!warehouse.swap(swapPairs.get(i), swapPairs.get(i + 1))) {
                     sendWarehouseUpdate();
                     turnLogic.setLastEventSent(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname()));
                     throw new InvalidEventException("Some swaps could not be applied"); //the swap cannot be applied
                 }
-            }catch ( InvalidIndexException|EmptySlotException|NonAccessibleSlotException e){
+            } catch (InvalidIndexException | EmptySlotException | NonAccessibleSlotException e) {
                 //if a swap generated an exception send the new warehouse configuration
                 sendWarehouseUpdate();
                 turnLogic.setLastEventSent(new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname()));
@@ -83,7 +84,7 @@ public class WaitResourcePlacementState extends State {
         PlaceResourcesChoiceEvent placeResourcesReceiveEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname());
         turnLogic.setLastEventSent(placeResourcesReceiveEvent);
         //if not final simply resend the choice event
-        if(!hasCompletedPlacementAction){
+        if (!hasCompletedPlacementAction) {
             turnLogic.getModelInterface().notifyObservers(placeResourcesReceiveEvent);
             return true;
         }
@@ -94,7 +95,7 @@ public class WaitResourcePlacementState extends State {
     /**
      * This method is used to notify the modelInterface observers with a graphic event containing the changes in the player' warehouse
      */
-    private void sendWarehouseUpdate(){
+    private void sendWarehouseUpdate() {
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
         graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new WarehouseUpdate()));
         turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);

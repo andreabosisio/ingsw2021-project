@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.player.warehouse;
 
-import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,16 +32,16 @@ public class Depot implements ResourcesContainer {
      *
      * @return true if all the resources of the depot are of the same type
      */
-    public boolean isLegal(){
+    public boolean isLegal() {
         return slots.stream().filter(Objects::nonNull).distinct().count() <= 1;
     }
 
     /**
      * Update the typeOfResource of this Depot after swap.
      */
-    private void updateTypeResource(){
-        for(Resource resource : slots)
-            if(resource != null) {
+    private void updateTypeResource() {
+        for (Resource resource : slots)
+            if (resource != null) {
                 this.resourceType = resource;
                 return;
             }
@@ -85,7 +85,7 @@ public class Depot implements ResourcesContainer {
     @Override
     public Resource getResource(int position) {
         Resource chosenResource = this.slots.get(position);
-        if(chosenResource != null)
+        if (chosenResource != null)
             return new StorableResource(chosenResource.getColor());
         return null;
     }

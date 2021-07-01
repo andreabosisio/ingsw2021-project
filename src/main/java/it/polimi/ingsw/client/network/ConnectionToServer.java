@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This class is used by the NetworkHandler to read the messages from the Server and to send messages via Socket:
@@ -70,7 +71,7 @@ public class ConnectionToServer extends ClientConnection {
      */
     public void close(boolean inform) {
         try {
-            if(inform) {
+            if (inform) {
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty(Parser.MSG_TYPE_ID, Connection.QUIT_MSG);
                 sendMessage(jsonObject.toString());
@@ -114,9 +115,9 @@ public class ConnectionToServer extends ClientConnection {
                 message = in.readLine();
                 if (message.equals(Connection.PING_MSG)) {
                     handlePing();
-                } else if(message.equals(Connection.QUIT_MSG)){
+                } else if (message.equals(Connection.QUIT_MSG)) {
                     close(false);
-                }else {
+                } else {
                     addMessageToQueue(message);
                 }
             } catch (IOException e) {

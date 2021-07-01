@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.exceptions;
 
 
-public class InvalidIndexException extends Exception{
+public class InvalidIndexException extends Exception {
 
     /**
      * Constructs a new exception with {@code null} as its detail message.

@@ -13,7 +13,7 @@ public class PlaceDevelopmentCardEventFromClient extends EventFromClient {
     /**
      * Create a new Card Placement request by specifying the Production Slot position.
      *
-     * @param nickname of the Player who wants to place a new card
+     * @param nickname     of the Player who wants to place a new card
      * @param slotPosition The index of the chosen Production Slot
      */
     public PlaceDevelopmentCardEventFromClient(String nickname, int slotPosition) {

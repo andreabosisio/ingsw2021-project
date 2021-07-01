@@ -22,7 +22,7 @@ public abstract class Printable {
      * @return the width of this Printable
      */
     public int getWidth() {
-        if(this.width == -1)
+        if (this.width == -1)
             getPrintable();
         return this.width;
     }
@@ -32,7 +32,7 @@ public abstract class Printable {
      */
     public String getEmptySpace() {
         StringBuilder emptySpace = new StringBuilder();
-        for(int i = 0; i < getWidth(); i++)
+        for (int i = 0; i < getWidth(); i++)
             emptySpace.append(' ');
         return emptySpace.toString();
     }

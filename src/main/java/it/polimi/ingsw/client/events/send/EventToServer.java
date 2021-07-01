@@ -24,7 +24,7 @@ public abstract class EventToServer {
      * @param sender The nickname of this Client
      * @return a new String containing the JSON message
      */
-    public String toJson(String sender){
+    public String toJson(String sender) {
         this.sender = sender;
         return new Gson().toJson(this);
     }

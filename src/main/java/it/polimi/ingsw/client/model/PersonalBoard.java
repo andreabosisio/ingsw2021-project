@@ -39,21 +39,21 @@ public class PersonalBoard extends Printable {
     }
 
     public void setHandLeaders(List<String> handLeaders, String thisClientNickname) {
-        if(handLeaders != null && this.nickname.equals(thisClientNickname)) {
+        if (handLeaders != null && this.nickname.equals(thisClientNickname)) {
             int i = 0;
             for (String id : handLeaders) {
                 this.handLeaders.set(i, id);
                 i++;
             }
-            for(; i < this.handLeaders.size(); i++)
+            for (; i < this.handLeaders.size(); i++)
                 this.handLeaders.set(i, LeaderCard.EMPTY_CARD_ID);
         }
     }
 
     public void setActiveLeaders(List<String> activeLeaders) {
-        if(activeLeaders != null) {
+        if (activeLeaders != null) {
             int i = 0;
-            for(String id : activeLeaders) {
+            for (String id : activeLeaders) {
                 this.activeLeaders.set(i, id);
                 i++;
             }
@@ -61,9 +61,9 @@ public class PersonalBoard extends Printable {
     }
 
     public void setProductionBoard(List<List<String>> productionBoard) {
-        if(productionBoard != null) {
+        if (productionBoard != null) {
             int i = 0;
-            for(List<String> slot : productionBoard) {
+            for (List<String> slot : productionBoard) {
                 developmentCardsInSlots.get(i).addAll(slot);
                 i++;
             }
@@ -72,7 +72,7 @@ public class PersonalBoard extends Printable {
     }
 
     public void setWarehouse(Map<Integer, String> warehouse) {
-        if(warehouse != null) {
+        if (warehouse != null) {
             this.warehouse = warehouse;
         }
     }
@@ -93,14 +93,14 @@ public class PersonalBoard extends Printable {
         return developmentCardsInSlots;
     }
 
-    public void update(View view){
+    public void update(View view) {
         PersonalBoard personalBoard = Board.getBoard().getPersonalBoardOf(nickname);
 
         personalBoard.setActiveLeaders(activeLeaders);
         personalBoard.setWarehouse(warehouse);
         personalBoard.setProductionBoard(productionBoard);
         personalBoard.setHandLeaders(handLeaders, view.getNickname());
-        
+
         view.personalBoardUpdate(personalBoard);
 
         //fixme why cli methods for gui?
@@ -128,7 +128,7 @@ public class PersonalBoard extends Printable {
     private void setProductionSlotsScene() {
         List<Printable> slots = developmentCardsInSlots.stream().map(slot -> {
             Printable slotsBuilder = new PrintableScene(new ArrayList<>());
-            if(slot.size() > 1)
+            if (slot.size() > 1)
                 slot.removeIf(id -> id.equals(DevelopmentCard.EMPTY_CARD_ID));
             for (String id : slot) {
                 slotsBuilder = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().createDevelopmentCardByID(id).placeOnOtherCards(slotsBuilder);
@@ -138,7 +138,7 @@ public class PersonalBoard extends Printable {
         AtomicInteger i = new AtomicInteger(-1);
         List<Printable> devCardsSlots = slots.stream().map(c -> {
             i.getAndIncrement();
-            return PrintableScene.addBottomString(c, "    [" + i +"]");
+            return PrintableScene.addBottomString(c, "    [" + i + "]");
         }).collect(Collectors.toList());
         this.productionSlotsScene = new PrintableScene(PrintableScene.concatenatePrintables(devCardsSlots));
     }
@@ -157,9 +157,9 @@ public class PersonalBoard extends Printable {
         List<Printable> leaderSlots = leaderCards.stream().map(c -> {
             LeaderCard card = (LeaderCard) c;
             //if it's a production leader card
-            if(card.getID().charAt(0) == LeaderCard.PRODUCTION_LEADER_CARD_ID_PREFIX) {
+            if (card.getID().charAt(0) == LeaderCard.PRODUCTION_LEADER_CARD_ID_PREFIX) {
                 i.getAndIncrement();
-                return PrintableScene.addBottomString(c, "    [" + i +"]");
+                return PrintableScene.addBottomString(c, "    [" + i + "]");
             }
             return PrintableScene.addBottomString(c, "    [X]");
         }).collect(Collectors.toList());
@@ -171,7 +171,7 @@ public class PersonalBoard extends Printable {
         AtomicInteger i = new AtomicInteger(-1);
         List<Printable> handSlots = handCards.stream().map(c -> {
             i.getAndIncrement();
-            return PrintableScene.addBottomString(c, "    [" + i +"]");
+            return PrintableScene.addBottomString(c, "    [" + i + "]");
         }).collect(Collectors.toList());
         this.handScene = new PrintableScene(PrintableScene.concatenatePrintables(handSlots));
     }

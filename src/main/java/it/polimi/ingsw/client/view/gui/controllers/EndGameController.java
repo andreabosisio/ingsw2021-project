@@ -20,7 +20,7 @@ public class EndGameController extends GUICommandListener {
     /**
      * This method is used to show the winner and each player points
      *
-     * @param winner nickname of the winning player
+     * @param winner        nickname of the winning player
      * @param playersPoints map <nickname,points> of every player in the game
      */
     public void showEndGameEvent(String winner, Map<String, Integer> playersPoints) {

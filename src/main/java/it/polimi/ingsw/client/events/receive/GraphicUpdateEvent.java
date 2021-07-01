@@ -1,7 +1,13 @@
 package it.polimi.ingsw.client.events.receive;
 
-import com.google.gson.*;
-import it.polimi.ingsw.client.model.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import it.polimi.ingsw.client.model.DevelopmentCardsGrid;
+import it.polimi.ingsw.client.model.FaithTrack;
+import it.polimi.ingsw.client.model.MarketTray;
+import it.polimi.ingsw.client.model.PersonalBoard;
 import it.polimi.ingsw.client.view.View;
 
 /**
@@ -29,8 +35,8 @@ public class GraphicUpdateEvent implements EventFromServer {
         if (faithTracksUpdate != null) {
             gson.fromJson(faithTracksUpdate, FaithTrack.class).update(view);
         }
-        if (personalBoardUpdateList != null){
-            for(JsonElement element : personalBoardUpdateList){
+        if (personalBoardUpdateList != null) {
+            for (JsonElement element : personalBoardUpdateList) {
                 PersonalBoard personalBoard = gson.fromJson(element.getAsJsonObject(), PersonalBoard.class);
                 personalBoard.update(view);
             }

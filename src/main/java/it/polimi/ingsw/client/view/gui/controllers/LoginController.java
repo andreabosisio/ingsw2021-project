@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.gui.controllers;
 import it.polimi.ingsw.client.events.send.LoginEvent;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;

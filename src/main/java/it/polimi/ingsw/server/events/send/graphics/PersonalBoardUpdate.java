@@ -2,7 +2,8 @@ package it.polimi.ingsw.server.events.send.graphics;
 
 import it.polimi.ingsw.server.model.player.Player;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 public class PersonalBoardUpdate {
     private String nickname;
@@ -32,7 +33,7 @@ public class PersonalBoardUpdate {
     }
 
     public PersonalBoardUpdate(Player player, PersonalUpdate... personalUpdates) {
-        for(PersonalUpdate personalUpdate : personalUpdates) {
+        for (PersonalUpdate personalUpdate : personalUpdates) {
             personalUpdate.addUpdateTo(this, player);
         }
     }

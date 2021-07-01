@@ -56,8 +56,8 @@ public class CardPlacementController extends GUICommandListener {
         newCard.setImage(new Image(file.toURI().toString()));
         GraphicUtilities.populateProductionBoard(productionPane, nickname);
         int i = 1;
-        for(Node slot : productionPane.getChildren()) {
-            int slotButtonIndex = ((AnchorPane) slot).getChildren().size()- 1;
+        for (Node slot : productionPane.getChildren()) {
+            int slotButtonIndex = ((AnchorPane) slot).getChildren().size() - 1;
             Button slotButton = (Button) ((AnchorPane) slot).getChildren().get(slotButtonIndex);
             slotButton.setId(String.valueOf(i));
             slotButton.setOnMousePressed(mouseEvent -> placeCardAction(slotButton));

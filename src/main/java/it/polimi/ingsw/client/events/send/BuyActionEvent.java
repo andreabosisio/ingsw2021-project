@@ -16,8 +16,8 @@ public class BuyActionEvent extends EventToServer {
      * Create a new Buy Action Event by defining the card's color, the card's level and
      * the positions of the resources used to buy the desired card.
      *
-     * @param cardColor Color of the desired card
-     * @param cardLevel Level of the desired card
+     * @param cardColor         Color of the desired card
+     * @param cardLevel         Level of the desired card
      * @param resourcePositions Positions of the resources used to buy the desired card
      */
     public BuyActionEvent(String cardColor, int cardLevel, List<Integer> resourcePositions) {

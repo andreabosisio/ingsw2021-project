@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * This class represents the Lorenzo Player.
  */
-public class LorenzoAI implements Lorenzo{
+public class LorenzoAI implements Lorenzo {
     private final List<SoloActionToken> soloActionTokens;
     int tokensDeckIndex = 0;
 
@@ -26,8 +26,8 @@ public class LorenzoAI implements Lorenzo{
      * It draws a Solo Action Token and calls the method shuffle
      * if the token drawn is a SingleFaithTrackProgressToken.
      *
-     * @return true if the deck is shuffled
      * @param turnLogic is the TurnLogic reference
+     * @return true if the deck is shuffled
      */
     @Override
     public boolean play(TurnLogic turnLogic) {
@@ -46,7 +46,7 @@ public class LorenzoAI implements Lorenzo{
     /**
      * Shuffle all the Solo Action Tokens.
      */
-    private void shuffle(){
+    private void shuffle() {
         Collections.shuffle(soloActionTokens);
     }
 

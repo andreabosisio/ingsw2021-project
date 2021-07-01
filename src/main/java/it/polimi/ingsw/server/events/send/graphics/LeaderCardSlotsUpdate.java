@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeaderCardSlotsUpdate implements PersonalUpdate{
+public class LeaderCardSlotsUpdate implements PersonalUpdate {
     @Override
     public void addUpdateTo(PersonalBoardUpdate personalBoardUpdate, Player player) {
         List<String> handLeaders = new ArrayList<>();

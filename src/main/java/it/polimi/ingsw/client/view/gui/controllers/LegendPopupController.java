@@ -41,9 +41,9 @@ public class LegendPopupController {
     private void initialize() {
         done.setOnMousePressed(event -> doneAction());
         GraphicUtilities.populateHandLeaders(HActiveLeaders, Board.getBoard().getPersonalBoardOf(playerToSee).getActiveLeaders());
-        GraphicUtilities.populateProductionBoard(productionPane,playerToSee);
+        GraphicUtilities.populateProductionBoard(productionPane, playerToSee);
         resourcesFromMarket.setVisible(false);
-        GraphicUtilities.populateDepots(resourcesFromMarket,warehouse,HLeadersRes,strongboxGrid,playerToSee);
+        GraphicUtilities.populateDepots(resourcesFromMarket, warehouse, HLeadersRes, strongboxGrid, playerToSee);
     }
 
     /**
@@ -51,14 +51,14 @@ public class LegendPopupController {
      *
      * @param playerToSee nickname of the player to spy on
      */
-    public void setPlayerToSee(String playerToSee){
+    public void setPlayerToSee(String playerToSee) {
         this.playerToSee = playerToSee;
     }
 
     /**
      * This method is called when the player presses the done button in order to close this popup
      */
-    private void doneAction(){
+    private void doneAction() {
         Stage stage = (Stage) mainPane.getScene().getWindow();
         stage.close();
     }

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.commons;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public abstract class Parser {
 

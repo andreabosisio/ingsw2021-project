@@ -140,6 +140,7 @@ public class Player implements PlayerInterface {
 
     /**
      * Returns if the player is currently online
+     *
      * @return true if online
      */
     public boolean isOnline() {
@@ -148,6 +149,7 @@ public class Player implements PlayerInterface {
 
     /**
      * Method used to set a player as online/offline
+     *
      * @param online status to set the player as
      */
     public void setOnline(boolean online) {
@@ -157,10 +159,10 @@ public class Player implements PlayerInterface {
     /**
      * Saves the Turn state of the disconnected player
      *
-     * @param currentState turnLogic state the player was in
+     * @param currentState             turnLogic state the player was in
      * @param whiteResourcesFromMarket white resources the player needed to transform
-     * @param chosenDevCard devCard the player needed to place
-     * @param lastReceivedEvent last event sent to the player before he disconnected
+     * @param chosenDevCard            devCard the player needed to place
+     * @param lastReceivedEvent        last event sent to the player before he disconnected
      */
     public void setDisconnectedData(State currentState, List<WhiteResource> whiteResourcesFromMarket, DevelopmentCard chosenDevCard, EventToClient lastReceivedEvent) {
         this.disconnectedState = currentState;
@@ -173,11 +175,10 @@ public class Player implements PlayerInterface {
      * Prepare the turn as the player left it when he disconnected
      *
      * @param turnLogic turnLogic to set as it was when disconnection happened
-     *
      * @return true if player suffered a disconnection
      */
     public boolean prepareTurn(TurnLogic turnLogic) {
-        if(disconnectedState== null){
+        if (disconnectedState == null) {
             return false;
         }
         turnLogic.addWhiteResourcesFromMarketToTransform(whiteResourcesFromMarket);

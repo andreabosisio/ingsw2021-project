@@ -27,6 +27,7 @@ public class ResourceFactory {
     /**
      * Produce a new Resource to fill initial game's parts.
      * .
+     *
      * @param color The color of the desired Resource
      * @return The new Resource
      */
@@ -34,7 +35,7 @@ public class ResourceFactory {
         try {
             return produceResource(ResourcesEnum.valueOf(color));
         } catch (NonStorableResourceException e) {
-            if(color.equals(ResourcesEnum.WHITE.toString()))
+            if (color.equals(ResourcesEnum.WHITE.toString()))
                 return new WhiteResource();
             else if (color.equals(ResourcesEnum.RED.toString()))
                 return new RedResource();

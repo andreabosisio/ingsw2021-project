@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.exceptions;
 
-public class EmptySlotException extends Exception{
+public class EmptySlotException extends Exception {
 
     /**
      * Constructs a new exception with {@code null} as its detail message.

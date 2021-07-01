@@ -13,7 +13,8 @@ public class FakeConnectionToServer extends ClientConnection {
     }
 
     @Override
-    public void sendStillAliveMsg() {}
+    public void sendStillAliveMsg() {
+    }
 
     @Override
     public void close(boolean inform) {
@@ -22,12 +23,12 @@ public class FakeConnectionToServer extends ClientConnection {
 
     @Override
     public void run() {
-        Lobby.getLobby().setNumberOfPlayers(1,null);
+        Lobby.getLobby().setNumberOfPlayers(1, null);
         ClientHandler clientHandler = new ClientHandler(this);
         clientHandler.run();
     }
 
-    public void setFakeConnectionToClient(FakeConnectionToClient fakeConnectionToClient){
+    public void setFakeConnectionToClient(FakeConnectionToClient fakeConnectionToClient) {
         this.fakeServerConnection = fakeConnectionToClient;
     }
 }

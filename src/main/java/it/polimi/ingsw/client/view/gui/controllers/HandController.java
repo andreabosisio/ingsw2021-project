@@ -4,12 +4,12 @@ import it.polimi.ingsw.client.events.send.LeaderActionEvent;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import it.polimi.ingsw.client.view.gui.GraphicUtilities;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+
 /**
  * This class is used as the controller for the fxml scene:leaderHandScene.fxml
  */

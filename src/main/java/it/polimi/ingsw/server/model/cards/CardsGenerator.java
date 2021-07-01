@@ -3,13 +3,13 @@ package it.polimi.ingsw.server.model.cards;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.commons.FileUtilities;
 import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import it.polimi.ingsw.commons.enums.ResourcesEnum;
-import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
-import it.polimi.ingsw.commons.FileUtilities;
+import it.polimi.ingsw.server.model.resources.StorableResource;
 
 import java.util.ArrayList;
 import java.util.List;

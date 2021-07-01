@@ -2,7 +2,10 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.ClientApp;
 import it.polimi.ingsw.client.events.send.*;
-import it.polimi.ingsw.client.model.*;
+import it.polimi.ingsw.client.model.Board;
+import it.polimi.ingsw.client.model.LeaderCard;
+import it.polimi.ingsw.client.model.Marble;
+import it.polimi.ingsw.client.model.PersonalBoard;
 import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
 import it.polimi.ingsw.commons.enums.CardColorsEnum;
@@ -46,7 +49,7 @@ public class CLICommandListener implements CommandListener {
      *
      * @return the answer of the Player
      */
-    protected String askIP () {
+    protected String askIP() {
         CLI.render("Insert a valid IP:");
         return scanner.nextLine();
     }
@@ -56,7 +59,7 @@ public class CLICommandListener implements CommandListener {
      *
      * @return the answer of the Player
      */
-    protected int askPort () {
+    protected int askPort() {
         int port = -1;
         CLI.render("Insert a valid port: ");
         do {
@@ -237,7 +240,7 @@ public class CLICommandListener implements CommandListener {
             CLI.render("Resource in slot n°" + (i + 1) + " can be: ");
             for (int j = 0; j < possibleTransformations.size(); j++) {
                 String color = possibleTransformations.get(j);
-                System.out.print("["+(j + 1)+"]" + Marble.getPrintable(color.toUpperCase(Locale.ROOT)) + " \t\t");
+                System.out.print("[" + (j + 1) + "]" + Marble.getPrintable(color.toUpperCase(Locale.ROOT)) + " \t\t");
             }
             CLI.render("");
             int choice = -1;

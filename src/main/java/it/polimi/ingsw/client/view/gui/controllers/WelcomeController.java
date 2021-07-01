@@ -27,7 +27,7 @@ public class WelcomeController extends GUICommandListener {
     private static final Pattern IP_PATTERN = Pattern.compile(IP_REGEXP);
     private final static String localMode = "Local Game";
     private final static String onlineMode = "Online Game";
-    ObservableList<String> connectionModes = FXCollections.observableArrayList(onlineMode,localMode);
+    ObservableList<String> connectionModes = FXCollections.observableArrayList(onlineMode, localMode);
 
     @FXML
     private Button start;
@@ -77,7 +77,7 @@ public class WelcomeController extends GUICommandListener {
      * In case of a failure it sets the serverIP and serverPort to the default values
      */
     private void startAction() {
-        if(connectionSelector.getValue().equals(localMode)){
+        if (connectionSelector.getValue().equals(localMode)) {
             gui.setGUI();
             return;
         }

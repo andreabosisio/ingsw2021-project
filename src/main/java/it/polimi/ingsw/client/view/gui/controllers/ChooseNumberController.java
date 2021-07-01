@@ -12,7 +12,7 @@ import javafx.scene.control.ComboBox;
  * This class is used as the controller for the fxml scene:chooseNumberScene.fxml
  */
 public class ChooseNumberController extends GUICommandListener {
-    ObservableList<Integer> playerNumbers = FXCollections.observableArrayList(1,2,3,4);
+    ObservableList<Integer> playerNumbers = FXCollections.observableArrayList(1, 2, 3, 4);
     @FXML
     private Button done;
     @FXML
@@ -24,7 +24,7 @@ public class ChooseNumberController extends GUICommandListener {
      * it sets the doneAction() when the done button is pressed
      */
     @FXML
-    private void initialize(){
+    private void initialize() {
         numberSelector.setItems(playerNumbers);
         numberSelector.setValue(playerNumbers.get(0));
         done.setOnMousePressed((event -> doneAction()));
@@ -34,7 +34,7 @@ public class ChooseNumberController extends GUICommandListener {
      * This method is called when the player chooses the number of players he wish to play against
      * It construct the event to send to the server with the number chosen
      */
-    private void doneAction(){
+    private void doneAction() {
         notifyObservers(new SelectNumberPlayersEvent(numberSelector.getValue()));
     }
 }

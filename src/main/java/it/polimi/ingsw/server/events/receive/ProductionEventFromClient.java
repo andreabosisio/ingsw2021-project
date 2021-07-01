@@ -17,8 +17,8 @@ public class ProductionEventFromClient extends EventFromClient {
     /**
      * Create a new Production Event.
      *
-     * @param nickname of the Player who want to perform a Production Action
-     * @param inResourcesForEachProductions A map containing the indexes of the chosen Resources to perform the Production of the chosen Production Slot index which is the key.
+     * @param nickname                       of the Player who want to perform a Production Action
+     * @param inResourcesForEachProductions  A map containing the indexes of the chosen Resources to perform the Production of the chosen Production Slot index which is the key.
      * @param outResourcesForEachProductions A map containing the colors of the desired Resources as result of the Production of the chosen Production Slot index which is the key.
      */
     public ProductionEventFromClient(String nickname, Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) {

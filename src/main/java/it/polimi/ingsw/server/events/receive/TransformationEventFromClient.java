@@ -15,7 +15,7 @@ public class TransformationEventFromClient extends EventFromClient {
     /**
      * Set the White Resource Transformation information.
      *
-     * @param nickname of the Player who did the White Resource Transformation
+     * @param nickname        of the Player who did the White Resource Transformation
      * @param chosenResources The color of the chosen Resources as result of the Transformation
      */
     public TransformationEventFromClient(String nickname, List<String> chosenResources) {

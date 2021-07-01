@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.events.send.choice;
 
-import it.polimi.ingsw.server.events.send.choice.ChoiceEvent;
 import it.polimi.ingsw.server.model.resources.WhiteResource;
 import it.polimi.ingsw.server.utils.ServerParser;
 
