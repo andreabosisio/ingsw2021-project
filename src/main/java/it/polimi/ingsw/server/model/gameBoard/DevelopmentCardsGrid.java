@@ -61,7 +61,11 @@ public class DevelopmentCardsGrid implements EndGameSubject {
         return toReturn;
     }
 
-
+    /**
+     * Get method that return all the visible Development Cards of the Grid
+     *
+     * @return a List of the visible Development Cards
+     */
     public List<String> getFullGrid() {
         List<String> toReturn = new ArrayList<>();
         mapByLevel.forEach((level) -> level.forEach((key, value) -> {

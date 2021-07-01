@@ -85,6 +85,9 @@ public class Controller implements EventsFromClientObserver {
         return true;
     }
 
+    /**
+     * This method load the default Solo Action Tokens
+     */
     private void loadDefaultTokens() {
         modelInterface.loadDefaultTokens();
     }

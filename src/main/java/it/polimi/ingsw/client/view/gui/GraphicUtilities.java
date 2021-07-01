@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * This class contains all the functions to set correctly the elements of the GUI
+ */
 public abstract class GraphicUtilities {
 
     private static final String marblesPath = "src/main/resources/images/marbles/";
