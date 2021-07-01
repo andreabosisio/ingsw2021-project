@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.player.warehouse;
 
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.exceptions.*;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.*;
@@ -348,7 +348,7 @@ public class Warehouse {
                     Resource currResource = p.getValue().getResource();
                     if(currResource != null)
                         return currResource.getColor().toString();
-                    return ResourceEnum.EMPTY_RES.toString();
+                    return ResourcesEnum.EMPTY_RES.toString();
                 }));
     }
 

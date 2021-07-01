@@ -2,9 +2,9 @@ package it.polimi.ingsw.server.model.gameBoard;
 
 import com.google.gson.*;
 import it.polimi.ingsw.commons.Parser;
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.commons.FileUtilities;
 
 import java.util.*;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class DevelopmentCardsGrid implements EndGameSubject {
     private static final int numOfLevels = 3;
-    private final List<Map<CardColorEnum, List<DevelopmentCard>>> mapByLevel;
+    private final List<Map<CardColorsEnum, List<DevelopmentCard>>> mapByLevel;
     private final List<DevelopmentCard> developmentCards;
     private final CardsGenerator generator = new CardsGenerator();
     private EndGameObserver iCheckWinner;
@@ -70,11 +70,11 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      * @param color color of the card to remove
      * @return the iD of the card removed or null
      */
-    public DevelopmentCard removeCardByColor(CardColorEnum color) {
+    public DevelopmentCard removeCardByColor(CardColorsEnum color) {
         DevelopmentCard removedCard = null;
 
         //for and not foreach because foreach can't be interrupted
-        for (Map<CardColorEnum, List<DevelopmentCard>> m : mapByLevel) {
+        for (Map<CardColorsEnum, List<DevelopmentCard>> m : mapByLevel) {
             if (m.get(color).size() != 0) {
                 removedCard = m.get(color).remove(0);
                 break;
@@ -146,7 +146,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      * @param level the level of the requested card
      * @return the requested DevelopmentCard
      */
-    public DevelopmentCard getCardByColorAndLevel(CardColorEnum color, int level) {
+    public DevelopmentCard getCardByColorAndLevel(CardColorsEnum color, int level) {
         //index out of bounds exception if card is not present
         try {
             return mapByLevel.get(level - 1).get(color).get(0);

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.player.warehouse.MarketSlots;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -20,8 +20,8 @@ class MarketSlotsTest {
     @Test
     void simplyMarketSlotsTest(){
         List<Resource> correctResources = new ArrayList<>() {{
-            add(new StorableResource(ResourceEnum.YELLOW));
-            add(new StorableResource(ResourceEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.BLUE));
         }};
 
         marketSlots.addResources(correctResources);

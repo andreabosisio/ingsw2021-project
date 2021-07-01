@@ -133,7 +133,7 @@ public class VirtualView implements PongObserver, SendObserver, ReceiveObservabl
             @Override
             public void run() {
                 if (missingPong) {
-                    System.out.println("no pong was received from " + nickname);
+                    System.out.println("No pong was received from " + nickname);
                     disconnect();
                     missingPong = false;
                 } else {

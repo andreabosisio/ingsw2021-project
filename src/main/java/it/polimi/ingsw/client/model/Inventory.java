@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.cli.AnsiEnum;
+import it.polimi.ingsw.client.view.cli.AnsiUtilities;
 import it.polimi.ingsw.client.view.cli.Printable;
 
 import java.util.ArrayList;
@@ -15,11 +15,11 @@ public class Inventory extends Printable {
     private final Map<Integer, String> warehouse;
     private final List<String> activeLeadersIDs;
     private final static int N_SLOTS = 50;
-    private final static char WAREHOUSE_LEADER_CARD_ID_PREFIX = 'w';
     private final static String NON_ACCESSIBLE_SLOT_SYMBOL = " X ";
     private final static int FIRST_EXTRA_SLOT_INIT_INDEX = 10;
     private final static int SECOND_EXTRA_SLOT_INIT_INDEX = 12;
-    private final static int EXTRA_SLOTS_DIM = 2;
+    public final static int STRONGBOX_INIT_INDEX = 14;
+    public final static int EXTRA_SLOTS_DIM = 2;
 
     public Inventory(Map<Integer, String> warehouse, List<String> activeLeadersIDs) {
         this.warehouse = warehouse;
@@ -67,10 +67,12 @@ public class Inventory extends Printable {
         }
         int j = FIRST_EXTRA_SLOT_INIT_INDEX;
         for (String currLeaderCardID : activeLeadersIDs) {
-            if (currLeaderCardID.charAt(0) == WAREHOUSE_LEADER_CARD_ID_PREFIX) {
+            if (currLeaderCardID.charAt(0) == LeaderCard.WAREHOUSE_LEADER_CARD_ID_PREFIX) {
                 for (int k = 0; k < EXTRA_SLOTS_DIM; k++, j++) {
-                    if (slots[j].equals(AnsiEnum.EMPTY_RES))
-                        slots[j] = " " + LeaderCardsDatabase.getLeaderCardsDatabase().getLeaderCardAbility(currLeaderCardID).charAt(0) + " ";
+                    if (slots[j].equals(AnsiUtilities.EMPTY_RES)) {
+                        String slotColor = LeaderCardsDatabase.getLeaderCardsDatabase().getAbility(currLeaderCardID);
+                        slots[j] = " " + AnsiUtilities.colorString("_", slotColor) + " ";
+                    }
                 }
             }
         }

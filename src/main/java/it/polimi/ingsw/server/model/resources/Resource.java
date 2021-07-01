@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.resources;
 
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
 import java.util.Objects;
@@ -8,9 +8,9 @@ import java.util.Objects;
 
 public abstract class Resource {
 
-    private final ResourceEnum color;
+    private final ResourcesEnum color;
 
-    public Resource(ResourceEnum color) {
+    public Resource(ResourcesEnum color) {
         this.color = color;
     }
 
@@ -19,7 +19,7 @@ public abstract class Resource {
      *
      * @return the color of this Resource
      */
-    public ResourceEnum getColor() {
+    public ResourcesEnum getColor() {
         return this.color;
     }
 

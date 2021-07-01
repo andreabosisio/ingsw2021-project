@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.utils;
 
 import it.polimi.ingsw.server.events.receive.EventFromClient;
 
+//todo change name
 public interface ReceiveObservable {
     /**
      * This method is used to notify all the Observers of an Event from the Client

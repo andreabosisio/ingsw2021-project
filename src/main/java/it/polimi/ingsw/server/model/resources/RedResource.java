@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.resources;
 
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
@@ -15,7 +15,7 @@ public class RedResource extends Resource {
     private final int faithProgressSteps = 1;
 
     public RedResource() {
-        super(ResourceEnum.RED);
+        super(ResourcesEnum.RED);
     }
 
     /**

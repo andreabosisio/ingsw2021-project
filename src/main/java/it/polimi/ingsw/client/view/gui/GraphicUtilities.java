@@ -1,18 +1,15 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.model.*;
+import it.polimi.ingsw.commons.enums.StorableResourceEnum;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.effect.Bloom;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -22,7 +19,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class GraphicUtilities {
+public abstract class GraphicUtilities {
 
     private static final String marblesPath = "src/main/resources/images/marbles/";
     private static final String resourcesPath = "src/main/resources/images/resources/";
@@ -36,6 +33,20 @@ public class GraphicUtilities {
     private static final String blueCrossColor = "#0800ff";
     private static final String greenCrossColor = "#00ff33";
     private static final String pinkCrossColor = "#ff00be";
+
+    private static final List<String> crossColors = new ArrayList<>() {{
+        add(redCrossColor);
+        add(blueCrossColor);
+        add(greenCrossColor);
+        add(pinkCrossColor);
+    }};
+
+    private static final Map<String, String> backgroundColors = new HashMap<>() {{
+        put(StorableResourceEnum.BLUE.toString(), "#00aeff");
+        put(StorableResourceEnum.GRAY.toString(), "#545454");
+        put(StorableResourceEnum.PURPLE.toString(), "#9b29d9");
+        put(StorableResourceEnum.YELLOW.toString(), "#bdb002");
+    }};
 
     /**
      * Getter of the single player AI name
@@ -73,18 +84,12 @@ public class GraphicUtilities {
      * @param legendPane The Pane containing the buttons for the names
      */
     public static void populateLegend(AnchorPane legendPane) {
-        List<String> colors = new ArrayList<>() {{
-            add(redCrossColor);
-            add(blueCrossColor);
-            add(greenCrossColor);
-            add(pinkCrossColor);
-        }};
         Map<String, Integer> faithTracks = Board.getBoard().getFaithTrack().getIndexes();
         int i = 0;
         for (String key : faithTracks.keySet()) {
             Button button = (Button) legendPane.getChildren().get(i);
             button.setText(key);
-            button.setTextFill(Paint.valueOf(colors.get(i)));
+            button.setTextFill(Paint.valueOf(crossColors.get(i)));
             i++;
         }
         while (legendPane.getChildren().size() > i) {
@@ -192,7 +197,7 @@ public class GraphicUtilities {
      * @param iD ID of the new placed card
      */
     public static void updateDevGrid(GridPane populatedDevelopmentGrid, String iD) {
-        if (iD.equals(DevelopmentCard.getEmptyCardID())) {
+        if (iD.equals(DevelopmentCard.EMPTY_CARD_ID)) {
             populateDevGrid(populatedDevelopmentGrid);
             return;
         }
@@ -217,11 +222,13 @@ public class GraphicUtilities {
                 cardSlot = (ImageView) button.getGraphic();
 
                 //fixme maybe remove
+                /*
                 Bloom bloom = new Bloom();
                 for(int threshold = 100000; threshold >= 0; threshold--) {
                     cardSlot.setEffect(bloom);
                     bloom.setThreshold(threshold*0.00001);
                 }
+                */
 
                 file = new File(devCardsPath + iD.toLowerCase(Locale.ROOT) + endOfPath);
                 cardSlot.setImage(new Image(file.toURI().toString()));
@@ -251,11 +258,15 @@ public class GraphicUtilities {
         for (Node leader : leadersBox.getChildren()) {
             leaderID = population.remove(0).toLowerCase(Locale.ROOT);
             //check if leader is of type warehouse and in case activate assigned buttons
-            if (leaderID.charAt(0) == 'w') {
-                warehouseLeaderBox.getChildren().get(wCount.getAndIncrement()).setVisible(true);
-                warehouseLeaderBox.getChildren().get(wCount.getAndIncrement()).setVisible(true);
+            if (leaderID.charAt(0) == LeaderCard.WAREHOUSE_LEADER_CARD_ID_PREFIX) {
+                for (int j = 0; j < Inventory.EXTRA_SLOTS_DIM; j++) {
+                    Button extraSlot = (Button) warehouseLeaderBox.getChildren().get(wCount.getAndIncrement());
+                    extraSlot.setVisible(true);
+                    extraSlot.setStyle("-fx-border-color: black");
+                    extraSlot.setStyle("-fx-background-color: " + backgroundColors.get(LeaderCardsDatabase.getLeaderCardsDatabase().getAbility(leaderID)) + "; ");
+                }
             }
-            if (leaderID.charAt(0) == 'p') {
+            if (leaderID.charAt(0) == LeaderCard.PRODUCTION_LEADER_CARD_ID_PREFIX) {
                 productionLeaderBox.getChildren().get(i).setVisible(true);
                 Button leaderProductionButton = (Button) productionLeaderBox.getChildren().get(i);
                 leaderProductionButton.setId(String.valueOf(pCount.getAndIncrement()));
@@ -336,7 +347,7 @@ public class GraphicUtilities {
             List<Node> cardSlots = slotPane.getChildren();
             LinkedHashSet<String> slot = population.get(i);
             if (slot.size() > 1)
-                slot.removeIf(id -> id.equals(DevelopmentCard.getEmptyCardID()));
+                slot.removeIf(id -> id.equals(DevelopmentCard.EMPTY_CARD_ID));
             int j = cardSlots.size() - 1;
             String[] slotAsArray = slot.toArray(new String[0]);
             for (int k = slotAsArray.length - 1; k >= 0; k--) {

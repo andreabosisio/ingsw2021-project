@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.ClientApp;
 import it.polimi.ingsw.client.model.Board;
+import it.polimi.ingsw.client.model.PersonalBoard;
 import it.polimi.ingsw.client.network.NetworkHandler;
 import it.polimi.ingsw.client.view.View;
 
@@ -27,7 +28,7 @@ public class CLI implements View {
      */
     public CLI() {
         clearView();
-        render(AnsiEnum.LOGO.getAsciiArt());
+        render(AnsiUtilities.LOGO.getAsciiArt());
 
         boolean correctSettings = false;
         cliCommandListener = new CLICommandListener();
@@ -163,7 +164,7 @@ public class CLI implements View {
      * @param printable the error to print in red
      */
     public static void renderError(String printable) {
-        System.out.println(AnsiEnum.RED + printable + AnsiEnum.RESET);
+        System.out.println(AnsiUtilities.RED + printable + AnsiUtilities.RESET);
     }
 
     /**
@@ -223,7 +224,7 @@ public class CLI implements View {
      * This method is show the login scene on the terminal
      */
     private void showLoginScene() {
-        render(AnsiEnum.LOGIN_SMALL.getAsciiArt());
+        render(AnsiUtilities.LOGIN_SMALL.getAsciiArt());
     }
 
     /**
@@ -232,7 +233,7 @@ public class CLI implements View {
     @Override
     public void setOnMatchMaking() {
         clearView();
-        render(AnsiEnum.LOGO.getAsciiArt());
+        render(AnsiUtilities.LOGO.getAsciiArt());
 
         System.out.println();
         System.out.print("Matchmaking");
@@ -348,7 +349,7 @@ public class CLI implements View {
     public void setOnWaitForYourTurn(String currentPlayer) {
         clearView();
         render(Board.getBoard().getPrintablePersonalBoardOf(nickname));
-        render("It's " + AnsiEnum.getPrettyNickname(currentPlayer) + " turn, wait for him to finish");
+        render("It's " + AnsiUtilities.getPrettyNickname(currentPlayer) + " turn, wait for him to finish");
     }
 
     /**
@@ -420,9 +421,7 @@ public class CLI implements View {
     @Override
     public void faithTracksUpdate() {}
     @Override
-    public void activeLeadersUpdate(String nickname) {}
-    @Override
-    public void warehouseUpdate(String nickname){}
-    @Override
-    public void productionBoardUpdate(String nickname){}
+    public void personalBoardUpdate(PersonalBoard updatingPersonalBoard) {
+        updatingPersonalBoard.updateCliScenes();
+    }
 }

@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.cli.Printable;
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
 
 import java.util.*;
 
@@ -55,15 +55,15 @@ public class DevelopmentCardsGrid extends Printable {
         }
 
         for (String indexCard : fullGrid) {
-            if (!indexCard.equals(DevelopmentCard.getEmptyCardID())) {
+            if (!indexCard.equals(DevelopmentCard.EMPTY_CARD_ID)) {
                 String[] splitIndex = indexCard.split("_");
                 mapByLevel.get(Integer.parseInt(splitIndex[1]) - 1).put(splitIndex[0], indexCard);
             }
         }
 
         for (int level_card = 0; level_card < CARD_LEVELS; level_card++) {
-            for (CardColorEnum cardColorEn : CardColorEnum.values()) {
-                mapByLevel.get(level_card).computeIfAbsent(String.valueOf(cardColorEn), k -> DevelopmentCard.getEmptyCardID());
+            for (CardColorsEnum cardColorEn : CardColorsEnum.values()) {
+                mapByLevel.get(level_card).computeIfAbsent(String.valueOf(cardColorEn), k -> DevelopmentCard.EMPTY_CARD_ID);
             }
         }
     }
@@ -91,7 +91,7 @@ public class DevelopmentCardsGrid extends Printable {
         for (int level_card = 0; level_card < CARD_LEVELS; level_card++) {
             for (int cardLine = 0; cardLine < CARD_LINES; cardLine++) {
                 StringBuilder cardsGridLine = new StringBuilder();
-                for (CardColorEnum cardColorEn : CardColorEnum.values()) {
+                for (CardColorsEnum cardColorEn : CardColorsEnum.values()) {
                     String color_card = cardColorEn.toString();
                     String ID_card = mapByLevel.get(level_card).get(color_card);
                     cardsGridLine.append(DevelopmentCardsDatabase.getDevelopmentCardsDatabase().createDevelopmentCardByID(ID_card).getPrintable().get(cardLine));

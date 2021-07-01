@@ -49,7 +49,6 @@ public class Server {
                     continue;
                 case "cheat":
                     Lobby.getLobby().cheat();
-                    System.out.println("Added 6 resources to each player");
                     continue;
                 default:
                     System.out.println("Invalid input");

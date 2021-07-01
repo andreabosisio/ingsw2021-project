@@ -2,11 +2,12 @@ package it.polimi.ingsw.server.model.gameBoard;
 
 import it.polimi.ingsw.server.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.model.ModelInterface;
-import it.polimi.ingsw.server.model.resources.NonStorableResources;
+import it.polimi.ingsw.commons.enums.NonStorableResourcesEnum;
 import it.polimi.ingsw.server.model.resources.Resource;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -57,7 +58,7 @@ class MarketTrayTest {
                 if (j != 6 - arrow)
                     correctMarket[i][j] = market.getMarketBoard()[i][j];
                 else {
-                    if(!NonStorableResources.getNonStorableResources().contains(market.getMarketBoard()[i][j]))
+                    if(!NonStorableResourcesEnum.getAsList().contains(market.getMarketBoard()[i][j].getColor()))
                         correctTakeResources.add(market.getMarketBoard()[i][j]);
                     if (i < market.getNUM_R() - 1)
                         correctMarket[i][j] = market.getMarketBoard()[i + 1][j];
@@ -105,7 +106,7 @@ class MarketTrayTest {
                 if (i != arrow)
                     correctMarket[i][j] = market.getMarketBoard()[i][j];
                 else {
-                    if(!NonStorableResources.getNonStorableResources().contains(market.getMarketBoard()[i][j]))
+                    if(!NonStorableResourcesEnum.getAsList().contains(market.getMarketBoard()[i][j].getColor()))
                         correctTakeResources.add(market.getMarketBoard()[i][j]);
                     if (j < market.getNUM_C() - 1)
                         correctMarket[i][j] = market.getMarketBoard()[i][j+1];

@@ -5,7 +5,7 @@ import java.util.Locale;
 /**
  * This class contains all the Ascii Arts and the Ansi Escapes used in the CLI.
  */
-public enum AnsiEnum {
+public enum AnsiUtilities {
 
     LOGIN_SMALL("\n" +
             "█░░ █▀█ █▀▀ █ █▄░█\n" +
@@ -142,7 +142,7 @@ public enum AnsiEnum {
      *
      * @param asciiArt The current asciiArt
      */
-    AnsiEnum(final String asciiArt) {
+    AnsiUtilities(final String asciiArt) {
         this.asciiArt = asciiArt;
     }
 
@@ -157,17 +157,18 @@ public enum AnsiEnum {
         color = color.toUpperCase(Locale.ROOT);
         switch (color) {
             case "GREEN":
-                return AnsiEnum.GREEN_BRIGHT + toColor + AnsiEnum.RESET;
+                return AnsiUtilities.GREEN_BRIGHT + toColor + AnsiUtilities.RESET;
             case "PURPLE":
-                return AnsiEnum.PURPLE + toColor + AnsiEnum.RESET;
+                return AnsiUtilities.PURPLE + toColor + AnsiUtilities.RESET;
             case "YELLOW":
-                return AnsiEnum.YELLOW_BRIGHT + toColor + AnsiEnum.RESET;
+                return AnsiUtilities.YELLOW_BRIGHT + toColor + AnsiUtilities.RESET;
             case "BLUE":
-                return AnsiEnum.CYAN_BRIGHT + toColor + AnsiEnum.RESET;
+                return AnsiUtilities.CYAN_BRIGHT + toColor + AnsiUtilities.RESET;
             case "GRAY":
-                return AnsiEnum.BLACK_BRIGHT + toColor + AnsiEnum.RESET;
+            case "GREY":
+                return AnsiUtilities.BLACK_BRIGHT + toColor + AnsiUtilities.RESET;
             case "RED":
-                return AnsiEnum.RED_BRIGHT + toColor + AnsiEnum.RESET;
+                return AnsiUtilities.RED_BRIGHT + toColor + AnsiUtilities.RESET;
             default:
                 return toColor;
         }
@@ -180,7 +181,7 @@ public enum AnsiEnum {
      * @return the colored String
      */
     public static String getPrettyNickname(String nickname) {
-        return AnsiEnum.WHITE_BOLD_BRIGHT + nickname + AnsiEnum.RESET;
+        return AnsiUtilities.WHITE_BOLD_BRIGHT + nickname + AnsiUtilities.RESET;
     }
 
     /**

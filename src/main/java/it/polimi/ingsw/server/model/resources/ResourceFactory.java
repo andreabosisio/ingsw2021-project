@@ -1,7 +1,8 @@
 package it.polimi.ingsw.server.model.resources;
 
+import it.polimi.ingsw.commons.enums.NonStorableResourcesEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.exceptions.NonStorableResourceException;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 
 /**
  * Class used to have the access to produce StorableResource(s).
@@ -14,10 +15,10 @@ public class ResourceFactory {
      * @return the StorableResource just produced
      * @throws NonStorableResourceException if the given color represents a NonStorableResource
      */
-    public static Resource produceResource(ResourceEnum color) throws NonStorableResourceException {
-        if (NonStorableResources.getNonStorableResourcesEnum().contains(color))
+    public static Resource produceResource(ResourcesEnum color) throws NonStorableResourceException {
+        if (NonStorableResourcesEnum.getAsList().contains(color))
             throw new NonStorableResourceException("Cannot produce a " + color.toString() + " resource because it's a NonStorableResource");
-        else if (color.equals(ResourceEnum.EMPTY_RES))
+        else if (color.equals(ResourcesEnum.EMPTY_RES))
             throw new NonStorableResourceException("Cannot produce an empty resource");
 
         return new StorableResource(color);
@@ -31,11 +32,11 @@ public class ResourceFactory {
      */
     public static Resource produceInitialResource(String color) {
         try {
-            return produceResource(ResourceEnum.valueOf(color));
+            return produceResource(ResourcesEnum.valueOf(color));
         } catch (NonStorableResourceException e) {
-            if(color.equals(ResourceEnum.WHITE.toString()))
+            if(color.equals(ResourcesEnum.WHITE.toString()))
                 return new WhiteResource();
-            else if (color.equals(ResourceEnum.RED.toString()))
+            else if (color.equals(ResourcesEnum.RED.toString()))
                 return new RedResource();
         } catch (RuntimeException runtimeException) {
             runtimeException.printStackTrace();

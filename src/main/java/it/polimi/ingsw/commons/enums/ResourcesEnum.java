@@ -1,6 +1,6 @@
-package it.polimi.ingsw.server.model.enums;
+package it.polimi.ingsw.commons.enums;
 
-public enum ResourceEnum {
+public enum ResourcesEnum {
     GRAY,
     YELLOW,
     PURPLE,

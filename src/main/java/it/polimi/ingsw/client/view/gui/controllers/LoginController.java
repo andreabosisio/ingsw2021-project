@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
@@ -27,9 +26,6 @@ public class LoginController extends GUICommandListener {
     @FXML
     private Button login;
 
-    @FXML
-    private ProgressIndicator progressIndicator;
-
     /**
      * Function used to initialize the fxml when loaded
      * It sets loginAction() on a onMousePressed for the login button
@@ -46,11 +42,6 @@ public class LoginController extends GUICommandListener {
     private void loginAction() {
         setNetworkNick(nickname.getText());
         notifyObservers(new LoginEvent(nickname.getText(), password.getText()));
-    }
-
-    //fixme what is this method?
-    public void activateProgressIndicator() {
-        this.progressIndicator.setVisible(true);
     }
 
 }

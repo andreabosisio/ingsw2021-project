@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controllers;
 
 import it.polimi.ingsw.client.events.send.ChosenSetupEvent;
-import it.polimi.ingsw.client.model.StorableResourceEnum;
+import it.polimi.ingsw.commons.enums.StorableResourceEnum;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import it.polimi.ingsw.client.view.gui.GraphicUtilities;

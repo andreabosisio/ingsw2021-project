@@ -1,12 +1,12 @@
 package it.polimi.ingsw.server.model.turn;
 
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.events.send.choice.*;
 import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.PersonalBoard;
 import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
@@ -89,7 +89,7 @@ public class StartTurnState extends State {
         PersonalBoard personalBoard = turnLogic.getCurrentPlayer().getPersonalBoard();
         Warehouse warehouse = personalBoard.getWarehouse();
         List<Resource> chosenInResources;
-        ResourceEnum chosenOutResourceEnum;
+        ResourcesEnum chosenOutResourceEnum;
         Resource chosenOutResource;
         ProductionCard chosenCard;
 
@@ -102,9 +102,9 @@ public class StartTurnState extends State {
                 chosenOutResource = null;
             else {
                 try {
-                    chosenOutResourceEnum = ResourceEnum.valueOf(outResourcesForEachProductions.get(currentKey));
+                    chosenOutResourceEnum = ResourcesEnum.valueOf(outResourcesForEachProductions.get(currentKey));
                 } catch (IllegalArgumentException e) {
-                    throw new InvalidEventException("'" + outResourcesForEachProductions.get(currentKey) + "' isn't a valid resource"); //not existing ResourceEnum
+                    throw new InvalidEventException("'" + outResourcesForEachProductions.get(currentKey) + "' isn't a valid resource"); //not existing ResourcesEnum
                 }
                 chosenOutResource = ResourceFactory.produceResource(chosenOutResourceEnum); //throws NonStorableResourceException if RED or WHITE
             }
@@ -169,9 +169,9 @@ public class StartTurnState extends State {
     @Override
     public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcePositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
         DevelopmentCard chosenDevelopmentCard;
-        CardColorEnum chosenColorEnum;
+        CardColorsEnum chosenColorEnum;
         try {
-            chosenColorEnum = CardColorEnum.valueOf(cardColor.toUpperCase());
+            chosenColorEnum = CardColorsEnum.valueOf(cardColor.toUpperCase());
             chosenDevelopmentCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(chosenColorEnum, cardLevel);
             if (chosenDevelopmentCard.isTheEmptyCard())
                 throw new InvalidEventException("Invalid card level");
@@ -210,32 +210,33 @@ public class StartTurnState extends State {
     /**
      * Activate or Discard a LeaderCard if the player has not done it yet.
      *
-     * @param ID      of the chosen LeaderCard
+     * @param cardID      of the chosen LeaderCard
      * @param discard true if the chosen LeaderCard has to be discarded, false if has to be activated
      * @return true if the leaderAction has been successfully applied
      * @throws InvalidEventException if the leaderAction can't be applied
      */
     @Override
-    public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {
+    public boolean leaderAction(String cardID, boolean discard) throws InvalidEventException {
 
         if (hasAlreadyDoneLeaderAction)
             throw new InvalidEventException("You have already performed a Leader Action!");
 
-        Player currentPlayer = turnLogic.getCurrentPlayer();
-
-        //get the chosen leader card
-        LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
-                .filter(card -> card.getID().equals(ID)).findFirst()
-                .orElseThrow(() -> new InvalidEventException("leaderCard is not owned"));
-
-        executeLeaderAction(currentPlayer, chosenLeaderCard, discard);
+        executeLeaderAction(cardID, discard);
 
         hasAlreadyDoneLeaderAction = true;
         turnLogic.getModelInterface().reSendLastEvent();
         return true;
     }
 
-    protected void executeLeaderAction(Player currentPlayer, LeaderCard chosenLeaderCard, boolean discard) throws InvalidEventException {
+    protected void executeLeaderAction(String cardID, boolean discard) throws InvalidEventException {
+        Player currentPlayer = turnLogic.getCurrentPlayer();
+
+        //get the chosen leader card
+        LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
+                .filter(card -> card.getID().equals(cardID)).findFirst()
+                .orElseThrow(() -> new InvalidEventException("Chosen Leader Card is not owned"));
+
+
         //if the card has to be discarded
         if (discard) {
             if (!currentPlayer.discardLeader(chosenLeaderCard))

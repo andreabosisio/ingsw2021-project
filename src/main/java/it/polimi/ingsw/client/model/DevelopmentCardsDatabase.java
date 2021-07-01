@@ -3,14 +3,10 @@ package it.polimi.ingsw.client.model;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import it.polimi.ingsw.client.view.cli.AnsiEnum;
+import it.polimi.ingsw.client.view.cli.AnsiUtilities;
 import it.polimi.ingsw.commons.FileUtilities;
 import it.polimi.ingsw.commons.Parser;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,11 +136,11 @@ public class DevelopmentCardsDatabase {
 
         for (String[] splitOutResources : cardResourcesInList) {
             if (t == 0)
-                cardResources[0] = AnsiEnum.colorString(splitOutResources[0], splitOutResources[1]);
+                cardResources[0] = AnsiUtilities.colorString(splitOutResources[0], splitOutResources[1]);
             else if (t == 1)
-                cardResources[1] = AnsiEnum.colorString(splitOutResources[0], splitOutResources[1]);
+                cardResources[1] = AnsiUtilities.colorString(splitOutResources[0], splitOutResources[1]);
             else if (t == 2)
-                cardResources[2] = AnsiEnum.colorString(splitOutResources[0], splitOutResources[1]);
+                cardResources[2] = AnsiUtilities.colorString(splitOutResources[0], splitOutResources[1]);
             t++;
         }
 
@@ -199,9 +195,9 @@ public class DevelopmentCardsDatabase {
     public String getVictoryPoints(String cardID) {
         int numberOfCard = getNumberOfCard(cardID);
         if (String.valueOf(devCardsVictoryPoints.get(numberOfCard)).length() == 1)
-            return " " + AnsiEnum.BLACK + AnsiEnum.YELLOW_BACKGROUND + devCardsVictoryPoints.get(numberOfCard) + AnsiEnum.RESET;
+            return " " + AnsiUtilities.BLACK + AnsiUtilities.YELLOW_BACKGROUND + devCardsVictoryPoints.get(numberOfCard) + AnsiUtilities.RESET;
         else
-            return AnsiEnum.BLACK + AnsiEnum.YELLOW_BACKGROUND + devCardsVictoryPoints.get(numberOfCard) + AnsiEnum.RESET;
+            return AnsiUtilities.BLACK + AnsiUtilities.YELLOW_BACKGROUND + devCardsVictoryPoints.get(numberOfCard) + AnsiUtilities.RESET;
     }
 
     /**
@@ -266,8 +262,8 @@ public class DevelopmentCardsDatabase {
      * @return the Card to print
      */
     public DevelopmentCard createDevelopmentCardByID(String iD) {
-        if (iD.equals(DevelopmentCard.getEmptyCardID()))
-            return new ProductionSlot(DevelopmentCard.getEmptyCardID());
+        if (iD.equals(DevelopmentCard.EMPTY_CARD_ID))
+            return new ProductionSlot(DevelopmentCard.EMPTY_CARD_ID);
         else if (iD.equals(BASIC_CARD_ID))
             return new BasicPowerCard(BASIC_CARD_ID);
         else

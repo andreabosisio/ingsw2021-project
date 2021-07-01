@@ -1,12 +1,11 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.events.send.EventToClient;
-import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.events.send.graphics.WarehouseUpdate;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -265,6 +264,7 @@ public class ModelInterface implements SendObservable {
      * @param nickname of the player offline
      * @return true if the player was the last one online
      */
+    //fixme modelInterface->turnLogic->turnLogic/setupManager. Better if currentState.disconnectAction. So: move State logic in modelInterface
     public boolean disconnectPlayer(String nickname) {
         return turnLogic.disconnectAction(nickname);
     }
@@ -286,7 +286,7 @@ public class ModelInterface implements SendObservable {
      */
     public void cheat() {
         List<Resource> cheatResources = new ArrayList<>();
-        for(ResourceEnum resourceEnum:ResourceEnum.values()){
+        for(ResourcesEnum resourceEnum: ResourcesEnum.values()){
             for(int i = 0;i<6;i++){
                 try {
                     cheatResources.add(ResourceFactory.produceResource(resourceEnum));

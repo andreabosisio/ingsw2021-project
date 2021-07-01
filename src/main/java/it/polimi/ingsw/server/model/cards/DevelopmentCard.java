@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model.cards;
 
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import it.polimi.ingsw.server.exceptions.EmptySlotException;
 import it.polimi.ingsw.server.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.exceptions.NonAccessibleSlotException;
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -25,7 +25,7 @@ public class DevelopmentCard implements ProductionCard {
 
     private final int points;
 
-    private final CardColorEnum color;
+    private final CardColorsEnum color;
 
     private final List<Resource> inResources;
     private final List<Resource> outResources;
@@ -40,7 +40,7 @@ public class DevelopmentCard implements ProductionCard {
         this.level = 3;
     }
 
-    public DevelopmentCard(String iD, List<Resource> inResources, List<Resource> outResources, List<Resource> price, CardColorEnum color, int points, int level) {
+    public DevelopmentCard(String iD, List<Resource> inResources, List<Resource> outResources, List<Resource> price, CardColorsEnum color, int points, int level) {
         this.iD = iD;
         this.inResources = inResources;
         this.outResources = outResources;
@@ -97,7 +97,7 @@ public class DevelopmentCard implements ProductionCard {
     /**
      * @return the color of the card
      */
-    public CardColorEnum getColor() {
+    public CardColorsEnum getColor() {
         return color;
     }
 

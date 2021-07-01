@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.exceptions.EmptySlotException;
 import it.polimi.ingsw.server.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.exceptions.NonAccessibleSlotException;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -28,16 +28,16 @@ class WarehouseTest {
         assertEquals(0, warehouse.getNumberOfRemainingResources());
 
         assertFalse(warehouse.addResourcesFromMarket(new ArrayList<>() {{
-            add(new StorableResource(ResourceEnum.BLUE));
-            add(new StorableResource(ResourceEnum.YELLOW));
-            add(new StorableResource(ResourceEnum.YELLOW));
-            add(new StorableResource(ResourceEnum.PURPLE));
-            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.PURPLE));
+            add(new StorableResource(ResourcesEnum.YELLOW));
         }})); //too many resource
 
         warehouse.addResourcesFromMarket(new ArrayList<>() {{
-            add(new StorableResource(ResourceEnum.BLUE));
-            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.YELLOW));
         }});
         //Market resources: B, Y, X, X
         //First depot:              X
@@ -91,22 +91,22 @@ class WarehouseTest {
         //2° extra slots:   X, X
 
         Map<Integer, String> correctPositionsAndResources = new HashMap<>() {{
-            put(0, ResourceEnum.EMPTY_RES.toString());
-            put(1, ResourceEnum.EMPTY_RES.toString());
-            put(2, ResourceEnum.EMPTY_RES.toString());
-            put(3, ResourceEnum.EMPTY_RES.toString());
-            put(4, ResourceEnum.EMPTY_RES.toString());
-            put(5, ResourceEnum.EMPTY_RES.toString());
-            put(6, ResourceEnum.YELLOW.toString());
-            put(7, ResourceEnum.BLUE.toString());
-            put(8, ResourceEnum.EMPTY_RES.toString());
+            put(0, ResourcesEnum.EMPTY_RES.toString());
+            put(1, ResourcesEnum.EMPTY_RES.toString());
+            put(2, ResourcesEnum.EMPTY_RES.toString());
+            put(3, ResourcesEnum.EMPTY_RES.toString());
+            put(4, ResourcesEnum.EMPTY_RES.toString());
+            put(5, ResourcesEnum.EMPTY_RES.toString());
+            put(6, ResourcesEnum.YELLOW.toString());
+            put(7, ResourcesEnum.BLUE.toString());
+            put(8, ResourcesEnum.EMPTY_RES.toString());
         }};
 
         assertEquals(correctPositionsAndResources, warehouse.getAllPositionsAndResources());
 
         warehouse.addResourcesFromMarket(new ArrayList<>() {{
-            add(new StorableResource(ResourceEnum.YELLOW));
-            add(new StorableResource(ResourceEnum.GRAY));
+            add(new StorableResource(ResourcesEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.GRAY));
         }});
         //Market resources: Y, G, X, X
         //First depot:              X
@@ -131,7 +131,7 @@ class WarehouseTest {
 
         assertThrows(NonAccessibleSlotException.class, () -> warehouse.swap(6,13)); //(Y <--> X) : cannot store to 2° extra slots
 
-        assertTrue(warehouse.addExtraSlots(new StorableResource(ResourceEnum.YELLOW))); //1° extra slots can contain 2 YELLOW resources
+        assertTrue(warehouse.addExtraSlots(new StorableResource(ResourcesEnum.YELLOW))); //1° extra slots can contain 2 YELLOW resources
 
         warehouse.swap(5,10);
         warehouse.swap(6,11);
@@ -143,9 +143,9 @@ class WarehouseTest {
         //1° extra slots:   Y, Y
         //2° extra slots:   X, X
 
-        assertTrue(warehouse.addExtraSlots(new StorableResource(ResourceEnum.BLUE))); //2° extra slots can contain 2 BLUE resources
+        assertTrue(warehouse.addExtraSlots(new StorableResource(ResourcesEnum.BLUE))); //2° extra slots can contain 2 BLUE resources
 
-        assertFalse(warehouse.addExtraSlots(new StorableResource(ResourceEnum.GRAY))); //extra slots out of stock
+        assertFalse(warehouse.addExtraSlots(new StorableResource(ResourcesEnum.GRAY))); //extra slots out of stock
 
         warehouse.swap(7,13);
         assertTrue(warehouse.isProperlyOrdered());
@@ -162,10 +162,10 @@ class WarehouseTest {
         assertTrue(warehouse.isProperlyOrdered()); //back to the last legal configuration
 
         warehouse.addResourcesFromMarket(new ArrayList<>() {{
-            add(new StorableResource(ResourceEnum.BLUE));
-            add(new StorableResource(ResourceEnum.PURPLE));
-            add(new StorableResource(ResourceEnum.BLUE));
-            add(new StorableResource(ResourceEnum.GRAY));
+            add(new StorableResource(ResourcesEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.PURPLE));
+            add(new StorableResource(ResourcesEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.GRAY));
         }});
         //Market resources: B, P, B, G
         //First depot:              G
@@ -208,10 +208,10 @@ class WarehouseTest {
         //2° extra slots:   B, P
 
         warehouse.addResourcesFromMarket(new ArrayList<>() {{
-            add(new StorableResource(ResourceEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.BLUE));
         }});
         assertEquals(warehouse.getResourcesFromMarket(), new ArrayList<Resource>(){{
-            add(new StorableResource(ResourceEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.BLUE));
         }});
         assertEquals(warehouse.getNumberOfRemainingResources(), 1);
 
@@ -227,23 +227,23 @@ class WarehouseTest {
         assertEquals(0, warehouse.getNumberOfRemainingResources());
 
         warehouse.addResourcesFromMarket(new ArrayList<>() {{
-            add(new StorableResource(ResourceEnum.BLUE));
-            add(new StorableResource(ResourceEnum.YELLOW));
-            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.YELLOW));
         }});
 
-        warehouse.addResourcesToStrongBox(new StorableResource(ResourceEnum.BLUE));
-        warehouse.addResourcesToStrongBox(new StorableResource(ResourceEnum.GRAY));
-        warehouse.addResourcesToStrongBox(new StorableResource(ResourceEnum.GRAY));
-        warehouse.addResourcesToStrongBox(new StorableResource(ResourceEnum.YELLOW));
+        warehouse.addResourcesToStrongBox(new StorableResource(ResourcesEnum.BLUE));
+        warehouse.addResourcesToStrongBox(new StorableResource(ResourcesEnum.GRAY));
+        warehouse.addResourcesToStrongBox(new StorableResource(ResourcesEnum.GRAY));
+        warehouse.addResourcesToStrongBox(new StorableResource(ResourcesEnum.YELLOW));
 
         assertFalse(warehouse.swap(15, 4)); //cannot swap from StrongBox
 
         /*
         warehouse.addResourcesFromMarket(new ArrayList<Resource>() {{
-            add(new StorableResource(ResourceEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.BLUE));
             add(new WhiteResource()); //cannot store a WhiteResource
-            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.YELLOW));
         }});
 
          */
@@ -257,28 +257,28 @@ class WarehouseTest {
         */
 
         Map<Integer, String> correctPositionsAndResources = new HashMap<>() {{
-            put(0, ResourceEnum.BLUE.toString());
-            put(1, ResourceEnum.YELLOW.toString());
-            put(2, ResourceEnum.YELLOW.toString());
-            put(3, ResourceEnum.EMPTY_RES.toString());
-            put(14, ResourceEnum.BLUE.toString());
-            put(15, ResourceEnum.GRAY.toString());
-            put(16, ResourceEnum.GRAY.toString());
-            put(17, ResourceEnum.YELLOW.toString());
+            put(0, ResourcesEnum.BLUE.toString());
+            put(1, ResourcesEnum.YELLOW.toString());
+            put(2, ResourcesEnum.YELLOW.toString());
+            put(3, ResourcesEnum.EMPTY_RES.toString());
+            put(14, ResourcesEnum.BLUE.toString());
+            put(15, ResourcesEnum.GRAY.toString());
+            put(16, ResourcesEnum.GRAY.toString());
+            put(17, ResourcesEnum.YELLOW.toString());
         }};
 
         assertEquals(correctPositionsAndResources, warehouse.getAllPositionsAndResources());
 
         //check if the resources have been correctly stored in the StrongBox by taking them
-        assertEquals(warehouse.takeResources(14), new StorableResource(ResourceEnum.BLUE));
-        assertEquals(warehouse.takeResources(15), new StorableResource(ResourceEnum.GRAY));
-        assertEquals(warehouse.takeResources(16), new StorableResource(ResourceEnum.GRAY));
-        assertEquals(warehouse.takeResources(17), new StorableResource(ResourceEnum.YELLOW));
+        assertEquals(warehouse.takeResources(14), new StorableResource(ResourcesEnum.BLUE));
+        assertEquals(warehouse.takeResources(15), new StorableResource(ResourcesEnum.GRAY));
+        assertEquals(warehouse.takeResources(16), new StorableResource(ResourcesEnum.GRAY));
+        assertEquals(warehouse.takeResources(17), new StorableResource(ResourcesEnum.YELLOW));
 
-        correctPositionsAndResources.put(14, ResourceEnum.EMPTY_RES.toString());
-        correctPositionsAndResources.put(15, ResourceEnum.EMPTY_RES.toString());
-        correctPositionsAndResources.put(16, ResourceEnum.EMPTY_RES.toString());
-        correctPositionsAndResources.put(17, ResourceEnum.EMPTY_RES.toString());
+        correctPositionsAndResources.put(14, ResourcesEnum.EMPTY_RES.toString());
+        correctPositionsAndResources.put(15, ResourcesEnum.EMPTY_RES.toString());
+        correctPositionsAndResources.put(16, ResourcesEnum.EMPTY_RES.toString());
+        correctPositionsAndResources.put(17, ResourcesEnum.EMPTY_RES.toString());
 
         assertEquals(correctPositionsAndResources, warehouse.getAllPositionsAndResources());
 
@@ -307,8 +307,8 @@ class WarehouseTest {
         //1° extra slots:   X, X
         //2° extra slots:   X, X
 
-        assertEquals(warehouse.takeResources(4), new StorableResource(ResourceEnum.BLUE));
-        assertEquals(warehouse.takeResources(5), new StorableResource(ResourceEnum.YELLOW));
+        assertEquals(warehouse.takeResources(4), new StorableResource(ResourcesEnum.BLUE));
+        assertEquals(warehouse.takeResources(5), new StorableResource(ResourcesEnum.YELLOW));
 
         assertThrows(NonAccessibleSlotException.class, () -> warehouse.takeResources(1)); //cannot take a resource from the marketResourceZone
 
@@ -316,7 +316,7 @@ class WarehouseTest {
         assertThrows(EmptySlotException.class, () -> warehouse.takeResources(5)); //slot 5 is now empty
 
         assertEquals(warehouse.getResourcesFromMarket(), new ArrayList<Resource>(){{
-            add(new StorableResource(ResourceEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.YELLOW));
         }});
         assertEquals(1, warehouse.getNumberOfRemainingResources()); //one resource (Y) remained in Market resources
 
@@ -330,29 +330,29 @@ class WarehouseTest {
 
     @Test
     void getAllResources() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
-        warehouse.addResourcesToStrongBox(new StorableResource(ResourceEnum.GRAY));
-        warehouse.addResourcesToStrongBox(new StorableResource(ResourceEnum.PURPLE));
-        warehouse.addResourcesToStrongBox(new StorableResource(ResourceEnum.GRAY));
+        warehouse.addResourcesToStrongBox(new StorableResource(ResourcesEnum.GRAY));
+        warehouse.addResourcesToStrongBox(new StorableResource(ResourcesEnum.PURPLE));
+        warehouse.addResourcesToStrongBox(new StorableResource(ResourcesEnum.GRAY));
 
         warehouse.addResourcesFromMarket(new ArrayList<>() {{
-            add(new StorableResource(ResourceEnum.YELLOW));
-            add(new StorableResource(ResourceEnum.BLUE));
-            add(new StorableResource(ResourceEnum.PURPLE));
+            add(new StorableResource(ResourcesEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.PURPLE));
         }});
 
         warehouse.swap(0,6);
         warehouse.swap(1,9);
 
-        warehouse.addExtraSlots(new StorableResource(ResourceEnum.PURPLE));
+        warehouse.addExtraSlots(new StorableResource(ResourcesEnum.PURPLE));
         warehouse.swap(2, 11);
 
         List<Resource> correctResources = new ArrayList<>() {{
-            add(new StorableResource(ResourceEnum.GRAY));
-            add(new StorableResource(ResourceEnum.PURPLE));
-            add(new StorableResource(ResourceEnum.GRAY));
-            add(new StorableResource(ResourceEnum.YELLOW));
-            add(new StorableResource(ResourceEnum.BLUE));
-            add(new StorableResource(ResourceEnum.PURPLE));
+            add(new StorableResource(ResourcesEnum.GRAY));
+            add(new StorableResource(ResourcesEnum.PURPLE));
+            add(new StorableResource(ResourcesEnum.GRAY));
+            add(new StorableResource(ResourcesEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.PURPLE));
         }};
         List<Resource> result = warehouse.getAllResources();
         assertTrue(result.size() == correctResources.size() && result.containsAll(correctResources) && correctResources.containsAll(result));
@@ -363,8 +363,8 @@ class WarehouseTest {
         warehouse = new Warehouse();
 
         List<Resource> chosenResources = new ArrayList<>() {{
-            add(new StorableResource(ResourceEnum.GRAY));
-            add(new StorableResource(ResourceEnum.PURPLE));
+            add(new StorableResource(ResourcesEnum.GRAY));
+            add(new StorableResource(ResourcesEnum.PURPLE));
         }};
 
         //two different resources (GRAY and PURPLE)
@@ -374,7 +374,7 @@ class WarehouseTest {
 
         //two same resources (PURPLE)
         warehouse = new Warehouse();
-        chosenResources.set(0, new StorableResource(ResourceEnum.PURPLE));
+        chosenResources.set(0, new StorableResource(ResourcesEnum.PURPLE));
         warehouse.setupWarehouse(chosenResources);
         assertEquals(warehouse.getAllResources(), chosenResources);
         assertTrue(warehouse.isProperlyOrdered());

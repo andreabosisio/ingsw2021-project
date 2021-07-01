@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.client.model.PersonalBoard;
 import it.polimi.ingsw.client.network.NetworkHandler;
 import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.gui.controllers.*;
@@ -219,22 +220,26 @@ public class GUI extends Application implements View {
     }
 
     @Override
-    public void productionBoardUpdate(String updatingNick) {
-        if (nickname.equals(updatingNick)) {
+    public void personalBoardUpdate(PersonalBoard updatingPersonalBoard) {
+        activeLeadersUpdate(updatingPersonalBoard);
+        productionBoardUpdate(updatingPersonalBoard);
+        warehouseUpdate(updatingPersonalBoard);
+    }
+
+    private void productionBoardUpdate(PersonalBoard updatingPersonalBoard) {
+        if (nickname.equals(updatingPersonalBoard.getNickname())) {
             Platform.runLater(personalController::productionBoardUpdate);
         }
     }
 
-    @Override
-    public void activeLeadersUpdate(String updatingNick) {
-        if (nickname.equals(updatingNick)) {
+    private void activeLeadersUpdate(PersonalBoard updatingPersonalBoard) {
+        if (nickname.equals(updatingPersonalBoard.getNickname())) {
             Platform.runLater(personalController::activeLeadersUpdate);
         }
     }
 
-    @Override
-    public void warehouseUpdate(String updatingNick) {
-        if (nickname.equals(updatingNick)) {
+    private void warehouseUpdate(PersonalBoard updatingPersonalBoard) {
+        if (nickname.equals(updatingPersonalBoard.getNickname())) {
             Platform.runLater(personalController::warehouseUpdate);
         }
     }

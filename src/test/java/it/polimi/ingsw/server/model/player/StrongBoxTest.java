@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.exceptions.EmptySlotException;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.player.warehouse.StrongBox;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -16,7 +16,7 @@ class StrongBoxTest {
     @Test
     void simplyStrongBoxTest() throws EmptySlotException {
 
-        Resource toStock = new StorableResource(ResourceEnum.PURPLE);
+        Resource toStock = new StorableResource(ResourcesEnum.PURPLE);
         strongBox.addResource(toStock);
 
         assertFalse(strongBox.setResource(2, toStock)); //cannot set a resource in a slot, only add

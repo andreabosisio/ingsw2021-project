@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.gameMode;
 import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.GridUpdate;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
@@ -13,10 +13,10 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
  * of the color indicated.
  */
 public class DiscardDevCardsToken implements SoloActionToken {
-    private final CardColorEnum color;
+    private final CardColorsEnum color;
     private static final int CARDS_TO_DISCARD = 2;
 
-    public DiscardDevCardsToken(CardColorEnum color) {
+    public DiscardDevCardsToken(CardColorsEnum color) {
         this.color = color;
     }
 

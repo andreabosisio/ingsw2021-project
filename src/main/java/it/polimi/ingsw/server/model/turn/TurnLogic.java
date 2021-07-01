@@ -419,7 +419,7 @@ public class TurnLogic {
      *
      * @return if the player was the last one online
      */
-    public boolean disconnectPlayer(String nickname) {
+    protected boolean disconnectPlayer(String nickname) {
         Player disconnected = players.stream().filter(player -> player.getNickname().equals(nickname)).findFirst().orElse(null);
         assert disconnected != null;
         disconnected.setOnline(false);
@@ -443,7 +443,8 @@ public class TurnLogic {
      *
      * @param nickname nickname of the player to reconnect
      */
-    public void reconnectPlayer(String nickname) {
+    protected void reconnectPlayer(String nickname) {
+        //todo state logic
         if (getCurrentState().equals(getEndGame())) {
             PlayerInterface winner = getGameMode().getICheckWinner().getWinner();//method return winner
             EndGameEvent endGameEvent = new EndGameEvent(winner,getPlayers());

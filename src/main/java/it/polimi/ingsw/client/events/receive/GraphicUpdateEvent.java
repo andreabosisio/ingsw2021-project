@@ -29,7 +29,7 @@ public class GraphicUpdateEvent implements EventFromServer {
         if (personalBoardUpdateList != null){
             for(JsonElement element : personalBoardUpdateList){
                 PersonalBoard personalBoard = gson.fromJson(element.getAsJsonObject(), PersonalBoard.class);
-                personalBoard.update(view.getNickname());
+                personalBoard.update(view);
             }
         }
         if (messageUpdate != null && !view.isThisClientTurn())

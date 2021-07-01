@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.View;
-import it.polimi.ingsw.client.view.cli.AnsiEnum;
+import it.polimi.ingsw.client.view.cli.AnsiUtilities;
 import it.polimi.ingsw.client.view.cli.Printable;
 
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public class MarketTray extends Printable {
             for (int j = 0; j < NUM_C; j++) {
                 printable.append("│").append(Marble.getPrintable(marketBoard[i][j])).append("│");
                 if (j == NUM_C - 1) {
-                    printable.append("  ").append(AnsiEnum.WHITE_BRIGHT).append(AnsiEnum.LEFT_ARROW.getAsciiArt()).append(" [").append(i).append("]").append(AnsiEnum.RESET);
+                    printable.append("  ").append(AnsiUtilities.WHITE_BRIGHT).append(AnsiUtilities.LEFT_ARROW.getAsciiArt()).append(" [").append(i).append("]").append(AnsiUtilities.RESET);
                 }
             }
             toReturn.add(printable.toString());
@@ -131,7 +131,7 @@ public class MarketTray extends Printable {
 
         arrows.append("  ");
         for (int i = NUM_C; i > 0; i--)
-            arrows.append("  ").append(AnsiEnum.WHITE_BRIGHT).append(AnsiEnum.UP_ARROW.getAsciiArt()).append("  ").append(AnsiEnum.RESET);
+            arrows.append("  ").append(AnsiUtilities.WHITE_BRIGHT).append(AnsiUtilities.UP_ARROW.getAsciiArt()).append("  ").append(AnsiUtilities.RESET);
 
         return arrows;
     }
@@ -143,7 +143,7 @@ public class MarketTray extends Printable {
         StringBuilder arrows = new StringBuilder();
         arrows.append("  ");
         for (int i = NUM_C; i > 0; i--)
-            arrows.append(AnsiEnum.WHITE_BRIGHT).append(" [").append(i + 2).append("] ").append(AnsiEnum.RESET);
+            arrows.append(AnsiUtilities.WHITE_BRIGHT).append(" [").append(i + 2).append("] ").append(AnsiUtilities.RESET);
 
         return arrows;
     }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.View;
-import it.polimi.ingsw.client.view.cli.AnsiEnum;
+import it.polimi.ingsw.client.view.cli.AnsiUtilities;
 import it.polimi.ingsw.client.view.cli.Printable;
 import it.polimi.ingsw.client.view.cli.PrintableScene;
 
@@ -25,13 +25,11 @@ public class PersonalBoard extends Printable {
     private final static String WAREHOUSE_SLOTS_SEPARATOR = "       ";
     private final static int WAREHOUSE_BOARDNAME_OFFSET = 5;
     private final static int ACTIVE_HAND_LEADERS_OFFSET = 1;
-    private final View view;
 
-    public PersonalBoard(String nickname, View view) {
-        this.view = view;
+    public PersonalBoard(String nickname) {
         this.nickname = nickname;
-        this.handLeaders = Arrays.asList(LeaderCard.getEmptyCardID(), LeaderCard.getEmptyCardID());
-        this.activeLeaders = Arrays.asList(LeaderCard.getEmptyCardID(), LeaderCard.getEmptyCardID());
+        this.handLeaders = Arrays.asList(LeaderCard.EMPTY_CARD_ID, LeaderCard.EMPTY_CARD_ID);
+        this.activeLeaders = Arrays.asList(LeaderCard.EMPTY_CARD_ID, LeaderCard.EMPTY_CARD_ID);
         this.productionBoard = new ArrayList<>();
         this.warehouse = new HashMap<>();
     }
@@ -48,7 +46,7 @@ public class PersonalBoard extends Printable {
                 i++;
             }
             for(; i < this.handLeaders.size(); i++)
-                this.handLeaders.set(i, LeaderCard.getEmptyCardID());
+                this.handLeaders.set(i, LeaderCard.EMPTY_CARD_ID);
         }
     }
 
@@ -59,7 +57,6 @@ public class PersonalBoard extends Printable {
                 this.activeLeaders.set(i, id);
                 i++;
             }
-            view.activeLeadersUpdate(nickname);
         }
     }
 
@@ -71,14 +68,12 @@ public class PersonalBoard extends Printable {
                 i++;
             }
             this.productionBoard = productionBoard;
-            view.productionBoardUpdate(nickname);
         }
     }
 
     public void setWarehouse(Map<Integer, String> warehouse) {
         if(warehouse != null) {
             this.warehouse = warehouse;
-            view.warehouseUpdate(nickname);
         }
     }
 
@@ -98,26 +93,43 @@ public class PersonalBoard extends Printable {
         return developmentCardsInSlots;
     }
 
-    public void update(String thisClientNickname){
+    public void update(View view){
         PersonalBoard personalBoard = Board.getBoard().getPersonalBoardOf(nickname);
+
         personalBoard.setActiveLeaders(activeLeaders);
         personalBoard.setWarehouse(warehouse);
         personalBoard.setProductionBoard(productionBoard);
-        personalBoard.setHandLeaders(handLeaders, thisClientNickname);
+        personalBoard.setHandLeaders(handLeaders, view.getNickname());
+        
+        view.personalBoardUpdate(personalBoard);
+
         //fixme why cli methods for gui?
+        /*
         personalBoard.setHandScene();
         personalBoard.setActiveLeadersScene();
-        personalBoard.setProductionSlotsScene();
-        personalBoard.setWarehouseScene();
+         */
+        //personalBoard.setProductionSlotsScene();
+        //personalBoard.setWarehouseScene();
+        /*
         personalBoard.setActiveCardsScene();
         personalBoard.setCardsScene();
+         */
+    }
+
+    public void updateCliScenes() {
+        setHandScene();
+        setActiveLeadersScene();
+        setProductionSlotsScene();
+        setWarehouseScene();
+        setActiveCardsScene();
+        setCardsScene();
     }
 
     private void setProductionSlotsScene() {
         List<Printable> slots = developmentCardsInSlots.stream().map(slot -> {
             Printable slotsBuilder = new PrintableScene(new ArrayList<>());
             if(slot.size() > 1)
-                slot.removeIf(id -> id.equals(DevelopmentCard.getEmptyCardID()));
+                slot.removeIf(id -> id.equals(DevelopmentCard.EMPTY_CARD_ID));
             for (String id : slot) {
                 slotsBuilder = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().createDevelopmentCardByID(id).placeOnOtherCards(slotsBuilder);
             }
@@ -136,7 +148,7 @@ public class PersonalBoard extends Printable {
     }
 
     private String getPrintableBoardName() {
-        return "       " + AnsiEnum.getPrettyNickname(getNickname()) + "'s Personal Board";
+        return "       " + AnsiUtilities.getPrettyNickname(getNickname()) + "'s Personal Board";
     }
 
     private void setActiveLeadersScene() {
@@ -145,7 +157,7 @@ public class PersonalBoard extends Printable {
         List<Printable> leaderSlots = leaderCards.stream().map(c -> {
             LeaderCard card = (LeaderCard) c;
             //if it's a production leader card
-            if(card.getiD().charAt(0) == 'p') {
+            if(card.getID().charAt(0) == LeaderCard.PRODUCTION_LEADER_CARD_ID_PREFIX) {
                 i.getAndIncrement();
                 return PrintableScene.addBottomString(c, "    [" + i +"]");
             }

@@ -3,15 +3,10 @@ package it.polimi.ingsw.client.model;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import it.polimi.ingsw.client.view.cli.AnsiEnum;
-import it.polimi.ingsw.commons.FileUtilities;
+import it.polimi.ingsw.client.view.cli.AnsiUtilities;
 import it.polimi.ingsw.commons.FileUtilities;
 import it.polimi.ingsw.commons.Parser;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +20,7 @@ public class LeaderCardsDatabase {
     private final List<String> leaderCardsVictoryPoints = new ArrayList<>();
     private final List<String> leaderCardsRequirements = new ArrayList<>();
 
-    public String getLeaderCardAbility(String id) {
+    public String getAbility(String id) {
         return leaderCardsAbilities.get(getNumberOfCard(id));
     }
 
@@ -58,13 +53,15 @@ public class LeaderCardsDatabase {
         return leaderCardIDs.indexOf(cardIndex);
     }
 
+    //todo maybe move those PrintableMethods in LeaderCard Class
+
     /**
      * Get method that return the requirements of the card
      *
      * @param cardIndex is the ID of the Card
      * @return the requirements of the card
      */
-    public String[] getRequirements(String cardIndex) {
+    public String[] getPrintableRequirements(String cardIndex) {
         int numberOfCard = getNumberOfCard(cardIndex);
         String[] tmpRequirements = leaderCardsRequirements.get(numberOfCard).split("&");
         List<String[]> cardRequirementsList = new ArrayList<>();
@@ -82,15 +79,15 @@ public class LeaderCardsDatabase {
         // Production, Market, Warehouse, Discount
         for (String[] splittedRequirements : cardRequirementsList) {
             if (numberOfCard <= 3) { // Production Leader Card
-                cardRequirements[0] = "Card: " + AnsiEnum.colorString(splittedRequirements[0], splittedRequirements[1]) + "   ";
-                cardRequirements[1] = "lvl: " + splittedRequirements[2] + AnsiEnum.RESET + "    ";
+                cardRequirements[0] = "Card: " + AnsiUtilities.colorString(splittedRequirements[0], splittedRequirements[1]) + "   ";
+                cardRequirements[1] = "lvl: " + splittedRequirements[2] + AnsiUtilities.RESET + "    ";
             } else if (numberOfCard >= 8 && numberOfCard <= 11) { // Warehouse Leader Card
-                cardRequirements[0] = "Res: " + AnsiEnum.colorString(splittedRequirements[0], splittedRequirements[1]) + "    ";
+                cardRequirements[0] = "Res: " + AnsiUtilities.colorString(splittedRequirements[0], splittedRequirements[1]) + "    ";
             } else {
                 if (t == 0)
-                    cardRequirements[0] = "Cards: " + AnsiEnum.colorString(splittedRequirements[0], splittedRequirements[1]) + "  ";
+                    cardRequirements[0] = "Cards: " + AnsiUtilities.colorString(splittedRequirements[0], splittedRequirements[1]) + "  ";
                 else if (t == 1)
-                    cardRequirements[1] = "       " + AnsiEnum.colorString(splittedRequirements[0], splittedRequirements[1]) + AnsiEnum.RESET + "  ";
+                    cardRequirements[1] = "       " + AnsiUtilities.colorString(splittedRequirements[0], splittedRequirements[1]) + AnsiUtilities.RESET + "  ";
                 t++;
             }
         }
@@ -103,13 +100,13 @@ public class LeaderCardsDatabase {
      * @param cardIndex is the ID of the Card
      * @return the Victory Points of the Card
      */
-    public String getVictoryPoints(String cardIndex) {
+    public String getPrintableVictoryPoints(String cardIndex) {
         int numberOfCard = getNumberOfCard(cardIndex);
 
         if (String.valueOf(leaderCardsVictoryPoints.get(numberOfCard)).length() == 1)
-            return " " + AnsiEnum.BLACK + AnsiEnum.YELLOW_BACKGROUND + leaderCardsVictoryPoints.get(numberOfCard) + AnsiEnum.RESET;
+            return " " + AnsiUtilities.BLACK + AnsiUtilities.YELLOW_BACKGROUND + leaderCardsVictoryPoints.get(numberOfCard) + AnsiUtilities.RESET;
         else
-            return AnsiEnum.BLACK + AnsiEnum.YELLOW_BACKGROUND + leaderCardsVictoryPoints.get(numberOfCard) + AnsiEnum.RESET;
+            return AnsiUtilities.BLACK + AnsiUtilities.YELLOW_BACKGROUND + leaderCardsVictoryPoints.get(numberOfCard) + AnsiUtilities.RESET;
     }
 
     /**
@@ -118,18 +115,18 @@ public class LeaderCardsDatabase {
      * @param cardIndex is the ID of the Card
      * @return the Ability of the Card
      */
-    public String getAbility(String cardIndex) {
+    public String getPrintableAbility(String cardIndex) {
         int numberOfCard = getNumberOfCard(cardIndex);
-
-        switch (cardIndex.split("")[0]) {
-            case "p":
-                return AnsiEnum.colorString("1", leaderCardsAbilities.get(numberOfCard)) + " } " + "? + " + AnsiEnum.colorString("1", "RED");
-            case "m":
-                return "  1 = " + AnsiEnum.colorString("1", leaderCardsAbilities.get(numberOfCard)) + "  ";
-            case "w":
-                return AnsiEnum.colorString("  |_|" + "|_| ", leaderCardsAbilities.get(numberOfCard));
-            case "d":
-                return AnsiEnum.colorString("   -1    ", leaderCardsAbilities.get(numberOfCard));
+        //todo finish 'm' ecc...
+        switch (cardIndex.charAt(0)) {
+            case LeaderCard.PRODUCTION_LEADER_CARD_ID_PREFIX:
+                return AnsiUtilities.colorString("1", leaderCardsAbilities.get(numberOfCard)) + " } " + "? + " + AnsiUtilities.colorString("1", "RED");
+            case 'm':
+                return "  1 = " + AnsiUtilities.colorString("1", leaderCardsAbilities.get(numberOfCard)) + "  ";
+            case LeaderCard.WAREHOUSE_LEADER_CARD_ID_PREFIX:
+                return AnsiUtilities.colorString("  |_|" + "|_| ", leaderCardsAbilities.get(numberOfCard));
+            case 'd':
+                return AnsiUtilities.colorString("   -1    ", leaderCardsAbilities.get(numberOfCard));
         }
         return null;
     }

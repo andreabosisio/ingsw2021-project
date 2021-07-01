@@ -22,6 +22,6 @@
       </Label>
       <ComboBox fx:id="numberSelector" layoutX="134.0" layoutY="238.0" prefHeight="25.0" prefWidth="94.0" />
       <Button fx:id="done" layoutX="261.0" layoutY="238.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Done" />
-      <TextArea fx:id="messageBox" editable="false" layoutX="189.0" layoutY="37.0" prefHeight="9.0" prefWidth="221.0" />
+      <TextArea fx:id="messageBox" blendMode="MULTIPLY" editable="false" layoutX="119.0" layoutY="365.0" prefHeight="164.0" prefWidth="364.0" />
    </AnchorPane>
 </StackPane>

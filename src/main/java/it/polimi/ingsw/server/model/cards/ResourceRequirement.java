@@ -1,14 +1,14 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.player.Player;
 
 public class ResourceRequirement implements Requirement {
-    private final ResourceEnum color;
+    private final ResourcesEnum color;
     private final int quantity;
 
 
-    public ResourceRequirement(ResourceEnum color, int quantity) {
+    public ResourceRequirement(ResourcesEnum color, int quantity) {
         this.color = color;
         this.quantity = quantity;
     }

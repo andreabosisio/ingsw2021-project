@@ -1,16 +1,16 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import it.polimi.ingsw.server.model.player.Player;
 
 import java.util.List;
 
 public class DevelopmentRequirement implements Requirement {
     private final int level;
-    private final CardColorEnum color;
+    private final CardColorsEnum color;
     private final int quantity;
 
-    public DevelopmentRequirement(int level, CardColorEnum color, int quantity) {
+    public DevelopmentRequirement(int level, CardColorsEnum color, int quantity) {
         this.level = level;
         this.color = color;
         this.quantity = quantity;

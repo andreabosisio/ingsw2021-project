@@ -1,11 +1,11 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.events.send.GameStartedEvent;
 import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.*;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.ResourceFactory;
@@ -81,7 +81,7 @@ public class SetupManager {
 
             for(String chosenColor : resources) {
                 try {
-                    ResourceEnum chosenEnum = ResourceEnum.valueOf(chosenColor.toUpperCase());
+                    ResourcesEnum chosenEnum = ResourcesEnum.valueOf(chosenColor.toUpperCase());
                     chosenResources.add(ResourceFactory.produceResource(chosenEnum)); //throws NonStorableResourceException if RED or WHITE
                 } catch (IllegalArgumentException | NonStorableResourceException e) {
                     throw new InvalidSetupException("Non permitted resource type"); //non existing resource type
@@ -119,7 +119,7 @@ public class SetupManager {
         List<Resource> chosenResources = new ArrayList<>();
         for(int i = 0;i<event.getNumberOfResources();i++){
             try {
-                chosenResources.add(ResourceFactory.produceResource(ResourceEnum.values()[1]));
+                chosenResources.add(ResourceFactory.produceResource(ResourcesEnum.values()[1]));
             } catch (NonStorableResourceException ignored){}
         }
         try {

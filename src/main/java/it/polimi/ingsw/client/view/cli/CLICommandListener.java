@@ -5,6 +5,8 @@ import it.polimi.ingsw.client.events.send.*;
 import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.client.utils.CommandListener;
 import it.polimi.ingsw.client.utils.CommandListenerObserver;
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
+import it.polimi.ingsw.commons.enums.StorableResourceEnum;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,7 +25,7 @@ public class CLICommandListener implements CommandListener {
     private static final int MIN_MARKET_ARROW_ID = 0;
     private static final int MAX_CARD_LEVEL = 3;
     private static final int MIN_CARD_LEVEL = 1;
-    private static final String INVALID = "Invalid input";
+    private static final String INVALID_MSG = "Invalid input";
 
     /**
      * Asks to the Player the desired game mode: online or local.
@@ -137,13 +139,13 @@ public class CLICommandListener implements CommandListener {
         List<Printable> toChoose = leaderCardsIDs.stream().map(LeaderCard::new).collect(Collectors.toList());
 
         for (int i = 0; i < LEADER_CARDS_TO_CHOOSE; i++) {
-            CLI.render("Choose a " + AnsiEnum.CYAN + "LeaderCard" + AnsiEnum.RESET + ": ");
+            CLI.render("Choose a " + AnsiUtilities.CYAN + "LeaderCard" + AnsiUtilities.RESET + ": ");
             String row = "";
             for (int j = 0; j < leaderCardsIDs.size(); j++) {
                 if (chosenIndexes.contains(j))
-                    row = PrintableScene.concatenateStrings(row, AnsiEnum.GREEN_BACKGROUND + ">> " + "[" + j + "] :  <<" + AnsiEnum.RESET + toChoose.get(j).getEmptySpace() + "\t");
+                    row = PrintableScene.concatenateStrings(row, AnsiUtilities.GREEN_BACKGROUND + ">> " + "[" + j + "] :  <<" + AnsiUtilities.RESET + toChoose.get(j).getEmptySpace() + "\t");
                 else
-                    row = PrintableScene.concatenateStrings(row, AnsiEnum.WHITE_BRIGHT + "[" + j + "]: " + AnsiEnum.RESET + toChoose.get(j).getEmptySpace() + "\t");
+                    row = PrintableScene.concatenateStrings(row, AnsiUtilities.WHITE_BRIGHT + "[" + j + "]: " + AnsiUtilities.RESET + toChoose.get(j).getEmptySpace() + "\t");
             }
             CLI.render(PrintableScene.addStringToTop(PrintableScene.concatenatePrintables(toChoose, "    " + "\t"), row));
             System.out.println();
@@ -162,8 +164,8 @@ public class CLICommandListener implements CommandListener {
         CLI.clearView();
 
         CLI.render(Board.getBoard().getPrintableMarketAndGrid());
-        CLI.render(AnsiEnum.GREEN + "Valid LeaderCards choices!" + AnsiEnum.RESET);
-        CLI.render(AnsiEnum.WHITE_BOLD_BRIGHT + "Your LeaderCards: " + AnsiEnum.RESET);
+        CLI.render(AnsiUtilities.GREEN + "Valid LeaderCards choices!" + AnsiUtilities.RESET);
+        CLI.render(AnsiUtilities.WHITE_BOLD_BRIGHT + "Your LeaderCards: " + AnsiUtilities.RESET);
         toChoose.clear();
         chosenIndexes.forEach(i -> toChoose.add(new LeaderCard(leaderCardsIDs.get(i))));
         CLI.render(PrintableScene.concatenatePrintables(toChoose, "\t\t"));
@@ -183,9 +185,9 @@ public class CLICommandListener implements CommandListener {
 
         if (numberOfResources != 0) {
             while (chosenResourcesColor.size() < numberOfResources) {
-                CLI.render("Choose a " + AnsiEnum.CYAN + "resource" + AnsiEnum.RESET + ": ");
+                CLI.render("Choose a " + AnsiUtilities.CYAN + "resource" + AnsiUtilities.RESET + ": ");
                 for (int j = 0; j < StorableResourceEnum.values().length; j++) {
-                    System.out.print(AnsiEnum.WHITE_BRIGHT + "[" + j + "]: " + AnsiEnum.RESET + Marble.getPrintable(StorableResourceEnum.values()[j].toString()) + "\t\t");
+                    System.out.print(AnsiUtilities.WHITE_BRIGHT + "[" + j + "]: " + AnsiUtilities.RESET + Marble.getPrintable(StorableResourceEnum.values()[j].toString()) + "\t\t");
                 }
                 System.out.println();
                 String choice = scanner.nextLine();
@@ -197,7 +199,7 @@ public class CLICommandListener implements CommandListener {
                     return null;
                 }
             }
-            CLI.render(AnsiEnum.GREEN + "Valid resources choices!" + AnsiEnum.RESET);
+            CLI.render(AnsiUtilities.GREEN + "Valid resources choices!" + AnsiUtilities.RESET);
         }
         if (Board.getBoard().getAllPersonalBoards().size() > 1) {
             System.out.print("Please wait for other players' choices ");
@@ -216,7 +218,7 @@ public class CLICommandListener implements CommandListener {
             try {
                 choice = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                CLI.renderError(INVALID);
+                CLI.renderError(INVALID_MSG);
             }
         }
         notifyObservers(new CardPlacementActionEvent(choice));
@@ -244,7 +246,7 @@ public class CLICommandListener implements CommandListener {
                 try {
                     choice = Integer.parseInt(scanner.nextLine());
                 } catch (NumberFormatException e) {
-                    CLI.renderError(INVALID);
+                    CLI.renderError(INVALID_MSG);
                 }
             }
             transformations.add(possibleTransformations.get(choice - 1));
@@ -273,8 +275,8 @@ public class CLICommandListener implements CommandListener {
      */
     public boolean askMarketAction() {
         int choice = -1;
-        CLI.render("Select an arrow (from 0 to 6) or type " + CommandsEnum.BACK + " to change action: ");
-        while (choice < MIN_MARKET_ARROW_ID || choice > MAX_MARKET_ARROW_ID) {
+        do {
+            CLI.render("Select an arrow (from 0 to 6) or type " + CommandsEnum.BACK + " to change action: ");
             try {
                 String input = scanner.nextLine().toUpperCase(Locale.ROOT);
                 if (input.equals(CommandsEnum.BACK.toString()))
@@ -282,9 +284,9 @@ public class CLICommandListener implements CommandListener {
                 else
                     choice = Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                CLI.renderError(INVALID);
+                CLI.renderError(INVALID_MSG);
             }
-        }
+        } while (choice < MIN_MARKET_ARROW_ID || choice > MAX_MARKET_ARROW_ID);
         notifyObservers(new MarketActionEvent(choice));
         return true;
     }
@@ -294,7 +296,7 @@ public class CLICommandListener implements CommandListener {
      * After the swaps are inserted he can then choose to submit them or to show how they will affect the warehouse
      */
     public void askResourcePlacement() {
-        CLI.render("Write your swaps (es: 0,4,1,5...) or type " + CommandsEnum.DONE + " for no swaps:");
+        CLI.render("Write your swaps (es: 0,4,1,5...) or type " + CommandsEnum.DONE + " to end swaps:");
         List<Integer> swaps = new ArrayList<>();
         String answer;
         do {
@@ -306,7 +308,7 @@ public class CLICommandListener implements CommandListener {
                 swaps.addAll(Arrays.stream(answer.split("\\s*,\\s*")).map(Integer::parseInt).collect(Collectors.toList()));
                 CLI.render("Swaps saved. Type " + CommandsEnum.REFRESH + " to update the view or " + CommandsEnum.DONE + " to end the placement");
             } catch (IndexOutOfBoundsException | NumberFormatException e) {
-                CLI.renderError(INVALID);
+                CLI.renderError(INVALID_MSG);
             }
         } while (!answer.equals(CommandsEnum.REFRESH.toString()) && !answer.equals(CommandsEnum.DONE.toString()));
         notifyObservers(new ResourcesPlacementActionEvent(swaps, answer.equals(CommandsEnum.DONE.toString())));
@@ -322,7 +324,7 @@ public class CLICommandListener implements CommandListener {
         String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
 
         while (!(answer.equals(CommandsEnum.DONE.toString()) || answer.equals(CommandsEnum.LEADER.toString()))) {
-            CLI.renderError(INVALID);
+            CLI.renderError(INVALID_MSG);
             answer = scanner.nextLine().toUpperCase(Locale.ROOT);
         }
         if (answer.equals(CommandsEnum.DONE.toString())) {
@@ -346,13 +348,13 @@ public class CLICommandListener implements CommandListener {
                 try {
                     index = Integer.parseInt(scanner.nextLine());
                 } catch (NumberFormatException e) {
-                    CLI.renderError(INVALID);
+                    CLI.renderError(INVALID_MSG);
                 }
             }
             CLI.render("Type " + CommandsEnum.ACTIVATE + " to activate the card or " + CommandsEnum.DISCARD + " to discard the card: ");
             String discard = scanner.nextLine().toUpperCase(Locale.ROOT);
             while (!discard.equals(CommandsEnum.ACTIVATE.toString()) && !discard.equals(CommandsEnum.DISCARD.toString())) {
-                CLI.renderError(INVALID);
+                CLI.renderError(INVALID_MSG);
                 discard = scanner.nextLine().toUpperCase(Locale.ROOT);
             }
             notifyObservers(new LeaderActionEvent(hand.get(index), discard.equals(CommandsEnum.DISCARD.toString())));
@@ -381,7 +383,7 @@ public class CLICommandListener implements CommandListener {
                     return false;
                 level = Integer.parseInt(answer);
             } catch (NumberFormatException e) {
-                CLI.renderError(INVALID);
+                CLI.renderError(INVALID_MSG);
             }
         }
         while (!Arrays.stream(CardColorsEnum.values()).map(Enum::toString).collect(Collectors.toList()).contains(color.toUpperCase(Locale.ROOT))) {
@@ -397,7 +399,7 @@ public class CLICommandListener implements CommandListener {
                 resources.addAll(Arrays.stream(answer.split("\\s*,\\s*")).map(Integer::parseInt).filter(n -> n > 0).collect(Collectors.toSet()));
                 break;
             } catch (IndexOutOfBoundsException | NumberFormatException e) {
-                CLI.renderError(INVALID);
+                CLI.renderError(INVALID_MSG);
             }
             answer = scanner.nextLine();
         }
@@ -457,7 +459,7 @@ public class CLICommandListener implements CommandListener {
                     } else
                         break;
                 } catch (NumberFormatException e) {
-                    CLI.renderError(INVALID);
+                    CLI.renderError(INVALID_MSG);
                 }
                 answer = scanner.nextLine().toUpperCase(Locale.ROOT);
             }
@@ -487,7 +489,7 @@ public class CLICommandListener implements CommandListener {
         CLI.render("Type GRIDS to see the Market Tray and the Development Cards Grid or PLAYER to see a player. Type DONE to change action.");
         String answer = scanner.nextLine().toUpperCase(Locale.ROOT);
         while (!answer.equals(CommandsEnum.GRIDS.toString()) && !answer.equals(CommandsEnum.DONE.toString()) && !answer.equals(CommandsEnum.PLAYER.toString())) {
-            CLI.renderError(INVALID);
+            CLI.renderError(INVALID_MSG);
             answer = scanner.nextLine().toUpperCase(Locale.ROOT);
         }
         return answer;

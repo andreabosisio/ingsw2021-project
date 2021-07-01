@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.TestGameGenerator;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.events.receive.EventFromClient;
 import it.polimi.ingsw.server.events.receive.SetupEventFromClient;
 import it.polimi.ingsw.server.exceptions.*;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.StorableResource;
@@ -62,7 +62,7 @@ class SetupManagerTest {
         assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("first", chosenLeaderCardIndexes, chosenResources));
         assertThrows(InvalidSetupException.class,()->new SetupEventFromClient("first",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
-        //cannot choose NonStorableResources (WHITE or RED)
+        //cannot choose NonStorableResourcesEnum (WHITE or RED)
         chosenResources.clear();
         chosenResources.add("red");
         assertThrows(InvalidSetupException.class, () -> modelInterface.setupAction("second", chosenLeaderCardIndexes, chosenResources));
@@ -91,7 +91,7 @@ class SetupManagerTest {
         assertTrue(new SetupEventFromClient("third",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
         //second and third players should now have 2 LeaderCards and 1 resources (YELLOW)
-        correctResources.add(new StorableResource(ResourceEnum.YELLOW));
+        correctResources.add(new StorableResource(ResourcesEnum.YELLOW));
         assertEquals(2, modelInterface.getPlayerByNickname("second").getLeaderHand().size());
         assertEquals(correctResources, modelInterface.getPlayerByNickname("second").getPersonalBoard().getWarehouse().getAllResources());
         assertEquals(2, modelInterface.getPlayerByNickname("third").getLeaderHand().size());
@@ -108,7 +108,7 @@ class SetupManagerTest {
         chosenResources.add("purple");
         assertTrue(new SetupEventFromClient("fourth",chosenLeaderCardIndexes,chosenResources).doAction(modelInterface));
 
-        correctResources.add(new StorableResource(ResourceEnum.PURPLE));
+        correctResources.add(new StorableResource(ResourcesEnum.PURPLE));
         assertEquals(2, modelInterface.getPlayerByNickname("fourth").getLeaderHand().size());
         assertEquals(correctResources, modelInterface.getPlayerByNickname("fourth").getPersonalBoard().getWarehouse().getAllResources());
         assertEquals(1, GameBoard.getGameBoard().getFaithTrackOfPlayer(modelInterface.getPlayerByNickname("fourth")).getFaithMarker());

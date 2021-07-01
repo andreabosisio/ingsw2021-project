@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.WhiteResource;
@@ -29,21 +29,21 @@ class LeaderCardTest {
         assertFalse(leaderWithDevRequirement.canBeActivatedBy(player));
         //prepare requirements for first leader
         for(int i =0;i<5;i++) {
-            assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.PURPLE)));
+            assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourcesEnum.PURPLE)));
         }
         //check that res requirements have been met but not dev requirements
         assertTrue(leaderWithResRequirement.canBeActivatedBy(player));
         assertFalse(leaderWithDevRequirement.canBeActivatedBy(player));
         //prepare req for second leader
         assertTrue(player.getPersonalBoard().setNewProductionCard(1, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList()).get(0)));
-        assertTrue(player.getPersonalBoard().setNewProductionCard(1, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==2).filter(c->c.getColor()== CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
+        assertTrue(player.getPersonalBoard().setNewProductionCard(1, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==2).filter(c->c.getColor()== CardColorsEnum.GREEN).collect(Collectors.toList()).get(0)));
         //check that dev requirements have been met and res requirements remain met
         assertTrue(leaderWithDevRequirement.canBeActivatedBy(player));
         assertTrue(leaderWithResRequirement.canBeActivatedBy(player));
         //check that both requirements remain met even with more stuff added
         assertTrue(player.getPersonalBoard().setNewProductionCard(2, new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).collect(Collectors.toList()).get(0)));
-        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.GRAY)));
-        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.BLUE)));
+        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourcesEnum.GRAY)));
+        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourcesEnum.BLUE)));
         assertTrue(leaderWithDevRequirement.canBeActivatedBy(player));
         assertTrue(leaderWithResRequirement.canBeActivatedBy(player));
     }
@@ -66,13 +66,13 @@ class LeaderCardTest {
         assertFalse(player2.getLeaderHand().get(0).canBeActivatedBy(player1));
         assertFalse(player2.getLeaderHand().get(1).canBeActivatedBy(player1));
         //prepare all requirements
-        assertTrue(player1.getPersonalBoard().setNewProductionCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
-        assertTrue(player1.getPersonalBoard().setNewProductionCard(2,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.PURPLE).collect(Collectors.toList()).get(0)));
-        assertTrue(player1.getPersonalBoard().setNewProductionCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==2).filter(c->c.getColor()==CardColorEnum.GREEN).collect(Collectors.toList()).get(0)));
-        assertTrue(player2.getPersonalBoard().setNewProductionCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.BLUE).collect(Collectors.toList()).get(0)));
-        assertTrue(player2.getPersonalBoard().setNewProductionCard(2,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()==CardColorEnum.PURPLE).collect(Collectors.toList()).get(0)));
+        assertTrue(player1.getPersonalBoard().setNewProductionCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()== CardColorsEnum.GREEN).collect(Collectors.toList()).get(0)));
+        assertTrue(player1.getPersonalBoard().setNewProductionCard(2,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()== CardColorsEnum.PURPLE).collect(Collectors.toList()).get(0)));
+        assertTrue(player1.getPersonalBoard().setNewProductionCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==2).filter(c->c.getColor()== CardColorsEnum.GREEN).collect(Collectors.toList()).get(0)));
+        assertTrue(player2.getPersonalBoard().setNewProductionCard(1,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()== CardColorsEnum.BLUE).collect(Collectors.toList()).get(0)));
+        assertTrue(player2.getPersonalBoard().setNewProductionCard(2,new CardsGenerator().generateDevelopmentCards().stream().filter(c->c.getLevel()==1).filter(c->c.getColor()== CardColorsEnum.PURPLE).collect(Collectors.toList()).get(0)));
         for(int i = 0;i<5;i++){
-            assertTrue(player2.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.BLUE)));
+            assertTrue(player2.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourcesEnum.BLUE)));
         }
         //check that all cards can now be activated
         assertTrue(player1.getLeaderHand().get(0).canBeActivatedBy(player1));

@@ -8,7 +8,7 @@ import java.util.*;
  * Class that has the capacity to return a printable version of a specific Leader Card
  */
 public class LeaderCard extends Printable {
-    private static final String EMPTY_CARD_ID = "empty";
+    public static final String EMPTY_CARD_ID = "empty";
 
     private final String iD;
 
@@ -16,13 +16,12 @@ public class LeaderCard extends Printable {
         this.iD = iD;
     }
 
-    public String getiD() {
+    public String getID() {
         return iD;
     }
 
-    public static String getEmptyCardID() {
-        return EMPTY_CARD_ID;
-    }
+    public final static char WAREHOUSE_LEADER_CARD_ID_PREFIX = 'w';
+    public static final char PRODUCTION_LEADER_CARD_ID_PREFIX = 'p';
 
     /**
      * This method return the print of the card
@@ -38,9 +37,9 @@ public class LeaderCard extends Printable {
 
         LeaderCardsDatabase leaderCardsDatabase = LeaderCardsDatabase.getLeaderCardsDatabase();
 
-        String[] requirements = leaderCardsDatabase.getRequirements(iD);
-        String victoryPoints = leaderCardsDatabase.getVictoryPoints(iD);
-        String ability = leaderCardsDatabase.getAbility(iD);
+        String[] requirements = leaderCardsDatabase.getPrintableRequirements(iD);
+        String victoryPoints = leaderCardsDatabase.getPrintableVictoryPoints(iD);
+        String ability = leaderCardsDatabase.getPrintableAbility(iD);
 
         leaderCardToPrint.add("╔══════════╗");
         leaderCardToPrint.add("║" + requirements[0] + "║");

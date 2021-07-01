@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.resources;
 
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.exceptions.NonStorableResourceException;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 import org.junit.jupiter.api.Test;
@@ -21,21 +21,21 @@ class ResourceTest {
 
     @Test
     void addPossibleTransformation() {
-        assertFalse(new RedResource().addPossibleTransformation(new StorableResource(ResourceEnum.PURPLE)));
-        assertFalse(new StorableResource(ResourceEnum.BLUE).addPossibleTransformation(new StorableResource(ResourceEnum.YELLOW)));
+        assertFalse(new RedResource().addPossibleTransformation(new StorableResource(ResourcesEnum.PURPLE)));
+        assertFalse(new StorableResource(ResourcesEnum.BLUE).addPossibleTransformation(new StorableResource(ResourcesEnum.YELLOW)));
     }
 
     @SuppressWarnings("AssertBetweenInconvertibleTypes")
     @Test
     void equals() {
-        assertNotEquals(new StorableResource(ResourceEnum.PURPLE), turnLogic);
+        assertNotEquals(new StorableResource(ResourcesEnum.PURPLE), turnLogic);
     }
 
     @Test
     void constructor() throws NonStorableResourceException {
-        assertEquals(ResourceFactory.produceResource(ResourceEnum.GRAY), new StorableResource(ResourceEnum.GRAY));
+        assertEquals(ResourceFactory.produceResource(ResourcesEnum.GRAY), new StorableResource(ResourcesEnum.GRAY));
 
-        assertThrows(NonStorableResourceException.class, () -> ResourceFactory.produceResource(ResourceEnum.RED));
-        assertThrows(NonStorableResourceException.class, () -> ResourceFactory.produceResource(ResourceEnum.WHITE));
+        assertThrows(NonStorableResourceException.class, () -> ResourceFactory.produceResource(ResourcesEnum.RED));
+        assertThrows(NonStorableResourceException.class, () -> ResourceFactory.produceResource(ResourcesEnum.WHITE));
     }
 }

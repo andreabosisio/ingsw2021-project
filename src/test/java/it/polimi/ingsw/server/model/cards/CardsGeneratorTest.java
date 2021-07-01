@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ class CardsGeneratorTest {
         CardsGenerator generator = new CardsGenerator();
         developmentCards = generator.generateDevelopmentCards();
         //create 2 maps, one by color and one by level
-        Map<CardColorEnum, Integer> mapLevelToColor = developmentCards.stream().collect(
+        Map<CardColorsEnum, Integer> mapLevelToColor = developmentCards.stream().collect(
                 Collectors.groupingBy(DevelopmentCard::getColor,
                         Collectors.collectingAndThen(
                                 Collectors.mapping(DevelopmentCard::getLevel, Collectors.toSet()),
@@ -52,7 +52,7 @@ class CardsGeneratorTest {
     @Test
     void getDevCardsAsGridTest() {
         List<DevelopmentCard> developmentCards;
-        List<Map<CardColorEnum,List<DevelopmentCard>>> mapByLevel = new ArrayList<>();
+        List<Map<CardColorsEnum,List<DevelopmentCard>>> mapByLevel = new ArrayList<>();
         CardsGenerator generator = new CardsGenerator();
         developmentCards=generator.generateDevelopmentCards();
         for (int i = 1;i<=3;i++){

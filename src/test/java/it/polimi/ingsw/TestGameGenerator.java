@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.model.ModelInterface;
@@ -7,7 +8,6 @@ import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.RedResource;
@@ -172,14 +172,14 @@ public class TestGameGenerator {
     public void setMarketTrayAuto() {
         List<Resource> initResources = new ArrayList<>() {{
             add(new WhiteResource());
-            add(new StorableResource(ResourceEnum.BLUE));
-            add(new StorableResource(ResourceEnum.BLUE));
-            add(new StorableResource(ResourceEnum.GRAY));
-            add(new StorableResource(ResourceEnum.GRAY));
-            add(new StorableResource(ResourceEnum.YELLOW));
-            add(new StorableResource(ResourceEnum.YELLOW));
-            add(new StorableResource(ResourceEnum.PURPLE));
-            add(new StorableResource(ResourceEnum.PURPLE));
+            add(new StorableResource(ResourcesEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.GRAY));
+            add(new StorableResource(ResourcesEnum.GRAY));
+            add(new StorableResource(ResourcesEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.PURPLE));
+            add(new StorableResource(ResourcesEnum.PURPLE));
             add(new RedResource());
             add(new WhiteResource());
             add(new WhiteResource());

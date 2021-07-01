@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.gameBoard;
 
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import it.polimi.ingsw.server.model.ModelInterface;
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
 import it.polimi.ingsw.server.model.gameMode.*;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
@@ -109,7 +109,7 @@ public class LorenzoTest {
         playersNickname.add("Mihawk");
         ModelInterface modelInterface = new ModelInterface(playersNickname);
         TurnLogic turnLogic = modelInterface.getTurnLogic();
-        SoloActionToken soloActionToken = new DiscardDevCardsToken(CardColorEnum.PURPLE);
+        SoloActionToken soloActionToken = new DiscardDevCardsToken(CardColorsEnum.PURPLE);
 
         for (int i = 0; i < 5; i++) {
             assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo(), turnLogic));

@@ -1,11 +1,11 @@
-package it.polimi.ingsw.client.model;
+package it.polimi.ingsw.commons.enums;
 
 /**
  * Contains the colors of the Cards.
  */
 public enum CardColorsEnum {
     GREEN,
-    PURPLE,
+    BLUE,
     YELLOW,
-    BLUE
+    PURPLE
 }

@@ -50,21 +50,15 @@ public class EndTurnState extends State {
     /**
      * Activate or Discard a LeaderCard. If done successfully call endTurn because another LeaderAction is not accepted.
      *
-     * @param ID of the chosen LeaderCard
+     * @param cardID of the chosen LeaderCard
      * @param discard true if the chosen LeaderCard has to be discarded, false if has to be activated
      * @return true if the leaderAction has been successfully applied
      * @throws InvalidEventException if the leaderAction can't be applied
      */
     @Override
-    public boolean leaderAction(String ID, boolean discard) throws InvalidEventException {
-        Player currentPlayer = turnLogic.getCurrentPlayer();
+    public boolean leaderAction(String cardID, boolean discard) throws InvalidEventException {
 
-        //get the chosen leader card
-        LeaderCard chosenLeaderCard = currentPlayer.getLeaderHand().stream()
-                .filter(card -> card.getID().equals(ID)).findFirst()
-                .orElseThrow(() -> new InvalidEventException("LeaderCard is not owned"));
-
-        ((StartTurnState)turnLogic.getStartTurn()).executeLeaderAction(currentPlayer, chosenLeaderCard, discard);
+        ((StartTurnState)turnLogic.getStartTurn()).executeLeaderAction(cardID, discard);
 
         return endTurn();
     }

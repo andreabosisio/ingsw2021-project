@@ -1,12 +1,12 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.TestGameGenerator;
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.ProductionCard;
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.DevelopmentCardsGrid;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
@@ -31,7 +31,7 @@ class ModelInterfaceTest {
     void buyDevelopmentCardTurnSimulation() throws InvalidIndexException, EmptySlotException, NonAccessibleSlotException, InvalidEventException, InvalidSetupException, NonStorableResourceException {
         TestGameGenerator game = new TestGameGenerator();
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
-        DevelopmentCard card = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.GREEN, 1);
+        DevelopmentCard card = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.GREEN, 1);
         List<Integer> resourcePositions = new ArrayList<>();
         for (int i = 0; i < card.getPrice().size(); i++) {
             resourcePositions.add(i + strongBoxPositionsOffset);
@@ -88,7 +88,7 @@ class ModelInterfaceTest {
         ModelInterface modelInterface = game.modelInterfaceGenerator(true);
         Player currentPlayer = modelInterface.getTurnLogic().getCurrentPlayer();
         //add a green DevCard with level 1 to buy the requiredCard (level 2)
-        currentPlayer.getPersonalBoard().setNewProductionCard(2, GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.GREEN, 1));
+        currentPlayer.getPersonalBoard().setNewProductionCard(2, GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.GREEN, 1));
         //check that player is in start turn state
         assertEquals(modelInterface.getTurnLogic().getStartTurn(), modelInterface.getTurnLogic().getCurrentState());
         //player cannot satisfy requirements
@@ -97,7 +97,7 @@ class ModelInterfaceTest {
         //check that player is in start turn state
         assertEquals(modelInterface.getTurnLogic().getStartTurn(), modelInterface.getTurnLogic().getCurrentState());
         //prepare player for the required dev card
-        DevelopmentCard requiredCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.GREEN, 2);
+        DevelopmentCard requiredCard = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.GREEN, 2);
         game.preparePlayerForDevCard(modelInterface, 0, requiredCard);
         List<Integer> resourcePositions = new ArrayList<>();
         for (int i = 0; i < requiredCard.getPrice().size(); i++) {
@@ -267,7 +267,7 @@ class ModelInterfaceTest {
         game.setLeaderInHand(modelInterface, marketLeaderIndexes);
 
         //prepare player for activation of first leader
-        DevelopmentCard card = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.YELLOW, 1);
+        DevelopmentCard card = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.YELLOW, 1);
         game.preparePlayerForDevCard(modelInterface, 0, card);
         List<Integer> resourcePositions = new ArrayList<>();
         for (int i = 0; i < card.getPrice().size(); i++) {
@@ -280,7 +280,7 @@ class ModelInterfaceTest {
         game.roundOfNothing(modelInterface);
 
         //prepare for second devCard
-        DevelopmentCard card2 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.YELLOW, 2);
+        DevelopmentCard card2 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.YELLOW, 2);
         game.preparePlayerForDevCard(modelInterface, 0, card2);
         List<Integer> resourcePositions2 = new ArrayList<>();
         for (int i = 0; i < card2.getPrice().size(); i++) {
@@ -293,7 +293,7 @@ class ModelInterfaceTest {
         game.roundOfNothing(modelInterface);
 
         //prepare for third devCard
-        DevelopmentCard card3 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.BLUE, 1);
+        DevelopmentCard card3 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.BLUE, 1);
         game.preparePlayerForDevCard(modelInterface, 0, card3);
         List<Integer> resourcePositions3 = new ArrayList<>();
         for (int i = 0; i < card3.getPrice().size(); i++) {
@@ -324,14 +324,14 @@ class ModelInterfaceTest {
 
         //check that player has 3 resources and they are all purple
         assertEquals(3, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().size());
-        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(0).getColor());
-        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(1).getColor());
-        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(2).getColor());
+        assertEquals(ResourcesEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(0).getColor());
+        assertEquals(ResourcesEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(1).getColor());
+        assertEquals(ResourcesEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(2).getColor());
         assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
         game.roundOfNothing(modelInterface);
 
         //prepare fourth devCard
-        DevelopmentCard card4 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.GREEN, 2);
+        DevelopmentCard card4 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.GREEN, 2);
         game.preparePlayerForDevCard(modelInterface, 0, card4);
         List<Integer> resourcePositions4 = new ArrayList<>();
         for (int i = 0; i < card4.getPrice().size(); i++) {
@@ -344,7 +344,7 @@ class ModelInterfaceTest {
         game.roundOfNothing(modelInterface);
 
         //prepare for fifth devCard
-        DevelopmentCard card5 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.GREEN, 1);
+        DevelopmentCard card5 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.GREEN, 1);
         game.preparePlayerForDevCard(modelInterface, 0, card5);
         List<Integer> resourcePositions5 = new ArrayList<>();
         for (int i = 0; i < card5.getPrice().size(); i++) {
@@ -357,7 +357,7 @@ class ModelInterfaceTest {
         game.roundOfNothing(modelInterface);
 
         //prepare for sixth devCard
-        DevelopmentCard card6 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.PURPLE, 2);
+        DevelopmentCard card6 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.PURPLE, 2);
         game.preparePlayerForDevCard(modelInterface, 0, card6);
         List<Integer> resourcePositions6 = new ArrayList<>();
         for (int i = 0; i < card6.getPrice().size(); i++) {
@@ -410,11 +410,11 @@ class ModelInterfaceTest {
 
         //check that player has 5 resources and they are 3 purple and 2 blue
         assertEquals(5, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().size());
-        assertEquals(ResourceEnum.BLUE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(0).getColor());
-        assertEquals(ResourceEnum.BLUE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(1).getColor());
-        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(2).getColor());
-        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(3).getColor());
-        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(4).getColor());
+        assertEquals(ResourcesEnum.BLUE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(0).getColor());
+        assertEquals(ResourcesEnum.BLUE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(1).getColor());
+        assertEquals(ResourcesEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(2).getColor());
+        assertEquals(ResourcesEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(3).getColor());
+        assertEquals(ResourcesEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(4).getColor());
         assertTrue(new EndTurnEventFromClient("first").doAction(modelInterface));
 
         game.roundOfNothing(modelInterface);
@@ -432,12 +432,12 @@ class ModelInterfaceTest {
         //check that player has 6 resources
         assertEquals(6, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().size());
         //check that they are 1 gray 2 blue and 3 purple
-        assertEquals(ResourceEnum.GRAY, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(0).getColor());
-        assertEquals(ResourceEnum.BLUE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(1).getColor());
-        assertEquals(ResourceEnum.BLUE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(2).getColor());
-        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(3).getColor());
-        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(4).getColor());
-        assertEquals(ResourceEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(5).getColor());
+        assertEquals(ResourcesEnum.GRAY, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(0).getColor());
+        assertEquals(ResourcesEnum.BLUE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(1).getColor());
+        assertEquals(ResourcesEnum.BLUE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(2).getColor());
+        assertEquals(ResourcesEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(3).getColor());
+        assertEquals(ResourcesEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(4).getColor());
+        assertEquals(ResourcesEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(5).getColor());
 
         modelInterface.endTurn();
 
@@ -501,8 +501,8 @@ class ModelInterfaceTest {
         positionOfResForBasicSlot.add(constantOffset + 1);
         positionOfResForLeaderSlot.add(constantOffset + 2);
         List<Resource> resources = new ArrayList<>();
-        resources.add(new StorableResource(ResourceEnum.YELLOW));
-        resources.add(new StorableResource(ResourceEnum.GRAY));
+        resources.add(new StorableResource(ResourcesEnum.YELLOW));
+        resources.add(new StorableResource(ResourcesEnum.GRAY));
         firstPlayer.getPersonalBoard().
                 getWarehouse().addResourcesToStrongBox(resources);
         firstPlayer.getPersonalBoard().
@@ -545,8 +545,8 @@ class ModelInterfaceTest {
             }
         }
         assertEquals(2, playerRes.size());
-        assertEquals(ResourceEnum.BLUE, playerRes.get(0).getColor());
-        assertEquals(ResourceEnum.PURPLE, playerRes.get(1).getColor());
+        assertEquals(ResourcesEnum.BLUE, playerRes.get(0).getColor());
+        assertEquals(ResourcesEnum.PURPLE, playerRes.get(1).getColor());
 
         // Check that player is now in EndTurnState state
         assertEquals(modelInterface.getTurnLogic().getEndTurn(), modelInterface.getTurnLogic().getCurrentState());
@@ -561,10 +561,10 @@ class ModelInterfaceTest {
         assertEquals(modelInterface.getTurnLogic().getStartTurn(), modelInterface.getTurnLogic().getCurrentState());
         // The second player do his turn
         game.preparePlayerForDevCard(modelInterface, 1, GameBoard.getGameBoard().
-                getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.PURPLE, 1));
+                getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.PURPLE, 1));
         positionOfResForProdSlot1.clear();
         for (int i = 0; i < GameBoard.getGameBoard().getDevelopmentCardsGrid().
-                getCardByColorAndLevel(CardColorEnum.PURPLE, 1).getPrice().size(); i++) {
+                getCardByColorAndLevel(CardColorsEnum.PURPLE, 1).getPrice().size(); i++) {
             positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
         }
         assertTrue(new BuyEventFromClient("second","purple",1,positionOfResForProdSlot1).doAction(modelInterface));
@@ -574,10 +574,10 @@ class ModelInterfaceTest {
 
         // The third player do his turn
         game.preparePlayerForDevCard(modelInterface, 2, GameBoard.getGameBoard().
-                getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.PURPLE, 1));
+                getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.PURPLE, 1));
         positionOfResForProdSlot1.clear();
         for (int i = 0; i < GameBoard.getGameBoard().getDevelopmentCardsGrid().
-                getCardByColorAndLevel(CardColorEnum.PURPLE, 1).getPrice().size(); i++) {
+                getCardByColorAndLevel(CardColorsEnum.PURPLE, 1).getPrice().size(); i++) {
             positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
         }
         assertTrue(new BuyEventFromClient("third","purple",1,positionOfResForProdSlot1).doAction(modelInterface));
@@ -586,10 +586,10 @@ class ModelInterfaceTest {
 
         // The fourth player do his turn
         game.preparePlayerForDevCard(modelInterface, 3, GameBoard.getGameBoard().
-                getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.PURPLE, 1));
+                getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.PURPLE, 1));
         positionOfResForProdSlot1.clear();
         for (int i = 0; i < GameBoard.getGameBoard().getDevelopmentCardsGrid().
-                getCardByColorAndLevel(CardColorEnum.PURPLE, 1).getPrice().size(); i++) {
+                getCardByColorAndLevel(CardColorsEnum.PURPLE, 1).getPrice().size(); i++) {
             positionOfResForProdSlot1.add(i + strongBoxPositionsOffset);
         }
         assertTrue(new BuyEventFromClient("fourth","purple",1,positionOfResForProdSlot1).doAction(modelInterface));
@@ -631,7 +631,7 @@ class ModelInterfaceTest {
         positionOfResForBasicSlot.add(offset + 1);
 
         firstPlayer.getPersonalBoard().
-                getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.PURPLE));
+                getWarehouse().addResourcesToStrongBox(new StorableResource(ResourcesEnum.PURPLE));
 
         // The Player can not do the Basic Production with only one resource
         Map<Integer, List<Integer>> inResourcesForEachProductions = new HashMap<>();
@@ -644,7 +644,7 @@ class ModelInterfaceTest {
 
         // The Player can not do the Basic Production with two resources of the same color
         firstPlayer.getPersonalBoard().
-                getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.PURPLE));
+                getWarehouse().addResourcesToStrongBox(new StorableResource(ResourcesEnum.PURPLE));
 
         assertThrows(InvalidEventException.class, () -> new ProductionEventFromClient("first",inResourcesForEachProductions,outResourcesForEachProductions).doAction(modelInterface));
 
@@ -699,7 +699,7 @@ class ModelInterfaceTest {
         //prepare for first leader
 
         //prepare for first devCard
-        DevelopmentCard card1 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.BLUE, 1);
+        DevelopmentCard card1 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.BLUE, 1);
         game.preparePlayerForDevCard(modelInterface, 0, card1);
         List<Integer> resourcePositions1 = new ArrayList<>();
         for (int i = 0; i < card1.getPrice().size(); i++) {
@@ -712,7 +712,7 @@ class ModelInterfaceTest {
         game.roundOfNothing(modelInterface);
 
         //prepare for second devCard
-        DevelopmentCard card2 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.GREEN, 1);
+        DevelopmentCard card2 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.GREEN, 1);
         game.preparePlayerForDevCard(modelInterface, 0, card2);
         List<Integer> resourcePositions2 = new ArrayList<>();
         for (int i = 0; i < card2.getPrice().size(); i++) {
@@ -725,7 +725,7 @@ class ModelInterfaceTest {
         game.roundOfNothing(modelInterface);
 
         //prepare for third devCard
-        DevelopmentCard card3 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.PURPLE, 1);
+        DevelopmentCard card3 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.PURPLE, 1);
         game.preparePlayerForDevCard(modelInterface, 0, card3);
         List<Integer> resourcePositions3 = new ArrayList<>();
         for (int i = 0; i < card3.getPrice().size(); i++) {
@@ -745,7 +745,7 @@ class ModelInterfaceTest {
         game.roundOfNothing(modelInterface);
 
         //prepare for discounted buy but with a card not discountable by this leaders
-        DevelopmentCard card4 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.PURPLE, 2);
+        DevelopmentCard card4 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.PURPLE, 2);
         game.preparePlayerForDevCard(modelInterface, 0, card4);
         List<Integer> resourcePositions4 = new ArrayList<>();
         for (int i = 0; i < card4.getPrice().size(); i++) {
@@ -760,7 +760,7 @@ class ModelInterfaceTest {
         DevelopmentCardsGrid dev = GameBoard.getGameBoard().getDevelopmentCardsGrid();
 
         //prepare for discounted buy but with a card discountable(price: x6 Gray res)
-        DevelopmentCard card5 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorEnum.YELLOW, 3);
+        DevelopmentCard card5 = GameBoard.getGameBoard().getDevelopmentCardsGrid().getCardByColorAndLevel(CardColorsEnum.YELLOW, 3);
         game.preparePlayerForDevCard(modelInterface, 0, card5);
         List<Integer> resourcePositions5 = new ArrayList<>();
         for (int i = 0; i < card5.getPrice().size(); i++) {
@@ -837,10 +837,10 @@ class ModelInterfaceTest {
         for(Player player:modelInterface.getTurnLogic().getPlayers()){
             //check that every player now has 24 resources 6 of each storable color
             assertEquals(24,player.getPersonalBoard().getWarehouse().getAllResources().size());
-            assertEquals(6,player.getPersonalBoard().getWarehouse().getAllResources().stream().filter(r->r.getColor()==ResourceEnum.BLUE).count());
-            assertEquals(6,player.getPersonalBoard().getWarehouse().getAllResources().stream().filter(r->r.getColor()==ResourceEnum.GRAY).count());
-            assertEquals(6,player.getPersonalBoard().getWarehouse().getAllResources().stream().filter(r->r.getColor()==ResourceEnum.YELLOW).count());
-            assertEquals(6,player.getPersonalBoard().getWarehouse().getAllResources().stream().filter(r->r.getColor()==ResourceEnum.PURPLE).count());
+            assertEquals(6,player.getPersonalBoard().getWarehouse().getAllResources().stream().filter(r->r.getColor()== ResourcesEnum.BLUE).count());
+            assertEquals(6,player.getPersonalBoard().getWarehouse().getAllResources().stream().filter(r->r.getColor()== ResourcesEnum.GRAY).count());
+            assertEquals(6,player.getPersonalBoard().getWarehouse().getAllResources().stream().filter(r->r.getColor()== ResourcesEnum.YELLOW).count());
+            assertEquals(6,player.getPersonalBoard().getWarehouse().getAllResources().stream().filter(r->r.getColor()== ResourcesEnum.PURPLE).count());
 
         }
     }

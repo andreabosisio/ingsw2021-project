@@ -4,15 +4,17 @@ import it.polimi.ingsw.client.events.send.*;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.DevelopmentCard;
 import it.polimi.ingsw.client.model.DevelopmentCardsDatabase;
+import it.polimi.ingsw.client.model.Inventory;
+import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import it.polimi.ingsw.client.view.gui.GraphicUtilities;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -35,22 +37,17 @@ import java.util.stream.Stream;
  */
 public class PersonalController extends GUICommandListener {
     private String nickname;
-    private Stage leaderHandWindow;
+    private Stage leaderHandWindow, transformationWindow, legendWindow, cardPlacementWindow, productionChoiceWindow;
     private HandController handController;
-    private Stage transformationWindow;
-    private Stage legendWindow;
     private LegendPopupController legendPopupController;
     private CardPlacementController cardPlacementController;
     private ProductionChoiceController productionChoiceController;
-    private Stage cardPlacementWindow;
-    private Stage productionChoiceWindow;
     private TransformationController transformationController;
     private final Map<Integer, List<Integer>> totalInResources = new HashMap<>();
     private final Map<Integer, String> totalOutResources = new HashMap<>();
     private final List<Node> currentSelectedResources = new ArrayList<>();
     private final List<Node> allSelectedResources = new ArrayList<>();
     private final List<Node> activatedProductions = new ArrayList<>();
-    private final int firstStrongBoxIndex = 14;
 
     private boolean canSwap = false;
     private Node lastSwap;
@@ -304,6 +301,9 @@ public class PersonalController extends GUICommandListener {
      * @param arrowID is the ID of the Arrow
      */
     private void marketAction(String arrowID) {
+        for(Node resource : currentSelectedResources)
+            resource.setDisable(false);
+        currentSelectedResources.clear();
         notifyObservers(new MarketActionEvent(Integer.parseInt(arrowID)));
     }
 
@@ -315,15 +315,16 @@ public class PersonalController extends GUICommandListener {
      * @param n is the Button with the ID of the chosen Development Card
      */
     private void handleBuyRequest(Node n) {
-        if (n.getId().equals(DevelopmentCard.getEmptyCardID())) {
-            currentSelectedResources.clear();
+        if (n.getId().equals(DevelopmentCard.EMPTY_CARD_ID)) {
             printErrorMessage("This slot is empty");
-            return;
+        } else {
+            String color = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getColorOf(n.getId());
+            int level = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getLevelOf(n.getId());
+            List<Integer> resPositions = currentSelectedResources.stream().map(node -> Integer.parseInt(node.getId())).collect(Collectors.toList());
+            notifyObservers(new BuyActionEvent(color, level, resPositions));
         }
-        String color = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getColorOf(n.getId());
-        int level = DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getLevelOf(n.getId());
-        List<Integer> resPositions = currentSelectedResources.stream().map(node -> Integer.parseInt(node.getId())).collect(Collectors.toList());
-        notifyObservers(new BuyActionEvent(color, level, resPositions));
+        for(Node res : currentSelectedResources)
+            res.setDisable(false);
         currentSelectedResources.clear();
     }
 
@@ -336,12 +337,15 @@ public class PersonalController extends GUICommandListener {
      */
     private void resourceClick(Node n) {
         if (canSwap) {
-            if (Integer.parseInt(n.getId()) >= firstStrongBoxIndex) {
+            if (Integer.parseInt(n.getId()) >= Inventory.STRONGBOX_INIT_INDEX) {
                 return;
             }
             if (lastSwap == null) {
                 lastSwap = n;
+                Image nodeImage = n.snapshot(new SnapshotParameters(), null);
+                mainPane.getScene().setCursor(new ImageCursor(nodeImage));
             } else {
+                mainPane.getScene().setCursor(null);
                 Button last = (Button) lastSwap;
                 Button selected = (Button) n;
                 Node tmp = last.getGraphic();
@@ -349,6 +353,8 @@ public class PersonalController extends GUICommandListener {
                 selected.setGraphic(tmp);
                 lastSwap = null;
             }
+        } else {
+            n.setDisable(true);
         }
         currentSelectedResources.add(n);
     }
@@ -526,9 +532,6 @@ public class PersonalController extends GUICommandListener {
     private void productionClick(Node production) {
         List<Integer> resPositions = currentSelectedResources.stream().map(node -> Integer.parseInt(node.getId())).collect(Collectors.toList());
         totalInResources.put(Integer.parseInt(production.getId()), resPositions);
-        for (Node n : currentSelectedResources) {
-            n.setDisable(true);
-        }
         activatedProductions.add(production);
         production.setDisable(true);
         allSelectedResources.addAll(currentSelectedResources);

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.resources;
 
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
@@ -15,7 +15,7 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
  */
 public class StorableResource extends Resource {
 
-    public StorableResource(ResourceEnum color) {
+    public StorableResource(ResourcesEnum color) {
         super(color);
     }
 

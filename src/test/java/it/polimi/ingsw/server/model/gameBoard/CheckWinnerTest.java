@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.exceptions.EmptySlotException;
 import it.polimi.ingsw.server.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.gameMode.LorenzoDoingNothing;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.StorableResource;
@@ -178,17 +178,17 @@ public class CheckWinnerTest {
         assertEquals(20 + 9, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(1)).getVictoryPoints());
 
         players.get(0).getPersonalBoard().getWarehouse().addResourcesFromMarket(new ArrayList<>() {{
-            add(new StorableResource(ResourceEnum.YELLOW));
-            add(new StorableResource(ResourceEnum.BLUE));
-            add(new StorableResource(ResourceEnum.PURPLE));
+            add(new StorableResource(ResourcesEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.PURPLE));
         }});
         players.get(0).getPersonalBoard().getWarehouse().swap(0,4);
         players.get(0).getPersonalBoard().getWarehouse().swap(1,6);
         players.get(0).getPersonalBoard().getWarehouse().swap(2,8);
 
         players.get(1).getPersonalBoard().getWarehouse().addResourcesFromMarket(new ArrayList<>() {{
-            add(new StorableResource(ResourceEnum.YELLOW));
-            add(new StorableResource(ResourceEnum.BLUE));
+            add(new StorableResource(ResourcesEnum.YELLOW));
+            add(new StorableResource(ResourcesEnum.BLUE));
         }});
         players.get(1).getPersonalBoard().getWarehouse().swap(0,4);
         players.get(1).getPersonalBoard().getWarehouse().swap(1,6);

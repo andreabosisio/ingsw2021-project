@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <ImageView fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@../images/loginImage.jpg" />
    </ImageView>
@@ -22,8 +22,8 @@
       </Button>
       <Button fx:id="settings" layoutX="210.0" layoutY="655.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="181.0" text="Settings" />
       <TextField fx:id="serverIP" alignment="CENTER" layoutX="190.0" layoutY="186.0" prefHeight="41.0" prefWidth="221.0" promptText="Server IP" />
-      <TextField fx:id="serverPort" alignment="CENTER" layoutX="187.0" layoutY="256.0" prefHeight="41.0" prefWidth="228.0" promptText="Server Port" />
-      <TextArea fx:id="messageBox" editable="false" layoutX="190.0" layoutY="43.0" prefHeight="9.0" prefWidth="221.0" />
-      <ComboBox fx:id="connectionSelector" layoutX="245.0" layoutY="308.0" prefHeight="25.0" prefWidth="110.0" />
+      <TextField fx:id="serverPort" alignment="CENTER" layoutX="190.0" layoutY="241.0" prefHeight="41.0" prefWidth="221.0" promptText="Server Port" />
+      <TextArea fx:id="messageBox" blendMode="MULTIPLY" editable="false" layoutX="119.0" layoutY="360.0" prefHeight="164.0" prefWidth="364.0" />
+      <ComboBox fx:id="connectionSelector" layoutX="210.0" layoutY="300.0" prefHeight="26.0" prefWidth="181.0" />
    </AnchorPane>
 </StackPane>

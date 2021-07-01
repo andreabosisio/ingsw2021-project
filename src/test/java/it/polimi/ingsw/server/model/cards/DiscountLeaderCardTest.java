@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ class DiscountLeaderCardTest {
         List<Resource> discount = new ArrayList<>();
         assertTrue(discountLeaderCard.applyDiscount(discount));
         assertEquals(discount, new ArrayList<Resource>(){{
-            add(new StorableResource(ResourceEnum.GRAY));
+            add(new StorableResource(ResourcesEnum.GRAY));
         }});
     }
 }

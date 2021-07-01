@@ -263,6 +263,11 @@ public class Lobby {
      * This method is used to cheat 6 resources to each player during the game demo
      */
     public void cheat() {
-        controller.cheat();
+        try {
+            controller.cheat();
+            System.out.println("Added 6 resources to each player");
+        } catch (NullPointerException e) {
+            System.err.println("Cannot cheat right now because the game is not started yet.");
+        }
     }
 }

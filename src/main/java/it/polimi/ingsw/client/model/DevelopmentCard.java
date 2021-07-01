@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.cli.AnsiEnum;
+import it.polimi.ingsw.client.view.cli.AnsiUtilities;
 import it.polimi.ingsw.client.view.cli.Printable;
 import it.polimi.ingsw.client.view.cli.PrintableScene;
 
@@ -12,19 +12,11 @@ import java.util.*;
 public class DevelopmentCard extends Printable {
 
     private final String iD;
-    private static final String EMPTY_CARD_ID = "empty";
+
+    public static final String EMPTY_CARD_ID = "empty";
 
     public DevelopmentCard(String iD) {
         this.iD = iD;
-    }
-
-    /**
-     * Get method that return the ID of the Empty Card
-     *
-     * @return the ID of the Empty Card
-     */
-    public static String getEmptyCardID() {
-        return EMPTY_CARD_ID;
     }
 
     /**
@@ -80,6 +72,6 @@ public class DevelopmentCard extends Printable {
      * @return the colored level of the Card
      */
     private String getColoredLevel() {
-        return AnsiEnum.colorString(String.valueOf(DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getLevelOf(this.iD)), DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getColorOf(this.iD));
+        return AnsiUtilities.colorString(String.valueOf(DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getLevelOf(this.iD)), DevelopmentCardsDatabase.getDevelopmentCardsDatabase().getColorOf(this.iD));
     }
 }

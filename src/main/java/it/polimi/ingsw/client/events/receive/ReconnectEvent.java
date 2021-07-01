@@ -17,7 +17,7 @@ public class ReconnectEvent implements EventFromServer {
 
     @Override
     public void updateView(View view) {
-        Board.getBoard().setPersonalBoards(nicknames.stream().map(nickname -> new PersonalBoard(nickname, view)).collect(Collectors.toSet()));
+        Board.getBoard().setPersonalBoards(nicknames.stream().map(nickname -> new PersonalBoard(nickname)).collect(Collectors.toSet()));
         new Gson().fromJson(graphicUpdateEvent, GraphicUpdateEvent.class).updateView(view);
         view.setNickname(reconnectingPlayer);
         view.setOnWaitForYourTurn(currentPlayer);

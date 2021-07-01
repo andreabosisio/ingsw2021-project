@@ -1,11 +1,15 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.model.PersonalBoard;
+
 import java.util.List;
 import java.util.Map;
 
 public interface View {
     void setNickname(String nickname);
+
     String getNickname();
+
     void setIsPlaying(boolean isPlaying);
     boolean isThisClientTurn();
     void showWaitAnimation();
@@ -27,7 +31,13 @@ public interface View {
     void marketUpdate();
     void gridUpdate(String iD);
     void faithTracksUpdate();
-    void activeLeadersUpdate(String nickname);
-    void warehouseUpdate(String nickname);
-    void productionBoardUpdate(String nickname);
+
+    /*
+    void activeLeadersUpdate(PersonalBoard personalBoard);
+    void warehouseUpdate(PersonalBoard personalBoard);
+    void productionBoardUpdate(PersonalBoard updatingPersonalBoard);
+
+     */
+
+    void personalBoardUpdate(PersonalBoard updatingPersonalBoard);
 }

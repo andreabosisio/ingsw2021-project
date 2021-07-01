@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServerParser extends Parser {
+public abstract class ServerParser extends Parser {
 
     private static final Map<String, Object> eventFromClientTypes = new HashMap<String,Object>() {{
         put(buyActionType, BuyEventFromClient.class);

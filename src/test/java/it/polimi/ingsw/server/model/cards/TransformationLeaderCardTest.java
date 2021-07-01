@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.cards;
 
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.ModelInterface;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -30,12 +30,12 @@ class TransformationLeaderCardTest {
 
         assertEquals(whiteResource.getPossibleTransformations(), correctPossibleTransformation); //no available transformation
         assertTrue(leaderCard.doTransformation(whiteResource));
-        correctPossibleTransformation.add(new StorableResource(ResourceEnum.PURPLE));
+        correctPossibleTransformation.add(new StorableResource(ResourcesEnum.PURPLE));
         assertEquals(whiteResource.getPossibleTransformations(), correctPossibleTransformation);
 
         TransformationLeaderCard anotherLeaderCard = (TransformationLeaderCard) leaderCards.get(5);
         assertTrue(anotherLeaderCard.doTransformation(whiteResource));
-        correctPossibleTransformation.add(new StorableResource(ResourceEnum.BLUE));
+        correctPossibleTransformation.add(new StorableResource(ResourcesEnum.BLUE));
         assertEquals(whiteResource.getPossibleTransformations(), correctPossibleTransformation);
 
         whiteResourceMarketAbility(leaderCard, anotherLeaderCard);
@@ -49,7 +49,7 @@ class TransformationLeaderCardTest {
         //transformation with one leader card activated
         first.activate(modelInterface.getTurnLogic().getCurrentPlayer());
         assertTrue(new WhiteResource().marketAbility(modelInterface.getTurnLogic()));
-        correctTempNewResources.add(new StorableResource(ResourceEnum.PURPLE));
+        correctTempNewResources.add(new StorableResource(ResourcesEnum.PURPLE));
         assertEquals(GameBoard.getGameBoard().getMarketTray().getTempNewResources(), correctTempNewResources);
 
 
@@ -57,7 +57,7 @@ class TransformationLeaderCardTest {
         //transformation with two leader card activated
         second.activate(modelInterface.getTurnLogic().getCurrentPlayer());
         assertTrue(new WhiteResource().marketAbility(modelInterface.getTurnLogic()));
-        correctTempNewResources.add(new StorableResource(ResourceEnum.BLUE));
+        correctTempNewResources.add(new StorableResource(ResourcesEnum.BLUE));
         assertEquals(whiteResource.getPossibleTransformations(), correctTempNewResources);
         assertEquals(modelInterface.getTurnLogic().getWhiteResourcesFromMarket(), new ArrayList<Resource>(){{
             add(whiteResource);

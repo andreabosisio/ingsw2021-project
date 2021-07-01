@@ -15,7 +15,7 @@ public abstract class Printable {
      * @param prePrintable the Printable before being returned
      */
     public void setWidth(List<String> prePrintable) {
-        this.width = prePrintable.stream().map(AnsiEnum::getStringLengthWithoutANSI).max(Integer::compareTo).orElse(-1);
+        this.width = prePrintable.stream().map(AnsiUtilities::getStringLengthWithoutANSI).max(Integer::compareTo).orElse(-1);
     }
 
     /**
@@ -53,7 +53,7 @@ public abstract class Printable {
      * @return the String filled with space characters
      */
     public String fillWithEmptySpace(String toFill) {
-        int toFillLength = AnsiEnum.getStringLengthWithoutANSI(toFill);
+        int toFillLength = AnsiUtilities.getStringLengthWithoutANSI(toFill);
         if (toFillLength < this.width) {
             StringBuilder filler = new StringBuilder(toFill);
             for (int i = 0; i < (this.width - toFillLength); i++)

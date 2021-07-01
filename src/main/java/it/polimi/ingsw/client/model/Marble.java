@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.cli.AnsiEnum;
+import it.polimi.ingsw.client.view.cli.AnsiUtilities;
 import it.polimi.ingsw.client.view.cli.Printable;
 
 
@@ -23,19 +23,19 @@ public class Marble extends Printable {
     public static String getPrintable(String color) {
         switch (color) {
             case "WHITE":
-               return AnsiEnum.WHITE_MARBLE;
+               return AnsiUtilities.WHITE_MARBLE;
             case "RED":
-                return AnsiEnum.RED_MARBLE;
+                return AnsiUtilities.RED_MARBLE;
             case "PURPLE":
-                return AnsiEnum.PURPLE_MARBLE;
+                return AnsiUtilities.PURPLE_MARBLE;
             case "YELLOW":
-                return AnsiEnum.YELLOW_MARBLE;
+                return AnsiUtilities.YELLOW_MARBLE;
             case "BLUE":
-                return AnsiEnum.BLUE_MARBLE;
+                return AnsiUtilities.BLUE_MARBLE;
             case "GRAY":
-                return AnsiEnum.GRAY_MARBLE;
+                return AnsiUtilities.GRAY_MARBLE;
             default:
-                return AnsiEnum.EMPTY_RES;
+                return AnsiUtilities.EMPTY_RES;
         }
     }
 

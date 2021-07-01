@@ -76,6 +76,12 @@ public class ConnectionToServer extends ClientConnection {
                 sendMessage(jsonObject.toString());
                 return;
             }
+            //todo add all all sleep in a static method
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             run = false;
             socket.close();
             in.close();

@@ -4,8 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.commons.Parser;
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.resources.RedResource;
 import it.polimi.ingsw.server.model.resources.Resource;
@@ -77,7 +77,7 @@ public class CardsGenerator {
         List<Resource> outResources = new ArrayList<>();
         addOutResources(outResources, cardJsonObject);
 
-        CardColorEnum color = CardColorEnum.valueOf(cardJsonObject.get(resAndDevColorNameInJson).getAsString());
+        CardColorsEnum color = CardColorsEnum.valueOf(cardJsonObject.get(resAndDevColorNameInJson).getAsString());
         int level = cardJsonObject.get(levelNameInJson).getAsInt();
         int points = cardJsonObject.get(pointsNameInJson).getAsInt();
         //String iD = "cardID:" + cardID;
@@ -97,7 +97,7 @@ public class CardsGenerator {
         for (JsonElement priceElement : jsonArrayOfPrices) {
             JsonObject priceJsonObject = priceElement.getAsJsonObject();
             int quantity = priceJsonObject.get(quantityNameInJson).getAsInt();
-            ResourceEnum color = ResourceEnum.valueOf(priceJsonObject.get(resAndDevColorNameInJson).getAsString());
+            ResourcesEnum color = ResourcesEnum.valueOf(priceJsonObject.get(resAndDevColorNameInJson).getAsString());
             for (int i = 0; i < quantity; i++) {
                 price.add(new StorableResource(color));
             }
@@ -137,7 +137,7 @@ public class CardsGenerator {
         for (JsonElement outResourcesElement : jsonArrayOfOutResources) {
             JsonObject outResourcesJsonObject = outResourcesElement.getAsJsonObject();
             int quantity = outResourcesJsonObject.get(quantityNameInJson).getAsInt();
-            ResourceEnum color = ResourceEnum.valueOf(outResourcesJsonObject.get(resAndDevColorNameInJson).getAsString());
+            ResourcesEnum color = ResourcesEnum.valueOf(outResourcesJsonObject.get(resAndDevColorNameInJson).getAsString());
             addNewResource(resourcesListToPopulate, color, quantity);
         }
     }
@@ -149,8 +149,8 @@ public class CardsGenerator {
      * @param color     color of the resources to add
      * @param quantity  number of resources of that color to add
      */
-    private void addNewResource(List<Resource> resources, ResourceEnum color, int quantity) {
-        if (color == ResourceEnum.RED) {
+    private void addNewResource(List<Resource> resources, ResourcesEnum color, int quantity) {
+        if (color == ResourcesEnum.RED) {
             for (int i = 0; i < quantity; i++) {
                 resources.add(new RedResource());
             }
@@ -198,19 +198,19 @@ public class CardsGenerator {
         //Create specific type of leaderCard asking the file for the specific parameters
         switch (type) {
             case productionTypeNameInJson:
-                Resource inResource = new StorableResource(ResourceEnum.valueOf(leaderJsonObject.get("inResource").getAsString()));
+                Resource inResource = new StorableResource(ResourcesEnum.valueOf(leaderJsonObject.get("inResource").getAsString()));
                 card = new ProductionLeaderCard(id, points, requirements, inResource);
                 break;
             case marketTypeNameInJson:
-                Resource transformation = new StorableResource(ResourceEnum.valueOf(leaderJsonObject.get("transformation").getAsString()));
+                Resource transformation = new StorableResource(ResourcesEnum.valueOf(leaderJsonObject.get("transformation").getAsString()));
                 card = new TransformationLeaderCard(id, points, requirements, transformation);
                 break;
             case warehouseTypeNameInJson:
-                Resource extraSlotsType = new StorableResource(ResourceEnum.valueOf(leaderJsonObject.get("extraSlotsType").getAsString()));
+                Resource extraSlotsType = new StorableResource(ResourcesEnum.valueOf(leaderJsonObject.get("extraSlotsType").getAsString()));
                 card = new WarehouseLeaderCard(id, points, requirements, extraSlotsType);
                 break;
             case discountTypeNameInJson:
-                Resource discountResource = new StorableResource(ResourceEnum.valueOf(leaderJsonObject.get("discount").getAsString()));
+                Resource discountResource = new StorableResource(ResourcesEnum.valueOf(leaderJsonObject.get("discount").getAsString()));
                 card = new DiscountLeaderCard(id, points, requirements, discountResource);
                 break;
             default:
@@ -230,7 +230,7 @@ public class CardsGenerator {
             JsonArray jsonArrayOfRequirements = leaderJsonObject.get(developmentRequirementNameInJson).getAsJsonArray();
             for (JsonElement requirementsElement : jsonArrayOfRequirements) {
                 JsonObject requirementJsonObject = requirementsElement.getAsJsonObject();
-                CardColorEnum color = CardColorEnum.valueOf(requirementJsonObject.get(resAndDevColorNameInJson).getAsString());
+                CardColorsEnum color = CardColorsEnum.valueOf(requirementJsonObject.get(resAndDevColorNameInJson).getAsString());
                 int level = requirementJsonObject.get(levelNameInJson).getAsInt();
                 int quantity = requirementJsonObject.get(quantityNameInJson).getAsInt();
                 DevelopmentRequirement developmentRequirement = new DevelopmentRequirement(level, color, quantity);
@@ -250,7 +250,7 @@ public class CardsGenerator {
             JsonArray jsonArrayOfRequirements = leaderJsonObject.get(resourcesRequirementNameInJson).getAsJsonArray();
             for (JsonElement requirementsElement : jsonArrayOfRequirements) {
                 JsonObject requirementJsonObject = requirementsElement.getAsJsonObject();
-                ResourceEnum color = ResourceEnum.valueOf(requirementJsonObject.get(resAndDevColorNameInJson).getAsString());
+                ResourcesEnum color = ResourcesEnum.valueOf(requirementJsonObject.get(resAndDevColorNameInJson).getAsString());
                 int quantity = requirementJsonObject.get(quantityNameInJson).getAsInt();
                 ResourceRequirement resourceRequirement = new ResourceRequirement(color, quantity);
                 requirements.add(resourceRequirement);
@@ -259,13 +259,13 @@ public class CardsGenerator {
     }
 
     /**
-     * Create map using CardColorEnum as key of devCards of the specified level.
+     * Create map using CardColorsEnum as key of devCards of the specified level.
      *
      * @param devCards List of cards to map
      * @param level    Level of the cards i want to include in the map
      * @return Map<CardsColorEnum, List>
      */
-    public Map<CardColorEnum, List<DevelopmentCard>> getDevCardsAsGrid(List<DevelopmentCard> devCards, int level) {
+    public Map<CardColorsEnum, List<DevelopmentCard>> getDevCardsAsGrid(List<DevelopmentCard> devCards, int level) {
         return devCards.stream().filter((el) -> el.getLevel() == level).collect(Collectors.groupingBy(DevelopmentCard::getColor));
     }
 

@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.server.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.model.cards.*;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.resources.StorableResource;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
@@ -130,17 +130,17 @@ class PersonalBoardTest {
         assertEquals(expectedPoints,player.getPersonalBoard().getPoints(player));
         //check that 5 resources equals 1 point
         for(int i= 0;i<4;i++) {
-            assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.GRAY)));
+            assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourcesEnum.GRAY)));
             assertEquals(expectedPoints, player.getPersonalBoard().getPoints(player));
         }
-        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.GRAY)));
+        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourcesEnum.GRAY)));
         assertEquals(expectedPoints+1, player.getPersonalBoard().getPoints(player));
         //check that 10 resources equals 2 points
         for(int i= 0;i<4;i++) {
-            assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.PURPLE)));
+            assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourcesEnum.PURPLE)));
             assertEquals(expectedPoints+1, player.getPersonalBoard().getPoints(player));
         }
-        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.PURPLE)));
+        assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourcesEnum.PURPLE)));
         assertEquals(expectedPoints+2, player.getPersonalBoard().getPoints(player));
     }
 
@@ -178,7 +178,7 @@ class PersonalBoardTest {
 
         //check with warehouse added (4 from faith,1 from warehouse,4 from devCard,3 from leaderCard)
         for(int i= 0;i<5;i++) {
-            assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourceEnum.GRAY)));
+            assertTrue(player.getPersonalBoard().getWarehouse().addResourcesToStrongBox(new StorableResource(ResourcesEnum.GRAY)));
         }
         assertEquals(4+1+dev.getPoints() + savedLeaders.get(0).getPoints(),player.getPersonalBoard().getPoints(player));
     }

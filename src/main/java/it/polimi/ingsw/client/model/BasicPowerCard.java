@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.cli.AnsiEnum;
+import it.polimi.ingsw.client.view.cli.AnsiUtilities;
 import it.polimi.ingsw.client.view.cli.Printable;
 
 import java.util.ArrayList;
@@ -29,8 +29,8 @@ public class BasicPowerCard extends DevelopmentCard{
     public List<String> getPrintable() {
         List<String> developmentCardToPrint = new ArrayList<>();
 
-        String basic = AnsiEnum.YELLOW_BOLD + "Basic" + AnsiEnum.RESET;
-        String power = AnsiEnum.YELLOW_BOLD + "Power" + AnsiEnum.RESET;
+        String basic = AnsiUtilities.YELLOW_BOLD + "Basic" + AnsiUtilities.RESET;
+        String power = AnsiUtilities.YELLOW_BOLD + "Power" + AnsiUtilities.RESET;
 
         developmentCardToPrint.add("╔══════════╗");
         developmentCardToPrint.add("║  "+basic+"   ║");

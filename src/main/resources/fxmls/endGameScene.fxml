@@ -29,11 +29,11 @@
                 <Font name="Comic Sans MS" size="18.0" />
             </font>
         </TextField>
-        <TextArea fx:id="victoryPointsBox" blendMode="COLOR_BURN" layoutX="44.0" layoutY="413.0" prefHeight="246.0" prefWidth="511.0" text="jhkjlk">
+        <TextArea fx:id="victoryPointsBox" blendMode="MULTIPLY" layoutX="44.0" layoutY="413.0" prefHeight="246.0" prefWidth="511.0" text="jhkjlk">
             <font>
                 <Font name="Comic Sans MS" size="18.0" />
             </font>
         </TextArea>
-      <TextArea fx:id="messageBox" layoutX="138.0" layoutY="31.0" prefHeight="39.0" prefWidth="323.0" />
+      <TextArea fx:id="messageBox" layoutX="138.0" layoutY="6.0" prefHeight="57.0" prefWidth="323.0" />
     </AnchorPane>
 </StackPane>

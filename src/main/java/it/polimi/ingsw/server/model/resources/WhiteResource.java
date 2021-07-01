@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.resources;
 
+import it.polimi.ingsw.commons.enums.ResourcesEnum;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
-import it.polimi.ingsw.server.model.enums.ResourceEnum;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
@@ -19,7 +19,7 @@ public class WhiteResource extends Resource {
      * Used to construct a white resource
      */
     public WhiteResource() {
-        super(ResourceEnum.WHITE);
+        super(ResourcesEnum.WHITE);
     }
 
     /**

@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.commons.Parser;
-import it.polimi.ingsw.server.model.enums.CardColorEnum;
+import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import it.polimi.ingsw.commons.FileUtilities;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class TokensGenerator {
         String typeOfToken = Parser.getTypeFieldAsString(tokenElementAsJsonObject);
         switch (typeOfToken) {
             case "DiscardDevCardsToken":
-                CardColorEnum colorOfToken = CardColorEnum.valueOf(tokenElementAsJsonObject.get(colorNameInJson).getAsString());
+                CardColorsEnum colorOfToken = CardColorsEnum.valueOf(tokenElementAsJsonObject.get(colorNameInJson).getAsString());
                 soloActionTokens.add(new DiscardDevCardsToken(colorOfToken));
                 break;
 

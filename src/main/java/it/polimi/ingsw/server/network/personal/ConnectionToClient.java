@@ -84,7 +84,10 @@ public class ConnectionToClient extends ServerConnection {
     @Override
     public void close(boolean inform) {
         try {
+            /*
             System.out.println("Closing socket connection with one player");
+
+             */
             out.println(Connection.QUIT_MSG);
             socket.close();
             in.close();
