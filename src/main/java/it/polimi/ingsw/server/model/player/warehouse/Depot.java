@@ -23,6 +23,11 @@ public class Depot implements ResourcesContainer {
     public Depot() {
     }
 
+    /**
+     * Get method that return the type of the Resources storable in this depot
+     *
+     * @return the possible Resource
+     */
     public Resource getResourceType() {
         return resourceType;
     }

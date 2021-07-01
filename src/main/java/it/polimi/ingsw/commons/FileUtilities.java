@@ -141,6 +141,9 @@ public abstract class FileUtilities {
         }
     }
 
+    /**
+     * This method reset the savedActionTokens.json Json File with an empty body
+     */
     public static void resetTokenData() {
         try (FileWriter file = new FileWriter(SOLO_SAVED_TOKEN_PATH)) {
             JsonNull jsonObject = new JsonNull();

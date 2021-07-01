@@ -26,6 +26,11 @@ public class ExtraSlots extends Depot {
         this.isActivated = false;
     }
 
+    /**
+     * Method that return true if the Extra Slots are activated, false otherwise
+     *
+     * @return true if the Extra Slots are activated, false otherwise
+     */
     public boolean isActivated() {
         return this.isActivated;
     }

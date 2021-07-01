@@ -23,7 +23,7 @@ public class FaithTrack implements FaithObserver {
     /**
      * Create a new Faith Track by specifying the owner Player and the current First Player of the Faith Tracks.
      *
-     * @param owner Owner Player of the Faith Track
+     * @param owner             Owner Player of the Faith Track
      * @param firstOfFaithTrack First Player of the Faith Tracks
      */
     public FaithTrack(PlayerInterface owner, FirstOfFaithTrack firstOfFaithTrack) {
@@ -125,6 +125,11 @@ public class FaithTrack implements FaithObserver {
         return victoryPoints;
     }
 
+    /**
+     * Get method that return all the Pope Reports
+     *
+     * @return an Array of type Boolean with all the Pope Reports
+     */
     public Boolean[] getPopeReports() {
         return popeReports;
     }
