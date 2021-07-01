@@ -7,6 +7,9 @@ import it.polimi.ingsw.client.view.cli.PrintableScene;
 
 import java.util.*;
 
+/**
+ * Class that has the capacity to print the Faith Track
+ */
 public class FaithTrack extends Printable {
     private final static int DIM_FAITH_TRACK = 25;
     private static final int DIM_POPE_REPORTS = 3;

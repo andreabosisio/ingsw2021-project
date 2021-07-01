@@ -256,12 +256,6 @@ public class GUI extends Application implements View {
             if (networkHandler != null) {
                 networkHandler.close();
             }
-            try {
-                //todo why?
-                Thread.sleep(5000);
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
-            }
             Platform.exit();
         });
     }

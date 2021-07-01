@@ -4,6 +4,9 @@ import com.google.gson.*;
 import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.client.view.View;
 
+/**
+ * Represent an Event of Graphic Update that aims to update the elements of the Boards
+ */
 public class GraphicUpdateEvent implements EventFromServer {
 
     //they are null if not present in json

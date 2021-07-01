@@ -115,6 +115,7 @@ class ControllerTest {
     @Test
     public void disconnectDuringSetupTest(){
         when(virtualView1.getNickname()).thenReturn("Muriel");
+        when(virtualView2.getNickname()).thenReturn("Bischero");
         when(virtualView1.getClientHandler()).thenReturn(clientHandler);
         List<Integer> chosenLeaderCardIndexes = new ArrayList<>(){{add(0);add(1);}};
         List<String> chosenResources = new ArrayList<>();
@@ -122,7 +123,7 @@ class ControllerTest {
         Controller controller = new Controller(virtualViews.subList(0,1));
         controller.disconnectPlayer(virtualView1.getNickname());
         controller = new Controller(virtualViews.subList(1,2));
-        controller.update(new SetupEventFromClient(virtualView1.getNickname(),chosenLeaderCardIndexes,chosenResources));
+        controller.update(new SetupEventFromClient(virtualView2.getNickname(),chosenLeaderCardIndexes,chosenResources));
         assertEquals(virtualView2.getNickname(),controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
     }
     @Test

@@ -5,7 +5,7 @@ import it.polimi.ingsw.client.view.View;
 import java.util.List;
 
 /**
- * Represent the request of a Setup Action by the Model
+ * Represent the request of a Setup Action
  */
 public class ChooseSetupEvent implements EventFromServer {
     private List<String> leaderCardsIDs;

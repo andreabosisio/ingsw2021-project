@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.ResourceFactory;
 import it.polimi.ingsw.server.model.resources.Resource;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -38,7 +39,7 @@ public class SetupManager {
     /**
      * Reset the GameBoard and send to all the Players the LeaderCards and the number of resources to choose
      */
-    public void startSetup(){
+    public void startSetup() {
 
         //initial update
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
@@ -47,7 +48,7 @@ public class SetupManager {
         modelInterface.notifyObservers(graphicUpdateEvent);
 
         int i = 0;
-        for(Player player : players) {
+        for (Player player : players) {
             List<LeaderCard> drawnLeaderCards = GameBoard.getGameBoard().draw4LeaderCards();
             SetupChoiceEvent setupSendEvent = new SetupChoiceEvent(player.getNickname(), drawnLeaderCards, numberOfResourcesToChoose.get(i));
             setupSendEvents.add(setupSendEvent);
@@ -59,9 +60,9 @@ public class SetupManager {
     /**
      * Add the chosen LeaderCards and Resources to the Player's board in the setup phase.
      *
-     * @param nickname of the Player
+     * @param nickname          of the Player
      * @param leaderCardIndexes of the chosen LeaderCards by the Player
-     * @param resources chosen by the Player
+     * @param resources         chosen by the Player
      * @return true if the choices are correct
      * @throws InvalidEventException if the choices aren't correct
      */
@@ -69,17 +70,17 @@ public class SetupManager {
         SetupChoiceEvent setupSendEvent = setupSendEvents.stream().filter(setupEvent -> setupEvent.getNickname().equals(nickname)).findFirst()
                 .orElseThrow(() -> new InvalidEventException("Setup choose already done!"));
 
-        if(leaderCardIndexes == null || resources == null)
+        if (leaderCardIndexes == null || resources == null)
             throw new InvalidSetupException();
 
         //chosen leader cards must be two different cards
         Set<Integer> chosenIndexes = leaderCardIndexes.stream().filter(index -> index <= 3 && index >= 0).collect(Collectors.toSet());
 
-        if(setupSendEvent.getNumberOfResources() == resources.size() && chosenIndexes.size() == numberOfLeaderCardsToChoose) {
+        if (setupSendEvent.getNumberOfResources() == resources.size() && chosenIndexes.size() == numberOfLeaderCardsToChoose) {
             List<Resource> chosenResources = new ArrayList<>();
             List<LeaderCard> chosenLeaderCards = new ArrayList<>();
 
-            for(String chosenColor : resources) {
+            for (String chosenColor : resources) {
                 try {
                     ResourcesEnum chosenEnum = ResourcesEnum.valueOf(chosenColor.toUpperCase());
                     chosenResources.add(ResourceFactory.produceResource(chosenEnum)); //throws NonStorableResourceException if RED or WHITE
@@ -87,11 +88,11 @@ public class SetupManager {
                     throw new InvalidSetupException("Non permitted resource type"); //non existing resource type
                 }
             }
-            for(Integer chosenIndex : chosenIndexes){
+            for (Integer chosenIndex : chosenIndexes) {
                 chosenLeaderCards.add(setupSendEvent.getLeaderCards().get(chosenIndex));
             }
 
-            preparePlayer(nickname,chosenLeaderCards,chosenResources);
+            preparePlayer(nickname, chosenLeaderCards, chosenResources);
 
             setupSendEvents.remove(setupSendEvent);
 
@@ -106,25 +107,33 @@ public class SetupManager {
      * If the server was waiting for this player setup the setup is carried out randomly
      *
      * @param nickname nickname of the player to disconnect
-     *
      * @return if the player was the last one online
      */
     public boolean disconnectPlayer(String nickname) {
-        SetupChoiceEvent event = setupSendEvents.stream().filter(e->e.getNickname().equals(nickname)).findFirst().orElse(null);
-        if(event==null){
+        SetupChoiceEvent event = setupSendEvents.stream().filter(e -> e.getNickname().equals(nickname)).findFirst().orElse(null);
+        players.stream().filter(p -> p.getNickname().equals(nickname)).forEach(p -> p.setOnline(false));
+
+        if (event == null)
             return players.stream().noneMatch(Player::isOnline);
-        }
-        players.stream().filter(p->p.getNickname().equals(nickname)).forEach(p->p.setOnline(false));
-        List<LeaderCard> chosenLeaderCards = event.getLeaderCards().subList(0,2);
+
+        if (players.stream().noneMatch(Player::isOnline))
+            return true;
+
+        List<LeaderCard> chosenLeaderCards = event.getLeaderCards().subList(0, 2);
         List<Resource> chosenResources = new ArrayList<>();
-        for(int i = 0;i<event.getNumberOfResources();i++){
+
+        for (int i = 0; i < event.getNumberOfResources(); i++) {
             try {
                 chosenResources.add(ResourceFactory.produceResource(ResourcesEnum.values()[1]));
-            } catch (NonStorableResourceException ignored){}
+            } catch (NonStorableResourceException ignored) {
+            }
         }
+
         try {
-            preparePlayer(nickname,chosenLeaderCards,chosenResources);
-        } catch (InvalidSetupException|InvalidEventException ignored) {}
+            preparePlayer(nickname, chosenLeaderCards, chosenResources);
+        } catch (InvalidSetupException | InvalidEventException ignored) {
+        }
+
         setupSendEvents.remove(event);
         initialGameSetup();
         return players.stream().noneMatch(Player::isOnline);
@@ -133,14 +142,13 @@ public class SetupManager {
     /**
      * This method updates the model with the player' choices
      *
-     * @param nickname nickname of the player to prepare
+     * @param nickname          nickname of the player to prepare
      * @param chosenLeaderCards List of the chosen leader cards
-     * @param chosenResources list of the chosen resources
-     *
+     * @param chosenResources   list of the chosen resources
      * @throws InvalidSetupException If the setup choices weren't legal
      * @throws InvalidEventException If the setup failed
      */
-    private void preparePlayer(String nickname,List<LeaderCard> chosenLeaderCards,List<Resource> chosenResources) throws InvalidSetupException, InvalidEventException {
+    private void preparePlayer(String nickname, List<LeaderCard> chosenLeaderCards, List<Resource> chosenResources) throws InvalidSetupException, InvalidEventException {
         Player currentSetupPlayer = modelInterface.getTurnLogic().getPlayers().stream()
                 .filter(player -> player.getNickname().equals(nickname)).findFirst()
                 .orElseThrow(() -> new InvalidEventException("Invalid nickname"));
@@ -163,7 +171,7 @@ public class SetupManager {
     /**
      * This method is used to check if every player has done his setup action, if so the game starts and every player is updated.
      */
-    private void initialGameSetup(){
+    private void initialGameSetup() {
         if (setupSendEvents.size() == 0) {
             //set turnLogic state from (idleState where very action is invalidEvent) to startTurn
             modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());
@@ -175,7 +183,7 @@ public class SetupManager {
                 graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(player, new LeaderCardSlotsUpdate(), new ProductionSlotsUpdate(), new WarehouseUpdate()));
             modelInterface.notifyObservers(graphicUpdateEvent);
             modelInterface.getTurnLogic().setNextPlayer();
-           }
+        }
     }
 
     /**
@@ -184,7 +192,7 @@ public class SetupManager {
      * @param nickname nickname of the player to reconnect
      */
     public void reconnectPlayer(String nickname) {
-        players.stream().filter(p->p.getNickname().equals(nickname)).forEach(p->p.setOnline(true));
+        players.stream().filter(p -> p.getNickname().equals(nickname)).forEach(p -> p.setOnline(true));
         modelInterface.notifyObservers(new GameStartedEvent(players.stream().map(Player::getNickname).collect(Collectors.toList())));
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
         graphicUpdateEvent.addUpdate(new MarketUpdate());
