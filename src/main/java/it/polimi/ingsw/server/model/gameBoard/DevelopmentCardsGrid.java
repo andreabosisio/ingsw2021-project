@@ -15,9 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Implements the Development Cards Grid of the Board.
- */
 public class DevelopmentCardsGrid implements EndGameSubject {
     private static final int numOfLevels = 3;
     private final List<Map<CardColorsEnum, List<DevelopmentCard>>> mapByLevel;
@@ -25,9 +22,6 @@ public class DevelopmentCardsGrid implements EndGameSubject {
     private final CardsGenerator generator = new CardsGenerator();
     private EndGameObserver iCheckWinner;
 
-    /**
-     * Create a new Development Cards Grid by reading the default configuration in a file and shuffling it.
-     */
     public DevelopmentCardsGrid() {
         developmentCards = generator.generateDevelopmentCards();
         shuffle(developmentCards);
@@ -38,7 +32,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
     }
 
     /**
-     * Shuffle the List</DevelopmentCard> given
+     * shuffle the List</developmentCard> given
      *
      * @param cards List of cards to shuffle
      */

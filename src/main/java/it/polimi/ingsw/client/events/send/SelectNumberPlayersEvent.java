@@ -15,7 +15,7 @@ public class SelectNumberPlayersEvent extends EventToServer {
      * @param size is the Integer that represents the number of the Players
      */
     public SelectNumberPlayersEvent(Integer size) {
-        super(ClientParser.LOBBY_CHOICE_TYPE);
+        super(ClientParser.lobbyChoiceType);
         this.size = size;
     }
 }

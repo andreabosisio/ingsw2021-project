@@ -14,7 +14,7 @@ public class MarketActionEvent extends EventToServer {
      * @param arrowID is the ID of the arrow chosen
      */
     public MarketActionEvent(int arrowID) {
-        super(ClientParser.MARKET_ACTION_TYPE);
+        super(ClientParser.marketActionType);
         this.arrowID = arrowID;
     }
 

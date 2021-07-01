@@ -22,7 +22,7 @@ public class TokensGenerator {
      * @return generated Solo Action Tokens
      */
     public List<SoloActionToken> generateSoloActionTokens() {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSoloTokenPath());
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSoloUnmodifiableTokenPath());
         assert fileElement != null;
         JsonObject fileObject = fileElement.getAsJsonObject();
         JsonArray jsonArrayOfTokens = fileObject.get(tokensNameInJson).getAsJsonArray();

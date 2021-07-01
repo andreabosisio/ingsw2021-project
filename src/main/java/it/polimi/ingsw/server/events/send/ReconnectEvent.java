@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.utils.ServerParser;
 import java.util.List;
 
 public class ReconnectEvent extends EventToClient {
-    private final String type = ServerParser.RECONNECT_TYPE;
+    private final String type = ServerParser.reconnectType;
     private final String reconnectingPlayer;
     private final String currentPlayer;
     private final List<String> nicknames;

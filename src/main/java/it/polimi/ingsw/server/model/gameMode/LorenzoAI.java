@@ -1,11 +1,20 @@
 package it.polimi.ingsw.server.model.gameMode;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import it.polimi.ingsw.commons.FileUtilities;
+import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.server.events.send.StartTurnEvent;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
+import it.polimi.ingsw.server.utils.ServerParser;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class represents the Lorenzo Player.
@@ -13,9 +22,10 @@ import java.util.List;
 public class LorenzoAI implements Lorenzo {
     private final List<SoloActionToken> soloActionTokens;
     int tokensDeckIndex = 0;
+    private final TokensGenerator tokensGenerator;
 
     public LorenzoAI() {
-        TokensGenerator tokensGenerator = new TokensGenerator();
+        tokensGenerator = new TokensGenerator();
         soloActionTokens = tokensGenerator.generateSoloActionTokens();
         shuffle();
         GameBoard.getGameBoard().createLorenzoFaithTrack(this);
@@ -33,14 +43,36 @@ public class LorenzoAI implements Lorenzo {
     public boolean play(TurnLogic turnLogic) {
         //notify that lorenzo is playing his turn
         turnLogic.getModelInterface().notifyObservers(new StartTurnEvent(this.getNickname()));
-
-        if (soloActionTokens.get(tokensDeckIndex).doAction(this, turnLogic)) {
+        SoloActionToken drawnToken = soloActionTokens.get(tokensDeckIndex);
+        saveToken(drawnToken);
+        if (drawnToken.doAction(this, turnLogic)) {
             tokensDeckIndex = 0;
             shuffle();
         } else {
             tokensDeckIndex++;
         }
         return true;
+    }
+
+    /**
+     * This method saves the token in a file
+     *
+     * @param drawnToken token to save
+     */
+    private void saveToken(SoloActionToken drawnToken) {
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.SOLO_SAVED_TOKEN_PATH);
+        if (fileElement != null && !fileElement.isJsonNull()) {
+            JsonArray savedTokens = Parser.extractFromField(fileElement, "savedTokens").getAsJsonArray();
+            savedTokens.add(Parser.toJsonTree(drawnToken));
+            FileUtilities.writeJsonElementInFile(fileElement, FileUtilities.SOLO_SAVED_TOKEN_PATH);
+        }
+        else{
+            JsonObject tokensObject = new JsonObject();
+            JsonArray savedTokens = new JsonArray();
+            savedTokens.add(Parser.toJsonTree(drawnToken));
+            tokensObject.add("savedTokens",savedTokens);
+            FileUtilities.writeJsonElementInFile(tokensObject, FileUtilities.SOLO_SAVED_TOKEN_PATH);
+        }
     }
 
     /**
@@ -58,6 +90,32 @@ public class LorenzoAI implements Lorenzo {
     @Override
     public SoloActionToken extractToken() {
         return soloActionTokens.get(tokensDeckIndex);
+    }
+
+    /**
+     * load the solo action tokens saved in the appropriate file
+     */
+    @Override
+    public void loadSavedTokens() {
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.SOLO_SAVED_TOKEN_PATH);
+        soloActionTokens.clear();
+        if (fileElement != null && !fileElement.isJsonNull()) {
+            JsonArray jsonArrayOfTokens = Parser.extractFromField(fileElement, "savedTokens").getAsJsonArray();
+            for (JsonElement element : jsonArrayOfTokens) {
+               soloActionTokens.add(ServerParser.getTokenFromJsonElement(element));
+            }
+        }
+        FileUtilities.resetTokenData();
+    }
+
+    /**
+     * This method loads the tokens used in a normal game
+     */
+    @Override
+    public void generateNormalTokens() {
+        soloActionTokens.clear();
+        soloActionTokens.addAll(tokensGenerator.generateSoloActionTokens());
+        tokensDeckIndex = 0;
     }
 
     /**

@@ -23,4 +23,10 @@ public interface Lorenzo extends PlayerInterface {
      * @return the extracted Solo Action Token
      */
     SoloActionToken extractToken();
+
+    /**
+     * load the solo action tokens saved in the appropriate file
+     */
+    void loadSavedTokens();
+    void generateNormalTokens();
 }

@@ -5,7 +5,12 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
 /**
  * Interface that represents the general type Token
  */
-public interface SoloActionToken {
+public abstract class SoloActionToken {
+    private final String type;
+
+    protected SoloActionToken(String type) {
+        this.type = type;
+    }
 
     /**
      * Method that implements the action of the token
@@ -14,5 +19,7 @@ public interface SoloActionToken {
      * @param turnLogic is the TurnLogic reference
      * @return true if the action is did by the class SingleFaithTrackProgress
      */
-    boolean doAction(Lorenzo lorenzo, TurnLogic turnLogic);
+    public boolean doAction(Lorenzo lorenzo, TurnLogic turnLogic){
+        return false;
+    }
 }

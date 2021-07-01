@@ -207,7 +207,7 @@ public class ClientHandler implements Runnable {
             if (jsonAnswerObject == null) {
                 continue;
             }
-            String answerType = jsonAnswerObject.get(Parser.MSG_TYPE_ID).getAsString();
+            String answerType = jsonAnswerObject.get(Parser.TYPE_ID).getAsString();
             if (answerType.equals(Connection.QUIT_MSG)) {
                 kill(true);
                 return false;
@@ -307,7 +307,7 @@ public class ClientHandler implements Runnable {
      */
     public void sendInfoMessage(String message) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(Parser.MSG_TYPE_ID, "info");
+        jsonObject.addProperty(Parser.TYPE_ID, "info");
         jsonObject.addProperty("payload", message);
         sendJsonMessage(jsonObject.toString());
     }
@@ -319,7 +319,7 @@ public class ClientHandler implements Runnable {
      */
     public void sendErrorMessage(String message) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(Parser.MSG_TYPE_ID, "error");
+        jsonObject.addProperty(Parser.TYPE_ID, "error");
         jsonObject.addProperty("payload", message);
         sendJsonMessage(jsonObject.toString());
     }
@@ -331,7 +331,7 @@ public class ClientHandler implements Runnable {
      */
     public void sendSpecificTypeMessage(String type) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(Parser.MSG_TYPE_ID, type);
+        jsonObject.addProperty(Parser.TYPE_ID, type);
         sendJsonMessage(jsonObject.toString());
     }
 
@@ -343,7 +343,7 @@ public class ClientHandler implements Runnable {
      */
     public void sendSpecificTypeMessage(String type, String message) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(Parser.MSG_TYPE_ID, type);
+        jsonObject.addProperty(Parser.TYPE_ID, type);
         jsonObject.addProperty("payload", message);
         sendJsonMessage(jsonObject.toString());
     }
@@ -386,7 +386,7 @@ public class ClientHandler implements Runnable {
                 return null;//go back to reading a new message
             }
             JsonObject jsonObject = jsonElement.getAsJsonObject();
-            if (!jsonObject.has(Parser.MSG_TYPE_ID)) {
+            if (!jsonObject.has(Parser.TYPE_ID)) {
                 sendErrorMessage("Not a valid message");
                 return null;//go back to reading a new message
             }

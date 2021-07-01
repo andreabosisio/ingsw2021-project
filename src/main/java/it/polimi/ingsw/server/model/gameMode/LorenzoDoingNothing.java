@@ -7,7 +7,7 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
  */
 public class LorenzoDoingNothing implements Lorenzo {
     /**
-     * This method does nothing.
+     * This method do nothing
      *
      * @param turnLogic is the TurnLogic reference
      * @return false
@@ -35,5 +35,18 @@ public class LorenzoDoingNothing implements Lorenzo {
     @Override
     public SoloActionToken extractToken() {
         return null;
+    }
+
+    /**
+     * load the solo action tokens saved in the appropriate file
+     */
+    @Override
+    public void loadSavedTokens() {
+        
+    }
+
+    @Override
+    public void generateNormalTokens() {
+
     }
 }

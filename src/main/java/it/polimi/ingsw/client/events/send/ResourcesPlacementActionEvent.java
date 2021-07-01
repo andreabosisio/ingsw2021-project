@@ -18,7 +18,7 @@ public class ResourcesPlacementActionEvent extends EventToServer {
      * @param isFinal          true if it's the final Warehouse reordering configuration
      */
     public ResourcesPlacementActionEvent(List<Integer> placementChoices, boolean isFinal) {
-        super(ClientParser.RESOURCES_PLACEMENT_ACTION_TYPE);
+        super(ClientParser.resourcesPlacementActionType);
         this.placementChoices = placementChoices;
         this.isFinal = isFinal;
     }

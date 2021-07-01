@@ -7,7 +7,7 @@ public class PlaceDevCardChoiceEvent extends ChoiceEvent {
     private final String newCardID;
 
     public PlaceDevCardChoiceEvent(String nickname, DevelopmentCard newCard) {
-        super(nickname, ServerParser.PLACE_DEV_CARD_TYPE);
+        super(nickname, ServerParser.placeDevCardType);
         this.newCardID = newCard.getID();
     }
 }

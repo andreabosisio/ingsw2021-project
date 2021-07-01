@@ -2,9 +2,6 @@ package it.polimi.ingsw.server.events.send;
 
 import it.polimi.ingsw.commons.Parser;
 
-/**
- * Abstract Implementation of a general Event that has to be sent to the Client.
- */
 public abstract class EventToClient {
     /**
      * Check if this event should be received by the nickname with this player.

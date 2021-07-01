@@ -305,6 +305,7 @@ public class ModelInterface implements SendObservable {
      * saved in the Json Files during previous Games.
      */
     public void loadInitialGameBoardData() {
+        turnLogic.getGameMode().getLorenzo().loadSavedTokens();
         GameBoard.getGameBoard().getDevelopmentCardsGrid().loadSavedData();
         GameBoard.getGameBoard().getDeckLeader().loadSavedData();
         GameBoard.getGameBoard().getMarketTray().loadSavedData();
@@ -325,5 +326,9 @@ public class ModelInterface implements SendObservable {
      */
     public void sendNecessaryEvents() {
         turnLogic.sendNecessaryEvents();
+    }
+
+    public void loadDefaultTokens() {
+        turnLogic.getGameMode().getLorenzo().generateNormalTokens();
     }
 }

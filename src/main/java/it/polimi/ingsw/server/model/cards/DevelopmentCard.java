@@ -14,9 +14,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/**
- * Implements a Development Card.
- */
 public class DevelopmentCard implements ProductionCard {
 
     private final String iD;
@@ -33,9 +30,6 @@ public class DevelopmentCard implements ProductionCard {
     private final List<Resource> inResources;
     private final List<Resource> outResources;
 
-    /**
-     * Create an Empty Development Card with the EMPTY_CARD_ID as ID.
-     */
     public DevelopmentCard() {
         this.iD = EMPTY_CARD_ID;
         this.inResources = new ArrayList<>();
@@ -46,17 +40,6 @@ public class DevelopmentCard implements ProductionCard {
         this.level = 3;
     }
 
-    /**
-     * Create a new Development Card by specifying all the necessary parameters.
-     *
-     * @param iD The ID of the Card
-     * @param inResources The input Resources for activate its Production
-     * @param outResources The output Resources produced with its Production
-     * @param price List containing the needed Resources to buy the Card
-     * @param color The color of the Card
-     * @param points The Victory Points of the Card
-     * @param level The level of the Card
-     */
     public DevelopmentCard(String iD, List<Resource> inResources, List<Resource> outResources, List<Resource> price, CardColorsEnum color, int points, int level) {
         this.iD = iD;
         this.inResources = inResources;

@@ -73,15 +73,9 @@ public class ConnectionToServer extends ClientConnection {
         try {
             if (inform) {
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty(Parser.MSG_TYPE_ID, Connection.QUIT_MSG);
+                jsonObject.addProperty(Parser.TYPE_ID, Connection.QUIT_MSG);
                 sendMessage(jsonObject.toString());
                 return;
-            }
-            //todo add all all sleep in a static method
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
             run = false;
             socket.close();
@@ -116,6 +110,13 @@ public class ConnectionToServer extends ClientConnection {
                 if (message.equals(Connection.PING_MSG)) {
                     handlePing();
                 } else if (message.equals(Connection.QUIT_MSG)) {
+                    //todo add all all sleep in a static method
+                    //sleep to give time to read the quit message
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     close(false);
                 } else {
                     addMessageToQueue(message);

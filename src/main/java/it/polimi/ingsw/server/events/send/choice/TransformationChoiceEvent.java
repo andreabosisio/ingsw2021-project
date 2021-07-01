@@ -11,7 +11,7 @@ public class TransformationChoiceEvent extends ChoiceEvent {
     private final List<String> possibleTransformations = new ArrayList<>();
 
     public TransformationChoiceEvent(String nickname, List<WhiteResource> whiteResources) {
-        super(nickname, ServerParser.TRANSFORMATION_TYPE);
+        super(nickname, ServerParser.transformationType);
         numberOfTransformation = whiteResources.size();
 
         //every white resource has the same possible transformations

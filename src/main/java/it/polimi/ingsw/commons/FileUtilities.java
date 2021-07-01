@@ -10,7 +10,6 @@ import java.util.List;
  */
 public abstract class FileUtilities {
     private static final Gson gson = new Gson();
-
     public static final String SAVED_GAME_PATH = "src/main/resources/gameSaved.json";
     public static final String MARKET_DEFAULT_CONFIG_PATH = "src/main/resources/defaultMarketConfig.json";
     public static final String SAVED_MARKET_DATA_PATH = "src/main/resources/initialMarketState.json";
@@ -18,7 +17,8 @@ public abstract class FileUtilities {
     public static final String SAVED_LEADER_CARD_DATA_PATH = "src/main/resources/initialDeckLeaderState.json";
     public static final String UNMODIFIABLE_DEVELOPMENT_CARDS_PATH = "src/main/resources/developmentCards.json";
     public static final String UNMODIFIABLE_LEADER_CARDS_PATH = "src/main/resources/leaderCards.json";
-    public static final String SOLO_TOKEN_PATH = "src/main/resources/soloActionTokens.json";
+    public static final String SOLO_UNMODIFIABLE_TOKEN_PATH = "src/main/resources/soloActionTokens.json";
+    public static final String SOLO_SAVED_TOKEN_PATH = "src/main/resources/savedActionTokens.json";
 
     /**
      * Reset the Game Data saved in the SaveGame file.
@@ -32,6 +32,7 @@ public abstract class FileUtilities {
             jsonObject.add("actions", new JsonArray());
             gson.toJson(jsonObject, file);
             file.flush();
+            resetTokenData();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,8 +121,8 @@ public abstract class FileUtilities {
      *
      * @return the Path
      */
-    public static String getSoloTokenPath() {
-        return SOLO_TOKEN_PATH;
+    public static String getSoloUnmodifiableTokenPath() {
+        return SOLO_UNMODIFIABLE_TOKEN_PATH;
     }
 
     /**
@@ -134,6 +135,16 @@ public abstract class FileUtilities {
         try (FileWriter file = new FileWriter(path)) {
             //We can write any JSONArray or JSONObject instance to the file
             gson.toJson(jsonElement, file);
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void resetTokenData() {
+        try (FileWriter file = new FileWriter(SOLO_SAVED_TOKEN_PATH)) {
+            JsonNull jsonObject = new JsonNull();
+            gson.toJson(jsonObject, file);
             file.flush();
         } catch (IOException e) {
             e.printStackTrace();

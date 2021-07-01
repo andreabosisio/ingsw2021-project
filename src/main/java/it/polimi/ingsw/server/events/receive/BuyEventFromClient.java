@@ -23,7 +23,7 @@ public class BuyEventFromClient extends EventFromClient {
      * @param resourcePositions Positions of the resources used to buy the desired card
      */
     public BuyEventFromClient(String sender, String cardColor, int cardLevel, List<Integer> resourcePositions) {
-        super(sender, ServerParser.BUY_ACTION_TYPE);
+        super(sender, ServerParser.buyActionType);
         this.cardColor = cardColor;
         this.cardLevel = cardLevel;
         this.resourcePositions = resourcePositions;

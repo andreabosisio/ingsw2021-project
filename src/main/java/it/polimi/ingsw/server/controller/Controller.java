@@ -68,6 +68,7 @@ public class Controller implements EventsForClientObserver {
             reloadGameBoardElements();
             startSetup();
             reDoSavedActions();
+            loadDefaultTokens();
         }catch (Exception e){
             //if a saveData file is corrupted the game must be created brand new
             System.err.println("Saved data was corrupted: Starting a new game");
@@ -82,6 +83,10 @@ public class Controller implements EventsForClientObserver {
         Lobby.getLobby().broadcastMessage("Loaded an existing game");
         modelInterface.sendNecessaryEvents();
         return true;
+    }
+
+    private void loadDefaultTokens() {
+        modelInterface.loadDefaultTokens();
     }
 
 
@@ -144,12 +149,12 @@ public class Controller implements EventsForClientObserver {
      */
     private boolean nicknamesMatchSavedGame() {
         JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.SAVED_GAME_PATH);
-        if (fileElement != null) {
+        if (fileElement != null && !fileElement.isJsonNull()) {
             try {
                 JsonArray jsonArrayOfNicknames = Parser.extractFromField(fileElement, "players").getAsJsonArray();
                 List<String> savedNicks = new ArrayList<>();
                 jsonArrayOfNicknames.forEach(jEl -> savedNicks.add(jEl.getAsString()));
-                if (savedNicks.size() > 1 && savedNicks.size() == nicknames.size() && savedNicks.containsAll(nicknames)) {
+                if (savedNicks.size() == nicknames.size() && savedNicks.containsAll(nicknames)) {
                     //reset turn order
                     this.nicknames = savedNicks;
                     return true;

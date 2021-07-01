@@ -9,9 +9,7 @@ import it.polimi.ingsw.server.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.model.PlayerInterface;
 
 import java.util.ArrayList;
-/**
- * State of the end of the Turn.
- */
+
 public class EndTurnState extends State {
     public EndTurnState(TurnLogic turnLogic) {
         super(turnLogic);
