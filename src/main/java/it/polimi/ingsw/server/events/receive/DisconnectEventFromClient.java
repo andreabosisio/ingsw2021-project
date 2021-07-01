@@ -4,6 +4,9 @@ import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.utils.ServerParser;
 
+/**
+ * Represent the request of disconnection from the Client
+ */
 public class DisconnectEventFromClient extends EventFromClient {
     /**
      * Create a new Event by giving the sender of the action request.
@@ -11,7 +14,7 @@ public class DisconnectEventFromClient extends EventFromClient {
      * @param sender The nickname of the Player who wants to perform an action
      */
     public DisconnectEventFromClient(String sender) {
-        super(sender, ServerParser.disconnectType);
+        super(sender, ServerParser.DISCONNECT_TYPE);
     }
 
     /**

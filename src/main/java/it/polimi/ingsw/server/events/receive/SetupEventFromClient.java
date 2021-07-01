@@ -22,7 +22,7 @@ public class SetupEventFromClient extends EventFromClient {
      * @param chosenResources         The color of the Chosen Resources
      */
     public SetupEventFromClient(String sender, List<Integer> chosenLeaderCardIndexes, List<String> chosenResources) {
-        super(sender, ServerParser.setupActionType);
+        super(sender, ServerParser.SETUP_ACTION_TYPE);
         this.chosenLeaderCardIndexes = chosenLeaderCardIndexes;
         this.chosenResources = chosenResources;
     }

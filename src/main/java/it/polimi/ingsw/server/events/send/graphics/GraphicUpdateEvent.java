@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class GraphicUpdateEvent extends EventToClient {
 
-    private final String type = ServerParser.graphicUpdateType;
+    private final String type = ServerParser.GRAPHIC_UPDATE_TYPE;
     private MarketUpdate marketUpdate = null;
     private GridUpdate gridUpdate = null;
     private List<PersonalBoardUpdate> personalBoardUpdateList = null;

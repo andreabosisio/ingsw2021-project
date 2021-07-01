@@ -4,9 +4,18 @@ import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.utils.ServerParser;
 
+/**
+ * Request to cheat.
+ */
 public class CheatEventFromClient extends EventFromClient {
+
+    /**
+     * Create a new request to cheat by the Server Admin.
+     *
+     * @param sender The Server Admin
+     */
     public CheatEventFromClient(String sender) {
-        super(sender, ServerParser.cheatType);
+        super(sender, ServerParser.CHEAT_TYPE);
     }
 
     @Override

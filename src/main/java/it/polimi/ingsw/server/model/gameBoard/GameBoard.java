@@ -46,6 +46,9 @@ public class GameBoard {
         return instance;
     }
 
+    /**
+     * Create the only existing GameBoard by calling all the needed constructors.
+     */
     private GameBoard() {
         this.deckLeader = new DeckLeader();
         this.marketTray = new MarketTray();
@@ -73,9 +76,10 @@ public class GameBoard {
     }
 
     /**
-     * Set method that creates the list of the Faith Tracks, owned by the Players
+     * Set method that creates the list of the Faith Tracks owned by the Players if it's not a SinglePlayer game.
      *
      * @param players is the list of Players that are in the Game
+     * @return true if it's not a SinglePlayer game, false otherwise
      */
     public boolean createFaithTracks(List<Player> players) {
         if (players.size() > 0) {
@@ -115,6 +119,8 @@ public class GameBoard {
     /**
      * This method is used by the class GameMode to create the Lorenzo's Faith Track
      * and to add to the list faithObservers
+     *
+     * @param lorenzo Lorenzo
      */
     public void createLorenzoFaithTrack(PlayerInterface lorenzo) {
         faithObservers.add(new FaithTrack(lorenzo, this.firstOfFaithTrack));

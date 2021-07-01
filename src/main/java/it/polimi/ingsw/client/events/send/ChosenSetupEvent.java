@@ -19,7 +19,7 @@ public class ChosenSetupEvent extends EventToServer {
      * @param chosenResources         starting resources chosen
      */
     public ChosenSetupEvent(List<Integer> chosenLeaderCardIndexes, List<String> chosenResources) {
-        super(ClientParser.setupActionType);
+        super(ClientParser.SETUP_ACTION_TYPE);
         this.chosenLeaderCardIndexes = chosenLeaderCardIndexes;
         this.chosenResources = chosenResources;
     }

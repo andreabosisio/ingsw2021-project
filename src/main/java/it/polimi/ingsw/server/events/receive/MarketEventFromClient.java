@@ -17,7 +17,7 @@ public class MarketEventFromClient extends EventFromClient {
      * @param arrowID  The arrow's ID of the selected Market line
      */
     public MarketEventFromClient(String nickname, int arrowID) {
-        super(nickname, ServerParser.marketActionType);
+        super(nickname, ServerParser.MARKET_ACTION_TYPE);
         this.arrowID = arrowID;
     }
 

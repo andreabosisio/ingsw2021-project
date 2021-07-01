@@ -11,26 +11,35 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Messages Parser for Client Side.
+ */
 public abstract class ClientParser extends Parser {
 
     private static final Map<String, Object> eventFromServerTypes = new HashMap<String, Object>() {{
-        put(infoType, InfoMessageEvent.class);
-        put(errorType, ErrorMessageEvent.class);
-        put(loginType, LoginEvent.class);
-        put(matchmakingType, MatchMakingEvent.class);
-        put(setupType, ChooseSetupEvent.class);
-        put(lobbyChoiceType, ChooseNumberPlayersEvent.class);
-        put(graphicUpdateType, GraphicUpdateEvent.class);
-        put(placeDevCardType, PlaceDevCardReceiveEvent.class);
-        put(transformationType, TransformationReceiveEvent.class);
-        put(startTurnType, StartTurnUpdateEvent.class);
-        put(placeResourcesType, PlaceResourcesReceiveEvent.class);
-        put(endTurnChoiceType, EndTurnReceiveEvent.class);
-        put(gameStartedType, GameStartedEvent.class);
-        put(endGameType, EndGameEvent.class);
-        put(reconnectType, ReconnectEvent.class);
+        put(INFO_TYPE, InfoMessageEvent.class);
+        put(ERROR_TYPE, ErrorMessageEvent.class);
+        put(LOGIN_TYPE, LoginEvent.class);
+        put(MATCHMAKING_TYPE, MatchMakingEvent.class);
+        put(SETUP_TYPE, ChooseSetupEvent.class);
+        put(LOBBY_CHOICE_TYPE, ChooseNumberPlayersEvent.class);
+        put(GRAPHIC_UPDATE_TYPE, GraphicUpdateEvent.class);
+        put(PLACE_DEV_CARD_TYPE, PlaceDevCardReceiveEvent.class);
+        put(TRANSFORMATION_TYPE, TransformationReceiveEvent.class);
+        put(START_TURN_TYPE, StartTurnUpdateEvent.class);
+        put(PLACE_RESOURCES_TYPE, PlaceResourcesReceiveEvent.class);
+        put(END_TURN_CHOICE_TYPE, EndTurnReceiveEvent.class);
+        put(GAME_STARTED_TYPE, GameStartedEvent.class);
+        put(END_GAME_TYPE, EndGameEvent.class);
+        put(RECONNECT_TYPE, ReconnectEvent.class);
     }};
 
+    /**
+     * Create a new EventFromServer Object from a message.
+     *
+     * @param message A String containing a Json structured message
+     * @return The new Event, null if message is malformed
+     */
     public static EventFromServer getEventFromServer(String message) {
         try {
             JsonElement jsonElement = JsonParser.parseString(message);
@@ -38,7 +47,7 @@ public abstract class ClientParser extends Parser {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
                 return getEventFromServer(jsonObject);
             } else {
-                System.out.println("Malformed json from Server");
+                System.out.println("Malformed JSON from Server");
             }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
@@ -46,6 +55,12 @@ public abstract class ClientParser extends Parser {
         return null;
     }
 
+    /**
+     * Create a new EventFromServer Object from a message.
+     *
+     * @param jsonObject A jsonObject
+     * @return The new Event, null if message is malformed
+     */
     public static EventFromServer getEventFromServer(JsonObject jsonObject) {
         if (jsonObject != null) {
             try {

@@ -15,7 +15,7 @@ public class EndTurnEventFromClient extends EventFromClient {
      * @param nickname of the Player who wants to end the turn
      */
     public EndTurnEventFromClient(String nickname) {
-        super(nickname, ServerParser.endTurnActionType);
+        super(nickname, ServerParser.END_TURN_ACTION_TYPE);
     }
 
     /**

@@ -16,7 +16,7 @@ public class LeaderActionEvent extends EventToServer {
      * @param discardCard  is true if the card is discarded
      */
     public LeaderActionEvent(String leaderCardID, boolean discardCard) {
-        super(ClientParser.leaderActionType);
+        super(ClientParser.LEADER_ACTION_TYPE);
         this.discardCard = discardCard;
         this.leaderCardID = leaderCardID;
     }

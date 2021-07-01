@@ -21,7 +21,7 @@ public class PlaceResourcesEventFromClient extends EventFromClient {
      * @param isFinal          true if it's the final Warehouse reordering configuration
      */
     public PlaceResourcesEventFromClient(String nickname, List<Integer> placementChoices, boolean isFinal) {
-        super(nickname, ServerParser.resourcesPlacementActionType);
+        super(nickname, ServerParser.RESOURCES_PLACEMENT_ACTION_TYPE);
         this.placementChoices = placementChoices;
         this.isFinal = isFinal;
     }

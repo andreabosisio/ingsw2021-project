@@ -17,6 +17,11 @@ public class DiscardDevCardsToken extends SoloActionToken {
     private final CardColorsEnum color;
     private final int CARDS_TO_DISCARD = 2;
 
+    /**
+     * Create a new DiscardDevCardsToken by specifying the Development Card Color to discard.
+     *
+     * @param color The Development Card Color to discard
+     */
     public DiscardDevCardsToken(CardColorsEnum color) {
         super(ServerParser.DISCARD_CARD_TOKEN_TYPE);
         this.color = color;

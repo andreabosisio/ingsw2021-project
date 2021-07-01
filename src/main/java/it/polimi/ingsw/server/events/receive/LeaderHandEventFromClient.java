@@ -19,7 +19,7 @@ public class LeaderHandEventFromClient extends EventFromClient {
      * @param discardCard  true to discard the chosen Leader Card or false to activate it
      */
     public LeaderHandEventFromClient(String nickname, String leaderCardID, boolean discardCard) {
-        super(nickname, ServerParser.leaderActionType);
+        super(nickname, ServerParser.LEADER_ACTION_TYPE);
         this.leaderCardID = leaderCardID;
         this.discardCard = discardCard;
     }
