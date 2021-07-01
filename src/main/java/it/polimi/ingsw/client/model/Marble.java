@@ -8,6 +8,10 @@ public class Marble extends Printable {
     private final String color;
     private final static String EMPTY_RES_ID = "EMPTY_RES";
 
+    /**
+     * Create a new Marble by specifying the color.
+     * @param color Color of the Marble
+     */
     public Marble(String color) {
         this.color = color;
     }

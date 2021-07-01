@@ -19,11 +19,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Graphic User Interface implementation.
+ */
 public class GUI extends Application implements View {
 
-    private NetworkHandler networkHandler;
+    private static Scene scene;
+
     private String nickname;
     private boolean isPlaying = false;
+
+    private NetworkHandler networkHandler;
+
+    private final PersonalController personalController = new PersonalController();
+    private GUICommandListener currentGuiCommandListener;
     private final Map<String, GUICommandListener> guiCommandListeners = new HashMap<>() {{
         put("loginController", new LoginController());
         put("chooseNumberController", new ChooseNumberController());
@@ -31,11 +40,14 @@ public class GUI extends Application implements View {
         put("endGameController", new EndGameController());
         put("matchmakingController", new MatchMakingController());
     }};
-    private GUICommandListener welcome;
-    private final PersonalController personalController = new PersonalController();
-    private GUICommandListener currentGuiCommandListener;
-    private static Scene scene;
 
+    /**
+     * Set this GUI for a Remote Game and start the Network Connection.
+     *
+     * @param ip IP Address of the Remote Server
+     * @param port Port of the Remote server
+     * @throws IOException if Socket creation failed
+     */
     public void setGUI(String ip, int port) throws IOException {
         try {
             this.networkHandler = new NetworkHandler(ip, port, this);
@@ -47,6 +59,9 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Set this GUI for a Local Game and start the Fake Network Connection.
+     */
     public void setGUI() {
         this.networkHandler = new NetworkHandler(this);
         guiCommandListeners.values().forEach(guiCommandListener -> guiCommandListener.registerObservers(networkHandler));
@@ -294,6 +309,9 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Starts the GUI.
+     */
     public void show() {
         launch();
     }
