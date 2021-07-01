@@ -121,15 +121,20 @@ public class Controller implements EventsForClientObserver {
     private boolean nicknamesMatchSavedGame() {
         JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.SAVED_GAME_PATH);
         if (fileElement != null) {
-            JsonArray jsonArrayOfNicknames = Parser.extractFromField(fileElement, "players").getAsJsonArray();
-            List<String> savedNicks = new ArrayList<>();
-            jsonArrayOfNicknames.forEach(jEl -> savedNicks.add(jEl.getAsString()));
-            if (savedNicks.size() > 1 && savedNicks.size() == nicknames.size() && savedNicks.containsAll(nicknames)) {
-                //reset turn order
-                this.nicknames = savedNicks;
-                return true;
+            try {
+                JsonArray jsonArrayOfNicknames = Parser.extractFromField(fileElement, "players").getAsJsonArray();
+                List<String> savedNicks = new ArrayList<>();
+                jsonArrayOfNicknames.forEach(jEl -> savedNicks.add(jEl.getAsString()));
+                if (savedNicks.size() > 1 && savedNicks.size() == nicknames.size() && savedNicks.containsAll(nicknames)) {
+                    //reset turn order
+                    this.nicknames = savedNicks;
+                    return true;
+                }
+                return false;
+            }catch (Exception e){
+                //file is corrupted and game can't be reloaded
+                return false;
             }
-            return false;
         }
         return false;
     }
