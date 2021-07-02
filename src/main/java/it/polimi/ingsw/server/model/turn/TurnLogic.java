@@ -90,7 +90,7 @@ public class TurnLogic {
         }
 
         modelInterface.setCurrentState(modelInterface.getStartTurn());
-
+        //if player has no saved state from disconnection
         if (!currentPlayer.prepareTurn(modelInterface)) {
             modelInterface.notifyObservers(new StartTurnEvent(currentPlayer.getNickname()));
             setLastEventSent(new StartTurnEvent(currentPlayer.getNickname(), currentPlayer.getNickname()));
