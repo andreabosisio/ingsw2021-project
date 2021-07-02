@@ -7,6 +7,8 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,6 +25,18 @@ class ResourceTest {
     void addPossibleTransformation() {
         assertFalse(new RedResource().addPossibleTransformation(new StorableResource(ResourcesEnum.PURPLE)));
         assertFalse(new StorableResource(ResourcesEnum.BLUE).addPossibleTransformation(new StorableResource(ResourcesEnum.YELLOW)));
+    }
+
+    @Test
+    void Clone() {
+        WhiteResource white = new WhiteResource();
+        assertTrue(white.addPossibleTransformation(new StorableResource(ResourcesEnum.YELLOW)));
+        assertTrue(white.addPossibleTransformation(new StorableResource(ResourcesEnum.GRAY)));
+        WhiteResource cloned = white.clone();
+        assertEquals(2,cloned.getPossibleTransformations().size());
+        List<ResourcesEnum> clonedColors = cloned.getPossibleTransformations().stream().map(Resource::getColor).collect(Collectors.toList());
+        assertTrue(clonedColors.contains(ResourcesEnum.YELLOW));
+        assertTrue(clonedColors.contains(ResourcesEnum.GRAY));
     }
 
     @SuppressWarnings("AssertBetweenInconvertibleTypes")

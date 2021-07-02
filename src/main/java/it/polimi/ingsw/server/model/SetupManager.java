@@ -71,7 +71,7 @@ public class SetupManager {
                 .orElseThrow(() -> new InvalidEventException("Setup choose already done!"));
 
         if (leaderCardIndexes == null || resources == null)
-            throw new InvalidSetupException();
+            throw new InvalidSetupException("Null parameters are not permitted");
 
         //chosen leader cards must be two different cards
         Set<Integer> chosenIndexes = leaderCardIndexes.stream().filter(index -> index <= 3 && index >= 0).collect(Collectors.toSet());

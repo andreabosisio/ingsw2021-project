@@ -437,9 +437,10 @@ class ModelInterfaceTest {
         assertEquals(ResourcesEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(3).getColor());
         assertEquals(ResourcesEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(4).getColor());
         assertEquals(ResourcesEnum.PURPLE, modelInterface.getTurnLogic().getCurrentPlayer().getPersonalBoard().getWarehouse().getAllResources().get(5).getColor());
-
         modelInterface.endTurn();
-
+        game.roundOfNothing(modelInterface);
+        assertTrue(new MarketEventFromClient("first",3).doAction(modelInterface));
+        //modelInterface.disconnectPlayer("first");
     }
 
     @Test
