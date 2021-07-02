@@ -7,6 +7,9 @@ import it.polimi.ingsw.server.events.send.graphics.ProductionSlotsUpdate;
 import it.polimi.ingsw.server.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.model.ModelInterface;
 
+/**
+ * State of the Model that accepts only Development Cards Placement
+ */
 public class WaitDevelopmentCardPlacementState extends State {
 
     public WaitDevelopmentCardPlacementState(ModelInterface modelInterface) {

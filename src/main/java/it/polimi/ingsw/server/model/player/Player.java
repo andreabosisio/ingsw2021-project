@@ -13,6 +13,9 @@ import it.polimi.ingsw.server.model.turn.TurnLogic;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents a Player of the Game
+ */
 public class Player implements PlayerInterface {
 
     private State disconnectedState;

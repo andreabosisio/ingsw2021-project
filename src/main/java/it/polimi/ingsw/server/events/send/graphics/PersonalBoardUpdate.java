@@ -5,6 +5,9 @@ import it.polimi.ingsw.server.model.player.Player;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Update Event of all the personal Data of the Player
+ */
 public class PersonalBoardUpdate {
     private String nickname;
     private List<String> handLeaders;

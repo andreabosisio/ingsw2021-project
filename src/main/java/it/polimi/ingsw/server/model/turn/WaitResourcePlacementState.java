@@ -16,6 +16,9 @@ import it.polimi.ingsw.server.model.player.warehouse.Warehouse;
 
 import java.util.List;
 
+/**
+ * State of the Model that accepts only Placement Resources
+ */
 public class WaitResourcePlacementState extends State {
     public WaitResourcePlacementState(ModelInterface modelInterface) {
         super(modelInterface);

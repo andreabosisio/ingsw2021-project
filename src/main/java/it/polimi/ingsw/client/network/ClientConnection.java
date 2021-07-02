@@ -6,7 +6,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * Interface for the ClientConnection classes responsible to manage the connection between the Client and the Server.
+ * Abstract class for the ClientConnection classes responsible to manage the connection between the Client and the Server.
  */
 public abstract class ClientConnection implements Connection, Runnable {
 

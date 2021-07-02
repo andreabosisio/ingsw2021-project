@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.model;
 
-
+/**
+ * Interface that is implemented by the players of the Game (the users and Lorenzo)
+ */
 public interface PlayerInterface {
 
     /**

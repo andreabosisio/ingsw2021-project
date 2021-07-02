@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * This class represent the StrongBox of the Player
+ */
 public class StrongBox implements ResourcesContainer {
     protected List<Resource> slots = new ArrayList<>();
 

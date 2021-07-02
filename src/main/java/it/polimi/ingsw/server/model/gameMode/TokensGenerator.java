@@ -10,6 +10,9 @@ import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used to generate the Solo Action Tokens from the Json File
+ */
 public class TokensGenerator {
 
     private final List<SoloActionToken> soloActionTokens = new ArrayList<>();

@@ -3,6 +3,9 @@ package it.polimi.ingsw.server.model.turn;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.SetupManager;
 
+/**
+ * State of the Model that accepts only Setup Actions
+ */
 public class IdleState extends State {
     private final SetupManager setupManager;
 

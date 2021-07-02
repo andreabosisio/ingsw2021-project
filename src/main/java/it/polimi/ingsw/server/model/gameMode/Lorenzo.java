@@ -28,5 +28,9 @@ public interface Lorenzo extends PlayerInterface {
      * load the solo action tokens saved in the appropriate file
      */
     void loadSavedTokens();
+
+    /**
+     * This method loads the tokens used in a normal Game
+     */
     void generateNormalTokens();
 }

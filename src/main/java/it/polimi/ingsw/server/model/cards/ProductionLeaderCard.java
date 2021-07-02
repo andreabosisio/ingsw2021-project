@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Implements the Leader Card with the ability to do a Production
+ */
 public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
 
     private final int inResourceSlots = 1;

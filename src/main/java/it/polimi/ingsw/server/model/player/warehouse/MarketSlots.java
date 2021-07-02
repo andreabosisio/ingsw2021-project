@@ -5,6 +5,9 @@ import it.polimi.ingsw.server.model.resources.Resource;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This class represents the Slots that contains the Resource from Market
+ */
 public class MarketSlots implements ResourcesContainer {
     final int availableResourcesFromMarketSlots = 4;
     private final List<Resource> slots;

@@ -21,6 +21,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * State of the Model that accepts the initial actions of the Player
+ */
 public class StartTurnState extends State {
     public StartTurnState(ModelInterface modelInterface) {
         super(modelInterface);

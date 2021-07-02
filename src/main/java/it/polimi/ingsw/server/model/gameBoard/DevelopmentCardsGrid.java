@@ -35,6 +35,10 @@ public class DevelopmentCardsGrid implements EndGameSubject {
         populateGrid();
     }
 
+    /**
+     * This method populate the List of Map that contains the Development Cards Grid,
+     * for each level it add a map using CardColorsEnum as key and the List of Development Cards as value.
+     */
     private void populateGrid() {
         mapByLevel.clear();
         for (int i = 1; i <= numOfLevels; i++) {

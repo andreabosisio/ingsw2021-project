@@ -6,6 +6,9 @@ public interface PongObserver {
      */
     void pongUpdate();
 
+    /**
+     * This method disables the Ping Pong
+     */
     void disablePingPong();
 }
 

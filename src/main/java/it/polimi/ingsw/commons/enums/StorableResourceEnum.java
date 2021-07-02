@@ -12,6 +12,11 @@ public enum StorableResourceEnum {
     PURPLE,
     BLUE;
 
+    /**
+     * This method return the Storable Resources as a List
+     *
+     * @return a List that contain all the Storable Resources
+     */
     public static List<ResourcesEnum> getAsList() {
         return new ArrayList<>() {{
             add(ResourcesEnum.YELLOW);

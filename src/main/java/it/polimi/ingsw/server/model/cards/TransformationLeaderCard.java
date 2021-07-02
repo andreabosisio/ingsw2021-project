@@ -5,6 +5,9 @@ import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.List;
 
+/**
+ * Implements the Leader Card with the ability to transform the White Resources taken from the Market
+ */
 public class TransformationLeaderCard extends LeaderCard {
     private final Resource transformation;
 
