@@ -181,6 +181,9 @@ public class VirtualView implements PongObserver, EventToClientObserver, EventFr
         missingPong = false;
     }
 
+    /**
+     * This method disables the Ping Pong
+     */
     @Override
     public void disablePingPong() {
         timer.cancel();

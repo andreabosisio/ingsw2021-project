@@ -5,6 +5,9 @@ import it.polimi.ingsw.server.model.resources.Resource;
 
 import java.util.List;
 
+/**
+ * Implements the Leader Card with the ability to give two more Slots for the Warehouse
+ */
 public class WarehouseLeaderCard extends LeaderCard {
 
     private final Resource extraSlotsType;

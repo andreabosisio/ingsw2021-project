@@ -15,6 +15,9 @@ import it.polimi.ingsw.server.model.resources.ResourceFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * State of the Model that accepts only transformations of the White Resources
+ */
 public class WaitTransformationState extends State {
 
     public WaitTransformationState(ModelInterface modelInterface) {

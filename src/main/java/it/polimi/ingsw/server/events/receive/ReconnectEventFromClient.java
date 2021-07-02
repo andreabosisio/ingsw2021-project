@@ -4,6 +4,9 @@ import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.utils.ServerParser;
 
+/**
+ * Represent a request of reconnection of a Player
+ */
 public class ReconnectEventFromClient extends EventFromClient {
     /**
      * Create a new Event by giving the sender of the action request.

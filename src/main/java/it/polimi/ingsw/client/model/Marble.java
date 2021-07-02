@@ -3,13 +3,16 @@ package it.polimi.ingsw.client.model;
 import it.polimi.ingsw.client.view.cli.AnsiUtilities;
 import it.polimi.ingsw.client.view.cli.Printable;
 
-
+/**
+ * This class represents a Marble presented in the Game
+ */
 public class Marble extends Printable {
     private final String color;
     private final static String EMPTY_RES_ID = "EMPTY_RES";
 
     /**
      * Create a new Marble by specifying the color.
+     *
      * @param color Color of the Marble
      */
     public Marble(String color) {

@@ -13,6 +13,9 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Messages Parser, Server side
+ */
 public abstract class ServerParser extends Parser {
     public static final String SINGLE_FAITH_TOKEN_TYPE = "SingleFaithTrackProgressToken";
     public static final String DOUBLE_FAITH_TOKEN_TYPE = "DoubleFaithTrackProgressToken";

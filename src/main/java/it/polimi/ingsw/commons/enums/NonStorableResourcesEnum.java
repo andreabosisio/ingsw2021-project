@@ -10,6 +10,11 @@ public enum NonStorableResourcesEnum {
     RED,
     WHITE;
 
+    /**
+     * This method return the List of the Resources that are not storable
+     *
+     * @return the List of the non storable Resources
+     */
     public static List<ResourcesEnum> getAsList() {
         return new ArrayList<>() {{
             add(ResourcesEnum.RED);

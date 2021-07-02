@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Represent a request of a Setup Action
+ */
 public class SetupChoiceEvent extends ChoiceEvent {
     private final transient List<LeaderCard> leaderCards = new ArrayList<>();
     private final List<String> leaderCardsIDs = new ArrayList<>();

@@ -5,6 +5,9 @@ import it.polimi.ingsw.server.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contains all the Data of the latest Leader Card of the Player
+ */
 public class LeaderCardSlotsUpdate implements PersonalUpdate {
     @Override
     public void addUpdate(PersonalBoardUpdate personalBoardUpdate, Player player) {

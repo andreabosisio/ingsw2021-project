@@ -9,6 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class that has the capacity to print the Market Tray
+ */
 public class MarketTray extends Printable {
 
     /**

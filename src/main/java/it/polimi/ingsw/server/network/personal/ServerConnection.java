@@ -6,6 +6,9 @@ import it.polimi.ingsw.server.network.PongObserver;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * This abstract class is extended from the classes that have a connection with the Client
+ */
 public abstract class ServerConnection implements Connection {
 
     //todo correct implementation?

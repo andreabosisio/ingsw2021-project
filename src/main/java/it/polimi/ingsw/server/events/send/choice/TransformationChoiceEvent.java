@@ -6,6 +6,9 @@ import it.polimi.ingsw.server.utils.ServerParser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent a request of a transformation of the White Resources
+ */
 public class TransformationChoiceEvent extends ChoiceEvent {
     private final int numberOfTransformation;
     private final List<String> possibleTransformations = new ArrayList<>();
