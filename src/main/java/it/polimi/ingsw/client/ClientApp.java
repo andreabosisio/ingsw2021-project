@@ -25,13 +25,6 @@ public class ClientApp {
             new CLI();
         } else if (args[0].equals(GUI_ARGUMENT)) {
             new GUI().show();
-            //new Thread(gui::show).start();
-            //gui.setGUI(ip, port);
         }
-
-        /*
-        if(args.length == 2)
-            view = new CLI(ip, port);
-         */
     }
 }
