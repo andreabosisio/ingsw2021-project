@@ -20,6 +20,7 @@ public interface ResourcesContainer {
      *
      * @param position of the chosen slot
      * @return the taken Resource
+     * @throws EmptySlotException If the selected slot was empty
      */
     Resource takeResource(int position) throws EmptySlotException;
 

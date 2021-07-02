@@ -228,6 +228,13 @@ public class StartTurnState extends State {
         return true;
     }
 
+    /**
+     * This method tries to do a leader action be it activation or discard
+     *
+     * @param cardID ID of the leader card
+     * @param discard true if the card must be discarded/ false if activated
+     * @throws InvalidEventException if the vent fails
+     */
     protected void executeLeaderAction(String cardID, boolean discard) throws InvalidEventException {
 
         //get the chosen leader card

@@ -43,6 +43,12 @@ public abstract class Resource {
     }
 
 
+    /**
+     * Add the possible resource this resource can transform into
+     *
+     * @param possibleTransformation Resource in which this resource will be able to transform
+     * @return false
+     */
     public boolean addPossibleTransformation(Resource possibleTransformation) {
         return false;
     }

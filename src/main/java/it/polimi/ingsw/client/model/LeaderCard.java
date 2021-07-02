@@ -17,6 +17,11 @@ public class LeaderCard extends Printable {
         this.iD = iD;
     }
 
+    /**
+     * Get the id of this leaderCArd
+     *
+     * @return a string containing the id
+     */
     public String getID() {
         return iD;
     }

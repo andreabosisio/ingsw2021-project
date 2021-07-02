@@ -26,7 +26,11 @@ public abstract class GUICommandListener implements CommandListener {
         this.commandListenerObserver = commandListenerObserver;
     }
 
-    //todo better messageBox (setStyle set the color of all the BOX), JAVADOC
+    /**
+     * Print an info message in the GUI
+     *
+     * @param info string containing the message
+     */
     public void printInfoMessage(String info) {
         textCounter++;
         //messageBox.setStyle("-fx-text-inner-color: black");
@@ -37,6 +41,11 @@ public abstract class GUICommandListener implements CommandListener {
             messageBox.appendText(info + "\n");
     }
 
+    /**
+     * Print an error message in the GUI
+     *
+     * @param error string containing the message
+     */
     public void printErrorMessage(String error) {
         textCounter++;
         //messageBox.setStyle("-fx-text-inner-color: red");
@@ -47,10 +56,20 @@ public abstract class GUICommandListener implements CommandListener {
             messageBox.appendText(error + "\n");
     }
 
+    /**
+     * Return the observer interested to the player actions saved as observer of this class
+     *
+     * @return the saved observer
+     */
     public CommandListenerObserver getCommandListenerObserver() {
         return commandListenerObserver;
     }
 
+    /**
+     * Set nickname of the owner of this GUI as the nickname saved in the network
+     *
+     * @param nickname nickname of the player
+     */
     protected void setNetworkNick(String nickname) {
         commandListenerObserver.setNickname(nickname);
     }

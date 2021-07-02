@@ -32,9 +32,17 @@ public abstract class ServerConnection implements Connection {
         messagesFromClient.add(message);
     }
 
+    /**
+     * Clear the unnecessary messages from client
+     */
     public void clearStack() {
     }
 
+    /**
+     * Set the observer interested in the arrival of a pong message
+     *
+     * @param pongObserver observer of the pong
+     */
     void setPongObserver(PongObserver pongObserver) {
     }
 

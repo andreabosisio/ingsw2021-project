@@ -43,10 +43,22 @@ public abstract class Parser {
 
     public static final String TYPE_ID = "type";
 
+    /**
+     * Return a json representation of an object
+     *
+     * @param obj object to represent
+     * @return a Json representing the object
+     */
     public static String toJson(Object obj) {
         return gson.toJson(obj);
     }
 
+    /**
+     * Return a jsonTree representation of an object
+     *
+     * @param obj object to represent
+     * @return a JsonElement representing the object
+     */
     public static JsonElement toJsonTree(Object obj) {
         return gson.toJsonTree(obj);
     }

@@ -44,6 +44,11 @@ public class PersonalBoard implements EndGameSubject {
         productionDeck.get(0).add(new BasicPowerCard());
     }
 
+    /**
+     * Get the player's warehouse
+     *
+     * @return the player's warehouse
+     */
     public Warehouse getWarehouse() {
         return warehouse;
     }

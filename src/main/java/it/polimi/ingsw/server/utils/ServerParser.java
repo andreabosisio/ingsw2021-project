@@ -40,6 +40,13 @@ public abstract class ServerParser extends Parser {
         put(DISCARD_CARD_TOKEN_TYPE, DiscardDevCardsToken.class);
     }};
 
+    /**
+     * Generate a solo action token from a jsonElement containing the necessary data
+     *
+     * @param message JsonElement containing the data
+     *
+     * @return a new Solo action token/null if the operation failed
+     */
     public static SoloActionToken getTokenFromJsonElement(JsonElement message) {
         try {
             JsonObject token = message.getAsJsonObject();
@@ -51,6 +58,13 @@ public abstract class ServerParser extends Parser {
         return null;
     }
 
+    /**
+     * Generate an eventFromClient from a jsonElement containing the necessary data
+     *
+     * @param message JsonElement containing the data
+     *
+     * @return a newly created eventFromClient
+     */
     public static EventFromClient getEventFromClient(JsonElement message) {
         try {
             JsonObject action = message.getAsJsonObject();

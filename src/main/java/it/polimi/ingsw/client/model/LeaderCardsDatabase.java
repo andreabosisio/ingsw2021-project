@@ -20,6 +20,11 @@ public class LeaderCardsDatabase {
     private final List<String> leaderCardsVictoryPoints = new ArrayList<>();
     private final List<String> leaderCardsRequirements = new ArrayList<>();
 
+    /**
+     * Getter for the ability of a leaderCard
+     * @param id ID of the leaderCard you want the ability of
+     * @return a String containing the ability
+     */
     public String getAbility(String id) {
         return leaderCardsAbilities.get(getNumberOfCard(id));
     }

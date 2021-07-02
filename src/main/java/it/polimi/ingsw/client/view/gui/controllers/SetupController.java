@@ -26,6 +26,8 @@ public class SetupController extends GUICommandListener {
     private int numberOfResources;
     private Stage marketWindow;
     private Stage gridWindow;
+    private static final String PATH_TO_MARKET_POPUP_FXML = "/fxmls/marketPopup.fxml";
+    private static final String PATH_TO_GRID_POPUP_FXML = "/fxmls/devGridPopupScene.fxml";
 
     private List<String> leaderCardsID;
     private List<Integer> chosenLeadersIndexes;
@@ -129,18 +131,29 @@ public class SetupController extends GUICommandListener {
         done.setDisable(true);
     }
 
+    /**
+     * This method is used to change the resource associated with the pressed button
+     *
+     * @param button button pressed
+     */
     private void changeResourceAction(Button button) {
         GraphicUtilities.loopResources(button);
     }
 
+    /**
+     * This method is used to show a popup containing the market saved in the reduced model
+     */
     private void seeMarket() {
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/marketPopup.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource(PATH_TO_MARKET_POPUP_FXML));
         marketWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, marketWindow, Modality.NONE);
         marketWindow.show();
     }
 
+    /**
+     * This method is used to show a popup containing the development cards grid saved in the reduced model
+     */
     private void seeGrid() {
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/devGridPopupScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource(PATH_TO_GRID_POPUP_FXML));
         gridWindow = GraphicUtilities.populatePopupWindow(mainPane.getScene().getWindow(), fxmlLoader, gridWindow, Modality.NONE);
         gridWindow.show();
     }

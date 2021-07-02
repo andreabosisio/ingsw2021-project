@@ -64,6 +64,7 @@ public class SetupManager {
      * @param resources         chosen by the Player
      * @return true if the choices are correct
      * @throws InvalidEventException if the choices aren't correct
+     * @throws InvalidSetupException if the setup failed
      */
     public boolean setupAction(String nickname, List<Integer> leaderCardIndexes, List<String> resources) throws InvalidEventException, InvalidSetupException {
         SetupChoiceEvent setupSendEvent = setupSendEvents.stream().filter(setupEvent -> setupEvent.getNickname().equals(nickname)).findFirst()
@@ -199,12 +200,20 @@ public class SetupManager {
         modelInterface.notifyObservers(graphicUpdateEvent);
     }
 
+    /**
+     * Resend all the setup events to the player that still didn't complete them
+     */
     public void reSendAllPendingSetupEvents() {
         for (SetupChoiceEvent event : setupSendEvents) {
             modelInterface.notifyObservers(event);
         }
     }
 
+    /**
+     * Resend the personal setup event to a specified player
+     *
+     * @param nickname nickname of the player to resend the setup to
+     */
     public void resendSetupEventFor(String nickname) {
         for (SetupChoiceEvent event : setupSendEvents) {
             if (event.getNickname().equals(nickname)) {

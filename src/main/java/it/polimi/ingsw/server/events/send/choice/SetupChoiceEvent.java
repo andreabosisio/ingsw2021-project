@@ -20,10 +20,20 @@ public class SetupChoiceEvent extends ChoiceEvent {
         this.leaderCardsIDs.addAll(leaderCards.stream().map(LeaderCard::getID).collect(Collectors.toList()));
     }
 
+    /**
+     * Return the leaderCards from which to chose for this event
+     *
+     * @return la list containing the leaderCards
+     */
     public List<LeaderCard> getLeaderCards() {
         return leaderCards;
     }
 
+    /**
+     * Return the number of resources to chose for this event
+     *
+     * @return the number of resources
+     */
     public int getNumberOfResources() {
         return numberOfResources;
     }

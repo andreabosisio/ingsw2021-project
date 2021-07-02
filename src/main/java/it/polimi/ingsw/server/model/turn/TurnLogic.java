@@ -250,6 +250,11 @@ public class TurnLogic {
     }
 
 
+    /**
+     * Return the last event sent to the currentPlayer
+     *
+     * @return the last EventToClient
+     */
     protected EventToClient getLastEventSent() {
         return lastEventSent;
     }
