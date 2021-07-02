@@ -1,15 +1,24 @@
 package it.polimi.ingsw.server.model.turn;
 
 import it.polimi.ingsw.server.exceptions.*;
+import it.polimi.ingsw.server.model.ModelInterface;
+import it.polimi.ingsw.server.model.player.Player;
 
 import java.util.List;
 import java.util.Map;
 
 public abstract class State {
+
+    final ModelInterface modelInterface;
     final TurnLogic turnLogic;
 
-    public State(TurnLogic turnLogic) {
-        this.turnLogic = turnLogic;
+    public State(ModelInterface modelInterface) {
+        this.modelInterface = modelInterface;
+        this.turnLogic = modelInterface.getTurnLogic();
+    }
+
+    public Player getCurrentPlayer() {
+        return modelInterface.getTurnLogic().getCurrentPlayer();
     }
 
     public boolean marketAction(int arrowID) throws InvalidEventException, InvalidIndexException {

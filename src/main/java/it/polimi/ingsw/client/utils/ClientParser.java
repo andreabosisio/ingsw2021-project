@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public abstract class ClientParser extends Parser {
 
-    private static final Map<String, Object> eventFromServerTypes = new HashMap<String, Object>() {{
+    private static final Map<String, Object> eventFromServerTypes = new HashMap<>() {{
         put(INFO_TYPE, InfoMessageEvent.class);
         put(ERROR_TYPE, ErrorMessageEvent.class);
         put(LOGIN_TYPE, LoginEvent.class);

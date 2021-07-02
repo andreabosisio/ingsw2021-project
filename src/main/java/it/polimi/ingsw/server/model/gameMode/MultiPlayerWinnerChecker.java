@@ -11,11 +11,11 @@ import java.util.List;
  * It is SendObserver of the following classes:
  * DevelopmentCardsGrid, FirstOfFaithTrack and PersonalBoard.
  */
-public class MultiPlayerCheckWinner implements ICheckWinner {
+public class MultiPlayerWinnerChecker implements ICheckWinner {
     private boolean gameOver = false;
     private final List<Player> players;
 
-    public MultiPlayerCheckWinner(List<Player> players) {
+    public MultiPlayerWinnerChecker(List<Player> players) {
         this.players = players;
     }
 

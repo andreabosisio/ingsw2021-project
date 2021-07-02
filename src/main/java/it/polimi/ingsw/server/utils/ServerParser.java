@@ -4,7 +4,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.server.events.receive.*;
-import it.polimi.ingsw.server.model.gameMode.*;
+import it.polimi.ingsw.server.model.gameMode.DiscardDevCardsToken;
+import it.polimi.ingsw.server.model.gameMode.DoubleFaithTrackProgressToken;
+import it.polimi.ingsw.server.model.gameMode.SingleFaithTrackProgressTokenNoShuffle;
+import it.polimi.ingsw.server.model.gameMode.SoloActionToken;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -16,7 +19,7 @@ public abstract class ServerParser extends Parser {
     public static final String DISCARD_CARD_TOKEN_TYPE = "DiscardDevCardsToken";
 
 
-    private static final Map<String, Object> eventFromClientTypes = new HashMap<String, Object>() {{
+    private static final Map<String, Object> eventFromClientTypes = new HashMap<>() {{
         put(BUY_ACTION_TYPE, BuyEventFromClient.class);
         put(CARD_PLACEMENT_ACTION_TYPE, PlaceDevelopmentCardEventFromClient.class);
         put(SETUP_ACTION_TYPE, SetupEventFromClient.class);
@@ -31,7 +34,7 @@ public abstract class ServerParser extends Parser {
         put(CHEAT_TYPE, CheatEventFromClient.class);
     }};
 
-    private static final Map<String, Object> tokensType = new HashMap<String, Object>() {{
+    private static final Map<String, Object> tokensType = new HashMap<>() {{
         put(SINGLE_FAITH_TOKEN_TYPE, SingleFaithTrackProgressTokenNoShuffle.class);
         put(DOUBLE_FAITH_TOKEN_TYPE, DoubleFaithTrackProgressToken.class);
         put(DISCARD_CARD_TOKEN_TYPE, DiscardDevCardsToken.class);

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.events.receive;
 
-import it.polimi.ingsw.server.exceptions.*;
+import it.polimi.ingsw.server.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.exceptions.InvalidIndexException;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.utils.ServerParser;
 
@@ -26,15 +27,11 @@ public class MarketEventFromClient extends EventFromClient {
      *
      * @param modelInterface The reference of the game model
      * @return true if the action has been correctly executed
-     * @throws EmptySlotException           if an empty resource slot has been accessed
-     * @throws NonAccessibleSlotException   if a non accessible resource slot has been accessed
      * @throws InvalidEventException        if it's an invalid action
      * @throws InvalidIndexException        if an index it's out of range
-     * @throws InvalidSetupException        if it's an invalid setup event
-     * @throws NonStorableResourceException if a Non Storable Resource has been requested
      */
     @Override
-    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
+    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException {
         return modelInterface.marketAction(arrowID);
     }
 }

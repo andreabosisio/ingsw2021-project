@@ -77,7 +77,7 @@ class SetupManagerTest {
         //correct setup for the first player: 2 LeaderCards and 0 resources
         chosenResources.clear();
         EventFromClient rightSetup = new SetupEventFromClient("first",chosenLeaderCardIndexes,chosenResources);
-        assertTrue(rightSetup.canBeExecutedFor(modelInterface.getCurrentPlayerNickname()));
+        assertTrue(rightSetup.canBeExecutedFor(modelInterface.getTurnLogic().getCurrentPlayer().getNickname()));
 
         assertTrue(rightSetup.doAction(modelInterface));
 

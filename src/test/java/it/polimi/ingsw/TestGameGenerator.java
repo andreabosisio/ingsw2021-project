@@ -45,7 +45,7 @@ public class TestGameGenerator {
         }});
 
         //exit from idleState because there is no setUpPhase in testing
-        modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());
+        modelInterface.setCurrentState(modelInterface.getStartTurn());
 
         if (auto) {
             setLeaderInHandAuto(modelInterface);

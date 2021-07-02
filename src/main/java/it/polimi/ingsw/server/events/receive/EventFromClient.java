@@ -8,16 +8,7 @@ import it.polimi.ingsw.server.model.ModelInterface;
  */
 public abstract class EventFromClient {
     private final String sender;
-    private String type;
-
-    /**
-     * Create a new Event by giving the sender of the action request.
-     *
-     * @param sender The nickname of the Player who wants to perform an action
-     */
-    public EventFromClient(String sender) {
-        this.sender = sender;
-    }
+    private final String type;
 
     /**
      * Create a new Event by giving the sender of the action request.

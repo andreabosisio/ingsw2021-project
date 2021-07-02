@@ -72,7 +72,7 @@ public class DevelopmentCardsGrid extends Printable {
 
         for (int level_card = 0; level_card < CARD_LEVELS; level_card++) {
             for (CardColorsEnum cardColorEn : CardColorsEnum.values()) {
-                mapByLevel.get(level_card).computeIfAbsent(String.valueOf(cardColorEn), k -> DevelopmentCard.EMPTY_CARD_ID);
+                mapByLevel.get(level_card).putIfAbsent(String.valueOf(cardColorEn), DevelopmentCard.EMPTY_CARD_ID);
             }
         }
     }

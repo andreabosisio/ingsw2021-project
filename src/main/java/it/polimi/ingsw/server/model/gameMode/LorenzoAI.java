@@ -6,15 +6,12 @@ import com.google.gson.JsonObject;
 import it.polimi.ingsw.commons.FileUtilities;
 import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.server.events.send.StartTurnEvent;
-import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 import it.polimi.ingsw.server.utils.ServerParser;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * This class represents the Lorenzo Player.

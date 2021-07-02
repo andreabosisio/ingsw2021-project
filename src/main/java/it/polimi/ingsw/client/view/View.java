@@ -50,12 +50,5 @@ public interface View {
 
     void faithTracksUpdate();
 
-    /*
-    void activeLeadersUpdate(PersonalBoard personalBoard);
-    void warehouseUpdate(PersonalBoard personalBoard);
-    void productionBoardUpdate(PersonalBoard updatingPersonalBoard);
-
-     */
-
     void personalBoardUpdate(PersonalBoard updatingPersonalBoard);
 }

@@ -307,10 +307,17 @@ public class CardsGenerator {
      * @return the Leader Card
      */
     public LeaderCard generateLeaderCardFromId(String cardId) {
+
+
+        //todo search this code and move in fileUtils
         JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableLeaderCardsPath());
         assert fileElement != null;
         JsonObject fileObject = fileElement.getAsJsonObject();
         JsonArray jsonArrayOfCards = fileObject.get(mainLeaderJsonArrayName).getAsJsonArray();
+
+
+
+
         for (JsonElement el : jsonArrayOfCards) {
             JsonObject cardJsonObject = el.getAsJsonObject();
             if (cardJsonObject.get("id").getAsString().equals(cardId)) {

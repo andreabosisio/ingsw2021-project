@@ -36,11 +36,10 @@ public class ProductionEventFromClient extends EventFromClient {
      * @throws NonAccessibleSlotException   if a non accessible resource slot has been accessed
      * @throws InvalidEventException        if it's an invalid action
      * @throws InvalidIndexException        if an index it's out of range
-     * @throws InvalidSetupException        if it's an invalid setup event
      * @throws NonStorableResourceException if a Non Storable Resource has been requested
      */
     @Override
-    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
+    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
         return modelInterface.productionAction(inResourcesForEachProductions, outResourcesForEachProductions);
     }
 }

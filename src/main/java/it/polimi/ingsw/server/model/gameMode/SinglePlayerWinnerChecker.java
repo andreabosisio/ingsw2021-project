@@ -8,13 +8,13 @@ import it.polimi.ingsw.server.model.PlayerInterface;
  * It is SendObserver of the following classes:
  * DevelopmentCardsGrid, FirstOfFaithTrack and PersonalBoard.
  */
-public class SinglePlayerCheckWinner implements ICheckWinner {
+public class SinglePlayerWinnerChecker implements ICheckWinner {
     private PlayerInterface winner = null;
     private boolean gameOver = false;
     private final Lorenzo lorenzo;
     private final PlayerInterface player;
 
-    public SinglePlayerCheckWinner(Lorenzo lorenzo, PlayerInterface player) {
+    public SinglePlayerWinnerChecker(Lorenzo lorenzo, PlayerInterface player) {
         this.lorenzo = lorenzo;
         this.player = player;
     }

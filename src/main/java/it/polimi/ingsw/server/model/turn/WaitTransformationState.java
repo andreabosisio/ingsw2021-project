@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.events.send.graphics.WarehouseUpdate;
 import it.polimi.ingsw.server.exceptions.InvalidEventException;
 import it.polimi.ingsw.server.exceptions.NonStorableResourceException;
+import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.ResourceFactory;
 
@@ -15,13 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WaitTransformationState extends State {
-    /**
-     * Used to construct a turnLogic state waiting for the player to input his white resources transformation choices
-     *
-     * @param turnLogic turnLogic associated with the state
-     */
-    public WaitTransformationState(TurnLogic turnLogic) {
-        super(turnLogic);
+
+    public WaitTransformationState(ModelInterface modelInterface) {
+        super(modelInterface);
     }
 
     /**
@@ -35,7 +32,7 @@ public class WaitTransformationState extends State {
      */
     @Override
     public boolean transformationAction(List<String> chosenColors) throws InvalidEventException, NonStorableResourceException {
-
+        
         List<Resource> possibleTransformations = turnLogic.getWhiteResourcesFromMarket().get(0).getPossibleTransformations();
 
         if (chosenColors.size() != turnLogic.getWhiteResourcesFromMarket().size()) {
@@ -56,17 +53,17 @@ public class WaitTransformationState extends State {
         }
 
         //add the chosen resources to the warehouse market zone
-        turnLogic.getCurrentPlayer().getPersonalBoard().getWarehouse().addResourcesFromMarket(chosenResources);
+        getCurrentPlayer().getPersonalBoard().getWarehouse().addResourcesFromMarket(chosenResources);
         //send update of player warehouse
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-        graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new WarehouseUpdate()));
-        graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " transformed some White Marbles!");
-        turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
+        graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(getCurrentPlayer(), new WarehouseUpdate()));
+        graphicUpdateEvent.addUpdate(getCurrentPlayer().getNickname() + " transformed some White Marbles!");
+        modelInterface.notifyObservers(graphicUpdateEvent);
         //send placement event to client
-        ChoiceEvent choiceEvent = new PlaceResourcesChoiceEvent(turnLogic.getCurrentPlayer().getNickname());
+        ChoiceEvent choiceEvent = new PlaceResourcesChoiceEvent(getCurrentPlayer().getNickname());
         turnLogic.setLastEventSent(choiceEvent);
-        turnLogic.getModelInterface().notifyObservers(choiceEvent);
-        turnLogic.setCurrentState(turnLogic.getWaitResourcePlacement());
+        modelInterface.notifyObservers(choiceEvent);
+        modelInterface.setCurrentState(modelInterface.getWaitResourcePlacement());
         return true;
     }
 }

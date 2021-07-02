@@ -239,23 +239,6 @@ class WarehouseTest {
 
         assertFalse(warehouse.swap(15, 4)); //cannot swap from StrongBox
 
-        /*
-        warehouse.addResourcesFromMarket(new ArrayList<Resource>() {{
-            add(new StorableResource(ResourcesEnum.BLUE));
-            add(new WhiteResource()); //cannot store a WhiteResource
-            add(new StorableResource(ResourcesEnum.YELLOW));
-        }});
-
-         */
-
-        /*
-        try {
-            warehouse.addResourcesToStrongBox(new RedResource()); //cannot store a RedResource
-        }catch (NonStorableResourceException e){
-            assertTrue(true);
-        }
-        */
-
         Map<Integer, String> correctPositionsAndResources = new HashMap<>() {{
             put(0, ResourcesEnum.BLUE.toString());
             put(1, ResourcesEnum.YELLOW.toString());

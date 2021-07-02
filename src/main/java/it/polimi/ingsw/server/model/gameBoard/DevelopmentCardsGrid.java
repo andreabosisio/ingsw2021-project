@@ -32,6 +32,11 @@ public class DevelopmentCardsGrid implements EndGameSubject {
         developmentCards = generator.generateDevelopmentCards();
         shuffle(developmentCards);
         mapByLevel = new ArrayList<>();
+        populateGrid();
+    }
+
+    private void populateGrid() {
+        mapByLevel.clear();
         for (int i = 1; i <= numOfLevels; i++) {
             mapByLevel.add(generator.getDevCardsAsGrid(developmentCards, i));
         }
@@ -177,10 +182,7 @@ public class DevelopmentCardsGrid implements EndGameSubject {
     public void setNonRandom() {
         developmentCards.clear();
         developmentCards.addAll(generator.generateDevelopmentCards());
-        mapByLevel.clear();
-        for (int i = 1; i <= numOfLevels; i++) {
-            mapByLevel.add(generator.getDevCardsAsGrid(developmentCards, i));
-        }
+        populateGrid();
     }
 
     /**
@@ -205,9 +207,6 @@ public class DevelopmentCardsGrid implements EndGameSubject {
             String cardId = el.getAsString();
             developmentCards.add(generator.generateDevelopmentCardFromId(cardId));
         }
-        mapByLevel.clear();
-        for (int i = 1; i <= numOfLevels; i++) {
-            mapByLevel.add(generator.getDevCardsAsGrid(developmentCards, i));
-        }
+        populateGrid();
     }
 }

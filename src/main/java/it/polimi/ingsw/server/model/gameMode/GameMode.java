@@ -17,10 +17,10 @@ public class GameMode {
     public GameMode(List<Player> players) {
         if (players.size() == 1) {
             lorenzo = new LorenzoAI();
-            iCheckWinner = new SinglePlayerCheckWinner(lorenzo, players.get(0));
+            iCheckWinner = new SinglePlayerWinnerChecker(lorenzo, players.get(0));
         } else {
             lorenzo = new LorenzoDoingNothing();
-            iCheckWinner = new MultiPlayerCheckWinner(players);
+            iCheckWinner = new MultiPlayerWinnerChecker(players);
         }
     }
 

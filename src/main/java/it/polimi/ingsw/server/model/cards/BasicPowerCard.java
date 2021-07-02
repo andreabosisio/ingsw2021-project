@@ -13,10 +13,11 @@ import java.util.stream.Collectors;
  */
 public class BasicPowerCard implements ProductionCard {
 
-    private final int inResourceSlots = 2;
-    private final int outResourceSlots = 1;
-    private final int choosableInResourcesSlots = 2;
-    private final int choosableOutResourcesSlots = 1;
+    //fixme show simils
+    private static final int IN_RESOURCE_SLOTS = 2;
+    private static final int OUT_RESOURCE_SLOTS = 1;
+    private static final int CHOOSABLE_IN_RESOURCES_SLOTS = 2;
+    private static final int CHOOSABLE_OUT_RESOURCES_SLOTS = 1;
 
     private final List<Resource> outResources = new ArrayList<>();
 
@@ -27,7 +28,7 @@ public class BasicPowerCard implements ProductionCard {
      * @return true if the outResources has been set correctly
      */
     public boolean setOutResources(List<Resource> desiredResources) {
-        return outResources.addAll(desiredResources.subList(inResourceSlots, inResourceSlots + choosableOutResourcesSlots));
+        return outResources.addAll(desiredResources.subList(IN_RESOURCE_SLOTS, IN_RESOURCE_SLOTS + CHOOSABLE_OUT_RESOURCES_SLOTS));
     }
 
     /**
@@ -75,7 +76,7 @@ public class BasicPowerCard implements ProductionCard {
     public boolean canDoProduction(List<Resource> givenResources) {
         this.outResources.clear();
         givenResources = givenResources.stream().filter(Objects::nonNull).collect(Collectors.toList());
-        if (givenResources.size() != choosableInResourcesSlots + choosableOutResourcesSlots)
+        if (givenResources.size() != CHOOSABLE_IN_RESOURCES_SLOTS + CHOOSABLE_OUT_RESOURCES_SLOTS)
             return false;
         return setOutResources(givenResources);
     }

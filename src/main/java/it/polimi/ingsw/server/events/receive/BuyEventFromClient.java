@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server.events.receive;
 
-import it.polimi.ingsw.server.exceptions.*;
+import it.polimi.ingsw.server.exceptions.EmptySlotException;
+import it.polimi.ingsw.server.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.exceptions.InvalidIndexException;
+import it.polimi.ingsw.server.exceptions.NonAccessibleSlotException;
 import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.utils.ServerParser;
 
@@ -38,11 +41,9 @@ public class BuyEventFromClient extends EventFromClient {
      * @throws NonAccessibleSlotException   if a non accessible resource slot has been accessed
      * @throws InvalidEventException        if it's an invalid action
      * @throws InvalidIndexException        if an index it's out of range
-     * @throws InvalidSetupException        if it's an invalid setup event
-     * @throws NonStorableResourceException if a Non Storable Resource has been requested
      */
     @Override
-    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException, InvalidSetupException {
+    public boolean doAction(ModelInterface modelInterface) throws InvalidIndexException, InvalidEventException, EmptySlotException, NonAccessibleSlotException {
         return modelInterface.buyAction(cardColor, cardLevel, resourcePositions);
     }
 }

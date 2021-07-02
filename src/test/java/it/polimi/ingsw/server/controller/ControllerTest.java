@@ -4,14 +4,9 @@ import it.polimi.ingsw.server.events.receive.*;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.network.personal.ClientHandler;
 import it.polimi.ingsw.server.network.personal.VirtualView;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +54,7 @@ class ControllerTest {
         //Setup for second player
         controller.update(new SetupEventFromClient(secondNickname,chosenLeaderCardIndexes,chosenResources));
         //check setup done successfully
-        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getStartTurn(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+        assertEquals(controller.getModelInterfaceForTesting().getStartTurn(),controller.getModelInterfaceForTesting().getCurrentState());
         //do some actions with the players
         controller.update(new LeaderHandEventFromClient(firstNickname,controller.getModelInterfaceForTesting().getPlayerByNickname(firstNickname).getLeaderHand().get(0).getID(),true));
         //fail one action
@@ -85,7 +80,7 @@ class ControllerTest {
         //simulate a server shutdown and reconnection of the same players
         controller = new Controller(virtualViews);
         //check that player one must place the resources he was placing before the shutdown
-        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getWaitResourcePlacement(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+        assertEquals(controller.getModelInterfaceForTesting().getWaitResourcePlacement(),controller.getModelInterfaceForTesting().getCurrentState());
         controller.update(new PlaceResourcesEventFromClient(firstNickname,new ArrayList<>(),true));
     }
     @Test
@@ -101,11 +96,11 @@ class ControllerTest {
         roundOfNothingFor(controller,virtualView1.getNickname());
         controller = new Controller(virtualViews.subList(0,1));
         //check that controller is restarting from an initial game
-        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getStartTurn(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+        assertEquals(controller.getModelInterfaceForTesting().getStartTurn(),controller.getModelInterfaceForTesting().getCurrentState());
         roundOfNothingFor(controller,virtualView1.getNickname());
         //check with second crash
         controller = new Controller(virtualViews.subList(0,1));
-        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getStartTurn(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+        assertEquals(controller.getModelInterfaceForTesting().getStartTurn(),controller.getModelInterfaceForTesting().getCurrentState());
     }
     @Test
     public void multiPlayerPersistenceInSetUpTest() {
@@ -129,7 +124,7 @@ class ControllerTest {
         //second player does his pending setup
         controller.update(new SetupEventFromClient(secondNickname,chosenLeaderCardIndexes,chosenResources));
         //check that game is ready as first player already did his action
-        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getStartTurn(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+        assertEquals(controller.getModelInterfaceForTesting().getStartTurn(),controller.getModelInterfaceForTesting().getCurrentState());
     }
     @Test
     public void multiPlayerPersistenceInSetUpTestWithAutoSetup() {
@@ -151,12 +146,12 @@ class ControllerTest {
         //second player disconnect
         controller.disconnectPlayer(secondNickname);
         //game has moved in startGame for first player
-        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getStartTurn(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+        assertEquals(controller.getModelInterfaceForTesting().getStartTurn(),controller.getModelInterfaceForTesting().getCurrentState());
         //second player reconnect
         controller.reconnectPlayer(secondNickname);
         roundOfNothingFor(controller,firstNickname);
         //check that second player can do his turn as his setup has been done
-        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
     }
 
 
@@ -180,7 +175,7 @@ class ControllerTest {
         //test that reconnection of one player equals a new game
         controller = new Controller(virtualViews.subList(0,1));
         //check that server is waiting for a setup
-        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getIdle(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+        assertEquals(controller.getModelInterfaceForTesting().getIdle(),controller.getModelInterfaceForTesting().getCurrentState());
         controller.update(new SetupEventFromClient(virtualView1.getNickname(),chosenLeaderCardIndexes,chosenResources));
     }
     @Test
@@ -195,7 +190,7 @@ class ControllerTest {
         controller.disconnectPlayer(virtualView1.getNickname());
         controller = new Controller(virtualViews.subList(1,2));
         controller.update(new SetupEventFromClient(virtualView2.getNickname(),chosenLeaderCardIndexes,chosenResources));
-        assertEquals(virtualView2.getNickname(),controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(virtualView2.getNickname(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
     }
     @Test
     public void disconnectionOfTwoPlayersTests()  {
@@ -215,57 +210,57 @@ class ControllerTest {
         //first player disconnect
         controller.disconnectPlayer(firstNickname);
         //check that it is second player turn and he is the only one online
-        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
         assertEquals(1,controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().stream().filter(Player::isOnline).count());
         //second player does his turn
         roundOfNothingFor(controller,secondNickname);
         //check that it is still the second player turn
-        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
         //first player reconnect and second player end his turn
         controller.reconnectPlayer(firstNickname);
         roundOfNothingFor(controller,secondNickname);
         //check that it is first player turn as he is now reconnected
-        assertEquals(firstNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(firstNickname,controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
         assertEquals(2,controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().stream().filter(Player::isOnline).count());
         //do his turn
         roundOfNothingFor(controller,firstNickname);
         //check that it is second player turn
-        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
         //do the same for second player disconnection
         //second player disconnect
         controller.disconnectPlayer(secondNickname);
         //check that it is first player turn and he is the only one online
-        assertEquals(firstNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(firstNickname,controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
         assertEquals(1,controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().stream().filter(Player::isOnline).count());
         //first player does his turn
         roundOfNothingFor(controller,firstNickname);
         //check that it is still the first player turn
-        assertEquals(firstNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(firstNickname,controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
         //second player reconnect and first player end his turn
         controller.reconnectPlayer(secondNickname);
         roundOfNothingFor(controller,firstNickname);
         //check that it is second player turn as he is now reconnected
-        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
         assertEquals(2,controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().stream().filter(Player::isOnline).count());
         //do his turn
         roundOfNothingFor(controller,secondNickname);
         //check that it is first player turn
-        assertEquals(firstNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(firstNickname,controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
         //test disconnection when not in their turn
         //second player disconnect
         controller.disconnectPlayer(secondNickname);
         //check that after first actions it is still his turn
         roundOfNothingFor(controller,firstNickname);
-        assertEquals(firstNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(firstNickname,controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
         assertEquals(1,controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().stream().filter(Player::isOnline).count());
         //reconnect second player and try the same for him
         controller.reconnectPlayer(secondNickname);
         roundOfNothingFor(controller,firstNickname);
         //it's second turn and he is now online
-        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
         assertEquals(2,controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().stream().filter(Player::isOnline).count());
         controller.disconnectPlayer(firstNickname);
         roundOfNothingFor(controller,secondNickname);
-        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getTurnLogic().getCurrentPlayer().getNickname());
     }
 }

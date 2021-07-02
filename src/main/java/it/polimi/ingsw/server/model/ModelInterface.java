@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.resources.Resource;
 import it.polimi.ingsw.server.model.resources.ResourceFactory;
-import it.polimi.ingsw.server.model.turn.TurnLogic;
+import it.polimi.ingsw.server.model.turn.*;
 import it.polimi.ingsw.server.utils.EventToClientObservable;
 import it.polimi.ingsw.server.utils.EventToClientObserver;
 
@@ -27,9 +27,13 @@ import java.util.Map;
 public class ModelInterface implements EventToClientObservable {
 
     private final List<Player> players = new ArrayList<>();
+
     private final TurnLogic turnLogic;
     private final SetupManager setupManager;
     private final List<EventToClientObserver> virtualViews;
+
+    private State currentState;
+    protected final State startTurn, waitDevCardPlacement, waitTransformation, waitResourcePlacement, endTurn, endGame, idle;
 
     /**
      * This class contains all the methods visible to the controller in the MVC pattern
@@ -51,17 +55,57 @@ public class ModelInterface implements EventToClientObservable {
 
         setupManager = new SetupManager(players, this);
 
-        turnLogic.setSetupManager(setupManager);
+        this.startTurn = new StartTurnState(this);
+        this.waitDevCardPlacement = new WaitDevelopmentCardPlacementState(this);
+        this.waitTransformation = new WaitTransformationState(this);
+        this.waitResourcePlacement = new WaitResourcePlacementState(this);
+        this.endTurn = new EndTurnState(this);
+        this.endGame = new EndGameState(this);
+        this.idle = new IdleState(this);
+
+        this.currentState = idle;
     }
 
-    /**
-     * Getter of current player's nickname
-     *
-     * @return nickname of current player
-     */
-    public String getCurrentPlayerNickname() {
-        return turnLogic.getCurrentPlayer().getNickname();
+    public State getCurrentState() {
+        return currentState;
     }
+
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
+    }
+
+    public State getStartTurn() {
+        return startTurn;
+    }
+
+    public State getWaitDevCardPlacement() {
+        return waitDevCardPlacement;
+    }
+
+    public State getWaitTransformation() {
+        return waitTransformation;
+    }
+
+    public State getWaitResourcePlacement() {
+        return waitResourcePlacement;
+    }
+
+    public State getEndTurn() {
+        return endTurn;
+    }
+
+    public State getEndGame() {
+        return endGame;
+    }
+
+    public State getIdle() {
+        return idle;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
 
     /**
      * Get the turn manager of the current turn
@@ -79,6 +123,26 @@ public class ModelInterface implements EventToClientObservable {
      */
     public SetupManager getSetupManager() {
         return setupManager;
+    }
+
+    /**
+     * This method is used to add the Virtual View in the list of the Observer of this class
+     *
+     * @param virtualView object to add
+     */
+    @Override
+    public void registerObserver(EventToClientObserver virtualView) {
+        virtualViews.add(virtualView);
+    }
+
+    /**
+     * This method notify the Virtual Views of an amendment of the Model
+     *
+     * @param eventToClient the Event from the Model
+     */
+    @Override
+    public void notifyObservers(EventToClient eventToClient) {
+        virtualViews.forEach(view -> view.update(eventToClient));
     }
 
     /**
@@ -107,7 +171,7 @@ public class ModelInterface implements EventToClientObservable {
      * @throws InvalidEventException if the action failed
      */
     public boolean marketAction(int arrowID) throws InvalidEventException, InvalidIndexException {
-        return turnLogic.marketAction(arrowID);
+        return currentState.marketAction(arrowID);
     }
 
     /**
@@ -123,7 +187,7 @@ public class ModelInterface implements EventToClientObservable {
      * @throws NonAccessibleSlotException   if one of the selected slot is not accessible for this action
      */
     public boolean productionAction(Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
-        return turnLogic.productionAction(inResourcesForEachProductions, outResourcesForEachProductions);
+        return currentState.productionAction(inResourcesForEachProductions, outResourcesForEachProductions);
     }
 
     /**
@@ -140,7 +204,7 @@ public class ModelInterface implements EventToClientObservable {
      * @throws NonAccessibleSlotException if one of the resource position represents a slot that's not accessible
      */
     public boolean buyAction(String cardColor, int cardLevel, List<Integer> resourcePositions) throws InvalidEventException, InvalidIndexException, EmptySlotException, NonAccessibleSlotException {
-        return turnLogic.buyAction(cardColor, cardLevel, resourcePositions);
+        return currentState.buyAction(cardColor, cardLevel, resourcePositions);
     }
 
     /**
@@ -152,7 +216,7 @@ public class ModelInterface implements EventToClientObservable {
      * @throws InvalidEventException if the leaderAction can't be applied
      */
     public boolean leaderAction(String cardID, boolean discard) throws InvalidEventException {
-        return turnLogic.leaderAction(cardID, discard);
+        return currentState.leaderAction(cardID, discard);
     }
 
     /**
@@ -165,7 +229,7 @@ public class ModelInterface implements EventToClientObservable {
      * @throws InvalidEventException if the swaps cannot be applied
      */
     public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedTransformationAction) throws InvalidEventException {
-        return turnLogic.placeResourceAction(swapPairs, hasCompletedTransformationAction);
+        return currentState.placeResourceAction(swapPairs, hasCompletedTransformationAction);
     }
 
     /**
@@ -176,7 +240,7 @@ public class ModelInterface implements EventToClientObservable {
      * @throws InvalidEventException if the card can't be placed in the chosen slot
      */
     public boolean placeDevelopmentCardAction(int slotPosition) throws InvalidEventException {
-        return turnLogic.placeDevelopmentCardAction(slotPosition);
+        return currentState.placeDevelopmentCardAction(slotPosition);
     }
 
     /**
@@ -189,7 +253,7 @@ public class ModelInterface implements EventToClientObservable {
      * @throws NonStorableResourceException if one of the chosen resource is a NonStorableResource
      */
     public boolean transformationAction(List<String> chosenColors) throws InvalidEventException, NonStorableResourceException {
-        return turnLogic.transformationAction(chosenColors);
+        return currentState.transformationAction(chosenColors);
     }
 
     /**
@@ -201,27 +265,7 @@ public class ModelInterface implements EventToClientObservable {
      * @throws InvalidEventException if the Player cannot end the turn
      */
     public boolean endTurn() throws InvalidEventException {
-        return turnLogic.endTurn();
-    }
-
-    /**
-     * This method is used to add the Virtual View in the list of the Observer of this class
-     *
-     * @param virtualView object to add
-     */
-    @Override
-    public void registerObserver(EventToClientObserver virtualView) {
-        virtualViews.add(virtualView);
-    }
-
-    /**
-     * This method notify the Virtual Views of an amendment of the Model
-     *
-     * @param eventToClient the Event from the Model
-     */
-    @Override
-    public void notifyObservers(EventToClient eventToClient) {
-        virtualViews.forEach(view -> view.update(eventToClient));
+        return currentState.endTurn();
     }
 
     /**
@@ -236,52 +280,51 @@ public class ModelInterface implements EventToClientObservable {
     }
 
     /**
-     * This method is to start the setup phase of the game
+     * Start the setup phase of the game
      */
     public void startSetup() {
         setupManager.startSetup();
     }
 
     /**
-     * This method is used to resend the last event the model produced in case of an illegalAction
+     * Resend the last event the model produced in case of an illegalAction
      */
     public void reSendLastEvent() {
         turnLogic.reSendLastEvent();
     }
 
     /**
-     * This method is used to resent a setupEvent in case of an illegal SetupAction
+     * Resend a SetupEvent in case of an illegal SetupAction
      *
      * @param nickname player that will receive the setupEvent again
      */
-    public void reSendSetup(String nickname) {
+    public void reSendSetupEventFor(String nickname) {
         setupManager.resendSetupEventFor(nickname);
     }
 
     /**
-     * This method set a player in the model as offline
+     * Set a player in the model as offline
      *
      * @param nickname of the player offline
      * @return true if the player was the last one online
      */
-    //fixme modelInterface->turnLogic->turnLogic/setupManager. Better if currentState.disconnectAction. So: move State logic in modelInterface
     public boolean disconnectPlayer(String nickname) {
-        return turnLogic.disconnectAction(nickname);
+        return currentState.disconnectAction(nickname);
     }
 
     /**
-     * This method set a player in the model as online
+     * Set a player in the model as online
      *
      * @param nickname of the player reconnected
      * @return true
      */
     public boolean reconnectPlayer(String nickname) {
-        turnLogic.reconnectAction(nickname);
+        currentState.reconnectAction(nickname);
         return true;
     }
 
     /**
-     * This method is used to cheat 6 resources of each types to each player during the game demo
+     * Cheat 6 resources of each types to each player during the game demo
      * It does so by adding them to each player's Strong Box
      */
     public void cheat() {
@@ -325,7 +368,7 @@ public class ModelInterface implements EventToClientObservable {
      * This method send the necessary events to the client in order for them to restart they game where they left it
      */
     public void sendNecessaryEvents() {
-        turnLogic.sendNecessaryEvents();
+        currentState.sendNecessaryEvents();
     }
 
     public void loadDefaultTokens() {

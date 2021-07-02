@@ -1,16 +1,14 @@
 package it.polimi.ingsw.server.model.turn;
 
+import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.SetupManager;
 
 public class IdleState extends State {
-    private SetupManager setupManager;
+    private final SetupManager setupManager;
 
-    public IdleState(TurnLogic turnLogic) {
-        super(turnLogic);
-    }
-
-    public void setSetupManager(SetupManager setupManager) {
-        this.setupManager = setupManager;
+    public IdleState(ModelInterface modelInterface) {
+        super(modelInterface);
+        this.setupManager = modelInterface.getSetupManager();
     }
 
     @Override

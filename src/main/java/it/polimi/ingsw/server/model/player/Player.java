@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.server.events.send.EventToClient;
+import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
@@ -174,16 +175,18 @@ public class Player implements PlayerInterface {
     /**
      * Prepare the turn as the player left it when he disconnected
      *
-     * @param turnLogic turnLogic to set as it was when disconnection happened
+     * @param modelInterface Model Interface reference
      * @return true if player suffered a disconnection
      */
-    public boolean prepareTurn(TurnLogic turnLogic) {
+    public boolean prepareTurn(ModelInterface modelInterface) {
         if (disconnectedState == null) {
             return false;
         }
+        modelInterface.setCurrentState(disconnectedState);
+
+        TurnLogic turnLogic = modelInterface.getTurnLogic();
         turnLogic.addWhiteResourcesFromMarketToTransform(whiteResourcesFromMarket);
         turnLogic.setChosenDevCard(chosenDevCard);
-        turnLogic.setCurrentState(disconnectedState);
         turnLogic.getModelInterface().notifyObservers(lastReceivedEvent);
         turnLogic.setLastEventSent(lastReceivedEvent);
         disconnectedState = null;

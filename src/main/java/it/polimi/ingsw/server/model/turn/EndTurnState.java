@@ -6,15 +6,17 @@ import it.polimi.ingsw.commons.FileUtilities;
 import it.polimi.ingsw.commons.Parser;
 import it.polimi.ingsw.server.events.send.EndGameEvent;
 import it.polimi.ingsw.server.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.model.ModelInterface;
 import it.polimi.ingsw.server.model.PlayerInterface;
 
 import java.util.ArrayList;
+
 /**
  * State of the end of the Turn.
  */
 public class EndTurnState extends State {
-    public EndTurnState(TurnLogic turnLogic) {
-        super(turnLogic);
+    public EndTurnState(ModelInterface modelInterface) {
+        super(modelInterface);
     }
 
     /**
@@ -58,7 +60,7 @@ public class EndTurnState extends State {
     @Override
     public boolean leaderAction(String cardID, boolean discard) throws InvalidEventException {
 
-        ((StartTurnState) turnLogic.getStartTurn()).executeLeaderAction(cardID, discard);
+        ((StartTurnState) modelInterface.getStartTurn()).executeLeaderAction(cardID, discard);
 
         return endTurn();
     }
@@ -70,9 +72,9 @@ public class EndTurnState extends State {
     private void sendGraphicForEndGame() {
         resetSavedData();
         PlayerInterface winner = turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
-        turnLogic.setCurrentState(turnLogic.getEndGame());
-        EndGameEvent endGameEvent = new EndGameEvent(winner, turnLogic.getPlayers());
-        turnLogic.getModelInterface().notifyObservers(endGameEvent);
+        modelInterface.setCurrentState(modelInterface.getEndGame());
+        EndGameEvent endGameEvent = new EndGameEvent(winner, modelInterface.getPlayers());
+        modelInterface.notifyObservers(endGameEvent);
     }
 
     /**

@@ -2,9 +2,12 @@ package it.polimi.ingsw.server.utils;
 
 import it.polimi.ingsw.server.events.receive.EventFromClient;
 
+/**
+ * Should be implemented by all the Classes that needs to be updated when an Event from the Client has been received.
+ */
 public interface EventsFromClientObserver {
     /**
-     * This method is called by a Virtual View to notify the observers that an Event from the Client has been received.
+     * Notify the observers that an Event from the Client has been received.
      *
      * @param eventFromClient The Event from the Client
      */

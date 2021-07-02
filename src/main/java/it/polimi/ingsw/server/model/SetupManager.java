@@ -1,15 +1,15 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.commons.enums.ResourcesEnum;
-import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.events.send.GameStartedEvent;
 import it.polimi.ingsw.server.events.send.choice.SetupChoiceEvent;
 import it.polimi.ingsw.server.events.send.graphics.*;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.resources.ResourceFactory;
 import it.polimi.ingsw.server.model.resources.Resource;
+import it.polimi.ingsw.server.model.resources.ResourceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,6 @@ public class SetupManager {
      * Reset the GameBoard and send to all the Players the LeaderCards and the number of resources to choose
      */
     public void startSetup() {
-
         //initial update
         GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
         graphicUpdateEvent.addUpdate(new MarketUpdate());
@@ -174,7 +173,7 @@ public class SetupManager {
     private void initialGameSetup() {
         if (setupSendEvents.size() == 0) {
             //set turnLogic state from (idleState where very action is invalidEvent) to startTurn
-            modelInterface.getTurnLogic().setCurrentState(modelInterface.getTurnLogic().getStartTurn());
+            modelInterface.setCurrentState(modelInterface.getStartTurn());
 
             //all the players receive an update event with the gameBoard
             GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
@@ -198,7 +197,6 @@ public class SetupManager {
         graphicUpdateEvent.addUpdate(new MarketUpdate());
         graphicUpdateEvent.addUpdate(new GridUpdate());
         modelInterface.notifyObservers(graphicUpdateEvent);
-
     }
 
     public void reSendAllPendingSetupEvents() {

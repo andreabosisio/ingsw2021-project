@@ -18,7 +18,6 @@ public class Inventory extends Printable {
     private final static String NON_ACCESSIBLE_SLOT_SYMBOL = " X ";
     private final static int FIRST_EXTRA_SLOT_INIT_INDEX = 10;
     private final static int SECOND_EXTRA_SLOT_INIT_INDEX = 12;
-    public final static int STRONGBOX_INIT_INDEX = 14;
     public final static int EXTRA_SLOTS_DIM = 2;
 
     public Inventory(Map<Integer, String> warehouse, List<String> activeLeadersIDs) {

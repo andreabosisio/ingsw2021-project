@@ -183,7 +183,7 @@ public class Controller implements EventsFromClientObserver {
     @Override
     public synchronized void update(EventFromClient eventFromClient) {
         ClientHandler currentClientHandler = Objects.requireNonNull(virtualViews.stream().filter(v -> v.getNickname().equals(eventFromClient.getNickname())).findFirst().orElse(null)).getClientHandler();
-        if (eventFromClient.canBeExecutedFor(modelInterface.getCurrentPlayerNickname())) {
+        if (eventFromClient.canBeExecutedFor(modelInterface.getTurnLogic().getCurrentPlayer().getNickname())) {
             try {
                 updateSavedGame(eventFromClient);
                 eventFromClient.doAction(modelInterface);
@@ -194,7 +194,7 @@ public class Controller implements EventsFromClientObserver {
             } catch (InvalidSetupException ex) {
                 //if exception was created by a failed setup event resend setup choice event
                 currentClientHandler.sendErrorMessage(ex.getMessage());
-                modelInterface.reSendSetup(eventFromClient.getNickname());
+                modelInterface.reSendSetupEventFor(eventFromClient.getNickname());
             }
         } else
             currentClientHandler.sendErrorMessage("It's not your turn!");

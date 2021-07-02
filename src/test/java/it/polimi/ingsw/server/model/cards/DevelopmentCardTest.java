@@ -211,40 +211,4 @@ class DevelopmentCardTest {
         assertFalse(devCard.buyCard(turnLogic.getCurrentPlayer(), paymentResourcePositions, discount));
 
     }
-
-
-    //@Test
-     /*void moreCanDoProductionTest() {
-        ProductionCard devCard = createDevCard();
-        List<Resource> plusResources = new ArrayList<>();
-        List<Resource> emptyResources = new ArrayList<>();
-
-        plusResources.add(new StorableResource(ResourcesEnum.BLUE));
-        plusResources.add(new StorableResource(ResourcesEnum.PURPLE));
-        plusResources.add(new StorableResource(ResourcesEnum.GRAY));
-
-
-        assertTrue(devCard.canDoProduction(plusResources) && !devCard.getInResources().isEmpty());
-        assertTrue(!devCard.canDoProduction(emptyResources) && !devCard.getInResources().isEmpty());
-
-    }*/
-
-    /*
-    /**
-     * Verify if usePower() return NEW instances of the correct resources
-     */
-    /*
-    @Test
-     void usePowerTest() {
-        ProductionCard devCard = createDevCard();
-        assertTrue(!devCard.usePower().isEmpty() && devCard.usePower() != devCard.getOutResources() && devCard.usePower().equals(devCard.getOutResources()));
-    }*/
-
-    //@Test
-    //void buyCardTest(){
-    //    DevelopmentCard devCard = createDevCard();
-    //    devCard.buyCard(new Player(), )
-    //}
-
-
 }

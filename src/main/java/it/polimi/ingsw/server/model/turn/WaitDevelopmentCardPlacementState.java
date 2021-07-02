@@ -5,15 +5,12 @@ import it.polimi.ingsw.server.events.send.graphics.GraphicUpdateEvent;
 import it.polimi.ingsw.server.events.send.graphics.PersonalBoardUpdate;
 import it.polimi.ingsw.server.events.send.graphics.ProductionSlotsUpdate;
 import it.polimi.ingsw.server.exceptions.InvalidEventException;
+import it.polimi.ingsw.server.model.ModelInterface;
 
 public class WaitDevelopmentCardPlacementState extends State {
-    /**
-     * Used to construct a turnLogic state waiting for the player to place his new development card
-     *
-     * @param turnLogic turnLogic associated with the state
-     */
-    public WaitDevelopmentCardPlacementState(TurnLogic turnLogic) {
-        super(turnLogic);
+
+    public WaitDevelopmentCardPlacementState(ModelInterface modelInterface) {
+        super(modelInterface);
     }
 
     /**
@@ -25,17 +22,17 @@ public class WaitDevelopmentCardPlacementState extends State {
      */
     @Override
     public boolean placeDevelopmentCardAction(int slotPosition) throws InvalidEventException {
-        if (turnLogic.getCurrentPlayer().getPersonalBoard().setNewProductionCard(slotPosition, turnLogic.getChosenDevCard())) {
+        if (getCurrentPlayer().getPersonalBoard().setNewProductionCard(slotPosition, turnLogic.getChosenDevCard())) {
 
             //graphic update of player's DevCards owned
             GraphicUpdateEvent graphicUpdateEvent = new GraphicUpdateEvent();
-            graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(turnLogic.getCurrentPlayer(), new ProductionSlotsUpdate()));
-            graphicUpdateEvent.addUpdate(turnLogic.getCurrentPlayer().getNickname() + " is placing his new card...");
-            turnLogic.getModelInterface().notifyObservers(graphicUpdateEvent);
-            EndTurnChoiceEvent endTurnChoiceEvent = new EndTurnChoiceEvent(turnLogic.getCurrentPlayer().getNickname());
+            graphicUpdateEvent.addUpdate(new PersonalBoardUpdate(getCurrentPlayer(), new ProductionSlotsUpdate()));
+            graphicUpdateEvent.addUpdate(getCurrentPlayer().getNickname() + " is placing his new card...");
+            modelInterface.notifyObservers(graphicUpdateEvent);
+            EndTurnChoiceEvent endTurnChoiceEvent = new EndTurnChoiceEvent(getCurrentPlayer().getNickname());
             turnLogic.setLastEventSent(endTurnChoiceEvent);
-            turnLogic.getModelInterface().notifyObservers(endTurnChoiceEvent);
-            turnLogic.setCurrentState(turnLogic.getEndTurn());
+            modelInterface.notifyObservers(endTurnChoiceEvent);
+            modelInterface.setCurrentState(modelInterface.getEndTurn());
             return true;
         }
         throw new InvalidEventException("Cannot place the card in the chosen slot");
