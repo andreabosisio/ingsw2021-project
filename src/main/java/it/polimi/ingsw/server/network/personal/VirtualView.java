@@ -111,7 +111,6 @@ public class VirtualView implements PongObserver, EventToClientObserver, EventFr
      * It does so by calling the sendPing function(not called directly to better be able to turnoff the system in debug)
      */
     public void startPingPong() {
-        //fixme activate below for ping system
         sendPing();
     }
 

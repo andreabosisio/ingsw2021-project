@@ -58,8 +58,6 @@ public class LeaderCardsDatabase {
         return leaderCardIDs.indexOf(cardIndex);
     }
 
-    //todo maybe move those PrintableMethods in LeaderCard Class
-
     /**
      * Get method that return the requirements of the card
      *

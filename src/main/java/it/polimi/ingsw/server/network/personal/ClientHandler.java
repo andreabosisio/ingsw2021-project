@@ -175,7 +175,6 @@ public class ClientHandler implements Runnable {
      * @return false if the player left in the middle of his connection
      */
     private boolean firstInLobby() {
-        //todo pensarci bene
         synchronized (Lobby.getLobby()) {
             if (Lobby.getLobby().isFirstInLobby()) {
                 if (!decidingSizeLoop()) {

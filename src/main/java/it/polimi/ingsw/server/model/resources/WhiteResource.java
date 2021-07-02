@@ -73,7 +73,12 @@ public class WhiteResource extends Resource {
         return possibleTransformations;
     }
 
-    public WhiteResource clone() {
+    /**
+     * Deep copy of this White Resource.
+     *
+     * @return The cloned Resource
+     */
+    public WhiteResource deepClone() {
         WhiteResource newWhiteResource = new WhiteResource();
         possibleTransformations.forEach(t-> {
             try {

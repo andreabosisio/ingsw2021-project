@@ -224,12 +224,12 @@ public class ModelInterface implements EventToClientObservable {
      * to store increases the FaithProgress of the other players.
      *
      * @param swapPairs                        List of all the swaps to be applied
-     * @param hasCompletedTransformationAction true if the Player has already completed the Transformation Action
+     * @param isFinal true if the Player wants to confirm the reordering
      * @return true if the warehouse reordering is legal
      * @throws InvalidEventException if the swaps cannot be applied
      */
-    public boolean placeResourceAction(List<Integer> swapPairs, boolean hasCompletedTransformationAction) throws InvalidEventException {
-        return currentState.placeResourceAction(swapPairs, hasCompletedTransformationAction);
+    public boolean placeResourceAction(List<Integer> swapPairs, boolean isFinal) throws InvalidEventException {
+        return currentState.placeResourceAction(swapPairs, isFinal);
     }
 
     /**
@@ -303,9 +303,9 @@ public class ModelInterface implements EventToClientObservable {
     }
 
     /**
-     * Set a player in the model as offline
+     * Set a player in the model as offline and save all its data.
      *
-     * @param nickname of the player offline
+     * @param nickname of the disconnected player
      * @return true if the player was the last one online
      */
     public boolean disconnectPlayer(String nickname) {
@@ -313,7 +313,7 @@ public class ModelInterface implements EventToClientObservable {
     }
 
     /**
-     * Set a player in the model as online
+     * Set a player in the model as online and reload all its data.
      *
      * @param nickname of the player reconnected
      * @return true

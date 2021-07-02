@@ -77,16 +77,7 @@ public class StartTurnState extends State {
         return false;
     }
 
-    /**
-     * For all the given ProductionCard apply the production with the chosen resources.
-     *
-     * @param inResourcesForEachProductions  containing the chosen ProductionCard and the chosen resources to apply its production
-     * @param outResourcesForEachProductions containing the chosen ProductionCard and (if possible) the desired resources
-     * @return true if the production has been correctly applied
-     * @throws InvalidEventException        if one of the production can't be applied
-     * @throws InvalidIndexException        if one of the index of the chosen ProductionCard doesn't exists
-     * @throws NonStorableResourceException if one of the chosen resources contains a NonStorableResource
-     */
+
     @Override
     public boolean productionAction(Map<Integer, List<Integer>> inResourcesForEachProductions, Map<Integer, String> outResourcesForEachProductions) throws InvalidEventException, InvalidIndexException, NonStorableResourceException, EmptySlotException, NonAccessibleSlotException {
         PersonalBoard personalBoard = getCurrentPlayer().getPersonalBoard();

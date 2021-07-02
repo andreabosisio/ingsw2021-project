@@ -171,7 +171,7 @@ public class Player implements PlayerInterface {
     public void setDisconnectedData(State currentState, List<WhiteResource> whiteResourcesFromMarket, DevelopmentCard chosenDevCard, EventToClient lastReceivedEvent) {
         this.disconnectedState = currentState;
         this.whiteResourcesFromMarket = new ArrayList<>();
-        whiteResourcesFromMarket.forEach(r -> this.whiteResourcesFromMarket.add(r.clone()));
+        whiteResourcesFromMarket.forEach(r -> this.whiteResourcesFromMarket.add(r.deepClone()));
         this.chosenDevCard = chosenDevCard;
         this.lastReceivedEvent = lastReceivedEvent;
     }
