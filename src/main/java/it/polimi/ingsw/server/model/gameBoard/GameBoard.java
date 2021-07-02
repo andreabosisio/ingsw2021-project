@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.gameBoard;
 import it.polimi.ingsw.server.model.PlayerInterface;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.gameBoard.faithtrack.FaithTrack;
-import it.polimi.ingsw.server.model.gameBoard.faithtrack.FirstOfFaithTrack;
+import it.polimi.ingsw.server.model.gameBoard.faithtrack.FaithTracksManager;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
 
@@ -20,7 +20,7 @@ public class GameBoard {
     private MarketTray marketTray;
     private DevelopmentCardsGrid developmentCardsGrid;
     private List<FaithTrack> faithObservers;
-    private FirstOfFaithTrack firstOfFaithTrack;
+    private FaithTracksManager faithTracksManager;
     private static GameBoard instance = null;
 
     /**
@@ -31,7 +31,7 @@ public class GameBoard {
         this.marketTray = new MarketTray();
         this.developmentCardsGrid = new DevelopmentCardsGrid();
         this.faithObservers = new ArrayList<>();
-        this.firstOfFaithTrack = new FirstOfFaithTrack();
+        this.faithTracksManager = new FaithTracksManager();
     }
 
     /**
@@ -54,7 +54,7 @@ public class GameBoard {
         this.marketTray = new MarketTray();
         this.developmentCardsGrid = new DevelopmentCardsGrid();
         this.faithObservers = new ArrayList<>();
-        this.firstOfFaithTrack = new FirstOfFaithTrack();
+        this.faithTracksManager = new FaithTracksManager();
     }
 
     /**
@@ -84,7 +84,7 @@ public class GameBoard {
     public boolean createFaithTracks(List<Player> players) {
         if (players.size() > 0) {
             for (Player player : players) {
-                FaithTrack playerFaithTrack = new FaithTrack(player, firstOfFaithTrack);
+                FaithTrack playerFaithTrack = new FaithTrack(player, faithTracksManager);
                 faithObservers.add(playerFaithTrack);
             }
             return true;
@@ -94,23 +94,23 @@ public class GameBoard {
 
     /**
      * This method is used by the constructor to set the list of the FaithObserver and
-     * the unique EndGameObserver of the class FirstOfFaithTrack
+     * the unique EndGameObserver of the class FaithTracksManager
      *
-     * @param faithObservers is the List of Faith Track that are SendObserver of the class FirstOfFaithTrack
-     * @param iCheckWinner   is the observer of the class FirstOfFaithTrack
+     * @param faithObservers is the List of Faith Track that are SendObserver of the class FaithTracksManager
+     * @param iCheckWinner   is the observer of the class FaithTracksManager
      */
     public void setObserversOfFirstOfFaithTrack(List<FaithTrack> faithObservers, EndGameObserver iCheckWinner) {
         for (FaithTrack faithObserver : faithObservers) {
-            firstOfFaithTrack.registerFaithObserver(faithObserver);
+            faithTracksManager.registerFaithObserver(faithObserver);
         }
-        firstOfFaithTrack.registerEndGameObserver(iCheckWinner);
+        faithTracksManager.registerEndGameObserver(iCheckWinner);
     }
 
     /**
      * This method is used by the constructor to set the observer
      * of the class DevelopmentCardsGrid
      *
-     * @param iCheckWinner is the observer of the class FirstOfFaithTrack
+     * @param iCheckWinner is the observer of the class FaithTracksManager
      */
     public void setObserverOfDevCardsGrid(EndGameObserver iCheckWinner) {
         developmentCardsGrid.registerEndGameObserver(iCheckWinner);
@@ -123,12 +123,12 @@ public class GameBoard {
      * @param lorenzo Lorenzo
      */
     public void createLorenzoFaithTrack(PlayerInterface lorenzo) {
-        faithObservers.add(new FaithTrack(lorenzo, this.firstOfFaithTrack));
+        faithObservers.add(new FaithTrack(lorenzo, this.faithTracksManager));
     }
 
     /**
      * This method increases the Faith Track Marker of the Faith Track owned by a player
-     * and calls the method notifyObservers() of the FirstOfFaithTrack class.
+     * and calls the method notifyObservers() of the FaithTracksManager class.
      *
      * @param player        is the owner of the Faith Track
      * @param progressValue is the increment value
@@ -136,13 +136,13 @@ public class GameBoard {
      */
     public boolean faithProgress(PlayerInterface player, int progressValue) {
         faithObservers.stream().filter(x -> x.getOwner() == player).forEach(x -> x.faithTrackProgress(progressValue));
-        return firstOfFaithTrack.notifyFaithObservers();
+        return faithTracksManager.notifyFaithObservers();
     }
 
     /**
      * This method increases the Faith Track Marker of all the Faith Track
      * except that belongs to player
-     * and calls the method notifyObservers() of the FirstOfFaithTrack class.
+     * and calls the method notifyObservers() of the FaithTracksManager class.
      *
      * @param currentPlayer is the Player who has not an increase of the Faith Track
      * @param progressValue is the increment value
@@ -150,7 +150,7 @@ public class GameBoard {
      */
     public boolean faithProgressForOtherPlayers(PlayerInterface currentPlayer, int progressValue) {
         faithObservers.stream().filter(x -> x.getOwner() != currentPlayer).forEach(x -> x.faithTrackProgress(progressValue));
-        return firstOfFaithTrack.notifyFaithObservers();
+        return faithTracksManager.notifyFaithObservers();
     }
 
     /**

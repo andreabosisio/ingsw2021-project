@@ -5,7 +5,7 @@ package it.polimi.ingsw.server.model.gameBoard.faithtrack;
  * operating of the Pattern SendObserver.
  * This interface is implemented by the class FaithTrack.
  */
-public interface FaithObserver {
+public interface FaithTracksManagerObserver {
 
     /**
      * This method checks if the current position of the Faith Marker

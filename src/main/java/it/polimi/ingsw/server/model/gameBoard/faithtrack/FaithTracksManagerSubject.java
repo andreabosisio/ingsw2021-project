@@ -3,9 +3,9 @@ package it.polimi.ingsw.server.model.gameBoard.faithtrack;
 /**
  * Interface that contains all the methods useful for the correct
  * operating of the Pattern SendObserver.
- * This interface is implemented by the class FirstOfFaithTrack.
+ * This interface is implemented by the class FaithTracksManager.
  */
-public interface FirstFaithSubject {
+public interface FaithTracksManagerSubject {
 
     /**
      * This method is used by the GameBoard class to add the observers

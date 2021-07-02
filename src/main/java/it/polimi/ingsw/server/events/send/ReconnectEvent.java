@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.utils.ServerParser;
 import java.util.List;
 
 /**
- * This Event contains all the information to reconnect the Player
+ * This Event contains all the information to reconnect a Player
  */
 public class ReconnectEvent extends EventToClient {
     private final String type = ServerParser.RECONNECT_TYPE;

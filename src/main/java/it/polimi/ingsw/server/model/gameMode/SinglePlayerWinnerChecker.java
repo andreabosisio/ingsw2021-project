@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.PlayerInterface;
  * This class contains the methods to check the End of The Game and
  * to find the Winner, in fact it implements the interface ICheckWinner that extends the interface EndGameObserver.
  * It is SendObserver of the following classes:
- * DevelopmentCardsGrid, FirstOfFaithTrack and PersonalBoard.
+ * DevelopmentCardsGrid, FaithTracksManager and PersonalBoard.
  */
 public class SinglePlayerWinnerChecker implements ICheckWinner {
     private PlayerInterface winner = null;
@@ -20,7 +20,7 @@ public class SinglePlayerWinnerChecker implements ICheckWinner {
     }
 
     /**
-     * This method is called by the class FirstOfFaithTrack
+     * This method is called by the class FaithTracksManager
      * when a player reaches the End of the Faith Track.
      * Set the attribute winner with the winnerGame and
      * set the attribute gameOver true

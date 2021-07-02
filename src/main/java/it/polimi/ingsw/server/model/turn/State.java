@@ -7,6 +7,9 @@ import it.polimi.ingsw.server.model.player.Player;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Abstract implementation of a Game State. It contains all the possible game actions.
+ */
 public abstract class State {
 
     final ModelInterface modelInterface;
@@ -14,6 +17,11 @@ public abstract class State {
 
     private final String INVALID_ACTION_MSG = "Invalid action right now!";
 
+    /**
+     * Create a State by setting the Model reference.
+     *
+     * @param modelInterface Model reference
+     */
     public State(ModelInterface modelInterface) {
         this.modelInterface = modelInterface;
         this.turnLogic = modelInterface.getTurnLogic();
