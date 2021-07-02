@@ -9,6 +9,9 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+/**
+ * Class that as the capacity to print the Personal Board of the Player
+ */
 public class PersonalBoard extends Printable {
 
     private final String nickname;
@@ -34,10 +37,21 @@ public class PersonalBoard extends Printable {
         this.warehouse = new HashMap<>();
     }
 
+    /**
+     * Get method that return the nickname of the Player
+     *
+     * @return the nickname of the Player
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * This method set the Leader Card in hand of the Player
+     *
+     * @param handLeaders        is the list of the Leader Cards
+     * @param thisClientNickname is the nickname of the Player to set
+     */
     public void setHandLeaders(List<String> handLeaders, String thisClientNickname) {
         if (handLeaders != null && this.nickname.equals(thisClientNickname)) {
             int i = 0;
@@ -50,6 +64,11 @@ public class PersonalBoard extends Printable {
         }
     }
 
+    /**
+     * This method set the active Leader Cards of the Player
+     *
+     * @param activeLeaders is the list of the active Leader Cards
+     */
     public void setActiveLeaders(List<String> activeLeaders) {
         if (activeLeaders != null) {
             int i = 0;
@@ -60,6 +79,11 @@ public class PersonalBoard extends Printable {
         }
     }
 
+    /**
+     * This method set the Development Cards in the personal Board of the Player
+     *
+     * @param productionBoard is the list of the Development Cards activated
+     */
     public void setProductionBoard(List<List<String>> productionBoard) {
         if (productionBoard != null) {
             int i = 0;
@@ -71,28 +95,58 @@ public class PersonalBoard extends Printable {
         }
     }
 
+    /**
+     * This method set the Warehouse of the Player
+     *
+     * @param warehouse is thw Warehouse of the Player
+     */
     public void setWarehouse(Map<Integer, String> warehouse) {
         if (warehouse != null) {
             this.warehouse = warehouse;
         }
     }
 
+    /**
+     * Get method that return the Warehouse of the Player
+     *
+     * @return the Warehouse of the Player
+     */
     public Map<Integer, String> getWarehouse() {
         return warehouse;
     }
 
+    /**
+     * Get method that return the Leader Cards in hand of the Player
+     *
+     * @return the Leader Cards in hand of the Player
+     */
     public List<String> getHandLeaders() {
         return new ArrayList<>(handLeaders);
     }
 
+    /**
+     * Get method that return the activated Leader Card of the Player
+     *
+     * @return the activated Leader Card of the Player
+     */
     public List<String> getActiveLeaders() {
         return new ArrayList<>(activeLeaders);
     }
 
+    /**
+     * Get method that return the Development Cards placed in the Personal Board
+     *
+     * @return the Development Cards placed in the Personal Board
+     */
     public List<LinkedHashSet<String>> getDevelopmentCardsInSlots() {
         return developmentCardsInSlots;
     }
 
+    /**
+     * This method update all the data of the Personal Board of the Player
+     *
+     * @param view is the View of the Player
+     */
     public void update(View view) {
         PersonalBoard personalBoard = Board.getBoard().getPersonalBoardOf(nickname);
 
@@ -105,6 +159,10 @@ public class PersonalBoard extends Printable {
 
     }
 
+    /**
+     * This method is used to update the data of the Personal Board that
+     * is show during the execution of the ClI application
+     */
     public void updateCliScenes() {
         setHandScene();
         setActiveLeadersScene();
@@ -114,6 +172,10 @@ public class PersonalBoard extends Printable {
         setCardsScene();
     }
 
+    /**
+     * This method creates the scene that contains the slots with the Development Cards,
+     * visible during the running of the CLI application
+     */
     private void setProductionSlotsScene() {
         List<Printable> slots = developmentCardsInSlots.stream().map(slot -> {
             Printable slotsBuilder = new PrintableScene(new ArrayList<>());
@@ -132,14 +194,27 @@ public class PersonalBoard extends Printable {
         this.productionSlotsScene = new PrintableScene(PrintableScene.concatenatePrintables(devCardsSlots));
     }
 
+    /**
+     * This method creates the scene that contains the slots of the Warehouse,
+     * visible during the running of the CLI application
+     */
     private void setWarehouseScene() {
         this.warehouseScene = new PrintableScene(PrintableScene.addBottomString(new Inventory(warehouse, activeLeaders), getPrintableBoardName(), WAREHOUSE_BOARDNAME_OFFSET));
     }
 
+    /**
+     * Get method that return a better printable version of the name of the owner of the Personal Board
+     *
+     * @return a better printable version of the name of the owner of the Personal Board
+     */
     private String getPrintableBoardName() {
         return "       " + AnsiUtilities.getPrettyNickname(getNickname()) + "'s Personal Board";
     }
 
+    /**
+     * This method creates the scene that contains the activated Leader Cards,
+     * visible during the running of the CLI application
+     */
     private void setActiveLeadersScene() {
         List<Printable> leaderCards = activeLeaders.stream().map(LeaderCard::new).collect(Collectors.toList());
         AtomicInteger i = new AtomicInteger(3);
@@ -155,6 +230,10 @@ public class PersonalBoard extends Printable {
         this.activeLeadersScene = new PrintableScene(PrintableScene.concatenatePrintables(leaderSlots));
     }
 
+    /**
+     * This method creates the scene that contains the Leader Cards in hand,
+     * visible during the running of the CLI application
+     */
     private void setHandScene() {
         List<Printable> handCards = handLeaders.stream().map(LeaderCard::new).collect(Collectors.toList());
         AtomicInteger i = new AtomicInteger(-1);
@@ -165,30 +244,63 @@ public class PersonalBoard extends Printable {
         this.handScene = new PrintableScene(PrintableScene.concatenatePrintables(handSlots));
     }
 
+    /**
+     * This method creates the scene that contains the Leader Cards in hand and activated,
+     * visible during the running of the CLI application
+     */
     private void setCardsScene() {
         this.cardsScene = new PrintableScene(PrintableScene.addPrintablesToTop(handScene, ACTIVE_HAND_LEADERS_OFFSET, activeCardsScene));
     }
 
+    /**
+     * This method creates the scene that contains the slots with the Development Cards and the Leader Cards activated
+     * that has a production ability, visible during the running of the CLI application
+     */
     private void setActiveCardsScene() {
         this.activeCardsScene = new PrintableScene(PrintableScene.concatenatePrintables(DEV_LEADER_SEPARATOR, productionSlotsScene, activeLeadersScene));
     }
 
+    /**
+     * Get method that return the Warehouse scene
+     *
+     * @return the Warehouse scene
+     */
     public PrintableScene getWarehouseScene() {
         return warehouseScene;
     }
 
+    /**
+     * Get method that return the Cards scene that contains the Leader Cards in hand and activated
+     *
+     * @return the Cards scene
+     */
     public PrintableScene getCardsScene() {
         return cardsScene;
     }
 
+    /**
+     * Get method that return the activatedCards scene that contains the slots with the Development Cards and the Leader Cards activated
+     *
+     * @return the activatedCards scene
+     */
     public PrintableScene getActiveCardsScene() {
         return activeCardsScene;
     }
 
+    /**
+     * Get method that return the productionSlots scene that contains the slots with the Development Cards
+     *
+     * @return the productionSlotsScene
+     */
     public PrintableScene getProductionSlotsScene() {
         return productionSlotsScene;
     }
 
+    /**
+     * Get method that return the printable version of all the Personal Board
+     *
+     * @return the printable version of all the Personal Board
+     */
     @Override
     public List<String> getPrintable() {
         List<String> printable = PrintableScene.concatenatePrintables(WAREHOUSE_SLOTS_SEPARATOR, warehouseScene, cardsScene).getPrintable();
