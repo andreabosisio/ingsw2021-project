@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class StartTurnEvent extends EventToClient {
     private final String type = ServerParser.START_TURN_TYPE;
-    private final String[] receivers;
+    private transient final String[] receivers;
     private final String nextPlayer;
 
     public StartTurnEvent(String nextPlayer, String... receivers) {

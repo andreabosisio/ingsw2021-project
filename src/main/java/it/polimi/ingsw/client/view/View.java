@@ -5,6 +5,9 @@ import it.polimi.ingsw.client.model.PersonalBoard;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This interface is implemented by the GUI and CLI Application
+ */
 public interface View {
     /**
      * Set the nickname of the player owner of this view
@@ -15,18 +18,21 @@ public interface View {
 
     /**
      * Getter of nickname of the player using this view
+     *
      * @return the player chosen nickname
      */
     String getNickname();
 
     /**
      * Set this client as currently playing
+     *
      * @param isPlaying true if it is this client turn
      */
     void setIsPlaying(boolean isPlaying);
 
     /**
      * Method used to check if this client is playing
+     *
      * @return true if he is
      */
     boolean isThisClientTurn();
@@ -43,12 +49,14 @@ public interface View {
 
     /**
      * Print an infoMessage from the server
+     *
      * @param info message to print
      */
     void printInfoMessage(String info);
 
     /**
      * Print an errorMessage from the server
+     *
      * @param error message to print
      */
     void printErrorMessage(String error);
@@ -73,7 +81,7 @@ public interface View {
     /**
      * Set the view on the setup phase
      *
-     * @param leaderCardsID IDs of the leaders the player can chose from
+     * @param leaderCardsID    IDs of the leaders the player can chose from
      * @param numberOfResource number of resources the player needs to chose
      */
     void setOnSetup(List<String> leaderCardsID, int numberOfResource);
@@ -104,7 +112,8 @@ public interface View {
 
     /**
      * Set the player on the resource transformation phase
-     * @param numberOfTransformation number of resources to transform
+     *
+     * @param numberOfTransformation  number of resources to transform
      * @param possibleTransformations possible colors to transform them into
      */
     void setOnTransformation(int numberOfTransformation, List<String> possibleTransformations);
@@ -116,30 +125,31 @@ public interface View {
 
     /**
      * Show the player the endGame scene
-     * @param winner winning player
+     *
+     * @param winner        winning player
      * @param playersPoints all players points
      */
     void setOnEndGame(String winner, Map<String, Integer> playersPoints);
 
     /**
-     * Update the market state saved in the reduced model
+     * Update the market state
      */
     void marketUpdate();
 
     /**
-     * Update the development card grid saved in the reduced model with a new card
+     * Update the development card grid state
      *
      * @param iD ID of the new card
      */
     void gridUpdate(String iD);
 
     /**
-     * Update the faithTracks saved in the reduced model
+     * Update the faithTracks state
      */
     void faithTracksUpdate();
 
     /**
-     * Updates the personalBoard of one player in the reduced model
+     * Updates the personalBoard of one player
      *
      * @param updatingPersonalBoard personalBoard to update
      */
