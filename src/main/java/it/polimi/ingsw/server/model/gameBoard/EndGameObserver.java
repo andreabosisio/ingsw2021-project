@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.PlayerInterface;
 public interface EndGameObserver {
 
     /**
-     * This method is called by the class FirstOfFaithTrack
+     * This method is called by the class FaithTracksManager
      * when a player reaches the End of the Faith Track.
      * It's task is to set true the attribute gameOver.
      *

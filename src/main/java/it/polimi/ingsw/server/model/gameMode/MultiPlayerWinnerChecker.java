@@ -9,7 +9,7 @@ import java.util.List;
  * This class contains the methods to check the End of The Game and
  * to find the Winner, in fact it implements the interface ICheckWinner that extends the interface EndGameObserver.
  * It is SendObserver of the following classes:
- * DevelopmentCardsGrid, FirstOfFaithTrack and PersonalBoard.
+ * DevelopmentCardsGrid, FaithTracksManager and PersonalBoard.
  */
 public class MultiPlayerWinnerChecker implements ICheckWinner {
     private boolean gameOver = false;
@@ -20,7 +20,7 @@ public class MultiPlayerWinnerChecker implements ICheckWinner {
     }
 
     /**
-     * This method is called by the class FirstOfFaithTrack
+     * This method is called by the class FaithTracksManager
      * when a player reaches the End of the Faith Track.
      * Set the attribute gameOver true.
      *

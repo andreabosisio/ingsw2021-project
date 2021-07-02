@@ -13,7 +13,7 @@ import java.util.List;
  * It is a class observable, it has the task to notify the classes Faith Track and
  * the class MultiPlayerCheckWinner or SinglePlayerCheckWinner.
  */
-public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
+public class FaithTracksManager implements FaithTracksManagerSubject, EndGameSubject {
     private final List<FaithTrack> faithTrackObservers;
     private EndGameObserver endGameObserver;
     private int currentPosition;
@@ -23,7 +23,7 @@ public class FirstOfFaithTrack implements FirstFaithSubject, EndGameSubject {
     private final int SECOND_POPE_SPACE = 16;
     private final int THIRD_POPE_SPACE = 24;
 
-    public FirstOfFaithTrack() {
+    public FaithTracksManager() {
         this.faithTrackObservers = new ArrayList<>();
         this.currentPosition = 0;
         this.nextPopeSpace = FIRST_POPE_SPACE;

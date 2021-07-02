@@ -7,9 +7,9 @@ import java.util.Arrays;
 /**
  * This class contains all the information about
  * the faith track owned by a player.
- * It is observer of the class FirstOfFaithTrack.
+ * It is observer of the class FaithTracksManager.
  */
-public class FaithTrack implements FaithObserver {
+public class FaithTrack implements FaithTracksManagerObserver {
     public static final int DIM_POPE_REPORTS = 3;
     private static final int START_SECTION_3 = 19;
     private static final int START_SECTION_2 = 12;
@@ -17,19 +17,19 @@ public class FaithTrack implements FaithObserver {
     private final int END_OF_FAITH_TRACK = 24;
     private final PlayerInterface owner;
     private int faithMarker;
-    private final FirstOfFaithTrack firstOfFaithTrack;
+    private final FaithTracksManager faithTracksManager;
     private final Boolean[] popeReports = new Boolean[DIM_POPE_REPORTS];
 
     /**
      * Create a new Faith Track by specifying the owner Player and the current First Player of the Faith Tracks.
      *
      * @param owner             Owner Player of the Faith Track
-     * @param firstOfFaithTrack First Player of the Faith Tracks
+     * @param faithTracksManager First Player of the Faith Tracks
      */
-    public FaithTrack(PlayerInterface owner, FirstOfFaithTrack firstOfFaithTrack) {
+    public FaithTrack(PlayerInterface owner, FaithTracksManager faithTracksManager) {
         this.owner = owner;
         this.faithMarker = 0;
-        this.firstOfFaithTrack = firstOfFaithTrack;
+        this.faithTracksManager = faithTracksManager;
         Arrays.fill(popeReports, Boolean.FALSE);
     }
 
@@ -44,8 +44,8 @@ public class FaithTrack implements FaithObserver {
         if (faithMarker > END_OF_FAITH_TRACK)
             faithMarker = END_OF_FAITH_TRACK;
 
-        if (faithMarker > firstOfFaithTrack.getFirstPosition())
-            firstOfFaithTrack.updateFirstPosition(this.owner, this.faithMarker);
+        if (faithMarker > faithTracksManager.getFirstPosition())
+            faithTracksManager.updateFirstPosition(this.owner, this.faithMarker);
     }
 
     /**
