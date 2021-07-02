@@ -30,9 +30,7 @@ public abstract class Resource {
      * @param turn containing the current player, the current state of the game and others information
      * @return true if the ability has been executed successfully
      */
-    public boolean marketAbility(TurnLogic turn) {
-        return false;
-    }
+    public abstract boolean marketAbility(TurnLogic turn);
 
     /**
      * Method to call after a Resource has been produced by a ProductionAction of a ProductionCard.

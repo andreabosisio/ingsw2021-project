@@ -38,7 +38,7 @@ class ControllerTest {
     }
 
     @Test
-    public void persistenceTest()  {
+    public void multiPlayerPersistenceTest()  {
         when(virtualView1.getNickname()).thenReturn("Forza");
         when(virtualView2.getNickname()).thenReturn("Atalanta");
         when(virtualView1.getClientHandler()).thenReturn(clientHandler);
@@ -88,6 +88,77 @@ class ControllerTest {
         assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getWaitResourcePlacement(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
         controller.update(new PlaceResourcesEventFromClient(firstNickname,new ArrayList<>(),true));
     }
+    @Test
+    public void singlePlayerPersistenceTest() {
+        when(virtualView1.getNickname()).thenReturn("Romero");
+        when(virtualView1.getClientHandler()).thenReturn(clientHandler);
+        List<Integer> chosenLeaderCardIndexes = new ArrayList<>(){{add(0);add(1);}};
+        List<String> chosenResources = new ArrayList<>();
+        //Create a game for the player
+        Controller controller = new Controller(virtualViews.subList(0,1));
+        controller.update(new SetupEventFromClient(virtualView1.getNickname(),chosenLeaderCardIndexes,chosenResources));
+        roundOfNothingFor(controller,virtualView1.getNickname());
+        roundOfNothingFor(controller,virtualView1.getNickname());
+        controller = new Controller(virtualViews.subList(0,1));
+        //check that controller is restarting from an initial game
+        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getStartTurn(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+        roundOfNothingFor(controller,virtualView1.getNickname());
+        //check with second crash
+        controller = new Controller(virtualViews.subList(0,1));
+        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getStartTurn(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+    }
+    @Test
+    public void multiPlayerPersistenceInSetUpTest() {
+        when(virtualView1.getNickname()).thenReturn("Beppe");
+        when(virtualView2.getNickname()).thenReturn("Chicken");
+        when(virtualView1.getClientHandler()).thenReturn(clientHandler);
+        when(virtualView2.getClientHandler()).thenReturn(clientHandler);
+        //Create a game for the 2 players
+        Controller controller = new Controller(virtualViews);
+        String firstNickname = controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().get(0).getNickname();
+        String secondNickname = controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().get(1).getNickname();
+        List<Integer> chosenLeaderCardIndexes = new ArrayList<>() {{
+            add(0);
+            add(1);
+        }};
+        List<String> chosenResources = new ArrayList<>();
+        controller.update(new SetupEventFromClient(firstNickname,chosenLeaderCardIndexes,chosenResources));
+        chosenResources.add("blue");
+        //simulate server crash
+        controller = new Controller(virtualViews);
+        //second player does his pending setup
+        controller.update(new SetupEventFromClient(secondNickname,chosenLeaderCardIndexes,chosenResources));
+        //check that game is ready as first player already did his action
+        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getStartTurn(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+    }
+    @Test
+    public void multiPlayerPersistenceInSetUpTestWithAutoSetup() {
+        when(virtualView1.getNickname()).thenReturn("Beppe");
+        when(virtualView2.getNickname()).thenReturn("Chicken");
+        when(virtualView1.getClientHandler()).thenReturn(clientHandler);
+        when(virtualView2.getClientHandler()).thenReturn(clientHandler);
+        //Create a game for the 2 players
+        Controller controller = new Controller(virtualViews);
+        String firstNickname = controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().get(0).getNickname();
+        String secondNickname = controller.getModelInterfaceForTesting().getTurnLogic().getPlayers().get(1).getNickname();
+        List<Integer> chosenLeaderCardIndexes = new ArrayList<>() {{
+            add(0);
+            add(1);
+        }};
+        List<String> chosenResources = new ArrayList<>();
+        controller.update(new SetupEventFromClient(firstNickname,chosenLeaderCardIndexes,chosenResources));
+        chosenResources.add("blue");
+        //second player disconnect
+        controller.disconnectPlayer(secondNickname);
+        //game has moved in startGame for first player
+        assertEquals(controller.getModelInterfaceForTesting().getTurnLogic().getStartTurn(),controller.getModelInterfaceForTesting().getTurnLogic().getCurrentState());
+        //second player reconnect
+        controller.reconnectPlayer(secondNickname);
+        roundOfNothingFor(controller,firstNickname);
+        //check that second player can do his turn as his setup has been done
+        assertEquals(secondNickname,controller.getModelInterfaceForTesting().getCurrentPlayerNickname());
+    }
+
 
     private void roundOfNothingFor(Controller controller,String player){
         controller.update(new MarketEventFromClient(player,6));

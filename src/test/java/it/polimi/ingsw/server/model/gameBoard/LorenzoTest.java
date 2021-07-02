@@ -58,7 +58,9 @@ public class LorenzoTest {
         assertEquals(15, GameBoard.getGameBoard().getFaithTrackOfPlayer(turnLogic.getGameMode().getLorenzo()).getFaithMarker());
         assertEquals(15, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getFaithMarker());
 
-        assertTrue(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo(), turnLogic)); // LorenzoProgress = 16
+        //change to the no shuffle one which will return false
+        soloActionToken = new SingleFaithTrackProgressTokenNoShuffle();
+        assertFalse(soloActionToken.doAction(turnLogic.getGameMode().getLorenzo(), turnLogic)); // LorenzoProgress = 16
         // Trafalgar flip the second card
         assertEquals(12, GameBoard.getGameBoard().getFaithTrackOfPlayer(players.get(0)).getVictoryPoints());
 

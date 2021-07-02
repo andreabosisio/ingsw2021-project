@@ -19,7 +19,5 @@ public abstract class SoloActionToken {
      * @param turnLogic is the TurnLogic reference
      * @return true if the action is did by the class SingleFaithTrackProgress
      */
-    public boolean doAction(Lorenzo lorenzo, TurnLogic turnLogic){
-        return false;
-    }
+    public abstract boolean doAction(Lorenzo lorenzo, TurnLogic turnLogic);
 }
