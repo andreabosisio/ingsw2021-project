@@ -56,7 +56,7 @@ Full game rules can be consulted [here](https://craniointernational.com/products
  To facilitate the demo of the game, a cheat functionality has been implemented. It simply adds some Resources into the StrongBox.
 
 <details>
-  <summary>SPOILER: To use it type this command</summary>
+  <summary>SPOILER ALERT: To use it type this command in the Server terminal</summary>
      
     > cheat
      
