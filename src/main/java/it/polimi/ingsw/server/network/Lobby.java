@@ -28,8 +28,6 @@ public class Lobby {
         gameStarted = false;
     }
 
-    //todo synchronize all the necessary methods (maybe done)
-
     /**
      * This method is used to get the only instance of the Lobby or create a new one if it does not exist
      *

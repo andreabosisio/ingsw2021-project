@@ -11,7 +11,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public abstract class ServerConnection implements Connection {
 
-    //todo correct implementation?
     private final BlockingQueue<String> messagesFromClient = new LinkedBlockingQueue<>();
 
     @Override

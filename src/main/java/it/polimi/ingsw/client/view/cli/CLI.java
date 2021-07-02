@@ -411,7 +411,6 @@ public class CLI implements View {
     public void setOnEndGame(String winner, Map<String, Integer> playersPoints) {
         System.out.println("The game is over!\nThe Winner is: " + winner + "\nThe points of all the players are:");
         playersPoints.forEach((player, victoryPoints) -> System.out.print(player + ":" + victoryPoints + "  "));
-        //todo Implements play again / close app
     }
 
     @Override
