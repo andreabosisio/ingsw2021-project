@@ -8,6 +8,8 @@ import it.polimi.ingsw.server.ServerApp;
  */
 public class App {
 
+    public static final String SERVER_ARG = "-server";
+
     /**
      * This is the main method to start the app
      * -server to start in server mode
@@ -17,10 +19,14 @@ public class App {
      * @param args args to start app(server/cli/gui)
      */
     public static void main(String[] args) {
-        if (args[0].equals("-server"))
-            ServerApp.main(args);
-        else
-            ClientApp.main(args);
+        if(args.length != 0) {
+            if (args[0].equals(SERVER_ARG))
+                ServerApp.main(args);
+            else
+                ClientApp.main(args);
+        } else {
+            System.err.println("Missing arguments. Please recompile adding " + SERVER_ARG + " or " + ClientApp.GUI_ARGUMENT +" or " +  ClientApp.CLI_ARGUMENT);
+        }
     }
 }
 

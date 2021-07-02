@@ -32,8 +32,8 @@ Full game rules can be consulted [here](https://craniointernational.com/products
     ```shell
     > java -jar AM65.jar -server
     ```
-  This command can be followed by these arguments:
-  - **-port**: followed by the desired port;
+  This command can be followed by a desired port that server will be listening on.
+
   
 - To run it as Client type the following command:
     ```shell
