@@ -32,7 +32,7 @@ class ResourceTest {
         WhiteResource white = new WhiteResource();
         assertTrue(white.addPossibleTransformation(new StorableResource(ResourcesEnum.YELLOW)));
         assertTrue(white.addPossibleTransformation(new StorableResource(ResourcesEnum.GRAY)));
-        WhiteResource cloned = white.clone();
+        WhiteResource cloned = white.deepClone();
         assertEquals(2,cloned.getPossibleTransformations().size());
         List<ResourcesEnum> clonedColors = cloned.getPossibleTransformations().stream().map(Resource::getColor).collect(Collectors.toList());
         assertTrue(clonedColors.contains(ResourcesEnum.YELLOW));
