@@ -240,11 +240,11 @@ public class Controller implements EventsFromClientObserver {
      * @param eventFromClient the completed action
      */
     private void updateSavedGame(EventFromClient eventFromClient) {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedGamePath());
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.SAVED_GAME_PATH);
         if (fileElement != null) {
             JsonArray jsonArrayOfInstructions = Parser.extractFromField(fileElement, "actions").getAsJsonArray();
             jsonArrayOfInstructions.add(Parser.toJsonTree(eventFromClient));
-            FileUtilities.writeJsonElementInFile(fileElement, FileUtilities.getSavedGamePath());
+            FileUtilities.writeJsonElementInFile(fileElement, FileUtilities.SAVED_GAME_PATH);
         }
     }
 

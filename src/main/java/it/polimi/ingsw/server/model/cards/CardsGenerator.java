@@ -14,6 +14,7 @@ import it.polimi.ingsw.server.model.resources.StorableResource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -45,10 +46,9 @@ public class CardsGenerator {
      * @return generated developmentCards
      */
     public List<DevelopmentCard> generateDevelopmentCards() {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableDevelopmentCardsPath());
-        assert fileElement != null;
-        JsonObject fileObject = fileElement.getAsJsonObject();
-        JsonArray jsonArrayOfCards = fileObject.get(mainDevJsonArrayName).getAsJsonArray();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.UNMODIFIABLE_DEVELOPMENT_CARDS_PATH);
+        JsonArray jsonArrayOfCards = Parser.extractFromField(Objects.requireNonNull(fileElement), mainDevJsonArrayName).getAsJsonArray();
+
         int cardID = 1;
         for (JsonElement cardElement : jsonArrayOfCards) {
             JsonObject cardJsonObject = cardElement.getAsJsonObject();
@@ -167,10 +167,9 @@ public class CardsGenerator {
      * @return generated leaderCards
      */
     public List<LeaderCard> generateLeaderCards() {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableLeaderCardsPath());
-        assert fileElement != null;
-        JsonObject fileObject = fileElement.getAsJsonObject();
-        JsonArray jsonArrayOfLeaders = fileObject.get(mainLeaderJsonArrayName).getAsJsonArray();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.UNMODIFIABLE_LEADER_CARDS_PATH);
+        JsonArray jsonArrayOfLeaders = Parser.extractFromField(Objects.requireNonNull(fileElement), mainLeaderJsonArrayName).getAsJsonArray();
+
         for (JsonElement leaderElement : jsonArrayOfLeaders) {//Cycle through all leaders element in the file
             JsonObject leaderJsonObject = leaderElement.getAsJsonObject();
             leaderCards.add(generateLeaderCardFromJsonObject(leaderJsonObject));
@@ -277,10 +276,9 @@ public class CardsGenerator {
      * @return the Development Card generated
      */
     public DevelopmentCard generateDevelopmentCardFromId(String cardId) {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableDevelopmentCardsPath());
-        assert fileElement != null;
-        JsonObject fileObject = fileElement.getAsJsonObject();
-        JsonArray jsonArrayOfCards = fileObject.get(mainDevJsonArrayName).getAsJsonArray();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.UNMODIFIABLE_DEVELOPMENT_CARDS_PATH);
+        JsonArray jsonArrayOfCards = Parser.extractFromField(Objects.requireNonNull(fileElement), mainDevJsonArrayName).getAsJsonArray();
+
         int cardIDNumber = getNumberOfCard(cardId);
         JsonObject cardJsonObject = jsonArrayOfCards.get(cardIDNumber).getAsJsonObject();
         return generateSingleDevCardFromJsonObject(cardJsonObject, cardIDNumber + 1);
@@ -307,16 +305,8 @@ public class CardsGenerator {
      * @return the Leader Card
      */
     public LeaderCard generateLeaderCardFromId(String cardId) {
-
-
-        //todo search this code and move in fileUtils
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableLeaderCardsPath());
-        assert fileElement != null;
-        JsonObject fileObject = fileElement.getAsJsonObject();
-        JsonArray jsonArrayOfCards = fileObject.get(mainLeaderJsonArrayName).getAsJsonArray();
-
-
-
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.UNMODIFIABLE_LEADER_CARDS_PATH);
+        JsonArray jsonArrayOfCards = Parser.extractFromField(Objects.requireNonNull(fileElement), mainLeaderJsonArrayName).getAsJsonArray();
 
         for (JsonElement el : jsonArrayOfCards) {
             JsonObject cardJsonObject = el.getAsJsonObject();

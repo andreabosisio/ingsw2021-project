@@ -9,10 +9,7 @@ import it.polimi.ingsw.commons.enums.CardColorsEnum;
 import it.polimi.ingsw.server.model.cards.CardsGenerator;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -203,10 +200,8 @@ public class DevelopmentCardsGrid implements EndGameSubject {
      */
     public void loadSavedData() {
         developmentCards.clear();
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedDevCardDataPath());
-        assert fileElement != null;
-        JsonObject fileObject = fileElement.getAsJsonObject();
-        JsonArray jsonArrayOfDevelopmentCards = fileObject.get("cards").getAsJsonArray();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.SAVED_DEV_CARD_DATA_PATH);
+        JsonArray jsonArrayOfDevelopmentCards = Parser.extractFromField(Objects.requireNonNull(fileElement), "cards").getAsJsonArray();
         for (JsonElement el : jsonArrayOfDevelopmentCards) {
             String cardId = el.getAsString();
             developmentCards.add(generator.generateDevelopmentCardFromId(cardId));

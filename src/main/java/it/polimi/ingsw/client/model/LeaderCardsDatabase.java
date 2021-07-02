@@ -122,15 +122,14 @@ public class LeaderCardsDatabase {
      */
     public String getPrintableAbility(String cardIndex) {
         int numberOfCard = getNumberOfCard(cardIndex);
-        //todo finish 'm' ecc...
         switch (cardIndex.charAt(0)) {
             case LeaderCard.PRODUCTION_LEADER_CARD_ID_PREFIX:
                 return AnsiUtilities.colorString("1", leaderCardsAbilities.get(numberOfCard)) + " } " + "? + " + AnsiUtilities.colorString("1", "RED");
-            case 'm':
+            case LeaderCard.MARKET_LEADER_CARD_ID_PREFIX:
                 return "  1 = " + AnsiUtilities.colorString("1", leaderCardsAbilities.get(numberOfCard)) + "  ";
             case LeaderCard.WAREHOUSE_LEADER_CARD_ID_PREFIX:
                 return AnsiUtilities.colorString("  |_|" + "|_| ", leaderCardsAbilities.get(numberOfCard));
-            case 'd':
+            case LeaderCard.DISCOUNT_LEADER_CARD_ID_PREFIX:
                 return AnsiUtilities.colorString("   -1    ", leaderCardsAbilities.get(numberOfCard));
         }
         return null;
@@ -141,7 +140,7 @@ public class LeaderCardsDatabase {
      * It reads the information containing into the Json file and add that into the local variables
      */
     private void firstSetup() {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableLeaderCardsPath());
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.UNMODIFIABLE_LEADER_CARDS_PATH);
         assert fileElement != null;
         JsonObject fileObject = fileElement.getAsJsonObject();
         JsonArray jsonArrayOfLeaders = fileObject.get("leaders").getAsJsonArray();

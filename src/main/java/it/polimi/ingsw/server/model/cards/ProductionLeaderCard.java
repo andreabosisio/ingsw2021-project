@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
  */
 public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
 
-    private final int inResourceSlots = 1;
-    private final int outResourceSlots = 2;
-    private final int choosableInResourcesSlots = 0;
-    private final int choosableOutResourcesSlots = 1;
+    private static final int IN_RESOURCE_SLOTS = 1;
+    private static final int OUT_RESOURCE_SLOTS = 2;
+    private static final int CHOOSABLE_IN_RESOURCES_SLOTS = 0;
+    private static final int CHOOSABLE_OUT_RESOURCES_SLOTS = 1;
 
     private final Resource inResources;
     private final List<Resource> outResources = new ArrayList<>();
@@ -100,13 +100,13 @@ public class ProductionLeaderCard extends LeaderCard implements ProductionCard {
 
         desiredProductionResources = desiredProductionResources.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
-        if (desiredProductionResources.size() != inResourceSlots + choosableOutResourcesSlots)
+        if (desiredProductionResources.size() != IN_RESOURCE_SLOTS + CHOOSABLE_OUT_RESOURCES_SLOTS)
             return false;
 
         if (!desiredProductionResources.get(0).equals(this.inResources))
             return false;
 
-        return setOutResources(desiredProductionResources.subList(inResourceSlots, choosableOutResourcesSlots + 1));
+        return setOutResources(desiredProductionResources.subList(IN_RESOURCE_SLOTS, CHOOSABLE_OUT_RESOURCES_SLOTS + 1));
     }
 
     /**
