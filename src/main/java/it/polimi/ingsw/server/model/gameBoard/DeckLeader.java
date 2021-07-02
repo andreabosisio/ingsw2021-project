@@ -67,7 +67,7 @@ public class DeckLeader {
      */
     public void loadSavedData() {
         leaders.clear();
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSavedLeaderCardDataPath());
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.SAVED_LEADER_CARD_DATA_PATH);
         assert fileElement != null;
         JsonArray jsonArrayOfLeaderIds = Parser.extractFromField(fileElement, "leaders").getAsJsonArray();
         for (JsonElement el : jsonArrayOfLeaderIds) {

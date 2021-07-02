@@ -9,6 +9,7 @@ import it.polimi.ingsw.commons.Parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class that contains all the information about all the Development Cards
@@ -205,10 +206,8 @@ public class DevelopmentCardsDatabase {
      * It reads the information containing into the Json file and add that into the local variables
      */
     private void firstSetup() {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getUnmodifiableDevelopmentCardsPath());
-        assert fileElement != null;
-        JsonObject fileObject = fileElement.getAsJsonObject();
-        JsonArray jsonArrayOfCards = fileObject.get("cards").getAsJsonArray();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.UNMODIFIABLE_DEVELOPMENT_CARDS_PATH);
+        JsonArray jsonArrayOfCards = Parser.extractFromField(Objects.requireNonNull(fileElement), "cards").getAsJsonArray();
 
         //Cycle through all cards element in the file
         for (JsonElement cardElement : jsonArrayOfCards) {

@@ -110,7 +110,6 @@ public class ConnectionToServer extends ClientConnection {
                 if (message.equals(Connection.PING_MSG)) {
                     handlePing();
                 } else if (message.equals(Connection.QUIT_MSG)) {
-                    //todo add all all sleep in a static method
                     //sleep to give time to read the quit message
                     try {
                         Thread.sleep(2000);
@@ -122,7 +121,7 @@ public class ConnectionToServer extends ClientConnection {
                     addMessageToQueue(message);
                 }
             } catch (IOException e) {
-                System.err.println("ClientConnection with server failed");
+                System.err.println("Connection with server failed");
                 //e.printStackTrace();
                 close(false);
             }

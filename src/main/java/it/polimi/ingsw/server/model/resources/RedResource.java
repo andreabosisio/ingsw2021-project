@@ -43,15 +43,4 @@ public class RedResource extends Resource {
         return marketAbility(turn);
     }
 
-    /**
-     * RedResource can't be transformed.
-     *
-     * @param possibleTransformation null
-     * @return false
-     */
-    @Override
-    public boolean addPossibleTransformation(Resource possibleTransformation) {
-        return false;
-    }
-
 }

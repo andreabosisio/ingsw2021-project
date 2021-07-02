@@ -125,8 +125,7 @@ public class SetupManager {
         for (int i = 0; i < event.getNumberOfResources(); i++) {
             try {
                 chosenResources.add(ResourceFactory.produceResource(ResourcesEnum.values()[1]));
-            } catch (NonStorableResourceException ignored) {
-            }
+            } catch (NonStorableResourceException ignored) {}
         }
 
         try {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.resources;
 
 import it.polimi.ingsw.commons.enums.ResourcesEnum;
+import it.polimi.ingsw.server.exceptions.NonStorableResourceException;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.gameBoard.GameBoard;
 import it.polimi.ingsw.server.model.turn.TurnLogic;
@@ -70,6 +71,18 @@ public class WhiteResource extends Resource {
      */
     public List<Resource> getPossibleTransformations() {
         return possibleTransformations;
+    }
+
+    public WhiteResource clone() {
+        WhiteResource newWhiteResource = new WhiteResource();
+        possibleTransformations.forEach(t-> {
+            try {
+                newWhiteResource.possibleTransformations.add(ResourceFactory.produceResource(t.getColor()));
+            } catch (NonStorableResourceException e) {
+                e.printStackTrace();
+            }
+        });
+        return newWhiteResource;
     }
 
 }

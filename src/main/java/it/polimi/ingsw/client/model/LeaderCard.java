@@ -28,6 +28,8 @@ public class LeaderCard extends Printable {
 
     public final static char WAREHOUSE_LEADER_CARD_ID_PREFIX = 'w';
     public static final char PRODUCTION_LEADER_CARD_ID_PREFIX = 'p';
+    public static final char MARKET_LEADER_CARD_ID_PREFIX = 'm';
+    public static final char DISCOUNT_LEADER_CARD_ID_PREFIX = 'd';
 
     /**
      * This method return the print of the card

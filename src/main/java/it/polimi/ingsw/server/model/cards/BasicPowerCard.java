@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
  */
 public class BasicPowerCard implements ProductionCard {
 
-    //fixme show simils
     private static final int IN_RESOURCE_SLOTS = 2;
     private static final int OUT_RESOURCE_SLOTS = 1;
     private static final int CHOOSABLE_IN_RESOURCES_SLOTS = 2;

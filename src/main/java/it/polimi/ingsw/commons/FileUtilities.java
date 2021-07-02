@@ -17,7 +17,7 @@ public abstract class FileUtilities {
     public static final String SAVED_LEADER_CARD_DATA_PATH = "src/main/resources/initialDeckLeaderState.json";
     public static final String UNMODIFIABLE_DEVELOPMENT_CARDS_PATH = "src/main/resources/developmentCards.json";
     public static final String UNMODIFIABLE_LEADER_CARDS_PATH = "src/main/resources/leaderCards.json";
-    public static final String SOLO_UNMODIFIABLE_TOKEN_PATH = "src/main/resources/soloActionTokens.json";
+    public static final String UNMODIFIABLE_SOLO_TOKEN_PATH = "src/main/resources/soloActionTokens.json";
     public static final String SOLO_SAVED_TOKEN_PATH = "src/main/resources/savedActionTokens.json";
 
     /**
@@ -56,73 +56,6 @@ public abstract class FileUtilities {
             e.printStackTrace();
         }
         return null;
-    }
-
-
-    //Todo maybe remove those getter
-
-    /**
-     * Get method that return the Path of the Json File where it are saved the nicknames of the Players
-     * and the actions performed.
-     *
-     * @return the Path
-     */
-    public static String getSavedGamePath() {
-        return SAVED_GAME_PATH;
-    }
-
-    /**
-     * Get method that return the Path of the Json File where it is saved the initial state of the Market Tray
-     *
-     * @return the Path
-     */
-    public static String getSavedMarketDataPath() {
-        return SAVED_MARKET_DATA_PATH;
-    }
-
-    /**
-     * Get method that return the Path of the Json File where it is saved the Development Cards Grid
-     *
-     * @return the Path
-     */
-    public static String getSavedDevCardDataPath() {
-        return SAVED_DEV_CARD_DATA_PATH;
-    }
-
-    /**
-     * Get method that return the Path of the Json File where it is saved the Deck of the Leader Card
-     *
-     * @return the Path
-     */
-    public static String getSavedLeaderCardDataPath() {
-        return SAVED_LEADER_CARD_DATA_PATH;
-    }
-
-    /**
-     * Get method that return the Path of the Json File where the developmentCards are saved
-     *
-     * @return the Path
-     */
-    public static String getUnmodifiableDevelopmentCardsPath() {
-        return UNMODIFIABLE_DEVELOPMENT_CARDS_PATH;
-    }
-
-    /**
-     * Get method that return the Path of the Json File where the LeaderCards are saved
-     *
-     * @return the Path
-     */
-    public static String getUnmodifiableLeaderCardsPath() {
-        return UNMODIFIABLE_LEADER_CARDS_PATH;
-    }
-
-    /**
-     * Get method that return the Path of the Json File where the TokenFile are saved
-     *
-     * @return the Path
-     */
-    public static String getSoloUnmodifiableTokenPath() {
-        return SOLO_UNMODIFIABLE_TOKEN_PATH;
     }
 
     /**

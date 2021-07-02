@@ -9,6 +9,7 @@ import it.polimi.ingsw.commons.enums.CardColorsEnum;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class is used to generate the Solo Action Tokens from the Json File
@@ -25,10 +26,8 @@ public class TokensGenerator {
      * @return generated Solo Action Tokens
      */
     public List<SoloActionToken> generateSoloActionTokens() {
-        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.getSoloUnmodifiableTokenPath());
-        assert fileElement != null;
-        JsonObject fileObject = fileElement.getAsJsonObject();
-        JsonArray jsonArrayOfTokens = fileObject.get(tokensNameInJson).getAsJsonArray();
+        JsonElement fileElement = FileUtilities.getJsonElementFromFile(FileUtilities.UNMODIFIABLE_SOLO_TOKEN_PATH);
+        JsonArray jsonArrayOfTokens = Parser.extractFromField(Objects.requireNonNull(fileElement), tokensNameInJson).getAsJsonArray();
         //Cycle through all tokens element in the file
         for (JsonElement tokenElement : jsonArrayOfTokens) {
             //Get Json object
