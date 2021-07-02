@@ -1,5 +1,5 @@
 # Prova Finale Ingegneria del Software 2020-2021
-
+This is the project for the *Prova Finale* of the course _Ingegneria del Sofware_ held at Politecnico di Milano under the supervision of Prof. Alessandro Margara. 
 # Authors
 
 - ###  Andrea Bosisio ([@andreabosisio](https://github.com/andreabosisio))<br>andrea2.bosisio@mail.polimi.it
@@ -22,7 +22,8 @@
 | Parameters Editor (AF) | ❌ |
 
 # Masters of Renaissance
-Full rules of the game could be consulted here (https://craniointernational.com/products/masters-of-renaissance/)
+![](deliverables/utils/gameLogo.jpeg)
+Full game rules can be consulted [here](https://craniointernational.com/products/masters-of-renaissance/).
 
 ## Setup
 
@@ -52,7 +53,7 @@ Full rules of the game could be consulted here (https://craniointernational.com/
   
  ## Demo Utilites
  
- To facilitate the demo of the game, a cheat functionality has been implemented.
+ To facilitate the demo of the game, a cheat functionality has been implemented. It simply adds some Resources into the StrongBox.
 
 <details>
   <summary>SPOILER: To use it type this command</summary>
