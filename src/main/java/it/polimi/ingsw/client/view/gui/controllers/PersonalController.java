@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.events.send.*;
 import it.polimi.ingsw.client.model.Board;
 import it.polimi.ingsw.client.model.DevelopmentCard;
 import it.polimi.ingsw.client.model.DevelopmentCardsDatabase;
-import it.polimi.ingsw.client.model.Inventory;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.GUICommandListener;
 import it.polimi.ingsw.client.view.gui.GraphicUtilities;
@@ -268,6 +267,7 @@ public class PersonalController extends GUICommandListener {
      *
      * @param numberOfTransformation The number of White Resource Transformations to apply
      * @param possibleTransformation A List containing Resource's colors of a possible transformation
+     * @param scene Main scene
      */
     public void showTransformationPopup(int numberOfTransformation, List<String> possibleTransformation, Scene scene) {
         Platform.runLater(() -> {
@@ -284,9 +284,9 @@ public class PersonalController extends GUICommandListener {
      * it show a popup with the possibly slots to place the Card
      *
      * @param newCardID is the CardID of the Card to place
+     * @param scene Main scene
      */
     public void showCardPlacementPopup(String newCardID, Scene scene) {
-        //endTurn.setVisible(true);
         Platform.runLater(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/cardPlacement.fxml"));
             fxmlLoader.setController(cardPlacementController);

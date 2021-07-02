@@ -19,8 +19,8 @@ public class CLI implements View {
     private boolean isPlaying = false;
     private boolean onlineGame = true;
     private NetworkHandler networkHandler;
-    private String ip = ClientApp.getDefaultIP();
-    private int port = ClientApp.getDefaultPort();
+    private String ip = ClientApp.DEFAULT_IP;
+    private int port = ClientApp.DEFAULT_PORT;
     private final CLICommandListener cliCommandListener;
 
     /**
@@ -61,8 +61,8 @@ public class CLI implements View {
             if (cliCommandListener.askForNetworkSettingsChanges().equals("CHANGE")) {
                 askIPAndPort();
             } else {
-                ip = ClientApp.getDefaultIP();
-                port = ClientApp.getDefaultPort();
+                ip = ClientApp.DEFAULT_IP;
+                port = ClientApp.DEFAULT_PORT;
             }
         } else {
             onlineGame = false;

@@ -78,7 +78,7 @@ public class CLICommandListener implements CommandListener {
      * @return the answer of the Player
      */
     protected String askForNetworkSettingsChanges() {
-        CLI.render("Default IP address is " + ClientApp.getDefaultIP() + " and Default port is " + ClientApp.getDefaultPort() + ". \nType CHANGE if you want to change network settings, else type OK: ");
+        CLI.render("Default IP address is " + ClientApp.DEFAULT_IP + " and Default port is " + ClientApp.DEFAULT_PORT + ". \nType CHANGE if you want to change network settings, else type OK: ");
         return scanner.nextLine().toUpperCase(Locale.ROOT);
     }
 

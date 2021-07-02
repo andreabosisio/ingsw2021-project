@@ -19,15 +19,14 @@ public class WelcomeController extends GUICommandListener {
 
     private final GUI gui;
 
-    private static final String defaultIP = ClientApp.getDefaultIP();
-    private static final int defaultPort = ClientApp.getDefaultPort();
+    private static final String DEFAULT_IP = ClientApp.DEFAULT_IP;
+    private static final int DEFAULT_PORT = ClientApp.DEFAULT_PORT;
     private static final String zeroTo255 = "([01]?[0-9]{1,2}|2[0-4][0-9]|25[0-5])";
-    private static final String IP_REGEXP = "^(" + zeroTo255 + "\\." + zeroTo255 + "\\."
-            + zeroTo255 + "\\." + zeroTo255 + ")$";
+    private static final String IP_REGEXP = "^(" + zeroTo255 + "\\." + zeroTo255 + "\\." + zeroTo255 + "\\." + zeroTo255 + ")$";
     private static final Pattern IP_PATTERN = Pattern.compile(IP_REGEXP);
-    private final static String localMode = "Local Game";
-    private final static String onlineMode = "Online Game";
-    ObservableList<String> connectionModes = FXCollections.observableArrayList(onlineMode, localMode);
+    private final static String LOCAL_GAME = "Local Game";
+    private final static String ONLINE_GAME = "Online Game";
+    ObservableList<String> connectionModes = FXCollections.observableArrayList(ONLINE_GAME, LOCAL_GAME);
 
     @FXML
     private Button start;
@@ -61,9 +60,9 @@ public class WelcomeController extends GUICommandListener {
     @FXML
     public void initialize() {
         serverIP.setVisible(false);
-        serverIP.setText(defaultIP);
+        serverIP.setText(DEFAULT_IP);
         serverPort.setVisible(false);
-        serverPort.setText(String.valueOf(defaultPort));
+        serverPort.setText(String.valueOf(DEFAULT_PORT));
         start.setOnMousePressed((event -> startAction()));
         settings.setOnMousePressed((event -> showSettings()));
         connectionSelector.setVisible(false);
@@ -77,7 +76,7 @@ public class WelcomeController extends GUICommandListener {
      * In case of a failure it sets the serverIP and serverPort to the default values
      */
     private void startAction() {
-        if (connectionSelector.getValue().equals(localMode)) {
+        if (connectionSelector.getValue().equals(LOCAL_GAME)) {
             gui.setGUI();
             return;
         }
@@ -88,7 +87,7 @@ public class WelcomeController extends GUICommandListener {
             port = Integer.parseInt(serverPort.getText());
         } catch (NumberFormatException e) {
             printErrorMessage("Port must be a number");
-            serverPort.setText(String.valueOf(defaultPort));
+            serverPort.setText(String.valueOf(DEFAULT_PORT));
             return;
         }
         // Wrong IP or Port
@@ -97,8 +96,8 @@ public class WelcomeController extends GUICommandListener {
             //gui.setGui();
         } catch (Exception e) {
             printErrorMessage("Could not reach the Server");
-            serverIP.setText(defaultIP);
-            serverPort.setText(String.valueOf(defaultPort));
+            serverIP.setText(DEFAULT_IP);
+            serverPort.setText(String.valueOf(DEFAULT_PORT));
         }
     }
 
