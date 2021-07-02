@@ -10,12 +10,12 @@ import java.util.Scanner;
 public class Server {
     private static boolean serverUp;
     private static Server instance = null;
-    private static final int socketPort = 1337;//port that server will be listening on
     private static ServerSocketManager serverSocket;//manual redefinition of ServerSocket (multiThread server)
 
+    /**
+     * Create the only existing instance of this Object.
+     */
     private Server() {
-        serverUp = true;
-        serverSocket = new ServerSocketManager(socketPort);//create the multiTreadServer
     }
 
     /**
@@ -31,13 +31,19 @@ public class Server {
     }
 
     /**
-     * This method is used to start the Server input listener
+     * This method is used to start the Server input listener.
+     *
+     * @param socketPort Port that server will be listening on
      */
-    public void start() {
+    public void start(int socketPort) {
+
+        serverUp = true;
+        serverSocket = new ServerSocketManager(socketPort); //create the multiTreadServer
+
         Scanner scanner = new Scanner(System.in);
         String input;
         while (serverUp) {
-            System.out.println("SERVER READY\nType LOBBY for lobby size, QUIT to close or CHEAT to cheat");
+            System.out.println("SERVER READY\nType LOBBY for lobby size or QUIT to close.");
             input = scanner.nextLine().toLowerCase();
             switch (input) {
                 case "quit":
