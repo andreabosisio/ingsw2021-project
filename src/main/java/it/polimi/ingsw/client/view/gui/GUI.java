@@ -14,10 +14,14 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Graphic User Interface implementation.
@@ -41,6 +45,8 @@ public class GUI extends Application implements View {
         put("matchmakingController", new MatchMakingController());
     }};
 
+    private Map<String, Scene> scenes = new HashMap<>();
+
     /**
      * Set this GUI for a Remote Game and start the Network Connection.
      *
@@ -53,6 +59,7 @@ public class GUI extends Application implements View {
             this.networkHandler = new NetworkHandler(ip, port, this);
             guiCommandListeners.values().forEach(guiCommandListener -> guiCommandListener.registerObservers(networkHandler));
             personalController.registerObservers(networkHandler);
+            //loadScenes();
             new Thread(this::startNetwork).start();
         } catch (Exception e) {
             throw new IOException();
@@ -66,9 +73,10 @@ public class GUI extends Application implements View {
         this.networkHandler = new NetworkHandler(this);
         guiCommandListeners.values().forEach(guiCommandListener -> guiCommandListener.registerObservers(networkHandler));
         personalController.registerObservers(networkHandler);
+        //loadScenes();
         new Thread(this::startNetwork).start();
     }
-
+    
     /**
      * Set the nickname of the player owner of this view
      *
@@ -143,7 +151,7 @@ public class GUI extends Application implements View {
     public void setOnLogin() {
         Platform.runLater(() -> {
             GUICommandListener nextGuiCommandListener = guiCommandListeners.get("loginController");
-            setRoot("loginScene", nextGuiCommandListener);
+            setScene("loginScene", nextGuiCommandListener);
             currentGuiCommandListener = nextGuiCommandListener;
         });
     }
@@ -157,7 +165,7 @@ public class GUI extends Application implements View {
     public void setOnChooseNumberOfPlayers(String payload) {
         Platform.runLater(() -> {
             GUICommandListener nextGuiCommandListener = guiCommandListeners.get("chooseNumberController");
-            setRoot("chooseNumberScene", nextGuiCommandListener);
+            setScene("chooseNumberScene", nextGuiCommandListener);
             currentGuiCommandListener = nextGuiCommandListener;
         });
     }
@@ -169,7 +177,7 @@ public class GUI extends Application implements View {
     public void setOnMatchMaking() {
         Platform.runLater(() -> {
             GUICommandListener nextGuiCommandListener = guiCommandListeners.get("matchmakingController");
-            setRoot("matchMakingScene", nextGuiCommandListener);
+            setScene("matchMakingScene", nextGuiCommandListener);
             currentGuiCommandListener = nextGuiCommandListener;
         });
     }
@@ -190,7 +198,7 @@ public class GUI extends Application implements View {
         Platform.runLater(() -> {
             SetupController nextGuiCommandListener = (SetupController) guiCommandListeners.get("setupController");
             nextGuiCommandListener.initializeData(leaderCardsID, numberOfResource);
-            setRoot("setupScene", nextGuiCommandListener);
+            setScene("setupScene", nextGuiCommandListener);
             currentGuiCommandListener = nextGuiCommandListener;
         });
     }
@@ -207,7 +215,7 @@ public class GUI extends Application implements View {
         }
         Platform.runLater(() -> {
             GUICommandListener nextGuiCommandListener = personalController;
-            setRoot("boardScene", nextGuiCommandListener, 1800, 1000);
+            setScene("boardScene", nextGuiCommandListener, 1800, 1000);
             currentGuiCommandListener = nextGuiCommandListener;
             personalController.activateBoard();
         });
@@ -222,7 +230,7 @@ public class GUI extends Application implements View {
     public void setOnWaitForYourTurn(String currentPlayer) {
         Platform.runLater(() -> {
             GUICommandListener nextGuiCommandListener = personalController;
-            setRoot("boardScene", nextGuiCommandListener, 1800, 1000);
+            setScene("boardScene", nextGuiCommandListener, 1800, 1000);
             currentGuiCommandListener = nextGuiCommandListener;
             personalController.disableBoard();
             personalController.printInfoMessage("It's " + currentPlayer + " turn");
@@ -288,7 +296,7 @@ public class GUI extends Application implements View {
     public void setOnEndGame(String winner, Map<String, Integer> playersPoints) {
         Platform.runLater(() -> {
             EndGameController nextGuiCommandListener = (EndGameController) guiCommandListeners.get("endGameController");
-            setRoot("endGameScene", nextGuiCommandListener, 600, 800);
+            setScene("endGameScene", nextGuiCommandListener, 600, 800);
             currentGuiCommandListener = nextGuiCommandListener;
             nextGuiCommandListener.showEndGameEvent(winner, playersPoints);
         });
@@ -389,11 +397,13 @@ public class GUI extends Application implements View {
      * @return the Parent
      */
     private Parent loadFXML(String fxmlFileName, GUICommandListener guiCommandListener) {
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxmls/" + fxmlFileName + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setController(guiCommandListener);
+        fxmlLoader.setLocation(getClass().getResource("/fxmls/" + fxmlFileName + ".fxml"));
         try {
             return fxmlLoader.load();
         } catch (IOException e) {
+            System.out.println("Failed: " + fxmlFileName);
             e.printStackTrace();
             return null;
         }
@@ -405,7 +415,7 @@ public class GUI extends Application implements View {
      * @param fxml               the name of the fxml to load
      * @param guiCommandListener the Controller to set
      */
-    private void setRoot(String fxml, GUICommandListener guiCommandListener) {
+    private void setScene(String fxml, GUICommandListener guiCommandListener) {
         if (!guiCommandListener.equals(currentGuiCommandListener)) {
             scene.setRoot(loadFXML(fxml, guiCommandListener));
         }
@@ -419,7 +429,7 @@ public class GUI extends Application implements View {
      * @param width              is the width of the scene
      * @param height             is the height of the scene
      */
-    private void setRoot(String fxml, GUICommandListener guiCommandListener, double width, double height) {
+    private void setScene(String fxml, GUICommandListener guiCommandListener, double width, double height) {
         if (!guiCommandListener.equals(currentGuiCommandListener)) {
             Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
             scene.setRoot(loadFXML(fxml, guiCommandListener));

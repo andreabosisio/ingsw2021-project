@@ -102,7 +102,7 @@ public class LorenzoAI implements Lorenzo {
                soloActionTokens.add(ServerParser.getTokenFromJsonElement(element));
             }
         }
-        FileUtilities.resetTokenData();
+        FileUtilities.resetTokensData();
     }
 
     /**

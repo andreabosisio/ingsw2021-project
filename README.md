@@ -27,7 +27,7 @@ Full game rules can be consulted [here](https://craniointernational.com/products
 
 ## Setup
 
-- The jar file can be used as both Server or Client.
+- In the [deliverables](deliverables) there is the jar file to start the application as both Server or Client.
 - To run it as Server type the following command (as default it runs on port 1337):
     ```shell
     > java -jar AM65.jar -server

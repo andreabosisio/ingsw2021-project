@@ -52,8 +52,7 @@ public class CardPlacementController extends GUICommandListener {
      */
     @FXML
     private void initialize() {
-        File file = new File("src/main/resources/images/devCards/" + newCardID.toLowerCase(Locale.ROOT) + ".png");
-        newCard.setImage(new Image(file.toURI().toString()));
+        GraphicUtilities.setImage(newCard, "/images/devCards/" + newCardID.toUpperCase(Locale.ROOT) + ".png");
         GraphicUtilities.populateProductionBoard(productionPane, nickname);
         int i = 1;
         for (Node slot : productionPane.getChildren()) {

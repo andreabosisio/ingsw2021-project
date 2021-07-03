@@ -444,7 +444,6 @@ public class PersonalController extends GUICommandListener {
         endSwap.setVisible(false);
         currentSelectedResources.clear();
         canSwap = false;
-        //endTurn.setVisible(true);
     }
 
     /**
@@ -469,6 +468,7 @@ public class PersonalController extends GUICommandListener {
      * it resets all the variables
      */
     private void endTurnAction() {
+        currentSelectedResources.forEach(button -> button.setDisable(false));
         currentSelectedResources.clear();
         totalInResources.clear();
         totalOutResources.clear();

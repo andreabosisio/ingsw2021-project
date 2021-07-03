@@ -17,6 +17,7 @@ import it.polimi.ingsw.server.network.personal.VirtualView;
 import it.polimi.ingsw.server.utils.EventsFromClientObserver;
 import it.polimi.ingsw.server.utils.ServerParser;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,6 +44,9 @@ public class Controller implements EventsFromClientObserver {
      * @param virtualViews the list of the Virtual Views of the Players
      */
     public Controller(List<VirtualView> virtualViews) {
+
+        FileUtilities.setFiles();
+
         this.virtualViews = virtualViews;
         this.nicknames = virtualViews.stream().map(VirtualView::getNickname).collect(Collectors.toList());
         if (nicknamesMatchSavedGame()) {

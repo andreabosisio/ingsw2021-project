@@ -71,6 +71,7 @@ public class EndTurnState extends State {
      */
     private void sendGraphicForEndGame() {
         resetSavedData();
+
         PlayerInterface winner = turnLogic.getGameMode().getICheckWinner().getWinner();//method return winner
         modelInterface.setCurrentState(modelInterface.getEndGame());
         EndGameEvent endGameEvent = new EndGameEvent(winner, modelInterface.getPlayers());
@@ -81,9 +82,6 @@ public class EndTurnState extends State {
      * This method is used to reset the saveData file as this game is no longer worthy of reload
      */
     private void resetSavedData() {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.add("players", Parser.toJsonTree(new ArrayList<>()));
-        jsonObject.add("actions", new JsonArray());
-        FileUtilities.writeJsonElementInFile(jsonObject, FileUtilities.SAVED_GAME_PATH);
+        FileUtilities.resetGameData(new ArrayList<>());
     }
 }
