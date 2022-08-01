@@ -39,7 +39,7 @@ Full game rules can be consulted [here](https://craniointernational.com/products
     ```shell
     > java -jar AM65.jar
     ```
-    This command MUST be followed by one of these arguments:
+    This command **MUST** be followed by one of these arguments:
   - **-cli**: to start the Command Line Interface (NOTE: Windows users must run it using WSL);
   - **-gui**: to start the Graphical User Interface;
   
@@ -56,7 +56,7 @@ Full game rules can be consulted [here](https://craniointernational.com/products
  To facilitate the demo of the game, a cheat functionality has been implemented. It simply adds some Resources into the StrongBox.
 
 <details>
-  <summary>SPOILER ALERT: To use it type this command in the Server terminal</summary>
+  <summary>SPOILER ALERT: To use it, click here to see the command to be inserted in the Server terminal</summary>
      
     > cheat
      
