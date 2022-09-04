@@ -1,5 +1,6 @@
 # Prova Finale Ingegneria del Software 2020-2021
-This is the project for the *Prova Finale* of the course _Ingegneria del Sofware_ held at Politecnico di Milano under the supervision of Prof. Alessandro Margara. 
+This is the project for the *Prova Finale* of the course _Ingegneria del Sofware_ held at Politecnico di Milano under the supervision of Prof. Alessandro Margara. It consists in developing a multiplayer online table game, both client and server side (CLI and GUI interfaces), using the object-oriented programming paradigm and its common design patterns.
+
 # Authors
 
 - ###  Andrea Bosisio ([@andreabosisio](https://github.com/andreabosisio))<br>andrea2.bosisio@mail.polimi.it
