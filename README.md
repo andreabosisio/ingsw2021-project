@@ -16,11 +16,14 @@ This is the project for the *Prova Finale* of the course _Ingegneria del Sofware
 | Socket | ✅ |
 | CLI | ✅ |
 | GUI | ✅ |
-| Resilience to disconnection (AF) | ✅ |
-| Persistence (AF)| ✅ |
-| Local Game (AF) | ✅ |
-| Multiple Games (AF) | ❌ |
-| Parameters Editor (AF) | ❌ |
+
+| Advanced Functionality | State |
+|:-----------------------|:------------------------------------:|
+| Resilience to disconnection | ✅ |
+| Persistence | ✅ |
+| Local Game | ✅ |
+| Multiple Games | ❌ |
+| Parameters Editor | ❌ |
 
 # Masters of Renaissance
 ![](deliverables/utils/gameLogo.jpeg)
